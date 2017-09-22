@@ -3,9 +3,9 @@ Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio 15
 VisualStudioVersion = 15.0.26730.16
 MinimumVisualStudioVersion = 10.0.40219.1
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "CnpSdkForNet", "LitleSdkForNet\CnpSdkForNet.csproj", "{4A6E3397-DE37-4F91-A90F-E74C1D91E098}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "CnpSdkForNet", "CnpSdkForNet\CnpSdkForNet.csproj", "{4A6E3397-DE37-4F91-A90F-E74C1D91E098}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "CnpSdkForNetTest", "LitleSdkForNetTest\CnpSdkForNetTest.csproj", "{D0A0B9E4-E555-498D-910D-28C61BD094EF}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "CnpSdkForNetTest", "CnpSdkForNetTest\CnpSdkForNetTest.csproj", "{D0A0B9E4-E555-498D-910D-28C61BD094EF}"
 	ProjectSection(ProjectDependencies) = postProject
 		{4A6E3397-DE37-4F91-A90F-E74C1D91E098} = {4A6E3397-DE37-4F91-A90F-E74C1D91E098}
 	EndProjectSection
