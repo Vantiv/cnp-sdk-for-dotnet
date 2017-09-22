@@ -1,9 +1,0 @@
-C:\Users\rchabhad\Desktop\cnp-sdk-for-dotnet\LitleSdkForNet\LitleSdkForNet\bin\Debug\LitleSdkForNet.dll.config
-C:\Users\rchabhad\Desktop\cnp-sdk-for-dotnet\LitleSdkForNet\LitleSdkForNet\bin\Debug\LitleSdkForNet.dll
-C:\Users\rchabhad\Desktop\cnp-sdk-for-dotnet\LitleSdkForNet\LitleSdkForNet\bin\Debug\LitleSdkForNet.pdb
-C:\Users\rchabhad\Desktop\cnp-sdk-for-dotnet\LitleSdkForNet\LitleSdkForNet\bin\Debug\Tamir.SharpSSH.dll
-C:\Users\rchabhad\Desktop\cnp-sdk-for-dotnet\LitleSdkForNet\LitleSdkForNet\bin\Debug\DiffieHellman.dll
-C:\Users\rchabhad\Desktop\cnp-sdk-for-dotnet\LitleSdkForNet\LitleSdkForNet\obj\Debug\LitleSdkForNet.csprojResolveAssemblyReference.cache
-C:\Users\rchabhad\Desktop\cnp-sdk-for-dotnet\LitleSdkForNet\LitleSdkForNet\obj\Debug\LitleSdkForNet.csproj.CoreCompileInputs.cache
-C:\Users\rchabhad\Desktop\cnp-sdk-for-dotnet\LitleSdkForNet\LitleSdkForNet\obj\Debug\LitleSdkForNet.dll
-C:\Users\rchabhad\Desktop\cnp-sdk-for-dotnet\LitleSdkForNet\LitleSdkForNet\obj\Debug\LitleSdkForNet.pdb
