@@ -1,16 +1,16 @@
 ﻿using System.Collections.Generic;
 using NUnit.Framework;
 
-namespace Litle.Sdk.Test.Functional
+namespace Cnp.Sdk.Test.Functional
 {
     [TestFixture]
     internal class TestSale
     {
-        private LitleOnline _litle;
+        private CnpOnline _cnp;
         private Dictionary<string, string> _config;
 
         [TestFixtureSetUp]
-        public void SetUpLitle()
+        public void SetUpCnp()
         {
             _config = new Dictionary<string, string>
             {
@@ -28,7 +28,7 @@ namespace Litle.Sdk.Test.Functional
                 {"neuterAccountNums", "true"}
             };
 
-            _litle = new LitleOnline(_config);
+            _cnp = new CnpOnline(_config);
         }
 
         [Test]
@@ -37,7 +37,7 @@ namespace Litle.Sdk.Test.Functional
             var saleObj = new sale
             {
                 amount = 106,
-                litleTxnId = 123456,
+                cnpTxnId = 123456,
                 id = "1",
                 orderId = "12344",
                 orderSource = orderSourceType.ecommerce,
@@ -66,7 +66,7 @@ namespace Litle.Sdk.Test.Functional
             myDetailTax.cardAcceptorTaxId = "58-1942497";
             saleObj.enhancedData.detailTaxes.Add(myDetailTax);
 
-            var responseObj = _litle.Sale(saleObj);
+            var responseObj = _cnp.Sale(saleObj);
             StringAssert.AreEqualIgnoringCase("Approved", responseObj.message);
         }
 
@@ -77,7 +77,7 @@ namespace Litle.Sdk.Test.Functional
             {
                 id = "1",
                 amount = 106,
-                litleTxnId = 123456,
+                cnpTxnId = 123456,
                 orderId = "12344",
                 orderSource = orderSourceType.ecommerce,
                 card = new cardType
@@ -88,7 +88,7 @@ namespace Litle.Sdk.Test.Functional
                 }
             };
 
-            var responseObj = _litle.Sale(saleObj);
+            var responseObj = _cnp.Sale(saleObj);
             StringAssert.AreEqualIgnoringCase("Approved", responseObj.message);
         }
 
@@ -99,7 +99,7 @@ namespace Litle.Sdk.Test.Functional
             {
                 id = "1",
                 amount = 106,
-                litleTxnId = 123456,
+                cnpTxnId = 123456,
                 orderId = "12344",
                 orderSource = orderSourceType.ecommerce,
                 mpos = new mposType
@@ -112,7 +112,7 @@ namespace Litle.Sdk.Test.Functional
                 }
             };
 
-            var responseObj = _litle.Sale(saleObj);
+            var responseObj = _cnp.Sale(saleObj);
             StringAssert.AreEqualIgnoringCase("Approved", responseObj.message);
         }
 
@@ -123,7 +123,7 @@ namespace Litle.Sdk.Test.Functional
             {
                 id = "1",
                 amount = 106,
-                litleTxnId = 123456,
+                cnpTxnId = 123456,
                 orderId = "12344",
                 orderSource = orderSourceType.ecommerce,
                 paypal = new payPal
@@ -134,7 +134,7 @@ namespace Litle.Sdk.Test.Functional
                 }
             };
 
-            var responseObj = _litle.Sale(saleObj);
+            var responseObj = _cnp.Sale(saleObj);
             StringAssert.AreEqualIgnoringCase("Approved", responseObj.message);
         }
 
@@ -146,7 +146,7 @@ namespace Litle.Sdk.Test.Functional
                 id = "1",
                 amount = 110,
                 secondaryAmount = 50,
-                litleTxnId = 123456,
+                cnpTxnId = 123456,
                 orderId = "12344",
                 orderSource = orderSourceType.ecommerce,
                 applepay = new applepayType
@@ -169,7 +169,7 @@ namespace Litle.Sdk.Test.Functional
                 }
             };
 
-            var responseObj = _litle.Sale(saleObj);
+            var responseObj = _cnp.Sale(saleObj);
             Assert.AreEqual("Insufficient Funds", responseObj.message);
             Assert.AreEqual("110", responseObj.applepayResponse.transactionAmount);
         }
@@ -181,7 +181,7 @@ namespace Litle.Sdk.Test.Functional
             {
                 id = "1",
                 amount = 106,
-                litleTxnId = 123456,
+                cnpTxnId = 123456,
                 orderId = "12344",
                 orderSource = orderSourceType.ecommerce,
                 card = new cardType
@@ -198,9 +198,9 @@ namespace Litle.Sdk.Test.Functional
 
             try
             {
-                var responseObj = _litle.Sale(saleObj);
+                var responseObj = _cnp.Sale(saleObj);
             }
-            catch (LitleOnlineException e)
+            catch (CnpOnlineException e)
             {
                 Assert.True(e.Message.StartsWith("Error validating xml data against the schema"));
             }
@@ -213,7 +213,7 @@ namespace Litle.Sdk.Test.Functional
             {
                 id = "1",
                 amount = 106,
-                litleTxnId = 123456,
+                cnpTxnId = 123456,
                 orderId = "12344",
                 orderSource = orderSourceType.ecommerce,
                 sepaDirectDebit = new sepaDirectDebitType
@@ -225,7 +225,7 @@ namespace Litle.Sdk.Test.Functional
                 }
             };
 
-            var responseObj = _litle.Sale(saleObj);
+            var responseObj = _cnp.Sale(saleObj);
             StringAssert.AreEqualIgnoringCase("Approved", responseObj.message);
         }
 
@@ -236,7 +236,7 @@ namespace Litle.Sdk.Test.Functional
             {
                 id = "1",
                 amount = 106,
-                litleTxnId = 123456,
+                cnpTxnId = 123456,
                 orderId = "12344",
                 orderSource = orderSourceType.ecommerce,
                 card = new cardType
@@ -251,7 +251,7 @@ namespace Litle.Sdk.Test.Functional
                 originalTransactionAmount = 12
             };
 
-            var responseObj = _litle.Sale(saleObj);
+            var responseObj = _cnp.Sale(saleObj);
             StringAssert.AreEqualIgnoringCase("Approved", responseObj.message);
         }
 
@@ -262,7 +262,7 @@ namespace Litle.Sdk.Test.Functional
             {
                 id = "1",
                 amount = 106,
-                litleTxnId = 123456,
+                cnpTxnId = 123456,
                 orderId = "12344",
                 orderSource = orderSourceType.ecommerce,
                 ideal = new idealType
@@ -271,7 +271,7 @@ namespace Litle.Sdk.Test.Functional
                 }
             };
 
-            var responseObj = _litle.Sale(saleObj);
+            var responseObj = _cnp.Sale(saleObj);
             StringAssert.AreEqualIgnoringCase("Approved", responseObj.message);
         }
 
@@ -282,7 +282,7 @@ namespace Litle.Sdk.Test.Functional
             {
                 id = "1",
                 amount = 106,
-                litleTxnId = 123456,
+                cnpTxnId = 123456,
                 orderId = "12344",
                 orderSource = orderSourceType.ecommerce,
                 giropay = new giropayType
@@ -291,7 +291,7 @@ namespace Litle.Sdk.Test.Functional
                 }
             };
 
-            var responseObj = _litle.Sale(saleObj);
+            var responseObj = _cnp.Sale(saleObj);
             StringAssert.AreEqualIgnoringCase("Approved", responseObj.message);
         }
 
@@ -302,7 +302,7 @@ namespace Litle.Sdk.Test.Functional
             {
                 id = "1",
                 amount = 106,
-                litleTxnId = 123456,
+                cnpTxnId = 123456,
                 orderId = "12344",
                 orderSource = orderSourceType.ecommerce,
                 sofort = new sofortType
@@ -311,7 +311,7 @@ namespace Litle.Sdk.Test.Functional
                 }
             };
 
-            var responseObj = _litle.Sale(saleObj);
+            var responseObj = _cnp.Sale(saleObj);
             StringAssert.AreEqualIgnoringCase("Approved", responseObj.message);
         }
     }

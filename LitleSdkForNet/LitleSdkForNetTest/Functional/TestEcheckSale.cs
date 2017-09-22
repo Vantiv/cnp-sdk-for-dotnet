@@ -1,16 +1,16 @@
 ﻿using System.Collections.Generic;
 using NUnit.Framework;
 
-namespace Litle.Sdk.Test.Functional
+namespace Cnp.Sdk.Test.Functional
 {
     [TestFixture]
     internal class TestEcheckSale
     {
-        private LitleOnline _litle;
+        private CnpOnline _cnp;
         private Dictionary<string, string> _config;
 
         [TestFixtureSetUp]
-        public void SetUpLitle()
+        public void SetUpCnp()
         {
             _config = new Dictionary<string, string>
             {
@@ -28,7 +28,7 @@ namespace Litle.Sdk.Test.Functional
                 {"neuterAccountNums", "true"}
             };
 
-            _litle = new LitleOnline(_config);
+            _cnp = new CnpOnline(_config);
         }
 
         [Test]
@@ -53,23 +53,23 @@ namespace Litle.Sdk.Test.Functional
                     name = "Bob",
                     city = "lowell",
                     state = "MA",
-                    email = "litle.com"
+                    email = "cnp.com"
                 }
             };
 
 
-            var response = _litle.EcheckSale(echeckSaleObj);
+            var response = _cnp.EcheckSale(echeckSaleObj);
             StringAssert.AreEqualIgnoringCase("Approved", response.message);
         }
 
         [Test]
-        public void EcheckSaleWithLitleTxnId()
+        public void EcheckSaleWithCnpTxnId()
         {
             var echeckSaleObj = new echeckSale
             {
                 id = "1",
                 reportGroup = "Planets",
-                litleTxnId = 1234,
+                cnpTxnId = 1234,
                 amount = 123456,
                 customBilling = new customBilling
                 {
@@ -80,7 +80,7 @@ namespace Litle.Sdk.Test.Functional
                 orderId = "12345"
             };
 
-            var response = _litle.EcheckSale(echeckSaleObj);
+            var response = _cnp.EcheckSale(echeckSaleObj);
             StringAssert.AreEqualIgnoringCase("Approved", response.message);
         }
 
@@ -102,14 +102,14 @@ namespace Litle.Sdk.Test.Functional
                     name = "Bob",
                     city = "lowell",
                     state = "MA",
-                    email = "litle.com"
+                    email = "cnp.com"
                 },
                 shipToAddress = new contact
                 {
                     name = "Bob",
                     city = "lowell",
                     state = "MA",
-                    email = "litle.com"
+                    email = "cnp.com"
                 },
                 echeck = new echeckType
                 {
@@ -133,7 +133,7 @@ namespace Litle.Sdk.Test.Functional
                 customIdentifier = "ident"
             };
 
-            var response = _litle.EcheckSale(echeckSaleObj);
+            var response = _cnp.EcheckSale(echeckSaleObj);
             StringAssert.AreEqualIgnoringCase("Approved", response.message);
         }
 
@@ -150,9 +150,9 @@ namespace Litle.Sdk.Test.Functional
             try
             {
                 //expected exception;
-                var response = _litle.EcheckSale(echeckSaleObj);
+                var response = _cnp.EcheckSale(echeckSaleObj);
             }
-            catch (LitleOnlineException e)
+            catch (CnpOnlineException e)
             {
                 Assert.True(e.Message.StartsWith("Error validating xml data against the schema"));
             }
@@ -181,18 +181,18 @@ namespace Litle.Sdk.Test.Functional
                     name = "Bob",
                     city = "lowell",
                     state = "MA",
-                    email = "litle.com"
+                    email = "cnp.com"
                 },
                 shipToAddress = new contact
                 {
                     name = "Bob",
                     city = "lowell",
                     state = "MA",
-                    email = "litle.com"
+                    email = "cnp.com"
                 }
             };
 
-            var response = _litle.EcheckSale(echeckSaleObj);
+            var response = _cnp.EcheckSale(echeckSaleObj);
             StringAssert.AreEqualIgnoringCase("Approved", response.message);
         }
 
@@ -210,7 +210,7 @@ namespace Litle.Sdk.Test.Functional
                 token = new echeckTokenType
                 {
                     accType = echeckAccountTypeEnum.Checking,
-                    litleToken = "1234565789012",
+                    cnpToken = "1234565789012",
                     routingNum = "123456789",
                     checkNum = "123455"
                 },
@@ -224,11 +224,11 @@ namespace Litle.Sdk.Test.Functional
                     name = "Bob",
                     city = "lowell",
                     state = "MA",
-                    email = "litle.com"
+                    email = "cnp.com"
                 },
             };
 
-            var response = _litle.EcheckSale(echeckSaleObj);
+            var response = _cnp.EcheckSale(echeckSaleObj);
             StringAssert.AreEqualIgnoringCase("Approved", response.message);
         }
 
@@ -255,9 +255,9 @@ namespace Litle.Sdk.Test.Functional
             try
             {
                 //expected exception;
-                var response = _litle.EcheckSale(echeckSaleObj);
+                var response = _cnp.EcheckSale(echeckSaleObj);
             }
-            catch (LitleOnlineException e)
+            catch (CnpOnlineException e)
             {
                 Assert.True(e.Message.StartsWith("Error validating xml data against the schema"));
             }
@@ -270,11 +270,11 @@ namespace Litle.Sdk.Test.Functional
             {
                 id = "1",
                 reportGroup = "Planets",
-                litleTxnId = 123456789101112,
+                cnpTxnId = 123456789101112,
                 amount = 12
             };
 
-            var response = _litle.EcheckSale(echeckSaleObj);
+            var response = _cnp.EcheckSale(echeckSaleObj);
             StringAssert.AreEqualIgnoringCase("Approved", response.message);
         }
 
@@ -301,11 +301,11 @@ namespace Litle.Sdk.Test.Functional
                     name = "Bob",
                     city = "lowell",
                     state = "MA",
-                    email = "litle.com"
+                    email = "cnp.com"
                 }
             };
 
-            var response = _litle.EcheckSale(echeckSaleObj);
+            var response = _cnp.EcheckSale(echeckSaleObj);
             StringAssert.AreEqualIgnoringCase("Approved", response.message);
         }
 
@@ -318,15 +318,15 @@ namespace Litle.Sdk.Test.Functional
                 reportGroup = "Planets",
                 amount = 123456,
                 secondaryAmount = 50,
-                litleTxnId = 1234565L
+                cnpTxnId = 1234565L
             };
 
             try
             {
                 ////expected exception;
-                var response = _litle.EcheckSale(echeckSaleObj);
+                var response = _cnp.EcheckSale(echeckSaleObj);
             }
-            catch (LitleOnlineException e)
+            catch (CnpOnlineException e)
             {
                 Assert.True(e.Message.StartsWith("Error validating xml data against the schema"));
             }

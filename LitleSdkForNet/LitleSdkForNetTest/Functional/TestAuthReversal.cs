@@ -1,16 +1,16 @@
 ﻿using System.Collections.Generic;
 using NUnit.Framework;
 
-namespace Litle.Sdk.Test.Functional
+namespace Cnp.Sdk.Test.Functional
 {
     [TestFixture]
     internal class TestAuthReversal
     {
-        private LitleOnline _litle;
+        private CnpOnline _cnp;
         private Dictionary<string, string> _config;
 
         [TestFixtureSetUp]
-        public void SetUpLitle()
+        public void SetUpCnp()
         {
             _config = new Dictionary<string, string>
             {
@@ -28,7 +28,7 @@ namespace Litle.Sdk.Test.Functional
                 {"neuterAccountNums", "true"}
             };
 
-            _litle = new LitleOnline(_config);
+            _cnp = new CnpOnline(_config);
         }
 
         [Test]
@@ -38,12 +38,12 @@ namespace Litle.Sdk.Test.Functional
             {
                 id = "1",
                 reportGroup = "Planets",
-                litleTxnId = 12345678000L,
+                cnpTxnId = 12345678000L,
                 amount = 106,
                 payPalNotes = "Notes"
             };
 
-            var response = _litle.AuthReversal(reversal);
+            var response = _cnp.AuthReversal(reversal);
             Assert.AreEqual("Approved", response.message);
         }
 
@@ -54,13 +54,13 @@ namespace Litle.Sdk.Test.Functional
             {
                 id = "1",
                 reportGroup = "Planets",
-                litleTxnId = 12345678000L,
+                cnpTxnId = 12345678000L,
                 amount = 106,
                 payPalNotes = "<'&\">"
             };
 
 
-            var response = _litle.AuthReversal(reversal);
+            var response = _cnp.AuthReversal(reversal);
             Assert.AreEqual("Approved", response.message);
         }
     }

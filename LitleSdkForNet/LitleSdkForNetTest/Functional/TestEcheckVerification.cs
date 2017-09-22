@@ -1,16 +1,16 @@
 ﻿using System.Collections.Generic;
 using NUnit.Framework;
 
-namespace Litle.Sdk.Test.Functional
+namespace Cnp.Sdk.Test.Functional
 {
     [TestFixture]
     internal class TestEcheckVerification
     {
-        private LitleOnline _litle;
+        private CnpOnline _cnp;
         private Dictionary<string, string> _config;
 
         [TestFixtureSetUp]
-        public void SetUpLitle()
+        public void SetUpCnp()
         {
             _config = new Dictionary<string, string>
             {
@@ -28,7 +28,7 @@ namespace Litle.Sdk.Test.Functional
                 {"neuterAccountNums", "true"}
             };
 
-            _litle = new LitleOnline(_config);
+            _cnp = new CnpOnline(_config);
         }
 
         [Test]
@@ -53,11 +53,11 @@ namespace Litle.Sdk.Test.Functional
                     name = "Bob",
                     city = "lowell",
                     state = "MA",
-                    email = "litle.com"
+                    email = "cnp.com"
                 }
             };
 
-            var response = _litle.EcheckVerification(echeckVerificationObject);
+            var response = _cnp.EcheckVerification(echeckVerificationObject);
             StringAssert.AreEqualIgnoringCase("Approved", response.message);
         }
 
@@ -74,7 +74,7 @@ namespace Litle.Sdk.Test.Functional
                 token = new echeckTokenType
                 {
                     accType = echeckAccountTypeEnum.Checking,
-                    litleToken = "1234565789012",
+                    cnpToken = "1234565789012",
                     routingNum = "123456789",
                     checkNum = "123455"
                 },
@@ -83,11 +83,11 @@ namespace Litle.Sdk.Test.Functional
                     name = "Bob",
                     city = "lowell",
                     state = "MA",
-                    email = "litle.com"
+                    email = "cnp.com"
                 }
             };
 
-            echeckVerificationResponse response = _litle.EcheckVerification(echeckVerificationObject);
+            echeckVerificationResponse response = _cnp.EcheckVerification(echeckVerificationObject);
             StringAssert.AreEqualIgnoringCase("Approved", response.message);
         }
 
@@ -114,9 +114,9 @@ namespace Litle.Sdk.Test.Functional
             try
             {
                 //expected exception;
-                echeckVerificationResponse response = _litle.EcheckVerification(echeckVerificationObject);
+                echeckVerificationResponse response = _cnp.EcheckVerification(echeckVerificationObject);
             }
-            catch (LitleOnlineException e)
+            catch (CnpOnlineException e)
             {
                 Assert.True(e.Message.StartsWith("Error validating xml data against the schema"));
             }

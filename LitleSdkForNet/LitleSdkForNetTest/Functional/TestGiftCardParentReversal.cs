@@ -2,16 +2,16 @@
 using NUnit.Framework;
 using System;
 
-namespace Litle.Sdk.Test.Functional
+namespace Cnp.Sdk.Test.Functional
 {
     [TestFixture]
     internal class TestGiftCardParentReversal
     {
-        private LitleOnline _litle;
+        private CnpOnline _cnp;
         private Dictionary<string, string> _config;
 
         [TestFixtureSetUp]
-        public void SetUpLitle()
+        public void SetUpCnp()
         {
             _config = new Dictionary<string, string>
             {
@@ -29,7 +29,7 @@ namespace Litle.Sdk.Test.Functional
                 {"neuterAccountNums", "true"}
             };
 
-            _litle = new LitleOnline(_config);
+            _cnp = new CnpOnline(_config);
         }
 
         [Test]
@@ -39,7 +39,7 @@ namespace Litle.Sdk.Test.Functional
             {
                 id = "1",
                 reportGroup = "planets",
-                litleTxnId = 123456000,
+                cnpTxnId = 123456000,
                 card = new giftCardCardType
                 {
                     type = methodOfPaymentTypeEnum.GC,
@@ -56,7 +56,7 @@ namespace Litle.Sdk.Test.Functional
                 originalSequenceNumber = "123456"
             };
 
-            var response = _litle.DepositReversal(reversal);
+            var response = _cnp.DepositReversal(reversal);
             Assert.AreEqual("Approved", response.message);
         }
 
@@ -67,7 +67,7 @@ namespace Litle.Sdk.Test.Functional
             {
                 id = "1",
                 reportGroup = "planets",
-                litleTxnId = 123456000,
+                cnpTxnId = 123456000,
                 card = new giftCardCardType
                 {
                     type = methodOfPaymentTypeEnum.GC,
@@ -82,7 +82,7 @@ namespace Litle.Sdk.Test.Functional
                 originalSequenceNumber = "123456"
             };
 
-            var response = _litle.RefundReversal(reversal);
+            var response = _cnp.RefundReversal(reversal);
             Assert.AreEqual("Approved", response.message);
         }
 
@@ -93,7 +93,7 @@ namespace Litle.Sdk.Test.Functional
             {
                 id = "1",
                 reportGroup = "planets",
-                litleTxnId = 123456000,
+                cnpTxnId = 123456000,
                 virtualGiftCardBin = "123",
                 card = new giftCardCardType
                 {
@@ -109,7 +109,7 @@ namespace Litle.Sdk.Test.Functional
                 originalSequenceNumber = "123456"
             };
 
-            var response = _litle.ActivateReversal(reversal);
+            var response = _cnp.ActivateReversal(reversal);
             Assert.AreEqual("Approved", response.message);
         }
 
@@ -120,7 +120,7 @@ namespace Litle.Sdk.Test.Functional
             {
                 id = "1",
                 reportGroup = "planets",
-                litleTxnId = 123456000,
+                cnpTxnId = 123456000,
                 card = new giftCardCardType
                 {
                     type = methodOfPaymentTypeEnum.GC,
@@ -136,7 +136,7 @@ namespace Litle.Sdk.Test.Functional
                 originalSequenceNumber = "123456"
             };
 
-            var response = _litle.DeactivateReversal(reversal);
+            var response = _cnp.DeactivateReversal(reversal);
             Assert.AreEqual("Approved", response.message);
         }
 
@@ -147,7 +147,7 @@ namespace Litle.Sdk.Test.Functional
             {
                 id = "1",
                 reportGroup = "planets",
-                litleTxnId = 123456000,
+                cnpTxnId = 123456000,
                 card = new giftCardCardType
                 {
 
@@ -164,7 +164,7 @@ namespace Litle.Sdk.Test.Functional
                 originalSequenceNumber = "123456"
             };
 
-            var response = _litle.LoadReversal(reversal);
+            var response = _cnp.LoadReversal(reversal);
             Assert.AreEqual("Approved", response.message);
         }
 
@@ -175,7 +175,7 @@ namespace Litle.Sdk.Test.Functional
             {
                 id = "1",
                 reportGroup = "planets",
-                litleTxnId = 123456000,
+                cnpTxnId = 123456000,
                 card = new giftCardCardType
                 {
                     type = methodOfPaymentTypeEnum.GC,
@@ -192,7 +192,7 @@ namespace Litle.Sdk.Test.Functional
                 originalSequenceNumber = "123456"
             };
 
-            var response = _litle.UnloadReversal(reversal);
+            var response = _cnp.UnloadReversal(reversal);
             Assert.AreEqual("Approved", response.message);
         }
     }

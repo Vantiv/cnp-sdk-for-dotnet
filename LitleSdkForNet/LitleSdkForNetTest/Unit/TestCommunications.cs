@@ -3,7 +3,7 @@ using NUnit.Framework;
 
 
 
-namespace Litle.Sdk.Test.Unit
+namespace Cnp.Sdk.Test.Unit
 {
     [TestFixture]
     internal class TestCommunications
@@ -11,7 +11,7 @@ namespace Litle.Sdk.Test.Unit
         private Communications _objectUnderTest;
 
         [TestFixtureSetUp]
-        public void SetUpLitle()
+        public void SetUpCnp()
         {
             _objectUnderTest = new Communications();
         }

@@ -3,16 +3,16 @@ using System.Collections.Generic;
 using NUnit.Core;
 using NUnit.Framework;
 
-namespace Litle.Sdk.Test.Functional
+namespace Cnp.Sdk.Test.Functional
 {
     [TestFixture]
     public class TestSubscriptionTxns
     {
-        private LitleOnline _litle;
+        private CnpOnline _cnp;
         private Dictionary<string, string> _config;
 
         [TestFixtureSetUp]
-        public void SetUpLitle()
+        public void SetUpCnp()
         {
             _config = new Dictionary<string, string>
             {
@@ -29,7 +29,7 @@ namespace Litle.Sdk.Test.Functional
                 {"neuterAccountNums", "true"}
             };
 
-            _litle = new LitleOnline(_config);
+            _cnp = new CnpOnline(_config);
         }
 
         [Test]
@@ -55,7 +55,7 @@ namespace Litle.Sdk.Test.Functional
                 subscriptionId = 12345
             };
             
-            var response = _litle.UpdateSubscription(update);
+            var response = _cnp.UpdateSubscription(update);
             Assert.AreEqual("Approved", response.message);
         }
 
@@ -74,7 +74,7 @@ namespace Litle.Sdk.Test.Functional
                 },
                 token = new cardTokenType
                 {
-                    litleToken = "987654321098765432",
+                    cnpToken = "987654321098765432",
                     expDate = "0750",
                     cardValidationNum = "798",
                     type = methodOfPaymentTypeEnum.VI,
@@ -84,7 +84,7 @@ namespace Litle.Sdk.Test.Functional
                 subscriptionId = 12345
             };
 
-            var response = _litle.UpdateSubscription(update);
+            var response = _cnp.UpdateSubscription(update);
             Assert.AreEqual("Approved", response.message);
         }
     }

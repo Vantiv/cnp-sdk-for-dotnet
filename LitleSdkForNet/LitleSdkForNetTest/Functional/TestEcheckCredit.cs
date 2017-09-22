@@ -1,16 +1,16 @@
 ﻿using System.Collections.Generic;
 using NUnit.Framework;
 
-namespace Litle.Sdk.Test.Functional
+namespace Cnp.Sdk.Test.Functional
 {
     [TestFixture]
     internal class TestEcheckCredit
     {
-        private LitleOnline _litle;
+        private CnpOnline _cnp;
         private Dictionary<string, string> _config;
 
         [TestFixtureSetUp]
-        public void SetUpLitle()
+        public void SetUpCnp()
         {
             _config = new Dictionary<string, string>
             {
@@ -28,7 +28,7 @@ namespace Litle.Sdk.Test.Functional
                 {"neuterAccountNums", "true"}
             };
 
-            _litle = new LitleOnline(_config);
+            _cnp = new CnpOnline(_config);
         }
 
         [Test]
@@ -39,15 +39,15 @@ namespace Litle.Sdk.Test.Functional
                 id = "1",
                 reportGroup = "Planets",
                 amount = 12L,
-                litleTxnId = 123456789101112L,
+                cnpTxnId = 123456789101112L,
             };
 
-            var response = _litle.EcheckCredit(echeckcredit);
+            var response = _cnp.EcheckCredit(echeckcredit);
             Assert.AreEqual("Approved", response.message);
         }
 
         [Test]
-        public void noLitleTxnId()
+        public void noCnpTxnId()
         {
             var echeckcredit = new echeckCredit
             {
@@ -57,10 +57,10 @@ namespace Litle.Sdk.Test.Functional
 
             try
             {
-                _litle.EcheckCredit(echeckcredit);
+                _cnp.EcheckCredit(echeckcredit);
                 Assert.Fail("Expected exception");
             }
-            catch (LitleOnlineException e)
+            catch (CnpOnlineException e)
             {
                 Assert.IsTrue(e.Message.Contains("Error validating xml data against the schema"));
             }
@@ -88,12 +88,12 @@ namespace Litle.Sdk.Test.Functional
                     name = "Bob",
                     city = "Lowell",
                     state = "MA",
-                    email = "litle.com",
+                    email = "cnp.com",
                 },
                 customIdentifier = "CustomIdent"
             };
 
-            var response = _litle.EcheckCredit(echeckcredit);
+            var response = _cnp.EcheckCredit(echeckcredit);
             Assert.AreEqual("Approved", response.message);
         }
 
@@ -110,7 +110,7 @@ namespace Litle.Sdk.Test.Functional
                 echeckToken = new echeckTokenType
                 {
                     accType = echeckAccountTypeEnum.Checking,
-                    litleToken = "1234565789012",
+                    cnpToken = "1234565789012",
                     routingNum = "123456789",
                     checkNum = "123455",
                 },
@@ -120,13 +120,13 @@ namespace Litle.Sdk.Test.Functional
                     name = "Bob",
                     city = "Lowell",
                     state = "MA",
-                    email = "litle.com"
+                    email = "cnp.com"
                 }
             };
 
 
 
-            var response = _litle.EcheckCredit(echeckcredit);
+            var response = _cnp.EcheckCredit(echeckcredit);
             Assert.AreEqual("Approved", response.message);
         }
 
@@ -151,10 +151,10 @@ namespace Litle.Sdk.Test.Functional
 
             try
             {
-                _litle.EcheckCredit(echeckcredit);
+                _cnp.EcheckCredit(echeckcredit);
                 Assert.Fail("Expected exception");
             }
-            catch (LitleOnlineException e)
+            catch (CnpOnlineException e)
             {
                 Assert.IsTrue(e.Message.Contains("Error validating xml data against the schema"));
             }
@@ -184,17 +184,17 @@ namespace Litle.Sdk.Test.Functional
                     name = "Bob",
                     city = "Lowell",
                     state = "MA",
-                    email = "litle.com"
+                    email = "cnp.com"
 
                 }
             };
 
-            var response = _litle.EcheckCredit(echeckcredit);
+            var response = _cnp.EcheckCredit(echeckcredit);
             Assert.AreEqual("Approved", response.message);
         }
 
         [Test]
-        public void echeckCreditWithSecondaryAmountWithLitleTxnId()
+        public void echeckCreditWithSecondaryAmountWithCnpTxnId()
         {
             var echeckcredit = new echeckCredit
             {
@@ -202,11 +202,11 @@ namespace Litle.Sdk.Test.Functional
                 reportGroup = "Planets",
                 amount = 12L,
                 secondaryAmount = 50,
-                litleTxnId = 12345L,
+                cnpTxnId = 12345L,
                 customIdentifier = "CustomIdent"
             };
             
-            var response = _litle.EcheckCredit(echeckcredit);
+            var response = _cnp.EcheckCredit(echeckcredit);
             Assert.AreEqual("Approved", response.message);
         }
     }

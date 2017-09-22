@@ -1,16 +1,16 @@
 ﻿using System.Collections.Generic;
 using NUnit.Framework;
 
-namespace Litle.Sdk.Test.Functional
+namespace Cnp.Sdk.Test.Functional
 {
     [TestFixture]
     internal class TestQueryTransaction
     {
-        private LitleOnline _litle;
+        private CnpOnline _cnp;
         private Dictionary<string, string> _config;
 
         [TestFixtureSetUp]
-        public void SetUpLitle()
+        public void SetUpCnp()
         {
             _config = new Dictionary<string, string>
             {
@@ -28,7 +28,7 @@ namespace Litle.Sdk.Test.Functional
                 {"neuterAccountNums", "true"}
             };
 
-            _litle = new LitleOnline(_config);
+            _cnp = new CnpOnline(_config);
         }
 
         [Test]
@@ -40,10 +40,10 @@ namespace Litle.Sdk.Test.Functional
                 reportGroup = "myReportGroup",
                 origId = "Deposit1",
                 origActionType = actionTypeEnum.D,
-                origLitleTxnId = 54321
+                origCnpTxnId = 54321
             };
 
-            var response = _litle.queryTransaction(query);
+            var response = _cnp.queryTransaction(query);
             var queryResponse = (queryTransactionResponse)response;
 
             Assert.NotNull(queryResponse);
@@ -62,10 +62,10 @@ namespace Litle.Sdk.Test.Functional
                 reportGroup = "myReportGroup",
                 origId = "Auth2",
                 origActionType = actionTypeEnum.A,
-                origLitleTxnId = 54321
+                origCnpTxnId = 54321
             };
 
-            var response = _litle.queryTransaction(query);
+            var response = _cnp.queryTransaction(query);
             var queryResponse = (queryTransactionResponse)response;
 
             Assert.NotNull(queryResponse);
@@ -90,10 +90,10 @@ namespace Litle.Sdk.Test.Functional
                 reportGroup = "myReportGroup",
                 origId = "Auth",
                 origActionType = actionTypeEnum.A,
-                origLitleTxnId = 54321
+                origCnpTxnId = 54321
             };
 
-            var response = _litle.queryTransaction(query);
+            var response = _cnp.queryTransaction(query);
             var queryResponse = (queryTransactionUnavailableResponse)response;
 
             Assert.AreEqual("152", queryResponse.response);
@@ -109,10 +109,10 @@ namespace Litle.Sdk.Test.Functional
                 reportGroup = "myReportGroup",
                 origId = "Auth0",
                 origActionType = actionTypeEnum.A,
-                origLitleTxnId = 54321
+                origCnpTxnId = 54321
             };
 
-            var response = _litle.queryTransaction(query);
+            var response = _cnp.queryTransaction(query);
             var queryResponse = (queryTransactionResponse)response;
 
             Assert.AreEqual("151", queryResponse.response);

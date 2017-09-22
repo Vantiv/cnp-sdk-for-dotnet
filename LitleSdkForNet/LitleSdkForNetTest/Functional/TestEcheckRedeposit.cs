@@ -1,16 +1,16 @@
 ﻿using System.Collections.Generic;
 using NUnit.Framework;
 
-namespace Litle.Sdk.Test.Functional
+namespace Cnp.Sdk.Test.Functional
 {
     [TestFixture]
     internal class TestEcheckRedeposit
     {
-        private LitleOnline _litle;
+        private CnpOnline _cnp;
         private Dictionary<string, string> _config;
 
         [TestFixtureSetUp]
-        public void SetUpLitle()
+        public void SetUpCnp()
         {
             _config = new Dictionary<string, string>
             {
@@ -28,7 +28,7 @@ namespace Litle.Sdk.Test.Functional
                 {"neuterAccountNums", "true"}
             };
 
-            _litle = new LitleOnline(_config);
+            _cnp = new CnpOnline(_config);
         }
 
 
@@ -39,10 +39,10 @@ namespace Litle.Sdk.Test.Functional
             {
                 id = "1",
                 reportGroup = "Planets",
-                litleTxnId = 123456
+                cnpTxnId = 123456
             };
 
-            var response = _litle.EcheckRedeposit(echeckredeposit);
+            var response = _cnp.EcheckRedeposit(echeckredeposit);
             Assert.AreEqual("Approved", response.message);
         }
 
@@ -53,7 +53,7 @@ namespace Litle.Sdk.Test.Functional
             {
                 id = "1",
                 reportGroup = "Planets",
-                litleTxnId = 123456,
+                cnpTxnId = 123456,
                 echeck = new echeckType
                 {
                     accType = echeckAccountTypeEnum.Checking,
@@ -65,7 +65,7 @@ namespace Litle.Sdk.Test.Functional
                 customIdentifier = "CustomIdent"
             };
             
-            var response = _litle.EcheckRedeposit(echeckredeposit);
+            var response = _cnp.EcheckRedeposit(echeckredeposit);
             Assert.AreEqual("Approved", response.message);
         }
 
@@ -76,17 +76,17 @@ namespace Litle.Sdk.Test.Functional
             {
                 id = "1",
                 reportGroup = "Planets",
-                litleTxnId = 123456,
+                cnpTxnId = 123456,
                 token = new echeckTokenType
                 {
                     accType = echeckAccountTypeEnum.Checking,
-                    litleToken = "1234565789012",
+                    cnpToken = "1234565789012",
                     routingNum = "123456789",
                     checkNum = "123455"
                 }
             };
 
-            var response = _litle.EcheckRedeposit(echeckredeposit);
+            var response = _cnp.EcheckRedeposit(echeckredeposit);
             Assert.AreEqual("Approved", response.message);
         }
 

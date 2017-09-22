@@ -1,15 +1,15 @@
 ﻿using System.Collections.Generic;
 using NUnit.Framework;
 
-namespace Litle.Sdk.Test.Functional
+namespace Cnp.Sdk.Test.Functional
 {
     [TestFixture]
     internal class TestHttpActionEvent
     {
-        private LitleOnline _litle;
+        private CnpOnline _cnp;
 
         [TestFixtureSetUp]
-        public void SetUpLitle()
+        public void SetUpCnp()
         {
             var config = new Dictionary<string, string>
             {
@@ -26,7 +26,7 @@ namespace Litle.Sdk.Test.Functional
                 {"logFile", Properties.Settings.Default.logFile},
                 {"neuterAccountNums", "true"}
             };
-            _litle = new LitleOnline(config);
+            _cnp = new CnpOnline(config);
         }
 
         [Test]
@@ -36,7 +36,7 @@ namespace Litle.Sdk.Test.Functional
             var responseCount = 0;
             var httpActionCount = 0;
 
-            _litle.HttpAction += (sender, args) =>
+            _cnp.HttpAction += (sender, args) =>
             {
                 var eventArgs = (Communications.HttpActionEventArgs)args;
                 httpActionCount++;
@@ -52,12 +52,12 @@ namespace Litle.Sdk.Test.Functional
 
             var capture = new capture
             {
-                litleTxnId = 123456000,
+                cnpTxnId = 123456000,
                 amount = 106,
                 id = "1"
             };
 
-            _litle.Capture(capture);
+            _cnp.Capture(capture);
             Assert.AreEqual(httpActionCount, 2);
             Assert.AreEqual(requestCount, 1);
             Assert.AreEqual(responseCount, 1);

@@ -11,7 +11,7 @@ using System.Security.Authentication;
 using System.Security.Cryptography.X509Certificates;
 using System.Text.RegularExpressions;
 
-namespace Litle.Sdk
+namespace Cnp.Sdk
 {
     public class Communications
     {
@@ -188,7 +188,7 @@ namespace Litle.Sdk
             }
             catch (SocketException e)
             {
-                throw new LitleOnlineException("Error establishing a network connection", e);
+                throw new CnpOnlineException("Error establishing a network connection", e);
             }
 
             try
@@ -198,7 +198,7 @@ namespace Litle.Sdk
             catch (AuthenticationException e)
             {
                 tcpClient.Close();
-                throw new LitleOnlineException("Error establishing a network connection - SSL Authencation failed", e);
+                throw new CnpOnlineException("Error establishing a network connection - SSL Authencation failed", e);
             }
 
             if ("true".Equals(config["printxml"]))
@@ -322,11 +322,11 @@ namespace Litle.Sdk
             }
             catch (SftpException e)
             {
-                throw new LitleOnlineException("Error occured while attempting to establish an SFTP connection",e);
+                throw new CnpOnlineException("Error occured while attempting to establish an SFTP connection",e);
             }
             catch (JSchException e)
             {
-                throw new LitleOnlineException("Error occured while attempting to establish an SFTP connection", e);
+                throw new CnpOnlineException("Error occured while attempting to establish an SFTP connection", e);
             }
 
             try
@@ -344,7 +344,7 @@ namespace Litle.Sdk
             }
             catch (SftpException e)
             {
-                throw new LitleOnlineException("Error occured while attempting to upload and save the file to SFTP", e);
+                throw new CnpOnlineException("Error occured while attempting to upload and save the file to SFTP", e);
             }
 
             channelSftp.quit();
@@ -383,7 +383,7 @@ namespace Litle.Sdk
             }
             catch (SftpException e)
             {
-                throw new LitleOnlineException("Error occured while attempting to establish an SFTP connection", e);
+                throw new CnpOnlineException("Error occured while attempting to establish an SFTP connection", e);
             }
 
             //check if file exists
@@ -442,7 +442,7 @@ namespace Litle.Sdk
             }
             catch (SftpException e)
             {
-                throw new LitleOnlineException("Error occured while attempting to establish an SFTP connection", e);
+                throw new CnpOnlineException("Error occured while attempting to establish an SFTP connection", e);
             }
 
             try
@@ -461,7 +461,7 @@ namespace Litle.Sdk
             }
             catch (SftpException e)
             {
-                throw new LitleOnlineException("Error occured while attempting to retrieve and save the file from SFTP", e);
+                throw new CnpOnlineException("Error occured while attempting to retrieve and save the file from SFTP", e);
             }
 
             channelSftp.quit();

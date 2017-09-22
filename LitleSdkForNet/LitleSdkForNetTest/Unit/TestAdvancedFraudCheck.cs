@@ -7,18 +7,18 @@ using System.Threading.Tasks;
 using Moq;
 using System.Text.RegularExpressions;
 
-namespace Litle.Sdk.Test.Unit
+namespace Cnp.Sdk.Test.Unit
 {
     [TestFixture]
     class TestAdvancedFraudCheck
     {
 
-        private LitleOnline litle;
+        private CnpOnline cnp;
 
         [TestFixtureSetUp]
-        public void SetUpLitle()
+        public void SetUpCnp()
         {
-            litle = new LitleOnline();
+            cnp = new CnpOnline();
         }
 
         [Test]
@@ -32,11 +32,11 @@ namespace Litle.Sdk.Test.Unit
             var mock = new Mock<Communications>();
 
             mock.Setup(Communications => Communications.HttpPost(It.IsRegex(".*<threatMetrixSessionId>123</threatMetrixSessionId>\r\n.*", RegexOptions.Singleline), It.IsAny<Dictionary<String, String>>()))
-                .Returns("<litleOnlineResponse version='10.1' response='0' message='Valid Format' xmlns='http://www.litle.com/schema'><fraudCheckResponse id='127' reportGroup='Planets' customerId=''><litleTxnId>742802348034313000</litleTxnId><response>000</response><message>Approved</message><advancedFraudResults><deviceReviewStatus>pass</deviceReviewStatus><deviceReputationScore>42</deviceReputationScore><triggeredRule>triggered_rule_default</triggeredRule></advancedFraudResults></fraudCheckResponse></litleOnlineResponse >");
+                .Returns("<cnpOnlineResponse version='10.1' response='0' message='Valid Format' xmlns='http://www.vantivcnp.com/schema'><fraudCheckResponse id='127' reportGroup='Planets' customerId=''><cnpTxnId>742802348034313000</cnpTxnId><response>000</response><message>Approved</message><advancedFraudResults><deviceReviewStatus>pass</deviceReviewStatus><deviceReputationScore>42</deviceReputationScore><triggeredRule>triggered_rule_default</triggeredRule></advancedFraudResults></fraudCheckResponse></cnpOnlineResponse >");
 
             Communications mockedCommunication = mock.Object;
-            litle.setCommunication(mockedCommunication);
-            fraudCheckResponse fraudCheckResponse = litle.FraudCheck(fraudCheck);
+            cnp.setCommunication(mockedCommunication);
+            fraudCheckResponse fraudCheckResponse = cnp.FraudCheck(fraudCheck);
 
             Assert.NotNull(fraudCheckResponse);
             Assert.AreEqual("pass", fraudCheckResponse.advancedFraudResults.deviceReviewStatus);
@@ -54,11 +54,11 @@ namespace Litle.Sdk.Test.Unit
             var mock = new Mock<Communications>();
             
             mock.Setup(Communications => Communications.HttpPost(It.IsRegex("..*<threatMetrixSessionId>123</threatMetrixSessionId>\r\n<customAttribute1>abc</customAttribute1>\r\n.*", RegexOptions.Singleline), It.IsAny<Dictionary<String, String>>()))
-                .Returns("<litleOnlineResponse version='10.1' response='0' message='Valid Format' xmlns='http://www.litle.com/schema'><fraudCheckResponse id='127' reportGroup='Planets' customerId=''><litleTxnId>742802348034313000</litleTxnId><response>000</response><message>Approved</message><advancedFraudResults><deviceReviewStatus>pass</deviceReviewStatus><deviceReputationScore>42</deviceReputationScore><triggeredRule>triggered_rule_default</triggeredRule></advancedFraudResults></fraudCheckResponse></litleOnlineResponse >");
+                .Returns("<cnpOnlineResponse version='10.1' response='0' message='Valid Format' xmlns='http://www.vantivcnp.com/schema'><fraudCheckResponse id='127' reportGroup='Planets' customerId=''><cnpTxnId>742802348034313000</cnpTxnId><response>000</response><message>Approved</message><advancedFraudResults><deviceReviewStatus>pass</deviceReviewStatus><deviceReputationScore>42</deviceReputationScore><triggeredRule>triggered_rule_default</triggeredRule></advancedFraudResults></fraudCheckResponse></cnpOnlineResponse >");
 
             Communications mockedCommunication = mock.Object;
-            litle.setCommunication(mockedCommunication);
-            fraudCheckResponse fraudCheckResponse = litle.FraudCheck(fraudCheck);
+            cnp.setCommunication(mockedCommunication);
+            fraudCheckResponse fraudCheckResponse = cnp.FraudCheck(fraudCheck);
 
             Assert.NotNull(fraudCheckResponse);
             Assert.AreEqual(42, fraudCheckResponse.advancedFraudResults.deviceReputationScore);
@@ -77,11 +77,11 @@ namespace Litle.Sdk.Test.Unit
             var mock = new Mock<Communications>();
 
             mock.Setup(Communications => Communications.HttpPost(It.IsRegex("..*<threatMetrixSessionId>123</threatMetrixSessionId>\r\n<customAttribute1>abc</customAttribute1>\r\n<customAttribute2>def</customAttribute2>\r\n.*", RegexOptions.Singleline), It.IsAny<Dictionary<String, String>>()))
-                .Returns("<litleOnlineResponse version='10.1' response='0' message='Valid Format' xmlns='http://www.litle.com/schema'><fraudCheckResponse id='127' reportGroup='Planets' customerId=''><litleTxnId>742802348034313000</litleTxnId><response>000</response><message>Approved</message><advancedFraudResults><deviceReviewStatus>pass</deviceReviewStatus><deviceReputationScore>42</deviceReputationScore><triggeredRule>triggered_rule_default</triggeredRule></advancedFraudResults></fraudCheckResponse></litleOnlineResponse >");
+                .Returns("<cnpOnlineResponse version='10.1' response='0' message='Valid Format' xmlns='http://www.vantivcnp.com/schema'><fraudCheckResponse id='127' reportGroup='Planets' customerId=''><cnpTxnId>742802348034313000</cnpTxnId><response>000</response><message>Approved</message><advancedFraudResults><deviceReviewStatus>pass</deviceReviewStatus><deviceReputationScore>42</deviceReputationScore><triggeredRule>triggered_rule_default</triggeredRule></advancedFraudResults></fraudCheckResponse></cnpOnlineResponse >");
 
             Communications mockedCommunication = mock.Object;
-            litle.setCommunication(mockedCommunication);
-            fraudCheckResponse fraudCheckResponse = litle.FraudCheck(fraudCheck);
+            cnp.setCommunication(mockedCommunication);
+            fraudCheckResponse fraudCheckResponse = cnp.FraudCheck(fraudCheck);
 
             Assert.NotNull(fraudCheckResponse);
             Assert.AreEqual("triggered_rule_default", fraudCheckResponse.advancedFraudResults.triggeredRule);
@@ -101,11 +101,11 @@ namespace Litle.Sdk.Test.Unit
             var mock = new Mock<Communications>();
 
             mock.Setup(Communications => Communications.HttpPost(It.IsRegex("..*<threatMetrixSessionId>123</threatMetrixSessionId>\r\n<customAttribute1>abc</customAttribute1>\r\n<customAttribute2>def</customAttribute2>\r\n<customAttribute3>ghi</customAttribute3>\r\n.*", RegexOptions.Singleline), It.IsAny<Dictionary<String, String>>()))
-                .Returns("<litleOnlineResponse version='10.1' response='0' message='Valid Format' xmlns='http://www.litle.com/schema'><fraudCheckResponse id='127' reportGroup='Planets' customerId=''><litleTxnId>742802348034313000</litleTxnId><response>000</response><message>Approved</message><advancedFraudResults><deviceReviewStatus>pass</deviceReviewStatus><deviceReputationScore>42</deviceReputationScore><triggeredRule>triggered_rule_default</triggeredRule></advancedFraudResults></fraudCheckResponse></litleOnlineResponse >");
+                .Returns("<cnpOnlineResponse version='10.1' response='0' message='Valid Format' xmlns='http://www.vantivcnp.com/schema'><fraudCheckResponse id='127' reportGroup='Planets' customerId=''><cnpTxnId>742802348034313000</cnpTxnId><response>000</response><message>Approved</message><advancedFraudResults><deviceReviewStatus>pass</deviceReviewStatus><deviceReputationScore>42</deviceReputationScore><triggeredRule>triggered_rule_default</triggeredRule></advancedFraudResults></fraudCheckResponse></cnpOnlineResponse >");
 
             Communications mockedCommunication = mock.Object;
-            litle.setCommunication(mockedCommunication);
-            fraudCheckResponse fraudCheckResponse = litle.FraudCheck(fraudCheck);
+            cnp.setCommunication(mockedCommunication);
+            fraudCheckResponse fraudCheckResponse = cnp.FraudCheck(fraudCheck);
 
             Assert.NotNull(fraudCheckResponse);
             Assert.AreEqual("Approved", fraudCheckResponse.message);
@@ -126,11 +126,11 @@ namespace Litle.Sdk.Test.Unit
             var mock = new Mock<Communications>();
 
             mock.Setup(Communications => Communications.HttpPost(It.IsRegex("..*<threatMetrixSessionId>123</threatMetrixSessionId>\r\n<customAttribute1>abc</customAttribute1>\r\n<customAttribute2>def</customAttribute2>\r\n<customAttribute3>ghi</customAttribute3>\r\n<customAttribute4>jkl</customAttribute4>\r\n.*", RegexOptions.Singleline), It.IsAny<Dictionary<String, String>>()))
-                .Returns("<litleOnlineResponse version='10.1' response='0' message='Valid Format' xmlns='http://www.litle.com/schema'><fraudCheckResponse id='127' reportGroup='Planets' customerId=''><litleTxnId>742802348034313000</litleTxnId><response>000</response><message>Approved</message><advancedFraudResults><deviceReviewStatus>pass</deviceReviewStatus><deviceReputationScore>42</deviceReputationScore><triggeredRule>triggered_rule_default</triggeredRule></advancedFraudResults></fraudCheckResponse></litleOnlineResponse >");
+                .Returns("<cnpOnlineResponse version='10.1' response='0' message='Valid Format' xmlns='http://www.vantivcnp.com/schema'><fraudCheckResponse id='127' reportGroup='Planets' customerId=''><cnpTxnId>742802348034313000</cnpTxnId><response>000</response><message>Approved</message><advancedFraudResults><deviceReviewStatus>pass</deviceReviewStatus><deviceReputationScore>42</deviceReputationScore><triggeredRule>triggered_rule_default</triggeredRule></advancedFraudResults></fraudCheckResponse></cnpOnlineResponse >");
 
             Communications mockedCommunication = mock.Object;
-            litle.setCommunication(mockedCommunication);
-            fraudCheckResponse fraudCheckResponse = litle.FraudCheck(fraudCheck);
+            cnp.setCommunication(mockedCommunication);
+            fraudCheckResponse fraudCheckResponse = cnp.FraudCheck(fraudCheck);
 
             Assert.NotNull(fraudCheckResponse);
             Assert.AreEqual("000", fraudCheckResponse.response);
@@ -152,14 +152,14 @@ namespace Litle.Sdk.Test.Unit
             var mock = new Mock<Communications>();
 
             mock.Setup(Communications => Communications.HttpPost(It.IsRegex("..*<threatMetrixSessionId>123</threatMetrixSessionId>\r\n<customAttribute1>abc</customAttribute1>\r\n<customAttribute2>def</customAttribute2>\r\n<customAttribute3>ghi</customAttribute3>\r\n<customAttribute4>jkl</customAttribute4>\r\n<customAttribute5>mno</customAttribute5>\r\n.*", RegexOptions.Singleline), It.IsAny<Dictionary<String, String>>()))
-                .Returns("<litleOnlineResponse version='10.1' response='0' message='Valid Format' xmlns='http://www.litle.com/schema'><fraudCheckResponse id='127' reportGroup='Planets' customerId=''><litleTxnId>742802348034313000</litleTxnId><response>000</response><message>Approved</message><advancedFraudResults><deviceReviewStatus>pass</deviceReviewStatus><deviceReputationScore>42</deviceReputationScore><triggeredRule>triggered_rule_default</triggeredRule></advancedFraudResults></fraudCheckResponse></litleOnlineResponse >");
+                .Returns("<cnpOnlineResponse version='10.1' response='0' message='Valid Format' xmlns='http://www.vantivcnp.com/schema'><fraudCheckResponse id='127' reportGroup='Planets' customerId=''><cnpTxnId>742802348034313000</cnpTxnId><response>000</response><message>Approved</message><advancedFraudResults><deviceReviewStatus>pass</deviceReviewStatus><deviceReputationScore>42</deviceReputationScore><triggeredRule>triggered_rule_default</triggeredRule></advancedFraudResults></fraudCheckResponse></cnpOnlineResponse >");
 
             Communications mockedCommunication = mock.Object;
-            litle.setCommunication(mockedCommunication);
-            fraudCheckResponse fraudCheckResponse = litle.FraudCheck(fraudCheck);
+            cnp.setCommunication(mockedCommunication);
+            fraudCheckResponse fraudCheckResponse = cnp.FraudCheck(fraudCheck);
 
             Assert.NotNull(fraudCheckResponse);
-            Assert.AreEqual(742802348034313000, fraudCheckResponse.litleTxnId);
+            Assert.AreEqual(742802348034313000, fraudCheckResponse.cnpTxnId);
         }
 
     }

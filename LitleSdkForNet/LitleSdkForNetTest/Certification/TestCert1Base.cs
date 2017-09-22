@@ -2,14 +2,14 @@
 using System.Collections.Generic;
 using System.Text;
 using NUnit.Framework;
-using Litle.Sdk;
+using Cnp.Sdk;
 
-namespace Litle.Sdk.Test.Certification
+namespace Cnp.Sdk.Test.Certification
 {
     [TestFixture]
     class TestCert1Base
     {
-        private LitleOnline litle;
+        private CnpOnline cnp;
 
         [TestFixtureSetUp]
         public void setUp()
@@ -27,7 +27,7 @@ namespace Litle.Sdk.Test.Certification
             config.Add("neuterAccountNums", null);
             config.Add("proxyHost", Properties.Settings.Default.proxyHost);
             config.Add("proxyPort", Properties.Settings.Default.proxyPort);
-            litle = new LitleOnline(config);
+            cnp = new CnpOnline(config);
         }
 
 
@@ -55,7 +55,7 @@ namespace Litle.Sdk.Test.Certification
             card.cardValidationNum = "349";
             authorization.card = card;
 
-            authorizationResponse response = litle.Authorize(authorization);
+            authorizationResponse response = cnp.Authorize(authorization);
             Assert.AreEqual("000", response.response);
             Assert.AreEqual("Approved", response.message);
             Assert.AreEqual("11111 ", response.authCode);
@@ -64,22 +64,22 @@ namespace Litle.Sdk.Test.Certification
 
             capture capture = new capture();
             capture.id = response.id;
-            capture.litleTxnId = response.litleTxnId;
-            captureResponse captureResponse = litle.Capture(capture);
+            capture.cnpTxnId = response.cnpTxnId;
+            captureResponse captureResponse = cnp.Capture(capture);
             Assert.AreEqual("000", captureResponse.response);
             Assert.AreEqual("Approved", captureResponse.message);
 
             credit credit = new credit();
             credit.id = captureResponse.id;
-            credit.litleTxnId = captureResponse.litleTxnId;
-            creditResponse creditResponse = litle.Credit(credit);
+            credit.cnpTxnId = captureResponse.cnpTxnId;
+            creditResponse creditResponse = cnp.Credit(credit);
             Assert.AreEqual("000", creditResponse.response);
             Assert.AreEqual("Approved", creditResponse.message);
 
             voidTxn newvoid = new voidTxn();
             newvoid.id = creditResponse.id;
-            newvoid.litleTxnId = creditResponse.litleTxnId;
-            litleOnlineResponseTransactionResponseVoidResponse voidResponse = litle.DoVoid(newvoid);
+            newvoid.cnpTxnId = creditResponse.cnpTxnId;
+            cnpOnlineResponseTransactionResponseVoidResponse voidResponse = cnp.DoVoid(newvoid);
             Assert.AreEqual("000", voidResponse.response);
             Assert.AreEqual("Approved", voidResponse.message);
         }
@@ -107,7 +107,7 @@ namespace Litle.Sdk.Test.Certification
             card.cardValidationNum = "349";
             authorization.card = card;
 
-            authorizationResponse response = litle.Authorize(authorization);
+            authorizationResponse response = cnp.Authorize(authorization);
             Assert.AreEqual("000", response.response);
             Assert.AreEqual("Approved", response.message);
             Assert.AreEqual("11111 ", response.authCode);
@@ -138,7 +138,7 @@ namespace Litle.Sdk.Test.Certification
             card.cardValidationNum = "349";
             sale.card = card;
 
-            saleResponse response = litle.Sale(sale);
+            saleResponse response = cnp.Sale(sale);
             Assert.AreEqual("000", response.response);
             Assert.AreEqual("Approved", response.message);
             Assert.AreEqual("11111 ", response.authCode);
@@ -147,16 +147,16 @@ namespace Litle.Sdk.Test.Certification
 
             credit credit = new credit();
             credit.id = response.id;
-            credit.litleTxnId = response.litleTxnId;
-            creditResponse creditResponse = litle.Credit(credit);
+            credit.cnpTxnId = response.cnpTxnId;
+            creditResponse creditResponse = cnp.Credit(credit);
             Assert.AreEqual("000", creditResponse.response);
             Assert.AreEqual("Approved", creditResponse.message);
 
 
             voidTxn newvoid = new voidTxn();
             newvoid.id = creditResponse.id;
-            newvoid.litleTxnId = creditResponse.litleTxnId;
-            litleOnlineResponseTransactionResponseVoidResponse voidResponse = litle.DoVoid(newvoid);
+            newvoid.cnpTxnId = creditResponse.cnpTxnId;
+            cnpOnlineResponseTransactionResponseVoidResponse voidResponse = cnp.DoVoid(newvoid);
             Assert.AreEqual("000",voidResponse.response);
             Assert.AreEqual("Approved", voidResponse.message);
         }
@@ -188,7 +188,7 @@ namespace Litle.Sdk.Test.Certification
             authenticationvalue.authenticationValue = "BwABBJQ1AgAAAAAgJDUCAAAAAAA=";
             authorization.cardholderAuthentication = authenticationvalue;
 
-            authorizationResponse response = litle.Authorize(authorization);
+            authorizationResponse response = cnp.Authorize(authorization);
             Assert.AreEqual("000", response.response);
             Assert.AreEqual("Approved", response.message);
             Assert.AreEqual("22222", response.authCode);
@@ -197,22 +197,22 @@ namespace Litle.Sdk.Test.Certification
 
             capture capture = new capture();
             capture.id = response.id;
-            capture.litleTxnId = response.litleTxnId;
-            captureResponse captureresponse = litle.Capture(capture);
+            capture.cnpTxnId = response.cnpTxnId;
+            captureResponse captureresponse = cnp.Capture(capture);
             Assert.AreEqual("000", captureresponse.response);
             Assert.AreEqual("Approved", captureresponse.message);
 
             credit credit = new credit();
             credit.id = captureresponse.id;
-            credit.litleTxnId = captureresponse.litleTxnId;
-            creditResponse creditResponse = litle.Credit(credit);
+            credit.cnpTxnId = captureresponse.cnpTxnId;
+            creditResponse creditResponse = cnp.Credit(credit);
             Assert.AreEqual("000", creditResponse.response);
             Assert.AreEqual("Approved", creditResponse.message);
 
             voidTxn newvoid = new voidTxn();
             newvoid.id = creditResponse.id;
-            newvoid.litleTxnId = creditResponse.litleTxnId;
-            litleOnlineResponseTransactionResponseVoidResponse voidResponse = litle.DoVoid(newvoid);
+            newvoid.cnpTxnId = creditResponse.cnpTxnId;
+            cnpOnlineResponseTransactionResponseVoidResponse voidResponse = cnp.DoVoid(newvoid);
             Assert.AreEqual("000",voidResponse.response);
             Assert.AreEqual("Approved", voidResponse.message);
         }
@@ -244,7 +244,7 @@ namespace Litle.Sdk.Test.Certification
             authenticationvalue.authenticationValue = "BwABBJQ1AgAAAAAgJDUCAAAAAAA=";
             authorization.cardholderAuthentication = authenticationvalue;
 
-            authorizationResponse response = litle.Authorize(authorization);
+            authorizationResponse response = cnp.Authorize(authorization);
             Assert.AreEqual("000", response.response);
             Assert.AreEqual("Approved", response.message);
             Assert.AreEqual("22222", response.authCode);
@@ -280,7 +280,7 @@ namespace Litle.Sdk.Test.Certification
             authenticationvalue.authenticationValue = "BwABBJQ1AgAAAAAgJDUCAAAAAAA=";
             sale.cardholderAuthentication = authenticationvalue;
 
-            saleResponse response = litle.Sale(sale);
+            saleResponse response = cnp.Sale(sale);
             Assert.AreEqual("000", response.response);
             Assert.AreEqual("Approved", response.message);
             Assert.AreEqual("22222", response.authCode);
@@ -289,15 +289,15 @@ namespace Litle.Sdk.Test.Certification
 
             credit credit = new credit();
             credit.id = response.id;
-            credit.litleTxnId = response.litleTxnId;
-            creditResponse creditResponse = litle.Credit(credit);
+            credit.cnpTxnId = response.cnpTxnId;
+            creditResponse creditResponse = cnp.Credit(credit);
             Assert.AreEqual("000", creditResponse.response);
             Assert.AreEqual("Approved", creditResponse.message);
 
             voidTxn newvoid = new voidTxn();
             newvoid.id = creditResponse.id;
-            newvoid.litleTxnId = creditResponse.litleTxnId;
-            litleOnlineResponseTransactionResponseVoidResponse voidResponse = litle.DoVoid(newvoid);
+            newvoid.cnpTxnId = creditResponse.cnpTxnId;
+            cnpOnlineResponseTransactionResponseVoidResponse voidResponse = cnp.DoVoid(newvoid);
             Assert.AreEqual("000", voidResponse.response);
             Assert.AreEqual("Approved", voidResponse.message);
         }
@@ -325,7 +325,7 @@ namespace Litle.Sdk.Test.Certification
             card.cardValidationNum = "758";
             authorization.card = card;
 
-            authorizationResponse response = litle.Authorize(authorization);
+            authorizationResponse response = cnp.Authorize(authorization);
             Assert.AreEqual("000", response.response);
             Assert.AreEqual("Approved", response.message);
             Assert.AreEqual("33333", response.authCode);
@@ -334,22 +334,22 @@ namespace Litle.Sdk.Test.Certification
 
             capture capture = new capture();
             capture.id = response.id;
-            capture.litleTxnId = response.litleTxnId;
-            captureResponse captureResponse = litle.Capture(capture);
+            capture.cnpTxnId = response.cnpTxnId;
+            captureResponse captureResponse = cnp.Capture(capture);
             Assert.AreEqual("000", captureResponse.response);
             Assert.AreEqual("Approved", captureResponse.message);
 
             credit credit = new credit();
             credit.id = captureResponse.id;
-            credit.litleTxnId = captureResponse.litleTxnId;
-            creditResponse creditResponse = litle.Credit(credit);
+            credit.cnpTxnId = captureResponse.cnpTxnId;
+            creditResponse creditResponse = cnp.Credit(credit);
             Assert.AreEqual("000", creditResponse.response);
             Assert.AreEqual("Approved", creditResponse.message);
 
             voidTxn newvoid = new voidTxn();
             newvoid.id = creditResponse.id;
-            newvoid.litleTxnId = creditResponse.litleTxnId;
-            litleOnlineResponseTransactionResponseVoidResponse voidResponse = litle.DoVoid(newvoid);
+            newvoid.cnpTxnId = creditResponse.cnpTxnId;
+            cnpOnlineResponseTransactionResponseVoidResponse voidResponse = cnp.DoVoid(newvoid);
             Assert.AreEqual("000", voidResponse.response);
             Assert.AreEqual("Approved", voidResponse.message);
         }
@@ -377,7 +377,7 @@ namespace Litle.Sdk.Test.Certification
             card.cardValidationNum = "758";
             authorization.card = card;
 
-            authorizationResponse response = litle.Authorize(authorization);
+            authorizationResponse response = cnp.Authorize(authorization);
             Assert.AreEqual("000", response.response);
             Assert.AreEqual("Approved", response.message);
             Assert.AreEqual("33333", response.authCode);
@@ -409,7 +409,7 @@ namespace Litle.Sdk.Test.Certification
             card.cardValidationNum = "758";
             sale.card = card;
 
-            saleResponse response = litle.Sale(sale);
+            saleResponse response = cnp.Sale(sale);
             Assert.AreEqual("000", response.response);
             Assert.AreEqual("Approved", response.message);
             Assert.AreEqual("33333", response.authCode);
@@ -418,15 +418,15 @@ namespace Litle.Sdk.Test.Certification
 
             credit credit = new credit();
             credit.id = response.id;
-            credit.litleTxnId = response.litleTxnId;
-            creditResponse creditResponse = litle.Credit(credit);
+            credit.cnpTxnId = response.cnpTxnId;
+            creditResponse creditResponse = cnp.Credit(credit);
             Assert.AreEqual("000", creditResponse.response);
             Assert.AreEqual("Approved", creditResponse.message);
 
             voidTxn newvoid = new voidTxn();
             newvoid.id = creditResponse.id;
-            newvoid.litleTxnId = creditResponse.litleTxnId;
-            litleOnlineResponseTransactionResponseVoidResponse voidResponse = litle.DoVoid(newvoid);
+            newvoid.cnpTxnId = creditResponse.cnpTxnId;
+            cnpOnlineResponseTransactionResponseVoidResponse voidResponse = cnp.DoVoid(newvoid);
             Assert.AreEqual("000", voidResponse.response);
             Assert.AreEqual("Approved", voidResponse.message);
         }
@@ -454,7 +454,7 @@ namespace Litle.Sdk.Test.Certification
             card.cardValidationNum = "758";
             authorization.card = card;
 
-            authorizationResponse response = litle.Authorize(authorization);
+            authorizationResponse response = cnp.Authorize(authorization);
             Assert.AreEqual("000", response.response);
             Assert.AreEqual("Approved", response.message);
             Assert.AreEqual("44444", response.authCode);
@@ -462,22 +462,22 @@ namespace Litle.Sdk.Test.Certification
 
             capture capture = new capture();
             capture.id = response.id;
-            capture.litleTxnId = response.litleTxnId;
-            captureResponse captureresponse = litle.Capture(capture);
+            capture.cnpTxnId = response.cnpTxnId;
+            captureResponse captureresponse = cnp.Capture(capture);
             Assert.AreEqual("000", captureresponse.response);
             Assert.AreEqual("Approved", captureresponse.message);
 
             credit credit = new credit();
             credit.id = captureresponse.id;
-            credit.litleTxnId = captureresponse.litleTxnId;
-            creditResponse creditResponse = litle.Credit(credit);
+            credit.cnpTxnId = captureresponse.cnpTxnId;
+            creditResponse creditResponse = cnp.Credit(credit);
             Assert.AreEqual("000", creditResponse.response);
             Assert.AreEqual("Approved", creditResponse.message);
 
             voidTxn newvoid = new voidTxn();
             newvoid.id = creditResponse.id;
-            newvoid.litleTxnId = creditResponse.litleTxnId;
-            litleOnlineResponseTransactionResponseVoidResponse voidResponse = litle.DoVoid(newvoid);
+            newvoid.cnpTxnId = creditResponse.cnpTxnId;
+            cnpOnlineResponseTransactionResponseVoidResponse voidResponse = cnp.DoVoid(newvoid);
             Assert.AreEqual("000", voidResponse.response);
             Assert.AreEqual("Approved", voidResponse.message);
         }
@@ -505,7 +505,7 @@ namespace Litle.Sdk.Test.Certification
             card.cardValidationNum = "758";
             authorization.card = card;
 
-            authorizationResponse response = litle.Authorize(authorization);
+            authorizationResponse response = cnp.Authorize(authorization);
             Assert.AreEqual("000", response.response);
             Assert.AreEqual("Approved", response.message);
             Assert.AreEqual("44444", response.authCode);
@@ -535,7 +535,7 @@ namespace Litle.Sdk.Test.Certification
             card.cardValidationNum = "758";
             sale.card = card;
 
-            saleResponse response = litle.Sale(sale);
+            saleResponse response = cnp.Sale(sale);
             Assert.AreEqual("000", response.response);
             Assert.AreEqual("Approved", response.message);
             Assert.AreEqual("44444", response.authCode);
@@ -543,15 +543,15 @@ namespace Litle.Sdk.Test.Certification
 
             credit credit = new credit();
             credit.id = response.id;
-            credit.litleTxnId = response.litleTxnId;
-            creditResponse creditResponse = litle.Credit(credit);
+            credit.cnpTxnId = response.cnpTxnId;
+            creditResponse creditResponse = cnp.Credit(credit);
             Assert.AreEqual("000", creditResponse.response);
             Assert.AreEqual("Approved", creditResponse.message);
 
             voidTxn newvoid = new voidTxn();
             newvoid.id = creditResponse.id;
-            newvoid.litleTxnId = creditResponse.litleTxnId;
-            litleOnlineResponseTransactionResponseVoidResponse voidResponse = litle.DoVoid(newvoid);
+            newvoid.cnpTxnId = creditResponse.cnpTxnId;
+            cnpOnlineResponseTransactionResponseVoidResponse voidResponse = cnp.DoVoid(newvoid);
             Assert.AreEqual("000", voidResponse.response);
             Assert.AreEqual("Approved", voidResponse.message);
         }
@@ -574,7 +574,7 @@ namespace Litle.Sdk.Test.Certification
             authenticationvalue.authenticationValue = "BwABBJQ1AgAAAAAgJDUCAAAAAAA=";
             authorization.cardholderAuthentication = authenticationvalue;
 
-            authorizationResponse response = litle.Authorize(authorization);
+            authorizationResponse response = cnp.Authorize(authorization);
             Assert.AreEqual("000", response.response);
             Assert.AreEqual("Approved", response.message);
             Assert.AreEqual("55555 ", response.authCode);
@@ -583,22 +583,22 @@ namespace Litle.Sdk.Test.Certification
 
             capture capture = new capture();
             capture.id = response.id;
-            capture.litleTxnId = response.litleTxnId;
-            captureResponse captureresponse = litle.Capture(capture);
+            capture.cnpTxnId = response.cnpTxnId;
+            captureResponse captureresponse = cnp.Capture(capture);
             Assert.AreEqual("000", captureresponse.response);
             Assert.AreEqual("Approved", captureresponse.message);
 
             credit credit = new credit();
             credit.id = captureresponse.id;
-            credit.litleTxnId = captureresponse.litleTxnId;
-            creditResponse creditResponse = litle.Credit(credit);
+            credit.cnpTxnId = captureresponse.cnpTxnId;
+            creditResponse creditResponse = cnp.Credit(credit);
             Assert.AreEqual("000", creditResponse.response);
             Assert.AreEqual("Approved", creditResponse.message);
 
             voidTxn newvoid = new voidTxn();
             newvoid.id = creditResponse.id;
-            newvoid.litleTxnId = creditResponse.litleTxnId;
-            litleOnlineResponseTransactionResponseVoidResponse voidResponse = litle.DoVoid(newvoid);
+            newvoid.cnpTxnId = creditResponse.cnpTxnId;
+            cnpOnlineResponseTransactionResponseVoidResponse voidResponse = cnp.DoVoid(newvoid);
             Assert.AreEqual("000", voidResponse.response);
             Assert.AreEqual("Approved", voidResponse.message);
         }
@@ -621,7 +621,7 @@ namespace Litle.Sdk.Test.Certification
             authenticationvalue.authenticationValue = "BwABBJQ1AgAAAAAgJDUCAAAAAAA=";
             authorization.cardholderAuthentication = authenticationvalue;
 
-            authorizationResponse response = litle.Authorize(authorization);
+            authorizationResponse response = cnp.Authorize(authorization);
             Assert.AreEqual("000", response.response);
             Assert.AreEqual("Approved", response.message);
             Assert.AreEqual("55555 ", response.authCode);
@@ -647,7 +647,7 @@ namespace Litle.Sdk.Test.Certification
             authenticationvalue.authenticationValue = "BwABBJQ1AgAAAAAgJDUCAAAAAAA=";
             sale.cardholderAuthentication = authenticationvalue;
 
-            saleResponse response = litle.Sale(sale);
+            saleResponse response = cnp.Sale(sale);
             Assert.AreEqual("000", response.response);
             Assert.AreEqual("Approved", response.message);
             Assert.AreEqual("55555 ", response.authCode);
@@ -656,15 +656,15 @@ namespace Litle.Sdk.Test.Certification
 
             credit credit = new credit();
             credit.id = response.id;
-            credit.litleTxnId = response.litleTxnId;
-            creditResponse creditResponse = litle.Credit(credit);
+            credit.cnpTxnId = response.cnpTxnId;
+            creditResponse creditResponse = cnp.Credit(credit);
             Assert.AreEqual("000", creditResponse.response);
             Assert.AreEqual("Approved", creditResponse.message);
 
             voidTxn newvoid = new voidTxn();
             newvoid.id = creditResponse.id;
-            newvoid.litleTxnId = creditResponse.litleTxnId;
-            litleOnlineResponseTransactionResponseVoidResponse voidResponse = litle.DoVoid(newvoid);
+            newvoid.cnpTxnId = creditResponse.cnpTxnId;
+            cnpOnlineResponseTransactionResponseVoidResponse voidResponse = cnp.DoVoid(newvoid);
             Assert.AreEqual("000", voidResponse.response);
             Assert.AreEqual("Approved", voidResponse.message);
         }
@@ -692,7 +692,7 @@ namespace Litle.Sdk.Test.Certification
             card.cardValidationNum = "992";
             authorization.card = card;
 
-            authorizationResponse response = litle.Authorize(authorization);
+            authorizationResponse response = cnp.Authorize(authorization);
             Assert.AreEqual("110", response.response);
             Assert.AreEqual("Insufficient Funds", response.message);
             Assert.AreEqual("34", response.fraudResult.avsResult);
@@ -722,7 +722,7 @@ namespace Litle.Sdk.Test.Certification
             card.cardValidationNum = "992";
             sale.card = card;
 
-            saleResponse response = litle.Sale(sale);
+            saleResponse response = cnp.Sale(sale);
             Assert.AreEqual("110", response.response);
             Assert.AreEqual("Insufficient Funds", response.message);
             Assert.AreEqual("34", response.fraudResult.avsResult);
@@ -730,8 +730,8 @@ namespace Litle.Sdk.Test.Certification
 
             voidTxn newvoid = new voidTxn();
             newvoid.id = response.id;
-            newvoid.litleTxnId = response.litleTxnId;
-            litleOnlineResponseTransactionResponseVoidResponse voidResponse = litle.DoVoid(newvoid);
+            newvoid.cnpTxnId = response.cnpTxnId;
+            cnpOnlineResponseTransactionResponseVoidResponse voidResponse = cnp.DoVoid(newvoid);
             Assert.AreEqual("000", voidResponse.response);
             Assert.AreEqual("Approved", voidResponse.message);
         }
@@ -759,7 +759,7 @@ namespace Litle.Sdk.Test.Certification
             card.cardValidationNum = "251";
             authorization.card = card;
 
-            authorizationResponse response = litle.Authorize(authorization);
+            authorizationResponse response = cnp.Authorize(authorization);
             Assert.AreEqual("301", response.response);
             Assert.AreEqual("Invalid Account Number", response.message);
             Assert.AreEqual("34", response.fraudResult.avsResult);
@@ -789,7 +789,7 @@ namespace Litle.Sdk.Test.Certification
             card.cardValidationNum = "251";
             authorization.card = card;
 
-            authorizationResponse response = litle.Authorize(authorization);
+            authorizationResponse response = cnp.Authorize(authorization);
             Assert.AreEqual("301", response.response);
             Assert.AreEqual("Invalid Account Number", response.message);
             Assert.AreEqual("34", response.fraudResult.avsResult);
@@ -819,7 +819,7 @@ namespace Litle.Sdk.Test.Certification
             card.cardValidationNum = "251";
             sale.card = card;
 
-            saleResponse response = litle.Sale(sale);
+            saleResponse response = cnp.Sale(sale);
             Assert.AreEqual("301", response.response);
             Assert.AreEqual("Invalid Account Number", response.message);
             Assert.AreEqual("34", response.fraudResult.avsResult);
@@ -849,7 +849,7 @@ namespace Litle.Sdk.Test.Certification
             card.cardValidationNum = "184";
             authorization.card = card;
 
-            authorizationResponse response = litle.Authorize(authorization);
+            authorizationResponse response = cnp.Authorize(authorization);
             Assert.AreEqual("123", response.response);
             Assert.AreEqual("Call Discover", response.message);
             Assert.AreEqual("34", response.fraudResult.avsResult);
@@ -879,7 +879,7 @@ namespace Litle.Sdk.Test.Certification
             card.cardValidationNum = "184";
             authorization.card = card;
 
-            authorizationResponse response = litle.Authorize(authorization);
+            authorizationResponse response = cnp.Authorize(authorization);
             Assert.AreEqual("123", response.response);
             Assert.AreEqual("Call Discover", response.message);
             Assert.AreEqual("34", response.fraudResult.avsResult);
@@ -909,7 +909,7 @@ namespace Litle.Sdk.Test.Certification
             card.cardValidationNum = "184";
             sale.card = card;
 
-            saleResponse response = litle.Sale(sale);
+            saleResponse response = cnp.Sale(sale);
             Assert.AreEqual("123", response.response);
             Assert.AreEqual("Call Discover", response.message);
             Assert.AreEqual("34", response.fraudResult.avsResult);
@@ -939,7 +939,7 @@ namespace Litle.Sdk.Test.Certification
             card.cardValidationNum = "0421";
             authorization.card = card;
 
-            authorizationResponse response = litle.Authorize(authorization);
+            authorizationResponse response = cnp.Authorize(authorization);
             Assert.AreEqual("303", response.response);
             Assert.AreEqual("Pick Up Card", response.message);
             Assert.AreEqual("34", response.fraudResult.avsResult);
@@ -968,7 +968,7 @@ namespace Litle.Sdk.Test.Certification
             card.cardValidationNum = "0421";
             authorization.card = card;
 
-            authorizationResponse response = litle.Authorize(authorization);
+            authorizationResponse response = cnp.Authorize(authorization);
             Assert.AreEqual("303", response.response);
             Assert.AreEqual("Pick Up Card", response.message);
             Assert.AreEqual("34", response.fraudResult.avsResult);
@@ -997,7 +997,7 @@ namespace Litle.Sdk.Test.Certification
             card.cardValidationNum = "0421";
             sale.card = card;
 
-            saleResponse response = litle.Sale(sale);
+            saleResponse response = cnp.Sale(sale);
             Assert.AreEqual("303", response.response);
             Assert.AreEqual("Pick Up Card", response.message);
             Assert.AreEqual("34", response.fraudResult.avsResult);
@@ -1018,7 +1018,7 @@ namespace Litle.Sdk.Test.Certification
             authorization.card = card;
             authorization.allowPartialAuth = true;
 
-            authorizationResponse response = litle.Authorize(authorization);
+            authorizationResponse response = cnp.Authorize(authorization);
             Assert.AreEqual("010", response.response);
             Assert.AreEqual("Partially Approved", response.message);
             Assert.AreEqual("32000", response.approvedAmount);
@@ -1039,7 +1039,7 @@ namespace Litle.Sdk.Test.Certification
             authorization.card = card;
             authorization.allowPartialAuth = true;
 
-            authorizationResponse response = litle.Authorize(authorization);
+            authorizationResponse response = cnp.Authorize(authorization);
             Assert.AreEqual("010", response.response);
             Assert.AreEqual("Partially Approved", response.message);
             Assert.AreEqual("48000", response.approvedAmount);
@@ -1060,7 +1060,7 @@ namespace Litle.Sdk.Test.Certification
             authorization.card = card;
             authorization.allowPartialAuth = true;
 
-            authorizationResponse response = litle.Authorize(authorization);
+            authorizationResponse response = cnp.Authorize(authorization);
             Assert.AreEqual("010", response.response);
             Assert.AreEqual("Partially Approved", response.message);
             Assert.AreEqual("40000", response.approvedAmount);
@@ -1081,7 +1081,7 @@ namespace Litle.Sdk.Test.Certification
             authorization.card = card;
             authorization.allowPartialAuth = true;
 
-            authorizationResponse response = litle.Authorize(authorization);
+            authorizationResponse response = cnp.Authorize(authorization);
             Assert.AreEqual("010", response.response);
             Assert.AreEqual("Partially Approved", response.message);
             Assert.AreEqual("12000", response.approvedAmount);

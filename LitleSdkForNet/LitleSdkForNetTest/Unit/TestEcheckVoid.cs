@@ -2,39 +2,39 @@
 using System.Collections.Generic;
 using System.Text;
 using NUnit.Framework;
-using Litle.Sdk;
+using Cnp.Sdk;
 using Moq;
 using System.Text.RegularExpressions;
 
 
-namespace Litle.Sdk.Test.Unit
+namespace Cnp.Sdk.Test.Unit
 {
     [TestFixture]
     class TestEcheckVoid
     {
         
-        private LitleOnline litle;
+        private CnpOnline cnp;
 
         [TestFixtureSetUp]
-        public void SetUpLitle()
+        public void SetUpCnp()
         {
-            litle = new LitleOnline();
+            cnp = new CnpOnline();
         }
 
         [Test]
         public void TestFraudFilterOverride()
         {
             echeckVoid echeckVoid = new echeckVoid();
-            echeckVoid.litleTxnId = 123456789;
+            echeckVoid.cnpTxnId = 123456789;
            
             var mock = new Mock<Communications>();
 
-            mock.Setup(Communications => Communications.HttpPost(It.IsRegex(".*<echeckVoid.*<litleTxnId>123456789.*", RegexOptions.Singleline), It.IsAny<Dictionary<String, String>>()))
-                .Returns("<litleOnlineResponse version='8.13' response='0' message='Valid Format' xmlns='http://www.litle.com/schema'><echeckVoidResponse><litleTxnId>123</litleTxnId></echeckVoidResponse></litleOnlineResponse>");
+            mock.Setup(Communications => Communications.HttpPost(It.IsRegex(".*<echeckVoid.*<cnpTxnId>123456789.*", RegexOptions.Singleline), It.IsAny<Dictionary<String, String>>()))
+                .Returns("<cnpOnlineResponse version='8.13' response='0' message='Valid Format' xmlns='http://www.vantivcnp.com/schema'><echeckVoidResponse><cnpTxnId>123</cnpTxnId></echeckVoidResponse></cnpOnlineResponse>");
      
             Communications mockedCommunication = mock.Object;
-            litle.setCommunication(mockedCommunication);
-            litle.EcheckVoid(echeckVoid);
+            cnp.setCommunication(mockedCommunication);
+            cnp.EcheckVoid(echeckVoid);
         }
 
         [Test]
@@ -51,7 +51,7 @@ namespace Litle.Sdk.Test.Unit
             card.number = "4100000000000000";
             card.expDate = "1210";
             forcecapture.card = card;
-            forceCaptureResponse response = litle.ForceCapture(forcecapture);
+            forceCaptureResponse response = cnp.ForceCapture(forcecapture);
             Assert.AreEqual("Approved", response.message);
         }
     }

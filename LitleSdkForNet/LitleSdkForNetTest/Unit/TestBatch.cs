@@ -2,41 +2,41 @@
 using System.Collections.Generic;
 using System.Text;
 using NUnit.Framework;
-using Litle.Sdk;
+using Cnp.Sdk;
 using Moq;
 using System.Text.RegularExpressions;
 using Moq.Language.Flow;
 using System.Xml;
 
 
-namespace Litle.Sdk.Test.Unit
+namespace Cnp.Sdk.Test.Unit
 {
     [TestFixture]
     class TestBatch
     {
-        private litleRequest litle;
+        private cnpRequest cnp;
         private const string timeFormat = "MM-dd-yyyy_HH-mm-ss-ffff_";
         private const string timeRegex = "[0-1][0-9]-[0-3][0-9]-[0-9]{4}_[0-9]{2}-[0-9]{2}-[0-9]{2}-[0-9]{4}_";
         private const string batchNameRegex = timeRegex + "[A-Z]{8}";
         private const string mockFileName = "TheRainbow.xml";
         private const string mockFilePath = "C:\\Somewhere\\Over\\" + mockFileName;
 
-        private Mock<litleTime> mockLitleTime;
-        private Mock<litleFile> mockLitleFile;
+        private Mock<cnpTime> mockCnpTime;
+        private Mock<cnpFile> mockCnpFile;
         private Mock<Communications> mockCommunications;
         private Mock<XmlReader> mockXmlReader;
 
         [TestFixtureSetUp]
         public void setUp()
         {
-            mockLitleTime = new Mock<litleTime>();
-            mockLitleTime.Setup(litleTime => litleTime.getCurrentTime(It.Is<String>(resultFormat => resultFormat == timeFormat))).Returns("01-01-1960_01-22-30-1234_");
+            mockCnpTime = new Mock<cnpTime>();
+            mockCnpTime.Setup(cnpTime => cnpTime.getCurrentTime(It.Is<String>(resultFormat => resultFormat == timeFormat))).Returns("01-01-1960_01-22-30-1234_");
 
-            mockLitleFile = new Mock<litleFile>();
-            mockLitleFile.Setup(litleFile => litleFile.createDirectory(It.IsAny<String>()));
-            mockLitleFile.Setup(litleFile => litleFile.createRandomFile(It.IsAny<String>(), It.IsAny<String>(), It.IsAny<String>(), mockLitleTime.Object)).Returns(mockFilePath);
-            mockLitleFile.Setup(litleFile => litleFile.AppendFileToFile(mockFilePath, It.IsAny<String>())).Returns(mockFilePath);
-            mockLitleFile.Setup(litleFile => litleFile.AppendLineToFile(mockFilePath, It.IsAny<String>())).Returns(mockFilePath);
+            mockCnpFile = new Mock<cnpFile>();
+            mockCnpFile.Setup(cnpFile => cnpFile.createDirectory(It.IsAny<String>()));
+            mockCnpFile.Setup(cnpFile => cnpFile.createRandomFile(It.IsAny<String>(), It.IsAny<String>(), It.IsAny<String>(), mockCnpTime.Object)).Returns(mockFilePath);
+            mockCnpFile.Setup(cnpFile => cnpFile.AppendFileToFile(mockFilePath, It.IsAny<String>())).Returns(mockFilePath);
+            mockCnpFile.Setup(cnpFile => cnpFile.AppendLineToFile(mockFilePath, It.IsAny<String>())).Returns(mockFilePath);
 
             mockCommunications = new Mock<Communications>();
         }
@@ -44,7 +44,7 @@ namespace Litle.Sdk.Test.Unit
         [SetUp]
         public void setUpBeforeEachTest()
         {
-            litle = new litleRequest();
+            cnp = new cnpRequest();
 
             mockXmlReader = new Mock<XmlReader>();
             mockXmlReader.SetupSequence(XmlReader => XmlReader.ReadToFollowing(It.IsAny<String>())).Returns(true).Returns(true).Returns(false);
@@ -74,15 +74,15 @@ namespace Litle.Sdk.Test.Unit
             mockConfig["requestDirectory"] = "C:\\MockRequests";
             mockConfig["responseDirectory"] = "C:\\MockResponses";
 
-            litle = new litleRequest(mockConfig);
+            cnp = new cnpRequest(mockConfig);
 
-            Assert.AreEqual("C:\\MockRequests\\Requests\\", litle.getRequestDirectory());
-            Assert.AreEqual("C:\\MockResponses\\Responses\\", litle.getResponseDirectory());
+            Assert.AreEqual("C:\\MockRequests\\Requests\\", cnp.getRequestDirectory());
+            Assert.AreEqual("C:\\MockResponses\\Responses\\", cnp.getResponseDirectory());
 
-            Assert.NotNull(litle.getCommunication());
-            Assert.NotNull(litle.getLitleTime());
-            Assert.NotNull(litle.getLitleFile());
-            Assert.NotNull(litle.getLitleXmlSerializer());
+            Assert.NotNull(cnp.getCommunication());
+            Assert.NotNull(cnp.getCnpTime());
+            Assert.NotNull(cnp.getCnpFile());
+            Assert.NotNull(cnp.getCnpXmlSerializer());
         }
 
         [Test]
@@ -97,49 +97,49 @@ namespace Litle.Sdk.Test.Unit
             card.expDate = "1210";
             accountUpdate.card = card;
 
-            var mockLitleResponse = new Mock<litleResponse>();
-            var mockLitleXmlSerializer = new Mock<litleXmlSerializer>();
+            var mockCnpResponse = new Mock<cnpResponse>();
+            var mockCnpXmlSerializer = new Mock<cnpXmlSerializer>();
 
             mockXmlReader.SetupSequence(XmlReader => XmlReader.ReadOuterXml())
-                .Returns("<accountUpdateResponse reportGroup=\"Merch01ReportGrp\" xmlns=\"http://www.litle.com/schema\"><litleTxnId>123</litleTxnId><orderId>MERCH01-0002</orderId><response>000</response><responseTime>2010-04-11T15:44:26</responseTime><message>Approved</message></accountUpdateResponse>")
-                .Returns("<accountUpdateResponse reportGroup=\"Merch01ReportGrp\" xmlns=\"http://www.litle.com/schema\"><litleTxnId>124</litleTxnId><orderId>MERCH01-0002</orderId><response>000</response><responseTime>2010-04-11T15:44:26</responseTime><message>Approved</message></accountUpdateResponse>");
+                .Returns("<accountUpdateResponse reportGroup=\"Merch01ReportGrp\" xmlns=\"http://www.cnp.com/schema\"><cnpTxnId>123</cnpTxnId><orderId>MERCH01-0002</orderId><response>000</response><responseTime>2010-04-11T15:44:26</responseTime><message>Approved</message></accountUpdateResponse>")
+                .Returns("<accountUpdateResponse reportGroup=\"Merch01ReportGrp\" xmlns=\"http://www.cnp.com/schema\"><cnpTxnId>124</cnpTxnId><orderId>MERCH01-0002</orderId><response>000</response><responseTime>2010-04-11T15:44:26</responseTime><message>Approved</message></accountUpdateResponse>");
 
-            batchResponse mockLitleBatchResponse = new batchResponse();
-            mockLitleBatchResponse.setAccountUpdateResponseReader(mockXmlReader.Object);
+            batchResponse mockCnpBatchResponse = new batchResponse();
+            mockCnpBatchResponse.setAccountUpdateResponseReader(mockXmlReader.Object);
 
-            mockLitleResponse.Setup(litleResponse => litleResponse.nextBatchResponse()).Returns(mockLitleBatchResponse);
-            litleResponse mockedLitleResponse = mockLitleResponse.Object;
+            mockCnpResponse.Setup(cnpResponse => cnpResponse.nextBatchResponse()).Returns(mockCnpBatchResponse);
+            cnpResponse mockedCnpResponse = mockCnpResponse.Object;
 
-            mockLitleXmlSerializer.Setup(litleXmlSerializer => litleXmlSerializer.DeserializeObjectFromFile(It.IsAny<String>())).Returns(mockedLitleResponse);
+            mockCnpXmlSerializer.Setup(cnpXmlSerializer => cnpXmlSerializer.DeserializeObjectFromFile(It.IsAny<String>())).Returns(mockedCnpResponse);
 
             Communications mockedCommunication = mockCommunications.Object;
-            litle.setCommunication(mockedCommunication);
+            cnp.setCommunication(mockedCommunication);
 
-            litleXmlSerializer mockedLitleXmlSerializer = mockLitleXmlSerializer.Object;
-            litle.setLitleXmlSerializer(mockedLitleXmlSerializer);
+            cnpXmlSerializer mockedCnpXmlSerializer = mockCnpXmlSerializer.Object;
+            cnp.setCnpXmlSerializer(mockedCnpXmlSerializer);
 
-            litleFile mockedLitleFile = mockLitleFile.Object;
-            litle.setLitleFile(mockedLitleFile);
+            cnpFile mockedCnpFile = mockCnpFile.Object;
+            cnp.setCnpFile(mockedCnpFile);
 
-            litle.setLitleTime(mockLitleTime.Object);
+            cnp.setCnpTime(mockCnpTime.Object);
 
-            batchRequest litleBatchRequest = new batchRequest();
-            litleBatchRequest.setLitleFile(mockedLitleFile);
-            litleBatchRequest.setLitleTime(mockLitleTime.Object);
-            litleBatchRequest.addAccountUpdate(accountUpdate);
-            litleBatchRequest.addAccountUpdate(accountUpdate);
-            litle.addBatch(litleBatchRequest);
+            batchRequest cnpBatchRequest = new batchRequest();
+            cnpBatchRequest.setCnpFile(mockedCnpFile);
+            cnpBatchRequest.setCnpTime(mockCnpTime.Object);
+            cnpBatchRequest.addAccountUpdate(accountUpdate);
+            cnpBatchRequest.addAccountUpdate(accountUpdate);
+            cnp.addBatch(cnpBatchRequest);
 
-            string batchFileName = litle.sendToLitle();
-            litleResponse actualLitleResponse = litle.receiveFromLitle(batchFileName);
-            batchResponse actualLitleBatchResponse = actualLitleResponse.nextBatchResponse();
-            accountUpdateResponse actualAccountUpdateResponse1 = actualLitleBatchResponse.nextAccountUpdateResponse();
-            accountUpdateResponse actualAccountUpdateResponse2 = actualLitleBatchResponse.nextAccountUpdateResponse();
-            accountUpdateResponse nullAccountUpdateResponse = actualLitleBatchResponse.nextAccountUpdateResponse();
+            string batchFileName = cnp.sendToCnp();
+            cnpResponse actualCnpResponse = cnp.receiveFromCnp(batchFileName);
+            batchResponse actualCnpBatchResponse = actualCnpResponse.nextBatchResponse();
+            accountUpdateResponse actualAccountUpdateResponse1 = actualCnpBatchResponse.nextAccountUpdateResponse();
+            accountUpdateResponse actualAccountUpdateResponse2 = actualCnpBatchResponse.nextAccountUpdateResponse();
+            accountUpdateResponse nullAccountUpdateResponse = actualCnpBatchResponse.nextAccountUpdateResponse();
 
-            Assert.AreEqual(123, actualAccountUpdateResponse1.litleTxnId);
+            Assert.AreEqual(123, actualAccountUpdateResponse1.cnpTxnId);
             Assert.AreEqual("000", actualAccountUpdateResponse1.response);
-            Assert.AreEqual(124, actualAccountUpdateResponse2.litleTxnId);
+            Assert.AreEqual(124, actualAccountUpdateResponse2.cnpTxnId);
             Assert.AreEqual("000", actualAccountUpdateResponse2.response);
             Assert.IsNull(nullAccountUpdateResponse);
 
@@ -162,47 +162,47 @@ namespace Litle.Sdk.Test.Unit
             card.expDate = "1210";
             authorization.card = card;
 
-            var mockLitleResponse = new Mock<litleResponse>();
-            var mockLitleXmlSerializer = new Mock<litleXmlSerializer>();
+            var mockCnpResponse = new Mock<cnpResponse>();
+            var mockCnpXmlSerializer = new Mock<cnpXmlSerializer>();
 
             mockXmlReader.SetupSequence(XmlReader => XmlReader.ReadOuterXml())
-                .Returns("<authorizationResponse id=\"\" reportGroup=\"Planets\" xmlns=\"http://www.litle.com/schema\"><litleTxnId>123</litleTxnId><orderId>123</orderId><response>000</response><responseTime>2013-06-19T19:54:42</responseTime><message>Approved</message><authCode>123457</authCode><fraudResult><avsResult>00</avsResult></fraudResult><tokenResponse><litleToken>1711000103054242</litleToken><tokenResponseCode>802</tokenResponseCode><tokenMessage>Account number was previously registered</tokenMessage><type>VI</type><bin>424242</bin></tokenResponse></authorizationResponse>")
-                .Returns("<authorizationResponse id=\"\" reportGroup=\"Planets\" xmlns=\"http://www.litle.com/schema\"><litleTxnId>124</litleTxnId><orderId>124</orderId><response>000</response><responseTime>2013-06-19T19:54:42</responseTime><message>Approved</message><authCode>123457</authCode><fraudResult><avsResult>00</avsResult></fraudResult><tokenResponse><litleToken>1711000103054242</litleToken><tokenResponseCode>802</tokenResponseCode><tokenMessage>Account number was previously registered</tokenMessage><type>VI</type><bin>424242</bin></tokenResponse></authorizationResponse>");
+                .Returns("<authorizationResponse id=\"\" reportGroup=\"Planets\" xmlns=\"http://www.cnp.com/schema\"><cnpTxnId>123</cnpTxnId><orderId>123</orderId><response>000</response><responseTime>2013-06-19T19:54:42</responseTime><message>Approved</message><authCode>123457</authCode><fraudResult><avsResult>00</avsResult></fraudResult><tokenResponse><cnpToken>1711000103054242</cnpToken><tokenResponseCode>802</tokenResponseCode><tokenMessage>Account number was previously registered</tokenMessage><type>VI</type><bin>424242</bin></tokenResponse></authorizationResponse>")
+                .Returns("<authorizationResponse id=\"\" reportGroup=\"Planets\" xmlns=\"http://www.cnp.com/schema\"><cnpTxnId>124</cnpTxnId><orderId>124</orderId><response>000</response><responseTime>2013-06-19T19:54:42</responseTime><message>Approved</message><authCode>123457</authCode><fraudResult><avsResult>00</avsResult></fraudResult><tokenResponse><cnpToken>1711000103054242</cnpToken><tokenResponseCode>802</tokenResponseCode><tokenMessage>Account number was previously registered</tokenMessage><type>VI</type><bin>424242</bin></tokenResponse></authorizationResponse>");
 
-            batchResponse mockLitleBatchResponse = new batchResponse();
-            mockLitleBatchResponse.setAuthorizationResponseReader(mockXmlReader.Object);
+            batchResponse mockCnpBatchResponse = new batchResponse();
+            mockCnpBatchResponse.setAuthorizationResponseReader(mockXmlReader.Object);
 
-            mockLitleResponse.Setup(litleResponse => litleResponse.nextBatchResponse()).Returns(mockLitleBatchResponse);
-            litleResponse mockedLitleResponse = mockLitleResponse.Object;
+            mockCnpResponse.Setup(cnpResponse => cnpResponse.nextBatchResponse()).Returns(mockCnpBatchResponse);
+            cnpResponse mockedCnpResponse = mockCnpResponse.Object;
 
-            mockLitleXmlSerializer.Setup(litleXmlSerializer => litleXmlSerializer.DeserializeObjectFromFile(It.IsAny<String>())).Returns(mockedLitleResponse);
+            mockCnpXmlSerializer.Setup(cnpXmlSerializer => cnpXmlSerializer.DeserializeObjectFromFile(It.IsAny<String>())).Returns(mockedCnpResponse);
 
             Communications mockedCommunication = mockCommunications.Object;
-            litle.setCommunication(mockedCommunication);
+            cnp.setCommunication(mockedCommunication);
 
-            litleXmlSerializer mockedLitleXmlSerializer = mockLitleXmlSerializer.Object;
-            litle.setLitleXmlSerializer(mockedLitleXmlSerializer);
+            cnpXmlSerializer mockedCnpXmlSerializer = mockCnpXmlSerializer.Object;
+            cnp.setCnpXmlSerializer(mockedCnpXmlSerializer);
 
-            litleFile mockedLitleFile = mockLitleFile.Object;
-            litle.setLitleFile(mockedLitleFile);
+            cnpFile mockedCnpFile = mockCnpFile.Object;
+            cnp.setCnpFile(mockedCnpFile);
 
-            litle.setLitleTime(mockLitleTime.Object);
+            cnp.setCnpTime(mockCnpTime.Object);
 
-            batchRequest litleBatchRequest = new batchRequest();
-            litleBatchRequest.setLitleFile(mockedLitleFile);
-            litleBatchRequest.setLitleTime(mockLitleTime.Object);
-            litleBatchRequest.addAuthorization(authorization);
-            litleBatchRequest.addAuthorization(authorization);
-            litle.addBatch(litleBatchRequest);
+            batchRequest cnpBatchRequest = new batchRequest();
+            cnpBatchRequest.setCnpFile(mockedCnpFile);
+            cnpBatchRequest.setCnpTime(mockCnpTime.Object);
+            cnpBatchRequest.addAuthorization(authorization);
+            cnpBatchRequest.addAuthorization(authorization);
+            cnp.addBatch(cnpBatchRequest);
 
-            string batchFileName = litle.sendToLitle();
-            litleResponse actualLitleResponse = litle.receiveFromLitle(batchFileName);
-            batchResponse actualLitleBatchResponse = actualLitleResponse.nextBatchResponse();
+            string batchFileName = cnp.sendToCnp();
+            cnpResponse actualCnpResponse = cnp.receiveFromCnp(batchFileName);
+            batchResponse actualCnpBatchResponse = actualCnpResponse.nextBatchResponse();
 
-            Assert.AreSame(mockLitleBatchResponse, actualLitleBatchResponse);
-            Assert.AreEqual(123, actualLitleBatchResponse.nextAuthorizationResponse().litleTxnId);
-            Assert.AreEqual(124, actualLitleBatchResponse.nextAuthorizationResponse().litleTxnId);
-            Assert.IsNull(actualLitleBatchResponse.nextAuthorizationResponse());
+            Assert.AreSame(mockCnpBatchResponse, actualCnpBatchResponse);
+            Assert.AreEqual(123, actualCnpBatchResponse.nextAuthorizationResponse().cnpTxnId);
+            Assert.AreEqual(124, actualCnpBatchResponse.nextAuthorizationResponse().cnpTxnId);
+            Assert.IsNull(actualCnpBatchResponse.nextAuthorizationResponse());
 
             mockCommunications.Verify(Communications => Communications.FtpDropOff(It.IsAny<String>(), mockFileName, It.IsAny<Dictionary<String, String>>()));
             mockCommunications.Verify(Communications => Communications.FtpPickUp(It.IsAny<String>(), It.IsAny<Dictionary<String, String>>(), mockFileName));
@@ -212,53 +212,53 @@ namespace Litle.Sdk.Test.Unit
         public void testAuthReversal()
         {
             authReversal authreversal = new authReversal();
-            authreversal.litleTxnId = 12345678000;
+            authreversal.cnpTxnId = 12345678000;
             authreversal.amount = 106;
             authreversal.payPalNotes = "Notes";
 
-            var mockLitleResponse = new Mock<litleResponse>();
-            var mockLitleXmlSerializer = new Mock<litleXmlSerializer>();
+            var mockCnpResponse = new Mock<cnpResponse>();
+            var mockCnpXmlSerializer = new Mock<cnpXmlSerializer>();
 
             mockXmlReader.SetupSequence(XmlReader => XmlReader.ReadOuterXml())
-                .Returns("<authReversalResponse id=\"123\" customerId=\"Customer Id\" reportGroup=\"Auth Reversals\" xmlns=\"http://www.litle.com/schema\"><litleTxnId>123</litleTxnId><orderId>abc123</orderId><response>000</response><responseTime>2011-08-30T13:15:43</responseTime><message>Approved</message></authReversalResponse>")
-                .Returns("<authReversalResponse id=\"123\" customerId=\"Customer Id\" reportGroup=\"Auth Reversals\" xmlns=\"http://www.litle.com/schema\"><litleTxnId>124</litleTxnId><orderId>abc123</orderId><response>000</response><responseTime>2011-08-30T13:15:43</responseTime><message>Approved</message></authReversalResponse>");
+                .Returns("<authReversalResponse id=\"123\" customerId=\"Customer Id\" reportGroup=\"Auth Reversals\" xmlns=\"http://www.cnp.com/schema\"><cnpTxnId>123</cnpTxnId><orderId>abc123</orderId><response>000</response><responseTime>2011-08-30T13:15:43</responseTime><message>Approved</message></authReversalResponse>")
+                .Returns("<authReversalResponse id=\"123\" customerId=\"Customer Id\" reportGroup=\"Auth Reversals\" xmlns=\"http://www.cnp.com/schema\"><cnpTxnId>124</cnpTxnId><orderId>abc123</orderId><response>000</response><responseTime>2011-08-30T13:15:43</responseTime><message>Approved</message></authReversalResponse>");
 
-            batchResponse mockLitleBatchResponse = new batchResponse();
-            mockLitleBatchResponse.setAuthReversalResponseReader(mockXmlReader.Object);
+            batchResponse mockCnpBatchResponse = new batchResponse();
+            mockCnpBatchResponse.setAuthReversalResponseReader(mockXmlReader.Object);
 
-            mockLitleResponse.Setup(litleResponse => litleResponse.nextBatchResponse()).Returns(mockLitleBatchResponse);
-            litleResponse mockedLitleResponse = mockLitleResponse.Object;
+            mockCnpResponse.Setup(cnpResponse => cnpResponse.nextBatchResponse()).Returns(mockCnpBatchResponse);
+            cnpResponse mockedCnpResponse = mockCnpResponse.Object;
 
-            mockLitleXmlSerializer.Setup(litleXmlSerializer => litleXmlSerializer.DeserializeObjectFromFile(It.IsAny<String>())).Returns(mockedLitleResponse);
+            mockCnpXmlSerializer.Setup(cnpXmlSerializer => cnpXmlSerializer.DeserializeObjectFromFile(It.IsAny<String>())).Returns(mockedCnpResponse);
 
             Communications mockedCommunications = mockCommunications.Object;
-            litle.setCommunication(mockedCommunications);
+            cnp.setCommunication(mockedCommunications);
 
-            litleXmlSerializer mockedLitleXmlSerializer = mockLitleXmlSerializer.Object;
-            litle.setLitleXmlSerializer(mockedLitleXmlSerializer);
+            cnpXmlSerializer mockedCnpXmlSerializer = mockCnpXmlSerializer.Object;
+            cnp.setCnpXmlSerializer(mockedCnpXmlSerializer);
 
-            litleFile mockedLitleFile = mockLitleFile.Object;
-            litle.setLitleFile(mockedLitleFile);
+            cnpFile mockedCnpFile = mockCnpFile.Object;
+            cnp.setCnpFile(mockedCnpFile);
 
-            litle.setLitleTime(mockLitleTime.Object);
+            cnp.setCnpTime(mockCnpTime.Object);
 
-            batchRequest litleBatchRequest = new batchRequest();
-            litleBatchRequest.setLitleFile(mockedLitleFile);
-            litleBatchRequest.setLitleTime(mockLitleTime.Object);
-            litleBatchRequest.addAuthReversal(authreversal);
-            litleBatchRequest.addAuthReversal(authreversal);
-            litle.addBatch(litleBatchRequest);
+            batchRequest cnpBatchRequest = new batchRequest();
+            cnpBatchRequest.setCnpFile(mockedCnpFile);
+            cnpBatchRequest.setCnpTime(mockCnpTime.Object);
+            cnpBatchRequest.addAuthReversal(authreversal);
+            cnpBatchRequest.addAuthReversal(authreversal);
+            cnp.addBatch(cnpBatchRequest);
 
-            string batchFileName = litle.sendToLitle();
+            string batchFileName = cnp.sendToCnp();
 
-            litleResponse actualLitleResponse = litle.receiveFromLitle(batchFileName);
-            batchResponse actualLitleBatchResponse = actualLitleResponse.nextBatchResponse();
-            authReversalResponse actualAuthReversalResponse1 = actualLitleBatchResponse.nextAuthReversalResponse();
-            authReversalResponse actualAuthReversalResponse2 = actualLitleBatchResponse.nextAuthReversalResponse();
-            authReversalResponse nullAuthReversalResponse = actualLitleBatchResponse.nextAuthReversalResponse();
+            cnpResponse actualCnpResponse = cnp.receiveFromCnp(batchFileName);
+            batchResponse actualCnpBatchResponse = actualCnpResponse.nextBatchResponse();
+            authReversalResponse actualAuthReversalResponse1 = actualCnpBatchResponse.nextAuthReversalResponse();
+            authReversalResponse actualAuthReversalResponse2 = actualCnpBatchResponse.nextAuthReversalResponse();
+            authReversalResponse nullAuthReversalResponse = actualCnpBatchResponse.nextAuthReversalResponse();
 
-            Assert.AreEqual(123, actualAuthReversalResponse1.litleTxnId);
-            Assert.AreEqual(124, actualAuthReversalResponse2.litleTxnId);
+            Assert.AreEqual(123, actualAuthReversalResponse1.cnpTxnId);
+            Assert.AreEqual(124, actualAuthReversalResponse2.cnpTxnId);
             Assert.IsNull(nullAuthReversalResponse);
 
             mockCommunications.Verify(Communications => Communications.FtpDropOff(It.IsAny<String>(), mockFileName, It.IsAny<Dictionary<String, String>>()));
@@ -269,51 +269,51 @@ namespace Litle.Sdk.Test.Unit
         public void testCapture()
         {
             capture capture = new capture();
-            capture.litleTxnId = 12345678000;
+            capture.cnpTxnId = 12345678000;
             capture.amount = 106;
 
-            var mockLitleResponse = new Mock<litleResponse>();
-            var mockLitleXmlSerializer = new Mock<litleXmlSerializer>();
+            var mockCnpResponse = new Mock<cnpResponse>();
+            var mockCnpXmlSerializer = new Mock<cnpXmlSerializer>();
 
             mockXmlReader.SetupSequence(XmlReader => XmlReader.ReadOuterXml())
-              .Returns("<captureResponse id=\"123\" reportGroup=\"RG27\" xmlns=\"http://www.litle.com/schema\"> <litleTxnId>123</litleTxnId> <orderId>12z58743y1</orderId> <response>000</response> <responseTime>2011-09-01T10:24:31</responseTime> <message>message</message> </captureResponse>")
-              .Returns("<captureResponse id=\"124\" reportGroup=\"RG27\" xmlns=\"http://www.litle.com/schema\"> <litleTxnId>124</litleTxnId> <orderId>12z58743y1</orderId> <response>000</response> <responseTime>2011-09-01T10:24:31</responseTime> <message>message</message> </captureResponse>");
+              .Returns("<captureResponse id=\"123\" reportGroup=\"RG27\" xmlns=\"http://www.cnp.com/schema\"> <cnpTxnId>123</cnpTxnId> <orderId>12z58743y1</orderId> <response>000</response> <responseTime>2011-09-01T10:24:31</responseTime> <message>message</message> </captureResponse>")
+              .Returns("<captureResponse id=\"124\" reportGroup=\"RG27\" xmlns=\"http://www.cnp.com/schema\"> <cnpTxnId>124</cnpTxnId> <orderId>12z58743y1</orderId> <response>000</response> <responseTime>2011-09-01T10:24:31</responseTime> <message>message</message> </captureResponse>");
 
-            batchResponse mockedLitleBatchResponse = new batchResponse();
-            mockedLitleBatchResponse.setCaptureResponseReader(mockXmlReader.Object);
+            batchResponse mockedCnpBatchResponse = new batchResponse();
+            mockedCnpBatchResponse.setCaptureResponseReader(mockXmlReader.Object);
 
-            mockLitleResponse.Setup(litleResponse => litleResponse.nextBatchResponse()).Returns(mockedLitleBatchResponse);
-            litleResponse mockedLitleResponse = mockLitleResponse.Object;
+            mockCnpResponse.Setup(cnpResponse => cnpResponse.nextBatchResponse()).Returns(mockedCnpBatchResponse);
+            cnpResponse mockedCnpResponse = mockCnpResponse.Object;
 
             Communications mockedCommunications = mockCommunications.Object;
 
-            mockLitleXmlSerializer.Setup(litleXmlSerializer => litleXmlSerializer.DeserializeObjectFromFile(It.IsAny<String>())).Returns(mockedLitleResponse);
-            litleXmlSerializer mockedLitleXmlSerializer = mockLitleXmlSerializer.Object;
+            mockCnpXmlSerializer.Setup(cnpXmlSerializer => cnpXmlSerializer.DeserializeObjectFromFile(It.IsAny<String>())).Returns(mockedCnpResponse);
+            cnpXmlSerializer mockedCnpXmlSerializer = mockCnpXmlSerializer.Object;
 
-            litleFile mockedLitleFile = mockLitleFile.Object;
+            cnpFile mockedCnpFile = mockCnpFile.Object;
 
-            litle.setCommunication(mockedCommunications);
-            litle.setLitleXmlSerializer(mockedLitleXmlSerializer);
-            litle.setLitleFile(mockedLitleFile);
-            litle.setLitleTime(mockLitleTime.Object);
+            cnp.setCommunication(mockedCommunications);
+            cnp.setCnpXmlSerializer(mockedCnpXmlSerializer);
+            cnp.setCnpFile(mockedCnpFile);
+            cnp.setCnpTime(mockCnpTime.Object);
 
-            batchRequest litleBatchRequest = new batchRequest();
-            litleBatchRequest.setLitleFile(mockedLitleFile);
-            litleBatchRequest.setLitleTime(mockLitleTime.Object);
-            litleBatchRequest.addCapture(capture);
-            litleBatchRequest.addCapture(capture);
-            litle.addBatch(litleBatchRequest);
+            batchRequest cnpBatchRequest = new batchRequest();
+            cnpBatchRequest.setCnpFile(mockedCnpFile);
+            cnpBatchRequest.setCnpTime(mockCnpTime.Object);
+            cnpBatchRequest.addCapture(capture);
+            cnpBatchRequest.addCapture(capture);
+            cnp.addBatch(cnpBatchRequest);
 
-            string batchFileName = litle.sendToLitle();
+            string batchFileName = cnp.sendToCnp();
 
-            litleResponse actualLitleResponse = litle.receiveFromLitle(batchFileName);
-            batchResponse actualLitleBatchResponse = actualLitleResponse.nextBatchResponse();
-            captureResponse actualCaptureResponse1 = actualLitleBatchResponse.nextCaptureResponse();
-            captureResponse actualCaptureResponse2 = actualLitleBatchResponse.nextCaptureResponse();
-            captureResponse nullCaptureResponse = actualLitleBatchResponse.nextCaptureResponse();
+            cnpResponse actualCnpResponse = cnp.receiveFromCnp(batchFileName);
+            batchResponse actualCnpBatchResponse = actualCnpResponse.nextBatchResponse();
+            captureResponse actualCaptureResponse1 = actualCnpBatchResponse.nextCaptureResponse();
+            captureResponse actualCaptureResponse2 = actualCnpBatchResponse.nextCaptureResponse();
+            captureResponse nullCaptureResponse = actualCnpBatchResponse.nextCaptureResponse();
 
-            Assert.AreEqual(123, actualCaptureResponse1.litleTxnId);
-            Assert.AreEqual(124, actualCaptureResponse2.litleTxnId);
+            Assert.AreEqual(123, actualCaptureResponse1.cnpTxnId);
+            Assert.AreEqual(124, actualCaptureResponse2.cnpTxnId);
             Assert.IsNull(nullCaptureResponse);
 
             mockCommunications.Verify(Communications => Communications.FtpDropOff(It.IsAny<String>(), mockFileName, It.IsAny<Dictionary<String, String>>()));
@@ -338,48 +338,48 @@ namespace Litle.Sdk.Test.Unit
             card.expDate = "1210";
             capturegivenauth.card = card;
 
-            var mockLitleResponse = new Mock<litleResponse>();
-            var mockLitleXmlSerializer = new Mock<litleXmlSerializer>();
+            var mockCnpResponse = new Mock<cnpResponse>();
+            var mockCnpXmlSerializer = new Mock<cnpXmlSerializer>();
 
             mockXmlReader.SetupSequence(XmlReader => XmlReader.ReadOuterXml())
-                .Returns("<captureGivenAuthResponse xmlns='http://www.litle.com/schema'><litleTxnId>123</litleTxnId></captureGivenAuthResponse>")
-                .Returns("<captureGivenAuthResponse xmlns='http://www.litle.com/schema'><litleTxnId>124</litleTxnId></captureGivenAuthResponse>");
+                .Returns("<captureGivenAuthResponse xmlns='http://www.vantivcnp.com/schema'><cnpTxnId>123</cnpTxnId></captureGivenAuthResponse>")
+                .Returns("<captureGivenAuthResponse xmlns='http://www.vantivcnp.com/schema'><cnpTxnId>124</cnpTxnId></captureGivenAuthResponse>");
 
-            batchResponse mockedLitleBatchResponse = new batchResponse();
-            mockedLitleBatchResponse.setCaptureGivenAuthResponseReader(mockXmlReader.Object);
+            batchResponse mockedCnpBatchResponse = new batchResponse();
+            mockedCnpBatchResponse.setCaptureGivenAuthResponseReader(mockXmlReader.Object);
 
-            mockLitleResponse.Setup(litleResponse => litleResponse.nextBatchResponse()).Returns(mockedLitleBatchResponse);
-            litleResponse mockedLitleResponse = mockLitleResponse.Object;
+            mockCnpResponse.Setup(cnpResponse => cnpResponse.nextBatchResponse()).Returns(mockedCnpBatchResponse);
+            cnpResponse mockedCnpResponse = mockCnpResponse.Object;
 
             Communications mockedCommunications = mockCommunications.Object;
 
-            mockLitleXmlSerializer.Setup(litleXmlSerializer => litleXmlSerializer.DeserializeObjectFromFile(It.IsAny<String>())).Returns(mockedLitleResponse);
-            litleXmlSerializer mockedLitleXmlSerializer = mockLitleXmlSerializer.Object;
+            mockCnpXmlSerializer.Setup(cnpXmlSerializer => cnpXmlSerializer.DeserializeObjectFromFile(It.IsAny<String>())).Returns(mockedCnpResponse);
+            cnpXmlSerializer mockedCnpXmlSerializer = mockCnpXmlSerializer.Object;
 
-            litleFile mockedLitleFile = mockLitleFile.Object;
+            cnpFile mockedCnpFile = mockCnpFile.Object;
 
-            litle.setCommunication(mockedCommunications);
-            litle.setLitleXmlSerializer(mockedLitleXmlSerializer);
-            litle.setLitleFile(mockedLitleFile);
-            litle.setLitleTime(mockLitleTime.Object);
+            cnp.setCommunication(mockedCommunications);
+            cnp.setCnpXmlSerializer(mockedCnpXmlSerializer);
+            cnp.setCnpFile(mockedCnpFile);
+            cnp.setCnpTime(mockCnpTime.Object);
 
-            batchRequest litleBatchRequest = new batchRequest();
-            litleBatchRequest.setLitleFile(mockedLitleFile);
-            litleBatchRequest.setLitleTime(mockLitleTime.Object);
-            litleBatchRequest.addCaptureGivenAuth(capturegivenauth);
-            litleBatchRequest.addCaptureGivenAuth(capturegivenauth);
-            litle.addBatch(litleBatchRequest);
+            batchRequest cnpBatchRequest = new batchRequest();
+            cnpBatchRequest.setCnpFile(mockedCnpFile);
+            cnpBatchRequest.setCnpTime(mockCnpTime.Object);
+            cnpBatchRequest.addCaptureGivenAuth(capturegivenauth);
+            cnpBatchRequest.addCaptureGivenAuth(capturegivenauth);
+            cnp.addBatch(cnpBatchRequest);
 
-            string batchFileName = litle.sendToLitle();
+            string batchFileName = cnp.sendToCnp();
 
-            litleResponse actualLitleResponse = litle.receiveFromLitle(batchFileName);
-            batchResponse actualLitleBatchResponse = actualLitleResponse.nextBatchResponse();
-            captureGivenAuthResponse actualCaptureGivenAuthReponse1 = actualLitleBatchResponse.nextCaptureGivenAuthResponse();
-            captureGivenAuthResponse actualCaptureGivenAuthReponse2 = actualLitleBatchResponse.nextCaptureGivenAuthResponse();
-            captureGivenAuthResponse nullCaptureGivenAuthReponse = actualLitleBatchResponse.nextCaptureGivenAuthResponse();
+            cnpResponse actualCnpResponse = cnp.receiveFromCnp(batchFileName);
+            batchResponse actualCnpBatchResponse = actualCnpResponse.nextBatchResponse();
+            captureGivenAuthResponse actualCaptureGivenAuthReponse1 = actualCnpBatchResponse.nextCaptureGivenAuthResponse();
+            captureGivenAuthResponse actualCaptureGivenAuthReponse2 = actualCnpBatchResponse.nextCaptureGivenAuthResponse();
+            captureGivenAuthResponse nullCaptureGivenAuthReponse = actualCnpBatchResponse.nextCaptureGivenAuthResponse();
 
-            Assert.AreEqual(123, actualCaptureGivenAuthReponse1.litleTxnId);
-            Assert.AreEqual(124, actualCaptureGivenAuthReponse2.litleTxnId);
+            Assert.AreEqual(123, actualCaptureGivenAuthReponse1.cnpTxnId);
+            Assert.AreEqual(124, actualCaptureGivenAuthReponse2.cnpTxnId);
             Assert.IsNull(nullCaptureGivenAuthReponse);
 
             mockCommunications.Verify(Communications => Communications.FtpDropOff(It.IsAny<String>(), mockFileName, It.IsAny<Dictionary<String, String>>()));
@@ -399,48 +399,48 @@ namespace Litle.Sdk.Test.Unit
             card.expDate = "1210";
             credit.card = card;
 
-            var mockLitleResponse = new Mock<litleResponse>();
-            var mockLitleXmlSerializer = new Mock<litleXmlSerializer>();
+            var mockCnpResponse = new Mock<cnpResponse>();
+            var mockCnpXmlSerializer = new Mock<cnpXmlSerializer>();
 
             mockXmlReader.SetupSequence(XmlReader => XmlReader.ReadOuterXml())
-                .Returns("<creditResponse xmlns='http://www.litle.com/schema'><litleTxnId>123</litleTxnId></creditResponse>")
-                .Returns("<creditResponse xmlns='http://www.litle.com/schema'><litleTxnId>124</litleTxnId></creditResponse>");
+                .Returns("<creditResponse xmlns='http://www.vantivcnp.com/schema'><cnpTxnId>123</cnpTxnId></creditResponse>")
+                .Returns("<creditResponse xmlns='http://www.vantivcnp.com/schema'><cnpTxnId>124</cnpTxnId></creditResponse>");
 
-            batchResponse mockedLitleBatchResponse = new batchResponse();
-            mockedLitleBatchResponse.setCreditResponseReader(mockXmlReader.Object);
+            batchResponse mockedCnpBatchResponse = new batchResponse();
+            mockedCnpBatchResponse.setCreditResponseReader(mockXmlReader.Object);
 
-            mockLitleResponse.Setup(litleResponse => litleResponse.nextBatchResponse()).Returns(mockedLitleBatchResponse);
-            litleResponse mockedLitleResponse = mockLitleResponse.Object;
+            mockCnpResponse.Setup(cnpResponse => cnpResponse.nextBatchResponse()).Returns(mockedCnpBatchResponse);
+            cnpResponse mockedCnpResponse = mockCnpResponse.Object;
 
             Communications mockedCommunications = mockCommunications.Object;
 
-            mockLitleXmlSerializer.Setup(litleXmlSerializer => litleXmlSerializer.DeserializeObjectFromFile(It.IsAny<String>())).Returns(mockedLitleResponse);
-            litleXmlSerializer mockedLitleXmlSerializer = mockLitleXmlSerializer.Object;
+            mockCnpXmlSerializer.Setup(cnpXmlSerializer => cnpXmlSerializer.DeserializeObjectFromFile(It.IsAny<String>())).Returns(mockedCnpResponse);
+            cnpXmlSerializer mockedCnpXmlSerializer = mockCnpXmlSerializer.Object;
 
-            litleFile mockedLitleFile = mockLitleFile.Object;
+            cnpFile mockedCnpFile = mockCnpFile.Object;
 
-            litle.setCommunication(mockedCommunications);
-            litle.setLitleXmlSerializer(mockedLitleXmlSerializer);
-            litle.setLitleFile(mockedLitleFile);
-            litle.setLitleTime(mockLitleTime.Object);
+            cnp.setCommunication(mockedCommunications);
+            cnp.setCnpXmlSerializer(mockedCnpXmlSerializer);
+            cnp.setCnpFile(mockedCnpFile);
+            cnp.setCnpTime(mockCnpTime.Object);
 
-            batchRequest litleBatchRequest = new batchRequest();
-            litleBatchRequest.setLitleFile(mockedLitleFile);
-            litleBatchRequest.setLitleTime(mockLitleTime.Object);
-            litleBatchRequest.addCredit(credit);
-            litleBatchRequest.addCredit(credit);
-            litle.addBatch(litleBatchRequest);
+            batchRequest cnpBatchRequest = new batchRequest();
+            cnpBatchRequest.setCnpFile(mockedCnpFile);
+            cnpBatchRequest.setCnpTime(mockCnpTime.Object);
+            cnpBatchRequest.addCredit(credit);
+            cnpBatchRequest.addCredit(credit);
+            cnp.addBatch(cnpBatchRequest);
 
-            string batchFileName = litle.sendToLitle();
+            string batchFileName = cnp.sendToCnp();
 
-            litleResponse actualLitleResponse = litle.receiveFromLitle(batchFileName);
-            batchResponse actualLitleBatchResponse = actualLitleResponse.nextBatchResponse();
-            creditResponse actualCreditReponse1 = actualLitleBatchResponse.nextCreditResponse();
-            creditResponse actualCreditReponse2 = actualLitleBatchResponse.nextCreditResponse();
-            creditResponse nullCreditReponse1 = actualLitleBatchResponse.nextCreditResponse();
+            cnpResponse actualCnpResponse = cnp.receiveFromCnp(batchFileName);
+            batchResponse actualCnpBatchResponse = actualCnpResponse.nextBatchResponse();
+            creditResponse actualCreditReponse1 = actualCnpBatchResponse.nextCreditResponse();
+            creditResponse actualCreditReponse2 = actualCnpBatchResponse.nextCreditResponse();
+            creditResponse nullCreditReponse1 = actualCnpBatchResponse.nextCreditResponse();
 
-            Assert.AreEqual(123, actualCreditReponse1.litleTxnId);
-            Assert.AreEqual(124, actualCreditReponse2.litleTxnId);
+            Assert.AreEqual(123, actualCreditReponse1.cnpTxnId);
+            Assert.AreEqual(124, actualCreditReponse2.cnpTxnId);
             Assert.IsNull(nullCreditReponse1);
 
             mockCommunications.Verify(Communications => Communications.FtpDropOff(It.IsAny<String>(), mockFileName, It.IsAny<Dictionary<String, String>>()));
@@ -452,50 +452,50 @@ namespace Litle.Sdk.Test.Unit
         {
             echeckCredit echeckcredit = new echeckCredit();
             echeckcredit.amount = 12;
-            echeckcredit.litleTxnId = 123456789101112;
+            echeckcredit.cnpTxnId = 123456789101112;
 
-            var mockLitleResponse = new Mock<litleResponse>();
-            var mockLitleXmlSerializer = new Mock<litleXmlSerializer>();
+            var mockCnpResponse = new Mock<cnpResponse>();
+            var mockCnpXmlSerializer = new Mock<cnpXmlSerializer>();
 
             mockXmlReader.SetupSequence(XmlReader => XmlReader.ReadOuterXml())
-                .Returns("<echeckCreditResponse xmlns='http://www.litle.com/schema'><litleTxnId>123</litleTxnId></echeckCreditResponse>")
-                .Returns("<echeckCreditResponse xmlns='http://www.litle.com/schema'><litleTxnId>124</litleTxnId></echeckCreditResponse>");
+                .Returns("<echeckCreditResponse xmlns='http://www.vantivcnp.com/schema'><cnpTxnId>123</cnpTxnId></echeckCreditResponse>")
+                .Returns("<echeckCreditResponse xmlns='http://www.vantivcnp.com/schema'><cnpTxnId>124</cnpTxnId></echeckCreditResponse>");
 
-            batchResponse mockedLitleBatchResponse = new batchResponse();
-            mockedLitleBatchResponse.setEcheckCreditResponseReader(mockXmlReader.Object);
+            batchResponse mockedCnpBatchResponse = new batchResponse();
+            mockedCnpBatchResponse.setEcheckCreditResponseReader(mockXmlReader.Object);
 
-            mockLitleResponse.Setup(litleResponse => litleResponse.nextBatchResponse()).Returns(mockedLitleBatchResponse);
-            litleResponse mockedLitleResponse = mockLitleResponse.Object;
+            mockCnpResponse.Setup(cnpResponse => cnpResponse.nextBatchResponse()).Returns(mockedCnpBatchResponse);
+            cnpResponse mockedCnpResponse = mockCnpResponse.Object;
 
             Communications mockedCommunications = mockCommunications.Object;
 
-            mockLitleXmlSerializer.Setup(litleXmlSerializer => litleXmlSerializer.DeserializeObjectFromFile(It.IsAny<String>())).Returns(mockedLitleResponse);
-            litleXmlSerializer mockedLitleXmlSerializer = mockLitleXmlSerializer.Object;
+            mockCnpXmlSerializer.Setup(cnpXmlSerializer => cnpXmlSerializer.DeserializeObjectFromFile(It.IsAny<String>())).Returns(mockedCnpResponse);
+            cnpXmlSerializer mockedCnpXmlSerializer = mockCnpXmlSerializer.Object;
 
-            litleFile mockedLitleFile = mockLitleFile.Object;
+            cnpFile mockedCnpFile = mockCnpFile.Object;
 
-            litle.setCommunication(mockedCommunications);
-            litle.setLitleXmlSerializer(mockedLitleXmlSerializer);
-            litle.setLitleFile(mockedLitleFile);
-            litle.setLitleTime(mockLitleTime.Object);
+            cnp.setCommunication(mockedCommunications);
+            cnp.setCnpXmlSerializer(mockedCnpXmlSerializer);
+            cnp.setCnpFile(mockedCnpFile);
+            cnp.setCnpTime(mockCnpTime.Object);
 
-            batchRequest litleBatchRequest = new batchRequest();
-            litleBatchRequest.setLitleFile(mockedLitleFile);
-            litleBatchRequest.setLitleTime(mockLitleTime.Object);
-            litleBatchRequest.addEcheckCredit(echeckcredit);
-            litleBatchRequest.addEcheckCredit(echeckcredit);
-            litle.addBatch(litleBatchRequest);
+            batchRequest cnpBatchRequest = new batchRequest();
+            cnpBatchRequest.setCnpFile(mockedCnpFile);
+            cnpBatchRequest.setCnpTime(mockCnpTime.Object);
+            cnpBatchRequest.addEcheckCredit(echeckcredit);
+            cnpBatchRequest.addEcheckCredit(echeckcredit);
+            cnp.addBatch(cnpBatchRequest);
 
-            string batchFileName = litle.sendToLitle();
+            string batchFileName = cnp.sendToCnp();
 
-            litleResponse actualLitleResponse = litle.receiveFromLitle(batchFileName);
-            batchResponse actualLitleBatchResponse = actualLitleResponse.nextBatchResponse();
-            echeckCreditResponse actualEcheckCreditResponse1 = actualLitleBatchResponse.nextEcheckCreditResponse();
-            echeckCreditResponse actualEcheckCreditResponse2 = actualLitleBatchResponse.nextEcheckCreditResponse();
-            echeckCreditResponse nullEcheckCreditResponse = actualLitleBatchResponse.nextEcheckCreditResponse();
+            cnpResponse actualCnpResponse = cnp.receiveFromCnp(batchFileName);
+            batchResponse actualCnpBatchResponse = actualCnpResponse.nextBatchResponse();
+            echeckCreditResponse actualEcheckCreditResponse1 = actualCnpBatchResponse.nextEcheckCreditResponse();
+            echeckCreditResponse actualEcheckCreditResponse2 = actualCnpBatchResponse.nextEcheckCreditResponse();
+            echeckCreditResponse nullEcheckCreditResponse = actualCnpBatchResponse.nextEcheckCreditResponse();
 
-            Assert.AreEqual(123, actualEcheckCreditResponse1.litleTxnId);
-            Assert.AreEqual(124, actualEcheckCreditResponse2.litleTxnId);
+            Assert.AreEqual(123, actualEcheckCreditResponse1.cnpTxnId);
+            Assert.AreEqual(124, actualEcheckCreditResponse2.cnpTxnId);
             Assert.IsNull(nullEcheckCreditResponse);
 
             mockCommunications.Verify(Communications => Communications.FtpDropOff(It.IsAny<String>(), mockFileName, It.IsAny<Dictionary<String, String>>()));
@@ -506,50 +506,50 @@ namespace Litle.Sdk.Test.Unit
         public void testEcheckRedeposit()
         {
             echeckRedeposit echeckredeposit = new echeckRedeposit();
-            echeckredeposit.litleTxnId = 123456;
+            echeckredeposit.cnpTxnId = 123456;
 
-            var mockLitleResponse = new Mock<litleResponse>();
-            var mockLitleXmlSerializer = new Mock<litleXmlSerializer>();
+            var mockCnpResponse = new Mock<cnpResponse>();
+            var mockCnpXmlSerializer = new Mock<cnpXmlSerializer>();
 
             mockXmlReader.SetupSequence(XmlReader => XmlReader.ReadOuterXml())
-                .Returns("<echeckRedepositResponse xmlns='http://www.litle.com/schema'><litleTxnId>123</litleTxnId></echeckRedepositResponse>")
-                .Returns("<echeckRedepositResponse xmlns='http://www.litle.com/schema'><litleTxnId>124</litleTxnId></echeckRedepositResponse>");
+                .Returns("<echeckRedepositResponse xmlns='http://www.vantivcnp.com/schema'><cnpTxnId>123</cnpTxnId></echeckRedepositResponse>")
+                .Returns("<echeckRedepositResponse xmlns='http://www.vantivcnp.com/schema'><cnpTxnId>124</cnpTxnId></echeckRedepositResponse>");
 
-            batchResponse mockedLitleBatchResponse = new batchResponse();
-            mockedLitleBatchResponse.setEcheckRedepositResponseReader(mockXmlReader.Object);
+            batchResponse mockedCnpBatchResponse = new batchResponse();
+            mockedCnpBatchResponse.setEcheckRedepositResponseReader(mockXmlReader.Object);
 
-            mockLitleResponse.Setup(litleResponse => litleResponse.nextBatchResponse()).Returns(mockedLitleBatchResponse);
-            litleResponse mockedLitleResponse = mockLitleResponse.Object;
+            mockCnpResponse.Setup(cnpResponse => cnpResponse.nextBatchResponse()).Returns(mockedCnpBatchResponse);
+            cnpResponse mockedCnpResponse = mockCnpResponse.Object;
 
             Communications mockedCommunications = mockCommunications.Object;
 
-            mockLitleXmlSerializer.Setup(litleXmlSerializer => litleXmlSerializer.DeserializeObjectFromFile(It.IsAny<String>())).Returns(mockedLitleResponse);
-            litleXmlSerializer mockedLitleXmlSerializer = mockLitleXmlSerializer.Object;
+            mockCnpXmlSerializer.Setup(cnpXmlSerializer => cnpXmlSerializer.DeserializeObjectFromFile(It.IsAny<String>())).Returns(mockedCnpResponse);
+            cnpXmlSerializer mockedCnpXmlSerializer = mockCnpXmlSerializer.Object;
 
-            litleFile mockedLitleFile = mockLitleFile.Object;
+            cnpFile mockedCnpFile = mockCnpFile.Object;
 
-            litle.setCommunication(mockedCommunications);
-            litle.setLitleXmlSerializer(mockedLitleXmlSerializer);
-            litle.setLitleFile(mockedLitleFile);
-            litle.setLitleTime(mockLitleTime.Object);
+            cnp.setCommunication(mockedCommunications);
+            cnp.setCnpXmlSerializer(mockedCnpXmlSerializer);
+            cnp.setCnpFile(mockedCnpFile);
+            cnp.setCnpTime(mockCnpTime.Object);
 
-            batchRequest litleBatchRequest = new batchRequest();
-            litleBatchRequest.setLitleFile(mockedLitleFile);
-            litleBatchRequest.setLitleTime(mockLitleTime.Object);
-            litleBatchRequest.addEcheckRedeposit(echeckredeposit);
-            litleBatchRequest.addEcheckRedeposit(echeckredeposit);
-            litle.addBatch(litleBatchRequest);
+            batchRequest cnpBatchRequest = new batchRequest();
+            cnpBatchRequest.setCnpFile(mockedCnpFile);
+            cnpBatchRequest.setCnpTime(mockCnpTime.Object);
+            cnpBatchRequest.addEcheckRedeposit(echeckredeposit);
+            cnpBatchRequest.addEcheckRedeposit(echeckredeposit);
+            cnp.addBatch(cnpBatchRequest);
 
-            string batchFileName = litle.sendToLitle();
+            string batchFileName = cnp.sendToCnp();
 
-            litleResponse actualLitleResponse = litle.receiveFromLitle(batchFileName);
-            batchResponse actualLitleBatchResponse = actualLitleResponse.nextBatchResponse();
-            echeckRedepositResponse actualEcheckRedepositResponse1 = actualLitleBatchResponse.nextEcheckRedepositResponse();
-            echeckRedepositResponse actualEcheckRedepositResponse2 = actualLitleBatchResponse.nextEcheckRedepositResponse();
-            echeckRedepositResponse nullEcheckRedepositResponse = actualLitleBatchResponse.nextEcheckRedepositResponse();
+            cnpResponse actualCnpResponse = cnp.receiveFromCnp(batchFileName);
+            batchResponse actualCnpBatchResponse = actualCnpResponse.nextBatchResponse();
+            echeckRedepositResponse actualEcheckRedepositResponse1 = actualCnpBatchResponse.nextEcheckRedepositResponse();
+            echeckRedepositResponse actualEcheckRedepositResponse2 = actualCnpBatchResponse.nextEcheckRedepositResponse();
+            echeckRedepositResponse nullEcheckRedepositResponse = actualCnpBatchResponse.nextEcheckRedepositResponse();
 
-            Assert.AreEqual(123, actualEcheckRedepositResponse1.litleTxnId);
-            Assert.AreEqual(124, actualEcheckRedepositResponse2.litleTxnId);
+            Assert.AreEqual(123, actualEcheckRedepositResponse1.cnpTxnId);
+            Assert.AreEqual(124, actualEcheckRedepositResponse2.cnpTxnId);
             Assert.IsNull(nullEcheckRedepositResponse);
 
             mockCommunications.Verify(Communications => Communications.FtpDropOff(It.IsAny<String>(), mockFileName, It.IsAny<Dictionary<String, String>>()));
@@ -573,51 +573,51 @@ namespace Litle.Sdk.Test.Unit
             contact.name = "Bob";
             contact.city = "lowell";
             contact.state = "MA";
-            contact.email = "litle.com";
+            contact.email = "cnp.com";
             echecksale.billToAddress = contact;
 
-            var mockLitleResponse = new Mock<litleResponse>();
-            var mockLitleXmlSerializer = new Mock<litleXmlSerializer>();
+            var mockCnpResponse = new Mock<cnpResponse>();
+            var mockCnpXmlSerializer = new Mock<cnpXmlSerializer>();
 
             mockXmlReader.SetupSequence(XmlReader => XmlReader.ReadOuterXml())
-                .Returns("<echeckSalesResponse xmlns='http://www.litle.com/schema'><litleTxnId>123</litleTxnId></echeckSalesResponse>")
-                .Returns("<echeckSalesResponse xmlns='http://www.litle.com/schema'><litleTxnId>124</litleTxnId></echeckSalesResponse>");
+                .Returns("<echeckSalesResponse xmlns='http://www.vantivcnp.com/schema'><cnpTxnId>123</cnpTxnId></echeckSalesResponse>")
+                .Returns("<echeckSalesResponse xmlns='http://www.vantivcnp.com/schema'><cnpTxnId>124</cnpTxnId></echeckSalesResponse>");
 
-            batchResponse mockedLitleBatchResponse = new batchResponse();
-            mockedLitleBatchResponse.setEcheckSalesResponseReader(mockXmlReader.Object);
+            batchResponse mockedCnpBatchResponse = new batchResponse();
+            mockedCnpBatchResponse.setEcheckSalesResponseReader(mockXmlReader.Object);
 
-            mockLitleResponse.Setup(litleResponse => litleResponse.nextBatchResponse()).Returns(mockedLitleBatchResponse);
-            litleResponse mockedLitleResponse = mockLitleResponse.Object;
+            mockCnpResponse.Setup(cnpResponse => cnpResponse.nextBatchResponse()).Returns(mockedCnpBatchResponse);
+            cnpResponse mockedCnpResponse = mockCnpResponse.Object;
 
             Communications mockedCommunications = mockCommunications.Object;
 
-            mockLitleXmlSerializer.Setup(litleXmlSerializer => litleXmlSerializer.DeserializeObjectFromFile(It.IsAny<String>())).Returns(mockedLitleResponse);
-            litleXmlSerializer mockedLitleXmlSerializer = mockLitleXmlSerializer.Object;
+            mockCnpXmlSerializer.Setup(cnpXmlSerializer => cnpXmlSerializer.DeserializeObjectFromFile(It.IsAny<String>())).Returns(mockedCnpResponse);
+            cnpXmlSerializer mockedCnpXmlSerializer = mockCnpXmlSerializer.Object;
 
-            litleFile mockedLitleFile = mockLitleFile.Object;
+            cnpFile mockedCnpFile = mockCnpFile.Object;
 
-            litle.setCommunication(mockedCommunications);
-            litle.setLitleXmlSerializer(mockedLitleXmlSerializer);
-            litle.setLitleFile(mockedLitleFile);
-            litle.setLitleTime(mockLitleTime.Object);
+            cnp.setCommunication(mockedCommunications);
+            cnp.setCnpXmlSerializer(mockedCnpXmlSerializer);
+            cnp.setCnpFile(mockedCnpFile);
+            cnp.setCnpTime(mockCnpTime.Object);
 
-            batchRequest litleBatchRequest = new batchRequest();
-            litleBatchRequest.setLitleFile(mockedLitleFile);
-            litleBatchRequest.setLitleTime(mockLitleTime.Object);
-            litleBatchRequest.addEcheckSale(echecksale);
-            litleBatchRequest.addEcheckSale(echecksale);
-            litle.addBatch(litleBatchRequest);
+            batchRequest cnpBatchRequest = new batchRequest();
+            cnpBatchRequest.setCnpFile(mockedCnpFile);
+            cnpBatchRequest.setCnpTime(mockCnpTime.Object);
+            cnpBatchRequest.addEcheckSale(echecksale);
+            cnpBatchRequest.addEcheckSale(echecksale);
+            cnp.addBatch(cnpBatchRequest);
 
-            string batchFileName = litle.sendToLitle();
+            string batchFileName = cnp.sendToCnp();
 
-            litleResponse actualLitleResponse = litle.receiveFromLitle(batchFileName);
-            batchResponse actualLitleBatchResponse = actualLitleResponse.nextBatchResponse();
-            echeckSalesResponse actualEcheckSalesResponse1 = actualLitleBatchResponse.nextEcheckSalesResponse();
-            echeckSalesResponse actualEcheckSalesResponse2 = actualLitleBatchResponse.nextEcheckSalesResponse();
-            echeckSalesResponse nullEcheckSalesResponse = actualLitleBatchResponse.nextEcheckSalesResponse();
+            cnpResponse actualCnpResponse = cnp.receiveFromCnp(batchFileName);
+            batchResponse actualCnpBatchResponse = actualCnpResponse.nextBatchResponse();
+            echeckSalesResponse actualEcheckSalesResponse1 = actualCnpBatchResponse.nextEcheckSalesResponse();
+            echeckSalesResponse actualEcheckSalesResponse2 = actualCnpBatchResponse.nextEcheckSalesResponse();
+            echeckSalesResponse nullEcheckSalesResponse = actualCnpBatchResponse.nextEcheckSalesResponse();
 
-            Assert.AreEqual(123, actualEcheckSalesResponse1.litleTxnId);
-            Assert.AreEqual(124, actualEcheckSalesResponse2.litleTxnId);
+            Assert.AreEqual(123, actualEcheckSalesResponse1.cnpTxnId);
+            Assert.AreEqual(124, actualEcheckSalesResponse2.cnpTxnId);
             Assert.IsNull(nullEcheckSalesResponse);
 
             mockCommunications.Verify(Communications => Communications.FtpDropOff(It.IsAny<String>(), mockFileName, It.IsAny<Dictionary<String, String>>()));
@@ -641,51 +641,51 @@ namespace Litle.Sdk.Test.Unit
             contact.name = "Bob";
             contact.city = "lowell";
             contact.state = "MA";
-            contact.email = "litle.com";
+            contact.email = "cnp.com";
             echeckverification.billToAddress = contact;
 
-            var mockLitleResponse = new Mock<litleResponse>();
-            var mockLitleXmlSerializer = new Mock<litleXmlSerializer>();
+            var mockCnpResponse = new Mock<cnpResponse>();
+            var mockCnpXmlSerializer = new Mock<cnpXmlSerializer>();
 
             mockXmlReader.SetupSequence(XmlReader => XmlReader.ReadOuterXml())
-                .Returns("<echeckVerificationResponse xmlns='http://www.litle.com/schema'><litleTxnId>123</litleTxnId></echeckVerificationResponse>")
-                .Returns("<echeckVerificationResponse xmlns='http://www.litle.com/schema'><litleTxnId>124</litleTxnId></echeckVerificationResponse>");
+                .Returns("<echeckVerificationResponse xmlns='http://www.vantivcnp.com/schema'><cnpTxnId>123</cnpTxnId></echeckVerificationResponse>")
+                .Returns("<echeckVerificationResponse xmlns='http://www.vantivcnp.com/schema'><cnpTxnId>124</cnpTxnId></echeckVerificationResponse>");
 
-            batchResponse mockedLitleBatchResponse = new batchResponse();
-            mockedLitleBatchResponse.setEcheckVerificationResponseReader(mockXmlReader.Object);
+            batchResponse mockedCnpBatchResponse = new batchResponse();
+            mockedCnpBatchResponse.setEcheckVerificationResponseReader(mockXmlReader.Object);
 
-            mockLitleResponse.Setup(litleResponse => litleResponse.nextBatchResponse()).Returns(mockedLitleBatchResponse);
-            litleResponse mockedLitleResponse = mockLitleResponse.Object;
+            mockCnpResponse.Setup(cnpResponse => cnpResponse.nextBatchResponse()).Returns(mockedCnpBatchResponse);
+            cnpResponse mockedCnpResponse = mockCnpResponse.Object;
 
             Communications mockedCommunications = mockCommunications.Object;
 
-            mockLitleXmlSerializer.Setup(litleXmlSerializer => litleXmlSerializer.DeserializeObjectFromFile(It.IsAny<String>())).Returns(mockedLitleResponse);
-            litleXmlSerializer mockedLitleXmlSerializer = mockLitleXmlSerializer.Object;
+            mockCnpXmlSerializer.Setup(cnpXmlSerializer => cnpXmlSerializer.DeserializeObjectFromFile(It.IsAny<String>())).Returns(mockedCnpResponse);
+            cnpXmlSerializer mockedCnpXmlSerializer = mockCnpXmlSerializer.Object;
 
-            litleFile mockedLitleFile = mockLitleFile.Object;
+            cnpFile mockedCnpFile = mockCnpFile.Object;
 
-            litle.setCommunication(mockedCommunications);
-            litle.setLitleXmlSerializer(mockedLitleXmlSerializer);
-            litle.setLitleFile(mockedLitleFile);
-            litle.setLitleTime(mockLitleTime.Object);
+            cnp.setCommunication(mockedCommunications);
+            cnp.setCnpXmlSerializer(mockedCnpXmlSerializer);
+            cnp.setCnpFile(mockedCnpFile);
+            cnp.setCnpTime(mockCnpTime.Object);
 
-            batchRequest litleBatchRequest = new batchRequest();
-            litleBatchRequest.setLitleFile(mockedLitleFile);
-            litleBatchRequest.setLitleTime(mockLitleTime.Object);
-            litleBatchRequest.addEcheckVerification(echeckverification);
-            litleBatchRequest.addEcheckVerification(echeckverification);
-            litle.addBatch(litleBatchRequest);
+            batchRequest cnpBatchRequest = new batchRequest();
+            cnpBatchRequest.setCnpFile(mockedCnpFile);
+            cnpBatchRequest.setCnpTime(mockCnpTime.Object);
+            cnpBatchRequest.addEcheckVerification(echeckverification);
+            cnpBatchRequest.addEcheckVerification(echeckverification);
+            cnp.addBatch(cnpBatchRequest);
 
-            string batchFileName = litle.sendToLitle();
+            string batchFileName = cnp.sendToCnp();
 
-            litleResponse actualLitleResponse = litle.receiveFromLitle(batchFileName);
-            batchResponse actualLitleBatchResponse = actualLitleResponse.nextBatchResponse();
-            echeckVerificationResponse actualEcheckVerificationResponse1 = actualLitleBatchResponse.nextEcheckVerificationResponse();
-            echeckVerificationResponse actualEcheckVerificationResponse2 = actualLitleBatchResponse.nextEcheckVerificationResponse();
-            echeckVerificationResponse nullEcheckVerificationResponse = actualLitleBatchResponse.nextEcheckVerificationResponse();
+            cnpResponse actualCnpResponse = cnp.receiveFromCnp(batchFileName);
+            batchResponse actualCnpBatchResponse = actualCnpResponse.nextBatchResponse();
+            echeckVerificationResponse actualEcheckVerificationResponse1 = actualCnpBatchResponse.nextEcheckVerificationResponse();
+            echeckVerificationResponse actualEcheckVerificationResponse2 = actualCnpBatchResponse.nextEcheckVerificationResponse();
+            echeckVerificationResponse nullEcheckVerificationResponse = actualCnpBatchResponse.nextEcheckVerificationResponse();
 
-            Assert.AreEqual(123, actualEcheckVerificationResponse1.litleTxnId);
-            Assert.AreEqual(124, actualEcheckVerificationResponse2.litleTxnId);
+            Assert.AreEqual(123, actualEcheckVerificationResponse1.cnpTxnId);
+            Assert.AreEqual(124, actualEcheckVerificationResponse2.cnpTxnId);
             Assert.IsNull(nullEcheckVerificationResponse);
 
             mockCommunications.Verify(Communications => Communications.FtpDropOff(It.IsAny<String>(), mockFileName, It.IsAny<Dictionary<String, String>>()));
@@ -705,48 +705,48 @@ namespace Litle.Sdk.Test.Unit
             card.expDate = "1210";
             forcecapture.card = card;
 
-            var mockLitleResponse = new Mock<litleResponse>();
-            var mockLitleXmlSerializer = new Mock<litleXmlSerializer>();
+            var mockCnpResponse = new Mock<cnpResponse>();
+            var mockCnpXmlSerializer = new Mock<cnpXmlSerializer>();
 
             mockXmlReader.SetupSequence(XmlReader => XmlReader.ReadOuterXml())
-                .Returns("<forceCaptureResponse xmlns='http://www.litle.com/schema'><litleTxnId>123</litleTxnId></forceCaptureResponse>")
-                .Returns("<forceCaptureResponse xmlns='http://www.litle.com/schema'><litleTxnId>124</litleTxnId></forceCaptureResponse>");
+                .Returns("<forceCaptureResponse xmlns='http://www.vantivcnp.com/schema'><cnpTxnId>123</cnpTxnId></forceCaptureResponse>")
+                .Returns("<forceCaptureResponse xmlns='http://www.vantivcnp.com/schema'><cnpTxnId>124</cnpTxnId></forceCaptureResponse>");
 
-            batchResponse mockedLitleBatchResponse = new batchResponse();
-            mockedLitleBatchResponse.setForceCaptureResponseReader(mockXmlReader.Object);
+            batchResponse mockedCnpBatchResponse = new batchResponse();
+            mockedCnpBatchResponse.setForceCaptureResponseReader(mockXmlReader.Object);
 
-            mockLitleResponse.Setup(litleResponse => litleResponse.nextBatchResponse()).Returns(mockedLitleBatchResponse);
-            litleResponse mockedLitleResponse = mockLitleResponse.Object;
+            mockCnpResponse.Setup(cnpResponse => cnpResponse.nextBatchResponse()).Returns(mockedCnpBatchResponse);
+            cnpResponse mockedCnpResponse = mockCnpResponse.Object;
 
             Communications mockedCommunications = mockCommunications.Object;
 
-            mockLitleXmlSerializer.Setup(litleXmlSerializer => litleXmlSerializer.DeserializeObjectFromFile(It.IsAny<String>())).Returns(mockedLitleResponse);
-            litleXmlSerializer mockedLitleXmlSerializer = mockLitleXmlSerializer.Object;
+            mockCnpXmlSerializer.Setup(cnpXmlSerializer => cnpXmlSerializer.DeserializeObjectFromFile(It.IsAny<String>())).Returns(mockedCnpResponse);
+            cnpXmlSerializer mockedCnpXmlSerializer = mockCnpXmlSerializer.Object;
 
-            litleFile mockedLitleFile = mockLitleFile.Object;
+            cnpFile mockedCnpFile = mockCnpFile.Object;
 
-            litle.setCommunication(mockedCommunications);
-            litle.setLitleXmlSerializer(mockedLitleXmlSerializer);
-            litle.setLitleFile(mockedLitleFile);
-            litle.setLitleTime(mockLitleTime.Object);
+            cnp.setCommunication(mockedCommunications);
+            cnp.setCnpXmlSerializer(mockedCnpXmlSerializer);
+            cnp.setCnpFile(mockedCnpFile);
+            cnp.setCnpTime(mockCnpTime.Object);
 
-            batchRequest litleBatchRequest = new batchRequest();
-            litleBatchRequest.setLitleFile(mockedLitleFile);
-            litleBatchRequest.setLitleTime(mockLitleTime.Object);
-            litleBatchRequest.addForceCapture(forcecapture);
-            litleBatchRequest.addForceCapture(forcecapture);
-            litle.addBatch(litleBatchRequest);
+            batchRequest cnpBatchRequest = new batchRequest();
+            cnpBatchRequest.setCnpFile(mockedCnpFile);
+            cnpBatchRequest.setCnpTime(mockCnpTime.Object);
+            cnpBatchRequest.addForceCapture(forcecapture);
+            cnpBatchRequest.addForceCapture(forcecapture);
+            cnp.addBatch(cnpBatchRequest);
 
-            string batchFileName = litle.sendToLitle();
+            string batchFileName = cnp.sendToCnp();
 
-            litleResponse actualLitleResponse = litle.receiveFromLitle(batchFileName);
-            batchResponse actualLitleBatchResponse = actualLitleResponse.nextBatchResponse();
-            forceCaptureResponse actualForceCaptureResponse1 = actualLitleBatchResponse.nextForceCaptureResponse();
-            forceCaptureResponse actualForceCaptureResponse2 = actualLitleBatchResponse.nextForceCaptureResponse();
-            forceCaptureResponse nullForceCaptureResponse = actualLitleBatchResponse.nextForceCaptureResponse();
+            cnpResponse actualCnpResponse = cnp.receiveFromCnp(batchFileName);
+            batchResponse actualCnpBatchResponse = actualCnpResponse.nextBatchResponse();
+            forceCaptureResponse actualForceCaptureResponse1 = actualCnpBatchResponse.nextForceCaptureResponse();
+            forceCaptureResponse actualForceCaptureResponse2 = actualCnpBatchResponse.nextForceCaptureResponse();
+            forceCaptureResponse nullForceCaptureResponse = actualCnpBatchResponse.nextForceCaptureResponse();
 
-            Assert.AreEqual(123, actualForceCaptureResponse1.litleTxnId);
-            Assert.AreEqual(124, actualForceCaptureResponse2.litleTxnId);
+            Assert.AreEqual(123, actualForceCaptureResponse1.cnpTxnId);
+            Assert.AreEqual(124, actualForceCaptureResponse2.cnpTxnId);
             Assert.IsNull(nullForceCaptureResponse);
 
             mockCommunications.Verify(Communications => Communications.FtpDropOff(It.IsAny<String>(), mockFileName, It.IsAny<Dictionary<String, String>>()));
@@ -766,48 +766,48 @@ namespace Litle.Sdk.Test.Unit
             card.expDate = "1210";
             sale.card = card;
 
-            var mockLitleResponse = new Mock<litleResponse>();
-            var mockLitleXmlSerializer = new Mock<litleXmlSerializer>();
+            var mockCnpResponse = new Mock<cnpResponse>();
+            var mockCnpXmlSerializer = new Mock<cnpXmlSerializer>();
 
             mockXmlReader.SetupSequence(XmlReader => XmlReader.ReadOuterXml())
-                .Returns("<saleResponse xmlns='http://www.litle.com/schema'><litleTxnId>123</litleTxnId></saleResponse>")
-                .Returns("<saleResponse xmlns='http://www.litle.com/schema'><litleTxnId>124</litleTxnId></saleResponse>");
+                .Returns("<saleResponse xmlns='http://www.vantivcnp.com/schema'><cnpTxnId>123</cnpTxnId></saleResponse>")
+                .Returns("<saleResponse xmlns='http://www.vantivcnp.com/schema'><cnpTxnId>124</cnpTxnId></saleResponse>");
 
-            batchResponse mockedLitleBatchResponse = new batchResponse();
-            mockedLitleBatchResponse.setSaleResponseReader(mockXmlReader.Object);
+            batchResponse mockedCnpBatchResponse = new batchResponse();
+            mockedCnpBatchResponse.setSaleResponseReader(mockXmlReader.Object);
 
-            mockLitleResponse.Setup(litleResponse => litleResponse.nextBatchResponse()).Returns(mockedLitleBatchResponse);
-            litleResponse mockedLitleResponse = mockLitleResponse.Object;
+            mockCnpResponse.Setup(cnpResponse => cnpResponse.nextBatchResponse()).Returns(mockedCnpBatchResponse);
+            cnpResponse mockedCnpResponse = mockCnpResponse.Object;
 
             Communications mockedCommunications = mockCommunications.Object;
 
-            mockLitleXmlSerializer.Setup(litleXmlSerializer => litleXmlSerializer.DeserializeObjectFromFile(It.IsAny<String>())).Returns(mockedLitleResponse);
-            litleXmlSerializer mockedLitleXmlSerializer = mockLitleXmlSerializer.Object;
+            mockCnpXmlSerializer.Setup(cnpXmlSerializer => cnpXmlSerializer.DeserializeObjectFromFile(It.IsAny<String>())).Returns(mockedCnpResponse);
+            cnpXmlSerializer mockedCnpXmlSerializer = mockCnpXmlSerializer.Object;
 
-            litleFile mockedLitleFile = mockLitleFile.Object;
+            cnpFile mockedCnpFile = mockCnpFile.Object;
 
-            litle.setCommunication(mockedCommunications);
-            litle.setLitleXmlSerializer(mockedLitleXmlSerializer);
-            litle.setLitleFile(mockedLitleFile);
-            litle.setLitleTime(mockLitleTime.Object);
+            cnp.setCommunication(mockedCommunications);
+            cnp.setCnpXmlSerializer(mockedCnpXmlSerializer);
+            cnp.setCnpFile(mockedCnpFile);
+            cnp.setCnpTime(mockCnpTime.Object);
 
-            batchRequest litleBatchRequest = new batchRequest();
-            litleBatchRequest.setLitleFile(mockedLitleFile);
-            litleBatchRequest.setLitleTime(mockLitleTime.Object);
-            litleBatchRequest.addSale(sale);
-            litleBatchRequest.addSale(sale);
-            litle.addBatch(litleBatchRequest);
+            batchRequest cnpBatchRequest = new batchRequest();
+            cnpBatchRequest.setCnpFile(mockedCnpFile);
+            cnpBatchRequest.setCnpTime(mockCnpTime.Object);
+            cnpBatchRequest.addSale(sale);
+            cnpBatchRequest.addSale(sale);
+            cnp.addBatch(cnpBatchRequest);
 
-            string batchFileName = litle.sendToLitle();
+            string batchFileName = cnp.sendToCnp();
 
-            litleResponse actualLitleResponse = litle.receiveFromLitle(batchFileName);
-            batchResponse actualLitleBatchResponse = actualLitleResponse.nextBatchResponse();
-            saleResponse actualSaleResponse1 = actualLitleBatchResponse.nextSaleResponse();
-            saleResponse actualSaleResponse2 = actualLitleBatchResponse.nextSaleResponse();
-            saleResponse nullSaleResponse = actualLitleBatchResponse.nextSaleResponse();
+            cnpResponse actualCnpResponse = cnp.receiveFromCnp(batchFileName);
+            batchResponse actualCnpBatchResponse = actualCnpResponse.nextBatchResponse();
+            saleResponse actualSaleResponse1 = actualCnpBatchResponse.nextSaleResponse();
+            saleResponse actualSaleResponse2 = actualCnpBatchResponse.nextSaleResponse();
+            saleResponse nullSaleResponse = actualCnpBatchResponse.nextSaleResponse();
 
-            Assert.AreEqual(123, actualSaleResponse1.litleTxnId);
-            Assert.AreEqual(124, actualSaleResponse2.litleTxnId);
+            Assert.AreEqual(123, actualSaleResponse1.cnpTxnId);
+            Assert.AreEqual(124, actualSaleResponse2.cnpTxnId);
             Assert.IsNull(nullSaleResponse);
 
             mockCommunications.Verify(Communications => Communications.FtpDropOff(It.IsAny<String>(), mockFileName, It.IsAny<Dictionary<String, String>>()));
@@ -821,48 +821,48 @@ namespace Litle.Sdk.Test.Unit
             token.orderId = "12344";
             token.accountNumber = "1233456789103801";
 
-            var mockLitleResponse = new Mock<litleResponse>();
-            var mockLitleXmlSerializer = new Mock<litleXmlSerializer>();
+            var mockCnpResponse = new Mock<cnpResponse>();
+            var mockCnpXmlSerializer = new Mock<cnpXmlSerializer>();
 
             mockXmlReader.SetupSequence(XmlReader => XmlReader.ReadOuterXml())
-                .Returns("<registerTokenResponse xmlns='http://www.litle.com/schema'><litleTxnId>123</litleTxnId></registerTokenResponse>")
-                .Returns("<registerTokenResponse xmlns='http://www.litle.com/schema'><litleTxnId>124</litleTxnId></registerTokenResponse>");
+                .Returns("<registerTokenResponse xmlns='http://www.vantivcnp.com/schema'><cnpTxnId>123</cnpTxnId></registerTokenResponse>")
+                .Returns("<registerTokenResponse xmlns='http://www.vantivcnp.com/schema'><cnpTxnId>124</cnpTxnId></registerTokenResponse>");
 
-            batchResponse mockedLitleBatchResponse = new batchResponse();
-            mockedLitleBatchResponse.setRegisterTokenResponseReader(mockXmlReader.Object);
+            batchResponse mockedCnpBatchResponse = new batchResponse();
+            mockedCnpBatchResponse.setRegisterTokenResponseReader(mockXmlReader.Object);
 
-            mockLitleResponse.Setup(litleResponse => litleResponse.nextBatchResponse()).Returns(mockedLitleBatchResponse);
-            litleResponse mockedLitleResponse = mockLitleResponse.Object;
+            mockCnpResponse.Setup(cnpResponse => cnpResponse.nextBatchResponse()).Returns(mockedCnpBatchResponse);
+            cnpResponse mockedCnpResponse = mockCnpResponse.Object;
 
             Communications mockedCommunications = mockCommunications.Object;
 
-            mockLitleXmlSerializer.Setup(litleXmlSerializer => litleXmlSerializer.DeserializeObjectFromFile(It.IsAny<String>())).Returns(mockedLitleResponse);
-            litleXmlSerializer mockedLitleXmlSerializer = mockLitleXmlSerializer.Object;
+            mockCnpXmlSerializer.Setup(cnpXmlSerializer => cnpXmlSerializer.DeserializeObjectFromFile(It.IsAny<String>())).Returns(mockedCnpResponse);
+            cnpXmlSerializer mockedCnpXmlSerializer = mockCnpXmlSerializer.Object;
 
-            litleFile mockedLitleFile = mockLitleFile.Object;
+            cnpFile mockedCnpFile = mockCnpFile.Object;
 
-            litle.setCommunication(mockedCommunications);
-            litle.setLitleXmlSerializer(mockedLitleXmlSerializer);
-            litle.setLitleFile(mockedLitleFile);
-            litle.setLitleTime(mockLitleTime.Object);
+            cnp.setCommunication(mockedCommunications);
+            cnp.setCnpXmlSerializer(mockedCnpXmlSerializer);
+            cnp.setCnpFile(mockedCnpFile);
+            cnp.setCnpTime(mockCnpTime.Object);
 
-            batchRequest litleBatchRequest = new batchRequest();
-            litleBatchRequest.setLitleFile(mockedLitleFile);
-            litleBatchRequest.setLitleTime(mockLitleTime.Object);
-            litleBatchRequest.addRegisterTokenRequest(token);
-            litleBatchRequest.addRegisterTokenRequest(token);
-            litle.addBatch(litleBatchRequest);
+            batchRequest cnpBatchRequest = new batchRequest();
+            cnpBatchRequest.setCnpFile(mockedCnpFile);
+            cnpBatchRequest.setCnpTime(mockCnpTime.Object);
+            cnpBatchRequest.addRegisterTokenRequest(token);
+            cnpBatchRequest.addRegisterTokenRequest(token);
+            cnp.addBatch(cnpBatchRequest);
 
-            string batchFileName = litle.sendToLitle();
+            string batchFileName = cnp.sendToCnp();
 
-            litleResponse actualLitleResponse = litle.receiveFromLitle(batchFileName);
-            batchResponse actualLitleBatchResponse = actualLitleResponse.nextBatchResponse();
-            registerTokenResponse actualRegisterTokenResponse1 = actualLitleBatchResponse.nextRegisterTokenResponse();
-            registerTokenResponse actualRegisterTokenResponse2 = actualLitleBatchResponse.nextRegisterTokenResponse();
-            registerTokenResponse nullRegisterTokenResponse = actualLitleBatchResponse.nextRegisterTokenResponse();
+            cnpResponse actualCnpResponse = cnp.receiveFromCnp(batchFileName);
+            batchResponse actualCnpBatchResponse = actualCnpResponse.nextBatchResponse();
+            registerTokenResponse actualRegisterTokenResponse1 = actualCnpBatchResponse.nextRegisterTokenResponse();
+            registerTokenResponse actualRegisterTokenResponse2 = actualCnpBatchResponse.nextRegisterTokenResponse();
+            registerTokenResponse nullRegisterTokenResponse = actualCnpBatchResponse.nextRegisterTokenResponse();
 
-            Assert.AreEqual(123, actualRegisterTokenResponse1.litleTxnId);
-            Assert.AreEqual(124, actualRegisterTokenResponse2.litleTxnId);
+            Assert.AreEqual(123, actualRegisterTokenResponse1.cnpTxnId);
+            Assert.AreEqual(124, actualRegisterTokenResponse2.cnpTxnId);
             Assert.IsNull(nullRegisterTokenResponse);
 
             mockCommunications.Verify(Communications => Communications.FtpDropOff(It.IsAny<String>(), mockFileName, It.IsAny<Dictionary<String, String>>()));
@@ -874,50 +874,50 @@ namespace Litle.Sdk.Test.Unit
         {
             updateCardValidationNumOnToken updateCardValidationNumOnToken = new updateCardValidationNumOnToken();
             updateCardValidationNumOnToken.orderId = "12344";
-            updateCardValidationNumOnToken.litleToken = "123";
+            updateCardValidationNumOnToken.cnpToken = "123";
 
-            var mockLitleResponse = new Mock<litleResponse>();
-            var mockLitleXmlSerializer = new Mock<litleXmlSerializer>();
+            var mockCnpResponse = new Mock<cnpResponse>();
+            var mockCnpXmlSerializer = new Mock<cnpXmlSerializer>();
 
             mockXmlReader.SetupSequence(XmlReader => XmlReader.ReadOuterXml())
-                .Returns("<updateCardValidationNumOnTokenResponse xmlns='http://www.litle.com/schema'><litleTxnId>123</litleTxnId></updateCardValidationNumOnTokenResponse>")
-                .Returns("<updateCardValidationNumOnTokenResponse xmlns='http://www.litle.com/schema'><litleTxnId>124</litleTxnId></updateCardValidationNumOnTokenResponse>");
+                .Returns("<updateCardValidationNumOnTokenResponse xmlns='http://www.vantivcnp.com/schema'><cnpTxnId>123</cnpTxnId></updateCardValidationNumOnTokenResponse>")
+                .Returns("<updateCardValidationNumOnTokenResponse xmlns='http://www.vantivcnp.com/schema'><cnpTxnId>124</cnpTxnId></updateCardValidationNumOnTokenResponse>");
 
-            batchResponse mockedLitleBatchResponse = new batchResponse();
-            mockedLitleBatchResponse.setUpdateCardValidationNumOnTokenResponseReader(mockXmlReader.Object);
+            batchResponse mockedCnpBatchResponse = new batchResponse();
+            mockedCnpBatchResponse.setUpdateCardValidationNumOnTokenResponseReader(mockXmlReader.Object);
 
-            mockLitleResponse.Setup(litleResponse => litleResponse.nextBatchResponse()).Returns(mockedLitleBatchResponse);
-            litleResponse mockedLitleResponse = mockLitleResponse.Object;
+            mockCnpResponse.Setup(cnpResponse => cnpResponse.nextBatchResponse()).Returns(mockedCnpBatchResponse);
+            cnpResponse mockedCnpResponse = mockCnpResponse.Object;
 
             Communications mockedCommunications = mockCommunications.Object;
 
-            mockLitleXmlSerializer.Setup(litleXmlSerializer => litleXmlSerializer.DeserializeObjectFromFile(It.IsAny<String>())).Returns(mockedLitleResponse);
-            litleXmlSerializer mockedLitleXmlSerializer = mockLitleXmlSerializer.Object;
+            mockCnpXmlSerializer.Setup(cnpXmlSerializer => cnpXmlSerializer.DeserializeObjectFromFile(It.IsAny<String>())).Returns(mockedCnpResponse);
+            cnpXmlSerializer mockedCnpXmlSerializer = mockCnpXmlSerializer.Object;
 
-            litleFile mockedLitleFile = mockLitleFile.Object;
+            cnpFile mockedCnpFile = mockCnpFile.Object;
 
-            litle.setCommunication(mockedCommunications);
-            litle.setLitleXmlSerializer(mockedLitleXmlSerializer);
-            litle.setLitleFile(mockedLitleFile);
-            litle.setLitleTime(mockLitleTime.Object);
+            cnp.setCommunication(mockedCommunications);
+            cnp.setCnpXmlSerializer(mockedCnpXmlSerializer);
+            cnp.setCnpFile(mockedCnpFile);
+            cnp.setCnpTime(mockCnpTime.Object);
 
-            batchRequest litleBatchRequest = new batchRequest();
-            litleBatchRequest.setLitleFile(mockedLitleFile);
-            litleBatchRequest.setLitleTime(mockLitleTime.Object);
-            litleBatchRequest.addUpdateCardValidationNumOnToken(updateCardValidationNumOnToken);
-            litleBatchRequest.addUpdateCardValidationNumOnToken(updateCardValidationNumOnToken);
-            litle.addBatch(litleBatchRequest);
+            batchRequest cnpBatchRequest = new batchRequest();
+            cnpBatchRequest.setCnpFile(mockedCnpFile);
+            cnpBatchRequest.setCnpTime(mockCnpTime.Object);
+            cnpBatchRequest.addUpdateCardValidationNumOnToken(updateCardValidationNumOnToken);
+            cnpBatchRequest.addUpdateCardValidationNumOnToken(updateCardValidationNumOnToken);
+            cnp.addBatch(cnpBatchRequest);
 
-            string batchFileName = litle.sendToLitle();
+            string batchFileName = cnp.sendToCnp();
 
-            litleResponse actualLitleResponse = litle.receiveFromLitle(batchFileName);
-            batchResponse actualLitleBatchResponse = actualLitleResponse.nextBatchResponse();
-            updateCardValidationNumOnTokenResponse actualUpdateCardValidationNumOnTokenResponse1 = actualLitleBatchResponse.nextUpdateCardValidationNumOnTokenResponse();
-            updateCardValidationNumOnTokenResponse actualUpdateCardValidationNumOnTokenResponse2 = actualLitleBatchResponse.nextUpdateCardValidationNumOnTokenResponse();
-            updateCardValidationNumOnTokenResponse nullUpdateCardValidationNumOnTokenResponse = actualLitleBatchResponse.nextUpdateCardValidationNumOnTokenResponse();
+            cnpResponse actualCnpResponse = cnp.receiveFromCnp(batchFileName);
+            batchResponse actualCnpBatchResponse = actualCnpResponse.nextBatchResponse();
+            updateCardValidationNumOnTokenResponse actualUpdateCardValidationNumOnTokenResponse1 = actualCnpBatchResponse.nextUpdateCardValidationNumOnTokenResponse();
+            updateCardValidationNumOnTokenResponse actualUpdateCardValidationNumOnTokenResponse2 = actualCnpBatchResponse.nextUpdateCardValidationNumOnTokenResponse();
+            updateCardValidationNumOnTokenResponse nullUpdateCardValidationNumOnTokenResponse = actualCnpBatchResponse.nextUpdateCardValidationNumOnTokenResponse();
 
-            Assert.AreEqual(123, actualUpdateCardValidationNumOnTokenResponse1.litleTxnId);
-            Assert.AreEqual(124, actualUpdateCardValidationNumOnTokenResponse2.litleTxnId);
+            Assert.AreEqual(123, actualUpdateCardValidationNumOnTokenResponse1.cnpTxnId);
+            Assert.AreEqual(124, actualUpdateCardValidationNumOnTokenResponse2.cnpTxnId);
             Assert.IsNull(nullUpdateCardValidationNumOnTokenResponse);
 
             mockCommunications.Verify(Communications => Communications.FtpDropOff(It.IsAny<String>(), mockFileName, It.IsAny<Dictionary<String, String>>()));
@@ -925,7 +925,7 @@ namespace Litle.Sdk.Test.Unit
         }
 
         [Test]
-        public void testLitleOnlineException()
+        public void testCnpOnlineException()
         {
             authorization authorization = new authorization();
             authorization.reportGroup = "Planets";
@@ -938,49 +938,49 @@ namespace Litle.Sdk.Test.Unit
             card.expDate = "1210";
             authorization.card = card;
 
-            var mockLitleResponse = new Mock<litleResponse>();
-            var mockLitleBatchResponse = new Mock<batchResponse>();
-            var mockLitleXmlSerializer = new Mock<litleXmlSerializer>();
+            var mockCnpResponse = new Mock<cnpResponse>();
+            var mockCnpBatchResponse = new Mock<batchResponse>();
+            var mockCnpXmlSerializer = new Mock<cnpXmlSerializer>();
 
             authorizationResponse mockAuthorizationResponse1 = new authorizationResponse();
-            mockAuthorizationResponse1.litleTxnId = 123;
+            mockAuthorizationResponse1.cnpTxnId = 123;
             authorizationResponse mockAuthorizationResponse2 = new authorizationResponse();
-            mockAuthorizationResponse2.litleTxnId = 124;
+            mockAuthorizationResponse2.cnpTxnId = 124;
 
-            mockLitleBatchResponse.SetupSequence(litleBatchResponse => litleBatchResponse.nextAuthorizationResponse())
+            mockCnpBatchResponse.SetupSequence(cnpBatchResponse => cnpBatchResponse.nextAuthorizationResponse())
                 .Returns(mockAuthorizationResponse1)
                 .Returns(mockAuthorizationResponse2)
                 .Returns((authorizationResponse)null);
 
-            litleResponse mockedLitleResponse = mockLitleResponse.Object;
-            mockedLitleResponse.message = "Error validating xml data against the schema";
-            mockedLitleResponse.response = "1";
+            cnpResponse mockedCnpResponse = mockCnpResponse.Object;
+            mockedCnpResponse.message = "Error validating xml data against the schema";
+            mockedCnpResponse.response = "1";
 
             Communications mockedCommunications = mockCommunications.Object;
 
-            mockLitleXmlSerializer.Setup(litleXmlSerializer => litleXmlSerializer.DeserializeObjectFromFile(It.IsAny<String>())).Returns(mockedLitleResponse);
-            litleXmlSerializer mockedLitleXmlSerializer = mockLitleXmlSerializer.Object;
+            mockCnpXmlSerializer.Setup(cnpXmlSerializer => cnpXmlSerializer.DeserializeObjectFromFile(It.IsAny<String>())).Returns(mockedCnpResponse);
+            cnpXmlSerializer mockedCnpXmlSerializer = mockCnpXmlSerializer.Object;
 
-            litleFile mockedLitleFile = mockLitleFile.Object;
+            cnpFile mockedCnpFile = mockCnpFile.Object;
 
             try
             {
-                litle.setCommunication(mockedCommunications);
-                litle.setLitleXmlSerializer(mockedLitleXmlSerializer);
-                litle.setLitleFile(mockedLitleFile);
-                litle.setLitleTime(mockLitleTime.Object);
-                batchRequest litleBatchRequest = new batchRequest();
-                litleBatchRequest.setLitleFile(mockedLitleFile);
-                litleBatchRequest.setLitleTime(mockLitleTime.Object);
+                cnp.setCommunication(mockedCommunications);
+                cnp.setCnpXmlSerializer(mockedCnpXmlSerializer);
+                cnp.setCnpFile(mockedCnpFile);
+                cnp.setCnpTime(mockCnpTime.Object);
+                batchRequest cnpBatchRequest = new batchRequest();
+                cnpBatchRequest.setCnpFile(mockedCnpFile);
+                cnpBatchRequest.setCnpTime(mockCnpTime.Object);
 
-                litleBatchRequest.addAuthorization(authorization);
-                litleBatchRequest.addAuthorization(authorization);
-                litle.addBatch(litleBatchRequest);
+                cnpBatchRequest.addAuthorization(authorization);
+                cnpBatchRequest.addAuthorization(authorization);
+                cnp.addBatch(cnpBatchRequest);
 
-                string batchFileName = litle.sendToLitle();
-                litleResponse litleResponse = litle.receiveFromLitle(batchFileName);
+                string batchFileName = cnp.sendToCnp();
+                cnpResponse cnpResponse = cnp.receiveFromCnp(batchFileName);
             }
-            catch (LitleOnlineException e)
+            catch (CnpOnlineException e)
             {
                 Assert.AreEqual("Error validating xml data against the schema", e.Message);
             }
@@ -1000,35 +1000,35 @@ namespace Litle.Sdk.Test.Unit
             card.expDate = "1210";
             authorization.card = card;
 
-            litleResponse mockLitleResponse = null;
+            cnpResponse mockCnpResponse = null;
 
-            var mockXml = new Mock<litleXmlSerializer>();
+            var mockXml = new Mock<cnpXmlSerializer>();
 
             Communications mockedCommunications = mockCommunications.Object;
 
-            mockXml.Setup(litleXmlSerializer => litleXmlSerializer.DeserializeObjectFromFile(It.IsAny<String>())).Returns(mockLitleResponse);
-            litleXmlSerializer mockedLitleXmlSerializer = mockXml.Object;
+            mockXml.Setup(cnpXmlSerializer => cnpXmlSerializer.DeserializeObjectFromFile(It.IsAny<String>())).Returns(mockCnpResponse);
+            cnpXmlSerializer mockedCnpXmlSerializer = mockXml.Object;
 
-            litleFile mockedLitleFile = mockLitleFile.Object;
+            cnpFile mockedCnpFile = mockCnpFile.Object;
 
             try
             {
-                litle.setCommunication(mockedCommunications);
-                litle.setLitleXmlSerializer(mockedLitleXmlSerializer);
-                litle.setLitleFile(mockedLitleFile);
-                litle.setLitleTime(mockLitleTime.Object);
-                batchRequest litleBatchRequest = new batchRequest();
-                litleBatchRequest.setLitleFile(mockedLitleFile);
-                litleBatchRequest.setLitleTime(mockLitleTime.Object);
+                cnp.setCommunication(mockedCommunications);
+                cnp.setCnpXmlSerializer(mockedCnpXmlSerializer);
+                cnp.setCnpFile(mockedCnpFile);
+                cnp.setCnpTime(mockCnpTime.Object);
+                batchRequest cnpBatchRequest = new batchRequest();
+                cnpBatchRequest.setCnpFile(mockedCnpFile);
+                cnpBatchRequest.setCnpTime(mockCnpTime.Object);
 
-                litleBatchRequest.addAuthorization(authorization);
-                litleBatchRequest.addAuthorization(authorization);
-                litle.addBatch(litleBatchRequest);
+                cnpBatchRequest.addAuthorization(authorization);
+                cnpBatchRequest.addAuthorization(authorization);
+                cnp.addBatch(cnpBatchRequest);
 
-                string batchFileName = litle.sendToLitle();
-                litleResponse litleResponse = litle.receiveFromLitle(batchFileName);
+                string batchFileName = cnp.sendToCnp();
+                cnpResponse cnpResponse = cnp.receiveFromCnp(batchFileName);
             }
-            catch (LitleOnlineException e)
+            catch (CnpOnlineException e)
             {
                 Assert.AreEqual("Error validating xml data against the schema", e.Message);
             }
@@ -1047,52 +1047,52 @@ namespace Litle.Sdk.Test.Unit
             card.expDate = "1210";
             authorization.card = card;
 
-            var mockLitleResponse = new Mock<litleResponse>();
-            var mockLitleXmlSerializer = new Mock<litleXmlSerializer>();
+            var mockCnpResponse = new Mock<cnpResponse>();
+            var mockCnpXmlSerializer = new Mock<cnpXmlSerializer>();
 
             mockXmlReader.SetupSequence(XmlReader => XmlReader.ReadOuterXml())
-                .Returns("<authorizationResponse reportGroup=\"Default Report Group\" xmlns='http://www.litle.com/schema'><litleTxnId>123</litleTxnId></authorizationResponse>")
-                .Returns("<authorizationResponse reportGroup=\"Default Report Group\" xmlns='http://www.litle.com/schema'><litleTxnId>124</litleTxnId></authorizationResponse>");
+                .Returns("<authorizationResponse reportGroup=\"Default Report Group\" xmlns='http://www.vantivcnp.com/schema'><cnpTxnId>123</cnpTxnId></authorizationResponse>")
+                .Returns("<authorizationResponse reportGroup=\"Default Report Group\" xmlns='http://www.vantivcnp.com/schema'><cnpTxnId>124</cnpTxnId></authorizationResponse>");
 
-            batchResponse mockedLitleBatchResponse = new batchResponse();
-            mockedLitleBatchResponse.setAuthorizationResponseReader(mockXmlReader.Object);
+            batchResponse mockedCnpBatchResponse = new batchResponse();
+            mockedCnpBatchResponse.setAuthorizationResponseReader(mockXmlReader.Object);
 
-            mockLitleResponse.Setup(litleResponse => litleResponse.nextBatchResponse()).Returns(mockedLitleBatchResponse);
-            litleResponse mockedLitleResponse = mockLitleResponse.Object;
+            mockCnpResponse.Setup(cnpResponse => cnpResponse.nextBatchResponse()).Returns(mockedCnpBatchResponse);
+            cnpResponse mockedCnpResponse = mockCnpResponse.Object;
 
             Communications mockedCommunications = mockCommunications.Object;
 
-            mockLitleXmlSerializer.Setup(litleXmlSerializer => litleXmlSerializer.DeserializeObjectFromFile(It.IsAny<String>())).Returns(mockedLitleResponse);
-            litleXmlSerializer mockedLitleXmlSerializer = mockLitleXmlSerializer.Object;
+            mockCnpXmlSerializer.Setup(cnpXmlSerializer => cnpXmlSerializer.DeserializeObjectFromFile(It.IsAny<String>())).Returns(mockedCnpResponse);
+            cnpXmlSerializer mockedCnpXmlSerializer = mockCnpXmlSerializer.Object;
 
-            litleFile mockedLitleFile = mockLitleFile.Object;
+            cnpFile mockedCnpFile = mockCnpFile.Object;
 
-            litle.setCommunication(mockedCommunications);
-            litle.setLitleXmlSerializer(mockedLitleXmlSerializer);
-            litle.setLitleFile(mockedLitleFile);
-            litle.setLitleTime(mockLitleTime.Object);
-            batchRequest litleBatchRequest = new batchRequest();
-            litleBatchRequest.setLitleFile(mockedLitleFile);
-            litleBatchRequest.setLitleTime(mockLitleTime.Object);
-            litleBatchRequest.addAuthorization(authorization);
-            litleBatchRequest.addAuthorization(authorization);
-            litle.addBatch(litleBatchRequest);
+            cnp.setCommunication(mockedCommunications);
+            cnp.setCnpXmlSerializer(mockedCnpXmlSerializer);
+            cnp.setCnpFile(mockedCnpFile);
+            cnp.setCnpTime(mockCnpTime.Object);
+            batchRequest cnpBatchRequest = new batchRequest();
+            cnpBatchRequest.setCnpFile(mockedCnpFile);
+            cnpBatchRequest.setCnpTime(mockCnpTime.Object);
+            cnpBatchRequest.addAuthorization(authorization);
+            cnpBatchRequest.addAuthorization(authorization);
+            cnp.addBatch(cnpBatchRequest);
 
-            string batchFileName = litle.sendToLitle();
+            string batchFileName = cnp.sendToCnp();
 
-            litleResponse actualLitleResponse = litle.receiveFromLitle(batchFileName);
-            batchResponse actualLitleBatchResponse = actualLitleResponse.nextBatchResponse();
-            authorizationResponse actualAuthorizationResponse1 = actualLitleBatchResponse.nextAuthorizationResponse();
-            authorizationResponse actualAuthorizationResponse2 = actualLitleBatchResponse.nextAuthorizationResponse();
-            authorizationResponse nullAuthorizationResponse = actualLitleBatchResponse.nextAuthorizationResponse();
+            cnpResponse actualCnpResponse = cnp.receiveFromCnp(batchFileName);
+            batchResponse actualCnpBatchResponse = actualCnpResponse.nextBatchResponse();
+            authorizationResponse actualAuthorizationResponse1 = actualCnpBatchResponse.nextAuthorizationResponse();
+            authorizationResponse actualAuthorizationResponse2 = actualCnpBatchResponse.nextAuthorizationResponse();
+            authorizationResponse nullAuthorizationResponse = actualCnpBatchResponse.nextAuthorizationResponse();
 
-            Assert.AreEqual(123, actualAuthorizationResponse1.litleTxnId);
+            Assert.AreEqual(123, actualAuthorizationResponse1.cnpTxnId);
             Assert.AreEqual("Default Report Group", actualAuthorizationResponse1.reportGroup);
-            Assert.AreEqual(124, actualAuthorizationResponse2.litleTxnId);
+            Assert.AreEqual(124, actualAuthorizationResponse2.cnpTxnId);
             Assert.AreEqual("Default Report Group", actualAuthorizationResponse2.reportGroup);
             Assert.IsNull(nullAuthorizationResponse);
 
-            mockLitleFile.Verify(litleFile => litleFile.AppendLineToFile(mockFilePath, It.IsRegex(".*reportGroup=\"Default Report Group\".*", RegexOptions.Singleline)));
+            mockCnpFile.Verify(cnpFile => cnpFile.AppendLineToFile(mockFilePath, It.IsRegex(".*reportGroup=\"Default Report Group\".*", RegexOptions.Singleline)));
             mockCommunications.Verify(Communications => Communications.FtpDropOff(It.IsAny<String>(), mockFileName, It.IsAny<Dictionary<String, String>>()));
             mockCommunications.Verify(Communications => Communications.FtpPickUp(It.IsAny<String>(), It.IsAny<Dictionary<String, String>>(), mockFileName));
         }
@@ -1110,69 +1110,69 @@ namespace Litle.Sdk.Test.Unit
             card.expDate = "1210";
             authorization.card = card;
 
-            litleFile mockedLitleFile = mockLitleFile.Object;
-            litleTime mockedLitleTime = mockLitleTime.Object;
+            cnpFile mockedCnpFile = mockCnpFile.Object;
+            cnpTime mockedCnpTime = mockCnpTime.Object;
 
-            litle.setLitleTime(mockedLitleTime);
-            litle.setLitleFile(mockedLitleFile);
+            cnp.setCnpTime(mockedCnpTime);
+            cnp.setCnpFile(mockedCnpFile);
 
-            batchRequest litleBatchRequest = new batchRequest();
-            litleBatchRequest.setLitleFile(mockedLitleFile);
-            litleBatchRequest.addAuthorization(authorization);
-            litle.addBatch(litleBatchRequest);
+            batchRequest cnpBatchRequest = new batchRequest();
+            cnpBatchRequest.setCnpFile(mockedCnpFile);
+            cnpBatchRequest.addAuthorization(authorization);
+            cnp.addBatch(cnpBatchRequest);
 
-            string resultFile = litle.Serialize();
+            string resultFile = cnp.Serialize();
 
             Assert.IsTrue(resultFile.Equals(mockFilePath));
 
-            mockLitleFile.Verify(litleFile => litleFile.AppendFileToFile(mockFilePath, It.IsAny<String>()));
+            mockCnpFile.Verify(cnpFile => cnpFile.AppendFileToFile(mockFilePath, It.IsAny<String>()));
         }
 
         [Test]
         public void testRFRRequest()
         {
             RFRRequest rfrRequest = new RFRRequest();
-            rfrRequest.litleSessionId = 123456789;
+            rfrRequest.cnpSessionId = 123456789;
 
             var mockBatchXmlReader = new Mock<XmlReader>();
             mockBatchXmlReader.Setup(XmlReader => XmlReader.ReadState).Returns(ReadState.Closed);
 
             mockXmlReader.SetupSequence(XmlReader => XmlReader.ReadState).Returns(ReadState.Interactive).Returns(ReadState.Closed);
-            mockXmlReader.Setup(XmlReader => XmlReader.ReadOuterXml()).Returns("<RFRResponse response=\"1\" message=\"The account update file is not ready yet. Please try again later.\" xmlns='http://www.litle.com/schema'> </RFRResponse>");
+            mockXmlReader.Setup(XmlReader => XmlReader.ReadOuterXml()).Returns("<RFRResponse response=\"1\" message=\"The account update file is not ready yet. Please try again later.\" xmlns='http://www.vantivcnp.com/schema'> </RFRResponse>");
 
-            litleResponse mockedLitleResponse = new litleResponse();
-            mockedLitleResponse.setRfrResponseReader(mockXmlReader.Object);
-            mockedLitleResponse.setBatchResponseReader(mockBatchXmlReader.Object);
+            cnpResponse mockedCnpResponse = new cnpResponse();
+            mockedCnpResponse.setRfrResponseReader(mockXmlReader.Object);
+            mockedCnpResponse.setBatchResponseReader(mockBatchXmlReader.Object);
 
-            var mockLitleXmlSerializer = new Mock<litleXmlSerializer>();
-            mockLitleXmlSerializer.Setup(litleXmlSerializer => litleXmlSerializer.DeserializeObjectFromFile(It.IsAny<String>())).Returns(mockedLitleResponse);
-            litleXmlSerializer mockedLitleXmlSerializer = mockLitleXmlSerializer.Object;
+            var mockCnpXmlSerializer = new Mock<cnpXmlSerializer>();
+            mockCnpXmlSerializer.Setup(cnpXmlSerializer => cnpXmlSerializer.DeserializeObjectFromFile(It.IsAny<String>())).Returns(mockedCnpResponse);
+            cnpXmlSerializer mockedCnpXmlSerializer = mockCnpXmlSerializer.Object;
 
-            litleFile mockedLitleFile = mockLitleFile.Object;
-            litleTime mockedLitleTime = mockLitleTime.Object;
+            cnpFile mockedCnpFile = mockCnpFile.Object;
+            cnpTime mockedCnpTime = mockCnpTime.Object;
             Communications mockedCommunications = mockCommunications.Object;
 
-            litle.setLitleFile(mockedLitleFile);
-            litle.setLitleTime(mockedLitleTime);
-            litle.setCommunication(mockedCommunications);
-            litle.setLitleXmlSerializer(mockedLitleXmlSerializer);
+            cnp.setCnpFile(mockedCnpFile);
+            cnp.setCnpTime(mockedCnpTime);
+            cnp.setCommunication(mockedCommunications);
+            cnp.setCnpXmlSerializer(mockedCnpXmlSerializer);
 
-            rfrRequest.setLitleFile(mockedLitleFile);
-            rfrRequest.setLitleTime(mockedLitleTime);
+            rfrRequest.setCnpFile(mockedCnpFile);
+            rfrRequest.setCnpTime(mockedCnpTime);
 
-            litle.addRFRRequest(rfrRequest);
+            cnp.addRFRRequest(rfrRequest);
 
-            string batchFileName = litle.sendToLitle();
+            string batchFileName = cnp.sendToCnp();
 
-            litleResponse actualLitleResponse = litle.receiveFromLitle(batchFileName);
-            batchResponse nullLitleBatchResponse = actualLitleResponse.nextBatchResponse();
-            RFRResponse actualRFRResponse = actualLitleResponse.nextRFRResponse();
-            RFRResponse nullRFRResponse = actualLitleResponse.nextRFRResponse();
+            cnpResponse actualCnpResponse = cnp.receiveFromCnp(batchFileName);
+            batchResponse nullCnpBatchResponse = actualCnpResponse.nextBatchResponse();
+            RFRResponse actualRFRResponse = actualCnpResponse.nextRFRResponse();
+            RFRResponse nullRFRResponse = actualCnpResponse.nextRFRResponse();
 
             Assert.IsNotNull(actualRFRResponse);
             Assert.AreEqual("1", actualRFRResponse.response);
             Assert.AreEqual("The account update file is not ready yet. Please try again later.", actualRFRResponse.message);
-            Assert.IsNull(nullLitleBatchResponse);
+            Assert.IsNull(nullCnpBatchResponse);
             Assert.IsNull(nullRFRResponse);
 
             mockCommunications.Verify(Communications => Communications.FtpDropOff(It.IsAny<String>(), mockFileName, It.IsAny<Dictionary<String, String>>()));
@@ -1185,46 +1185,46 @@ namespace Litle.Sdk.Test.Unit
             cancelSubscription cancel = new cancelSubscription();
             cancel.subscriptionId = 12345;
 
-            var mockLitleResponse = new Mock<litleResponse>();
-            var mockLitleXmlSerializer = new Mock<litleXmlSerializer>();
+            var mockCnpResponse = new Mock<cnpResponse>();
+            var mockCnpXmlSerializer = new Mock<cnpXmlSerializer>();
 
             mockXmlReader.SetupSequence(XmlReader => XmlReader.ReadOuterXml())
-                .Returns("<cancelSubscriptionResponse xmlns=\"http://www.litle.com/schema\"><litleTxnId>54321</litleTxnId><response>000</response><message>Approved</message><responseTime>2013-09-04T21:55:14</responseTime><subscriptionId>12345</subscriptionId></cancelSubscriptionResponse>")
-                .Returns("<cancelSubscriptionResponse xmlns=\"http://www.litle.com/schema\"><litleTxnId>12345</litleTxnId><response>000</response><message>Approved</message><responseTime>2013-09-04T21:55:14</responseTime><subscriptionId>54321</subscriptionId></cancelSubscriptionResponse>");
+                .Returns("<cancelSubscriptionResponse xmlns=\"http://www.cnp.com/schema\"><cnpTxnId>54321</cnpTxnId><response>000</response><message>Approved</message><responseTime>2013-09-04T21:55:14</responseTime><subscriptionId>12345</subscriptionId></cancelSubscriptionResponse>")
+                .Returns("<cancelSubscriptionResponse xmlns=\"http://www.cnp.com/schema\"><cnpTxnId>12345</cnpTxnId><response>000</response><message>Approved</message><responseTime>2013-09-04T21:55:14</responseTime><subscriptionId>54321</subscriptionId></cancelSubscriptionResponse>");
 
-            batchResponse mockLitleBatchResponse = new batchResponse();
-            mockLitleBatchResponse.setCancelSubscriptionResponseReader(mockXmlReader.Object);
+            batchResponse mockCnpBatchResponse = new batchResponse();
+            mockCnpBatchResponse.setCancelSubscriptionResponseReader(mockXmlReader.Object);
 
-            mockLitleResponse.Setup(litleResponse => litleResponse.nextBatchResponse()).Returns(mockLitleBatchResponse);
-            litleResponse mockedLitleResponse = mockLitleResponse.Object;
+            mockCnpResponse.Setup(cnpResponse => cnpResponse.nextBatchResponse()).Returns(mockCnpBatchResponse);
+            cnpResponse mockedCnpResponse = mockCnpResponse.Object;
 
-            mockLitleXmlSerializer.Setup(litleXmlSerializer => litleXmlSerializer.DeserializeObjectFromFile(It.IsAny<String>())).Returns(mockedLitleResponse);
+            mockCnpXmlSerializer.Setup(cnpXmlSerializer => cnpXmlSerializer.DeserializeObjectFromFile(It.IsAny<String>())).Returns(mockedCnpResponse);
 
             Communications mockedCommunication = mockCommunications.Object;
-            litle.setCommunication(mockedCommunication);
+            cnp.setCommunication(mockedCommunication);
 
-            litleXmlSerializer mockedLitleXmlSerializer = mockLitleXmlSerializer.Object;
-            litle.setLitleXmlSerializer(mockedLitleXmlSerializer);
+            cnpXmlSerializer mockedCnpXmlSerializer = mockCnpXmlSerializer.Object;
+            cnp.setCnpXmlSerializer(mockedCnpXmlSerializer);
 
-            litleFile mockedLitleFile = mockLitleFile.Object;
-            litle.setLitleFile(mockedLitleFile);
+            cnpFile mockedCnpFile = mockCnpFile.Object;
+            cnp.setCnpFile(mockedCnpFile);
 
-            litle.setLitleTime(mockLitleTime.Object);
+            cnp.setCnpTime(mockCnpTime.Object);
 
-            batchRequest litleBatchRequest = new batchRequest();
-            litleBatchRequest.setLitleFile(mockedLitleFile);
-            litleBatchRequest.setLitleTime(mockLitleTime.Object);
-            litleBatchRequest.addCancelSubscription(cancel);
-            litle.addBatch(litleBatchRequest);
+            batchRequest cnpBatchRequest = new batchRequest();
+            cnpBatchRequest.setCnpFile(mockedCnpFile);
+            cnpBatchRequest.setCnpTime(mockCnpTime.Object);
+            cnpBatchRequest.addCancelSubscription(cancel);
+            cnp.addBatch(cnpBatchRequest);
 
-            string batchFileName = litle.sendToLitle();
-            litleResponse actualLitleResponse = litle.receiveFromLitle(batchFileName);
-            batchResponse actualLitleBatchResponse = actualLitleResponse.nextBatchResponse();
+            string batchFileName = cnp.sendToCnp();
+            cnpResponse actualCnpResponse = cnp.receiveFromCnp(batchFileName);
+            batchResponse actualCnpBatchResponse = actualCnpResponse.nextBatchResponse();
 
-            Assert.AreSame(mockLitleBatchResponse, actualLitleBatchResponse);
-            Assert.AreEqual("12345", actualLitleBatchResponse.nextCancelSubscriptionResponse().subscriptionId);
-            Assert.AreEqual("54321", actualLitleBatchResponse.nextCancelSubscriptionResponse().subscriptionId);
-            Assert.IsNull(actualLitleBatchResponse.nextCancelSubscriptionResponse());
+            Assert.AreSame(mockCnpBatchResponse, actualCnpBatchResponse);
+            Assert.AreEqual("12345", actualCnpBatchResponse.nextCancelSubscriptionResponse().subscriptionId);
+            Assert.AreEqual("54321", actualCnpBatchResponse.nextCancelSubscriptionResponse().subscriptionId);
+            Assert.IsNull(actualCnpBatchResponse.nextCancelSubscriptionResponse());
 
             mockCommunications.Verify(Communications => Communications.FtpDropOff(It.IsAny<String>(), mockFileName, It.IsAny<Dictionary<String, String>>()));
             mockCommunications.Verify(Communications => Communications.FtpPickUp(It.IsAny<String>(), It.IsAny<Dictionary<String, String>>(), mockFileName));
@@ -1239,7 +1239,7 @@ namespace Litle.Sdk.Test.Unit
             billToAddress.name = "Greg Dake";
             billToAddress.city = "Lowell";
             billToAddress.state = "MA";
-            billToAddress.email = "sdksupport@litle.com";
+            billToAddress.email = "sdksupport@cnp.com";
             update.billToAddress = billToAddress;
             cardType card = new cardType();
             card.number = "4100000000000001";
@@ -1249,46 +1249,46 @@ namespace Litle.Sdk.Test.Unit
             update.planCode = "abcdefg";
             update.subscriptionId = 12345;
 
-            var mockLitleResponse = new Mock<litleResponse>();
-            var mockLitleXmlSerializer = new Mock<litleXmlSerializer>();
+            var mockCnpResponse = new Mock<cnpResponse>();
+            var mockCnpXmlSerializer = new Mock<cnpXmlSerializer>();
 
             mockXmlReader.SetupSequence(XmlReader => XmlReader.ReadOuterXml())
-                .Returns("<updateSubscriptionResponse xmlns=\"http://www.litle.com/schema\"><litleTxnId>54321</litleTxnId><response>000</response><message>Approved</message><responseTime>2013-09-04T21:55:14</responseTime><subscriptionId>12345</subscriptionId></updateSubscriptionResponse>")
-                .Returns("<updateSubscriptionResponse xmlns=\"http://www.litle.com/schema\"><litleTxnId>12345</litleTxnId><response>000</response><message>Approved</message><responseTime>2013-09-04T21:55:14</responseTime><subscriptionId>54321</subscriptionId></updateSubscriptionResponse>");
+                .Returns("<updateSubscriptionResponse xmlns=\"http://www.cnp.com/schema\"><cnpTxnId>54321</cnpTxnId><response>000</response><message>Approved</message><responseTime>2013-09-04T21:55:14</responseTime><subscriptionId>12345</subscriptionId></updateSubscriptionResponse>")
+                .Returns("<updateSubscriptionResponse xmlns=\"http://www.cnp.com/schema\"><cnpTxnId>12345</cnpTxnId><response>000</response><message>Approved</message><responseTime>2013-09-04T21:55:14</responseTime><subscriptionId>54321</subscriptionId></updateSubscriptionResponse>");
 
-            batchResponse mockLitleBatchResponse = new batchResponse();
-            mockLitleBatchResponse.setUpdateSubscriptionResponseReader(mockXmlReader.Object);
+            batchResponse mockCnpBatchResponse = new batchResponse();
+            mockCnpBatchResponse.setUpdateSubscriptionResponseReader(mockXmlReader.Object);
 
-            mockLitleResponse.Setup(litleResponse => litleResponse.nextBatchResponse()).Returns(mockLitleBatchResponse);
-            litleResponse mockedLitleResponse = mockLitleResponse.Object;
+            mockCnpResponse.Setup(cnpResponse => cnpResponse.nextBatchResponse()).Returns(mockCnpBatchResponse);
+            cnpResponse mockedCnpResponse = mockCnpResponse.Object;
 
-            mockLitleXmlSerializer.Setup(litleXmlSerializer => litleXmlSerializer.DeserializeObjectFromFile(It.IsAny<String>())).Returns(mockedLitleResponse);
+            mockCnpXmlSerializer.Setup(cnpXmlSerializer => cnpXmlSerializer.DeserializeObjectFromFile(It.IsAny<String>())).Returns(mockedCnpResponse);
 
             Communications mockedCommunication = mockCommunications.Object;
-            litle.setCommunication(mockedCommunication);
+            cnp.setCommunication(mockedCommunication);
 
-            litleXmlSerializer mockedLitleXmlSerializer = mockLitleXmlSerializer.Object;
-            litle.setLitleXmlSerializer(mockedLitleXmlSerializer);
+            cnpXmlSerializer mockedCnpXmlSerializer = mockCnpXmlSerializer.Object;
+            cnp.setCnpXmlSerializer(mockedCnpXmlSerializer);
 
-            litleFile mockedLitleFile = mockLitleFile.Object;
-            litle.setLitleFile(mockedLitleFile);
+            cnpFile mockedCnpFile = mockCnpFile.Object;
+            cnp.setCnpFile(mockedCnpFile);
 
-            litle.setLitleTime(mockLitleTime.Object);
+            cnp.setCnpTime(mockCnpTime.Object);
 
-            batchRequest litleBatchRequest = new batchRequest();
-            litleBatchRequest.setLitleFile(mockedLitleFile);
-            litleBatchRequest.setLitleTime(mockLitleTime.Object);
-            litleBatchRequest.addUpdateSubscription(update);
-            litle.addBatch(litleBatchRequest);
+            batchRequest cnpBatchRequest = new batchRequest();
+            cnpBatchRequest.setCnpFile(mockedCnpFile);
+            cnpBatchRequest.setCnpTime(mockCnpTime.Object);
+            cnpBatchRequest.addUpdateSubscription(update);
+            cnp.addBatch(cnpBatchRequest);
 
-            string batchFileName = litle.sendToLitle();
-            litleResponse actualLitleResponse = litle.receiveFromLitle(batchFileName);
-            batchResponse actualLitleBatchResponse = actualLitleResponse.nextBatchResponse();
+            string batchFileName = cnp.sendToCnp();
+            cnpResponse actualCnpResponse = cnp.receiveFromCnp(batchFileName);
+            batchResponse actualCnpBatchResponse = actualCnpResponse.nextBatchResponse();
 
-            Assert.AreSame(mockLitleBatchResponse, actualLitleBatchResponse);
-            Assert.AreEqual("12345", actualLitleBatchResponse.nextUpdateSubscriptionResponse().subscriptionId);
-            Assert.AreEqual("54321", actualLitleBatchResponse.nextUpdateSubscriptionResponse().subscriptionId);
-            Assert.IsNull(actualLitleBatchResponse.nextUpdateSubscriptionResponse());
+            Assert.AreSame(mockCnpBatchResponse, actualCnpBatchResponse);
+            Assert.AreEqual("12345", actualCnpBatchResponse.nextUpdateSubscriptionResponse().subscriptionId);
+            Assert.AreEqual("54321", actualCnpBatchResponse.nextUpdateSubscriptionResponse().subscriptionId);
+            Assert.IsNull(actualCnpBatchResponse.nextUpdateSubscriptionResponse());
 
             mockCommunications.Verify(Communications => Communications.FtpDropOff(It.IsAny<String>(), mockFileName, It.IsAny<Dictionary<String, String>>()));
             mockCommunications.Verify(Communications => Communications.FtpPickUp(It.IsAny<String>(), It.IsAny<Dictionary<String, String>>(), mockFileName));
@@ -1303,47 +1303,47 @@ namespace Litle.Sdk.Test.Unit
             createPlan.intervalType = intervalType.ANNUAL;
             createPlan.amount = 100;
 
-            var mockLitleResponse = new Mock<litleResponse>();
-            var mockLitleXmlSerializer = new Mock<litleXmlSerializer>();
+            var mockCnpResponse = new Mock<cnpResponse>();
+            var mockCnpXmlSerializer = new Mock<cnpXmlSerializer>();
 
             mockXmlReader.SetupSequence(XmlReader => XmlReader.ReadOuterXml())
-                .Returns("<createPlanResponse xmlns=\"http://www.litle.com/schema\"><litleTxnId>123</litleTxnId></createPlanResponse>")
-                .Returns("<createPlanResponse xmlns=\"http://www.litle.com/schema\"><litleTxnId>124</litleTxnId></createPlanResponse>");
+                .Returns("<createPlanResponse xmlns=\"http://www.cnp.com/schema\"><cnpTxnId>123</cnpTxnId></createPlanResponse>")
+                .Returns("<createPlanResponse xmlns=\"http://www.cnp.com/schema\"><cnpTxnId>124</cnpTxnId></createPlanResponse>");
 
-            batchResponse mockLitleBatchResponse = new batchResponse();
-            mockLitleBatchResponse.setCreatePlanResponseReader(mockXmlReader.Object);
+            batchResponse mockCnpBatchResponse = new batchResponse();
+            mockCnpBatchResponse.setCreatePlanResponseReader(mockXmlReader.Object);
 
-            mockLitleResponse.Setup(litleResponse => litleResponse.nextBatchResponse()).Returns(mockLitleBatchResponse);
-            litleResponse mockedLitleResponse = mockLitleResponse.Object;
+            mockCnpResponse.Setup(cnpResponse => cnpResponse.nextBatchResponse()).Returns(mockCnpBatchResponse);
+            cnpResponse mockedCnpResponse = mockCnpResponse.Object;
 
-            mockLitleXmlSerializer.Setup(litleXmlSerializer => litleXmlSerializer.DeserializeObjectFromFile(It.IsAny<String>())).Returns(mockedLitleResponse);
+            mockCnpXmlSerializer.Setup(cnpXmlSerializer => cnpXmlSerializer.DeserializeObjectFromFile(It.IsAny<String>())).Returns(mockedCnpResponse);
 
             Communications mockedCommunication = mockCommunications.Object;
-            litle.setCommunication(mockedCommunication);
+            cnp.setCommunication(mockedCommunication);
 
-            litleXmlSerializer mockedLitleXmlSerializer = mockLitleXmlSerializer.Object;
-            litle.setLitleXmlSerializer(mockedLitleXmlSerializer);
+            cnpXmlSerializer mockedCnpXmlSerializer = mockCnpXmlSerializer.Object;
+            cnp.setCnpXmlSerializer(mockedCnpXmlSerializer);
 
-            litleFile mockedLitleFile = mockLitleFile.Object;
-            litle.setLitleFile(mockedLitleFile);
+            cnpFile mockedCnpFile = mockCnpFile.Object;
+            cnp.setCnpFile(mockedCnpFile);
 
-            litle.setLitleTime(mockLitleTime.Object);
+            cnp.setCnpTime(mockCnpTime.Object);
 
-            batchRequest litleBatchRequest = new batchRequest();
-            litleBatchRequest.setLitleFile(mockedLitleFile);
-            litleBatchRequest.setLitleTime(mockLitleTime.Object);
-            litleBatchRequest.addCreatePlan(createPlan);
-            litleBatchRequest.addCreatePlan(createPlan);
-            litle.addBatch(litleBatchRequest);
+            batchRequest cnpBatchRequest = new batchRequest();
+            cnpBatchRequest.setCnpFile(mockedCnpFile);
+            cnpBatchRequest.setCnpTime(mockCnpTime.Object);
+            cnpBatchRequest.addCreatePlan(createPlan);
+            cnpBatchRequest.addCreatePlan(createPlan);
+            cnp.addBatch(cnpBatchRequest);
 
-            string batchFileName = litle.sendToLitle();
-            litleResponse actualLitleResponse = litle.receiveFromLitle(batchFileName);
-            batchResponse actualLitleBatchResponse = actualLitleResponse.nextBatchResponse();
+            string batchFileName = cnp.sendToCnp();
+            cnpResponse actualCnpResponse = cnp.receiveFromCnp(batchFileName);
+            batchResponse actualCnpBatchResponse = actualCnpResponse.nextBatchResponse();
 
-            Assert.AreSame(mockLitleBatchResponse, actualLitleBatchResponse);
-            Assert.AreEqual("123", actualLitleBatchResponse.nextCreatePlanResponse().litleTxnId);
-            Assert.AreEqual("124", actualLitleBatchResponse.nextCreatePlanResponse().litleTxnId);
-            Assert.IsNull(actualLitleBatchResponse.nextCreatePlanResponse());
+            Assert.AreSame(mockCnpBatchResponse, actualCnpBatchResponse);
+            Assert.AreEqual("123", actualCnpBatchResponse.nextCreatePlanResponse().cnpTxnId);
+            Assert.AreEqual("124", actualCnpBatchResponse.nextCreatePlanResponse().cnpTxnId);
+            Assert.IsNull(actualCnpBatchResponse.nextCreatePlanResponse());
 
             mockCommunications.Verify(Communications => Communications.FtpDropOff(It.IsAny<String>(), mockFileName, It.IsAny<Dictionary<String, String>>()));
             mockCommunications.Verify(Communications => Communications.FtpPickUp(It.IsAny<String>(), It.IsAny<Dictionary<String, String>>(), mockFileName));
@@ -1356,47 +1356,47 @@ namespace Litle.Sdk.Test.Unit
             updatePlan.planCode = "thePlanCode";
             updatePlan.active = true;
 
-            var mockLitleResponse = new Mock<litleResponse>();
-            var mockLitleXmlSerializer = new Mock<litleXmlSerializer>();
+            var mockCnpResponse = new Mock<cnpResponse>();
+            var mockCnpXmlSerializer = new Mock<cnpXmlSerializer>();
 
             mockXmlReader.SetupSequence(XmlReader => XmlReader.ReadOuterXml())
-                .Returns("<updatePlanResponse xmlns=\"http://www.litle.com/schema\"><litleTxnId>123</litleTxnId></updatePlanResponse>")
-                .Returns("<updatePlanResponse xmlns=\"http://www.litle.com/schema\"><litleTxnId>124</litleTxnId></updatePlanResponse>");
+                .Returns("<updatePlanResponse xmlns=\"http://www.cnp.com/schema\"><cnpTxnId>123</cnpTxnId></updatePlanResponse>")
+                .Returns("<updatePlanResponse xmlns=\"http://www.cnp.com/schema\"><cnpTxnId>124</cnpTxnId></updatePlanResponse>");
 
-            batchResponse mockLitleBatchResponse = new batchResponse();
-            mockLitleBatchResponse.setUpdatePlanResponseReader(mockXmlReader.Object);
+            batchResponse mockCnpBatchResponse = new batchResponse();
+            mockCnpBatchResponse.setUpdatePlanResponseReader(mockXmlReader.Object);
 
-            mockLitleResponse.Setup(litleResponse => litleResponse.nextBatchResponse()).Returns(mockLitleBatchResponse);
-            litleResponse mockedLitleResponse = mockLitleResponse.Object;
+            mockCnpResponse.Setup(cnpResponse => cnpResponse.nextBatchResponse()).Returns(mockCnpBatchResponse);
+            cnpResponse mockedCnpResponse = mockCnpResponse.Object;
 
-            mockLitleXmlSerializer.Setup(litleXmlSerializer => litleXmlSerializer.DeserializeObjectFromFile(It.IsAny<String>())).Returns(mockedLitleResponse);
+            mockCnpXmlSerializer.Setup(cnpXmlSerializer => cnpXmlSerializer.DeserializeObjectFromFile(It.IsAny<String>())).Returns(mockedCnpResponse);
 
             Communications mockedCommunication = mockCommunications.Object;
-            litle.setCommunication(mockedCommunication);
+            cnp.setCommunication(mockedCommunication);
 
-            litleXmlSerializer mockedLitleXmlSerializer = mockLitleXmlSerializer.Object;
-            litle.setLitleXmlSerializer(mockedLitleXmlSerializer);
+            cnpXmlSerializer mockedCnpXmlSerializer = mockCnpXmlSerializer.Object;
+            cnp.setCnpXmlSerializer(mockedCnpXmlSerializer);
 
-            litleFile mockedLitleFile = mockLitleFile.Object;
-            litle.setLitleFile(mockedLitleFile);
+            cnpFile mockedCnpFile = mockCnpFile.Object;
+            cnp.setCnpFile(mockedCnpFile);
 
-            litle.setLitleTime(mockLitleTime.Object);
+            cnp.setCnpTime(mockCnpTime.Object);
 
-            batchRequest litleBatchRequest = new batchRequest();
-            litleBatchRequest.setLitleFile(mockedLitleFile);
-            litleBatchRequest.setLitleTime(mockLitleTime.Object);
-            litleBatchRequest.addUpdatePlan(updatePlan);
-            litleBatchRequest.addUpdatePlan(updatePlan);
-            litle.addBatch(litleBatchRequest);
+            batchRequest cnpBatchRequest = new batchRequest();
+            cnpBatchRequest.setCnpFile(mockedCnpFile);
+            cnpBatchRequest.setCnpTime(mockCnpTime.Object);
+            cnpBatchRequest.addUpdatePlan(updatePlan);
+            cnpBatchRequest.addUpdatePlan(updatePlan);
+            cnp.addBatch(cnpBatchRequest);
 
-            string batchFileName = litle.sendToLitle();
-            litleResponse actualLitleResponse = litle.receiveFromLitle(batchFileName);
-            batchResponse actualLitleBatchResponse = actualLitleResponse.nextBatchResponse();
+            string batchFileName = cnp.sendToCnp();
+            cnpResponse actualCnpResponse = cnp.receiveFromCnp(batchFileName);
+            batchResponse actualCnpBatchResponse = actualCnpResponse.nextBatchResponse();
 
-            Assert.AreSame(mockLitleBatchResponse, actualLitleBatchResponse);
-            Assert.AreEqual("123", actualLitleBatchResponse.nextUpdatePlanResponse().litleTxnId);
-            Assert.AreEqual("124", actualLitleBatchResponse.nextUpdatePlanResponse().litleTxnId);
-            Assert.IsNull(actualLitleBatchResponse.nextUpdatePlanResponse());
+            Assert.AreSame(mockCnpBatchResponse, actualCnpBatchResponse);
+            Assert.AreEqual("123", actualCnpBatchResponse.nextUpdatePlanResponse().cnpTxnId);
+            Assert.AreEqual("124", actualCnpBatchResponse.nextUpdatePlanResponse().cnpTxnId);
+            Assert.IsNull(actualCnpBatchResponse.nextUpdatePlanResponse());
 
             mockCommunications.Verify(Communications => Communications.FtpDropOff(It.IsAny<String>(), mockFileName, It.IsAny<Dictionary<String, String>>()));
             mockCommunications.Verify(Communications => Communications.FtpPickUp(It.IsAny<String>(), It.IsAny<Dictionary<String, String>>(), mockFileName));
@@ -1410,47 +1410,47 @@ namespace Litle.Sdk.Test.Unit
             activate.orderSource = orderSourceType.ecommerce;
             activate.card = new giftCardCardType();
 
-            var mockLitleResponse = new Mock<litleResponse>();
-            var mockLitleXmlSerializer = new Mock<litleXmlSerializer>();
+            var mockCnpResponse = new Mock<cnpResponse>();
+            var mockCnpXmlSerializer = new Mock<cnpXmlSerializer>();
 
             mockXmlReader.SetupSequence(XmlReader => XmlReader.ReadOuterXml())
-                .Returns("<activateResponse reportGroup=\"A\" id=\"3\" customerId=\"4\" duplicate=\"true\" xmlns=\"http://www.litle.com/schema\"><litleTxnId>123</litleTxnId><response>000</response><responseTime>2013-09-05T14:23:45</responseTime><postDate>2013-09-05</postDate><message>Approved</message><fraudResult></fraudResult><giftCardResponse></giftCardResponse></activateResponse>")
-                .Returns("<activateResponse xmlns=\"http://www.litle.com/schema\"><litleTxnId>124</litleTxnId></activateResponse>");
+                .Returns("<activateResponse reportGroup=\"A\" id=\"3\" customerId=\"4\" duplicate=\"true\" xmlns=\"http://www.cnp.com/schema\"><cnpTxnId>123</cnpTxnId><response>000</response><responseTime>2013-09-05T14:23:45</responseTime><postDate>2013-09-05</postDate><message>Approved</message><fraudResult></fraudResult><giftCardResponse></giftCardResponse></activateResponse>")
+                .Returns("<activateResponse xmlns=\"http://www.cnp.com/schema\"><cnpTxnId>124</cnpTxnId></activateResponse>");
 
-            batchResponse mockLitleBatchResponse = new batchResponse();
-            mockLitleBatchResponse.setActivateResponseReader(mockXmlReader.Object);
+            batchResponse mockCnpBatchResponse = new batchResponse();
+            mockCnpBatchResponse.setActivateResponseReader(mockXmlReader.Object);
 
-            mockLitleResponse.Setup(litleResponse => litleResponse.nextBatchResponse()).Returns(mockLitleBatchResponse);
-            litleResponse mockedLitleResponse = mockLitleResponse.Object;
+            mockCnpResponse.Setup(cnpResponse => cnpResponse.nextBatchResponse()).Returns(mockCnpBatchResponse);
+            cnpResponse mockedCnpResponse = mockCnpResponse.Object;
 
-            mockLitleXmlSerializer.Setup(litleXmlSerializer => litleXmlSerializer.DeserializeObjectFromFile(It.IsAny<String>())).Returns(mockedLitleResponse);
+            mockCnpXmlSerializer.Setup(cnpXmlSerializer => cnpXmlSerializer.DeserializeObjectFromFile(It.IsAny<String>())).Returns(mockedCnpResponse);
 
             Communications mockedCommunication = mockCommunications.Object;
-            litle.setCommunication(mockedCommunication);
+            cnp.setCommunication(mockedCommunication);
 
-            litleXmlSerializer mockedLitleXmlSerializer = mockLitleXmlSerializer.Object;
-            litle.setLitleXmlSerializer(mockedLitleXmlSerializer);
+            cnpXmlSerializer mockedCnpXmlSerializer = mockCnpXmlSerializer.Object;
+            cnp.setCnpXmlSerializer(mockedCnpXmlSerializer);
 
-            litleFile mockedLitleFile = mockLitleFile.Object;
-            litle.setLitleFile(mockedLitleFile);
+            cnpFile mockedCnpFile = mockCnpFile.Object;
+            cnp.setCnpFile(mockedCnpFile);
 
-            litle.setLitleTime(mockLitleTime.Object);
+            cnp.setCnpTime(mockCnpTime.Object);
 
-            batchRequest litleBatchRequest = new batchRequest();
-            litleBatchRequest.setLitleFile(mockedLitleFile);
-            litleBatchRequest.setLitleTime(mockLitleTime.Object);
-            litleBatchRequest.addActivate(activate);
-            litleBatchRequest.addActivate(activate);
-            litle.addBatch(litleBatchRequest);
+            batchRequest cnpBatchRequest = new batchRequest();
+            cnpBatchRequest.setCnpFile(mockedCnpFile);
+            cnpBatchRequest.setCnpTime(mockCnpTime.Object);
+            cnpBatchRequest.addActivate(activate);
+            cnpBatchRequest.addActivate(activate);
+            cnp.addBatch(cnpBatchRequest);
 
-            string batchFileName = litle.sendToLitle();
-            litleResponse actualLitleResponse = litle.receiveFromLitle(batchFileName);
-            batchResponse actualLitleBatchResponse = actualLitleResponse.nextBatchResponse();
+            string batchFileName = cnp.sendToCnp();
+            cnpResponse actualCnpResponse = cnp.receiveFromCnp(batchFileName);
+            batchResponse actualCnpBatchResponse = actualCnpResponse.nextBatchResponse();
 
-            Assert.AreSame(mockLitleBatchResponse, actualLitleBatchResponse);
-            Assert.AreEqual(123, actualLitleBatchResponse.nextActivateResponse().litleTxnId);
-            Assert.AreEqual(124, actualLitleBatchResponse.nextActivateResponse().litleTxnId);
-            Assert.IsNull(actualLitleBatchResponse.nextActivateResponse());
+            Assert.AreSame(mockCnpBatchResponse, actualCnpBatchResponse);
+            Assert.AreEqual(123, actualCnpBatchResponse.nextActivateResponse().cnpTxnId);
+            Assert.AreEqual(124, actualCnpBatchResponse.nextActivateResponse().cnpTxnId);
+            Assert.IsNull(actualCnpBatchResponse.nextActivateResponse());
 
             mockCommunications.Verify(Communications => Communications.FtpDropOff(It.IsAny<String>(), mockFileName, It.IsAny<Dictionary<String, String>>()));
             mockCommunications.Verify(Communications => Communications.FtpPickUp(It.IsAny<String>(), It.IsAny<Dictionary<String, String>>(), mockFileName));
@@ -1464,47 +1464,47 @@ namespace Litle.Sdk.Test.Unit
             deactivate.orderSource = orderSourceType.ecommerce;
             deactivate.card = new giftCardCardType();
 
-            var mockLitleResponse = new Mock<litleResponse>();
-            var mockLitleXmlSerializer = new Mock<litleXmlSerializer>();
+            var mockCnpResponse = new Mock<cnpResponse>();
+            var mockCnpXmlSerializer = new Mock<cnpXmlSerializer>();
 
             mockXmlReader.SetupSequence(XmlReader => XmlReader.ReadOuterXml())
-                .Returns("<deactivateResponse xmlns=\"http://www.litle.com/schema\"><litleTxnId>123</litleTxnId></deactivateResponse>")
-                .Returns("<deactivateResponse xmlns=\"http://www.litle.com/schema\"><litleTxnId>124</litleTxnId></deactivateResponse>");
+                .Returns("<deactivateResponse xmlns=\"http://www.cnp.com/schema\"><cnpTxnId>123</cnpTxnId></deactivateResponse>")
+                .Returns("<deactivateResponse xmlns=\"http://www.cnp.com/schema\"><cnpTxnId>124</cnpTxnId></deactivateResponse>");
 
-            batchResponse mockLitleBatchResponse = new batchResponse();
-            mockLitleBatchResponse.setDeactivateResponseReader(mockXmlReader.Object);
+            batchResponse mockCnpBatchResponse = new batchResponse();
+            mockCnpBatchResponse.setDeactivateResponseReader(mockXmlReader.Object);
 
-            mockLitleResponse.Setup(litleResponse => litleResponse.nextBatchResponse()).Returns(mockLitleBatchResponse);
-            litleResponse mockedLitleResponse = mockLitleResponse.Object;
+            mockCnpResponse.Setup(cnpResponse => cnpResponse.nextBatchResponse()).Returns(mockCnpBatchResponse);
+            cnpResponse mockedCnpResponse = mockCnpResponse.Object;
 
-            mockLitleXmlSerializer.Setup(litleXmlSerializer => litleXmlSerializer.DeserializeObjectFromFile(It.IsAny<String>())).Returns(mockedLitleResponse);
+            mockCnpXmlSerializer.Setup(cnpXmlSerializer => cnpXmlSerializer.DeserializeObjectFromFile(It.IsAny<String>())).Returns(mockedCnpResponse);
 
             Communications mockedCommunication = mockCommunications.Object;
-            litle.setCommunication(mockedCommunication);
+            cnp.setCommunication(mockedCommunication);
 
-            litleXmlSerializer mockedLitleXmlSerializer = mockLitleXmlSerializer.Object;
-            litle.setLitleXmlSerializer(mockedLitleXmlSerializer);
+            cnpXmlSerializer mockedCnpXmlSerializer = mockCnpXmlSerializer.Object;
+            cnp.setCnpXmlSerializer(mockedCnpXmlSerializer);
 
-            litleFile mockedLitleFile = mockLitleFile.Object;
-            litle.setLitleFile(mockedLitleFile);
+            cnpFile mockedCnpFile = mockCnpFile.Object;
+            cnp.setCnpFile(mockedCnpFile);
 
-            litle.setLitleTime(mockLitleTime.Object);
+            cnp.setCnpTime(mockCnpTime.Object);
 
-            batchRequest litleBatchRequest = new batchRequest();
-            litleBatchRequest.setLitleFile(mockedLitleFile);
-            litleBatchRequest.setLitleTime(mockLitleTime.Object);
-            litleBatchRequest.addDeactivate(deactivate);
-            litleBatchRequest.addDeactivate(deactivate);
-            litle.addBatch(litleBatchRequest);
+            batchRequest cnpBatchRequest = new batchRequest();
+            cnpBatchRequest.setCnpFile(mockedCnpFile);
+            cnpBatchRequest.setCnpTime(mockCnpTime.Object);
+            cnpBatchRequest.addDeactivate(deactivate);
+            cnpBatchRequest.addDeactivate(deactivate);
+            cnp.addBatch(cnpBatchRequest);
 
-            string batchFileName = litle.sendToLitle();
-            litleResponse actualLitleResponse = litle.receiveFromLitle(batchFileName);
-            batchResponse actualLitleBatchResponse = actualLitleResponse.nextBatchResponse();
+            string batchFileName = cnp.sendToCnp();
+            cnpResponse actualCnpResponse = cnp.receiveFromCnp(batchFileName);
+            batchResponse actualCnpBatchResponse = actualCnpResponse.nextBatchResponse();
 
-            Assert.AreSame(mockLitleBatchResponse, actualLitleBatchResponse);
-            Assert.AreEqual(123, actualLitleBatchResponse.nextDeactivateResponse().litleTxnId);
-            Assert.AreEqual(124, actualLitleBatchResponse.nextDeactivateResponse().litleTxnId);
-            Assert.IsNull(actualLitleBatchResponse.nextDeactivateResponse());
+            Assert.AreSame(mockCnpBatchResponse, actualCnpBatchResponse);
+            Assert.AreEqual(123, actualCnpBatchResponse.nextDeactivateResponse().cnpTxnId);
+            Assert.AreEqual(124, actualCnpBatchResponse.nextDeactivateResponse().cnpTxnId);
+            Assert.IsNull(actualCnpBatchResponse.nextDeactivateResponse());
 
             mockCommunications.Verify(Communications => Communications.FtpDropOff(It.IsAny<String>(), mockFileName, It.IsAny<Dictionary<String, String>>()));
             mockCommunications.Verify(Communications => Communications.FtpPickUp(It.IsAny<String>(), It.IsAny<Dictionary<String, String>>(), mockFileName));
@@ -1518,47 +1518,47 @@ namespace Litle.Sdk.Test.Unit
             load.orderSource = orderSourceType.ecommerce;
             load.card = new giftCardCardType();
 
-            var mockLitleResponse = new Mock<litleResponse>();
-            var mockLitleXmlSerializer = new Mock<litleXmlSerializer>();
+            var mockCnpResponse = new Mock<cnpResponse>();
+            var mockCnpXmlSerializer = new Mock<cnpXmlSerializer>();
 
             mockXmlReader.SetupSequence(XmlReader => XmlReader.ReadOuterXml())
-                .Returns("<loadResponse xmlns=\"http://www.litle.com/schema\"><litleTxnId>123</litleTxnId></loadResponse>")
-                .Returns("<loadResponse xmlns=\"http://www.litle.com/schema\"><litleTxnId>124</litleTxnId></loadResponse>");
+                .Returns("<loadResponse xmlns=\"http://www.cnp.com/schema\"><cnpTxnId>123</cnpTxnId></loadResponse>")
+                .Returns("<loadResponse xmlns=\"http://www.cnp.com/schema\"><cnpTxnId>124</cnpTxnId></loadResponse>");
 
-            batchResponse mockLitleBatchResponse = new batchResponse();
-            mockLitleBatchResponse.setLoadResponseReader(mockXmlReader.Object);
+            batchResponse mockCnpBatchResponse = new batchResponse();
+            mockCnpBatchResponse.setLoadResponseReader(mockXmlReader.Object);
 
-            mockLitleResponse.Setup(litleResponse => litleResponse.nextBatchResponse()).Returns(mockLitleBatchResponse);
-            litleResponse mockedLitleResponse = mockLitleResponse.Object;
+            mockCnpResponse.Setup(cnpResponse => cnpResponse.nextBatchResponse()).Returns(mockCnpBatchResponse);
+            cnpResponse mockedCnpResponse = mockCnpResponse.Object;
 
-            mockLitleXmlSerializer.Setup(litleXmlSerializer => litleXmlSerializer.DeserializeObjectFromFile(It.IsAny<String>())).Returns(mockedLitleResponse);
+            mockCnpXmlSerializer.Setup(cnpXmlSerializer => cnpXmlSerializer.DeserializeObjectFromFile(It.IsAny<String>())).Returns(mockedCnpResponse);
 
             Communications mockedCommunication = mockCommunications.Object;
-            litle.setCommunication(mockedCommunication);
+            cnp.setCommunication(mockedCommunication);
 
-            litleXmlSerializer mockedLitleXmlSerializer = mockLitleXmlSerializer.Object;
-            litle.setLitleXmlSerializer(mockedLitleXmlSerializer);
+            cnpXmlSerializer mockedCnpXmlSerializer = mockCnpXmlSerializer.Object;
+            cnp.setCnpXmlSerializer(mockedCnpXmlSerializer);
 
-            litleFile mockedLitleFile = mockLitleFile.Object;
-            litle.setLitleFile(mockedLitleFile);
+            cnpFile mockedCnpFile = mockCnpFile.Object;
+            cnp.setCnpFile(mockedCnpFile);
 
-            litle.setLitleTime(mockLitleTime.Object);
+            cnp.setCnpTime(mockCnpTime.Object);
 
-            batchRequest litleBatchRequest = new batchRequest();
-            litleBatchRequest.setLitleFile(mockedLitleFile);
-            litleBatchRequest.setLitleTime(mockLitleTime.Object);
-            litleBatchRequest.addLoad(load);
-            litleBatchRequest.addLoad(load);
-            litle.addBatch(litleBatchRequest);
+            batchRequest cnpBatchRequest = new batchRequest();
+            cnpBatchRequest.setCnpFile(mockedCnpFile);
+            cnpBatchRequest.setCnpTime(mockCnpTime.Object);
+            cnpBatchRequest.addLoad(load);
+            cnpBatchRequest.addLoad(load);
+            cnp.addBatch(cnpBatchRequest);
 
-            string batchFileName = litle.sendToLitle();
-            litleResponse actualLitleResponse = litle.receiveFromLitle(batchFileName);
-            batchResponse actualLitleBatchResponse = actualLitleResponse.nextBatchResponse();
+            string batchFileName = cnp.sendToCnp();
+            cnpResponse actualCnpResponse = cnp.receiveFromCnp(batchFileName);
+            batchResponse actualCnpBatchResponse = actualCnpResponse.nextBatchResponse();
 
-            Assert.AreSame(mockLitleBatchResponse, actualLitleBatchResponse);
-            Assert.AreEqual(123, actualLitleBatchResponse.nextLoadResponse().litleTxnId);
-            Assert.AreEqual(124, actualLitleBatchResponse.nextLoadResponse().litleTxnId);
-            Assert.IsNull(actualLitleBatchResponse.nextLoadResponse());
+            Assert.AreSame(mockCnpBatchResponse, actualCnpBatchResponse);
+            Assert.AreEqual(123, actualCnpBatchResponse.nextLoadResponse().cnpTxnId);
+            Assert.AreEqual(124, actualCnpBatchResponse.nextLoadResponse().cnpTxnId);
+            Assert.IsNull(actualCnpBatchResponse.nextLoadResponse());
 
             mockCommunications.Verify(Communications => Communications.FtpDropOff(It.IsAny<String>(), mockFileName, It.IsAny<Dictionary<String, String>>()));
             mockCommunications.Verify(Communications => Communications.FtpPickUp(It.IsAny<String>(), It.IsAny<Dictionary<String, String>>(), mockFileName));
@@ -1572,47 +1572,47 @@ namespace Litle.Sdk.Test.Unit
             unload.orderSource = orderSourceType.ecommerce;
             unload.card = new giftCardCardType();
 
-            var mockLitleResponse = new Mock<litleResponse>();
-            var mockLitleXmlSerializer = new Mock<litleXmlSerializer>();
+            var mockCnpResponse = new Mock<cnpResponse>();
+            var mockCnpXmlSerializer = new Mock<cnpXmlSerializer>();
 
             mockXmlReader.SetupSequence(XmlReader => XmlReader.ReadOuterXml())
-                .Returns("<unloadResponse xmlns=\"http://www.litle.com/schema\"><litleTxnId>123</litleTxnId></unloadResponse>")
-                .Returns("<unloadResponse xmlns=\"http://www.litle.com/schema\"><litleTxnId>124</litleTxnId></unloadResponse>");
+                .Returns("<unloadResponse xmlns=\"http://www.cnp.com/schema\"><cnpTxnId>123</cnpTxnId></unloadResponse>")
+                .Returns("<unloadResponse xmlns=\"http://www.cnp.com/schema\"><cnpTxnId>124</cnpTxnId></unloadResponse>");
 
-            batchResponse mockLitleBatchResponse = new batchResponse();
-            mockLitleBatchResponse.setUnloadResponseReader(mockXmlReader.Object);
+            batchResponse mockCnpBatchResponse = new batchResponse();
+            mockCnpBatchResponse.setUnloadResponseReader(mockXmlReader.Object);
 
-            mockLitleResponse.Setup(litleResponse => litleResponse.nextBatchResponse()).Returns(mockLitleBatchResponse);
-            litleResponse mockedLitleResponse = mockLitleResponse.Object;
+            mockCnpResponse.Setup(cnpResponse => cnpResponse.nextBatchResponse()).Returns(mockCnpBatchResponse);
+            cnpResponse mockedCnpResponse = mockCnpResponse.Object;
 
-            mockLitleXmlSerializer.Setup(litleXmlSerializer => litleXmlSerializer.DeserializeObjectFromFile(It.IsAny<String>())).Returns(mockedLitleResponse);
+            mockCnpXmlSerializer.Setup(cnpXmlSerializer => cnpXmlSerializer.DeserializeObjectFromFile(It.IsAny<String>())).Returns(mockedCnpResponse);
 
             Communications mockedCommunication = mockCommunications.Object;
-            litle.setCommunication(mockedCommunication);
+            cnp.setCommunication(mockedCommunication);
 
-            litleXmlSerializer mockedLitleXmlSerializer = mockLitleXmlSerializer.Object;
-            litle.setLitleXmlSerializer(mockedLitleXmlSerializer);
+            cnpXmlSerializer mockedCnpXmlSerializer = mockCnpXmlSerializer.Object;
+            cnp.setCnpXmlSerializer(mockedCnpXmlSerializer);
 
-            litleFile mockedLitleFile = mockLitleFile.Object;
-            litle.setLitleFile(mockedLitleFile);
+            cnpFile mockedCnpFile = mockCnpFile.Object;
+            cnp.setCnpFile(mockedCnpFile);
 
-            litle.setLitleTime(mockLitleTime.Object);
+            cnp.setCnpTime(mockCnpTime.Object);
 
-            batchRequest litleBatchRequest = new batchRequest();
-            litleBatchRequest.setLitleFile(mockedLitleFile);
-            litleBatchRequest.setLitleTime(mockLitleTime.Object);
-            litleBatchRequest.addUnload(unload);
-            litleBatchRequest.addUnload(unload);
-            litle.addBatch(litleBatchRequest);
+            batchRequest cnpBatchRequest = new batchRequest();
+            cnpBatchRequest.setCnpFile(mockedCnpFile);
+            cnpBatchRequest.setCnpTime(mockCnpTime.Object);
+            cnpBatchRequest.addUnload(unload);
+            cnpBatchRequest.addUnload(unload);
+            cnp.addBatch(cnpBatchRequest);
 
-            string batchFileName = litle.sendToLitle();
-            litleResponse actualLitleResponse = litle.receiveFromLitle(batchFileName);
-            batchResponse actualLitleBatchResponse = actualLitleResponse.nextBatchResponse();
+            string batchFileName = cnp.sendToCnp();
+            cnpResponse actualCnpResponse = cnp.receiveFromCnp(batchFileName);
+            batchResponse actualCnpBatchResponse = actualCnpResponse.nextBatchResponse();
 
-            Assert.AreSame(mockLitleBatchResponse, actualLitleBatchResponse);
-            Assert.AreEqual(123, actualLitleBatchResponse.nextUnloadResponse().litleTxnId);
-            Assert.AreEqual(124, actualLitleBatchResponse.nextUnloadResponse().litleTxnId);
-            Assert.IsNull(actualLitleBatchResponse.nextUnloadResponse());
+            Assert.AreSame(mockCnpBatchResponse, actualCnpBatchResponse);
+            Assert.AreEqual(123, actualCnpBatchResponse.nextUnloadResponse().cnpTxnId);
+            Assert.AreEqual(124, actualCnpBatchResponse.nextUnloadResponse().cnpTxnId);
+            Assert.IsNull(actualCnpBatchResponse.nextUnloadResponse());
 
             mockCommunications.Verify(Communications => Communications.FtpDropOff(It.IsAny<String>(), mockFileName, It.IsAny<Dictionary<String, String>>()));
             mockCommunications.Verify(Communications => Communications.FtpPickUp(It.IsAny<String>(), It.IsAny<Dictionary<String, String>>(), mockFileName));
@@ -1626,47 +1626,47 @@ namespace Litle.Sdk.Test.Unit
             balanceInquiry.orderSource = orderSourceType.ecommerce;
             balanceInquiry.card = new giftCardCardType();
 
-            var mockLitleResponse = new Mock<litleResponse>();
-            var mockLitleXmlSerializer = new Mock<litleXmlSerializer>();
+            var mockCnpResponse = new Mock<cnpResponse>();
+            var mockCnpXmlSerializer = new Mock<cnpXmlSerializer>();
 
             mockXmlReader.SetupSequence(XmlReader => XmlReader.ReadOuterXml())
-                .Returns("<balanceInquiryResponse xmlns=\"http://www.litle.com/schema\"><litleTxnId>123</litleTxnId></balanceInquiryResponse>")
-                .Returns("<balanceInquiryResponse xmlns=\"http://www.litle.com/schema\"><litleTxnId>124</litleTxnId></balanceInquiryResponse>");
+                .Returns("<balanceInquiryResponse xmlns=\"http://www.cnp.com/schema\"><cnpTxnId>123</cnpTxnId></balanceInquiryResponse>")
+                .Returns("<balanceInquiryResponse xmlns=\"http://www.cnp.com/schema\"><cnpTxnId>124</cnpTxnId></balanceInquiryResponse>");
 
-            batchResponse mockLitleBatchResponse = new batchResponse();
-            mockLitleBatchResponse.setBalanceInquiryResponseReader(mockXmlReader.Object);
+            batchResponse mockCnpBatchResponse = new batchResponse();
+            mockCnpBatchResponse.setBalanceInquiryResponseReader(mockXmlReader.Object);
 
-            mockLitleResponse.Setup(litleResponse => litleResponse.nextBatchResponse()).Returns(mockLitleBatchResponse);
-            litleResponse mockedLitleResponse = mockLitleResponse.Object;
+            mockCnpResponse.Setup(cnpResponse => cnpResponse.nextBatchResponse()).Returns(mockCnpBatchResponse);
+            cnpResponse mockedCnpResponse = mockCnpResponse.Object;
 
-            mockLitleXmlSerializer.Setup(litleXmlSerializer => litleXmlSerializer.DeserializeObjectFromFile(It.IsAny<String>())).Returns(mockedLitleResponse);
+            mockCnpXmlSerializer.Setup(cnpXmlSerializer => cnpXmlSerializer.DeserializeObjectFromFile(It.IsAny<String>())).Returns(mockedCnpResponse);
 
             Communications mockedCommunication = mockCommunications.Object;
-            litle.setCommunication(mockedCommunication);
+            cnp.setCommunication(mockedCommunication);
 
-            litleXmlSerializer mockedLitleXmlSerializer = mockLitleXmlSerializer.Object;
-            litle.setLitleXmlSerializer(mockedLitleXmlSerializer);
+            cnpXmlSerializer mockedCnpXmlSerializer = mockCnpXmlSerializer.Object;
+            cnp.setCnpXmlSerializer(mockedCnpXmlSerializer);
 
-            litleFile mockedLitleFile = mockLitleFile.Object;
-            litle.setLitleFile(mockedLitleFile);
+            cnpFile mockedCnpFile = mockCnpFile.Object;
+            cnp.setCnpFile(mockedCnpFile);
 
-            litle.setLitleTime(mockLitleTime.Object);
+            cnp.setCnpTime(mockCnpTime.Object);
 
-            batchRequest litleBatchRequest = new batchRequest();
-            litleBatchRequest.setLitleFile(mockedLitleFile);
-            litleBatchRequest.setLitleTime(mockLitleTime.Object);
-            litleBatchRequest.addBalanceInquiry(balanceInquiry);
-            litleBatchRequest.addBalanceInquiry(balanceInquiry);
-            litle.addBatch(litleBatchRequest);
+            batchRequest cnpBatchRequest = new batchRequest();
+            cnpBatchRequest.setCnpFile(mockedCnpFile);
+            cnpBatchRequest.setCnpTime(mockCnpTime.Object);
+            cnpBatchRequest.addBalanceInquiry(balanceInquiry);
+            cnpBatchRequest.addBalanceInquiry(balanceInquiry);
+            cnp.addBatch(cnpBatchRequest);
 
-            string batchFileName = litle.sendToLitle();
-            litleResponse actualLitleResponse = litle.receiveFromLitle(batchFileName);
-            batchResponse actualLitleBatchResponse = actualLitleResponse.nextBatchResponse();
+            string batchFileName = cnp.sendToCnp();
+            cnpResponse actualCnpResponse = cnp.receiveFromCnp(batchFileName);
+            batchResponse actualCnpBatchResponse = actualCnpResponse.nextBatchResponse();
 
-            Assert.AreSame(mockLitleBatchResponse, actualLitleBatchResponse);
-            Assert.AreEqual(123, actualLitleBatchResponse.nextBalanceInquiryResponse().litleTxnId);
-            Assert.AreEqual(124, actualLitleBatchResponse.nextBalanceInquiryResponse().litleTxnId);
-            Assert.IsNull(actualLitleBatchResponse.nextBalanceInquiryResponse());
+            Assert.AreSame(mockCnpBatchResponse, actualCnpBatchResponse);
+            Assert.AreEqual(123, actualCnpBatchResponse.nextBalanceInquiryResponse().cnpTxnId);
+            Assert.AreEqual(124, actualCnpBatchResponse.nextBalanceInquiryResponse().cnpTxnId);
+            Assert.IsNull(actualCnpBatchResponse.nextBalanceInquiryResponse());
 
             mockCommunications.Verify(Communications => Communications.FtpDropOff(It.IsAny<String>(), mockFileName, It.IsAny<Dictionary<String, String>>()));
             mockCommunications.Verify(Communications => Communications.FtpPickUp(It.IsAny<String>(), It.IsAny<Dictionary<String, String>>(), mockFileName));
@@ -1688,51 +1688,51 @@ namespace Litle.Sdk.Test.Unit
             contact.name = "Bob";
             contact.city = "lowell";
             contact.state = "MA";
-            contact.email = "litle.com";
+            contact.email = "cnp.com";
             echeckPreNoteSale.billToAddress = contact;
 
-            var mockLitleResponse = new Mock<litleResponse>();
-            var mockLitleXmlSerializer = new Mock<litleXmlSerializer>();
+            var mockCnpResponse = new Mock<cnpResponse>();
+            var mockCnpXmlSerializer = new Mock<cnpXmlSerializer>();
 
             mockXmlReader.SetupSequence(XmlReader => XmlReader.ReadOuterXml())
-                .Returns("<echeckPreNoteSaleResponse xmlns='http://www.litle.com/schema'><litleTxnId>123</litleTxnId></echeckPreNoteSaleResponse>")
-                .Returns("<echeckPreNoteSaleResponse xmlns='http://www.litle.com/schema'><litleTxnId>124</litleTxnId></echeckPreNoteSaleResponse>");
+                .Returns("<echeckPreNoteSaleResponse xmlns='http://www.vantivcnp.com/schema'><cnpTxnId>123</cnpTxnId></echeckPreNoteSaleResponse>")
+                .Returns("<echeckPreNoteSaleResponse xmlns='http://www.vantivcnp.com/schema'><cnpTxnId>124</cnpTxnId></echeckPreNoteSaleResponse>");
 
-            batchResponse mockedLitleBatchResponse = new batchResponse();
-            mockedLitleBatchResponse.setEcheckPreNoteSaleResponseReader(mockXmlReader.Object);
+            batchResponse mockedCnpBatchResponse = new batchResponse();
+            mockedCnpBatchResponse.setEcheckPreNoteSaleResponseReader(mockXmlReader.Object);
 
-            mockLitleResponse.Setup(litleResponse => litleResponse.nextBatchResponse()).Returns(mockedLitleBatchResponse);
-            litleResponse mockedLitleResponse = mockLitleResponse.Object;
+            mockCnpResponse.Setup(cnpResponse => cnpResponse.nextBatchResponse()).Returns(mockedCnpBatchResponse);
+            cnpResponse mockedCnpResponse = mockCnpResponse.Object;
 
             Communications mockedCommunications = mockCommunications.Object;
 
-            mockLitleXmlSerializer.Setup(litleXmlSerializer => litleXmlSerializer.DeserializeObjectFromFile(It.IsAny<String>())).Returns(mockedLitleResponse);
-            litleXmlSerializer mockedLitleXmlSerializer = mockLitleXmlSerializer.Object;
+            mockCnpXmlSerializer.Setup(cnpXmlSerializer => cnpXmlSerializer.DeserializeObjectFromFile(It.IsAny<String>())).Returns(mockedCnpResponse);
+            cnpXmlSerializer mockedCnpXmlSerializer = mockCnpXmlSerializer.Object;
 
-            litleFile mockedLitleFile = mockLitleFile.Object;
+            cnpFile mockedCnpFile = mockCnpFile.Object;
 
-            litle.setCommunication(mockedCommunications);
-            litle.setLitleXmlSerializer(mockedLitleXmlSerializer);
-            litle.setLitleFile(mockedLitleFile);
-            litle.setLitleTime(mockLitleTime.Object);
+            cnp.setCommunication(mockedCommunications);
+            cnp.setCnpXmlSerializer(mockedCnpXmlSerializer);
+            cnp.setCnpFile(mockedCnpFile);
+            cnp.setCnpTime(mockCnpTime.Object);
 
-            batchRequest litleBatchRequest = new batchRequest();
-            litleBatchRequest.setLitleFile(mockedLitleFile);
-            litleBatchRequest.setLitleTime(mockLitleTime.Object);
-            litleBatchRequest.addEcheckPreNoteSale(echeckPreNoteSale);
-            litleBatchRequest.addEcheckPreNoteSale(echeckPreNoteSale);
-            litle.addBatch(litleBatchRequest);
+            batchRequest cnpBatchRequest = new batchRequest();
+            cnpBatchRequest.setCnpFile(mockedCnpFile);
+            cnpBatchRequest.setCnpTime(mockCnpTime.Object);
+            cnpBatchRequest.addEcheckPreNoteSale(echeckPreNoteSale);
+            cnpBatchRequest.addEcheckPreNoteSale(echeckPreNoteSale);
+            cnp.addBatch(cnpBatchRequest);
 
-            string batchFileName = litle.sendToLitle();
+            string batchFileName = cnp.sendToCnp();
 
-            litleResponse actualLitleResponse = litle.receiveFromLitle(batchFileName);
-            batchResponse actualLitleBatchResponse = actualLitleResponse.nextBatchResponse();
-            echeckPreNoteSaleResponse actualEcheckPreNoteSaleResponse1 = actualLitleBatchResponse.nextEcheckPreNoteSaleResponse();
-            echeckPreNoteSaleResponse actualEcheckPreNoteSaleResponse2 = actualLitleBatchResponse.nextEcheckPreNoteSaleResponse();
-            echeckPreNoteSaleResponse nullEcheckPreNoteSalesResponse = actualLitleBatchResponse.nextEcheckPreNoteSaleResponse();
+            cnpResponse actualCnpResponse = cnp.receiveFromCnp(batchFileName);
+            batchResponse actualCnpBatchResponse = actualCnpResponse.nextBatchResponse();
+            echeckPreNoteSaleResponse actualEcheckPreNoteSaleResponse1 = actualCnpBatchResponse.nextEcheckPreNoteSaleResponse();
+            echeckPreNoteSaleResponse actualEcheckPreNoteSaleResponse2 = actualCnpBatchResponse.nextEcheckPreNoteSaleResponse();
+            echeckPreNoteSaleResponse nullEcheckPreNoteSalesResponse = actualCnpBatchResponse.nextEcheckPreNoteSaleResponse();
 
-            Assert.AreEqual(123, actualEcheckPreNoteSaleResponse1.litleTxnId);
-            Assert.AreEqual(124, actualEcheckPreNoteSaleResponse2.litleTxnId);
+            Assert.AreEqual(123, actualEcheckPreNoteSaleResponse1.cnpTxnId);
+            Assert.AreEqual(124, actualEcheckPreNoteSaleResponse2.cnpTxnId);
             Assert.IsNull(nullEcheckPreNoteSalesResponse);
 
             mockCommunications.Verify(Communications => Communications.FtpDropOff(It.IsAny<String>(), mockFileName, It.IsAny<Dictionary<String, String>>()));
@@ -1755,51 +1755,51 @@ namespace Litle.Sdk.Test.Unit
             contact.name = "Bob";
             contact.city = "lowell";
             contact.state = "MA";
-            contact.email = "litle.com";
+            contact.email = "cnp.com";
             echeckPreNoteCredit.billToAddress = contact;
 
-            var mockLitleResponse = new Mock<litleResponse>();
-            var mockLitleXmlSerializer = new Mock<litleXmlSerializer>();
+            var mockCnpResponse = new Mock<cnpResponse>();
+            var mockCnpXmlSerializer = new Mock<cnpXmlSerializer>();
 
             mockXmlReader.SetupSequence(XmlReader => XmlReader.ReadOuterXml())
-                .Returns("<echeckPreNoteCreditResponse xmlns='http://www.litle.com/schema'><litleTxnId>123</litleTxnId></echeckPreNoteCreditResponse>")
-                .Returns("<echeckPreNoteCreditResponse xmlns='http://www.litle.com/schema'><litleTxnId>124</litleTxnId></echeckPreNoteCreditResponse>");
+                .Returns("<echeckPreNoteCreditResponse xmlns='http://www.vantivcnp.com/schema'><cnpTxnId>123</cnpTxnId></echeckPreNoteCreditResponse>")
+                .Returns("<echeckPreNoteCreditResponse xmlns='http://www.vantivcnp.com/schema'><cnpTxnId>124</cnpTxnId></echeckPreNoteCreditResponse>");
 
-            batchResponse mockedLitleBatchResponse = new batchResponse();
-            mockedLitleBatchResponse.setEcheckPreNoteCreditResponseReader(mockXmlReader.Object);
+            batchResponse mockedCnpBatchResponse = new batchResponse();
+            mockedCnpBatchResponse.setEcheckPreNoteCreditResponseReader(mockXmlReader.Object);
 
-            mockLitleResponse.Setup(litleResponse => litleResponse.nextBatchResponse()).Returns(mockedLitleBatchResponse);
-            litleResponse mockedLitleResponse = mockLitleResponse.Object;
+            mockCnpResponse.Setup(cnpResponse => cnpResponse.nextBatchResponse()).Returns(mockedCnpBatchResponse);
+            cnpResponse mockedCnpResponse = mockCnpResponse.Object;
 
             Communications mockedCommunications = mockCommunications.Object;
 
-            mockLitleXmlSerializer.Setup(litleXmlSerializer => litleXmlSerializer.DeserializeObjectFromFile(It.IsAny<String>())).Returns(mockedLitleResponse);
-            litleXmlSerializer mockedLitleXmlSerializer = mockLitleXmlSerializer.Object;
+            mockCnpXmlSerializer.Setup(cnpXmlSerializer => cnpXmlSerializer.DeserializeObjectFromFile(It.IsAny<String>())).Returns(mockedCnpResponse);
+            cnpXmlSerializer mockedCnpXmlSerializer = mockCnpXmlSerializer.Object;
 
-            litleFile mockedLitleFile = mockLitleFile.Object;
+            cnpFile mockedCnpFile = mockCnpFile.Object;
 
-            litle.setCommunication(mockedCommunications);
-            litle.setLitleXmlSerializer(mockedLitleXmlSerializer);
-            litle.setLitleFile(mockedLitleFile);
-            litle.setLitleTime(mockLitleTime.Object);
+            cnp.setCommunication(mockedCommunications);
+            cnp.setCnpXmlSerializer(mockedCnpXmlSerializer);
+            cnp.setCnpFile(mockedCnpFile);
+            cnp.setCnpTime(mockCnpTime.Object);
 
-            batchRequest litleBatchRequest = new batchRequest();
-            litleBatchRequest.setLitleFile(mockedLitleFile);
-            litleBatchRequest.setLitleTime(mockLitleTime.Object);
-            litleBatchRequest.addEcheckPreNoteCredit(echeckPreNoteCredit);
-            litleBatchRequest.addEcheckPreNoteCredit(echeckPreNoteCredit);
-            litle.addBatch(litleBatchRequest);
+            batchRequest cnpBatchRequest = new batchRequest();
+            cnpBatchRequest.setCnpFile(mockedCnpFile);
+            cnpBatchRequest.setCnpTime(mockCnpTime.Object);
+            cnpBatchRequest.addEcheckPreNoteCredit(echeckPreNoteCredit);
+            cnpBatchRequest.addEcheckPreNoteCredit(echeckPreNoteCredit);
+            cnp.addBatch(cnpBatchRequest);
 
-            string batchFileName = litle.sendToLitle();
+            string batchFileName = cnp.sendToCnp();
 
-            litleResponse actualLitleResponse = litle.receiveFromLitle(batchFileName);
-            batchResponse actualLitleBatchResponse = actualLitleResponse.nextBatchResponse();
-            echeckPreNoteCreditResponse actualEcheckPreNoteCreditResponse1 = actualLitleBatchResponse.nextEcheckPreNoteCreditResponse();
-            echeckPreNoteCreditResponse actualEcheckPreNoteCreditResponse2 = actualLitleBatchResponse.nextEcheckPreNoteCreditResponse();
-            echeckPreNoteCreditResponse nullEcheckPreNoteCreditsResponse = actualLitleBatchResponse.nextEcheckPreNoteCreditResponse();
+            cnpResponse actualCnpResponse = cnp.receiveFromCnp(batchFileName);
+            batchResponse actualCnpBatchResponse = actualCnpResponse.nextBatchResponse();
+            echeckPreNoteCreditResponse actualEcheckPreNoteCreditResponse1 = actualCnpBatchResponse.nextEcheckPreNoteCreditResponse();
+            echeckPreNoteCreditResponse actualEcheckPreNoteCreditResponse2 = actualCnpBatchResponse.nextEcheckPreNoteCreditResponse();
+            echeckPreNoteCreditResponse nullEcheckPreNoteCreditsResponse = actualCnpBatchResponse.nextEcheckPreNoteCreditResponse();
 
-            Assert.AreEqual(123, actualEcheckPreNoteCreditResponse1.litleTxnId);
-            Assert.AreEqual(124, actualEcheckPreNoteCreditResponse2.litleTxnId);
+            Assert.AreEqual(123, actualEcheckPreNoteCreditResponse1.cnpTxnId);
+            Assert.AreEqual(124, actualEcheckPreNoteCreditResponse2.cnpTxnId);
             Assert.IsNull(nullEcheckPreNoteCreditsResponse);
 
             mockCommunications.Verify(Communications => Communications.FtpDropOff(It.IsAny<String>(), mockFileName, It.IsAny<Dictionary<String, String>>()));
@@ -1826,12 +1826,12 @@ namespace Litle.Sdk.Test.Unit
                 originalSequenceNumber = "OneTime"
             };
 
-            var mockLitleResponse = new Mock<litleResponse>();
-            var mockLitleXmlSerializer = new Mock<litleXmlSerializer>();
+            var mockCnpResponse = new Mock<cnpResponse>();
+            var mockCnpXmlSerializer = new Mock<cnpXmlSerializer>();
 
             mockXmlReader.SetupSequence(XmlReader => XmlReader.ReadOuterXml())
-                .Returns(@"<giftCardAuthReversalResponse xmlns='http://www.litle.com/schema'>
-<litleTxnId>522547723741503000</litleTxnId>
+                .Returns(@"<giftCardAuthReversalResponse xmlns='http://www.vantivcnp.com/schema'>
+<cnpTxnId>522547723741503000</cnpTxnId>
 <response>000</response>
 <responseTime>2017-01-24T16:11:31</responseTime>
 <message>Approved</message>
@@ -1842,8 +1842,8 @@ namespace Litle.Sdk.Test.Unit
 <sequenceNumber>12</sequenceNumber>
 </giftCardResponse>
 </giftCardAuthReversalResponse>")
-                .Returns(@"<giftCardAuthReversalResponse xmlns='http://www.litle.com/schema'>
-<litleTxnId>522547723741503001</litleTxnId>
+                .Returns(@"<giftCardAuthReversalResponse xmlns='http://www.vantivcnp.com/schema'>
+<cnpTxnId>522547723741503001</cnpTxnId>
 <response>000</response>
 <responseTime>2017-01-24T16:11:31</responseTime>
 <message>Approved</message>
@@ -1855,40 +1855,40 @@ namespace Litle.Sdk.Test.Unit
 </giftCardResponse>
 </giftCardAuthReversalResponse>");
 
-            batchResponse mockLitleBatchResponse = new batchResponse();
-            mockLitleBatchResponse.setGiftCardAuthReversalResponseReader(mockXmlReader.Object);
+            batchResponse mockCnpBatchResponse = new batchResponse();
+            mockCnpBatchResponse.setGiftCardAuthReversalResponseReader(mockXmlReader.Object);
 
-            mockLitleResponse.Setup(litleResponse => litleResponse.nextBatchResponse()).Returns(mockLitleBatchResponse);
-            litleResponse mockedLitleResponse = mockLitleResponse.Object;
+            mockCnpResponse.Setup(cnpResponse => cnpResponse.nextBatchResponse()).Returns(mockCnpBatchResponse);
+            cnpResponse mockedCnpResponse = mockCnpResponse.Object;
 
-            mockLitleXmlSerializer.Setup(litleXmlSerializer => litleXmlSerializer.DeserializeObjectFromFile(It.IsAny<String>())).Returns(mockedLitleResponse);
+            mockCnpXmlSerializer.Setup(cnpXmlSerializer => cnpXmlSerializer.DeserializeObjectFromFile(It.IsAny<String>())).Returns(mockedCnpResponse);
 
             Communications mockedCommunication = mockCommunications.Object;
-            litle.setCommunication(mockedCommunication);
+            cnp.setCommunication(mockedCommunication);
 
-            litleXmlSerializer mockedLitleXmlSerializer = mockLitleXmlSerializer.Object;
-            litle.setLitleXmlSerializer(mockedLitleXmlSerializer);
+            cnpXmlSerializer mockedCnpXmlSerializer = mockCnpXmlSerializer.Object;
+            cnp.setCnpXmlSerializer(mockedCnpXmlSerializer);
 
-            litleFile mockedLitleFile = mockLitleFile.Object;
-            litle.setLitleFile(mockedLitleFile);
+            cnpFile mockedCnpFile = mockCnpFile.Object;
+            cnp.setCnpFile(mockedCnpFile);
 
-            litle.setLitleTime(mockLitleTime.Object);
+            cnp.setCnpTime(mockCnpTime.Object);
 
-            batchRequest litleBatchRequest = new batchRequest();
-            litleBatchRequest.setLitleFile(mockedLitleFile);
-            litleBatchRequest.setLitleTime(mockLitleTime.Object);
-            litleBatchRequest.addGiftCardAuthReversal(giftCardAuthReversal);
-            litleBatchRequest.addGiftCardAuthReversal(giftCardAuthReversal);
-            litle.addBatch(litleBatchRequest);
+            batchRequest cnpBatchRequest = new batchRequest();
+            cnpBatchRequest.setCnpFile(mockedCnpFile);
+            cnpBatchRequest.setCnpTime(mockCnpTime.Object);
+            cnpBatchRequest.addGiftCardAuthReversal(giftCardAuthReversal);
+            cnpBatchRequest.addGiftCardAuthReversal(giftCardAuthReversal);
+            cnp.addBatch(cnpBatchRequest);
 
-            string batchFileName = litle.sendToLitle();
-            litleResponse actualLitleResponse = litle.receiveFromLitle(batchFileName);
-            batchResponse actualLitleBatchResponse = actualLitleResponse.nextBatchResponse();
+            string batchFileName = cnp.sendToCnp();
+            cnpResponse actualCnpResponse = cnp.receiveFromCnp(batchFileName);
+            batchResponse actualCnpBatchResponse = actualCnpResponse.nextBatchResponse();
 
-            Assert.AreSame(mockLitleBatchResponse, actualLitleBatchResponse);
-            Assert.AreEqual(522547723741503000, actualLitleBatchResponse.nextGiftCardAuthReversalResponse().litleTxnId);
-            Assert.AreEqual(522547723741503001, actualLitleBatchResponse.nextGiftCardAuthReversalResponse().litleTxnId);
-            Assert.IsNull(actualLitleBatchResponse.nextGiftCardAuthReversalResponse());
+            Assert.AreSame(mockCnpBatchResponse, actualCnpBatchResponse);
+            Assert.AreEqual(522547723741503000, actualCnpBatchResponse.nextGiftCardAuthReversalResponse().cnpTxnId);
+            Assert.AreEqual(522547723741503001, actualCnpBatchResponse.nextGiftCardAuthReversalResponse().cnpTxnId);
+            Assert.IsNull(actualCnpBatchResponse.nextGiftCardAuthReversalResponse());
 
             mockCommunications.Verify(Communications => Communications.FtpDropOff(It.IsAny<String>(), mockFileName, It.IsAny<Dictionary<String, String>>()));
             mockCommunications.Verify(Communications => Communications.FtpPickUp(It.IsAny<String>(), It.IsAny<Dictionary<String, String>>(), mockFileName));
@@ -1913,12 +1913,12 @@ namespace Litle.Sdk.Test.Unit
                 originalTxnTime = DateTime.Now
             };
 
-            var mockLitleResponse = new Mock<litleResponse>();
-            var mockLitleXmlSerializer = new Mock<litleXmlSerializer>();
+            var mockCnpResponse = new Mock<cnpResponse>();
+            var mockCnpXmlSerializer = new Mock<cnpXmlSerializer>();
 
             mockXmlReader.SetupSequence(XmlReader => XmlReader.ReadOuterXml())
-                .Returns(@"<giftCardCaptureResponse xmlns='http://www.litle.com/schema'>
-<litleTxnId>522547723741503000</litleTxnId>
+                .Returns(@"<giftCardCaptureResponse xmlns='http://www.vantivcnp.com/schema'>
+<cnpTxnId>522547723741503000</cnpTxnId>
 <response>000</response>
 <responseTime>2017-01-24T16:11:31</responseTime>
 <message>Approved</message>
@@ -1929,8 +1929,8 @@ namespace Litle.Sdk.Test.Unit
 <sequenceNumber>12</sequenceNumber>
 </giftCardResponse>
 </giftCardCaptureResponse>")
-                .Returns(@"<giftCardCaptureResponse xmlns='http://www.litle.com/schema'>
-<litleTxnId>522547723741503001</litleTxnId>
+                .Returns(@"<giftCardCaptureResponse xmlns='http://www.vantivcnp.com/schema'>
+<cnpTxnId>522547723741503001</cnpTxnId>
 <response>000</response>
 <responseTime>2017-01-24T16:11:31</responseTime>
 <message>Approved</message>
@@ -1942,40 +1942,40 @@ namespace Litle.Sdk.Test.Unit
 </giftCardResponse>
 </giftCardCaptureResponse>");
 
-            batchResponse mockLitleBatchResponse = new batchResponse();
-            mockLitleBatchResponse.setGiftCardCaptureResponseReader(mockXmlReader.Object);
+            batchResponse mockCnpBatchResponse = new batchResponse();
+            mockCnpBatchResponse.setGiftCardCaptureResponseReader(mockXmlReader.Object);
 
-            mockLitleResponse.Setup(litleResponse => litleResponse.nextBatchResponse()).Returns(mockLitleBatchResponse);
-            litleResponse mockedLitleResponse = mockLitleResponse.Object;
+            mockCnpResponse.Setup(cnpResponse => cnpResponse.nextBatchResponse()).Returns(mockCnpBatchResponse);
+            cnpResponse mockedCnpResponse = mockCnpResponse.Object;
 
-            mockLitleXmlSerializer.Setup(litleXmlSerializer => litleXmlSerializer.DeserializeObjectFromFile(It.IsAny<String>())).Returns(mockedLitleResponse);
+            mockCnpXmlSerializer.Setup(cnpXmlSerializer => cnpXmlSerializer.DeserializeObjectFromFile(It.IsAny<String>())).Returns(mockedCnpResponse);
 
             Communications mockedCommunication = mockCommunications.Object;
-            litle.setCommunication(mockedCommunication);
+            cnp.setCommunication(mockedCommunication);
 
-            litleXmlSerializer mockedLitleXmlSerializer = mockLitleXmlSerializer.Object;
-            litle.setLitleXmlSerializer(mockedLitleXmlSerializer);
+            cnpXmlSerializer mockedCnpXmlSerializer = mockCnpXmlSerializer.Object;
+            cnp.setCnpXmlSerializer(mockedCnpXmlSerializer);
 
-            litleFile mockedLitleFile = mockLitleFile.Object;
-            litle.setLitleFile(mockedLitleFile);
+            cnpFile mockedCnpFile = mockCnpFile.Object;
+            cnp.setCnpFile(mockedCnpFile);
 
-            litle.setLitleTime(mockLitleTime.Object);
+            cnp.setCnpTime(mockCnpTime.Object);
 
-            batchRequest litleBatchRequest = new batchRequest();
-            litleBatchRequest.setLitleFile(mockedLitleFile);
-            litleBatchRequest.setLitleTime(mockLitleTime.Object);
-            litleBatchRequest.addGiftCardCapture(giftCardCapture);
-            litleBatchRequest.addGiftCardCapture(giftCardCapture);
-            litle.addBatch(litleBatchRequest);
+            batchRequest cnpBatchRequest = new batchRequest();
+            cnpBatchRequest.setCnpFile(mockedCnpFile);
+            cnpBatchRequest.setCnpTime(mockCnpTime.Object);
+            cnpBatchRequest.addGiftCardCapture(giftCardCapture);
+            cnpBatchRequest.addGiftCardCapture(giftCardCapture);
+            cnp.addBatch(cnpBatchRequest);
 
-            string batchFileName = litle.sendToLitle();
-            litleResponse actualLitleResponse = litle.receiveFromLitle(batchFileName);
-            batchResponse actualLitleBatchResponse = actualLitleResponse.nextBatchResponse();
+            string batchFileName = cnp.sendToCnp();
+            cnpResponse actualCnpResponse = cnp.receiveFromCnp(batchFileName);
+            batchResponse actualCnpBatchResponse = actualCnpResponse.nextBatchResponse();
 
-            Assert.AreSame(mockLitleBatchResponse, actualLitleBatchResponse);
-            Assert.AreEqual(522547723741503000, actualLitleBatchResponse.nextGiftCardCaptureResponse().litleTxnId);
-            Assert.AreEqual(522547723741503001, actualLitleBatchResponse.nextGiftCardCaptureResponse().litleTxnId);
-            Assert.IsNull(actualLitleBatchResponse.nextGiftCardCaptureResponse());
+            Assert.AreSame(mockCnpBatchResponse, actualCnpBatchResponse);
+            Assert.AreEqual(522547723741503000, actualCnpBatchResponse.nextGiftCardCaptureResponse().cnpTxnId);
+            Assert.AreEqual(522547723741503001, actualCnpBatchResponse.nextGiftCardCaptureResponse().cnpTxnId);
+            Assert.IsNull(actualCnpBatchResponse.nextGiftCardCaptureResponse());
 
             mockCommunications.Verify(Communications => Communications.FtpDropOff(It.IsAny<String>(), mockFileName, It.IsAny<Dictionary<String, String>>()));
             mockCommunications.Verify(Communications => Communications.FtpPickUp(It.IsAny<String>(), It.IsAny<Dictionary<String, String>>(), mockFileName));
@@ -1988,7 +1988,7 @@ namespace Litle.Sdk.Test.Unit
             {
                 id = "1",
                 reportGroup = "Planets",
-                litleTxnId = 123456000,
+                cnpTxnId = 123456000,
                 creditAmount = 123,
                 card = new giftCardCardType
                 {
@@ -1998,12 +1998,12 @@ namespace Litle.Sdk.Test.Unit
                 }
             };
 
-            var mockLitleResponse = new Mock<litleResponse>();
-            var mockLitleXmlSerializer = new Mock<litleXmlSerializer>();
+            var mockCnpResponse = new Mock<cnpResponse>();
+            var mockCnpXmlSerializer = new Mock<cnpXmlSerializer>();
 
             mockXmlReader.SetupSequence(XmlReader => XmlReader.ReadOuterXml())
-                .Returns(@"<giftCardCreditResponse xmlns='http://www.litle.com/schema'>
-<litleTxnId>522547723741503000</litleTxnId>
+                .Returns(@"<giftCardCreditResponse xmlns='http://www.vantivcnp.com/schema'>
+<cnpTxnId>522547723741503000</cnpTxnId>
 <response>000</response>
 <responseTime>2017-01-24T16:11:31</responseTime>
 <message>Approved</message>
@@ -2014,8 +2014,8 @@ namespace Litle.Sdk.Test.Unit
 <sequenceNumber>12</sequenceNumber>
 </giftCardResponse>
 </giftCardCreditResponse>")
-                .Returns(@"<giftCardCreditResponse xmlns='http://www.litle.com/schema'>
-<litleTxnId>522547723741503001</litleTxnId>
+                .Returns(@"<giftCardCreditResponse xmlns='http://www.vantivcnp.com/schema'>
+<cnpTxnId>522547723741503001</cnpTxnId>
 <response>000</response>
 <responseTime>2017-01-24T16:11:31</responseTime>
 <message>Approved</message>
@@ -2027,40 +2027,40 @@ namespace Litle.Sdk.Test.Unit
 </giftCardResponse>
 </giftCardCreditResponse>");
 
-            batchResponse mockLitleBatchResponse = new batchResponse();
-            mockLitleBatchResponse.setGiftCardCreditResponseReader(mockXmlReader.Object);
+            batchResponse mockCnpBatchResponse = new batchResponse();
+            mockCnpBatchResponse.setGiftCardCreditResponseReader(mockXmlReader.Object);
 
-            mockLitleResponse.Setup(litleResponse => litleResponse.nextBatchResponse()).Returns(mockLitleBatchResponse);
-            litleResponse mockedLitleResponse = mockLitleResponse.Object;
+            mockCnpResponse.Setup(cnpResponse => cnpResponse.nextBatchResponse()).Returns(mockCnpBatchResponse);
+            cnpResponse mockedCnpResponse = mockCnpResponse.Object;
 
-            mockLitleXmlSerializer.Setup(litleXmlSerializer => litleXmlSerializer.DeserializeObjectFromFile(It.IsAny<String>())).Returns(mockedLitleResponse);
+            mockCnpXmlSerializer.Setup(cnpXmlSerializer => cnpXmlSerializer.DeserializeObjectFromFile(It.IsAny<String>())).Returns(mockedCnpResponse);
 
             Communications mockedCommunication = mockCommunications.Object;
-            litle.setCommunication(mockedCommunication);
+            cnp.setCommunication(mockedCommunication);
 
-            litleXmlSerializer mockedLitleXmlSerializer = mockLitleXmlSerializer.Object;
-            litle.setLitleXmlSerializer(mockedLitleXmlSerializer);
+            cnpXmlSerializer mockedCnpXmlSerializer = mockCnpXmlSerializer.Object;
+            cnp.setCnpXmlSerializer(mockedCnpXmlSerializer);
 
-            litleFile mockedLitleFile = mockLitleFile.Object;
-            litle.setLitleFile(mockedLitleFile);
+            cnpFile mockedCnpFile = mockCnpFile.Object;
+            cnp.setCnpFile(mockedCnpFile);
 
-            litle.setLitleTime(mockLitleTime.Object);
+            cnp.setCnpTime(mockCnpTime.Object);
 
-            batchRequest litleBatchRequest = new batchRequest();
-            litleBatchRequest.setLitleFile(mockedLitleFile);
-            litleBatchRequest.setLitleTime(mockLitleTime.Object);
-            litleBatchRequest.addGiftCardCredit(giftCardCredit);
-            litleBatchRequest.addGiftCardCredit(giftCardCredit);
-            litle.addBatch(litleBatchRequest);
+            batchRequest cnpBatchRequest = new batchRequest();
+            cnpBatchRequest.setCnpFile(mockedCnpFile);
+            cnpBatchRequest.setCnpTime(mockCnpTime.Object);
+            cnpBatchRequest.addGiftCardCredit(giftCardCredit);
+            cnpBatchRequest.addGiftCardCredit(giftCardCredit);
+            cnp.addBatch(cnpBatchRequest);
 
-            string batchFileName = litle.sendToLitle();
-            litleResponse actualLitleResponse = litle.receiveFromLitle(batchFileName);
-            batchResponse actualLitleBatchResponse = actualLitleResponse.nextBatchResponse();
+            string batchFileName = cnp.sendToCnp();
+            cnpResponse actualCnpResponse = cnp.receiveFromCnp(batchFileName);
+            batchResponse actualCnpBatchResponse = actualCnpResponse.nextBatchResponse();
 
-            Assert.AreSame(mockLitleBatchResponse, actualLitleBatchResponse);
-            Assert.AreEqual(522547723741503000, actualLitleBatchResponse.nextGiftCardCreditResponse().litleTxnId);
-            Assert.AreEqual(522547723741503001, actualLitleBatchResponse.nextGiftCardCreditResponse().litleTxnId);
-            Assert.IsNull(actualLitleBatchResponse.nextGiftCardCreditResponse());
+            Assert.AreSame(mockCnpBatchResponse, actualCnpBatchResponse);
+            Assert.AreEqual(522547723741503000, actualCnpBatchResponse.nextGiftCardCreditResponse().cnpTxnId);
+            Assert.AreEqual(522547723741503001, actualCnpBatchResponse.nextGiftCardCreditResponse().cnpTxnId);
+            Assert.IsNull(actualCnpBatchResponse.nextGiftCardCreditResponse());
 
             mockCommunications.Verify(Communications => Communications.FtpDropOff(It.IsAny<String>(), mockFileName, It.IsAny<Dictionary<String, String>>()));
             mockCommunications.Verify(Communications => Communications.FtpPickUp(It.IsAny<String>(), It.IsAny<Dictionary<String, String>>(), mockFileName));
@@ -2084,12 +2084,12 @@ namespace Litle.Sdk.Test.Unit
                 }
             };
 
-            var mockLitleResponse = new Mock<litleResponse>();
-            var mockLitleXmlSerializer = new Mock<litleXmlSerializer>();
+            var mockCnpResponse = new Mock<cnpResponse>();
+            var mockCnpXmlSerializer = new Mock<cnpXmlSerializer>();
 
             mockXmlReader.SetupSequence(XmlReader => XmlReader.ReadOuterXml())
-                .Returns(@"<giftCardCreditResponse xmlns='http://www.litle.com/schema'>
-<litleTxnId>522547723741503000</litleTxnId>
+                .Returns(@"<giftCardCreditResponse xmlns='http://www.vantivcnp.com/schema'>
+<cnpTxnId>522547723741503000</cnpTxnId>
 <orderId>2111</orderId>
 <response>000</response>
 <responseTime>2017-01-24T16:11:31</responseTime>
@@ -2101,8 +2101,8 @@ namespace Litle.Sdk.Test.Unit
 <sequenceNumber>12</sequenceNumber>
 </giftCardResponse>
 </giftCardCreditResponse>")
-                .Returns(@"<giftCardCreditResponse xmlns='http://www.litle.com/schema'>
-<litleTxnId>522547723741503001</litleTxnId>
+                .Returns(@"<giftCardCreditResponse xmlns='http://www.vantivcnp.com/schema'>
+<cnpTxnId>522547723741503001</cnpTxnId>
 <orderId>2111</orderId>
 <response>000</response>
 <responseTime>2017-01-24T16:11:31</responseTime>
@@ -2115,40 +2115,40 @@ namespace Litle.Sdk.Test.Unit
 </giftCardResponse>
 </giftCardCreditResponse>");
 
-            batchResponse mockLitleBatchResponse = new batchResponse();
-            mockLitleBatchResponse.setGiftCardCreditResponseReader(mockXmlReader.Object);
+            batchResponse mockCnpBatchResponse = new batchResponse();
+            mockCnpBatchResponse.setGiftCardCreditResponseReader(mockXmlReader.Object);
 
-            mockLitleResponse.Setup(litleResponse => litleResponse.nextBatchResponse()).Returns(mockLitleBatchResponse);
-            litleResponse mockedLitleResponse = mockLitleResponse.Object;
+            mockCnpResponse.Setup(cnpResponse => cnpResponse.nextBatchResponse()).Returns(mockCnpBatchResponse);
+            cnpResponse mockedCnpResponse = mockCnpResponse.Object;
 
-            mockLitleXmlSerializer.Setup(litleXmlSerializer => litleXmlSerializer.DeserializeObjectFromFile(It.IsAny<String>())).Returns(mockedLitleResponse);
+            mockCnpXmlSerializer.Setup(cnpXmlSerializer => cnpXmlSerializer.DeserializeObjectFromFile(It.IsAny<String>())).Returns(mockedCnpResponse);
 
             Communications mockedCommunication = mockCommunications.Object;
-            litle.setCommunication(mockedCommunication);
+            cnp.setCommunication(mockedCommunication);
 
-            litleXmlSerializer mockedLitleXmlSerializer = mockLitleXmlSerializer.Object;
-            litle.setLitleXmlSerializer(mockedLitleXmlSerializer);
+            cnpXmlSerializer mockedCnpXmlSerializer = mockCnpXmlSerializer.Object;
+            cnp.setCnpXmlSerializer(mockedCnpXmlSerializer);
 
-            litleFile mockedLitleFile = mockLitleFile.Object;
-            litle.setLitleFile(mockedLitleFile);
+            cnpFile mockedCnpFile = mockCnpFile.Object;
+            cnp.setCnpFile(mockedCnpFile);
 
-            litle.setLitleTime(mockLitleTime.Object);
+            cnp.setCnpTime(mockCnpTime.Object);
 
-            batchRequest litleBatchRequest = new batchRequest();
-            litleBatchRequest.setLitleFile(mockedLitleFile);
-            litleBatchRequest.setLitleTime(mockLitleTime.Object);
-            litleBatchRequest.addGiftCardCredit(giftCardCredit);
-            litleBatchRequest.addGiftCardCredit(giftCardCredit);
-            litle.addBatch(litleBatchRequest);
+            batchRequest cnpBatchRequest = new batchRequest();
+            cnpBatchRequest.setCnpFile(mockedCnpFile);
+            cnpBatchRequest.setCnpTime(mockCnpTime.Object);
+            cnpBatchRequest.addGiftCardCredit(giftCardCredit);
+            cnpBatchRequest.addGiftCardCredit(giftCardCredit);
+            cnp.addBatch(cnpBatchRequest);
 
-            string batchFileName = litle.sendToLitle();
-            litleResponse actualLitleResponse = litle.receiveFromLitle(batchFileName);
-            batchResponse actualLitleBatchResponse = actualLitleResponse.nextBatchResponse();
+            string batchFileName = cnp.sendToCnp();
+            cnpResponse actualCnpResponse = cnp.receiveFromCnp(batchFileName);
+            batchResponse actualCnpBatchResponse = actualCnpResponse.nextBatchResponse();
 
-            Assert.AreSame(mockLitleBatchResponse, actualLitleBatchResponse);
-            Assert.AreEqual(522547723741503000, actualLitleBatchResponse.nextGiftCardCreditResponse().litleTxnId);
-            Assert.AreEqual(522547723741503001, actualLitleBatchResponse.nextGiftCardCreditResponse().litleTxnId);
-            Assert.IsNull(actualLitleBatchResponse.nextGiftCardCreditResponse());
+            Assert.AreSame(mockCnpBatchResponse, actualCnpBatchResponse);
+            Assert.AreEqual(522547723741503000, actualCnpBatchResponse.nextGiftCardCreditResponse().cnpTxnId);
+            Assert.AreEqual(522547723741503001, actualCnpBatchResponse.nextGiftCardCreditResponse().cnpTxnId);
+            Assert.IsNull(actualCnpBatchResponse.nextGiftCardCreditResponse());
 
             mockCommunications.Verify(Communications => Communications.FtpDropOff(It.IsAny<String>(), mockFileName, It.IsAny<Dictionary<String, String>>()));
             mockCommunications.Verify(Communications => Communications.FtpPickUp(It.IsAny<String>(), It.IsAny<Dictionary<String, String>>(), mockFileName));

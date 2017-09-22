@@ -1,16 +1,16 @@
 ﻿using System.Collections.Generic;
 using NUnit.Framework;
 
-namespace Litle.Sdk.Test.Functional
+namespace Cnp.Sdk.Test.Functional
 {
     [TestFixture]
     internal class TestCapture
     {
-        private LitleOnline _litle;
+        private CnpOnline _cnp;
         private Dictionary<string, string> _config;
 
         [TestFixtureSetUp]
-        public void SetUpLitle()
+        public void SetUpCnp()
         {
             _config = new Dictionary<string, string>
             {
@@ -28,7 +28,7 @@ namespace Litle.Sdk.Test.Functional
                 {"neuterAccountNums", "true"}
             };
 
-            _litle = new LitleOnline(_config);
+            _cnp = new CnpOnline(_config);
         }
 
         [Test]
@@ -37,13 +37,13 @@ namespace Litle.Sdk.Test.Functional
             var capture = new capture
             {
                 id = "1",
-                litleTxnId = 123456000,
+                cnpTxnId = 123456000,
                 amount = 106,
                 payPalNotes = "Notes",
                 pin = "1234"
             };
 
-            var response = _litle.Capture(capture);
+            var response = _cnp.Capture(capture);
             Assert.AreEqual("Approved", response.message);
         }
 
@@ -53,14 +53,14 @@ namespace Litle.Sdk.Test.Functional
             var capture = new capture
             {
                 id = "1",
-                litleTxnId = 123456000,
+                cnpTxnId = 123456000,
                 amount = 106,
                 partial = true,
                 payPalNotes = "Notes"
             };
 
 
-            var response = _litle.Capture(capture);
+            var response = _cnp.Capture(capture);
             Assert.AreEqual("Approved", response.message);
         }
 
@@ -70,13 +70,13 @@ namespace Litle.Sdk.Test.Functional
             var capture = new capture
             {
                 id = "1",
-                litleTxnId = 123456000,
+                cnpTxnId = 123456000,
                 amount = 106,
                 payPalNotes = "Notes",
                 pin = "1234",
                 enhancedData = new enhancedData
                 {
-                    customerReference = "Litle",
+                    customerReference = "Cnp",
                     salesTax = 50,
                     deliveryType = enhancedDataDeliveryType.TBD
                 },
@@ -90,7 +90,7 @@ namespace Litle.Sdk.Test.Functional
                 }
             };
 
-            var response = _litle.Capture(capture);
+            var response = _cnp.Capture(capture);
             Assert.AreEqual("Approved", response.message);
         }
 
@@ -100,12 +100,12 @@ namespace Litle.Sdk.Test.Functional
             var capture = new capture
             {
                 id = "1",
-                litleTxnId = 123456000,
+                cnpTxnId = 123456000,
                 amount = 106,
                 payPalNotes = "<'&\">"
             };
             
-            var response = _litle.Capture(capture);
+            var response = _cnp.Capture(capture);
             Assert.AreEqual("Approved", response.message);
         }
     }

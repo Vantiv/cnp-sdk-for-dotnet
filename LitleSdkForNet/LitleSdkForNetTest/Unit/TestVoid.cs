@@ -2,58 +2,58 @@
 using System.Collections.Generic;
 using System.Text;
 using NUnit.Framework;
-using Litle.Sdk;
+using Cnp.Sdk;
 using Moq;
 using System.Text.RegularExpressions;
 
 
-namespace Litle.Sdk.Test.Unit
+namespace Cnp.Sdk.Test.Unit
 {
     [TestFixture]
     class TestVoid
     {
         
-        private LitleOnline litle;
+        private CnpOnline cnp;
 
         [TestFixtureSetUp]
-        public void SetUpLitle()
+        public void SetUpCnp()
         {
-            litle = new LitleOnline();
+            cnp = new CnpOnline();
         }
 
         [Test]
         public void TestRecyclingDataOnVoidResponse()
         {
             voidTxn voidTxn = new voidTxn();
-            voidTxn.litleTxnId = 123;
+            voidTxn.cnpTxnId = 123;
            
             var mock = new Mock<Communications>();
 
             mock.Setup(Communications => Communications.HttpPost(It.IsRegex(".*", RegexOptions.Singleline), It.IsAny<Dictionary<String, String>>()))
-                .Returns("<litleOnlineResponse version='8.16' response='0' message='Valid Format' xmlns='http://www.litle.com/schema'><voidResponse><litleTxnId>123</litleTxnId><response>000</response><responseTime>2013-01-31T15:48:09</responseTime><postDate>2013-01-31</postDate><message>Approved</message><recycling><creditLitleTxnId>456</creditLitleTxnId></recycling></voidResponse></litleOnlineResponse>");
+                .Returns("<cnpOnlineResponse version='8.16' response='0' message='Valid Format' xmlns='http://www.vantivcnp.com/schema'><voidResponse><cnpTxnId>123</cnpTxnId><response>000</response><responseTime>2013-01-31T15:48:09</responseTime><postDate>2013-01-31</postDate><message>Approved</message><recycling><creditCnpTxnId>456</creditCnpTxnId></recycling></voidResponse></cnpOnlineResponse>");
      
             Communications mockedCommunication = mock.Object;
-            litle.setCommunication(mockedCommunication);
-            litleOnlineResponseTransactionResponseVoidResponse response = litle.DoVoid(voidTxn);
-            Assert.AreEqual(123, response.litleTxnId);
-            Assert.AreEqual(456, response.recycling.creditLitleTxnId);
+            cnp.setCommunication(mockedCommunication);
+            cnpOnlineResponseTransactionResponseVoidResponse response = cnp.DoVoid(voidTxn);
+            Assert.AreEqual(123, response.cnpTxnId);
+            Assert.AreEqual(456, response.recycling.creditCnpTxnId);
         }
 
         [Test]
         public void TestRecyclingDataOnVoidResponseIsOptional()
         {
             voidTxn voidTxn = new voidTxn();
-            voidTxn.litleTxnId = 123;
+            voidTxn.cnpTxnId = 123;
 
             var mock = new Mock<Communications>();
 
             mock.Setup(Communications => Communications.HttpPost(It.IsRegex(".*", RegexOptions.Singleline), It.IsAny<Dictionary<String, String>>()))
-                .Returns("<litleOnlineResponse version='8.16' response='0' message='Valid Format' xmlns='http://www.litle.com/schema'><voidResponse><litleTxnId>123</litleTxnId><response>000</response><responseTime>2013-01-31T15:48:09</responseTime><postDate>2013-01-31</postDate><message>Approved</message></voidResponse></litleOnlineResponse>");
+                .Returns("<cnpOnlineResponse version='8.16' response='0' message='Valid Format' xmlns='http://www.vantivcnp.com/schema'><voidResponse><cnpTxnId>123</cnpTxnId><response>000</response><responseTime>2013-01-31T15:48:09</responseTime><postDate>2013-01-31</postDate><message>Approved</message></voidResponse></cnpOnlineResponse>");
 
             Communications mockedCommunication = mock.Object;
-            litle.setCommunication(mockedCommunication);
-            litleOnlineResponseTransactionResponseVoidResponse response = litle.DoVoid(voidTxn);
-            Assert.AreEqual(123, response.litleTxnId);
+            cnp.setCommunication(mockedCommunication);
+            cnpOnlineResponseTransactionResponseVoidResponse response = cnp.DoVoid(voidTxn);
+            Assert.AreEqual(123, response.cnpTxnId);
             Assert.IsNull(response.recycling);
         }
 

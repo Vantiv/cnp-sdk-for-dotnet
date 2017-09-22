@@ -5,13 +5,13 @@ using System.IO;
 using System.Xml.Serialization;
 using System.Xml;
 
-namespace Litle.Sdk
+namespace Cnp.Sdk
 {
-    public class litleXmlSerializer
+    public class cnpXmlSerializer
     {
-        virtual public String SerializeObject(litleOnlineRequest req)
+        virtual public String SerializeObject(cnpOnlineRequest req)
         {
-            XmlSerializer serializer = new XmlSerializer(typeof(litleOnlineRequest));
+            XmlSerializer serializer = new XmlSerializer(typeof(cnpOnlineRequest));
             MemoryStream ms = new MemoryStream();
             try
             {
@@ -19,21 +19,21 @@ namespace Litle.Sdk
             }
             catch (XmlException e)
             {
-                throw new LitleOnlineException("Error in sending request to Litle!", e);
+                throw new CnpOnlineException("Error in sending request to Cnp!", e);
             }
             return Encoding.UTF8.GetString(ms.GetBuffer());//return string is UTF8 encoded.
         }// serialize the xml
 
-        virtual public litleResponse DeserializeObjectFromFile(string filePath)
+        virtual public cnpResponse DeserializeObjectFromFile(string filePath)
         {
-            litleResponse i;
+            cnpResponse i;
             try
             {
-                i = new litleResponse(filePath);
+                i = new cnpResponse(filePath);
             }
             catch (XmlException e)
             {
-                throw new LitleOnlineException("Error in recieving response from Litle!", e);
+                throw new CnpOnlineException("Error in recieving response from Cnp!", e);
             }
             return i;
         }// deserialize the object

@@ -2,11 +2,11 @@
 using System.Collections.Generic;
 using System.Text;
 using NUnit.Framework;
-using Litle.Sdk;
+using Cnp.Sdk;
 using Moq;
 using System.Text.RegularExpressions;
 
-namespace Litle.Sdk.Test.Unit
+namespace Cnp.Sdk.Test.Unit
 {
     [TestFixture]
     class TestRFRRequest
@@ -19,17 +19,17 @@ namespace Litle.Sdk.Test.Unit
         private const string mockFileName = "TheRainbow.xml";
         private const string mockFilePath = "C:\\Somewhere\\\\Over\\\\" + mockFileName;
 
-        private Mock<litleFile> mockLitleFile;
-        private Mock<litleTime> mockLitleTime;
+        private Mock<cnpFile> mockCnpFile;
+        private Mock<cnpTime> mockCnpTime;
 
         [TestFixtureSetUp]
         public void setUp()
         {
-            mockLitleFile = new Mock<litleFile>();
-            mockLitleTime = new Mock<litleTime>();
+            mockCnpFile = new Mock<cnpFile>();
+            mockCnpTime = new Mock<cnpTime>();
 
-            mockLitleFile.Setup(litleFile => litleFile.createRandomFile(It.IsAny<String>(), It.IsAny<String>(), It.IsAny<String>(), mockLitleTime.Object)).Returns(mockFilePath);
-            mockLitleFile.Setup(litleFile => litleFile.AppendLineToFile(mockFilePath, It.IsAny<String>())).Returns(mockFilePath);
+            mockCnpFile.Setup(cnpFile => cnpFile.createRandomFile(It.IsAny<String>(), It.IsAny<String>(), It.IsAny<String>(), mockCnpTime.Object)).Returns(mockFilePath);
+            mockCnpFile.Setup(cnpFile => cnpFile.AppendLineToFile(mockFilePath, It.IsAny<String>())).Returns(mockFilePath);
         }
 
         [SetUp]
@@ -66,25 +66,25 @@ namespace Litle.Sdk.Test.Unit
             Assert.AreEqual("C:\\MockRequests\\Requests\\", rfrRequest.getRequestDirectory());
             Assert.AreEqual("C:\\MockResponses\\Responses\\", rfrRequest.getResponseDirectory());
 
-            Assert.NotNull(rfrRequest.getLitleTime());
-            Assert.NotNull(rfrRequest.getLitleFile());
+            Assert.NotNull(rfrRequest.getCnpTime());
+            Assert.NotNull(rfrRequest.getCnpFile());
         }
 
         [Test]
         public void testSerialize()
         {
-            litleFile mockedLitleFile = mockLitleFile.Object;
-            litleTime mockedLitleTime = mockLitleTime.Object;
+            cnpFile mockedCnpFile = mockCnpFile.Object;
+            cnpTime mockedCnpTime = mockCnpTime.Object;
 
-            rfrRequest.litleSessionId = 123456789;
-            rfrRequest.setLitleFile(mockedLitleFile);
-            rfrRequest.setLitleTime(mockedLitleTime);
+            rfrRequest.cnpSessionId = 123456789;
+            rfrRequest.setCnpFile(mockedCnpFile);
+            rfrRequest.setCnpTime(mockedCnpTime);
 
             Assert.AreEqual(mockFilePath, rfrRequest.Serialize());
 
-            mockLitleFile.Verify(litleFile => litleFile.AppendLineToFile(mockFilePath, "\r\n<RFRRequest xmlns=\"http://www.litle.com/schema\">"));
-            mockLitleFile.Verify(litleFile => litleFile.AppendLineToFile(mockFilePath, "\r\n<litleSessionId>123456789</litleSessionId>"));
-            mockLitleFile.Verify(litleFile => litleFile.AppendLineToFile(mockFilePath, "\r\n</RFRRequest>"));
+            mockCnpFile.Verify(cnpFile => cnpFile.AppendLineToFile(mockFilePath, "\r\n<RFRRequest xmlns=\"http://www.cnp.com/schema\">"));
+            mockCnpFile.Verify(cnpFile => cnpFile.AppendLineToFile(mockFilePath, "\r\n<cnpSessionId>123456789</cnpSessionId>"));
+            mockCnpFile.Verify(cnpFile => cnpFile.AppendLineToFile(mockFilePath, "\r\n</RFRRequest>"));
         }
 
         [Test]

@@ -1,16 +1,16 @@
 ﻿using System.Collections.Generic;
 using NUnit.Framework;
 
-namespace Litle.Sdk.Test.Functional
+namespace Cnp.Sdk.Test.Functional
 {
     [TestFixture]
     internal class TestForceCapture
     {
-        private LitleOnline _litle;
+        private CnpOnline _cnp;
         private Dictionary<string, string> _config;
 
         [TestFixtureSetUp]
-        public void SetUpLitle()
+        public void SetUpCnp()
         {
             _config = new Dictionary<string, string>
             {
@@ -28,7 +28,7 @@ namespace Litle.Sdk.Test.Functional
                 {"neuterAccountNums", "true"}
             };
 
-            _litle = new LitleOnline(_config);
+            _cnp = new CnpOnline(_config);
         }
 
         [Test]
@@ -49,7 +49,7 @@ namespace Litle.Sdk.Test.Functional
                 }
             };
 
-            var response = _litle.ForceCapture(forcecapture);
+            var response = _cnp.ForceCapture(forcecapture);
             Assert.AreEqual("Approved", response.message);
         }
 
@@ -72,7 +72,7 @@ namespace Litle.Sdk.Test.Functional
                 }
             };
 
-            var response = _litle.ForceCapture(forcecapture);
+            var response = _cnp.ForceCapture(forcecapture);
             Assert.AreEqual("Approved", response.message);
         }
 
@@ -87,14 +87,14 @@ namespace Litle.Sdk.Test.Functional
                 orderSource = orderSourceType.ecommerce,
                 token = new cardTokenType
                 {
-                    litleToken = "123456789101112",
+                    cnpToken = "123456789101112",
                     expDate = "1210",
                     cardValidationNum = "555",
                     type = methodOfPaymentTypeEnum.VI
                 }
             };
 
-            var response = _litle.ForceCapture(forcecapture);
+            var response = _cnp.ForceCapture(forcecapture);
             Assert.AreEqual("Approved", response.message); ;
         }
 

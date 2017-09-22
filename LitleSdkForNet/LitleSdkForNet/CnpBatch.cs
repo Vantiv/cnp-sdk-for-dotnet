@@ -6,27 +6,27 @@ using System.Xml.Serialization;
 using System.IO;
 using System.Security.Cryptography;
 
-namespace Litle.Sdk
+namespace Cnp.Sdk
 {
-    public class litleRequest
+    public class cnpRequest
     {
         private authentication authentication;
         private Dictionary<string, string> config;
         private Communications communication;
-        private litleXmlSerializer litleXmlSerializer;
-        private int numOfLitleBatchRequest = 0;
+        private cnpXmlSerializer cnpXmlSerializer;
+        private int numOfCnpBatchRequest = 0;
         private int numOfRFRRequest = 0;
         public string finalFilePath = null;
         private string batchFilePath = null;
         private string requestDirectory;
         private string responseDirectory;
-        private litleTime litleTime;
-        private litleFile litleFile;
+        private cnpTime cnpTime;
+        private cnpFile cnpFile;
 
         /**
-         * Construct a Litle online using the configuration specified in LitleSdkForNet.dll.config
+         * Construct a Cnp online using the configuration specified in CnpSdkForNet.dll.config
          */
-        public litleRequest()
+        public cnpRequest()
         {
             config = new Dictionary<string, string>();
 
@@ -52,11 +52,11 @@ namespace Litle.Sdk
         }
 
         /**
-         * Construct a LitleOnline specifying the configuration in code.  This should be used by integration that have another way
-         * to specify their configuration settings or where different configurations are needed for different instances of LitleOnline.
+         * Construct a CnpOnline specifying the configuration in code.  This should be used by integration that have another way
+         * to specify their configuration settings or where different configurations are needed for different instances of CnpOnline.
          * 
          * Properties that *must* be set are:
-         * url (eg https://payments.litle.com/vap/communicator/online)
+         * url (eg https://payments.cnp.com/vap/communicator/online)
          * reportGroup (eg "Default Report Group")
          * username
          * merchantId
@@ -75,7 +75,7 @@ namespace Litle.Sdk
          * requestDirectory
          * responseDirectory
          */
-        public litleRequest(Dictionary<string, string> config)
+        public cnpRequest(Dictionary<string, string> config)
         {
             this.config = config;
 
@@ -93,9 +93,9 @@ namespace Litle.Sdk
             requestDirectory = config["requestDirectory"] + "\\Requests\\";
             responseDirectory = config["responseDirectory"] + "\\Responses\\";
 
-            litleXmlSerializer = new litleXmlSerializer();
-            litleTime = new litleTime();
-            litleFile = new litleFile();
+            cnpXmlSerializer = new cnpXmlSerializer();
+            cnpTime = new cnpTime();
+            cnpFile = new cnpFile();
         }
 
         public authentication getAuthenication()
@@ -123,76 +123,76 @@ namespace Litle.Sdk
             return this.communication;
         }
 
-        public void setLitleXmlSerializer(litleXmlSerializer litleXmlSerializer)
+        public void setCnpXmlSerializer(cnpXmlSerializer cnpXmlSerializer)
         {
-            this.litleXmlSerializer = litleXmlSerializer;
+            this.cnpXmlSerializer = cnpXmlSerializer;
         }
 
-        public litleXmlSerializer getLitleXmlSerializer()
+        public cnpXmlSerializer getCnpXmlSerializer()
         {
-            return this.litleXmlSerializer;
+            return this.cnpXmlSerializer;
         }
 
-        public void setLitleTime(litleTime litleTime)
+        public void setCnpTime(cnpTime cnpTime)
         {
-            this.litleTime = litleTime;
+            this.cnpTime = cnpTime;
         }
 
-        public litleTime getLitleTime()
+        public cnpTime getCnpTime()
         {
-            return this.litleTime;
+            return this.cnpTime;
         }
 
-        public void setLitleFile(litleFile litleFile)
+        public void setCnpFile(cnpFile cnpFile)
         {
-            this.litleFile = litleFile;
+            this.cnpFile = cnpFile;
         }
 
-        public litleFile getLitleFile()
+        public cnpFile getCnpFile()
         {
-            return this.litleFile;
+            return this.cnpFile;
         }
 
-        public void addBatch(batchRequest litleBatchRequest)
+        public void addBatch(batchRequest cnpBatchRequest)
         {
             if (numOfRFRRequest != 0)
             {
-                throw new LitleOnlineException("Can not add a batch request to a batch with an RFRrequest!");
+                throw new CnpOnlineException("Can not add a batch request to a batch with an RFRrequest!");
             }
 
-            fillInReportGroup(litleBatchRequest);
+            fillInReportGroup(cnpBatchRequest);
 
-            batchFilePath = SerializeBatchRequestToFile(litleBatchRequest, batchFilePath);
-            numOfLitleBatchRequest++;
+            batchFilePath = SerializeBatchRequestToFile(cnpBatchRequest, batchFilePath);
+            numOfCnpBatchRequest++;
         }
 
         public void addRFRRequest(RFRRequest rfrRequest)
         {
-            if (numOfLitleBatchRequest != 0)
+            if (numOfCnpBatchRequest != 0)
             {
-                throw new LitleOnlineException("Can not add an RFRRequest to a batch with requests!");
+                throw new CnpOnlineException("Can not add an RFRRequest to a batch with requests!");
             }
             else if (numOfRFRRequest >= 1)
             {
-                throw new LitleOnlineException("Can not add more than one RFRRequest to a batch!");
+                throw new CnpOnlineException("Can not add more than one RFRRequest to a batch!");
             }
 
             batchFilePath = SerializeRFRRequestToFile(rfrRequest, batchFilePath);
             numOfRFRRequest++;
         }
 
-        public litleResponse sendToLitleWithStream()
+        public cnpResponse sendToCnpWithStream()
         {
             var requestFilePath = this.Serialize();
             var batchName = Path.GetFileName(requestFilePath);
 
             var responseFilePath = communication.SocketStream(requestFilePath, responseDirectory, config);
 
-            var litleResponse = (litleResponse)litleXmlSerializer.DeserializeObjectFromFile(responseFilePath);
-            return litleResponse;
+            var cnpResponse = (cnpResponse)cnpXmlSerializer.DeserializeObjectFromFile(responseFilePath);
+            return cnpResponse;
         }
 
-        public string sendToLitle()
+        public string sendToCnp()
         {
             var requestFilePath = this.Serialize();
 
@@ -206,80 +206,80 @@ namespace Litle.Sdk
             communication.FtpPoll(fileName, timeOut, config);
         }
 
-        public litleResponse receiveFromLitle(string batchFileName)
+        public cnpResponse receiveFromCnp(string batchFileName)
         {
-            litleFile.createDirectory(responseDirectory);
+            cnpFile.createDirectory(responseDirectory);
 
             communication.FtpPickUp(responseDirectory + batchFileName, config, batchFileName);
 
-            var litleResponse = (litleResponse)litleXmlSerializer.DeserializeObjectFromFile(responseDirectory + batchFileName);
-            return litleResponse;
+            var cnpResponse = (cnpResponse)cnpXmlSerializer.DeserializeObjectFromFile(responseDirectory + batchFileName);
+            return cnpResponse;
         }
 
-        public string SerializeBatchRequestToFile(batchRequest litleBatchRequest, string filePath)
+        public string SerializeBatchRequestToFile(batchRequest cnpBatchRequest, string filePath)
         {
 
-            filePath = litleFile.createRandomFile(requestDirectory, Path.GetFileName(filePath), "_temp_litleRequest.xml", litleTime);
-            var tempFilePath = litleBatchRequest.Serialize();
+            filePath = cnpFile.createRandomFile(requestDirectory, Path.GetFileName(filePath), "_temp_cnpRequest.xml", cnpTime);
+            var tempFilePath = cnpBatchRequest.Serialize();
 
-            litleFile.AppendFileToFile(filePath, tempFilePath);
+            cnpFile.AppendFileToFile(filePath, tempFilePath);
 
             return filePath;
         }
 
         public string SerializeRFRRequestToFile(RFRRequest rfrRequest, string filePath)
         {
-            filePath = litleFile.createRandomFile(requestDirectory, Path.GetFileName(filePath), "_temp_litleRequest.xml", litleTime);
+            filePath = cnpFile.createRandomFile(requestDirectory, Path.GetFileName(filePath), "_temp_cnpRequest.xml", cnpTime);
             var tempFilePath = rfrRequest.Serialize();
 
-            litleFile.AppendFileToFile(filePath, tempFilePath);
+            cnpFile.AppendFileToFile(filePath, tempFilePath);
 
             return filePath;
         }
 
         public string Serialize()
         {
-            var xmlHeader = "<?xml version='1.0' encoding='utf-8'?>\r\n<litleRequest version=\"11.1\"" +
-             " xmlns=\"http://www.litle.com/schema\" " +
-             "numBatchRequests=\"" + numOfLitleBatchRequest + "\">";
+            var xmlHeader = "<?xml version='1.0' encoding='utf-8'?>\r\n<cnpRequest version=\"12.0\"" +
+             " xmlns=\"http://www.vantivcnp.com/schema\" " +
+             "numBatchRequests=\"" + numOfCnpBatchRequest + "\">";
 
-            var xmlFooter = "\r\n</litleRequest>";
+            var xmlFooter = "\r\n</cnpRequest>";
 
-            finalFilePath = litleFile.createRandomFile(requestDirectory, Path.GetFileName(finalFilePath), ".xml", litleTime);
+            finalFilePath = cnpFile.createRandomFile(requestDirectory, Path.GetFileName(finalFilePath), ".xml", cnpTime);
             var filePath = finalFilePath;
 
-            litleFile.AppendLineToFile(finalFilePath, xmlHeader);
-            litleFile.AppendLineToFile(finalFilePath, authentication.Serialize());
+            cnpFile.AppendLineToFile(finalFilePath, xmlHeader);
+            cnpFile.AppendLineToFile(finalFilePath, authentication.Serialize());
 
             if (batchFilePath != null)
             {
-                litleFile.AppendFileToFile(finalFilePath, batchFilePath);
+                cnpFile.AppendFileToFile(finalFilePath, batchFilePath);
             }
             else
             {
-                throw new LitleOnlineException("No batch was added to the LitleBatch!");
+                throw new CnpOnlineException("No batch was added to the CnpBatch!");
             }
 
-            litleFile.AppendLineToFile(finalFilePath, xmlFooter);
+            cnpFile.AppendLineToFile(finalFilePath, xmlFooter);
 
             finalFilePath = null;
 
             return filePath;
         }
 
-        private void fillInReportGroup(batchRequest litleBatchRequest)
+        private void fillInReportGroup(batchRequest cnpBatchRequest)
         {
-            if (litleBatchRequest.reportGroup == null)
+            if (cnpBatchRequest.reportGroup == null)
             {
-                litleBatchRequest.reportGroup = config["reportGroup"];
+                cnpBatchRequest.reportGroup = config["reportGroup"];
             }
         }
 
     }
 
-    public class litleFile
+    public class cnpFile
     {
-        public virtual string createRandomFile(string fileDirectory, string fileName, string fileExtension, litleTime litleTime)
+        public virtual string createRandomFile(string fileDirectory, string fileName, string fileExtension, cnpTime cnpTime)
         {
             string filePath = null;
             if (string.IsNullOrEmpty(fileName))
@@ -289,7 +289,7 @@ namespace Litle.Sdk
                     Directory.CreateDirectory(fileDirectory);
                 }
 
-                fileName = litleTime.getCurrentTime("MM-dd-yyyy_HH-mm-ss-ffff_") + RandomGen.NextString(8);
+                fileName = cnpTime.getCurrentTime("MM-dd-yyyy_HH-mm-ss-ffff_") + RandomGen.NextString(8);
                 filePath = fileDirectory + fileName + fileExtension;
 
                 using (var fs = new FileStream(filePath, FileMode.Create))
@@ -380,7 +380,7 @@ namespace Litle.Sdk
         }
     }
 
-    public class litleTime
+    public class cnpTime
     {
         public virtual string getCurrentTime(string format)
         {

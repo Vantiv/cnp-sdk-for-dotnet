@@ -1,16 +1,16 @@
 ﻿using System.Collections.Generic;
 using NUnit.Framework;
 
-namespace Litle.Sdk.Test.Functional
+namespace Cnp.Sdk.Test.Functional
 {
     [TestFixture]
     internal class TestToken
     {
-        private LitleOnline _litle;
+        private CnpOnline _cnp;
         private Dictionary<string, string> _config;
 
         [TestFixtureSetUp]
-        public void SetUpLitle()
+        public void SetUpCnp()
         {
             _config = new Dictionary<string, string>
             {
@@ -28,7 +28,7 @@ namespace Litle.Sdk.Test.Functional
                 {"neuterAccountNums", "true"}
             };
 
-            _litle = new LitleOnline(_config);
+            _cnp = new CnpOnline(_config);
         }
 
         [Test]
@@ -42,7 +42,7 @@ namespace Litle.Sdk.Test.Functional
                 accountNumber = "1233456789103801",
             };
 
-            var rtokenResponse = _litle.RegisterToken(registerTokenRequest);
+            var rtokenResponse = _cnp.RegisterToken(registerTokenRequest);
             StringAssert.AreEqualIgnoringCase("Account number was successfully registered", rtokenResponse.message);
         }
 
@@ -58,7 +58,7 @@ namespace Litle.Sdk.Test.Functional
                 paypageRegistrationId = "1233456789101112",
             };
 
-            var rtokenResponse = _litle.RegisterToken(registerTokenRequest);
+            var rtokenResponse = _cnp.RegisterToken(registerTokenRequest);
             StringAssert.AreEqualIgnoringCase("Account number was successfully registered", rtokenResponse.message);
         }
 
@@ -77,7 +77,7 @@ namespace Litle.Sdk.Test.Functional
                 }
             };
 
-            var rtokenResponse = _litle.RegisterToken(registerTokenRequest);
+            var rtokenResponse = _cnp.RegisterToken(registerTokenRequest);
             StringAssert.AreEqualIgnoringCase("Account number was successfully registered", rtokenResponse.message);
         }
 
@@ -105,7 +105,7 @@ namespace Litle.Sdk.Test.Functional
                 }
             };
 
-            var rtokenResponse = _litle.RegisterToken(registerTokenRequest);
+            var rtokenResponse = _cnp.RegisterToken(registerTokenRequest);
             StringAssert.AreEqualIgnoringCase("Account number was successfully registered", rtokenResponse.message);
             Assert.AreEqual("0", rtokenResponse.applepayResponse.transactionAmount);
         }
@@ -127,9 +127,9 @@ namespace Litle.Sdk.Test.Functional
             try
             {
                 //expected exception;
-                var rtokenResponse = _litle.RegisterToken(registerTokenRequest);
+                var rtokenResponse = _cnp.RegisterToken(registerTokenRequest);
             }
-            catch (LitleOnlineException e)
+            catch (CnpOnlineException e)
             {
                 Assert.True(e.Message.StartsWith("Error validating xml data against the schema"));
             }
@@ -147,7 +147,7 @@ namespace Litle.Sdk.Test.Functional
             };
             
 
-            var rtokenResponse = _litle.RegisterToken(registerTokenRequest);
+            var rtokenResponse = _cnp.RegisterToken(registerTokenRequest);
             StringAssert.AreEqualIgnoringCase("Account number was successfully registered", rtokenResponse.message);
             Assert.IsNull(rtokenResponse.type);
         }

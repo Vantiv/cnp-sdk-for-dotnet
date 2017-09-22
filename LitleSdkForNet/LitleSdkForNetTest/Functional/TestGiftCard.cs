@@ -2,16 +2,16 @@
 using NUnit.Framework;
 using System;
 
-namespace Litle.Sdk.Test.Functional
+namespace Cnp.Sdk.Test.Functional
 {
     [TestFixture]
     internal class TestGiftCard
     {
-        private LitleOnline _litle;
+        private CnpOnline _cnp;
         private Dictionary<string, string> _config;
 
         [TestFixtureSetUp]
-        public void SetUpLitle()
+        public void SetUpCnp()
         {
             _config = new Dictionary<string, string>
             {
@@ -29,7 +29,7 @@ namespace Litle.Sdk.Test.Functional
                 {"neuterAccountNums", "true"}
             };
 
-            _litle = new LitleOnline(_config);
+            _cnp = new CnpOnline(_config);
         }
 
         [Test]
@@ -39,7 +39,7 @@ namespace Litle.Sdk.Test.Functional
             {
                 id = "1",
                 reportGroup = "Planets",
-                litleTxnId = 123,
+                cnpTxnId = 123,
                 card = new giftCardCardType
                 {
                     type = methodOfPaymentTypeEnum.GC,
@@ -54,7 +54,7 @@ namespace Litle.Sdk.Test.Functional
                 originalSequenceNumber = "123456"
             };
 
-            var response = _litle.GiftCardAuthReversal(giftCard);
+            var response = _cnp.GiftCardAuthReversal(giftCard);
             Assert.AreEqual("000", response.response);
         }
 
@@ -65,7 +65,7 @@ namespace Litle.Sdk.Test.Functional
             {
                 id = "1",
                 reportGroup = "Planets",
-                litleTxnId = 123456000,
+                cnpTxnId = 123456000,
                 captureAmount = 106,
                 card = new giftCardCardType
                 {
@@ -78,7 +78,7 @@ namespace Litle.Sdk.Test.Functional
                 originalTxnTime = DateTime.Now
             };
 
-            var response = _litle.GiftCardCapture(giftCardCapture);
+            var response = _cnp.GiftCardCapture(giftCardCapture);
             Assert.AreEqual("Approved", response.message);
         }
 
@@ -88,7 +88,7 @@ namespace Litle.Sdk.Test.Functional
             var giftCardCapture = new giftCardCapture
             {
                 id = "1",
-                litleTxnId = 123456000,
+                cnpTxnId = 123456000,
                 captureAmount = 106,
                 card = new giftCardCardType
                 {
@@ -101,7 +101,7 @@ namespace Litle.Sdk.Test.Functional
                 partial = true
             };
 
-            var response = _litle.GiftCardCapture(giftCardCapture);
+            var response = _cnp.GiftCardCapture(giftCardCapture);
             Assert.AreEqual("Approved", response.message);
         }
 
@@ -112,7 +112,7 @@ namespace Litle.Sdk.Test.Functional
             {
                 id = "1",
                 reportGroup = "planets",
-                litleTxnId = 123456000,
+                cnpTxnId = 123456000,
                 creditAmount = 106,
                 card = new giftCardCardType
                 {
@@ -122,7 +122,7 @@ namespace Litle.Sdk.Test.Functional
                 }
             };
 
-            var response = _litle.GiftCardCredit(creditObj);
+            var response = _cnp.GiftCardCredit(creditObj);
             Assert.AreEqual("Approved", response.message);
         }
 
@@ -144,7 +144,7 @@ namespace Litle.Sdk.Test.Functional
                 }
             };
 
-            var response = _litle.GiftCardCredit(creditObj);
+            var response = _cnp.GiftCardCredit(creditObj);
             Assert.AreEqual("Approved", response.message);
         }
     }

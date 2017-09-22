@@ -2,14 +2,14 @@
 using System.Collections.Generic;
 using System.Text;
 using NUnit.Framework;
-using Litle.Sdk;
+using Cnp.Sdk;
 
-namespace Litle.Sdk.Test.Certification
+namespace Cnp.Sdk.Test.Certification
 {
     [TestFixture]
     class TestCert4Echeck
     {
-        private LitleOnline litle;
+        private CnpOnline cnp;
 
         [TestFixtureSetUp]
         public void setUp()
@@ -27,7 +27,7 @@ namespace Litle.Sdk.Test.Certification
             config.Add("neuterAccountNums", null);
             config.Add("proxyHost", Properties.Settings.Default.proxyHost);
             config.Add("proxyPort", Properties.Settings.Default.proxyPort);
-            litle = new LitleOnline(config);
+            cnp = new CnpOnline(config);
         }
 
         [Test]
@@ -48,7 +48,7 @@ namespace Litle.Sdk.Test.Certification
             echeck.routingNum = "053100300";
             verification.echeck = echeck;
 
-            echeckVerificationResponse response = litle.EcheckVerification(verification);
+            echeckVerificationResponse response = cnp.EcheckVerification(verification);
             Assert.AreEqual("301", response.response);
             Assert.AreEqual("Invalid Account Number", response.message);
         }
@@ -72,7 +72,7 @@ namespace Litle.Sdk.Test.Certification
             echeck.routingNum = "053000219";
             verification.echeck = echeck;
 
-            echeckVerificationResponse response = litle.EcheckVerification(verification);
+            echeckVerificationResponse response = cnp.EcheckVerification(verification);
             Assert.AreEqual("000", response.response);
             Assert.AreEqual("Approved", response.message);
         }
@@ -97,7 +97,7 @@ namespace Litle.Sdk.Test.Certification
             echeck.routingNum = "053100300";
             verification.echeck = echeck;
 
-            echeckVerificationResponse response = litle.EcheckVerification(verification);
+            echeckVerificationResponse response = cnp.EcheckVerification(verification);
             Assert.AreEqual("950", response.response);
         }
 
@@ -121,7 +121,7 @@ namespace Litle.Sdk.Test.Certification
             echeck.routingNum = "063102152";
             verification.echeck = echeck;
 
-            echeckVerificationResponse response = litle.EcheckVerification(verification);
+            echeckVerificationResponse response = cnp.EcheckVerification(verification);
             Assert.AreEqual("951", response.response);
             Assert.AreEqual("Absolute Decline", response.message);
         }
@@ -145,7 +145,7 @@ namespace Litle.Sdk.Test.Certification
             echeck.routingNum = "053100300";
             sale.echeck = echeck;
 
-            echeckSalesResponse response = litle.EcheckSale(sale);
+            echeckSalesResponse response = cnp.EcheckSale(sale);
             Assert.AreEqual("301", response.response);
             Assert.AreEqual("Invalid Account Number", response.message);
         }
@@ -168,7 +168,7 @@ namespace Litle.Sdk.Test.Certification
             echeck.routingNum = "211370545";
             sale.echeck = echeck;
 
-            echeckSalesResponse response = litle.EcheckSale(sale);
+            echeckSalesResponse response = cnp.EcheckSale(sale);
             Assert.AreEqual("000", response.response);
             Assert.AreEqual("Approved", response.message);
         }
@@ -192,7 +192,7 @@ namespace Litle.Sdk.Test.Certification
             echeck.routingNum = "211370545";
             sale.echeck = echeck;
 
-            echeckSalesResponse response = litle.EcheckSale(sale);
+            echeckSalesResponse response = cnp.EcheckSale(sale);
             Assert.AreEqual("000", response.response);
             Assert.AreEqual("Approved", response.message);
         }
@@ -216,7 +216,7 @@ namespace Litle.Sdk.Test.Certification
             echeck.routingNum = "053133052";
             sale.echeck = echeck;
 
-            echeckSalesResponse response = litle.EcheckSale(sale);
+            echeckSalesResponse response = cnp.EcheckSale(sale);
             Assert.AreEqual("900", response.response);
             Assert.AreEqual("Invalid Bank Routing Number", response.message);
         }
@@ -239,7 +239,7 @@ namespace Litle.Sdk.Test.Certification
             echeck.routingNum = "053100300";
             credit.echeck = echeck;
 
-            echeckCreditResponse response = litle.EcheckCredit(credit);
+            echeckCreditResponse response = cnp.EcheckCredit(credit);
             //Response from sandbox is wrong.
             //Assert.AreEqual("301", response.response);
         }
@@ -263,7 +263,7 @@ namespace Litle.Sdk.Test.Certification
             echeck.routingNum = "063102152";
             credit.echeck = echeck;
 
-            echeckCreditResponse response = litle.EcheckCredit(credit);
+            echeckCreditResponse response = cnp.EcheckCredit(credit);
             Assert.AreEqual("000", response.response);
             Assert.AreEqual("Approved", response.message);
         }
@@ -287,7 +287,7 @@ namespace Litle.Sdk.Test.Certification
             echeck.routingNum = "211370545";
             credit.echeck = echeck;
 
-            echeckCreditResponse response = litle.EcheckCredit(credit);
+            echeckCreditResponse response = cnp.EcheckCredit(credit);
             Assert.AreEqual("000", response.response);
             Assert.AreEqual("Approved", response.message);
         }
@@ -297,9 +297,9 @@ namespace Litle.Sdk.Test.Certification
         {
             echeckCredit credit = new echeckCredit();
             credit.id = "1";
-            credit.litleTxnId = 430000000000000001L;
+            credit.cnpTxnId = 430000000000000001L;
 
-            echeckCreditResponse response = litle.EcheckCredit(credit);
+            echeckCreditResponse response = cnp.EcheckCredit(credit);
             Assert.AreEqual("000", response.response);
             Assert.AreEqual("Approved", response.message);
         }
@@ -309,9 +309,9 @@ namespace Litle.Sdk.Test.Certification
         {
             echeckCredit credit = new echeckCredit();
             credit.id = "1";
-            credit.litleTxnId = 2L;
+            credit.cnpTxnId = 2L;
 
-            echeckCreditResponse response = litle.EcheckCredit(credit);
+            echeckCreditResponse response = cnp.EcheckCredit(credit);
             Assert.AreEqual("000", response.response);
         }
             

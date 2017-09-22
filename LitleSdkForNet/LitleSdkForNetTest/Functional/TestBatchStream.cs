@@ -2,15 +2,15 @@ using System;
 using System.Collections.Generic;
 using System.Text;
 using NUnit.Framework;
-using Litle.Sdk;
+using Cnp.Sdk;
 using System.IO;
 
-namespace Litle.Sdk.Test.Functional
+namespace Cnp.Sdk.Test.Functional
 {
     [TestFixture]
     class TestBatchStream
     {
-        private litleRequest litle;
+        private cnpRequest cnp;
         private Dictionary<String, String> invalidConfig;
         private Dictionary<String, String> invalidSftpConfig;
 
@@ -53,13 +53,13 @@ namespace Litle.Sdk.Test.Functional
         [SetUp]
         public void setUpBeforeTest()
         {
-            litle = new litleRequest();
+            cnp = new cnpRequest();
         }
 
         [Test]
         public void SimpleBatch()
         {
-            batchRequest litleBatchRequest = new batchRequest();
+            batchRequest cnpBatchRequest = new batchRequest();
 
             authorization authorization = new authorization();
             authorization.reportGroup = "Planets";
@@ -73,7 +73,7 @@ namespace Litle.Sdk.Test.Functional
             authorization.card = card;
             authorization.id = "id";
 
-            litleBatchRequest.addAuthorization(authorization);
+            cnpBatchRequest.addAuthorization(authorization);
 
             authorization authorization2 = new authorization();
             authorization2.reportGroup = "Planets";
@@ -87,39 +87,39 @@ namespace Litle.Sdk.Test.Functional
             authorization2.card = card2;
             authorization2.id = "id";
 
-            litleBatchRequest.addAuthorization(authorization2);
+            cnpBatchRequest.addAuthorization(authorization2);
 
             authReversal reversal = new authReversal();
-            reversal.litleTxnId = 12345678000L;
+            reversal.cnpTxnId = 12345678000L;
             reversal.amount = 106;
             reversal.payPalNotes = "Notes";
             reversal.id = "id";
 
-            litleBatchRequest.addAuthReversal(reversal);
+            cnpBatchRequest.addAuthReversal(reversal);
 
             authReversal reversal2 = new authReversal();
-            reversal2.litleTxnId = 12345678900L;
+            reversal2.cnpTxnId = 12345678900L;
             reversal2.amount = 106;
             reversal2.payPalNotes = "Notes";
             reversal2.id = "id";
 
-            litleBatchRequest.addAuthReversal(reversal2);
+            cnpBatchRequest.addAuthReversal(reversal2);
 
             capture capture = new capture();
-            capture.litleTxnId = 123456000;
+            capture.cnpTxnId = 123456000;
             capture.amount = 106;
             capture.payPalNotes = "Notes";
             capture.id = "id";
 
-            litleBatchRequest.addCapture(capture);
+            cnpBatchRequest.addCapture(capture);
 
             capture capture2 = new capture();
-            capture2.litleTxnId = 123456700;
+            capture2.cnpTxnId = 123456700;
             capture2.amount = 106;
             capture2.payPalNotes = "Notes";
             capture2.id = "id";
 
-            litleBatchRequest.addCapture(capture2);
+            cnpBatchRequest.addCapture(capture2);
 
             captureGivenAuth capturegivenauth = new captureGivenAuth();
             capturegivenauth.amount = 106;
@@ -134,7 +134,7 @@ namespace Litle.Sdk.Test.Functional
             capturegivenauth.card = card;
             capturegivenauth.id = "id";
 
-            litleBatchRequest.addCaptureGivenAuth(capturegivenauth);
+            cnpBatchRequest.addCaptureGivenAuth(capturegivenauth);
 
             captureGivenAuth capturegivenauth2 = new captureGivenAuth();
             capturegivenauth2.amount = 106;
@@ -149,7 +149,7 @@ namespace Litle.Sdk.Test.Functional
             capturegivenauth2.card = card2;
             capturegivenauth2.id = "id";
 
-            litleBatchRequest.addCaptureGivenAuth(capturegivenauth2);
+            cnpBatchRequest.addCaptureGivenAuth(capturegivenauth2);
 
             credit creditObj = new credit();
             creditObj.amount = 106;
@@ -158,7 +158,7 @@ namespace Litle.Sdk.Test.Functional
             creditObj.card = card;
             creditObj.id = "id";
 
-            litleBatchRequest.addCredit(creditObj);
+            cnpBatchRequest.addCredit(creditObj);
 
             credit creditObj2 = new credit();
             creditObj2.amount = 106;
@@ -167,7 +167,7 @@ namespace Litle.Sdk.Test.Functional
             creditObj2.card = card2;
             creditObj2.id = "id";
 
-            litleBatchRequest.addCredit(creditObj2);
+            cnpBatchRequest.addCredit(creditObj2);
 
             echeckCredit echeckcredit = new echeckCredit();
             echeckcredit.amount = 12L;
@@ -183,11 +183,11 @@ namespace Litle.Sdk.Test.Functional
             billToAddress.name = "Bob";
             billToAddress.city = "Lowell";
             billToAddress.state = "MA";
-            billToAddress.email = "litle.com";
+            billToAddress.email = "cnp.com";
             echeckcredit.billToAddress = billToAddress;
             echeckcredit.id = "id";
 
-            litleBatchRequest.addEcheckCredit(echeckcredit);
+            cnpBatchRequest.addEcheckCredit(echeckcredit);
 
             echeckCredit echeckcredit2 = new echeckCredit();
             echeckcredit2.amount = 12L;
@@ -203,25 +203,25 @@ namespace Litle.Sdk.Test.Functional
             billToAddress2.name = "Mike";
             billToAddress2.city = "Lowell";
             billToAddress2.state = "MA";
-            billToAddress2.email = "litle.com";
+            billToAddress2.email = "cnp.com";
             echeckcredit2.billToAddress = billToAddress2;
             echeckcredit2.id = "id";
 
-            litleBatchRequest.addEcheckCredit(echeckcredit2);
+            cnpBatchRequest.addEcheckCredit(echeckcredit2);
 
             echeckRedeposit echeckredeposit = new echeckRedeposit();
-            echeckredeposit.litleTxnId = 123456;
+            echeckredeposit.cnpTxnId = 123456;
             echeckredeposit.echeck = echeck;
             echeckredeposit.id = "id";
 
-            litleBatchRequest.addEcheckRedeposit(echeckredeposit);
+            cnpBatchRequest.addEcheckRedeposit(echeckredeposit);
 
             echeckRedeposit echeckredeposit2 = new echeckRedeposit();
-            echeckredeposit2.litleTxnId = 123457;
+            echeckredeposit2.cnpTxnId = 123457;
             echeckredeposit2.echeck = echeck2;
             echeckredeposit2.id = "id";
 
-            litleBatchRequest.addEcheckRedeposit(echeckredeposit2);
+            cnpBatchRequest.addEcheckRedeposit(echeckredeposit2);
 
             echeckSale echeckSaleObj = new echeckSale();
             echeckSaleObj.amount = 123456;
@@ -231,7 +231,7 @@ namespace Litle.Sdk.Test.Functional
             echeckSaleObj.billToAddress = billToAddress;
             echeckSaleObj.id = "id";
 
-            litleBatchRequest.addEcheckSale(echeckSaleObj);
+            cnpBatchRequest.addEcheckSale(echeckSaleObj);
 
             echeckSale echeckSaleObj2 = new echeckSale();
             echeckSaleObj2.amount = 123456;
@@ -241,7 +241,7 @@ namespace Litle.Sdk.Test.Functional
             echeckSaleObj2.billToAddress = billToAddress2;
             echeckSaleObj2.id = "id";
 
-            litleBatchRequest.addEcheckSale(echeckSaleObj2);
+            cnpBatchRequest.addEcheckSale(echeckSaleObj2);
 
             echeckPreNoteSale echeckPreNoteSaleObj1 = new echeckPreNoteSale();
             echeckPreNoteSaleObj1.orderId = "12345";
@@ -250,7 +250,7 @@ namespace Litle.Sdk.Test.Functional
             echeckPreNoteSaleObj1.billToAddress = billToAddress;
             echeckPreNoteSaleObj1.id = "id";
 
-            litleBatchRequest.addEcheckPreNoteSale(echeckPreNoteSaleObj1);
+            cnpBatchRequest.addEcheckPreNoteSale(echeckPreNoteSaleObj1);
 
             echeckPreNoteSale echeckPreNoteSaleObj2 = new echeckPreNoteSale();
             echeckPreNoteSaleObj2.orderId = "12345";
@@ -259,7 +259,7 @@ namespace Litle.Sdk.Test.Functional
             echeckPreNoteSaleObj2.billToAddress = billToAddress2;
             echeckPreNoteSaleObj2.id = "id";
 
-            litleBatchRequest.addEcheckPreNoteSale(echeckPreNoteSaleObj2);
+            cnpBatchRequest.addEcheckPreNoteSale(echeckPreNoteSaleObj2);
 
             echeckPreNoteCredit echeckPreNoteCreditObj1 = new echeckPreNoteCredit();
             echeckPreNoteCreditObj1.orderId = "12345";
@@ -268,7 +268,7 @@ namespace Litle.Sdk.Test.Functional
             echeckPreNoteCreditObj1.billToAddress = billToAddress;
             echeckPreNoteCreditObj1.id = "id";
 
-            litleBatchRequest.addEcheckPreNoteCredit(echeckPreNoteCreditObj1);
+            cnpBatchRequest.addEcheckPreNoteCredit(echeckPreNoteCreditObj1);
 
             echeckPreNoteCredit echeckPreNoteCreditObj2 = new echeckPreNoteCredit();
             echeckPreNoteCreditObj2.orderId = "12345";
@@ -277,7 +277,7 @@ namespace Litle.Sdk.Test.Functional
             echeckPreNoteCreditObj2.billToAddress = billToAddress2;
             echeckPreNoteCreditObj2.id = "id";
 
-            litleBatchRequest.addEcheckPreNoteCredit(echeckPreNoteCreditObj2);
+            cnpBatchRequest.addEcheckPreNoteCredit(echeckPreNoteCreditObj2);
 
             echeckVerification echeckVerificationObject = new echeckVerification();
             echeckVerificationObject.amount = 123456;
@@ -287,7 +287,7 @@ namespace Litle.Sdk.Test.Functional
             echeckVerificationObject.billToAddress = billToAddress;
             echeckVerificationObject.id = "id";
 
-            litleBatchRequest.addEcheckVerification(echeckVerificationObject);
+            cnpBatchRequest.addEcheckVerification(echeckVerificationObject);
 
             echeckVerification echeckVerificationObject2 = new echeckVerification();
             echeckVerificationObject2.amount = 123456;
@@ -297,7 +297,7 @@ namespace Litle.Sdk.Test.Functional
             echeckVerificationObject2.billToAddress = billToAddress2;
             echeckVerificationObject2.id = "id";
 
-            litleBatchRequest.addEcheckVerification(echeckVerificationObject2);
+            cnpBatchRequest.addEcheckVerification(echeckVerificationObject2);
 
             forceCapture forcecapture = new forceCapture();
             forcecapture.amount = 106;
@@ -306,7 +306,7 @@ namespace Litle.Sdk.Test.Functional
             forcecapture.card = card;
             forcecapture.id = "id";
 
-            litleBatchRequest.addForceCapture(forcecapture);
+            cnpBatchRequest.addForceCapture(forcecapture);
 
             forceCapture forcecapture2 = new forceCapture();
             forcecapture2.amount = 106;
@@ -315,27 +315,27 @@ namespace Litle.Sdk.Test.Functional
             forcecapture2.card = card2;
             forcecapture2.id = "id";
 
-            litleBatchRequest.addForceCapture(forcecapture2);
+            cnpBatchRequest.addForceCapture(forcecapture2);
 
             sale saleObj = new sale();
             saleObj.amount = 106;
-            saleObj.litleTxnId = 123456;
+            saleObj.cnpTxnId = 123456;
             saleObj.orderId = "12344";
             saleObj.orderSource = orderSourceType.ecommerce;
             saleObj.card = card;
             saleObj.id = "id";
 
-            litleBatchRequest.addSale(saleObj);
+            cnpBatchRequest.addSale(saleObj);
 
             sale saleObj2 = new sale();
             saleObj2.amount = 106;
-            saleObj2.litleTxnId = 123456;
+            saleObj2.cnpTxnId = 123456;
             saleObj2.orderId = "12345";
             saleObj2.orderSource = orderSourceType.ecommerce;
             saleObj2.card = card2;
             saleObj2.id = "id";
 
-            litleBatchRequest.addSale(saleObj2);
+            cnpBatchRequest.addSale(saleObj2);
 
             registerTokenRequestType registerTokenRequest = new registerTokenRequestType();
             registerTokenRequest.orderId = "12344";
@@ -343,7 +343,7 @@ namespace Litle.Sdk.Test.Functional
             registerTokenRequest.reportGroup = "Planets";
             registerTokenRequest.id = "id";
 
-            litleBatchRequest.addRegisterTokenRequest(registerTokenRequest);
+            cnpBatchRequest.addRegisterTokenRequest(registerTokenRequest);
 
             registerTokenRequestType registerTokenRequest2 = new registerTokenRequestType();
             registerTokenRequest2.orderId = "12345";
@@ -351,162 +351,162 @@ namespace Litle.Sdk.Test.Functional
             registerTokenRequest2.reportGroup = "Planets";
             registerTokenRequest2.id = "id";
 
-            litleBatchRequest.addRegisterTokenRequest(registerTokenRequest2);
+            cnpBatchRequest.addRegisterTokenRequest(registerTokenRequest2);
 
             updateCardValidationNumOnToken updateCardValidationNumOnToken = new updateCardValidationNumOnToken();
             updateCardValidationNumOnToken.orderId = "12344";
             updateCardValidationNumOnToken.cardValidationNum = "123";
-            updateCardValidationNumOnToken.litleToken = "4100000000000001";
+            updateCardValidationNumOnToken.cnpToken = "4100000000000001";
             updateCardValidationNumOnToken.id = "id";
 
-            litleBatchRequest.addUpdateCardValidationNumOnToken(updateCardValidationNumOnToken);
+            cnpBatchRequest.addUpdateCardValidationNumOnToken(updateCardValidationNumOnToken);
 
             updateCardValidationNumOnToken updateCardValidationNumOnToken2 = new updateCardValidationNumOnToken();
             updateCardValidationNumOnToken2.orderId = "12345";
             updateCardValidationNumOnToken2.cardValidationNum = "123";
-            updateCardValidationNumOnToken2.litleToken = "4242424242424242";
+            updateCardValidationNumOnToken2.cnpToken = "4242424242424242";
             updateCardValidationNumOnToken2.id = "id";
 
-            litleBatchRequest.addUpdateCardValidationNumOnToken(updateCardValidationNumOnToken2);
-            litle.addBatch(litleBatchRequest);
+            cnpBatchRequest.addUpdateCardValidationNumOnToken(updateCardValidationNumOnToken2);
+            cnp.addBatch(cnpBatchRequest);
 
-            litleResponse litleResponse = litle.sendToLitleWithStream();
+            cnpResponse cnpResponse = cnp.sendToCnpWithStream();
 
-            Assert.NotNull(litleResponse);
-            Assert.AreEqual("0", litleResponse.response);
-            Assert.AreEqual("Valid Format", litleResponse.message);
+            Assert.NotNull(cnpResponse);
+            Assert.AreEqual("0", cnpResponse.response);
+            Assert.AreEqual("Valid Format", cnpResponse.message);
 
-            batchResponse litleBatchResponse = litleResponse.nextBatchResponse();
-            while (litleBatchResponse != null)
+            batchResponse cnpBatchResponse = cnpResponse.nextBatchResponse();
+            while (cnpBatchResponse != null)
             {
-                authorizationResponse authorizationResponse = litleBatchResponse.nextAuthorizationResponse();
+                authorizationResponse authorizationResponse = cnpBatchResponse.nextAuthorizationResponse();
                 while (authorizationResponse != null)
                 {
                     Assert.AreEqual("000", authorizationResponse.response);
 
-                    authorizationResponse = litleBatchResponse.nextAuthorizationResponse();
+                    authorizationResponse = cnpBatchResponse.nextAuthorizationResponse();
                 }
 
-                authReversalResponse authReversalResponse = litleBatchResponse.nextAuthReversalResponse();
+                authReversalResponse authReversalResponse = cnpBatchResponse.nextAuthReversalResponse();
                 while (authReversalResponse != null)
                 {
                     Assert.AreEqual("000", authReversalResponse.response);
 
-                    authReversalResponse = litleBatchResponse.nextAuthReversalResponse();
+                    authReversalResponse = cnpBatchResponse.nextAuthReversalResponse();
                 }
 
-                captureResponse captureResponse = litleBatchResponse.nextCaptureResponse();
+                captureResponse captureResponse = cnpBatchResponse.nextCaptureResponse();
                 while (captureResponse != null)
                 {
                     Assert.AreEqual("000", captureResponse.response);
 
-                    captureResponse = litleBatchResponse.nextCaptureResponse();
+                    captureResponse = cnpBatchResponse.nextCaptureResponse();
                 }
 
-                captureGivenAuthResponse captureGivenAuthResponse = litleBatchResponse.nextCaptureGivenAuthResponse();
+                captureGivenAuthResponse captureGivenAuthResponse = cnpBatchResponse.nextCaptureGivenAuthResponse();
                 while (captureGivenAuthResponse != null)
                 {
                     Assert.AreEqual("000", captureGivenAuthResponse.response);
 
-                    captureGivenAuthResponse = litleBatchResponse.nextCaptureGivenAuthResponse();
+                    captureGivenAuthResponse = cnpBatchResponse.nextCaptureGivenAuthResponse();
                 }
 
-                creditResponse creditResponse = litleBatchResponse.nextCreditResponse();
+                creditResponse creditResponse = cnpBatchResponse.nextCreditResponse();
                 while (creditResponse != null)
                 {
                     Assert.AreEqual("000", creditResponse.response);
 
-                    creditResponse = litleBatchResponse.nextCreditResponse();
+                    creditResponse = cnpBatchResponse.nextCreditResponse();
                 }
 
-                echeckCreditResponse echeckCreditResponse = litleBatchResponse.nextEcheckCreditResponse();
+                echeckCreditResponse echeckCreditResponse = cnpBatchResponse.nextEcheckCreditResponse();
                 while (echeckCreditResponse != null)
                 {
                     Assert.AreEqual("000", echeckCreditResponse.response);
 
-                    echeckCreditResponse = litleBatchResponse.nextEcheckCreditResponse();
+                    echeckCreditResponse = cnpBatchResponse.nextEcheckCreditResponse();
                 }
 
-                echeckRedepositResponse echeckRedepositResponse = litleBatchResponse.nextEcheckRedepositResponse();
+                echeckRedepositResponse echeckRedepositResponse = cnpBatchResponse.nextEcheckRedepositResponse();
                 while (echeckRedepositResponse != null)
                 {
                     Assert.AreEqual("000", echeckRedepositResponse.response);
 
-                    echeckRedepositResponse = litleBatchResponse.nextEcheckRedepositResponse();
+                    echeckRedepositResponse = cnpBatchResponse.nextEcheckRedepositResponse();
                 }
 
-                echeckSalesResponse echeckSalesResponse = litleBatchResponse.nextEcheckSalesResponse();
+                echeckSalesResponse echeckSalesResponse = cnpBatchResponse.nextEcheckSalesResponse();
                 while (echeckSalesResponse != null)
                 {
                     Assert.AreEqual("000", echeckSalesResponse.response);
 
-                    echeckSalesResponse = litleBatchResponse.nextEcheckSalesResponse();
+                    echeckSalesResponse = cnpBatchResponse.nextEcheckSalesResponse();
                 }
 
-                echeckPreNoteSaleResponse echeckPreNoteSaleResponse = litleBatchResponse.nextEcheckPreNoteSaleResponse();
+                echeckPreNoteSaleResponse echeckPreNoteSaleResponse = cnpBatchResponse.nextEcheckPreNoteSaleResponse();
                 while (echeckPreNoteSaleResponse != null)
                 {
                     Assert.AreEqual("000", echeckPreNoteSaleResponse.response);
 
-                    echeckPreNoteSaleResponse = litleBatchResponse.nextEcheckPreNoteSaleResponse();
+                    echeckPreNoteSaleResponse = cnpBatchResponse.nextEcheckPreNoteSaleResponse();
                 }
 
-                echeckPreNoteCreditResponse echeckPreNoteCreditResponse = litleBatchResponse.nextEcheckPreNoteCreditResponse();
+                echeckPreNoteCreditResponse echeckPreNoteCreditResponse = cnpBatchResponse.nextEcheckPreNoteCreditResponse();
                 while (echeckPreNoteCreditResponse != null)
                 {
                     Assert.AreEqual("000", echeckPreNoteCreditResponse.response);
 
-                    echeckPreNoteCreditResponse = litleBatchResponse.nextEcheckPreNoteCreditResponse();
+                    echeckPreNoteCreditResponse = cnpBatchResponse.nextEcheckPreNoteCreditResponse();
                 }
 
-                echeckVerificationResponse echeckVerificationResponse = litleBatchResponse.nextEcheckVerificationResponse();
+                echeckVerificationResponse echeckVerificationResponse = cnpBatchResponse.nextEcheckVerificationResponse();
                 while (echeckVerificationResponse != null)
                 {
                     Assert.AreEqual("957", echeckVerificationResponse.response);
 
-                    echeckVerificationResponse = litleBatchResponse.nextEcheckVerificationResponse();
+                    echeckVerificationResponse = cnpBatchResponse.nextEcheckVerificationResponse();
                 }
 
-                forceCaptureResponse forceCaptureResponse = litleBatchResponse.nextForceCaptureResponse();
+                forceCaptureResponse forceCaptureResponse = cnpBatchResponse.nextForceCaptureResponse();
                 while (forceCaptureResponse != null)
                 {
                     Assert.AreEqual("000", forceCaptureResponse.response);
 
-                    forceCaptureResponse = litleBatchResponse.nextForceCaptureResponse();
+                    forceCaptureResponse = cnpBatchResponse.nextForceCaptureResponse();
                 }
 
-                registerTokenResponse registerTokenResponse = litleBatchResponse.nextRegisterTokenResponse();
+                registerTokenResponse registerTokenResponse = cnpBatchResponse.nextRegisterTokenResponse();
                 while (registerTokenResponse != null)
                 {
                     Assert.AreEqual("820", registerTokenResponse.response);
 
-                    registerTokenResponse = litleBatchResponse.nextRegisterTokenResponse();
+                    registerTokenResponse = cnpBatchResponse.nextRegisterTokenResponse();
                 }
 
-                saleResponse saleResponse = litleBatchResponse.nextSaleResponse();
+                saleResponse saleResponse = cnpBatchResponse.nextSaleResponse();
                 while (saleResponse != null)
                 {
                     Assert.AreEqual("000", saleResponse.response);
 
-                    saleResponse = litleBatchResponse.nextSaleResponse();
+                    saleResponse = cnpBatchResponse.nextSaleResponse();
                 }
 
-                updateCardValidationNumOnTokenResponse updateCardValidationNumOnTokenResponse = litleBatchResponse.nextUpdateCardValidationNumOnTokenResponse();
+                updateCardValidationNumOnTokenResponse updateCardValidationNumOnTokenResponse = cnpBatchResponse.nextUpdateCardValidationNumOnTokenResponse();
                 while (updateCardValidationNumOnTokenResponse != null)
                 {
                     Assert.AreEqual("823", updateCardValidationNumOnTokenResponse.response);
 
-                    updateCardValidationNumOnTokenResponse = litleBatchResponse.nextUpdateCardValidationNumOnTokenResponse();
+                    updateCardValidationNumOnTokenResponse = cnpBatchResponse.nextUpdateCardValidationNumOnTokenResponse();
                 }
 
-                litleBatchResponse = litleResponse.nextBatchResponse();
+                cnpBatchResponse = cnpResponse.nextBatchResponse();
             }
         }
 
         [Test]
         public void accountUpdateBatch()
         {
-            batchRequest litleBatchRequest = new batchRequest();
+            batchRequest cnpBatchRequest = new batchRequest();
 
             accountUpdate accountUpdate1 = new accountUpdate();
             accountUpdate1.orderId = "1111";
@@ -517,42 +517,42 @@ namespace Litle.Sdk.Test.Functional
             accountUpdate1.card = card;
             accountUpdate1.id = "id";
 
-            litleBatchRequest.addAccountUpdate(accountUpdate1);
+            cnpBatchRequest.addAccountUpdate(accountUpdate1);
 
             accountUpdate accountUpdate2 = new accountUpdate();
             accountUpdate2.orderId = "1112";
             accountUpdate2.card = card;
             accountUpdate2.id = "id";
 
-            litleBatchRequest.addAccountUpdate(accountUpdate2);
+            cnpBatchRequest.addAccountUpdate(accountUpdate2);
 
-            litle.addBatch(litleBatchRequest);
-            litleResponse litleResponse = litle.sendToLitleWithStream();
+            cnp.addBatch(cnpBatchRequest);
+            cnpResponse cnpResponse = cnp.sendToCnpWithStream();
 
-            Assert.NotNull(litleResponse);
-            Assert.AreEqual("0", litleResponse.response);
-            Assert.AreEqual("Valid Format", litleResponse.message);
+            Assert.NotNull(cnpResponse);
+            Assert.AreEqual("0", cnpResponse.response);
+            Assert.AreEqual("Valid Format", cnpResponse.message);
 
-            batchResponse litleBatchResponse = litleResponse.nextBatchResponse();
-            while (litleBatchResponse != null)
+            batchResponse cnpBatchResponse = cnpResponse.nextBatchResponse();
+            while (cnpBatchResponse != null)
             {
-                accountUpdateResponse accountUpdateResponse = litleBatchResponse.nextAccountUpdateResponse();
+                accountUpdateResponse accountUpdateResponse = cnpBatchResponse.nextAccountUpdateResponse();
                 Assert.NotNull(accountUpdateResponse);
                 while (accountUpdateResponse != null)
                 {
                     Assert.AreEqual("301", accountUpdateResponse.response);
 
-                    accountUpdateResponse = litleBatchResponse.nextAccountUpdateResponse();
+                    accountUpdateResponse = cnpBatchResponse.nextAccountUpdateResponse();
                 }
-                litleBatchResponse = litleResponse.nextBatchResponse();
+                cnpBatchResponse = cnpResponse.nextBatchResponse();
             }
         }
 
         [Test]
         public void RFRBatch()
         {
-            batchRequest litleBatchRequest = new batchRequest();
-            litleBatchRequest.id = "1234567A";
+            batchRequest cnpBatchRequest = new batchRequest();
+            cnpBatchRequest.id = "1234567A";
 
             accountUpdate accountUpdate1 = new accountUpdate();
             accountUpdate1.orderId = "1111";
@@ -563,56 +563,56 @@ namespace Litle.Sdk.Test.Functional
             accountUpdate1.card = card;
             accountUpdate1.id = "id";
 
-            litleBatchRequest.addAccountUpdate(accountUpdate1);
+            cnpBatchRequest.addAccountUpdate(accountUpdate1);
 
             accountUpdate accountUpdate2 = new accountUpdate();
             accountUpdate2.orderId = "1112";
             accountUpdate2.card = card;
             accountUpdate2.id = "id";
 
-            litleBatchRequest.addAccountUpdate(accountUpdate2);
+            cnpBatchRequest.addAccountUpdate(accountUpdate2);
 
-            litle.addBatch(litleBatchRequest);
-            litleResponse litleResponse = litle.sendToLitleWithStream();
+            cnp.addBatch(cnpBatchRequest);
+            cnpResponse cnpResponse = cnp.sendToCnpWithStream();
 
-            Assert.NotNull(litleResponse);
+            Assert.NotNull(cnpResponse);
 
-            batchResponse litleBatchResponse = litleResponse.nextBatchResponse();
-            Assert.NotNull(litleBatchResponse);
-            while (litleBatchResponse != null)
+            batchResponse cnpBatchResponse = cnpResponse.nextBatchResponse();
+            Assert.NotNull(cnpBatchResponse);
+            while (cnpBatchResponse != null)
             {
-                accountUpdateResponse accountUpdateResponse = litleBatchResponse.nextAccountUpdateResponse();
+                accountUpdateResponse accountUpdateResponse = cnpBatchResponse.nextAccountUpdateResponse();
                 Assert.NotNull(accountUpdateResponse);
                 while (accountUpdateResponse != null)
                 {
                     Assert.AreEqual("000", accountUpdateResponse.response);
 
-                    accountUpdateResponse = litleBatchResponse.nextAccountUpdateResponse();
+                    accountUpdateResponse = cnpBatchResponse.nextAccountUpdateResponse();
                 }
-                litleBatchResponse = litleResponse.nextBatchResponse();
+                cnpBatchResponse = cnpResponse.nextBatchResponse();
             }
 
-            litleRequest litleRfr = new litleRequest();
+            cnpRequest cnpRfr = new cnpRequest();
             RFRRequest rfrRequest = new RFRRequest();
             accountUpdateFileRequestData accountUpdateFileRequestData = new accountUpdateFileRequestData();
             accountUpdateFileRequestData.merchantId = Properties.Settings.Default.merchantId;
             accountUpdateFileRequestData.postDay = DateTime.Now;
             rfrRequest.accountUpdateFileRequestData = accountUpdateFileRequestData;
 
-            litleRfr.addRFRRequest(rfrRequest);            
+            cnpRfr.addRFRRequest(rfrRequest);            
 
             try
             {
-                litleResponse litleRfrResponse = litleRfr.sendToLitleWithStream();
-                Assert.NotNull(litleRfrResponse);
+                cnpResponse cnpRfrResponse = cnpRfr.sendToCnpWithStream();
+                Assert.NotNull(cnpRfrResponse);
 
-                RFRResponse rfrResponse = litleRfrResponse.nextRFRResponse();
+                RFRResponse rfrResponse = cnpRfrResponse.nextRFRResponse();
                 Assert.NotNull(rfrResponse);
                 while (rfrResponse != null)
                 {
                     Assert.AreEqual("1", rfrResponse.response);
                     Assert.AreEqual("The account update file is not ready yet.  Please try again later.", rfrResponse.message);
-                    rfrResponse = litleResponse.nextRFRResponse();
+                    rfrResponse = cnpResponse.nextRFRResponse();
                 }
             }
             catch (Exception)
@@ -623,7 +623,7 @@ namespace Litle.Sdk.Test.Functional
         [Test]
         public void nullBatchData()
         {
-            batchRequest litleBatchRequest = new batchRequest();
+            batchRequest cnpBatchRequest = new batchRequest();
 
             authorization authorization = new authorization();
             authorization.reportGroup = "Planets";
@@ -637,10 +637,10 @@ namespace Litle.Sdk.Test.Functional
             authorization.card = card; //This needs to compile      
             authorization.id = "id";
 
-            litleBatchRequest.addAuthorization(authorization);
+            cnpBatchRequest.addAuthorization(authorization);
             try
             {
-                litleBatchRequest.addAuthorization(null);
+                cnpBatchRequest.addAuthorization(null);
             }
             catch (System.NullReferenceException e)
             {
@@ -648,15 +648,15 @@ namespace Litle.Sdk.Test.Functional
             }
 
             authReversal reversal = new authReversal();
-            reversal.litleTxnId = 12345678000L;
+            reversal.cnpTxnId = 12345678000L;
             reversal.amount = 106;
             reversal.payPalNotes = "Notes";
             reversal.id = "id";
 
-            litleBatchRequest.addAuthReversal(reversal);
+            cnpBatchRequest.addAuthReversal(reversal);
             try
             {
-                litleBatchRequest.addAuthReversal(null);
+                cnpBatchRequest.addAuthReversal(null);
             }
             catch (System.NullReferenceException e)
             {
@@ -664,15 +664,15 @@ namespace Litle.Sdk.Test.Functional
             }
 
             capture capture = new capture();
-            capture.litleTxnId = 123456000;
+            capture.cnpTxnId = 123456000;
             capture.amount = 106;
             capture.payPalNotes = "Notes";
             capture.id = "id";
 
-            litleBatchRequest.addCapture(capture);
+            cnpBatchRequest.addCapture(capture);
             try
             {
-                litleBatchRequest.addCapture(null);
+                cnpBatchRequest.addCapture(null);
             }
             catch (System.NullReferenceException e)
             {
@@ -692,10 +692,10 @@ namespace Litle.Sdk.Test.Functional
             capturegivenauth.card = card;
             capturegivenauth.id = "id";
 
-            litleBatchRequest.addCaptureGivenAuth(capturegivenauth);
+            cnpBatchRequest.addCaptureGivenAuth(capturegivenauth);
             try
             {
-                litleBatchRequest.addCaptureGivenAuth(null);
+                cnpBatchRequest.addCaptureGivenAuth(null);
             }
             catch (System.NullReferenceException e)
             {
@@ -709,10 +709,10 @@ namespace Litle.Sdk.Test.Functional
             creditObj.card = card;
             creditObj.id = "id";
 
-            litleBatchRequest.addCredit(creditObj);
+            cnpBatchRequest.addCredit(creditObj);
             try
             {
-                litleBatchRequest.addCredit(null);
+                cnpBatchRequest.addCredit(null);
             }
             catch (System.NullReferenceException e)
             {
@@ -733,14 +733,14 @@ namespace Litle.Sdk.Test.Functional
             billToAddress.name = "Bob";
             billToAddress.city = "Lowell";
             billToAddress.state = "MA";
-            billToAddress.email = "litle.com";
+            billToAddress.email = "cnp.com";
             echeckcredit.billToAddress = billToAddress;
             echeckcredit.id = "id";
 
-            litleBatchRequest.addEcheckCredit(echeckcredit);
+            cnpBatchRequest.addEcheckCredit(echeckcredit);
             try
             {
-                litleBatchRequest.addEcheckCredit(null);
+                cnpBatchRequest.addEcheckCredit(null);
             }
             catch (System.NullReferenceException e)
             {
@@ -748,14 +748,14 @@ namespace Litle.Sdk.Test.Functional
             }
 
             echeckRedeposit echeckredeposit = new echeckRedeposit();
-            echeckredeposit.litleTxnId = 123456;
+            echeckredeposit.cnpTxnId = 123456;
             echeckredeposit.echeck = echeck;
             echeckredeposit.id = "id";
 
-            litleBatchRequest.addEcheckRedeposit(echeckredeposit);
+            cnpBatchRequest.addEcheckRedeposit(echeckredeposit);
             try
             {
-                litleBatchRequest.addEcheckRedeposit(null);
+                cnpBatchRequest.addEcheckRedeposit(null);
             }
             catch (System.NullReferenceException e)
             {
@@ -770,10 +770,10 @@ namespace Litle.Sdk.Test.Functional
             echeckSaleObj.billToAddress = billToAddress;
             echeckSaleObj.id = "id";
 
-            litleBatchRequest.addEcheckSale(echeckSaleObj);
+            cnpBatchRequest.addEcheckSale(echeckSaleObj);
             try
             {
-                litleBatchRequest.addEcheckSale(null);
+                cnpBatchRequest.addEcheckSale(null);
             }
             catch (System.NullReferenceException e)
             {
@@ -788,10 +788,10 @@ namespace Litle.Sdk.Test.Functional
             echeckVerificationObject.billToAddress = billToAddress;
             echeckVerificationObject.id = "id";
 
-            litleBatchRequest.addEcheckVerification(echeckVerificationObject);
+            cnpBatchRequest.addEcheckVerification(echeckVerificationObject);
             try
             {
-                litleBatchRequest.addEcheckVerification(null);
+                cnpBatchRequest.addEcheckVerification(null);
             }
             catch (System.NullReferenceException e)
             {
@@ -805,10 +805,10 @@ namespace Litle.Sdk.Test.Functional
             forcecapture.card = card;
             forcecapture.id = "id";
 
-            litleBatchRequest.addForceCapture(forcecapture);
+            cnpBatchRequest.addForceCapture(forcecapture);
             try
             {
-                litleBatchRequest.addForceCapture(null);
+                cnpBatchRequest.addForceCapture(null);
             }
             catch (System.NullReferenceException e)
             {
@@ -817,16 +817,16 @@ namespace Litle.Sdk.Test.Functional
 
             sale saleObj = new sale();
             saleObj.amount = 106;
-            saleObj.litleTxnId = 123456;
+            saleObj.cnpTxnId = 123456;
             saleObj.orderId = "12344";
             saleObj.orderSource = orderSourceType.ecommerce;
             saleObj.card = card;
             saleObj.id = "id";
 
-            litleBatchRequest.addSale(saleObj);
+            cnpBatchRequest.addSale(saleObj);
             try
             {
-                litleBatchRequest.addSale(null);
+                cnpBatchRequest.addSale(null);
             }
             catch (System.NullReferenceException e)
             {
@@ -839,10 +839,10 @@ namespace Litle.Sdk.Test.Functional
             registerTokenRequest.reportGroup = "Planets";
             registerTokenRequest.id = "id";
 
-            litleBatchRequest.addRegisterTokenRequest(registerTokenRequest);
+            cnpBatchRequest.addRegisterTokenRequest(registerTokenRequest);
             try
             {
-                litleBatchRequest.addRegisterTokenRequest(null);
+                cnpBatchRequest.addRegisterTokenRequest(null);
             }
             catch (System.NullReferenceException e)
             {
@@ -851,7 +851,7 @@ namespace Litle.Sdk.Test.Functional
 
             try
             {
-                litle.addBatch(litleBatchRequest);
+                cnp.addBatch(cnpBatchRequest);
             }
             catch (System.NullReferenceException e)
             {
@@ -862,7 +862,7 @@ namespace Litle.Sdk.Test.Functional
         [Test]
         public void InvalidCredientialsBatch()
         {
-            batchRequest litleBatchRequest = new batchRequest();
+            batchRequest cnpBatchRequest = new batchRequest();
 
             authorization authorization = new authorization();
             authorization.reportGroup = "Planets";
@@ -876,7 +876,7 @@ namespace Litle.Sdk.Test.Functional
             authorization.card = card;
             authorization.id = "id";
 
-            litleBatchRequest.addAuthorization(authorization);
+            cnpBatchRequest.addAuthorization(authorization);
 
             authorization authorization2 = new authorization();
             authorization2.reportGroup = "Planets";
@@ -890,39 +890,39 @@ namespace Litle.Sdk.Test.Functional
             authorization2.card = card2;
             authorization2.id = "id";
 
-            litleBatchRequest.addAuthorization(authorization2);
+            cnpBatchRequest.addAuthorization(authorization2);
 
             authReversal reversal = new authReversal();
-            reversal.litleTxnId = 12345678000L;
+            reversal.cnpTxnId = 12345678000L;
             reversal.amount = 106;
             reversal.payPalNotes = "Notes";
             reversal.id = "id";
 
-            litleBatchRequest.addAuthReversal(reversal);
+            cnpBatchRequest.addAuthReversal(reversal);
 
             authReversal reversal2 = new authReversal();
-            reversal2.litleTxnId = 12345678900L;
+            reversal2.cnpTxnId = 12345678900L;
             reversal2.amount = 106;
             reversal2.payPalNotes = "Notes";
             reversal2.id = "id";
 
-            litleBatchRequest.addAuthReversal(reversal2);
+            cnpBatchRequest.addAuthReversal(reversal2);
 
             capture capture = new capture();
-            capture.litleTxnId = 123456000;
+            capture.cnpTxnId = 123456000;
             capture.amount = 106;
             capture.payPalNotes = "Notes";
             capture.id = "id";
 
-            litleBatchRequest.addCapture(capture);
+            cnpBatchRequest.addCapture(capture);
 
             capture capture2 = new capture();
-            capture2.litleTxnId = 123456700;
+            capture2.cnpTxnId = 123456700;
             capture2.amount = 106;
             capture2.payPalNotes = "Notes";
             capture2.id = "id";
 
-            litleBatchRequest.addCapture(capture2);
+            cnpBatchRequest.addCapture(capture2);
 
             captureGivenAuth capturegivenauth = new captureGivenAuth();
             capturegivenauth.amount = 106;
@@ -937,7 +937,7 @@ namespace Litle.Sdk.Test.Functional
             capturegivenauth.card = card;
             capturegivenauth.id = "id";
 
-            litleBatchRequest.addCaptureGivenAuth(capturegivenauth);
+            cnpBatchRequest.addCaptureGivenAuth(capturegivenauth);
 
             captureGivenAuth capturegivenauth2 = new captureGivenAuth();
             capturegivenauth2.amount = 106;
@@ -953,7 +953,7 @@ namespace Litle.Sdk.Test.Functional
             capturegivenauth2.id = "id";
 
 
-            litleBatchRequest.addCaptureGivenAuth(capturegivenauth2);
+            cnpBatchRequest.addCaptureGivenAuth(capturegivenauth2);
 
             credit creditObj = new credit();
             creditObj.amount = 106;
@@ -962,7 +962,7 @@ namespace Litle.Sdk.Test.Functional
             creditObj.card = card;
             creditObj.id = "id";
 
-            litleBatchRequest.addCredit(creditObj);
+            cnpBatchRequest.addCredit(creditObj);
 
             credit creditObj2 = new credit();
             creditObj2.amount = 106;
@@ -971,7 +971,7 @@ namespace Litle.Sdk.Test.Functional
             creditObj2.card = card2;
             creditObj2.id = "id";
 
-            litleBatchRequest.addCredit(creditObj2);
+            cnpBatchRequest.addCredit(creditObj2);
 
             echeckCredit echeckcredit = new echeckCredit();
             echeckcredit.amount = 12L;
@@ -987,11 +987,11 @@ namespace Litle.Sdk.Test.Functional
             billToAddress.name = "Bob";
             billToAddress.city = "Lowell";
             billToAddress.state = "MA";
-            billToAddress.email = "litle.com";
+            billToAddress.email = "cnp.com";
             echeckcredit.billToAddress = billToAddress;
             echeckcredit.id = "id";
 
-            litleBatchRequest.addEcheckCredit(echeckcredit);
+            cnpBatchRequest.addEcheckCredit(echeckcredit);
 
             echeckCredit echeckcredit2 = new echeckCredit();
             echeckcredit2.amount = 12L;
@@ -1007,25 +1007,25 @@ namespace Litle.Sdk.Test.Functional
             billToAddress2.name = "Mike";
             billToAddress2.city = "Lowell";
             billToAddress2.state = "MA";
-            billToAddress2.email = "litle.com";
+            billToAddress2.email = "cnp.com";
             echeckcredit2.billToAddress = billToAddress2;
             echeckcredit2.id = "id";
 
-            litleBatchRequest.addEcheckCredit(echeckcredit2);
+            cnpBatchRequest.addEcheckCredit(echeckcredit2);
 
             echeckRedeposit echeckredeposit = new echeckRedeposit();
-            echeckredeposit.litleTxnId = 123456;
+            echeckredeposit.cnpTxnId = 123456;
             echeckredeposit.echeck = echeck;
             echeckredeposit.id = "id";
 
-            litleBatchRequest.addEcheckRedeposit(echeckredeposit);
+            cnpBatchRequest.addEcheckRedeposit(echeckredeposit);
 
             echeckRedeposit echeckredeposit2 = new echeckRedeposit();
-            echeckredeposit2.litleTxnId = 123457;
+            echeckredeposit2.cnpTxnId = 123457;
             echeckredeposit2.echeck = echeck2;
             echeckredeposit2.id = "id";
 
-            litleBatchRequest.addEcheckRedeposit(echeckredeposit2);
+            cnpBatchRequest.addEcheckRedeposit(echeckredeposit2);
 
             echeckSale echeckSaleObj = new echeckSale();
             echeckSaleObj.amount = 123456;
@@ -1035,7 +1035,7 @@ namespace Litle.Sdk.Test.Functional
             echeckSaleObj.billToAddress = billToAddress;
             echeckSaleObj.id = "id";
 
-            litleBatchRequest.addEcheckSale(echeckSaleObj);
+            cnpBatchRequest.addEcheckSale(echeckSaleObj);
 
             echeckSale echeckSaleObj2 = new echeckSale();
             echeckSaleObj2.amount = 123456;
@@ -1045,7 +1045,7 @@ namespace Litle.Sdk.Test.Functional
             echeckSaleObj2.billToAddress = billToAddress2;
             echeckSaleObj2.id = "id";
 
-            litleBatchRequest.addEcheckSale(echeckSaleObj2);
+            cnpBatchRequest.addEcheckSale(echeckSaleObj2);
 
             echeckVerification echeckVerificationObject = new echeckVerification();
             echeckVerificationObject.amount = 123456;
@@ -1055,7 +1055,7 @@ namespace Litle.Sdk.Test.Functional
             echeckVerificationObject.billToAddress = billToAddress;
             echeckVerificationObject.id = "id";
 
-            litleBatchRequest.addEcheckVerification(echeckVerificationObject);
+            cnpBatchRequest.addEcheckVerification(echeckVerificationObject);
 
             echeckVerification echeckVerificationObject2 = new echeckVerification();
             echeckVerificationObject2.amount = 123456;
@@ -1065,7 +1065,7 @@ namespace Litle.Sdk.Test.Functional
             echeckVerificationObject2.billToAddress = billToAddress2;
             echeckVerificationObject2.id = "id";
 
-            litleBatchRequest.addEcheckVerification(echeckVerificationObject2);
+            cnpBatchRequest.addEcheckVerification(echeckVerificationObject2);
 
             forceCapture forcecapture = new forceCapture();
             forcecapture.amount = 106;
@@ -1074,7 +1074,7 @@ namespace Litle.Sdk.Test.Functional
             forcecapture.card = card;
             forcecapture.id = "id";
 
-            litleBatchRequest.addForceCapture(forcecapture);
+            cnpBatchRequest.addForceCapture(forcecapture);
 
             forceCapture forcecapture2 = new forceCapture();
             forcecapture2.amount = 106;
@@ -1083,27 +1083,27 @@ namespace Litle.Sdk.Test.Functional
             forcecapture2.card = card2;
             forcecapture2.id = "id";
 
-            litleBatchRequest.addForceCapture(forcecapture2);
+            cnpBatchRequest.addForceCapture(forcecapture2);
 
             sale saleObj = new sale();
             saleObj.amount = 106;
-            saleObj.litleTxnId = 123456;
+            saleObj.cnpTxnId = 123456;
             saleObj.orderId = "12344";
             saleObj.orderSource = orderSourceType.ecommerce;
             saleObj.card = card;
             saleObj.id = "id";
 
-            litleBatchRequest.addSale(saleObj);
+            cnpBatchRequest.addSale(saleObj);
 
             sale saleObj2 = new sale();
             saleObj2.amount = 106;
-            saleObj2.litleTxnId = 123456;
+            saleObj2.cnpTxnId = 123456;
             saleObj2.orderId = "12345";
             saleObj2.orderSource = orderSourceType.ecommerce;
             saleObj2.card = card2;
             saleObj2.id = "id";
 
-            litleBatchRequest.addSale(saleObj2);
+            cnpBatchRequest.addSale(saleObj2);
 
             registerTokenRequestType registerTokenRequest = new registerTokenRequestType();
             registerTokenRequest.orderId = "12344";
@@ -1111,7 +1111,7 @@ namespace Litle.Sdk.Test.Functional
             registerTokenRequest.reportGroup = "Planets";
             registerTokenRequest.id = "id";
 
-            litleBatchRequest.addRegisterTokenRequest(registerTokenRequest);
+            cnpBatchRequest.addRegisterTokenRequest(registerTokenRequest);
 
             registerTokenRequestType registerTokenRequest2 = new registerTokenRequestType();
             registerTokenRequest2.orderId = "12345";
@@ -1119,15 +1119,15 @@ namespace Litle.Sdk.Test.Functional
             registerTokenRequest2.reportGroup = "Planets";
             registerTokenRequest.id = "id";
 
-            litleBatchRequest.addRegisterTokenRequest(registerTokenRequest2);
+            cnpBatchRequest.addRegisterTokenRequest(registerTokenRequest2);
 
-            litle.addBatch(litleBatchRequest);
+            cnp.addBatch(cnpBatchRequest);
 
             try
             {
-                litleResponse litleResponse = litle.sendToLitleWithStream();
+                cnpResponse cnpResponse = cnp.sendToCnpWithStream();
             }
-            catch (LitleOnlineException e)
+            catch (CnpOnlineException e)
             {
                 Assert.AreEqual("Error establishing a network connection", e.Message);
             }
@@ -1136,13 +1136,13 @@ namespace Litle.Sdk.Test.Functional
         [Test]
         public void EcheckPreNoteTestAll()
         {
-            batchRequest litleBatchRequest = new batchRequest();
+            batchRequest cnpBatchRequest = new batchRequest();
 
             contact billToAddress = new contact();
             billToAddress.name = "Mike";
             billToAddress.city = "Lowell";
             billToAddress.state = "MA";
-            billToAddress.email = "litle.com";
+            billToAddress.email = "cnp.com";
 
             echeckType echeckSuccess = new echeckType();
             echeckSuccess.accType = echeckAccountTypeEnum.Corporate;
@@ -1171,7 +1171,7 @@ namespace Litle.Sdk.Test.Functional
             echeckPreNoteSaleSuccess.echeck = echeckSuccess;
             echeckPreNoteSaleSuccess.billToAddress = billToAddress;
             echeckPreNoteSaleSuccess.id = "id";
-            litleBatchRequest.addEcheckPreNoteSale(echeckPreNoteSaleSuccess);
+            cnpBatchRequest.addEcheckPreNoteSale(echeckPreNoteSaleSuccess);
 
             echeckPreNoteSale echeckPreNoteSaleRoutErr = new echeckPreNoteSale();
             echeckPreNoteSaleRoutErr.orderId = "900";
@@ -1179,7 +1179,7 @@ namespace Litle.Sdk.Test.Functional
             echeckPreNoteSaleRoutErr.echeck = echeckRoutErr;
             echeckPreNoteSaleRoutErr.billToAddress = billToAddress;
             echeckPreNoteSaleRoutErr.id = "id";
-            litleBatchRequest.addEcheckPreNoteSale(echeckPreNoteSaleRoutErr);
+            cnpBatchRequest.addEcheckPreNoteSale(echeckPreNoteSaleRoutErr);
 
             echeckPreNoteSale echeckPreNoteSaleAccErr = new echeckPreNoteSale();
             echeckPreNoteSaleAccErr.orderId = "301";
@@ -1187,7 +1187,7 @@ namespace Litle.Sdk.Test.Functional
             echeckPreNoteSaleAccErr.echeck = echeckAccErr;
             echeckPreNoteSaleAccErr.billToAddress = billToAddress;
             echeckPreNoteSaleAccErr.id = "id";
-            litleBatchRequest.addEcheckPreNoteSale(echeckPreNoteSaleAccErr);
+            cnpBatchRequest.addEcheckPreNoteSale(echeckPreNoteSaleAccErr);
 
             echeckPreNoteCredit echeckPreNoteCreditSuccess = new echeckPreNoteCredit();
             echeckPreNoteCreditSuccess.orderId = "000";
@@ -1195,7 +1195,7 @@ namespace Litle.Sdk.Test.Functional
             echeckPreNoteCreditSuccess.echeck = echeckSuccess;
             echeckPreNoteCreditSuccess.billToAddress = billToAddress;
             echeckPreNoteCreditSuccess.id = "id";
-            litleBatchRequest.addEcheckPreNoteCredit(echeckPreNoteCreditSuccess);
+            cnpBatchRequest.addEcheckPreNoteCredit(echeckPreNoteCreditSuccess);
 
             echeckPreNoteCredit echeckPreNoteCreditRoutErr = new echeckPreNoteCredit();
             echeckPreNoteCreditRoutErr.orderId = "900";
@@ -1203,7 +1203,7 @@ namespace Litle.Sdk.Test.Functional
             echeckPreNoteCreditRoutErr.echeck = echeckRoutErr;
             echeckPreNoteCreditRoutErr.billToAddress = billToAddress;
             echeckPreNoteCreditRoutErr.id = "id";
-            litleBatchRequest.addEcheckPreNoteCredit(echeckPreNoteCreditRoutErr);
+            cnpBatchRequest.addEcheckPreNoteCredit(echeckPreNoteCreditRoutErr);
 
             echeckPreNoteCredit echeckPreNoteCreditAccErr = new echeckPreNoteCredit();
             echeckPreNoteCreditAccErr.orderId = "301";
@@ -1211,34 +1211,34 @@ namespace Litle.Sdk.Test.Functional
             echeckPreNoteCreditAccErr.echeck = echeckAccErr;
             echeckPreNoteCreditAccErr.billToAddress = billToAddress;
             echeckPreNoteCreditAccErr.id = "id";
-            litleBatchRequest.addEcheckPreNoteCredit(echeckPreNoteCreditAccErr);
+            cnpBatchRequest.addEcheckPreNoteCredit(echeckPreNoteCreditAccErr);
 
-            litle.addBatch(litleBatchRequest);
+            cnp.addBatch(cnpBatchRequest);
 
-            litleResponse litleResponse = litle.sendToLitleWithStream();
+            cnpResponse cnpResponse = cnp.sendToCnpWithStream();
 
-            Assert.NotNull(litleResponse);
-            Assert.AreEqual("0", litleResponse.response);
-            Assert.AreEqual("Valid Format", litleResponse.message);
+            Assert.NotNull(cnpResponse);
+            Assert.AreEqual("0", cnpResponse.response);
+            Assert.AreEqual("Valid Format", cnpResponse.message);
 
-            batchResponse litleBatchResponse = litleResponse.nextBatchResponse();
-            while (litleBatchResponse != null)
+            batchResponse cnpBatchResponse = cnpResponse.nextBatchResponse();
+            while (cnpBatchResponse != null)
             {
-                echeckPreNoteSaleResponse echeckPreNoteSaleResponse = litleBatchResponse.nextEcheckPreNoteSaleResponse();
+                echeckPreNoteSaleResponse echeckPreNoteSaleResponse = cnpBatchResponse.nextEcheckPreNoteSaleResponse();
                 while (echeckPreNoteSaleResponse != null)
                 {
 
-                    echeckPreNoteSaleResponse = litleBatchResponse.nextEcheckPreNoteSaleResponse();
+                    echeckPreNoteSaleResponse = cnpBatchResponse.nextEcheckPreNoteSaleResponse();
                 }
 
-                echeckPreNoteCreditResponse echeckPreNoteCreditResponse = litleBatchResponse.nextEcheckPreNoteCreditResponse();
+                echeckPreNoteCreditResponse echeckPreNoteCreditResponse = cnpBatchResponse.nextEcheckPreNoteCreditResponse();
                 while (echeckPreNoteCreditResponse != null)
                 {
 
-                    echeckPreNoteCreditResponse = litleBatchResponse.nextEcheckPreNoteCreditResponse();
+                    echeckPreNoteCreditResponse = cnpBatchResponse.nextEcheckPreNoteCreditResponse();
                 }
 
-                litleBatchResponse = litleResponse.nextBatchResponse();
+                cnpBatchResponse = cnpResponse.nextBatchResponse();
             }
         }
 
@@ -1265,9 +1265,9 @@ namespace Litle.Sdk.Test.Functional
             configOverride["requestDirectory"] = Properties.Settings.Default.requestDirectory;
             configOverride["responseDirectory"] = Properties.Settings.Default.responseDirectory;
 
-            litleRequest litleOverride = new litleRequest(configOverride);
+            cnpRequest cnpOverride = new cnpRequest(configOverride);
 
-            batchRequest litleBatchRequest = new batchRequest(configOverride);
+            batchRequest cnpBatchRequest = new batchRequest(configOverride);
 
             echeckType echeck = new echeckType();
             echeck.accType = echeckAccountTypeEnum.Checking;
@@ -1286,21 +1286,21 @@ namespace Litle.Sdk.Test.Functional
                 id = "id",
                 customIdentifier = "123",
             };
-            litleBatchRequest.addSubmerchantCredit(submerchantCredit);
+            cnpBatchRequest.addSubmerchantCredit(submerchantCredit);
 
             payFacCredit payFacCredit = new payFacCredit();
             payFacCredit.fundingSubmerchantId = "123456";
             payFacCredit.fundsTransferId = "123467";
             payFacCredit.amount = 107L;
             payFacCredit.id = "id";
-            litleBatchRequest.addPayFacCredit(payFacCredit);
+            cnpBatchRequest.addPayFacCredit(payFacCredit);
 
             reserveCredit reserveCredit = new reserveCredit();
             reserveCredit.fundingSubmerchantId = "123456";
             reserveCredit.fundsTransferId = "123467";
             reserveCredit.amount = 107L;
             reserveCredit.id = "id";
-            litleBatchRequest.addReserveCredit(reserveCredit);
+            cnpBatchRequest.addReserveCredit(reserveCredit);
 
             vendorCredit vendorCredit = new vendorCredit();
             vendorCredit.fundingSubmerchantId = "123456";
@@ -1309,14 +1309,14 @@ namespace Litle.Sdk.Test.Functional
             vendorCredit.amount = 106L;
             vendorCredit.accountInfo = echeck;
             vendorCredit.id = "id";
-            litleBatchRequest.addVendorCredit(vendorCredit);
+            cnpBatchRequest.addVendorCredit(vendorCredit);
 
             physicalCheckCredit physicalCheckCredit = new physicalCheckCredit();
             physicalCheckCredit.fundingSubmerchantId = "123456";
             physicalCheckCredit.fundsTransferId = "123467";
             physicalCheckCredit.amount = 107L;
             physicalCheckCredit.id = "id";
-            litleBatchRequest.addPhysicalCheckCredit(physicalCheckCredit);
+            cnpBatchRequest.addPhysicalCheckCredit(physicalCheckCredit);
 
             submerchantDebit submerchantDebit = new submerchantDebit();
             submerchantDebit.fundingSubmerchantId = "123456";
@@ -1326,21 +1326,21 @@ namespace Litle.Sdk.Test.Functional
             submerchantDebit.accountInfo = echeck;
             submerchantDebit.id = "id";
             submerchantDebit.customIdentifier = "123";
-            litleBatchRequest.addSubmerchantDebit(submerchantDebit);
+            cnpBatchRequest.addSubmerchantDebit(submerchantDebit);
 
             payFacDebit payFacDebit = new payFacDebit();
             payFacDebit.fundingSubmerchantId = "123456";
             payFacDebit.fundsTransferId = "123467";
             payFacDebit.amount = 107L;
             payFacDebit.id = "id";
-            litleBatchRequest.addPayFacDebit(payFacDebit);
+            cnpBatchRequest.addPayFacDebit(payFacDebit);
 
             reserveDebit reserveDebit = new reserveDebit();
             reserveDebit.fundingSubmerchantId = "123456";
             reserveDebit.fundsTransferId = "123467";
             reserveDebit.amount = 107L;
             reserveDebit.id = "id";
-            litleBatchRequest.addReserveDebit(reserveDebit);
+            cnpBatchRequest.addReserveDebit(reserveDebit);
 
             vendorDebit vendorDebit = new vendorDebit();
             vendorDebit.fundingSubmerchantId = "123456";
@@ -1349,97 +1349,97 @@ namespace Litle.Sdk.Test.Functional
             vendorDebit.amount = 106L;
             vendorDebit.accountInfo = echeck;
             vendorDebit.id = "id";
-            litleBatchRequest.addVendorDebit(vendorDebit);
+            cnpBatchRequest.addVendorDebit(vendorDebit);
 
             physicalCheckDebit physicalCheckDebit = new physicalCheckDebit();
             physicalCheckDebit.fundingSubmerchantId = "123456";
             physicalCheckDebit.fundsTransferId = "123467";
             physicalCheckDebit.amount = 107L;
             physicalCheckDebit.id = "id";
-            litleBatchRequest.addPhysicalCheckDebit(physicalCheckDebit);
+            cnpBatchRequest.addPhysicalCheckDebit(physicalCheckDebit);
 
-            litleOverride.addBatch(litleBatchRequest);
+            cnpOverride.addBatch(cnpBatchRequest);
 
-            litleResponse litleResponse = litleOverride.sendToLitleWithStream();
+            cnpResponse cnpResponse = cnpOverride.sendToCnpWithStream();
 
-            Assert.NotNull(litleResponse);
-            Assert.AreEqual("0", litleResponse.response);
-            Assert.AreEqual("Valid Format", litleResponse.message);
+            Assert.NotNull(cnpResponse);
+            Assert.AreEqual("0", cnpResponse.response);
+            Assert.AreEqual("Valid Format", cnpResponse.message);
 
-            batchResponse litleBatchResponse = litleResponse.nextBatchResponse();
-            while (litleBatchResponse != null)
+            batchResponse cnpBatchResponse = cnpResponse.nextBatchResponse();
+            while (cnpBatchResponse != null)
             {
-                submerchantCreditResponse submerchantCreditResponse = litleBatchResponse.nextSubmerchantCreditResponse();
+                submerchantCreditResponse submerchantCreditResponse = cnpBatchResponse.nextSubmerchantCreditResponse();
                 while (submerchantCreditResponse != null)
                 {
                     Assert.AreEqual("000", submerchantCreditResponse.response);
-                    submerchantCreditResponse = litleBatchResponse.nextSubmerchantCreditResponse();
+                    submerchantCreditResponse = cnpBatchResponse.nextSubmerchantCreditResponse();
                 }
 
-                payFacCreditResponse payFacCreditResponse = litleBatchResponse.nextPayFacCreditResponse();
+                payFacCreditResponse payFacCreditResponse = cnpBatchResponse.nextPayFacCreditResponse();
                 while (payFacCreditResponse != null)
                 {
                     Assert.AreEqual("000", payFacCreditResponse.response);
-                    payFacCreditResponse = litleBatchResponse.nextPayFacCreditResponse();
+                    payFacCreditResponse = cnpBatchResponse.nextPayFacCreditResponse();
                 }
 
-                vendorCreditResponse vendorCreditResponse = litleBatchResponse.nextVendorCreditResponse();
+                vendorCreditResponse vendorCreditResponse = cnpBatchResponse.nextVendorCreditResponse();
                 while (vendorCreditResponse != null)
                 {
                     Assert.AreEqual("000", vendorCreditResponse.response);
-                    vendorCreditResponse = litleBatchResponse.nextVendorCreditResponse();
+                    vendorCreditResponse = cnpBatchResponse.nextVendorCreditResponse();
                 }
 
-                reserveCreditResponse reserveCreditResponse = litleBatchResponse.nextReserveCreditResponse();
+                reserveCreditResponse reserveCreditResponse = cnpBatchResponse.nextReserveCreditResponse();
                 while (reserveCreditResponse != null)
                 {
                     Assert.AreEqual("000", reserveCreditResponse.response);
-                    reserveCreditResponse = litleBatchResponse.nextReserveCreditResponse();
+                    reserveCreditResponse = cnpBatchResponse.nextReserveCreditResponse();
                 }
 
-                physicalCheckCreditResponse physicalCheckCreditResponse = litleBatchResponse.nextPhysicalCheckCreditResponse();
+                physicalCheckCreditResponse physicalCheckCreditResponse = cnpBatchResponse.nextPhysicalCheckCreditResponse();
                 while (physicalCheckCreditResponse != null)
                 {
                     Assert.AreEqual("000", physicalCheckCreditResponse.response);
-                    physicalCheckCreditResponse = litleBatchResponse.nextPhysicalCheckCreditResponse();
+                    physicalCheckCreditResponse = cnpBatchResponse.nextPhysicalCheckCreditResponse();
                 }
 
-                submerchantDebitResponse submerchantDebitResponse = litleBatchResponse.nextSubmerchantDebitResponse();
+                submerchantDebitResponse submerchantDebitResponse = cnpBatchResponse.nextSubmerchantDebitResponse();
                 while (submerchantDebitResponse != null)
                 {
                     Assert.AreEqual("000", submerchantDebitResponse.response);
-                    submerchantDebitResponse = litleBatchResponse.nextSubmerchantDebitResponse();
+                    submerchantDebitResponse = cnpBatchResponse.nextSubmerchantDebitResponse();
                 }
 
-                payFacDebitResponse payFacDebitResponse = litleBatchResponse.nextPayFacDebitResponse();
+                payFacDebitResponse payFacDebitResponse = cnpBatchResponse.nextPayFacDebitResponse();
                 while (payFacDebitResponse != null)
                 {
                     Assert.AreEqual("000", payFacDebitResponse.response);
-                    payFacDebitResponse = litleBatchResponse.nextPayFacDebitResponse();
+                    payFacDebitResponse = cnpBatchResponse.nextPayFacDebitResponse();
                 }
 
-                vendorDebitResponse vendorDebitResponse = litleBatchResponse.nextVendorDebitResponse();
+                vendorDebitResponse vendorDebitResponse = cnpBatchResponse.nextVendorDebitResponse();
                 while (vendorDebitResponse != null)
                 {
                     Assert.AreEqual("000", vendorDebitResponse.response);
-                    vendorDebitResponse = litleBatchResponse.nextVendorDebitResponse();
+                    vendorDebitResponse = cnpBatchResponse.nextVendorDebitResponse();
                 }
 
-                reserveDebitResponse reserveDebitResponse = litleBatchResponse.nextReserveDebitResponse();
+                reserveDebitResponse reserveDebitResponse = cnpBatchResponse.nextReserveDebitResponse();
                 while (reserveDebitResponse != null)
                 {
                     Assert.AreEqual("000", reserveDebitResponse.response);
-                    reserveDebitResponse = litleBatchResponse.nextReserveDebitResponse();
+                    reserveDebitResponse = cnpBatchResponse.nextReserveDebitResponse();
                 }
 
-                physicalCheckDebitResponse physicalCheckDebitResponse = litleBatchResponse.nextPhysicalCheckDebitResponse();
+                physicalCheckDebitResponse physicalCheckDebitResponse = cnpBatchResponse.nextPhysicalCheckDebitResponse();
                 while (physicalCheckDebitResponse != null)
                 {
                     Assert.AreEqual("000", physicalCheckDebitResponse.response);
-                    physicalCheckDebitResponse = litleBatchResponse.nextPhysicalCheckDebitResponse();
+                    physicalCheckDebitResponse = cnpBatchResponse.nextPhysicalCheckDebitResponse();
                 }
 
-                litleBatchResponse = litleResponse.nextBatchResponse();
+                cnpBatchResponse = cnpResponse.nextBatchResponse();
             }
         }
     }

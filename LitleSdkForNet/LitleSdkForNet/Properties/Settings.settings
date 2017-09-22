@@ -1,5 +1,5 @@
 ﻿<?xml version='1.0' encoding='utf-8'?>
-<SettingsFile xmlns="http://schemas.microsoft.com/VisualStudio/2004/01/settings" CurrentProfile="(Default)" GeneratedClassNamespace="Litle.Sdk.Properties" GeneratedClassName="Settings">
+<SettingsFile xmlns="http://schemas.microsoft.com/VisualStudio/2004/01/settings" CurrentProfile="(Default)" GeneratedClassNamespace="Cnp.Sdk.Properties" GeneratedClassName="Settings">
   <Profiles />
   <Settings>
     <Setting Name="reportGroup" Type="System.String" Scope="User">
@@ -42,7 +42,7 @@
       <Value Profile="(Default)">true</Value>
     </Setting>
     <Setting Name="url" Type="System.String" Scope="User">
-      <Value Profile="(Default)">https://www.testvantivcnp.com/sandbox/communicator/online</Value>
+      <Value Profile="(Default)">https://www.testvantivcnp.com/sandbox/new/sandbox/communicator/online</Value>
     </Setting>
     <Setting Name="proxyHost" Type="System.String" Scope="User">
       <Value Profile="(Default)" />

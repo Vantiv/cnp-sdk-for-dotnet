@@ -194,9 +194,9 @@
     </BootstrapperPackage>
   </ItemGroup>
   <ItemGroup>
-    <ProjectReference Include="..\LitleSdkForNet\LitleSdkForNet.csproj">
+    <ProjectReference Include="..\LitleSdkForNet\CnpSdkForNet.csproj">
       <Project>{4A6E3397-DE37-4F91-A90F-E74C1D91E098}</Project>
-      <Name>LitleSdkForNet</Name>
+      <Name>CnpSdkForNet</Name>
     </ProjectReference>
   </ItemGroup>
   <ItemGroup>

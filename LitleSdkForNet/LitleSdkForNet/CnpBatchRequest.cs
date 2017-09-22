@@ -4,7 +4,7 @@ using System.Text;
 using System.IO;
 using System.Security;
 
-namespace Litle.Sdk
+namespace Cnp.Sdk
 {
     public partial class batchRequest
     {
@@ -16,8 +16,8 @@ namespace Litle.Sdk
 
         public string batchFilePath;
         private string tempBatchFilePath;
-        private litleFile litleFile;
-        private litleTime litleTime;
+        private cnpFile cnpFile;
+        private cnpTime cnpTime;
         private string requestDirectory;
         private string responseDirectory;
 
@@ -127,8 +127,8 @@ namespace Litle.Sdk
             requestDirectory = config["requestDirectory"] + "\\Requests\\";
             responseDirectory = config["responseDirectory"] + "\\Responses\\";
 
-            litleFile = new litleFile();
-            litleTime = new litleTime();
+            cnpFile = new cnpFile();
+            cnpTime = new cnpTime();
 
             numAuthorization = 0;
             numAuthReversal = 0;
@@ -198,24 +198,24 @@ namespace Litle.Sdk
             return requestDirectory;
         }
 
-        public void setLitleFile(litleFile litleFile)
+        public void setCnpFile(cnpFile cnpFile)
         {
-            this.litleFile = litleFile;
+            this.cnpFile = cnpFile;
         }
 
-        public litleFile getLitleFile()
+        public cnpFile getCnpFile()
         {
-            return litleFile;
+            return cnpFile;
         }
 
-        public void setLitleTime(litleTime litleTime)
+        public void setCnpTime(cnpTime cnpTime)
         {
-            this.litleTime = litleTime;
+            this.cnpTime = cnpTime;
         }
 
-        public litleTime getLitleTime()
+        public cnpTime getCnpTime()
         {
-            return litleTime;
+            return cnpTime;
         }
 
         public int getNumAuthorization()
@@ -553,11 +553,11 @@ namespace Litle.Sdk
                 numAuthorization++;
                 sumOfAuthorization += authorization.amount;
                 fillInReportGroup(authorization);
-                tempBatchFilePath = saveElement(litleFile, litleTime, tempBatchFilePath, authorization);
+                tempBatchFilePath = saveElement(cnpFile, cnpTime, tempBatchFilePath, authorization);
             }
             else
             {
-                throw new LitleOnlineException(accountUpdateErrorMessage);
+                throw new CnpOnlineException(accountUpdateErrorMessage);
             }
         }
 
@@ -568,11 +568,11 @@ namespace Litle.Sdk
                 numCapture++;
                 sumOfCapture += capture.amount;
                 fillInReportGroup(capture);
-                tempBatchFilePath = saveElement(litleFile, litleTime, tempBatchFilePath, capture);
+                tempBatchFilePath = saveElement(cnpFile, cnpTime, tempBatchFilePath, capture);
             }
             else
             {
-                throw new LitleOnlineException(accountUpdateErrorMessage);
+                throw new CnpOnlineException(accountUpdateErrorMessage);
             }
         }
 
@@ -583,11 +583,11 @@ namespace Litle.Sdk
                 numGiftCardCapture++;
                 sumOfGiftCardCapture += giftCardCapture.captureAmount;
                 fillInReportGroup(giftCardCapture);
-                tempBatchFilePath = saveElement(litleFile, litleTime, tempBatchFilePath, giftCardCapture);
+                tempBatchFilePath = saveElement(cnpFile, cnpTime, tempBatchFilePath, giftCardCapture);
             }
             else
             {
-                throw new LitleOnlineException(accountUpdateErrorMessage);
+                throw new CnpOnlineException(accountUpdateErrorMessage);
             }
         }
 
@@ -598,11 +598,11 @@ namespace Litle.Sdk
                 numCredit++;
                 sumOfCredit += credit.amount;
                 fillInReportGroup(credit);
-                tempBatchFilePath = saveElement(litleFile, litleTime, tempBatchFilePath, credit);
+                tempBatchFilePath = saveElement(cnpFile, cnpTime, tempBatchFilePath, credit);
             }
             else
             {
-                throw new LitleOnlineException(accountUpdateErrorMessage);
+                throw new CnpOnlineException(accountUpdateErrorMessage);
             }
         }
 
@@ -613,11 +613,11 @@ namespace Litle.Sdk
                 numGiftCardCredit++;
                 sumOfGiftCardCredit += giftCardCredit.creditAmount;
                 fillInReportGroup(giftCardCredit);
-                tempBatchFilePath = saveElement(litleFile, litleTime, tempBatchFilePath, giftCardCredit);
+                tempBatchFilePath = saveElement(cnpFile, cnpTime, tempBatchFilePath, giftCardCredit);
             }
             else
             {
-                throw new LitleOnlineException(accountUpdateErrorMessage);
+                throw new CnpOnlineException(accountUpdateErrorMessage);
             }
         }
 
@@ -628,11 +628,11 @@ namespace Litle.Sdk
                 numSale++;
                 sumOfSale += sale.amount;
                 fillInReportGroup(sale);
-                tempBatchFilePath = saveElement(litleFile, litleTime, tempBatchFilePath, sale);
+                tempBatchFilePath = saveElement(cnpFile, cnpTime, tempBatchFilePath, sale);
             }
             else
             {
-                throw new LitleOnlineException(accountUpdateErrorMessage);
+                throw new CnpOnlineException(accountUpdateErrorMessage);
             }
         }
 
@@ -643,11 +643,11 @@ namespace Litle.Sdk
                 numAuthReversal++;
                 sumOfAuthReversal += authReversal.amount;
                 fillInReportGroup(authReversal);
-                tempBatchFilePath = saveElement(litleFile, litleTime, tempBatchFilePath, authReversal);
+                tempBatchFilePath = saveElement(cnpFile, cnpTime, tempBatchFilePath, authReversal);
             }
             else
             {
-                throw new LitleOnlineException(accountUpdateErrorMessage);
+                throw new CnpOnlineException(accountUpdateErrorMessage);
             }
         }
 
@@ -658,12 +658,12 @@ namespace Litle.Sdk
                 numGiftCardAuthReversal++;
                 sumOfGiftCardAuthReversal += giftCardAuthReversal.originalAmount;
                 fillInReportGroup(giftCardAuthReversal);
-                tempBatchFilePath = saveElement(litleFile, litleTime, tempBatchFilePath, giftCardAuthReversal);
+                tempBatchFilePath = saveElement(cnpFile, cnpTime, tempBatchFilePath, giftCardAuthReversal);
 
             }
             else
             {
-                throw new LitleOnlineException(accountUpdateErrorMessage);
+                throw new CnpOnlineException(accountUpdateErrorMessage);
             }
         }
 
@@ -674,11 +674,11 @@ namespace Litle.Sdk
                 numEcheckCredit++;
                 sumOfEcheckCredit += echeckCredit.amount;
                 fillInReportGroup(echeckCredit);
-                tempBatchFilePath = saveElement(litleFile, litleTime, tempBatchFilePath, echeckCredit);
+                tempBatchFilePath = saveElement(cnpFile, cnpTime, tempBatchFilePath, echeckCredit);
             }
             else
             {
-                throw new LitleOnlineException(accountUpdateErrorMessage);
+                throw new CnpOnlineException(accountUpdateErrorMessage);
             }
         }
 
@@ -689,11 +689,11 @@ namespace Litle.Sdk
                 numEcheckVerification++;
                 sumOfEcheckVerification += echeckVerification.amount;
                 fillInReportGroup(echeckVerification);
-                tempBatchFilePath = saveElement(litleFile, litleTime, tempBatchFilePath, echeckVerification);
+                tempBatchFilePath = saveElement(cnpFile, cnpTime, tempBatchFilePath, echeckVerification);
             }
             else
             {
-                throw new LitleOnlineException(accountUpdateErrorMessage);
+                throw new CnpOnlineException(accountUpdateErrorMessage);
             }
         }
 
@@ -704,11 +704,11 @@ namespace Litle.Sdk
                 numEcheckSale++;
                 sumOfEcheckSale += echeckSale.amount;
                 fillInReportGroup(echeckSale);
-                tempBatchFilePath = saveElement(litleFile, litleTime, tempBatchFilePath, echeckSale);
+                tempBatchFilePath = saveElement(cnpFile, cnpTime, tempBatchFilePath, echeckSale);
             }
             else
             {
-                throw new LitleOnlineException(accountUpdateErrorMessage);
+                throw new CnpOnlineException(accountUpdateErrorMessage);
             }
         }
 
@@ -718,11 +718,11 @@ namespace Litle.Sdk
             {
                 numRegisterTokenRequest++;
                 fillInReportGroup(registerTokenRequestType);
-                tempBatchFilePath = saveElement(litleFile, litleTime, tempBatchFilePath, registerTokenRequestType);
+                tempBatchFilePath = saveElement(cnpFile, cnpTime, tempBatchFilePath, registerTokenRequestType);
             }
             else
             {
-                throw new LitleOnlineException(accountUpdateErrorMessage);
+                throw new CnpOnlineException(accountUpdateErrorMessage);
             }
         }
 
@@ -733,11 +733,11 @@ namespace Litle.Sdk
                 numForceCapture++;
                 sumOfForceCapture += forceCapture.amount;
                 fillInReportGroup(forceCapture);
-                tempBatchFilePath = saveElement(litleFile, litleTime, tempBatchFilePath, forceCapture);
+                tempBatchFilePath = saveElement(cnpFile, cnpTime, tempBatchFilePath, forceCapture);
             }
             else
             {
-                throw new LitleOnlineException(accountUpdateErrorMessage);
+                throw new CnpOnlineException(accountUpdateErrorMessage);
             }
         }
 
@@ -748,11 +748,11 @@ namespace Litle.Sdk
                 numCaptureGivenAuth++;
                 sumOfCaptureGivenAuth += captureGivenAuth.amount;
                 fillInReportGroup(captureGivenAuth);
-                tempBatchFilePath = saveElement(litleFile, litleTime, tempBatchFilePath, captureGivenAuth);
+                tempBatchFilePath = saveElement(cnpFile, cnpTime, tempBatchFilePath, captureGivenAuth);
             }
             else
             {
-                throw new LitleOnlineException(accountUpdateErrorMessage);
+                throw new CnpOnlineException(accountUpdateErrorMessage);
             }
         }
 
@@ -762,11 +762,11 @@ namespace Litle.Sdk
             {
                 numEcheckRedeposit++;
                 fillInReportGroup(echeckRedeposit);
-                tempBatchFilePath = saveElement(litleFile, litleTime, tempBatchFilePath, echeckRedeposit);
+                tempBatchFilePath = saveElement(cnpFile, cnpTime, tempBatchFilePath, echeckRedeposit);
             }
             else
             {
-                throw new LitleOnlineException(accountUpdateErrorMessage);
+                throw new CnpOnlineException(accountUpdateErrorMessage);
             }
         }
 
@@ -776,11 +776,11 @@ namespace Litle.Sdk
             {
                 numEcheckPreNoteSale++;
                 fillInReportGroup(echeckPreNoteSale);
-                tempBatchFilePath = saveElement(litleFile, litleTime, tempBatchFilePath, echeckPreNoteSale);
+                tempBatchFilePath = saveElement(cnpFile, cnpTime, tempBatchFilePath, echeckPreNoteSale);
             }
             else
             {
-                throw new LitleOnlineException(accountUpdateErrorMessage);
+                throw new CnpOnlineException(accountUpdateErrorMessage);
             }
         }
 
@@ -790,11 +790,11 @@ namespace Litle.Sdk
             {
                 numEcheckPreNoteCredit++;
                 fillInReportGroup(echeckPreNoteCredit);
-                tempBatchFilePath = saveElement(litleFile, litleTime, tempBatchFilePath, echeckPreNoteCredit);
+                tempBatchFilePath = saveElement(cnpFile, cnpTime, tempBatchFilePath, echeckPreNoteCredit);
             }
             else
             {
-                throw new LitleOnlineException(accountUpdateErrorMessage);
+                throw new CnpOnlineException(accountUpdateErrorMessage);
             }
         }
 
@@ -804,11 +804,11 @@ namespace Litle.Sdk
             {
                 numUpdateCardValidationNumOnToken++;
                 fillInReportGroup(updateCardValidationNumOnToken);
-                tempBatchFilePath = saveElement(litleFile, litleTime, tempBatchFilePath, updateCardValidationNumOnToken);
+                tempBatchFilePath = saveElement(cnpFile, cnpTime, tempBatchFilePath, updateCardValidationNumOnToken);
             }
             else
             {
-                throw new LitleOnlineException(accountUpdateErrorMessage);
+                throw new CnpOnlineException(accountUpdateErrorMessage);
             }
         }
 
@@ -817,11 +817,11 @@ namespace Litle.Sdk
             if (numAccountUpdates == 0)
             {
                 numUpdateSubscriptions++;
-                tempBatchFilePath = saveElement(litleFile, litleTime, tempBatchFilePath, updateSubscription);
+                tempBatchFilePath = saveElement(cnpFile, cnpTime, tempBatchFilePath, updateSubscription);
             }
             else
             {
-                throw new LitleOnlineException(accountUpdateErrorMessage);
+                throw new CnpOnlineException(accountUpdateErrorMessage);
             }
         }
 
@@ -830,11 +830,11 @@ namespace Litle.Sdk
             if (numAccountUpdates == 0)
             {
                 numCancelSubscriptions++;
-                tempBatchFilePath = saveElement(litleFile, litleTime, tempBatchFilePath, cancelSubscription);
+                tempBatchFilePath = saveElement(cnpFile, cnpTime, tempBatchFilePath, cancelSubscription);
             }
             else
             {
-                throw new LitleOnlineException(accountUpdateErrorMessage);
+                throw new CnpOnlineException(accountUpdateErrorMessage);
             }
         }
 
@@ -843,11 +843,11 @@ namespace Litle.Sdk
             if (numAccountUpdates == 0)
             {
                 numCreatePlans++;
-                tempBatchFilePath = saveElement(litleFile, litleTime, tempBatchFilePath, createPlan);
+                tempBatchFilePath = saveElement(cnpFile, cnpTime, tempBatchFilePath, createPlan);
             }
             else
             {
-                throw new LitleOnlineException(accountUpdateErrorMessage);
+                throw new CnpOnlineException(accountUpdateErrorMessage);
             }
         }
 
@@ -856,11 +856,11 @@ namespace Litle.Sdk
             if (numAccountUpdates == 0)
             {
                 numUpdatePlans++;
-                tempBatchFilePath = saveElement(litleFile, litleTime, tempBatchFilePath, updatePlan);
+                tempBatchFilePath = saveElement(cnpFile, cnpTime, tempBatchFilePath, updatePlan);
             }
             else
             {
-                throw new LitleOnlineException(accountUpdateErrorMessage);
+                throw new CnpOnlineException(accountUpdateErrorMessage);
             }
         }
 
@@ -870,11 +870,11 @@ namespace Litle.Sdk
             {
                 numActivates++;
                 activateAmount += activate.amount;
-                tempBatchFilePath = saveElement(litleFile, litleTime, tempBatchFilePath, activate);
+                tempBatchFilePath = saveElement(cnpFile, cnpTime, tempBatchFilePath, activate);
             }
             else
             {
-                throw new LitleOnlineException(accountUpdateErrorMessage);
+                throw new CnpOnlineException(accountUpdateErrorMessage);
             }
         }
 
@@ -883,11 +883,11 @@ namespace Litle.Sdk
             if (numAccountUpdates == 0)
             {
                 numDeactivates++;
-                tempBatchFilePath = saveElement(litleFile, litleTime, tempBatchFilePath, deactivate);
+                tempBatchFilePath = saveElement(cnpFile, cnpTime, tempBatchFilePath, deactivate);
             }
             else
             {
-                throw new LitleOnlineException(accountUpdateErrorMessage);
+                throw new CnpOnlineException(accountUpdateErrorMessage);
             }
         }
 
@@ -897,11 +897,11 @@ namespace Litle.Sdk
             {
                 numLoads++;
                 loadAmount += load.amount;
-                tempBatchFilePath = saveElement(litleFile, litleTime, tempBatchFilePath, load);
+                tempBatchFilePath = saveElement(cnpFile, cnpTime, tempBatchFilePath, load);
             }
             else
             {
-                throw new LitleOnlineException(accountUpdateErrorMessage);
+                throw new CnpOnlineException(accountUpdateErrorMessage);
             }
         }
 
@@ -911,11 +911,11 @@ namespace Litle.Sdk
             {
                 numUnloads++;
                 unloadAmount += unload.amount;
-                tempBatchFilePath = saveElement(litleFile, litleTime, tempBatchFilePath, unload);
+                tempBatchFilePath = saveElement(cnpFile, cnpTime, tempBatchFilePath, unload);
             }
             else
             {
-                throw new LitleOnlineException(accountUpdateErrorMessage);
+                throw new CnpOnlineException(accountUpdateErrorMessage);
             }
         }
 
@@ -924,11 +924,11 @@ namespace Litle.Sdk
             if (numAccountUpdates == 0)
             {
                 numBalanceInquiries++;
-                tempBatchFilePath = saveElement(litleFile, litleTime, tempBatchFilePath, balanceInquiry);
+                tempBatchFilePath = saveElement(cnpFile, cnpTime, tempBatchFilePath, balanceInquiry);
             }
             else
             {
-                throw new LitleOnlineException(accountUpdateErrorMessage);
+                throw new CnpOnlineException(accountUpdateErrorMessage);
             }
         }
 
@@ -938,11 +938,11 @@ namespace Litle.Sdk
             {
                 numAccountUpdates++;
                 fillInReportGroup(accountUpdate);
-                tempBatchFilePath = saveElement(litleFile, litleTime, tempBatchFilePath, accountUpdate);
+                tempBatchFilePath = saveElement(cnpFile, cnpTime, tempBatchFilePath, accountUpdate);
             }
             else
             {
-                throw new LitleOnlineException(accountUpdateErrorMessage);
+                throw new CnpOnlineException(accountUpdateErrorMessage);
             }
         }
 
@@ -953,11 +953,11 @@ namespace Litle.Sdk
                 numSubmerchantCredit++;
                 submerchantCreditAmount += (long)submerchantCredit.amount;
                 fillInReportGroup(submerchantCredit);
-                tempBatchFilePath = saveElement(litleFile, litleTime, tempBatchFilePath, submerchantCredit);
+                tempBatchFilePath = saveElement(cnpFile, cnpTime, tempBatchFilePath, submerchantCredit);
             }
             else
             {
-                throw new LitleOnlineException(accountUpdateErrorMessage);
+                throw new CnpOnlineException(accountUpdateErrorMessage);
             }
         }
 
@@ -968,11 +968,11 @@ namespace Litle.Sdk
                 numPayFacCredit++;
                 payFacCreditAmount += (long)payFacCredit.amount;
                 fillInReportGroup(payFacCredit);
-                tempBatchFilePath = saveElement(litleFile, litleTime, tempBatchFilePath, payFacCredit);
+                tempBatchFilePath = saveElement(cnpFile, cnpTime, tempBatchFilePath, payFacCredit);
             }
             else
             {
-                throw new LitleOnlineException(accountUpdateErrorMessage);
+                throw new CnpOnlineException(accountUpdateErrorMessage);
             }
         }
 
@@ -983,11 +983,11 @@ namespace Litle.Sdk
                 numReserveCredit++;
                 reserveCreditAmount += (long)reserveCredit.amount;
                 fillInReportGroup(reserveCredit);
-                tempBatchFilePath = saveElement(litleFile, litleTime, tempBatchFilePath, reserveCredit);
+                tempBatchFilePath = saveElement(cnpFile, cnpTime, tempBatchFilePath, reserveCredit);
             }
             else
             {
-                throw new LitleOnlineException(accountUpdateErrorMessage);
+                throw new CnpOnlineException(accountUpdateErrorMessage);
             }
         }
 
@@ -998,11 +998,11 @@ namespace Litle.Sdk
                 numVendorCredit++;
                 vendorCreditAmount += (long)vendorCredit.amount;
                 fillInReportGroup(vendorCredit);
-                tempBatchFilePath = saveElement(litleFile, litleTime, tempBatchFilePath, vendorCredit);
+                tempBatchFilePath = saveElement(cnpFile, cnpTime, tempBatchFilePath, vendorCredit);
             }
             else
             {
-                throw new LitleOnlineException(accountUpdateErrorMessage);
+                throw new CnpOnlineException(accountUpdateErrorMessage);
             }
         }
 
@@ -1013,11 +1013,11 @@ namespace Litle.Sdk
                 numPhysicalCheckCredit++;
                 physicalCheckCreditAmount += (long)physicalCheckCredit.amount;
                 fillInReportGroup(physicalCheckCredit);
-                tempBatchFilePath = saveElement(litleFile, litleTime, tempBatchFilePath, physicalCheckCredit);
+                tempBatchFilePath = saveElement(cnpFile, cnpTime, tempBatchFilePath, physicalCheckCredit);
             }
             else
             {
-                throw new LitleOnlineException(accountUpdateErrorMessage);
+                throw new CnpOnlineException(accountUpdateErrorMessage);
             }
         }
 
@@ -1028,11 +1028,11 @@ namespace Litle.Sdk
                 numSubmerchantDebit++;
                 submerchantDebitAmount += (long)submerchantDebit.amount;
                 fillInReportGroup(submerchantDebit);
-                tempBatchFilePath = saveElement(litleFile, litleTime, tempBatchFilePath, submerchantDebit);
+                tempBatchFilePath = saveElement(cnpFile, cnpTime, tempBatchFilePath, submerchantDebit);
             }
             else
             {
-                throw new LitleOnlineException(accountUpdateErrorMessage);
+                throw new CnpOnlineException(accountUpdateErrorMessage);
             }
         }
 
@@ -1043,11 +1043,11 @@ namespace Litle.Sdk
                 numPayFacDebit++;
                 payFacDebitAmount += (long)payFacDebit.amount;
                 fillInReportGroup(payFacDebit);
-                tempBatchFilePath = saveElement(litleFile, litleTime, tempBatchFilePath, payFacDebit);
+                tempBatchFilePath = saveElement(cnpFile, cnpTime, tempBatchFilePath, payFacDebit);
             }
             else
             {
-                throw new LitleOnlineException(accountUpdateErrorMessage);
+                throw new CnpOnlineException(accountUpdateErrorMessage);
             }
         }
 
@@ -1058,11 +1058,11 @@ namespace Litle.Sdk
                 numReserveDebit++;
                 reserveDebitAmount += (long)reserveDebit.amount;
                 fillInReportGroup(reserveDebit);
-                tempBatchFilePath = saveElement(litleFile, litleTime, tempBatchFilePath, reserveDebit);
+                tempBatchFilePath = saveElement(cnpFile, cnpTime, tempBatchFilePath, reserveDebit);
             }
             else
             {
-                throw new LitleOnlineException(accountUpdateErrorMessage);
+                throw new CnpOnlineException(accountUpdateErrorMessage);
             }
         }
 
@@ -1073,11 +1073,11 @@ namespace Litle.Sdk
                 numVendorDebit++;
                 vendorDebitAmount += (long)vendorDebit.amount;
                 fillInReportGroup(vendorDebit);
-                tempBatchFilePath = saveElement(litleFile, litleTime, tempBatchFilePath, vendorDebit);
+                tempBatchFilePath = saveElement(cnpFile, cnpTime, tempBatchFilePath, vendorDebit);
             }
             else
             {
-                throw new LitleOnlineException(accountUpdateErrorMessage);
+                throw new CnpOnlineException(accountUpdateErrorMessage);
             }
         }
 
@@ -1088,11 +1088,11 @@ namespace Litle.Sdk
                 numPhysicalCheckDebit++;
                 physicalCheckDebitAmount += (long)physicalCheckDebit.amount;
                 fillInReportGroup(physicalCheckDebit);
-                tempBatchFilePath = saveElement(litleFile, litleTime, tempBatchFilePath, physicalCheckDebit);
+                tempBatchFilePath = saveElement(cnpFile, cnpTime, tempBatchFilePath, physicalCheckDebit);
             }
             else
             {
-                throw new LitleOnlineException(accountUpdateErrorMessage);
+                throw new CnpOnlineException(accountUpdateErrorMessage);
             }
         }
 
@@ -1102,11 +1102,11 @@ namespace Litle.Sdk
             {
                 numFundingInstructionVoid++;
                 fillInReportGroup(fundingInstructionVoid);
-                tempBatchFilePath = saveElement(litleFile, litleTime, tempBatchFilePath, fundingInstructionVoid);
+                tempBatchFilePath = saveElement(cnpFile, cnpTime, tempBatchFilePath, fundingInstructionVoid);
             }
             else
             {
-                throw new LitleOnlineException(accountUpdateErrorMessage);
+                throw new CnpOnlineException(accountUpdateErrorMessage);
             }
         }
         
@@ -1122,11 +1122,11 @@ namespace Litle.Sdk
 
             var xmlFooter = "</batchRequest>\r\n";
 
-            batchFilePath = litleFile.createRandomFile(requestDirectory, null, "_batchRequest.xml", litleTime);
+            batchFilePath = cnpFile.createRandomFile(requestDirectory, null, "_batchRequest.xml", cnpTime);
 
-            litleFile.AppendLineToFile(batchFilePath, xmlHeader);
-            litleFile.AppendFileToFile(batchFilePath, tempBatchFilePath);
-            litleFile.AppendLineToFile(batchFilePath, xmlFooter);
+            cnpFile.AppendLineToFile(batchFilePath, xmlHeader);
+            cnpFile.AppendFileToFile(batchFilePath, tempBatchFilePath);
+            cnpFile.AppendLineToFile(batchFilePath, xmlFooter);
 
             tempBatchFilePath = null;
 
@@ -1374,18 +1374,18 @@ namespace Litle.Sdk
                 xmlHeader += "sameDayFunding=\"" + sameDayFunding.ToString().ToLower() + "\"\r\n";
             }
 
-            xmlHeader += "merchantSdk=\"DotNet;11.1.0\"\r\n";
+            xmlHeader += "merchantSdk=\"DotNet;12.0.0\"\r\n";
 
             xmlHeader += "merchantId=\"" + config["merchantId"] + "\">\r\n";
             return xmlHeader;
         }
 
-        private string saveElement(litleFile litleFile, litleTime litleTime, string filePath, transactionRequest element)
+        private string saveElement(cnpFile cnpFile, cnpTime cnpTime, string filePath, transactionRequest element)
         {
             string fPath;
-            fPath = litleFile.createRandomFile(requestDirectory, Path.GetFileName(filePath), "_temp_batchRequest.xml", litleTime);
+            fPath = cnpFile.createRandomFile(requestDirectory, Path.GetFileName(filePath), "_temp_batchRequest.xml", cnpTime);
 
-            litleFile.AppendLineToFile(fPath, element.Serialize());
+            cnpFile.AppendLineToFile(fPath, element.Serialize());
 
             return fPath;
         }
@@ -1452,11 +1452,11 @@ namespace Litle.Sdk
 
     public class RFRRequest
     {
-        public long litleSessionId;
+        public long cnpSessionId;
         public accountUpdateFileRequestData accountUpdateFileRequestData;
 
-        private litleTime litleTime;
-        private litleFile litleFile;
+        private cnpTime cnpTime;
+        private cnpFile cnpFile;
         private string requestDirectory;
         private string responseDirectory;
 
@@ -1482,8 +1482,8 @@ namespace Litle.Sdk
             config["requestDirectory"] = Properties.Settings.Default.requestDirectory;
             config["responseDirectory"] = Properties.Settings.Default.responseDirectory;
 
-            litleTime = new litleTime();
-            litleFile = new litleFile();
+            cnpTime = new cnpTime();
+            cnpFile = new cnpFile();
 
             requestDirectory = config["requestDirectory"] + "\\Requests\\";
             responseDirectory = config["responseDirectory"] + "\\Responses\\";
@@ -1501,8 +1501,8 @@ namespace Litle.Sdk
             requestDirectory = config["requestDirectory"] + "\\Requests\\";
             responseDirectory = config["responseDirectory"] + "\\Responses\\";
 
-            litleFile = new litleFile();
-            litleTime = new litleTime();
+            cnpFile = new cnpFile();
+            cnpTime = new cnpTime();
         }
 
         public string getRequestDirectory()
@@ -1520,32 +1520,32 @@ namespace Litle.Sdk
             this.config = config;
         }
 
-        public void setLitleFile(litleFile litleFile)
+        public void setCnpFile(cnpFile cnpFile)
         {
-            this.litleFile = litleFile;
+            this.cnpFile = cnpFile;
         }
 
-        public litleFile getLitleFile()
+        public cnpFile getCnpFile()
         {
-            return litleFile;
+            return cnpFile;
         }
 
-        public void setLitleTime(litleTime litleTime)
+        public void setCnpTime(cnpTime cnpTime)
         {
-            this.litleTime = litleTime;
+            this.cnpTime = cnpTime;
         }
 
-        public litleTime getLitleTime()
+        public cnpTime getCnpTime()
         {
-            return litleTime;
+            return cnpTime;
         }
 
         public string Serialize()
         {
-            var xmlHeader = "\r\n<RFRRequest xmlns=\"http://www.litle.com/schema\">";
+            var xmlHeader = "\r\n<RFRRequest xmlns=\"http://www.vantivcnp.com/schema\">";
             var xmlFooter = "\r\n</RFRRequest>";
 
-            var filePath = litleFile.createRandomFile(requestDirectory, null, "_RFRRequest.xml", litleTime);
+            var filePath = cnpFile.createRandomFile(requestDirectory, null, "_RFRRequest.xml", cnpTime);
 
             var xmlBody = "";
 
@@ -1557,11 +1557,11 @@ namespace Litle.Sdk
             }
             else
             {
-                xmlBody += "\r\n<litleSessionId>" + litleSessionId + "</litleSessionId>";
+                xmlBody += "\r\n<cnpSessionId>" + cnpSessionId + "</cnpSessionId>";
             }
-            litleFile.AppendLineToFile(filePath, xmlHeader);
-            litleFile.AppendLineToFile(filePath, xmlBody);
-            litleFile.AppendLineToFile(filePath, xmlFooter);
+            cnpFile.AppendLineToFile(filePath, xmlHeader);
+            cnpFile.AppendLineToFile(filePath, xmlBody);
+            cnpFile.AppendLineToFile(filePath, xmlFooter);
 
             return filePath;
         }
@@ -2189,7 +2189,7 @@ namespace Litle.Sdk
 
     public partial class fundingInstructionVoid : transactionTypeWithReportGroup
     {
-        public long? litleTxnId { get; set; }
+        public long? cnpTxnId { get; set; }
 
         public override string Serialize()
         {
@@ -2200,8 +2200,8 @@ namespace Litle.Sdk
             if (customerId != null)
                 xml += "customerId=\"" + SecurityElement.Escape(customerId) + "\" ";
             xml += "reportGroup=\"" + SecurityElement.Escape(reportGroup) + "\">";
-            if (litleTxnId != null)
-                xml += "\r\n<litleTxnId>" + litleTxnId + "</litleTxnId>";
+            if (cnpTxnId != null)
+                xml += "\r\n<cnpTxnId>" + cnpTxnId + "</cnpTxnId>";
             xml += "\r\n</fundingInstructionVoid>";
 
             return xml;

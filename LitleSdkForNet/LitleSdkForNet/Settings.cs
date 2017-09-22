@@ -1,4 +1,4 @@
-﻿namespace Litle.Sdk.Properties {
+﻿namespace Cnp.Sdk.Properties {
     
     
     // This class allows you to handle specific events on the settings class:

@@ -2,21 +2,21 @@
 using System.Collections.Generic;
 using System.Text;
 using NUnit.Framework;
-using Litle.Sdk;
+using Cnp.Sdk;
 using Moq;
 using System.Text.RegularExpressions;
 
-namespace Litle.Sdk.Test.Unit
+namespace Cnp.Sdk.Test.Unit
 {
     [TestFixture]
     class TestGiftCard
     {
-        private LitleOnline litle;
+        private CnpOnline cnp;
 
         [TestFixtureSetUp]
-        public void SetUpLitle()
+        public void SetUpCnp()
         {
-            litle = new LitleOnline();
+            cnp = new CnpOnline();
         }
 
         [Test]
@@ -25,7 +25,7 @@ namespace Litle.Sdk.Test.Unit
             giftCardAuthReversal giftCard = new giftCardAuthReversal();
             giftCard.id = "1";
             giftCard.reportGroup = "Planets";
-            giftCard.litleTxnId = 123456789;
+            giftCard.cnpTxnId = 123456789;
             giftCard.originalRefCode = "abc123";
             giftCard.originalAmount = 500;
             giftCard.originalTxnTime = new DateTime(2017,01,01);
@@ -34,13 +34,13 @@ namespace Litle.Sdk.Test.Unit
 
             var mock = new Mock<Communications>();
 
-            mock.Setup(Communications => Communications.HttpPost(It.IsRegex(".*<litleTxnId>123456789</litleTxnId>\r\n<originalRefCode>abc123</originalRefCode>\r\n<originalAmount>500</originalAmount>\r\n<originalTxnTime>2017-01-01T00:00:00Z</originalTxnTime>\r\n<originalSystemTraceId>123</originalSystemTraceId>\r\n<originalSequenceNumber>123456</originalSequenceNumber>.*", RegexOptions.Singleline), It.IsAny<Dictionary<String, String>>()))
-                .Returns("<litleOnlineResponse version='8.18' response='0' message='Valid Format' xmlns='http://www.litle.com/schema'><giftCardAuthReversalResponse><litleTxnId>123</litleTxnId></giftCardAuthReversalResponse></litleOnlineResponse>");
+            mock.Setup(Communications => Communications.HttpPost(It.IsRegex(".*<cnpTxnId>123456789</cnpTxnId>\r\n<originalRefCode>abc123</originalRefCode>\r\n<originalAmount>500</originalAmount>\r\n<originalTxnTime>2017-01-01T00:00:00Z</originalTxnTime>\r\n<originalSystemTraceId>123</originalSystemTraceId>\r\n<originalSequenceNumber>123456</originalSequenceNumber>.*", RegexOptions.Singleline), It.IsAny<Dictionary<String, String>>()))
+                .Returns("<cnpOnlineResponse version='8.18' response='0' message='Valid Format' xmlns='http://www.vantivcnp.com/schema'><giftCardAuthReversalResponse><cnpTxnId>123</cnpTxnId></giftCardAuthReversalResponse></cnpOnlineResponse>");
 
             Communications mockedCommunication = mock.Object;
-            litle.setCommunication(mockedCommunication);
-            giftCardAuthReversalResponse giftCardAuthReversalResponse = litle.GiftCardAuthReversal(giftCard);
-            Assert.AreEqual(123, giftCardAuthReversalResponse.litleTxnId);
+            cnp.setCommunication(mockedCommunication);
+            giftCardAuthReversalResponse giftCardAuthReversalResponse = cnp.GiftCardAuthReversal(giftCard);
+            Assert.AreEqual(123, giftCardAuthReversalResponse.cnpTxnId);
         }
 
         [Test]
@@ -49,7 +49,7 @@ namespace Litle.Sdk.Test.Unit
             giftCardAuthReversal giftCard = new giftCardAuthReversal();
             giftCard.id = "1";
             giftCard.reportGroup = "Planets";
-            giftCard.litleTxnId = 123456789;
+            giftCard.cnpTxnId = 123456789;
             giftCardCardType card = new giftCardCardType();
             card.type = methodOfPaymentTypeEnum.GC;
             card.number = "414100000000000000";
@@ -59,12 +59,12 @@ namespace Litle.Sdk.Test.Unit
             var mock = new Mock<Communications>();
 
             mock.Setup(Communications => Communications.HttpPost(It.IsRegex(".*<card>\r\n<type>GC</type>\r\n<number>414100000000000000</number>\r\n<expDate>1210</expDate>\r\n</card>.*", RegexOptions.Singleline), It.IsAny<Dictionary<String, String>>()))
-                .Returns("<litleOnlineResponse version='8.18' response='0' message='Valid Format' xmlns='http://www.litle.com/schema'><giftCardAuthReversalResponse><litleTxnId>123</litleTxnId></giftCardAuthReversalResponse></litleOnlineResponse>");
+                .Returns("<cnpOnlineResponse version='8.18' response='0' message='Valid Format' xmlns='http://www.vantivcnp.com/schema'><giftCardAuthReversalResponse><cnpTxnId>123</cnpTxnId></giftCardAuthReversalResponse></cnpOnlineResponse>");
 
             Communications mockedCommunication = mock.Object;
-            litle.setCommunication(mockedCommunication);
-            giftCardAuthReversalResponse giftCardAuthReversalResponse = litle.GiftCardAuthReversal(giftCard);
-            Assert.AreEqual(123, giftCardAuthReversalResponse.litleTxnId);
+            cnp.setCommunication(mockedCommunication);
+            giftCardAuthReversalResponse giftCardAuthReversalResponse = cnp.GiftCardAuthReversal(giftCard);
+            Assert.AreEqual(123, giftCardAuthReversalResponse.cnpTxnId);
         }
 
         [Test]
@@ -73,7 +73,7 @@ namespace Litle.Sdk.Test.Unit
             giftCardCapture giftCardCapture = new giftCardCapture();
             giftCardCapture.id = "1";
             giftCardCapture.reportGroup = "Planets";
-            giftCardCapture.litleTxnId = 123456000;
+            giftCardCapture.cnpTxnId = 123456000;
             giftCardCapture.captureAmount = 106;
             giftCardCardType card = new giftCardCardType();
             card.type = methodOfPaymentTypeEnum.GC;
@@ -86,12 +86,12 @@ namespace Litle.Sdk.Test.Unit
 
             var mock = new Mock<Communications>();
 
-            mock.Setup(Communications => Communications.HttpPost(It.IsRegex(".*<litleTxnId>123456000</litleTxnId>\r\n<captureAmount>106</captureAmount>\r\n<card>\r\n<type>GC</type>\r\n<number>414100000000000000</number>\r\n<expDate>1210</expDate>\r\n</card>\r\n<originalRefCode>abc123</originalRefCode>\r\n<originalAmount>43534345</originalAmount>\r\n<originalTxnTime>2017-01-01T00:00:00Z</originalTxnTime>.*", RegexOptions.Singleline), It.IsAny<Dictionary<String, String>>()))
-                .Returns("<litleOnlineResponse version='8.14' response='0' message='Valid Format' xmlns='http://www.litle.com/schema'><giftCardCaptureResponse><litleTxnId>123</litleTxnId></giftCardCaptureResponse></litleOnlineResponse>");
+            mock.Setup(Communications => Communications.HttpPost(It.IsRegex(".*<cnpTxnId>123456000</cnpTxnId>\r\n<captureAmount>106</captureAmount>\r\n<card>\r\n<type>GC</type>\r\n<number>414100000000000000</number>\r\n<expDate>1210</expDate>\r\n</card>\r\n<originalRefCode>abc123</originalRefCode>\r\n<originalAmount>43534345</originalAmount>\r\n<originalTxnTime>2017-01-01T00:00:00Z</originalTxnTime>.*", RegexOptions.Singleline), It.IsAny<Dictionary<String, String>>()))
+                .Returns("<cnpOnlineResponse version='8.14' response='0' message='Valid Format' xmlns='http://www.vantivcnp.com/schema'><giftCardCaptureResponse><cnpTxnId>123</cnpTxnId></giftCardCaptureResponse></cnpOnlineResponse>");
 
             Communications mockedCommunication = mock.Object;
-            litle.setCommunication(mockedCommunication);
-            litle.GiftCardCapture(giftCardCapture);
+            cnp.setCommunication(mockedCommunication);
+            cnp.GiftCardCapture(giftCardCapture);
         }
 
         [Test]
@@ -100,7 +100,7 @@ namespace Litle.Sdk.Test.Unit
             giftCardCredit credit = new giftCardCredit();
             credit.id = "1";
             credit.reportGroup = "planets";
-            credit.litleTxnId = 123456000;
+            credit.cnpTxnId = 123456000;
             credit.creditAmount = 106;
             giftCardCardType card = new giftCardCardType();
             card.type = methodOfPaymentTypeEnum.GC;
@@ -110,12 +110,12 @@ namespace Litle.Sdk.Test.Unit
 
             var mock = new Mock<Communications>();
 
-            mock.Setup(Communications => Communications.HttpPost(It.IsRegex(".*<litleTxnId>123456000</litleTxnId>\r\n<creditAmount>106</creditAmount>\r\n<card>\r\n<type>GC</type>\r\n<number>4100000000000000</number>\r\n<expDate>1210</expDate>\r.*", RegexOptions.Singleline), It.IsAny<Dictionary<String, String>>()))
-                .Returns("<litleOnlineResponse version='8.10' response='0' message='Valid Format' xmlns='http://www.litle.com/schema'><creditResponse><litleTxnId>123</litleTxnId></creditResponse></litleOnlineResponse>");
+            mock.Setup(Communications => Communications.HttpPost(It.IsRegex(".*<cnpTxnId>123456000</cnpTxnId>\r\n<creditAmount>106</creditAmount>\r\n<card>\r\n<type>GC</type>\r\n<number>4100000000000000</number>\r\n<expDate>1210</expDate>\r.*", RegexOptions.Singleline), It.IsAny<Dictionary<String, String>>()))
+                .Returns("<cnpOnlineResponse version='8.10' response='0' message='Valid Format' xmlns='http://www.vantivcnp.com/schema'><creditResponse><cnpTxnId>123</cnpTxnId></creditResponse></cnpOnlineResponse>");
 
             Communications mockedCommunication = mock.Object;
-            litle.setCommunication(mockedCommunication);
-            litle.GiftCardCredit(credit);
+            cnp.setCommunication(mockedCommunication);
+            cnp.GiftCardCredit(credit);
         }
 
         [Test]
@@ -136,11 +136,11 @@ namespace Litle.Sdk.Test.Unit
             var mock = new Mock<Communications>();
 
             mock.Setup(Communications => Communications.HttpPost(It.IsRegex(".*<orderId>2111</orderId>\r\n<creditAmount>106</creditAmount>\r\n<orderSource>echeckppd</orderSource>\r\n<card>\r\n<type>GC</type>\r\n<number>4100000000000000</number>\r\n<expDate>1210</expDate>\r.*", RegexOptions.Singleline), It.IsAny<Dictionary<String, String>>()))
-                .Returns("<litleOnlineResponse version='8.10' response='0' message='Valid Format' xmlns='http://www.litle.com/schema'><creditResponse><litleTxnId>123</litleTxnId></creditResponse></litleOnlineResponse>");
+                .Returns("<cnpOnlineResponse version='8.10' response='0' message='Valid Format' xmlns='http://www.vantivcnp.com/schema'><creditResponse><cnpTxnId>123</cnpTxnId></creditResponse></cnpOnlineResponse>");
 
             Communications mockedCommunication = mock.Object;
-            litle.setCommunication(mockedCommunication);
-            litle.GiftCardCredit(credit);
+            cnp.setCommunication(mockedCommunication);
+            cnp.GiftCardCredit(credit);
         }
     }
 }

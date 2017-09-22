@@ -2,23 +2,23 @@
 using System.Collections.Generic;
 using System.Text;
 using NUnit.Framework;
-using Litle.Sdk;
+using Cnp.Sdk;
 using Moq;
 using System.Text.RegularExpressions;
 
 
-namespace Litle.Sdk.Test.Unit
+namespace Cnp.Sdk.Test.Unit
 {
     [TestFixture]
     class TestAuthorization
     {
 
-        private LitleOnline litle;
+        private CnpOnline cnp;
 
         [TestFixtureSetUp]
-        public void SetUpLitle()
+        public void SetUpCnp()
         {
-            litle = new LitleOnline();
+            cnp = new CnpOnline();
         }
 
         [Test]
@@ -34,14 +34,14 @@ namespace Litle.Sdk.Test.Unit
             var mock = new Mock<Communications>();
 
             mock.Setup(Communications => Communications.HttpPost(It.IsRegex(".*<fraudFilterOverride>true</fraudFilterOverride>.*", RegexOptions.Singleline), It.IsAny<Dictionary<string, string>>()))
-                .Returns("<litleOnlineResponse version='8.10' response='0' message='Valid Format' xmlns='http://www.litle.com/schema'><authorizationResponse><litleTxnId>123</litleTxnId></authorizationResponse></litleOnlineResponse>");
+                .Returns("<cnpOnlineResponse version='8.10' response='0' message='Valid Format' xmlns='http://www.vantivcnp.com/schema'><authorizationResponse><cnpTxnId>123</cnpTxnId></authorizationResponse></cnpOnlineResponse>");
 
             var mockedCommunication = mock.Object;
-            litle.setCommunication(mockedCommunication);
-            var authorizationResponse = litle.Authorize(auth);
+            cnp.setCommunication(mockedCommunication);
+            var authorizationResponse = cnp.Authorize(auth);
 
             Assert.NotNull(authorizationResponse);
-            Assert.AreEqual(123, authorizationResponse.litleTxnId);
+            Assert.AreEqual(123, authorizationResponse.cnpTxnId);
         }
 
         [Test]
@@ -53,21 +53,21 @@ namespace Litle.Sdk.Test.Unit
             auth.orderSource = orderSourceType.ecommerce;
             auth.reportGroup = "Planets";
             var billToAddress = new contact();
-            billToAddress.email = "gdake@litle.com";
+            billToAddress.email = "gdake@cnp.com";
             billToAddress.zip = "12345";
             auth.billToAddress = billToAddress;
 
             var mock = new Mock<Communications>();
 
-            mock.Setup(Communications => Communications.HttpPost(It.IsRegex(".*<zip>12345</zip>.*<email>gdake@litle.com</email>.*", RegexOptions.Singleline), It.IsAny<Dictionary<string, string>>()))
-                .Returns("<litleOnlineResponse version='8.14' response='0' message='Valid Format' xmlns='http://www.litle.com/schema'><authorizationResponse><litleTxnId>123</litleTxnId></authorizationResponse></litleOnlineResponse>");
+            mock.Setup(Communications => Communications.HttpPost(It.IsRegex(".*<zip>12345</zip>.*<email>gdake@cnp.com</email>.*", RegexOptions.Singleline), It.IsAny<Dictionary<string, string>>()))
+                .Returns("<cnpOnlineResponse version='8.14' response='0' message='Valid Format' xmlns='http://www.vantivcnp.com/schema'><authorizationResponse><cnpTxnId>123</cnpTxnId></authorizationResponse></cnpOnlineResponse>");
 
             var mockedCommunication = mock.Object;
-            litle.setCommunication(mockedCommunication);
-            var authorizationResponse = litle.Authorize(auth);
+            cnp.setCommunication(mockedCommunication);
+            var authorizationResponse = cnp.Authorize(auth);
 
             Assert.NotNull(authorizationResponse);
-            Assert.AreEqual(123, authorizationResponse.litleTxnId);
+            Assert.AreEqual(123, authorizationResponse.cnpTxnId);
         }
 
         [Test]
@@ -79,21 +79,21 @@ namespace Litle.Sdk.Test.Unit
             auth.orderSource = orderSourceType.item3dsAttempted;
             auth.reportGroup = "Planets";
             var billToAddress = new contact();
-            billToAddress.email = "gdake@litle.com";
+            billToAddress.email = "gdake@cnp.com";
             billToAddress.zip = "12345";
             auth.billToAddress = billToAddress;
 
             var mock = new Mock<Communications>();
 
             mock.Setup(Communications => Communications.HttpPost(It.IsRegex(".*<amount>2</amount>.*<orderSource>3dsAttempted</orderSource>.*", RegexOptions.Singleline), It.IsAny<Dictionary<string, string>>()))
-                .Returns("<litleOnlineResponse version='8.14' response='0' message='Valid Format' xmlns='http://www.litle.com/schema'><authorizationResponse><litleTxnId>123</litleTxnId></authorizationResponse></litleOnlineResponse>");
+                .Returns("<cnpOnlineResponse version='8.14' response='0' message='Valid Format' xmlns='http://www.vantivcnp.com/schema'><authorizationResponse><cnpTxnId>123</cnpTxnId></authorizationResponse></cnpOnlineResponse>");
 
             var mockedCommunication = mock.Object;
-            litle.setCommunication(mockedCommunication);
-            var authorizationResponse = litle.Authorize(auth);
+            cnp.setCommunication(mockedCommunication);
+            var authorizationResponse = cnp.Authorize(auth);
 
             Assert.NotNull(authorizationResponse);
-            Assert.AreEqual(123, authorizationResponse.litleTxnId);
+            Assert.AreEqual(123, authorizationResponse.cnpTxnId);
         }
 
         [Test]
@@ -105,21 +105,21 @@ namespace Litle.Sdk.Test.Unit
             auth.orderSource = orderSourceType.item3dsAuthenticated;
             auth.reportGroup = "Planets";
             var billToAddress = new contact();
-            billToAddress.email = "gdake@litle.com";
+            billToAddress.email = "gdake@cnp.com";
             billToAddress.zip = "12345";
             auth.billToAddress = billToAddress;
 
             var mock = new Mock<Communications>();
 
             mock.Setup(Communications => Communications.HttpPost(It.IsRegex(".*<amount>2</amount>.*<orderSource>3dsAuthenticated</orderSource>.*", RegexOptions.Singleline), It.IsAny<Dictionary<string, string>>()))
-                .Returns("<litleOnlineResponse version='8.14' response='0' message='Valid Format' xmlns='http://www.litle.com/schema'><authorizationResponse><litleTxnId>123</litleTxnId></authorizationResponse></litleOnlineResponse>");
+                .Returns("<cnpOnlineResponse version='8.14' response='0' message='Valid Format' xmlns='http://www.vantivcnp.com/schema'><authorizationResponse><cnpTxnId>123</cnpTxnId></authorizationResponse></cnpOnlineResponse>");
 
             var mockedCommunication = mock.Object;
-            litle.setCommunication(mockedCommunication);
-            var authorizationResponse = litle.Authorize(auth);
+            cnp.setCommunication(mockedCommunication);
+            var authorizationResponse = cnp.Authorize(auth);
 
             Assert.NotNull(authorizationResponse);
-            Assert.AreEqual(123, authorizationResponse.litleTxnId);
+            Assert.AreEqual(123, authorizationResponse.cnpTxnId);
         }
 
         [Test]
@@ -135,14 +135,14 @@ namespace Litle.Sdk.Test.Unit
             var mock = new Mock<Communications>();
 
             mock.Setup(Communications => Communications.HttpPost(It.IsRegex(".*<amount>2</amount>\r\n<secondaryAmount>1</secondaryAmount>\r\n<orderSource>ecommerce</orderSource>.*", RegexOptions.Singleline), It.IsAny<Dictionary<string, string>>()))
-                .Returns("<litleOnlineResponse version='8.14' response='0' message='Valid Format' xmlns='http://www.litle.com/schema'><authorizationResponse><litleTxnId>123</litleTxnId></authorizationResponse></litleOnlineResponse>");
+                .Returns("<cnpOnlineResponse version='8.14' response='0' message='Valid Format' xmlns='http://www.vantivcnp.com/schema'><authorizationResponse><cnpTxnId>123</cnpTxnId></authorizationResponse></cnpOnlineResponse>");
 
             var mockedCommunication = mock.Object;
-            litle.setCommunication(mockedCommunication);
-            var authorizationResponse = litle.Authorize(auth);
+            cnp.setCommunication(mockedCommunication);
+            var authorizationResponse = cnp.Authorize(auth);
 
             Assert.NotNull(authorizationResponse);
-            Assert.AreEqual(123, authorizationResponse.litleTxnId);
+            Assert.AreEqual(123, authorizationResponse.cnpTxnId);
         }
 
         [Test]
@@ -158,14 +158,14 @@ namespace Litle.Sdk.Test.Unit
             var mock = new Mock<Communications>();
 
             mock.Setup(Communications => Communications.HttpPost(It.IsRegex(".*<amount>2</amount>\r\n<surchargeAmount>1</surchargeAmount>\r\n<orderSource>ecommerce</orderSource>.*", RegexOptions.Singleline), It.IsAny<Dictionary<string, string>>()))
-                .Returns("<litleOnlineResponse version='8.14' response='0' message='Valid Format' xmlns='http://www.litle.com/schema'><authorizationResponse><litleTxnId>123</litleTxnId></authorizationResponse></litleOnlineResponse>");
+                .Returns("<cnpOnlineResponse version='8.14' response='0' message='Valid Format' xmlns='http://www.vantivcnp.com/schema'><authorizationResponse><cnpTxnId>123</cnpTxnId></authorizationResponse></cnpOnlineResponse>");
 
             var mockedCommunication = mock.Object;
-            litle.setCommunication(mockedCommunication);
-            var authorizationResponse = litle.Authorize(auth);
+            cnp.setCommunication(mockedCommunication);
+            var authorizationResponse = cnp.Authorize(auth);
 
             Assert.NotNull(authorizationResponse);
-            Assert.AreEqual(123, authorizationResponse.litleTxnId);
+            Assert.AreEqual(123, authorizationResponse.cnpTxnId);
         }
 
         [Test]
@@ -180,14 +180,14 @@ namespace Litle.Sdk.Test.Unit
             var mock = new Mock<Communications>();
 
             mock.Setup(Communications => Communications.HttpPost(It.IsRegex(".*<amount>2</amount>\r\n<orderSource>ecommerce</orderSource>.*", RegexOptions.Singleline), It.IsAny<Dictionary<string, string>>()))
-                .Returns("<litleOnlineResponse version='8.14' response='0' message='Valid Format' xmlns='http://www.litle.com/schema'><authorizationResponse><litleTxnId>123</litleTxnId></authorizationResponse></litleOnlineResponse>");
+                .Returns("<cnpOnlineResponse version='8.14' response='0' message='Valid Format' xmlns='http://www.vantivcnp.com/schema'><authorizationResponse><cnpTxnId>123</cnpTxnId></authorizationResponse></cnpOnlineResponse>");
 
             var mockedCommunication = mock.Object;
-            litle.setCommunication(mockedCommunication);
-            var authorizationResponse = litle.Authorize(auth);
+            cnp.setCommunication(mockedCommunication);
+            var authorizationResponse = cnp.Authorize(auth);
 
             Assert.NotNull(authorizationResponse);
-            Assert.AreEqual(123, authorizationResponse.litleTxnId);
+            Assert.AreEqual(123, authorizationResponse.cnpTxnId);
         }
 
         [Test]
@@ -207,14 +207,14 @@ namespace Litle.Sdk.Test.Unit
             var mock = new Mock<Communications>();
 
             mock.Setup(Communications => Communications.HttpPost(It.IsRegex(".*<card>\r\n<type>GC</type>\r\n<number>414100000000000000</number>\r\n<expDate>1210</expDate>\r\n</card>.*", RegexOptions.Singleline), It.IsAny<Dictionary<string, string>>()))
-                .Returns("<litleOnlineResponse version='8.10' response='0' message='Valid Format' xmlns='http://www.litle.com/schema'><authorizationResponse><litleTxnId>123</litleTxnId></authorizationResponse></litleOnlineResponse>");
+                .Returns("<cnpOnlineResponse version='8.10' response='0' message='Valid Format' xmlns='http://www.vantivcnp.com/schema'><authorizationResponse><cnpTxnId>123</cnpTxnId></authorizationResponse></cnpOnlineResponse>");
 
             var mockedCommunication = mock.Object;
-            litle.setCommunication(mockedCommunication);
-            var authorizationResponse = litle.Authorize(auth);
+            cnp.setCommunication(mockedCommunication);
+            var authorizationResponse = cnp.Authorize(auth);
 
             Assert.NotNull(authorizationResponse);
-            Assert.AreEqual(123, authorizationResponse.litleTxnId);
+            Assert.AreEqual(123, authorizationResponse.cnpTxnId);
         }
 
         [Test]
@@ -243,15 +243,15 @@ namespace Litle.Sdk.Test.Unit
 
             var mock = new Mock<Communications>();
 
-            mock.Setup(Communications => Communications.HttpPost(It.IsRegex(".*?<litleOnlineRequest.*?<authorization.*?<orderSource>applepay</orderSource>.*?<applepay>.*?<data>user</data>.*?</applepay>.*?<wallet>.*?<walletSourceTypeId>123</walletSourceTypeId>.*?</wallet>.*?</authorization>.*?", RegexOptions.Singleline), It.IsAny<Dictionary<string, string>>()))
-                .Returns("<litleOnlineResponse version='8.10' response='0' message='Valid Format' xmlns='http://www.litle.com/schema'><authorizationResponse><litleTxnId>123</litleTxnId></authorizationResponse></litleOnlineResponse>");
+            mock.Setup(Communications => Communications.HttpPost(It.IsRegex(".*?<cnpOnlineRequest.*?<authorization.*?<orderSource>applepay</orderSource>.*?<applepay>.*?<data>user</data>.*?</applepay>.*?<wallet>.*?<walletSourceTypeId>123</walletSourceTypeId>.*?</wallet>.*?</authorization>.*?", RegexOptions.Singleline), It.IsAny<Dictionary<string, string>>()))
+                .Returns("<cnpOnlineResponse version='8.10' response='0' message='Valid Format' xmlns='http://www.vantivcnp.com/schema'><authorizationResponse><cnpTxnId>123</cnpTxnId></authorizationResponse></cnpOnlineResponse>");
 
             var mockedCommunication = mock.Object;
-            litle.setCommunication(mockedCommunication);
-            var authorizationResponse = litle.Authorize(auth);
+            cnp.setCommunication(mockedCommunication);
+            var authorizationResponse = cnp.Authorize(auth);
 
             Assert.NotNull(authorizationResponse);
-            Assert.AreEqual(123, authorizationResponse.litleTxnId);
+            Assert.AreEqual(123, authorizationResponse.cnpTxnId);
         }
 
         [Test]
@@ -274,14 +274,14 @@ namespace Litle.Sdk.Test.Unit
             var mock = new Mock<Communications>();
 
             mock.Setup(Communications => Communications.HttpPost(It.IsRegex(".*<fraudFilterOverride>true</fraudFilterOverride>\r\n<recurringRequest>\r\n<subscription>\r\n<planCode>abc123</planCode>\r\n<numberOfPayments>12</numberOfPayments>\r\n</subscription>\r\n</recurringRequest>\r\n</authorization>.*", RegexOptions.Singleline), It.IsAny<Dictionary<string, string>>()))
-                .Returns("<litleOnlineResponse version='8.18' response='0' message='Valid Format' xmlns='http://www.litle.com/schema'><authorizationResponse><litleTxnId>123</litleTxnId></authorizationResponse></litleOnlineResponse>");
+                .Returns("<cnpOnlineResponse version='8.18' response='0' message='Valid Format' xmlns='http://www.vantivcnp.com/schema'><authorizationResponse><cnpTxnId>123</cnpTxnId></authorizationResponse></cnpOnlineResponse>");
 
             var mockedCommunication = mock.Object;
-            litle.setCommunication(mockedCommunication);
-            var authorizationResponse = litle.Authorize(auth);
+            cnp.setCommunication(mockedCommunication);
+            var authorizationResponse = cnp.Authorize(auth);
 
             Assert.NotNull(authorizationResponse);
-            Assert.AreEqual(123, authorizationResponse.litleTxnId);
+            Assert.AreEqual(123, authorizationResponse.cnpTxnId);
         }
 
         [Test]
@@ -301,24 +301,24 @@ namespace Litle.Sdk.Test.Unit
             var mock = new Mock<Communications>();
 
             mock.Setup(Communications => Communications.HttpPost(It.IsRegex(".*<fraudFilterOverride>true</fraudFilterOverride>\r\n<debtRepayment>true</debtRepayment>\r\n</authorization>.*", RegexOptions.Singleline), It.IsAny<Dictionary<string, string>>()))
-                .Returns("<litleOnlineResponse version='8.14' response='0' message='Valid Format' xmlns='http://www.litle.com/schema'><authorizationResponse><litleTxnId>123</litleTxnId></authorizationResponse></litleOnlineResponse>");
+                .Returns("<cnpOnlineResponse version='8.14' response='0' message='Valid Format' xmlns='http://www.vantivcnp.com/schema'><authorizationResponse><cnpTxnId>123</cnpTxnId></authorizationResponse></cnpOnlineResponse>");
 
             var mockedCommunication = mock.Object;
-            litle.setCommunication(mockedCommunication);
-            var authorizationResponse = litle.Authorize(auth);
+            cnp.setCommunication(mockedCommunication);
+            var authorizationResponse = cnp.Authorize(auth);
 
             Assert.NotNull(authorizationResponse);
-            Assert.AreEqual(123, authorizationResponse.litleTxnId);
+            Assert.AreEqual(123, authorizationResponse.cnpTxnId);
         }
 
         [Test]
         public void TestRecurringResponse_Full()
         {
-            var xmlResponse = "<litleOnlineResponse version='8.18' response='0' message='Valid Format' xmlns='http://www.litle.com/schema'><authorizationResponse><litleTxnId>123</litleTxnId><recurringResponse><subscriptionId>12</subscriptionId><responseCode>345</responseCode><responseMessage>Foo</responseMessage><recurringTxnId>678</recurringTxnId></recurringResponse></authorizationResponse></litleOnlineResponse>";
-            var litleOnlineResponse = LitleOnline.DeserializeObject(xmlResponse);
-            var authorizationResponse = (authorizationResponse)litleOnlineResponse.authorizationResponse;
+            var xmlResponse = "<cnpOnlineResponse version='8.18' response='0' message='Valid Format' xmlns='http://www.vantivcnp.com/schema'><authorizationResponse><cnpTxnId>123</cnpTxnId><recurringResponse><subscriptionId>12</subscriptionId><responseCode>345</responseCode><responseMessage>Foo</responseMessage><recurringTxnId>678</recurringTxnId></recurringResponse></authorizationResponse></cnpOnlineResponse>";
+            var cnpOnlineResponse = CnpOnline.DeserializeObject(xmlResponse);
+            var authorizationResponse = (authorizationResponse)cnpOnlineResponse.authorizationResponse;
 
-            Assert.AreEqual(123, authorizationResponse.litleTxnId);
+            Assert.AreEqual(123, authorizationResponse.cnpTxnId);
             Assert.AreEqual(12, authorizationResponse.recurringResponse.subscriptionId);
             Assert.AreEqual("345", authorizationResponse.recurringResponse.responseCode);
             Assert.AreEqual("Foo", authorizationResponse.recurringResponse.responseMessage);
@@ -328,11 +328,11 @@ namespace Litle.Sdk.Test.Unit
         [Test]
         public void TestRecurringResponse_NoRecurringTxnId()
         {
-            var xmlResponse = "<litleOnlineResponse version='8.18' response='0' message='Valid Format' xmlns='http://www.litle.com/schema'><authorizationResponse><litleTxnId>123</litleTxnId><recurringResponse><subscriptionId>12</subscriptionId><responseCode>345</responseCode><responseMessage>Foo</responseMessage></recurringResponse></authorizationResponse></litleOnlineResponse>";
-            var litleOnlineResponse = LitleOnline.DeserializeObject(xmlResponse);
-            var authorizationResponse = (authorizationResponse)litleOnlineResponse.authorizationResponse;
+            var xmlResponse = "<cnpOnlineResponse version='8.18' response='0' message='Valid Format' xmlns='http://www.vantivcnp.com/schema'><authorizationResponse><cnpTxnId>123</cnpTxnId><recurringResponse><subscriptionId>12</subscriptionId><responseCode>345</responseCode><responseMessage>Foo</responseMessage></recurringResponse></authorizationResponse></cnpOnlineResponse>";
+            var cnpOnlineResponse = CnpOnline.DeserializeObject(xmlResponse);
+            var authorizationResponse = (authorizationResponse)cnpOnlineResponse.authorizationResponse;
 
-            Assert.AreEqual(123, authorizationResponse.litleTxnId);
+            Assert.AreEqual(123, authorizationResponse.cnpTxnId);
             Assert.AreEqual(12, authorizationResponse.recurringResponse.subscriptionId);
             Assert.AreEqual("345", authorizationResponse.recurringResponse.responseCode);
             Assert.AreEqual("Foo", authorizationResponse.recurringResponse.responseMessage);
@@ -372,16 +372,16 @@ namespace Litle.Sdk.Test.Unit
 
             var mock = new Mock<Communications>();
             mock.Setup(Communications => Communications.HttpPost(It.IsRegex(".*<authorization id=\".*>.*<customerIpAddress>192.168.1.1</customerIpAddress>.*</authorization>.*", RegexOptions.Singleline), It.IsAny<Dictionary<string, string>>()))
-                .Returns("<litleOnlineResponse version='8.14' response='0' message='Valid Format' xmlns='http://www.litle.com/schema'><authorizationResponse><litleTxnId>123</litleTxnId></authorizationResponse></litleOnlineResponse>");
+                .Returns("<cnpOnlineResponse version='8.14' response='0' message='Valid Format' xmlns='http://www.vantivcnp.com/schema'><authorizationResponse><cnpTxnId>123</cnpTxnId></authorizationResponse></cnpOnlineResponse>");
 
             var mockedCommunication = mock.Object;
-            litle.setCommunication(mockedCommunication);
-            litle.Authorize(auth);
+            cnp.setCommunication(mockedCommunication);
+            cnp.Authorize(auth);
 
-            var authorizationResponse = litle.Authorize(auth);
+            var authorizationResponse = cnp.Authorize(auth);
 
             Assert.NotNull(authorizationResponse);
-            Assert.AreEqual(123, authorizationResponse.litleTxnId);
+            Assert.AreEqual(123, authorizationResponse.cnpTxnId);
         }
 
         [Test]
@@ -419,16 +419,16 @@ namespace Litle.Sdk.Test.Unit
 
             var mock = new Mock<Communications>();
             mock.Setup(Communications => Communications.HttpPost(It.IsRegex(".*<authorization id=\".*>.*<billMeLaterRequest>\r\n<virtualAuthenticationKeyPresenceIndicator>Presence</virtualAuthenticationKeyPresenceIndicator>\r\n<virtualAuthenticationKeyData>Data</virtualAuthenticationKeyData>\r\n</billMeLaterRequest>.*</authorization>.*", RegexOptions.Singleline), It.IsAny<Dictionary<string, string>>()))
-                .Returns("<litleOnlineResponse version='8.14' response='0' message='Valid Format' xmlns='http://www.litle.com/schema'><authorizationResponse><litleTxnId>123</litleTxnId></authorizationResponse></litleOnlineResponse>");
+                .Returns("<cnpOnlineResponse version='8.14' response='0' message='Valid Format' xmlns='http://www.vantivcnp.com/schema'><authorizationResponse><cnpTxnId>123</cnpTxnId></authorizationResponse></cnpOnlineResponse>");
 
             var mockedCommunication = mock.Object;
-            litle.setCommunication(mockedCommunication);
-            litle.Authorize(auth);
+            cnp.setCommunication(mockedCommunication);
+            cnp.Authorize(auth);
 
-            var authorizationResponse = litle.Authorize(auth);
+            var authorizationResponse = cnp.Authorize(auth);
 
             Assert.NotNull(authorizationResponse);
-            Assert.AreEqual(123, authorizationResponse.litleTxnId);
+            Assert.AreEqual(123, authorizationResponse.cnpTxnId);
         }
 
         [Test]
@@ -464,11 +464,11 @@ namespace Litle.Sdk.Test.Unit
 
             var mock = new Mock<Communications>();
             mock.Setup(Communications => Communications.HttpPost(It.IsAny<string>(), It.IsAny<Dictionary<string, string>>()))
-                .Returns("<litleOnlineResponse version='8.23' response='0' message='Valid Format' xmlns='http://www.litle.com/schema'><authorizationResponse><orderId>123</orderId><fraudResult><advancedFraudResults><deviceReviewStatus>\"ReviewStatus\"</deviceReviewStatus><deviceReputationScore>800</deviceReputationScore></advancedFraudResults></fraudResult></authorizationResponse></litleOnlineResponse>");
+                .Returns("<cnpOnlineResponse version='8.23' response='0' message='Valid Format' xmlns='http://www.vantivcnp.com/schema'><authorizationResponse><orderId>123</orderId><fraudResult><advancedFraudResults><deviceReviewStatus>\"ReviewStatus\"</deviceReviewStatus><deviceReputationScore>800</deviceReputationScore></advancedFraudResults></fraudResult></authorizationResponse></cnpOnlineResponse>");
 
             var mockedCommunication = mock.Object;
-            litle.setCommunication(mockedCommunication);
-            var authorizationResponse = litle.Authorize(auth);
+            cnp.setCommunication(mockedCommunication);
+            var authorizationResponse = cnp.Authorize(auth);
 
             Assert.NotNull(authorizationResponse);
             Assert.AreEqual("123", authorizationResponse.orderId);
@@ -477,9 +477,9 @@ namespace Litle.Sdk.Test.Unit
         [Test]
         public void TestAdvancedFraudResponse()
         {
-            var xmlResponse = @"<litleOnlineResponse version='8.23' response='0' message='Valid Format' xmlns='http://www.litle.com/schema'>
+            var xmlResponse = @"<cnpOnlineResponse version='8.23' response='0' message='Valid Format' xmlns='http://www.vantivcnp.com/schema'>
 <authorizationResponse>
-<litleTxnId>123</litleTxnId>
+<cnpTxnId>123</cnpTxnId>
 <fraudResult>
 <advancedFraudResults>
 <deviceReviewStatus>ReviewStatus</deviceReviewStatus>
@@ -489,13 +489,13 @@ namespace Litle.Sdk.Test.Unit
 </advancedFraudResults>
 </fraudResult>
 </authorizationResponse>
-</litleOnlineResponse>";
+</cnpOnlineResponse>";
 
-            var litleOnlineResponse = LitleOnline.DeserializeObject(xmlResponse);
-            var authorizationResponse = (authorizationResponse)litleOnlineResponse.authorizationResponse;
+            var cnpOnlineResponse = CnpOnline.DeserializeObject(xmlResponse);
+            var authorizationResponse = (authorizationResponse)cnpOnlineResponse.authorizationResponse;
 
 
-            Assert.AreEqual(123, authorizationResponse.litleTxnId);
+            Assert.AreEqual(123, authorizationResponse.cnpTxnId);
             Assert.NotNull(authorizationResponse.fraudResult);
             Assert.NotNull(authorizationResponse.fraudResult.advancedFraudResults);
             Assert.NotNull(authorizationResponse.fraudResult.advancedFraudResults.deviceReviewStatus);
@@ -527,22 +527,22 @@ namespace Litle.Sdk.Test.Unit
 
             var mock = new Mock<Communications>();
             mock.Setup(Communications => Communications.HttpPost(It.IsAny<string>(), It.IsAny<Dictionary<string, string>>()))
-                .Returns("<litleOnlineResponse version='8.23' response='0' message='Valid Format' xmlns='http://www.litle.com/schema'><authorizationResponse><litleTxnId>123</litleTxnId></authorizationResponse></litleOnlineResponse>");
+                .Returns("<cnpOnlineResponse version='8.23' response='0' message='Valid Format' xmlns='http://www.vantivcnp.com/schema'><authorizationResponse><cnpTxnId>123</cnpTxnId></authorizationResponse></cnpOnlineResponse>");
 
             var mockedCommunication = mock.Object;
-            litle.setCommunication(mockedCommunication);
-            var authorizationResponse = litle.Authorize(auth);
+            cnp.setCommunication(mockedCommunication);
+            var authorizationResponse = cnp.Authorize(auth);
 
             Assert.NotNull(authorizationResponse);
-            Assert.AreEqual(123, authorizationResponse.litleTxnId);
+            Assert.AreEqual(123, authorizationResponse.cnpTxnId);
         }
 
         [Test]
         public void TestRecycleEngineActive()
         {
-            var xmlResponse = @"<litleOnlineResponse version='8.23' response='0' message='Valid Format' xmlns='http://www.litle.com/schema'>
+            var xmlResponse = @"<cnpOnlineResponse version='8.23' response='0' message='Valid Format' xmlns='http://www.vantivcnp.com/schema'>
 <authorizationResponse>
-<litleTxnId>123</litleTxnId>
+<cnpTxnId>123</cnpTxnId>
 <fraudResult>
 <advancedFraudResults>
 <deviceReviewStatus>ReviewStatus</deviceReviewStatus>
@@ -554,13 +554,13 @@ namespace Litle.Sdk.Test.Unit
 <recycleEngineActive>1</recycleEngineActive>
 </recycling>
 </authorizationResponse>
-</litleOnlineResponse>";
+</cnpOnlineResponse>";
 
-            var litleOnlineResponse = LitleOnline.DeserializeObject(xmlResponse);
-            var authorizationResponse = (authorizationResponse)litleOnlineResponse.authorizationResponse;
+            var cnpOnlineResponse = CnpOnline.DeserializeObject(xmlResponse);
+            var authorizationResponse = (authorizationResponse)cnpOnlineResponse.authorizationResponse;
 
 
-            Assert.AreEqual(123, authorizationResponse.litleTxnId);
+            Assert.AreEqual(123, authorizationResponse.cnpTxnId);
             Assert.NotNull(authorizationResponse.fraudResult);
             Assert.NotNull(authorizationResponse.fraudResult.advancedFraudResults);
             Assert.NotNull(authorizationResponse.fraudResult.advancedFraudResults.deviceReviewStatus);
@@ -581,12 +581,12 @@ namespace Litle.Sdk.Test.Unit
             var mock = new Mock<Communications>();
 
             mock.Setup(Communications => Communications.HttpPost(It.IsRegex(".*?<originalNetworkTransactionId>123456789</originalNetworkTransactionId>.*?<originalTransactionAmount>12</originalTransactionAmount>.*?", RegexOptions.Singleline), It.IsAny<Dictionary<string, string>>()))
-                .Returns("<litleOnlineResponse version='8.18' response='0' message='Valid Format' xmlns='http://www.litle.com/schema'><authorizationResponse><litleTxnId>123</litleTxnId></authorizationResponse></litleOnlineResponse>");
+                .Returns("<cnpOnlineResponse version='8.18' response='0' message='Valid Format' xmlns='http://www.vantivcnp.com/schema'><authorizationResponse><cnpTxnId>123</cnpTxnId></authorizationResponse></cnpOnlineResponse>");
 
             var mockedCommunication = mock.Object;
-            litle.setCommunication(mockedCommunication);
-            var authorizationResponse = litle.Authorize(auth);
-            Assert.AreEqual(123, authorizationResponse.litleTxnId);
+            cnp.setCommunication(mockedCommunication);
+            var authorizationResponse = cnp.Authorize(auth);
+            Assert.AreEqual(123, authorizationResponse.cnpTxnId);
         }
 
         [Test]
@@ -605,12 +605,12 @@ namespace Litle.Sdk.Test.Unit
             var mock = new Mock<Communications>();
 
             mock.Setup(Communications => Communications.HttpPost(It.IsRegex(".*<card>\r\n<type>MC</type>\r\n<number>414100000000000000</number>\r\n<expDate>1210</expDate>\r\n<pin>1234</pin>\r\n</card>.*", RegexOptions.Singleline), It.IsAny<Dictionary<string, string>>()))
-               .Returns("<litleOnlineResponse version='8.10' response='0' message='Valid Format' xmlns='http://www.litle.com/schema'><authorizationResponse><litleTxnId>123</litleTxnId></authorizationResponse></litleOnlineResponse>");
+               .Returns("<cnpOnlineResponse version='8.10' response='0' message='Valid Format' xmlns='http://www.vantivcnp.com/schema'><authorizationResponse><cnpTxnId>123</cnpTxnId></authorizationResponse></cnpOnlineResponse>");
 
             var mockedCommunication = mock.Object;
-            litle.setCommunication(mockedCommunication);
-            var authorizationResponse = litle.Authorize(auth);
-            Assert.AreEqual(123, authorizationResponse.litleTxnId);
+            cnp.setCommunication(mockedCommunication);
+            var authorizationResponse = cnp.Authorize(auth);
+            Assert.AreEqual(123, authorizationResponse.cnpTxnId);
         }
 
     }

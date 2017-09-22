@@ -2,19 +2,19 @@
 using System.Collections.Generic;
 using System.Text;
 using NUnit.Framework;
-using Litle.Sdk;
+using Cnp.Sdk;
 using Moq;
 using System.Text.RegularExpressions;
 
 
-namespace Litle.Sdk.Test.Unit
+namespace Cnp.Sdk.Test.Unit
 {
     [TestFixture]
     class TestXmlFieldsSerializer
     {
 
         [TestFixtureSetUp]
-        public void SetUpLitle()
+        public void SetUpCnp()
         {
         }
 
@@ -140,7 +140,7 @@ namespace Litle.Sdk.Test.Unit
             billToAddress.name = "Greg Dake";
             billToAddress.city = "Lowell";
             billToAddress.state = "MA";
-            billToAddress.email = "sdksupport@litle.com";
+            billToAddress.email = "sdksupport@cnp.com";
             update.billToAddress = billToAddress;
             cardType card = new cardType();
             card.number = "4100000000000001";
@@ -151,7 +151,7 @@ namespace Litle.Sdk.Test.Unit
             update.subscriptionId = 12345;
 
             String actual = update.Serialize();
-            String expected = "\r\n<updateSubscription>\r\n<subscriptionId>12345</subscriptionId>\r\n<planCode>abcdefg</planCode>\r\n<billToAddress>\r\n<name>Greg Dake</name>\r\n<city>Lowell</city>\r\n<state>MA</state>\r\n<email>sdksupport@litle.com</email>\r\n</billToAddress>\r\n<card>\r\n<type>VI</type>\r\n<number>4100000000000001</number>\r\n<expDate>1215</expDate>\r\n</card>\r\n<billingDate>2002-10-09</billingDate>\r\n</updateSubscription>";
+            String expected = "\r\n<updateSubscription>\r\n<subscriptionId>12345</subscriptionId>\r\n<planCode>abcdefg</planCode>\r\n<billToAddress>\r\n<name>Greg Dake</name>\r\n<city>Lowell</city>\r\n<state>MA</state>\r\n<email>sdksupport@cnp.com</email>\r\n</billToAddress>\r\n<card>\r\n<type>VI</type>\r\n<number>4100000000000001</number>\r\n<expDate>1215</expDate>\r\n</card>\r\n<billingDate>2002-10-09</billingDate>\r\n</updateSubscription>";
             Assert.AreEqual(Regex.Replace(expected, @"\s+", String.Empty), Regex.Replace(actual, @"\s+", String.Empty));
         }
 
@@ -404,14 +404,14 @@ namespace Litle.Sdk.Test.Unit
             updateSubscription update = new updateSubscription();
             update.subscriptionId = 1;
             update.token = new cardTokenType();
-            update.token.litleToken = "123456";
+            update.token.cnpToken = "123456";
 
             String actual = update.Serialize();
             String expected = @"
 <updateSubscription>
 <subscriptionId>1</subscriptionId>
 <token>
-<litleToken>123456</litleToken>
+<cnpToken>123456</cnpToken>
 </token>
 </updateSubscription>";
             Assert.AreEqual(Regex.Replace(expected, @"\s+", String.Empty), Regex.Replace(actual, @"\s+", String.Empty));
@@ -778,14 +778,14 @@ namespace Litle.Sdk.Test.Unit
         }
 
         [Test]
-        public void TesLitleInternalRecurringRequestMustContainFinalPayment()
+        public void TesCnpInternalRecurringRequestMustContainFinalPayment()
         {
-            litleInternalRecurringRequest litleInternalRecurringRequest = new litleInternalRecurringRequest();
-            litleInternalRecurringRequest.subscriptionId = "123";
-            litleInternalRecurringRequest.recurringTxnId = "456";
-            litleInternalRecurringRequest.finalPayment = true;
+            cnpInternalRecurringRequest cnpInternalRecurringRequest = new cnpInternalRecurringRequest();
+            cnpInternalRecurringRequest.subscriptionId = "123";
+            cnpInternalRecurringRequest.recurringTxnId = "456";
+            cnpInternalRecurringRequest.finalPayment = true;
 
-            String actual = litleInternalRecurringRequest.Serialize();
+            String actual = cnpInternalRecurringRequest.Serialize();
             String expected = @"
 <subscriptionId>123</subscriptionId>
 <recurringTxnId>456</recurringTxnId>

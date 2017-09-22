@@ -2,16 +2,16 @@
 using System.Collections.Generic;
 using NUnit.Framework;
 
-namespace Litle.Sdk.Test.Functional
+namespace Cnp.Sdk.Test.Functional
 {
     [TestFixture]
     internal class TestAuth
     {
-        private LitleOnline _litle;
+        private CnpOnline _cnp;
         private Dictionary<string, string> _config;
 
         [TestFixtureSetUp]
-        public void SetUpLitle()
+        public void SetUpCnp()
         {
             _config = new Dictionary<string, string>
             {
@@ -29,7 +29,7 @@ namespace Litle.Sdk.Test.Functional
                 {"neuterAccountNums", "true"}
             };
 
-            _litle = new LitleOnline(_config);
+            _cnp = new CnpOnline(_config);
         }
 
         [Test]
@@ -50,7 +50,7 @@ namespace Litle.Sdk.Test.Functional
                 },
                 customBilling = new customBilling { phone = "1112223333" }
             };
-            var response = _litle.Authorize(authorization);
+            var response = _cnp.Authorize(authorization);
 
             Assert.AreEqual("000", response.response);
         }
@@ -74,7 +74,7 @@ namespace Litle.Sdk.Test.Functional
                 customBilling = new customBilling { phone = "1112223333" }
             };
 
-            var response = _litle.Authorize(authorization);
+            var response = _cnp.Authorize(authorization);
             Assert.AreEqual("000", response.response);
             Assert.Null(response.networkTransactionId);
         }
@@ -99,7 +99,7 @@ namespace Litle.Sdk.Test.Functional
                 customBilling = new customBilling { phone = "1112223333" }
             };
 
-            var response = _litle.Authorize(authorization);
+            var response = _cnp.Authorize(authorization);
             Assert.AreEqual("000", response.response);
             Assert.AreEqual("123456", response.cardSuffix);
         }
@@ -124,7 +124,7 @@ namespace Litle.Sdk.Test.Functional
                 customBilling = new customBilling { phone = "1112223333" }
             };
 
-            var response = _litle.Authorize(authorization);
+            var response = _cnp.Authorize(authorization);
             Assert.AreEqual("000", response.response);
             Assert.AreEqual("63225578415568556365452427825", response.networkTransactionId);
         }
@@ -150,7 +150,7 @@ namespace Litle.Sdk.Test.Functional
                 customBilling = new customBilling { phone = "1112223333" }
             };
 
-            var response = _litle.Authorize(authorization);
+            var response = _cnp.Authorize(authorization);
             Assert.AreEqual("000", response.response);
         }
 
@@ -175,7 +175,7 @@ namespace Litle.Sdk.Test.Functional
                 }
             };
 
-            var response = _litle.Authorize(authorization);
+            var response = _cnp.Authorize(authorization);
             Assert.AreEqual("000", response.response);
         }
 
@@ -206,7 +206,7 @@ namespace Litle.Sdk.Test.Functional
                 }
             };
 
-            var response = _litle.Authorize(authorization);
+            var response = _cnp.Authorize(authorization);
             Assert.AreEqual("000", response.response);
         }
 
@@ -229,7 +229,7 @@ namespace Litle.Sdk.Test.Functional
                 customBilling = new customBilling { phone = "1112223333" }
             };
 
-            var response = _litle.Authorize(authorization);
+            var response = _cnp.Authorize(authorization);
             Assert.AreEqual("Approved", response.message);
         }
 
@@ -252,7 +252,7 @@ namespace Litle.Sdk.Test.Functional
                 customBilling = new customBilling { phone = "1112223333" }
             };
 
-            var response = _litle.Authorize(authorization);
+            var response = _cnp.Authorize(authorization);
             Assert.AreEqual("Approved", response.message);
             Assert.AreEqual("01", response.androidpayResponse.expMonth);
             Assert.AreEqual("2050", response.androidpayResponse.expYear);
@@ -290,7 +290,7 @@ namespace Litle.Sdk.Test.Functional
                 }
             };
 
-            var response = _litle.Authorize(authorization);
+            var response = _cnp.Authorize(authorization);
             Assert.AreEqual("Insufficient Funds", response.message);
             Assert.AreEqual("110", response.applepayResponse.transactionAmount);
         }
@@ -326,7 +326,7 @@ namespace Litle.Sdk.Test.Functional
                 }
             };
 
-            var response = _litle.Authorize(authorization);
+            var response = _cnp.Authorize(authorization);
             Assert.AreEqual("Insufficient Funds", response.message);
             Assert.AreEqual("110", response.applepayResponse.transactionAmount);
         }
@@ -353,10 +353,10 @@ namespace Litle.Sdk.Test.Functional
 
             try
             {
-                _litle.Authorize(authorization);
+                _cnp.Authorize(authorization);
                 Assert.Fail("Exception is expected!");
             }
-            catch (LitleOnlineException e)
+            catch (CnpOnlineException e)
             {
                 Assert.True(e.Message.StartsWith("Error validating xml data against the schema"));
             }
@@ -382,7 +382,7 @@ namespace Litle.Sdk.Test.Functional
                 }
             };
 
-            var response = _litle.Authorize(authorization);
+            var response = _cnp.Authorize(authorization);
             Assert.AreEqual("Approved", response.message);
         }
 
@@ -404,7 +404,7 @@ namespace Litle.Sdk.Test.Functional
                 }
             };
 
-            var response = _litle.Authorize(authorization);
+            var response = _cnp.Authorize(authorization);
             Assert.AreEqual("Approved", response.message);
         }
 
@@ -428,7 +428,7 @@ namespace Litle.Sdk.Test.Functional
                 }
             };
 
-            var response = _litle.Authorize(authorization);
+            var response = _cnp.Authorize(authorization);
             Assert.AreEqual("000", response.response);
         }
 
@@ -452,7 +452,7 @@ namespace Litle.Sdk.Test.Functional
                 }
             };
 
-            var response = _litle.Authorize(authorization);
+            var response = _cnp.Authorize(authorization);
             Assert.AreEqual("000", response.response);
         }
 
@@ -476,7 +476,7 @@ namespace Litle.Sdk.Test.Functional
                 }
             };
 
-            var response = _litle.Authorize(authorization);
+            var response = _cnp.Authorize(authorization);
             Assert.AreEqual("000", response.response);
 
             Assert.AreEqual("63225578415568556365452427825", response.networkTransactionId);
@@ -503,7 +503,7 @@ namespace Litle.Sdk.Test.Functional
                 processingType = processingTypeEnum.initialRecurring,
             };
 
-            var response = _litle.Authorize(authorization);
+            var response = _cnp.Authorize(authorization);
             Assert.AreEqual("000", response.response);
             Assert.AreEqual("63225578415568556365452427825", response.networkTransactionId);
         }
@@ -528,7 +528,7 @@ namespace Litle.Sdk.Test.Functional
                 originalTransactionAmount = 12,
                 processingType = processingTypeEnum.initialInstallment,
             };
-            var response = _litle.Authorize(authorization);
+            var response = _cnp.Authorize(authorization);
             Assert.AreEqual("000", response.response);
 
             Assert.AreEqual("63225578415568556365452427825", response.networkTransactionId);
@@ -558,7 +558,7 @@ namespace Litle.Sdk.Test.Functional
                 customBilling = new customBilling { phone = "1112223333" }
             };
             
-            var response = _litle.Authorize(authorization);
+            var response = _cnp.Authorize(authorization);
             Assert.AreEqual("000", response.response);
         }
 
@@ -583,7 +583,7 @@ namespace Litle.Sdk.Test.Functional
             };
             
 
-            var response = _litle.Authorize(authorization);
+            var response = _cnp.Authorize(authorization);
             Assert.AreEqual("000", response.response);
             Assert.AreEqual("aHR0cHM6Ly93d3cueW91dHViZS5jb20vd2F0Y2g/dj1kUXc0dzlXZ1hjUQ0K", response.androidpayResponse.cryptogram);
             Assert.AreEqual("01", response.androidpayResponse.expMonth);

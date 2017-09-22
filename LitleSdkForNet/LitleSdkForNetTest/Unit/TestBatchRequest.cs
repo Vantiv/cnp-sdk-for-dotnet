@@ -2,13 +2,13 @@
 using System.Collections.Generic;
 using System.Text;
 using NUnit.Framework;
-using Litle.Sdk;
+using Cnp.Sdk;
 using Moq;
 using System.Text.RegularExpressions;
 using Moq.Language.Flow;
 
 
-namespace Litle.Sdk.Test.Unit
+namespace Cnp.Sdk.Test.Unit
 {
     [TestFixture]
     class TestBatchRequest
@@ -20,25 +20,25 @@ namespace Litle.Sdk.Test.Unit
         private const string mockFileName = "TheRainbow.xml";
         private const string mockFilePath = "C:\\Somewhere\\\\Over\\\\" + mockFileName;
 
-        private Mock<litleFile> mockLitleFile;
-        private Mock<litleTime> mockLitleTime;
+        private Mock<cnpFile> mockCnpFile;
+        private Mock<cnpTime> mockCnpTime;
 
         [TestFixtureSetUp]
         public void setUp()
         {
-            mockLitleFile = new Mock<litleFile>();
-            mockLitleTime = new Mock<litleTime>();
+            mockCnpFile = new Mock<cnpFile>();
+            mockCnpTime = new Mock<cnpTime>();
 
-            mockLitleFile.Setup(litleFile => litleFile.createRandomFile(It.IsAny<string>(), It.IsAny<string>(), It.IsAny<string>(), mockLitleTime.Object)).Returns(mockFilePath);
-            mockLitleFile.Setup(litleFile => litleFile.AppendLineToFile(mockFilePath, It.IsAny<string>())).Returns(mockFilePath);
+            mockCnpFile.Setup(cnpFile => cnpFile.createRandomFile(It.IsAny<string>(), It.IsAny<string>(), It.IsAny<string>(), mockCnpTime.Object)).Returns(mockFilePath);
+            mockCnpFile.Setup(cnpFile => cnpFile.AppendLineToFile(mockFilePath, It.IsAny<string>())).Returns(mockFilePath);
         }
 
         [SetUp]
         public void beforeTestSetup()
         {
             batchRequest = new batchRequest();
-            batchRequest.setLitleFile(mockLitleFile.Object);
-            batchRequest.setLitleTime(mockLitleTime.Object);
+            batchRequest.setCnpFile(mockCnpFile.Object);
+            batchRequest.setCnpTime(mockCnpTime.Object);
         }
 
         [Test]
@@ -90,8 +90,8 @@ merchantId=""01234"">
             Assert.AreEqual("C:\\MockRequests\\Requests\\", batchRequest.getRequestDirectory());
             Assert.AreEqual("C:\\MockResponses\\Responses\\", batchRequest.getResponseDirectory());
 
-            Assert.NotNull(batchRequest.getLitleTime());
-            Assert.NotNull(batchRequest.getLitleFile());
+            Assert.NotNull(batchRequest.getCnpTime());
+            Assert.NotNull(batchRequest.getCnpFile());
         }
 
         [Test]
@@ -113,8 +113,8 @@ merchantId=""01234"">
             Assert.AreEqual(1, batchRequest.getNumAuthorization());
             Assert.AreEqual(authorization.amount, batchRequest.getSumOfAuthorization());
 
-            mockLitleFile.Verify(litleFile => litleFile.createRandomFile(It.IsAny<string>(), It.IsAny<string>(), It.IsAny<string>(), mockLitleTime.Object));
-            mockLitleFile.Verify(litleFile => litleFile.AppendLineToFile(mockFilePath, authorization.Serialize()));
+            mockCnpFile.Verify(cnpFile => cnpFile.createRandomFile(It.IsAny<string>(), It.IsAny<string>(), It.IsAny<string>(), mockCnpTime.Object));
+            mockCnpFile.Verify(cnpFile => cnpFile.AppendLineToFile(mockFilePath, authorization.Serialize()));
         }
 
         [Test]
@@ -133,15 +133,15 @@ merchantId=""01234"">
 
             Assert.AreEqual(1, batchRequest.getNumAccountUpdates());
 
-            mockLitleFile.Verify(litleFile => litleFile.createRandomFile(It.IsAny<string>(), It.IsAny<string>(), It.IsAny<string>(), mockLitleTime.Object));
-            mockLitleFile.Verify(litleFile => litleFile.AppendLineToFile(mockFilePath, accountUpdate.Serialize()));
+            mockCnpFile.Verify(cnpFile => cnpFile.createRandomFile(It.IsAny<string>(), It.IsAny<string>(), It.IsAny<string>(), mockCnpTime.Object));
+            mockCnpFile.Verify(cnpFile => cnpFile.AppendLineToFile(mockFilePath, accountUpdate.Serialize()));
         }
 
         [Test]
         public void testAuthReversal()
         {
             var authreversal = new authReversal();
-            authreversal.litleTxnId = 12345678000;
+            authreversal.cnpTxnId = 12345678000;
             authreversal.amount = 106;
             authreversal.payPalNotes = "Notes";
 
@@ -150,15 +150,15 @@ merchantId=""01234"">
             Assert.AreEqual(1, batchRequest.getNumAuthReversal());
             Assert.AreEqual(authreversal.amount, batchRequest.getSumOfAuthReversal());
 
-            mockLitleFile.Verify(litleFile => litleFile.createRandomFile(It.IsAny<string>(), It.IsAny<string>(), It.IsAny<string>(), mockLitleTime.Object));
-            mockLitleFile.Verify(litleFile => litleFile.AppendLineToFile(mockFilePath, authreversal.Serialize()));
+            mockCnpFile.Verify(cnpFile => cnpFile.createRandomFile(It.IsAny<string>(), It.IsAny<string>(), It.IsAny<string>(), mockCnpTime.Object));
+            mockCnpFile.Verify(cnpFile => cnpFile.AppendLineToFile(mockFilePath, authreversal.Serialize()));
         }
 
         [Test]
         public void testCapture()
         {
             var capture = new capture();
-            capture.litleTxnId = 12345678000;
+            capture.cnpTxnId = 12345678000;
             capture.amount = 106;
 
             batchRequest.addCapture(capture);
@@ -166,8 +166,8 @@ merchantId=""01234"">
             Assert.AreEqual(1, batchRequest.getNumCapture());
             Assert.AreEqual(capture.amount, batchRequest.getSumOfCapture());
 
-            mockLitleFile.Verify(litleFile => litleFile.createRandomFile(It.IsAny<string>(), It.IsAny<string>(), It.IsAny<string>(), mockLitleTime.Object));
-            mockLitleFile.Verify(litleFile => litleFile.AppendLineToFile(mockFilePath, capture.Serialize()));
+            mockCnpFile.Verify(cnpFile => cnpFile.createRandomFile(It.IsAny<string>(), It.IsAny<string>(), It.IsAny<string>(), mockCnpTime.Object));
+            mockCnpFile.Verify(cnpFile => cnpFile.AppendLineToFile(mockFilePath, capture.Serialize()));
         }
 
         [Test]
@@ -193,8 +193,8 @@ merchantId=""01234"">
             Assert.AreEqual(1, batchRequest.getNumCaptureGivenAuth());
             Assert.AreEqual(capturegivenauth.amount, batchRequest.getSumOfCaptureGivenAuth());
 
-            mockLitleFile.Verify(litleFile => litleFile.createRandomFile(It.IsAny<string>(), It.IsAny<string>(), It.IsAny<string>(), mockLitleTime.Object));
-            mockLitleFile.Verify(litleFile => litleFile.AppendLineToFile(mockFilePath, capturegivenauth.Serialize()));
+            mockCnpFile.Verify(cnpFile => cnpFile.createRandomFile(It.IsAny<string>(), It.IsAny<string>(), It.IsAny<string>(), mockCnpTime.Object));
+            mockCnpFile.Verify(cnpFile => cnpFile.AppendLineToFile(mockFilePath, capturegivenauth.Serialize()));
         }
 
         [Test]
@@ -215,8 +215,8 @@ merchantId=""01234"">
             Assert.AreEqual(1, batchRequest.getNumCredit());
             Assert.AreEqual(credit.amount, batchRequest.getSumOfCredit());
 
-            mockLitleFile.Verify(litleFile => litleFile.createRandomFile(It.IsAny<string>(), It.IsAny<string>(), It.IsAny<string>(), mockLitleTime.Object));
-            mockLitleFile.Verify(litleFile => litleFile.AppendLineToFile(mockFilePath, credit.Serialize()));
+            mockCnpFile.Verify(cnpFile => cnpFile.createRandomFile(It.IsAny<string>(), It.IsAny<string>(), It.IsAny<string>(), mockCnpTime.Object));
+            mockCnpFile.Verify(cnpFile => cnpFile.AppendLineToFile(mockFilePath, credit.Serialize()));
         }
 
         [Test]
@@ -224,29 +224,29 @@ merchantId=""01234"">
         {
             var echeckcredit = new echeckCredit();
             echeckcredit.amount = 12;
-            echeckcredit.litleTxnId = 123456789101112;
+            echeckcredit.cnpTxnId = 123456789101112;
 
             batchRequest.addEcheckCredit(echeckcredit);
 
             Assert.AreEqual(1, batchRequest.getNumEcheckCredit());
             Assert.AreEqual(echeckcredit.amount, batchRequest.getSumOfEcheckCredit());
 
-            mockLitleFile.Verify(litleFile => litleFile.createRandomFile(It.IsAny<string>(), It.IsAny<string>(), It.IsAny<string>(), mockLitleTime.Object));
-            mockLitleFile.Verify(litleFile => litleFile.AppendLineToFile(mockFilePath, echeckcredit.Serialize()));
+            mockCnpFile.Verify(cnpFile => cnpFile.createRandomFile(It.IsAny<string>(), It.IsAny<string>(), It.IsAny<string>(), mockCnpTime.Object));
+            mockCnpFile.Verify(cnpFile => cnpFile.AppendLineToFile(mockFilePath, echeckcredit.Serialize()));
         }
 
         [Test]
         public void testEcheckRedeposit()
         {
             var echeckredeposit = new echeckRedeposit();
-            echeckredeposit.litleTxnId = 123456;
+            echeckredeposit.cnpTxnId = 123456;
 
             batchRequest.addEcheckRedeposit(echeckredeposit);
 
             Assert.AreEqual(1, batchRequest.getNumEcheckRedeposit());
 
-            mockLitleFile.Verify(litleFile => litleFile.createRandomFile(It.IsAny<string>(), It.IsAny<string>(), It.IsAny<string>(), mockLitleTime.Object));
-            mockLitleFile.Verify(litleFile => litleFile.AppendLineToFile(mockFilePath, echeckredeposit.Serialize()));
+            mockCnpFile.Verify(cnpFile => cnpFile.createRandomFile(It.IsAny<string>(), It.IsAny<string>(), It.IsAny<string>(), mockCnpTime.Object));
+            mockCnpFile.Verify(cnpFile => cnpFile.AppendLineToFile(mockFilePath, echeckredeposit.Serialize()));
         }
 
         [Test]
@@ -266,7 +266,7 @@ merchantId=""01234"">
             contact.name = "Bob";
             contact.city = "lowell";
             contact.state = "MA";
-            contact.email = "litle.com";
+            contact.email = "cnp.com";
             echecksale.billToAddress = contact;
 
             batchRequest.addEcheckSale(echecksale);
@@ -274,8 +274,8 @@ merchantId=""01234"">
             Assert.AreEqual(1, batchRequest.getNumEcheckSale());
             Assert.AreEqual(echecksale.amount, batchRequest.getSumOfEcheckSale());
 
-            mockLitleFile.Verify(litleFile => litleFile.createRandomFile(It.IsAny<string>(), It.IsAny<string>(), It.IsAny<string>(), mockLitleTime.Object));
-            mockLitleFile.Verify(litleFile => litleFile.AppendLineToFile(mockFilePath, echecksale.Serialize()));
+            mockCnpFile.Verify(cnpFile => cnpFile.createRandomFile(It.IsAny<string>(), It.IsAny<string>(), It.IsAny<string>(), mockCnpTime.Object));
+            mockCnpFile.Verify(cnpFile => cnpFile.AppendLineToFile(mockFilePath, echecksale.Serialize()));
         }
 
         [Test]
@@ -295,7 +295,7 @@ merchantId=""01234"">
             contact.name = "Bob";
             contact.city = "lowell";
             contact.state = "MA";
-            contact.email = "litle.com";
+            contact.email = "cnp.com";
             echeckverification.billToAddress = contact;
 
             batchRequest.addEcheckVerification(echeckverification);
@@ -303,8 +303,8 @@ merchantId=""01234"">
             Assert.AreEqual(1, batchRequest.getNumEcheckVerification());
             Assert.AreEqual(echeckverification.amount, batchRequest.getSumOfEcheckVerification());
 
-            mockLitleFile.Verify(litleFile => litleFile.createRandomFile(It.IsAny<string>(), It.IsAny<string>(), It.IsAny<string>(), mockLitleTime.Object));
-            mockLitleFile.Verify(litleFile => litleFile.AppendLineToFile(mockFilePath, echeckverification.Serialize()));
+            mockCnpFile.Verify(cnpFile => cnpFile.createRandomFile(It.IsAny<string>(), It.IsAny<string>(), It.IsAny<string>(), mockCnpTime.Object));
+            mockCnpFile.Verify(cnpFile => cnpFile.AppendLineToFile(mockFilePath, echeckverification.Serialize()));
         }
 
         [Test]
@@ -325,8 +325,8 @@ merchantId=""01234"">
             Assert.AreEqual(1, batchRequest.getNumForceCapture());
             Assert.AreEqual(forcecapture.amount, batchRequest.getSumOfForceCapture());
 
-            mockLitleFile.Verify(litleFile => litleFile.createRandomFile(It.IsAny<string>(), It.IsAny<string>(), It.IsAny<string>(), mockLitleTime.Object));
-            mockLitleFile.Verify(litleFile => litleFile.AppendLineToFile(mockFilePath, forcecapture.Serialize()));
+            mockCnpFile.Verify(cnpFile => cnpFile.createRandomFile(It.IsAny<string>(), It.IsAny<string>(), It.IsAny<string>(), mockCnpTime.Object));
+            mockCnpFile.Verify(cnpFile => cnpFile.AppendLineToFile(mockFilePath, forcecapture.Serialize()));
         }
 
         [Test]
@@ -347,8 +347,8 @@ merchantId=""01234"">
             Assert.AreEqual(1, batchRequest.getNumSale());
             Assert.AreEqual(sale.amount, batchRequest.getSumOfSale());
 
-            mockLitleFile.Verify(litleFile => litleFile.createRandomFile(It.IsAny<string>(), It.IsAny<string>(), It.IsAny<string>(), mockLitleTime.Object));
-            mockLitleFile.Verify(litleFile => litleFile.AppendLineToFile(mockFilePath, sale.Serialize()));
+            mockCnpFile.Verify(cnpFile => cnpFile.createRandomFile(It.IsAny<string>(), It.IsAny<string>(), It.IsAny<string>(), mockCnpTime.Object));
+            mockCnpFile.Verify(cnpFile => cnpFile.AppendLineToFile(mockFilePath, sale.Serialize()));
         }
 
         [Test]
@@ -362,8 +362,8 @@ merchantId=""01234"">
 
             Assert.AreEqual(1, batchRequest.getNumRegisterTokenRequest());
 
-            mockLitleFile.Verify(litleFile => litleFile.createRandomFile(It.IsAny<string>(), It.IsAny<string>(), It.IsAny<string>(), mockLitleTime.Object));
-            mockLitleFile.Verify(litleFile => litleFile.AppendLineToFile(mockFilePath, token.Serialize()));
+            mockCnpFile.Verify(cnpFile => cnpFile.createRandomFile(It.IsAny<string>(), It.IsAny<string>(), It.IsAny<string>(), mockCnpTime.Object));
+            mockCnpFile.Verify(cnpFile => cnpFile.AppendLineToFile(mockFilePath, token.Serialize()));
         }
 
         [Test]
@@ -371,14 +371,14 @@ merchantId=""01234"">
         {
             var updateCardValidationNumOnToken = new updateCardValidationNumOnToken();
             updateCardValidationNumOnToken.orderId = "12344";
-            updateCardValidationNumOnToken.litleToken = "123";
+            updateCardValidationNumOnToken.cnpToken = "123";
 
             batchRequest.addUpdateCardValidationNumOnToken(updateCardValidationNumOnToken);
 
             Assert.AreEqual(1, batchRequest.getNumUpdateCardValidationNumOnToken());
 
-            mockLitleFile.Verify(litleFile => litleFile.createRandomFile(It.IsAny<string>(), It.IsAny<string>(), It.IsAny<string>(), mockLitleTime.Object));
-            mockLitleFile.Verify(litleFile => litleFile.AppendLineToFile(mockFilePath, updateCardValidationNumOnToken.Serialize()));
+            mockCnpFile.Verify(cnpFile => cnpFile.createRandomFile(It.IsAny<string>(), It.IsAny<string>(), It.IsAny<string>(), mockCnpTime.Object));
+            mockCnpFile.Verify(cnpFile => cnpFile.AppendLineToFile(mockFilePath, updateCardValidationNumOnToken.Serialize()));
         }
 
         [Test]
@@ -390,7 +390,7 @@ merchantId=""01234"">
             billToAddress.name = "Greg Dake";
             billToAddress.city = "Lowell";
             billToAddress.state = "MA";
-            billToAddress.email = "sdksupport@litle.com";
+            billToAddress.email = "sdksupport@cnp.com";
             update.billToAddress = billToAddress;
             var card = new cardType();
             card.number = "4100000000000001";
@@ -404,8 +404,8 @@ merchantId=""01234"">
 
             Assert.AreEqual(1, batchRequest.getNumUpdateSubscriptions());
 
-            mockLitleFile.Verify(litleFile => litleFile.createRandomFile(It.IsAny<string>(), It.IsAny<string>(), It.IsAny<string>(), mockLitleTime.Object));
-            mockLitleFile.Verify(litleFile => litleFile.AppendLineToFile(mockFilePath, update.Serialize()));
+            mockCnpFile.Verify(cnpFile => cnpFile.createRandomFile(It.IsAny<string>(), It.IsAny<string>(), It.IsAny<string>(), mockCnpTime.Object));
+            mockCnpFile.Verify(cnpFile => cnpFile.AppendLineToFile(mockFilePath, update.Serialize()));
         }
 
         [Test]
@@ -417,8 +417,8 @@ merchantId=""01234"">
 
             Assert.AreEqual(1, batchRequest.getNumCreatePlans());
 
-            mockLitleFile.Verify(litleFile => litleFile.createRandomFile(It.IsAny<string>(), It.IsAny<string>(), It.IsAny<string>(), mockLitleTime.Object));
-            mockLitleFile.Verify(litleFile => litleFile.AppendLineToFile(mockFilePath, createPlan.Serialize()));
+            mockCnpFile.Verify(cnpFile => cnpFile.createRandomFile(It.IsAny<string>(), It.IsAny<string>(), It.IsAny<string>(), mockCnpTime.Object));
+            mockCnpFile.Verify(cnpFile => cnpFile.AppendLineToFile(mockFilePath, createPlan.Serialize()));
         }
 
         [Test]
@@ -430,8 +430,8 @@ merchantId=""01234"">
 
             Assert.AreEqual(1, batchRequest.getNumUpdatePlans());
 
-            mockLitleFile.Verify(litleFile => litleFile.createRandomFile(It.IsAny<string>(), It.IsAny<string>(), It.IsAny<string>(), mockLitleTime.Object));
-            mockLitleFile.Verify(litleFile => litleFile.AppendLineToFile(mockFilePath, updatePlan.Serialize()));
+            mockCnpFile.Verify(cnpFile => cnpFile.createRandomFile(It.IsAny<string>(), It.IsAny<string>(), It.IsAny<string>(), mockCnpTime.Object));
+            mockCnpFile.Verify(cnpFile => cnpFile.AppendLineToFile(mockFilePath, updatePlan.Serialize()));
         }
 
         [Test]
@@ -447,8 +447,8 @@ merchantId=""01234"">
             Assert.AreEqual(1, batchRequest.getNumActivates());
             Assert.AreEqual(500, batchRequest.getActivateAmount());
 
-            mockLitleFile.Verify(litleFile => litleFile.createRandomFile(It.IsAny<string>(), It.IsAny<string>(), It.IsAny<string>(), mockLitleTime.Object));
-            mockLitleFile.Verify(litleFile => litleFile.AppendLineToFile(mockFilePath, activate.Serialize()));
+            mockCnpFile.Verify(cnpFile => cnpFile.createRandomFile(It.IsAny<string>(), It.IsAny<string>(), It.IsAny<string>(), mockCnpTime.Object));
+            mockCnpFile.Verify(cnpFile => cnpFile.AppendLineToFile(mockFilePath, activate.Serialize()));
         }
 
         [Test]
@@ -462,8 +462,8 @@ merchantId=""01234"">
 
             Assert.AreEqual(1, batchRequest.getNumDeactivates());
 
-            mockLitleFile.Verify(litleFile => litleFile.createRandomFile(It.IsAny<string>(), It.IsAny<string>(), It.IsAny<string>(), mockLitleTime.Object));
-            mockLitleFile.Verify(litleFile => litleFile.AppendLineToFile(mockFilePath, deactivate.Serialize()));
+            mockCnpFile.Verify(cnpFile => cnpFile.createRandomFile(It.IsAny<string>(), It.IsAny<string>(), It.IsAny<string>(), mockCnpTime.Object));
+            mockCnpFile.Verify(cnpFile => cnpFile.AppendLineToFile(mockFilePath, deactivate.Serialize()));
         }
 
         [Test]
@@ -479,8 +479,8 @@ merchantId=""01234"">
             Assert.AreEqual(1, batchRequest.getNumLoads());
             Assert.AreEqual(600, batchRequest.getLoadAmount());
 
-            mockLitleFile.Verify(litleFile => litleFile.createRandomFile(It.IsAny<string>(), It.IsAny<string>(), It.IsAny<string>(), mockLitleTime.Object));
-            mockLitleFile.Verify(litleFile => litleFile.AppendLineToFile(mockFilePath, load.Serialize()));
+            mockCnpFile.Verify(cnpFile => cnpFile.createRandomFile(It.IsAny<string>(), It.IsAny<string>(), It.IsAny<string>(), mockCnpTime.Object));
+            mockCnpFile.Verify(cnpFile => cnpFile.AppendLineToFile(mockFilePath, load.Serialize()));
         }
 
         [Test]
@@ -496,8 +496,8 @@ merchantId=""01234"">
             Assert.AreEqual(1, batchRequest.getNumUnloads());
             Assert.AreEqual(700, batchRequest.getUnloadAmount());
 
-            mockLitleFile.Verify(litleFile => litleFile.createRandomFile(It.IsAny<string>(), It.IsAny<string>(), It.IsAny<string>(), mockLitleTime.Object));
-            mockLitleFile.Verify(litleFile => litleFile.AppendLineToFile(mockFilePath, unload.Serialize()));
+            mockCnpFile.Verify(cnpFile => cnpFile.createRandomFile(It.IsAny<string>(), It.IsAny<string>(), It.IsAny<string>(), mockCnpTime.Object));
+            mockCnpFile.Verify(cnpFile => cnpFile.AppendLineToFile(mockFilePath, unload.Serialize()));
         }
 
         [Test]
@@ -511,8 +511,8 @@ merchantId=""01234"">
 
             Assert.AreEqual(1, batchRequest.getNumBalanceInquiries());
 
-            mockLitleFile.Verify(litleFile => litleFile.createRandomFile(It.IsAny<string>(), It.IsAny<string>(), It.IsAny<string>(), mockLitleTime.Object));
-            mockLitleFile.Verify(litleFile => litleFile.AppendLineToFile(mockFilePath, balanceInquiry.Serialize()));
+            mockCnpFile.Verify(cnpFile => cnpFile.createRandomFile(It.IsAny<string>(), It.IsAny<string>(), It.IsAny<string>(), mockCnpTime.Object));
+            mockCnpFile.Verify(cnpFile => cnpFile.AppendLineToFile(mockFilePath, balanceInquiry.Serialize()));
         }
 
         [Test]
@@ -525,8 +525,8 @@ merchantId=""01234"">
 
             Assert.AreEqual(1, batchRequest.getNumCancelSubscriptions());
 
-            mockLitleFile.Verify(litleFile => litleFile.createRandomFile(It.IsAny<string>(), It.IsAny<string>(), It.IsAny<string>(), mockLitleTime.Object));
-            mockLitleFile.Verify(litleFile => litleFile.AppendLineToFile(mockFilePath, cancel.Serialize()));
+            mockCnpFile.Verify(cnpFile => cnpFile.createRandomFile(It.IsAny<string>(), It.IsAny<string>(), It.IsAny<string>(), mockCnpTime.Object));
+            mockCnpFile.Verify(cnpFile => cnpFile.AppendLineToFile(mockFilePath, cancel.Serialize()));
         }
 
         [Test]
@@ -545,15 +545,15 @@ merchantId=""01234"">
             contact.name = "Bob";
             contact.city = "lowell";
             contact.state = "MA";
-            contact.email = "litle.com";
+            contact.email = "cnp.com";
             echeckPreNoteSale.billToAddress = contact;
 
             batchRequest.addEcheckPreNoteSale(echeckPreNoteSale);
 
             Assert.AreEqual(1, batchRequest.getNumEcheckPreNoteSale());
 
-            mockLitleFile.Verify(litleFile => litleFile.createRandomFile(It.IsAny<string>(), It.IsAny<string>(), It.IsAny<string>(), mockLitleTime.Object));
-            mockLitleFile.Verify(litleFile => litleFile.AppendLineToFile(mockFilePath, echeckPreNoteSale.Serialize()));
+            mockCnpFile.Verify(cnpFile => cnpFile.createRandomFile(It.IsAny<string>(), It.IsAny<string>(), It.IsAny<string>(), mockCnpTime.Object));
+            mockCnpFile.Verify(cnpFile => cnpFile.AppendLineToFile(mockFilePath, echeckPreNoteSale.Serialize()));
         }
 
         [Test]
@@ -572,15 +572,15 @@ merchantId=""01234"">
             contact.name = "Bob";
             contact.city = "lowell";
             contact.state = "MA";
-            contact.email = "litle.com";
+            contact.email = "cnp.com";
             echeckPreNoteCredit.billToAddress = contact;
 
             batchRequest.addEcheckPreNoteCredit(echeckPreNoteCredit);
 
             Assert.AreEqual(1, batchRequest.getNumEcheckPreNoteCredit());
 
-            mockLitleFile.Verify(litleFile => litleFile.createRandomFile(It.IsAny<string>(), It.IsAny<string>(), It.IsAny<string>(), mockLitleTime.Object));
-            mockLitleFile.Verify(litleFile => litleFile.AppendLineToFile(mockFilePath, echeckPreNoteCredit.Serialize()));
+            mockCnpFile.Verify(cnpFile => cnpFile.createRandomFile(It.IsAny<string>(), It.IsAny<string>(), It.IsAny<string>(), mockCnpTime.Object));
+            mockCnpFile.Verify(cnpFile => cnpFile.AppendLineToFile(mockFilePath, echeckPreNoteCredit.Serialize()));
         }
 
         [Test]
@@ -607,8 +607,8 @@ merchantId=""01234"">
                 submerchantCredit.Serialize());
 
 
-            mockLitleFile.Verify(litleFile => litleFile.createRandomFile(It.IsAny<string>(), It.IsAny<string>(), It.IsAny<string>(), mockLitleTime.Object));
-            mockLitleFile.Verify(litleFile => litleFile.AppendLineToFile(mockFilePath, submerchantCredit.Serialize()));
+            mockCnpFile.Verify(cnpFile => cnpFile.createRandomFile(It.IsAny<string>(), It.IsAny<string>(), It.IsAny<string>(), mockCnpTime.Object));
+            mockCnpFile.Verify(cnpFile => cnpFile.AppendLineToFile(mockFilePath, submerchantCredit.Serialize()));
         }
 
         [Test]
@@ -626,8 +626,8 @@ merchantId=""01234"">
             Assert.AreEqual("\r\n<payFacCredit reportGroup=\"Default Report Group\">\r\n<fundingSubmerchantId>123456</fundingSubmerchantId>\r\n<fundsTransferId>123467</fundsTransferId>\r\n<amount>107</amount>\r\n</payFacCredit>",
                 payFacCredit.Serialize());
 
-            mockLitleFile.Verify(litleFile => litleFile.createRandomFile(It.IsAny<string>(), It.IsAny<string>(), It.IsAny<string>(), mockLitleTime.Object));
-            mockLitleFile.Verify(litleFile => litleFile.AppendLineToFile(mockFilePath, payFacCredit.Serialize()));
+            mockCnpFile.Verify(cnpFile => cnpFile.createRandomFile(It.IsAny<string>(), It.IsAny<string>(), It.IsAny<string>(), mockCnpTime.Object));
+            mockCnpFile.Verify(cnpFile => cnpFile.AppendLineToFile(mockFilePath, payFacCredit.Serialize()));
         }
 
         [Test]
@@ -645,8 +645,8 @@ merchantId=""01234"">
             Assert.AreEqual("\r\n<reserveCredit reportGroup=\"Default Report Group\">\r\n<fundingSubmerchantId>123456</fundingSubmerchantId>\r\n<fundsTransferId>123467</fundsTransferId>\r\n<amount>107</amount>\r\n</reserveCredit>",
                 reserveCredit.Serialize());
 
-            mockLitleFile.Verify(litleFile => litleFile.createRandomFile(It.IsAny<string>(), It.IsAny<string>(), It.IsAny<string>(), mockLitleTime.Object));
-            mockLitleFile.Verify(litleFile => litleFile.AppendLineToFile(mockFilePath, reserveCredit.Serialize()));
+            mockCnpFile.Verify(cnpFile => cnpFile.createRandomFile(It.IsAny<string>(), It.IsAny<string>(), It.IsAny<string>(), mockCnpTime.Object));
+            mockCnpFile.Verify(cnpFile => cnpFile.AppendLineToFile(mockFilePath, reserveCredit.Serialize()));
         }
 
         [Test]
@@ -671,8 +671,8 @@ merchantId=""01234"">
             Assert.AreEqual("\r\n<vendorCredit reportGroup=\"Default Report Group\">\r\n<fundingSubmerchantId>123456</fundingSubmerchantId>\r\n<vendorName>merchant</vendorName>\r\n<fundsTransferId>123467</fundsTransferId>\r\n<amount>106</amount>\r\n<accountInfo>\r\n<accType>Checking</accType>\r\n<accNum>12345657890</accNum>\r\n<routingNum>123456789</routingNum>\r\n<checkNum>123455</checkNum></accountInfo>\r\n</vendorCredit>",
                vendorCredit.Serialize());
 
-            mockLitleFile.Verify(litleFile => litleFile.createRandomFile(It.IsAny<string>(), It.IsAny<string>(), It.IsAny<string>(), mockLitleTime.Object));
-            mockLitleFile.Verify(litleFile => litleFile.AppendLineToFile(mockFilePath, vendorCredit.Serialize()));
+            mockCnpFile.Verify(cnpFile => cnpFile.createRandomFile(It.IsAny<string>(), It.IsAny<string>(), It.IsAny<string>(), mockCnpTime.Object));
+            mockCnpFile.Verify(cnpFile => cnpFile.AppendLineToFile(mockFilePath, vendorCredit.Serialize()));
         }
 
         [Test]
@@ -690,8 +690,8 @@ merchantId=""01234"">
             Assert.AreEqual("\r\n<physicalCheckCredit reportGroup=\"Default Report Group\">\r\n<fundingSubmerchantId>123456</fundingSubmerchantId>\r\n<fundsTransferId>123467</fundsTransferId>\r\n<amount>107</amount>\r\n</physicalCheckCredit>",
                 physicalCheckCredit.Serialize());
 
-            mockLitleFile.Verify(litleFile => litleFile.createRandomFile(It.IsAny<string>(), It.IsAny<string>(), It.IsAny<string>(), mockLitleTime.Object));
-            mockLitleFile.Verify(litleFile => litleFile.AppendLineToFile(mockFilePath, physicalCheckCredit.Serialize()));
+            mockCnpFile.Verify(cnpFile => cnpFile.createRandomFile(It.IsAny<string>(), It.IsAny<string>(), It.IsAny<string>(), mockCnpTime.Object));
+            mockCnpFile.Verify(cnpFile => cnpFile.AppendLineToFile(mockFilePath, physicalCheckCredit.Serialize()));
         }
 
         [Test]
@@ -717,8 +717,8 @@ merchantId=""01234"">
             Assert.AreEqual("\r\n<submerchantDebit reportGroup=\"Default Report Group\">\r\n<fundingSubmerchantId>123456</fundingSubmerchantId>\r\n<submerchantName>merchant</submerchantName>\r\n<fundsTransferId>123467</fundsTransferId>\r\n<amount>106</amount>\r\n<accountInfo>\r\n<accType>Checking</accType>\r\n<accNum>12345657890</accNum>\r\n<routingNum>123456789</routingNum>\r\n<checkNum>123455</checkNum></accountInfo>\r\n<customIdentifier>abc123</customIdentifier>\r\n</submerchantDebit>",
                 submerchantDebit.Serialize());
 
-            mockLitleFile.Verify(litleFile => litleFile.createRandomFile(It.IsAny<string>(), It.IsAny<string>(), It.IsAny<string>(), mockLitleTime.Object));
-            mockLitleFile.Verify(litleFile => litleFile.AppendLineToFile(mockFilePath, submerchantDebit.Serialize()));
+            mockCnpFile.Verify(cnpFile => cnpFile.createRandomFile(It.IsAny<string>(), It.IsAny<string>(), It.IsAny<string>(), mockCnpTime.Object));
+            mockCnpFile.Verify(cnpFile => cnpFile.AppendLineToFile(mockFilePath, submerchantDebit.Serialize()));
         }
 
         [Test]
@@ -736,8 +736,8 @@ merchantId=""01234"">
             Assert.AreEqual("\r\n<payFacDebit reportGroup=\"Default Report Group\">\r\n<fundingSubmerchantId>123456</fundingSubmerchantId>\r\n<fundsTransferId>123467</fundsTransferId>\r\n<amount>107</amount>\r\n</payFacDebit>",
                 payFacDebit.Serialize());
 
-            mockLitleFile.Verify(litleFile => litleFile.createRandomFile(It.IsAny<string>(), It.IsAny<string>(), It.IsAny<string>(), mockLitleTime.Object));
-            mockLitleFile.Verify(litleFile => litleFile.AppendLineToFile(mockFilePath, payFacDebit.Serialize()));
+            mockCnpFile.Verify(cnpFile => cnpFile.createRandomFile(It.IsAny<string>(), It.IsAny<string>(), It.IsAny<string>(), mockCnpTime.Object));
+            mockCnpFile.Verify(cnpFile => cnpFile.AppendLineToFile(mockFilePath, payFacDebit.Serialize()));
         }
 
         [Test]
@@ -755,8 +755,8 @@ merchantId=""01234"">
             Assert.AreEqual("\r\n<reserveDebit reportGroup=\"Default Report Group\">\r\n<fundingSubmerchantId>123456</fundingSubmerchantId>\r\n<fundsTransferId>123467</fundsTransferId>\r\n<amount>107</amount>\r\n</reserveDebit>",
                 reserveDebit.Serialize());
 
-            mockLitleFile.Verify(litleFile => litleFile.createRandomFile(It.IsAny<string>(), It.IsAny<string>(), It.IsAny<string>(), mockLitleTime.Object));
-            mockLitleFile.Verify(litleFile => litleFile.AppendLineToFile(mockFilePath, reserveDebit.Serialize()));
+            mockCnpFile.Verify(cnpFile => cnpFile.createRandomFile(It.IsAny<string>(), It.IsAny<string>(), It.IsAny<string>(), mockCnpTime.Object));
+            mockCnpFile.Verify(cnpFile => cnpFile.AppendLineToFile(mockFilePath, reserveDebit.Serialize()));
         }
 
         [Test]
@@ -781,8 +781,8 @@ merchantId=""01234"">
             Assert.AreEqual("\r\n<vendorDebit reportGroup=\"Default Report Group\">\r\n<fundingSubmerchantId>123456</fundingSubmerchantId>\r\n<vendorName>merchant</vendorName>\r\n<fundsTransferId>123467</fundsTransferId>\r\n<amount>106</amount>\r\n<accountInfo>\r\n<accType>Checking</accType>\r\n<accNum>12345657890</accNum>\r\n<routingNum>123456789</routingNum>\r\n<checkNum>123455</checkNum></accountInfo>\r\n</vendorDebit>",
                vendorDebit.Serialize());
 
-            mockLitleFile.Verify(litleFile => litleFile.createRandomFile(It.IsAny<string>(), It.IsAny<string>(), It.IsAny<string>(), mockLitleTime.Object));
-            mockLitleFile.Verify(litleFile => litleFile.AppendLineToFile(mockFilePath, vendorDebit.Serialize()));
+            mockCnpFile.Verify(cnpFile => cnpFile.createRandomFile(It.IsAny<string>(), It.IsAny<string>(), It.IsAny<string>(), mockCnpTime.Object));
+            mockCnpFile.Verify(cnpFile => cnpFile.AppendLineToFile(mockFilePath, vendorDebit.Serialize()));
         }
 
         [Test]
@@ -800,8 +800,8 @@ merchantId=""01234"">
             Assert.AreEqual("\r\n<physicalCheckDebit reportGroup=\"Default Report Group\">\r\n<fundingSubmerchantId>123456</fundingSubmerchantId>\r\n<fundsTransferId>123467</fundsTransferId>\r\n<amount>107</amount>\r\n</physicalCheckDebit>",
                 physicalCheckDebit.Serialize());
 
-            mockLitleFile.Verify(litleFile => litleFile.createRandomFile(It.IsAny<string>(), It.IsAny<string>(), It.IsAny<string>(), mockLitleTime.Object));
-            mockLitleFile.Verify(litleFile => litleFile.AppendLineToFile(mockFilePath, physicalCheckDebit.Serialize()));
+            mockCnpFile.Verify(cnpFile => cnpFile.createRandomFile(It.IsAny<string>(), It.IsAny<string>(), It.IsAny<string>(), mockCnpTime.Object));
+            mockCnpFile.Verify(cnpFile => cnpFile.AppendLineToFile(mockFilePath, physicalCheckDebit.Serialize()));
         }
     }
 }

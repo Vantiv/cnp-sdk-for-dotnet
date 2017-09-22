@@ -8,8 +8,8 @@
     <ProjectGuid>{4A6E3397-DE37-4F91-A90F-E74C1D91E098}</ProjectGuid>
     <OutputType>Library</OutputType>
     <AppDesignerFolder>Properties</AppDesignerFolder>
-    <RootNamespace>Litle.Sdk</RootNamespace>
-    <AssemblyName>LitleSdkForNet</AssemblyName>
+    <RootNamespace>Cnp.Sdk</RootNamespace>
+    <AssemblyName>CnpSdkForNet</AssemblyName>
     <TargetFrameworkVersion>v4.5</TargetFrameworkVersion>
     <FileAlignment>512</FileAlignment>
     <TargetFrameworkProfile />
@@ -51,10 +51,10 @@
   <ItemGroup>
     <Compile Include="XmlSerializer.cs" />
     <Compile Include="Communications.cs" />
-    <Compile Include="LitleBatchRequest.cs" />
-    <Compile Include="LitleBatch.cs" />
-    <Compile Include="LitleOnlineException.cs" />
-    <Compile Include="LitleOnline.cs" />
+    <Compile Include="CnpBatchRequest.cs" />
+    <Compile Include="CnpBatch.cs" />
+    <Compile Include="CnpOnlineException.cs" />
+    <Compile Include="CnpOnline.cs" />
     <Compile Include="Settings.cs" />
     <Compile Include="XmlResponseFields.cs" />
     <Compile Include="XmlFields.cs" />

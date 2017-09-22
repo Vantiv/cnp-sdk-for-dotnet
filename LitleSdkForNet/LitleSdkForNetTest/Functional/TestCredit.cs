@@ -1,16 +1,16 @@
 ﻿using System.Collections.Generic;
 using NUnit.Framework;
 
-namespace Litle.Sdk.Test.Functional
+namespace Cnp.Sdk.Test.Functional
 {
     [TestFixture]
     internal class TestCredit
     {
-        private LitleOnline _litle;
+        private CnpOnline _cnp;
         private Dictionary<string, string> _config;
 
         [TestFixtureSetUp]
-        public void SetUpLitle()
+        public void SetUpCnp()
         {
             _config = new Dictionary<string, string>
             {
@@ -28,7 +28,7 @@ namespace Litle.Sdk.Test.Functional
                 {"neuterAccountNums", "true"}
             };
 
-            _litle = new LitleOnline(_config);
+            _cnp = new CnpOnline(_config);
         }
 
         [Test]
@@ -49,7 +49,7 @@ namespace Litle.Sdk.Test.Functional
                 }
             };
 
-            var response = _litle.Credit(creditObj);
+            var response = _cnp.Credit(creditObj);
             Assert.AreEqual("Approved", response.message);
         }
 
@@ -73,7 +73,7 @@ namespace Litle.Sdk.Test.Functional
                 }
             };
 
-            creditResponse response = _litle.Credit(creditObj);
+            creditResponse response = _cnp.Credit(creditObj);
             Assert.AreEqual("Approved", response.message);
         }
 
@@ -90,7 +90,7 @@ namespace Litle.Sdk.Test.Functional
                 paypal = new payPal { payerId = "1234" }
             };
 
-            var response = _litle.Credit(creditObj);
+            var response = _cnp.Credit(creditObj);
             Assert.AreEqual("Approved", response.message);
         }
 
@@ -114,7 +114,7 @@ namespace Litle.Sdk.Test.Functional
                 }
             };
 
-            var response = _litle.Credit(creditObj);
+            var response = _cnp.Credit(creditObj);
             Assert.AreEqual("Approved", response.message);
         }
 
@@ -137,7 +137,7 @@ namespace Litle.Sdk.Test.Functional
                 }
             };
 
-            var response = _litle.Credit(creditObj);
+            var response = _cnp.Credit(creditObj);
             Assert.AreEqual("Approved", response.message);
         }
 
@@ -159,7 +159,7 @@ namespace Litle.Sdk.Test.Functional
                 }
             };
 
-            var response = _litle.Credit(creditObj);
+            var response = _cnp.Credit(creditObj);
             Assert.AreEqual("Approved", response.message);
         }
 
@@ -170,7 +170,7 @@ namespace Litle.Sdk.Test.Functional
             {
                 id = "1",
                 reportGroup = "planets",
-                litleTxnId = 123456000,
+                cnpTxnId = 123456000,
                 pin = "1234",
                 card = new cardType
                 {
@@ -180,7 +180,7 @@ namespace Litle.Sdk.Test.Functional
                 }
             };
 
-            var response = _litle.Credit(creditObj);
+            var response = _cnp.Credit(creditObj);
             Assert.AreEqual("Approved", response.message);
         }
     }

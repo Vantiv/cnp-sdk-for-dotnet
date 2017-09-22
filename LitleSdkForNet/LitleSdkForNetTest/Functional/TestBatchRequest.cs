@@ -2,30 +2,30 @@
 using System.Collections.Generic;
 using System.Text;
 using NUnit.Framework;
-using Litle.Sdk;
+using Cnp.Sdk;
 using System.IO;
 
-namespace Litle.Sdk.Test.Functional
+namespace Cnp.Sdk.Test.Functional
 {
     [TestFixture]
     class TestBatchRequest
     {
-        private litleRequest litle;
+        private cnpRequest cnp;
         private Dictionary<string, string> invalidConfig;
         private Dictionary<string, string> invalidSftpConfig;
 
         [SetUp]
         public void setUpBeforeTest()
         {
-            litle = new litleRequest();
+            cnp = new cnpRequest();
         }
 
         [Test]
         public void SimpleBatch()
         {
-            batchRequest litleBatchRequest = new batchRequest();
-            litleBatchRequest.SameDayFunding(true);
-            litleBatchRequest.id = "123";
+            batchRequest cnpBatchRequest = new batchRequest();
+            cnpBatchRequest.SameDayFunding(true);
+            cnpBatchRequest.id = "123";
 
             var payFacCredit = new payFacCredit
             {
@@ -34,7 +34,7 @@ namespace Litle.Sdk.Test.Functional
                 fundsTransferId = "123467",
                 amount = 107L
             };
-            litleBatchRequest.addPayFacCredit(payFacCredit);
+            cnpBatchRequest.addPayFacCredit(payFacCredit);
 
             var payFacDebit = new payFacDebit
             {
@@ -43,7 +43,7 @@ namespace Litle.Sdk.Test.Functional
                 fundsTransferId = "123467",
                 amount = 107L
             };
-            litleBatchRequest.addPayFacDebit(payFacDebit);
+            cnpBatchRequest.addPayFacDebit(payFacDebit);
 
             var submerchantCredit = new submerchantCredit
             {
@@ -62,7 +62,7 @@ namespace Litle.Sdk.Test.Functional
                 },
                 customIdentifier = "abc123"
             };
-            litleBatchRequest.addSubmerchantCredit(submerchantCredit);
+            cnpBatchRequest.addSubmerchantCredit(submerchantCredit);
 
             var submerchantDebit = new submerchantDebit
             {
@@ -81,7 +81,7 @@ namespace Litle.Sdk.Test.Functional
                 },
                 customIdentifier = "abc123"
             };
-            litleBatchRequest.addSubmerchantDebit(submerchantDebit);
+            cnpBatchRequest.addSubmerchantDebit(submerchantDebit);
 
             var reserveCredit = new reserveCredit
             {
@@ -90,7 +90,7 @@ namespace Litle.Sdk.Test.Functional
                 fundsTransferId = "123467",
                 amount = 107L
             };
-            litleBatchRequest.addReserveCredit(reserveCredit);
+            cnpBatchRequest.addReserveCredit(reserveCredit);
 
             var reserveDebit = new reserveDebit
             {
@@ -99,7 +99,7 @@ namespace Litle.Sdk.Test.Functional
                 fundsTransferId = "123467",
                 amount = 107L
             };
-            litleBatchRequest.addReserveDebit(reserveDebit);
+            cnpBatchRequest.addReserveDebit(reserveDebit);
 
             var vendorCredit = new vendorCredit
             {
@@ -117,7 +117,7 @@ namespace Litle.Sdk.Test.Functional
                     ccdPaymentInformation = "description"
                 }
             };
-            litleBatchRequest.addVendorCredit(vendorCredit);
+            cnpBatchRequest.addVendorCredit(vendorCredit);
 
             var vendorDebit = new vendorDebit
             {
@@ -135,7 +135,7 @@ namespace Litle.Sdk.Test.Functional
                     ccdPaymentInformation = "description"
                 }
             };
-            litleBatchRequest.addVendorDebit(vendorDebit);
+            cnpBatchRequest.addVendorDebit(vendorDebit);
 
             var physicalCheckCredit = new physicalCheckCredit
             {
@@ -144,7 +144,7 @@ namespace Litle.Sdk.Test.Functional
                 fundsTransferId = "123467",
                 amount = 107L
             };
-            litleBatchRequest.addPhysicalCheckCredit(physicalCheckCredit);
+            cnpBatchRequest.addPhysicalCheckCredit(physicalCheckCredit);
 
             var physicalCheckDebit = new physicalCheckDebit
             {
@@ -153,104 +153,104 @@ namespace Litle.Sdk.Test.Functional
                 fundsTransferId = "123467",
                 amount = 107L
             };
-            litleBatchRequest.addPhysicalCheckDebit(physicalCheckDebit);
+            cnpBatchRequest.addPhysicalCheckDebit(physicalCheckDebit);
 
-            litle.addBatch(litleBatchRequest);
+            cnp.addBatch(cnpBatchRequest);
 
-            string batchName = litle.sendToLitle();
+            string batchName = cnp.sendToCnp();
 
-            litle.blockAndWaitForResponse(batchName, estimatedResponseTime(2 * 2, 10 * 2));
+            cnp.blockAndWaitForResponse(batchName, estimatedResponseTime(2 * 2, 10 * 2));
 
-            litleResponse litleResponse = litle.receiveFromLitle(batchName);
+            cnpResponse cnpResponse = cnp.receiveFromCnp(batchName);
 
-            Assert.NotNull(litleResponse);
-            Assert.AreEqual("0", litleResponse.response);
-            Assert.AreEqual("Valid Format", litleResponse.message);
+            Assert.NotNull(cnpResponse);
+            Assert.AreEqual("0", cnpResponse.response);
+            Assert.AreEqual("Valid Format", cnpResponse.message);
 
-            batchResponse litleBatchResponse = litleResponse.nextBatchResponse();
-            while (litleBatchResponse != null)
+            batchResponse cnpBatchResponse = cnpResponse.nextBatchResponse();
+            while (cnpBatchResponse != null)
             {
-                payFacCreditResponse payFacCreditResponse = litleBatchResponse.nextPayFacCreditResponse();
+                payFacCreditResponse payFacCreditResponse = cnpBatchResponse.nextPayFacCreditResponse();
                 while (payFacCreditResponse != null)
                 {
                     Assert.AreEqual("000", payFacCreditResponse.response);
 
-                    payFacCreditResponse = litleBatchResponse.nextPayFacCreditResponse();
+                    payFacCreditResponse = cnpBatchResponse.nextPayFacCreditResponse();
                 }
 
-                payFacDebitResponse payFacDebitResponse = litleBatchResponse.nextPayFacDebitResponse();
+                payFacDebitResponse payFacDebitResponse = cnpBatchResponse.nextPayFacDebitResponse();
                 while (payFacDebitResponse != null)
                 {
                     Assert.AreEqual("000", payFacDebitResponse.response);
 
-                    payFacDebitResponse = litleBatchResponse.nextPayFacDebitResponse();
+                    payFacDebitResponse = cnpBatchResponse.nextPayFacDebitResponse();
                 }
 
-                submerchantCreditResponse submerchantCreditResponse = litleBatchResponse.nextSubmerchantCreditResponse();
+                submerchantCreditResponse submerchantCreditResponse = cnpBatchResponse.nextSubmerchantCreditResponse();
                 while (submerchantCreditResponse != null)
                 {
                     Assert.AreEqual("000", submerchantCreditResponse.response);
 
-                    submerchantCreditResponse = litleBatchResponse.nextSubmerchantCreditResponse();
+                    submerchantCreditResponse = cnpBatchResponse.nextSubmerchantCreditResponse();
                 }
 
-                submerchantDebitResponse submerchantDebitResponse = litleBatchResponse.nextSubmerchantDebitResponse();
+                submerchantDebitResponse submerchantDebitResponse = cnpBatchResponse.nextSubmerchantDebitResponse();
                 while (submerchantDebitResponse != null)
                 {
                     Assert.AreEqual("000", submerchantDebitResponse.response);
 
-                    submerchantDebitResponse = litleBatchResponse.nextSubmerchantDebitResponse();
+                    submerchantDebitResponse = cnpBatchResponse.nextSubmerchantDebitResponse();
                 }
 
-                reserveCreditResponse reserveCreditResponse = litleBatchResponse.nextReserveCreditResponse();
+                reserveCreditResponse reserveCreditResponse = cnpBatchResponse.nextReserveCreditResponse();
                 while (reserveCreditResponse != null)
                 {
                     Assert.AreEqual("000", reserveCreditResponse.response);
 
-                    reserveCreditResponse = litleBatchResponse.nextReserveCreditResponse();
+                    reserveCreditResponse = cnpBatchResponse.nextReserveCreditResponse();
                 }
 
-                reserveDebitResponse reserveDebitResponse = litleBatchResponse.nextReserveDebitResponse();
+                reserveDebitResponse reserveDebitResponse = cnpBatchResponse.nextReserveDebitResponse();
                 while (reserveDebitResponse != null)
                 {
                     Assert.AreEqual("000", reserveDebitResponse.response);
 
-                    reserveDebitResponse = litleBatchResponse.nextReserveDebitResponse();
+                    reserveDebitResponse = cnpBatchResponse.nextReserveDebitResponse();
                 }
 
-                vendorCreditResponse vendorCreditResponse = litleBatchResponse.nextVendorCreditResponse();
+                vendorCreditResponse vendorCreditResponse = cnpBatchResponse.nextVendorCreditResponse();
                 while (vendorCreditResponse != null)
                 {
                     Assert.AreEqual("000", vendorCreditResponse.response);
 
-                    vendorCreditResponse = litleBatchResponse.nextVendorCreditResponse();
+                    vendorCreditResponse = cnpBatchResponse.nextVendorCreditResponse();
                 }
 
-                vendorDebitResponse vendorDebitResponse = litleBatchResponse.nextVendorDebitResponse();
+                vendorDebitResponse vendorDebitResponse = cnpBatchResponse.nextVendorDebitResponse();
                 while (vendorDebitResponse != null)
                 {
                     Assert.AreEqual("000", vendorDebitResponse.response);
 
-                    vendorDebitResponse = litleBatchResponse.nextVendorDebitResponse();
+                    vendorDebitResponse = cnpBatchResponse.nextVendorDebitResponse();
                 }
 
-                physicalCheckCreditResponse physicalCheckCreditResponse = litleBatchResponse.nextPhysicalCheckCreditResponse();
+                physicalCheckCreditResponse physicalCheckCreditResponse = cnpBatchResponse.nextPhysicalCheckCreditResponse();
                 while (physicalCheckCreditResponse != null)
                 {
                     Assert.AreEqual("000", physicalCheckCreditResponse.response);
 
-                    physicalCheckCreditResponse = litleBatchResponse.nextPhysicalCheckCreditResponse();
+                    physicalCheckCreditResponse = cnpBatchResponse.nextPhysicalCheckCreditResponse();
                 }
 
-                physicalCheckDebitResponse physicalCheckDebitResponse = litleBatchResponse.nextPhysicalCheckDebitResponse();
+                physicalCheckDebitResponse physicalCheckDebitResponse = cnpBatchResponse.nextPhysicalCheckDebitResponse();
                 while (physicalCheckDebitResponse != null)
                 {
                     Assert.AreEqual("000", physicalCheckDebitResponse.response);
 
-                    physicalCheckDebitResponse = litleBatchResponse.nextPhysicalCheckDebitResponse();
+                    physicalCheckDebitResponse = cnpBatchResponse.nextPhysicalCheckDebitResponse();
                 }
 
-                litleBatchResponse = litleResponse.nextBatchResponse();
+                cnpBatchResponse = cnpResponse.nextBatchResponse();
             }
         }
         private int estimatedResponseTime(int numAuthsAndSales, int numRest)
