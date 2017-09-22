@@ -461,9 +461,25 @@ namespace Cnp.Sdk
             try
             {
                 var cnpOnlineResponse = DeserializeObject(xmlResponse);
-                if ("1".Equals(cnpOnlineResponse.response))
+
+                if (!"0".Equals(cnpOnlineResponse.response))
                 {
-                    throw new CnpOnlineException(cnpOnlineResponse.message);
+                    if ("2".Equals(cnpOnlineResponse.response) || "3".Equals(cnpOnlineResponse.response))
+                    {
+                        throw new CnpInvalidCredentialException(cnpOnlineResponse.message);
+                    }
+                    else if ("4".Equals(cnpOnlineResponse.response))
+                    {
+                        throw new CnpConnectionLimitExceededException(cnpOnlineResponse.message);
+                    }
+                    else if ("5".Equals(cnpOnlineResponse.response))
+                    {
+                        throw new CnpObjectionableContentException(cnpOnlineResponse.message);
+                    }
+                    else
+                    {
+                        throw new CnpOnlineException(cnpOnlineResponse.message);
+                    }
                 }
                 return cnpOnlineResponse;
             }

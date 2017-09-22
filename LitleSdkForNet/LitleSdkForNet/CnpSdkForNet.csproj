@@ -49,6 +49,9 @@
     </Reference>
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="CnpConnectionLimitExceededException.cs" />
+    <Compile Include="CnpInvalidCredentialException.cs" />
+    <Compile Include="CnpObjectionableContentException.cs" />
     <Compile Include="XmlSerializer.cs" />
     <Compile Include="Communications.cs" />
     <Compile Include="CnpBatchRequest.cs" />
