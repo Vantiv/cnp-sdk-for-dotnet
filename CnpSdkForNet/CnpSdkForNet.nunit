@@ -1,11 +1,11 @@
 ﻿<NUnitProject>
   <Settings activeconfig="Debug" />
   <Config name="Debug" binpathtype="Auto">
-    <assembly path="LitleSdkForNet\bin\Debug\LitleSdkForNet.dll" />
-    <assembly path="LitleSdkForNetTest\bin\Debug\LitleSdkForDotNetTest.exe" />
+    <assembly path="CnpSdkForNet\bin\Debug\CnpSdkForNet.dll" />
+    <assembly path="CnpSdkForNetTest\bin\Debug\CnpSdkForDotNetTest.exe" />
   </Config>
   <Config name="Release" binpathtype="Auto">
-    <assembly path="LitleSdkForNet\bin\Debug\LitleSdkForNet.dll" />
-    <assembly path="LitleSdkForNetTest\bin\Debug\LitleSdkForDotNetTest.exe" />
+    <assembly path="CnpSdkForNet\bin\Debug\CnpSdkForNet.dll" />
+    <assembly path="CnpSdkForNetTest\bin\Debug\CnpSdkForDotNetTest.exe" />
   </Config>
 </NUnitProject>
