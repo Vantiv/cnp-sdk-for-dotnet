@@ -1,0 +1,16 @@
+C:\Users\rchabhad\Desktop\cnp-sdk-for-dotnet\LitleSdkForNet\LitleSdkForNetTest\bin\Debug\LitleSdkForDotNetTest.exe.config
+C:\Users\rchabhad\Desktop\cnp-sdk-for-dotnet\LitleSdkForNet\LitleSdkForNetTest\bin\Debug\LitleSdkForDotNetTest.exe
+C:\Users\rchabhad\Desktop\cnp-sdk-for-dotnet\LitleSdkForNet\LitleSdkForNetTest\bin\Debug\LitleSdkForDotNetTest.pdb
+C:\Users\rchabhad\Desktop\cnp-sdk-for-dotnet\LitleSdkForNet\LitleSdkForNetTest\bin\Debug\CnpSdkForNet.dll
+C:\Users\rchabhad\Desktop\cnp-sdk-for-dotnet\LitleSdkForNet\LitleSdkForNetTest\bin\Debug\Moq.dll
+C:\Users\rchabhad\Desktop\cnp-sdk-for-dotnet\LitleSdkForNet\LitleSdkForNetTest\bin\Debug\nunit.framework.dll
+C:\Users\rchabhad\Desktop\cnp-sdk-for-dotnet\LitleSdkForNet\LitleSdkForNetTest\bin\Debug\Tamir.SharpSsh.dll
+C:\Users\rchabhad\Desktop\cnp-sdk-for-dotnet\LitleSdkForNet\LitleSdkForNetTest\bin\Debug\DiffieHellman.dll
+C:\Users\rchabhad\Desktop\cnp-sdk-for-dotnet\LitleSdkForNet\LitleSdkForNetTest\bin\Debug\CnpSdkForNet.pdb
+C:\Users\rchabhad\Desktop\cnp-sdk-for-dotnet\LitleSdkForNet\LitleSdkForNetTest\bin\Debug\CnpSdkForNet.dll.config
+C:\Users\rchabhad\Desktop\cnp-sdk-for-dotnet\LitleSdkForNet\LitleSdkForNetTest\bin\Debug\Moq.xml
+C:\Users\rchabhad\Desktop\cnp-sdk-for-dotnet\LitleSdkForNet\LitleSdkForNetTest\bin\Debug\nunit.framework.xml
+C:\Users\rchabhad\Desktop\cnp-sdk-for-dotnet\LitleSdkForNet\LitleSdkForNetTest\obj\x86\Debug\CnpSdkForNetTest.csprojResolveAssemblyReference.cache
+C:\Users\rchabhad\Desktop\cnp-sdk-for-dotnet\LitleSdkForNet\LitleSdkForNetTest\obj\x86\Debug\CnpSdkForNetTest.csproj.CoreCompileInputs.cache
+C:\Users\rchabhad\Desktop\cnp-sdk-for-dotnet\LitleSdkForNet\LitleSdkForNetTest\obj\x86\Debug\LitleSdkForDotNetTest.exe
+C:\Users\rchabhad\Desktop\cnp-sdk-for-dotnet\LitleSdkForNet\LitleSdkForNetTest\obj\x86\Debug\LitleSdkForDotNetTest.pdb

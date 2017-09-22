@@ -1,0 +1,93 @@
+09/22/2017 10:57:09
+<?xml version='1.0' encoding='utf-8'?>
+<cnpOnlineRequest merchantId="101" version="12.0" merchantSdk="DotNet;12.0.0" xmlns="http://www.cnp.com/schema">
+<authentication>
+<user>DOTNET</user>
+<password>TESTCASE</password>
+</authentication>
+<activateReversal id="1" reportGroup="planets">
+<cnpTxnId>123456000</cnpTxnId>
+<virtualGiftCardBin>123</virtualGiftCardBin>
+<card>
+<type>GC</type>
+<number>xxxxxxxxxxxxxxxx</number>
+<expDate>1210</expDate>
+<pin>1234</pin>
+</card>
+<originalRefCode>123</originalRefCode>
+<originalAmount>123</originalAmount>
+<originalTxnTime>2017-09-22T10:57:09Z</originalTxnTime>
+<originalSystemTraceId>123</originalSystemTraceId>
+<originalSequenceNumber>123456</originalSequenceNumber>
+</activateReversal>
+</cnpOnlineRequest>
+
+09/22/2017 11:01:19
+<?xml version='1.0' encoding='utf-8'?>
+<cnpOnlineRequest merchantId="101" version="12.0" merchantSdk="DotNet;12.0.0" xmlns="http://www.vantivcnp.com/schema">
+<authentication>
+<user>DOTNET</user>
+<password>TESTCASE</password>
+</authentication>
+<activateReversal id="1" reportGroup="planets">
+<cnpTxnId>123456000</cnpTxnId>
+<virtualGiftCardBin>123</virtualGiftCardBin>
+<card>
+<type>GC</type>
+<number>xxxxxxxxxxxxxxxx</number>
+<expDate>1210</expDate>
+<pin>1234</pin>
+</card>
+<originalRefCode>123</originalRefCode>
+<originalAmount>123</originalAmount>
+<originalTxnTime>2017-09-22T11:01:19Z</originalTxnTime>
+<originalSystemTraceId>123</originalSystemTraceId>
+<originalSequenceNumber>123456</originalSequenceNumber>
+</activateReversal>
+</cnpOnlineRequest>
+
+09/22/2017 11:04:16
+<?xml version='1.0' encoding='utf-8'?>
+<cnpOnlineRequest merchantId="101" version="12.0" merchantSdk="DotNet;12.0.0" xmlns="http://www.vantivcnp.com/schema">
+<authentication>
+<user>DOTNET</user>
+<password>TESTCASE</password>
+</authentication>
+<deactivateReversal id="1" reportGroup="planets">
+<cnpTxnId>123456000</cnpTxnId>
+<card>
+<type>GC</type>
+<number>xxxxxxxxxxxxxxxx</number>
+<expDate>1210</expDate>
+<pin>1234</pin>
+</card>
+<originalRefCode>123</originalRefCode>
+<originalTxnTime>2017-09-22T11:04:16Z</originalTxnTime>
+<originalSystemTraceId>123</originalSystemTraceId>
+<originalSequenceNumber>123456</originalSequenceNumber>
+</deactivateReversal>
+</cnpOnlineRequest>
+
+09/22/2017 11:05:35
+<?xml version='1.0' encoding='utf-8'?>
+<cnpOnlineRequest merchantId="101" version="12.0" merchantSdk="DotNet;12.0.0" xmlns="http://www.vantivcnp.com/schema">
+<authentication>
+<user>DOTNET</user>
+<password>TESTCASE</password>
+</authentication>
+<loadReversal id="1" reportGroup="planets">
+<cnpTxnId>123456000</cnpTxnId>
+<card>
+<type>GC</type>
+<number>xxxxxxxxxxxxxxxx</number>
+<expDate>1210</expDate>
+<pin>1234</pin>
+</card>
+<originalRefCode>123</originalRefCode>
+<originalAmount>123</originalAmount>
+<originalTxnTime>2017-09-22T11:05:35Z</originalTxnTime>
+<originalSystemTraceId>123</originalSystemTraceId>
+<originalSequenceNumber>123456</originalSequenceNumber>
+</loadReversal>
+</cnpOnlineRequest>
+

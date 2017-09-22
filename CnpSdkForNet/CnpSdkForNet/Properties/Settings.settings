@@ -1,0 +1,63 @@
+﻿<?xml version='1.0' encoding='utf-8'?>
+<SettingsFile xmlns="http://schemas.microsoft.com/VisualStudio/2004/01/settings" CurrentProfile="(Default)" GeneratedClassNamespace="Cnp.Sdk.Properties" GeneratedClassName="Settings">
+  <Profiles />
+  <Settings>
+    <Setting Name="reportGroup" Type="System.String" Scope="User">
+      <Value Profile="(Default)">Default Report Group</Value>
+    </Setting>
+    <Setting Name="printxml" Type="System.String" Scope="User">
+      <Value Profile="(Default)">true</Value>
+    </Setting>
+    <Setting Name="timeout" Type="System.String" Scope="User">
+      <Value Profile="(Default)">500</Value>
+    </Setting>
+    <Setting Name="sftpUrl" Type="System.String" Scope="User">
+      <Value Profile="(Default)">payments.vantivprelive.com</Value>
+    </Setting>
+    <Setting Name="knownHostsFile" Type="System.String" Scope="User">
+      <Value Profile="(Default)">C:\Vantiv\dll\knownhosts</Value>
+    </Setting>
+    <Setting Name="sftpUsername" Type="System.String" Scope="User">
+      <Value Profile="(Default)" />
+    </Setting>
+    <Setting Name="sftpPassword" Type="System.String" Scope="User">
+      <Value Profile="(Default)" />
+    </Setting>
+    <Setting Name="onlineBatchUrl" Type="System.String" Scope="User">
+      <Value Profile="(Default)">payments.vantivprelive.com</Value>
+    </Setting>
+    <Setting Name="onlineBatchPort" Type="System.String" Scope="User">
+      <Value Profile="(Default)">15000</Value>
+    </Setting>
+    <Setting Name="requestDirectory" Type="System.String" Scope="User">
+      <Value Profile="(Default)">C:\Vantiv\</Value>
+    </Setting>
+    <Setting Name="responseDirectory" Type="System.String" Scope="User">
+      <Value Profile="(Default)">C:\Vantiv\</Value>
+    </Setting>
+    <Setting Name="logFile" Type="System.String" Scope="User">
+      <Value Profile="(Default)">true</Value>
+    </Setting>
+    <Setting Name="neuterAccountNums" Type="System.String" Scope="User">
+      <Value Profile="(Default)">true</Value>
+    </Setting>
+    <Setting Name="url" Type="System.String" Scope="User">
+      <Value Profile="(Default)">https://www.testvantivcnp.com/sandbox/new/sandbox/communicator/online</Value>
+    </Setting>
+    <Setting Name="proxyHost" Type="System.String" Scope="User">
+      <Value Profile="(Default)" />
+    </Setting>
+    <Setting Name="proxyPort" Type="System.String" Scope="User">
+      <Value Profile="(Default)" />
+    </Setting>
+    <Setting Name="username" Type="System.String" Scope="User">
+      <Value Profile="(Default)" />
+    </Setting>
+    <Setting Name="password" Type="System.String" Scope="User">
+      <Value Profile="(Default)" />
+    </Setting>
+    <Setting Name="merchantId" Type="System.String" Scope="User">
+      <Value Profile="(Default)" />
+    </Setting>
+  </Settings>
+</SettingsFile>
