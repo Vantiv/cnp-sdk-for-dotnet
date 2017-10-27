@@ -83,10 +83,7 @@ namespace Cnp.Sdk
             }
         }
 
-
-        /**
-         * Added by Chahat
-         * */
+        
         public virtual Task<string> HttpPostAsync(string xmlRequest, Dictionary<string, string> config, CancellationToken cancellationToken)
         {
             return HttpPostCoreAsync(xmlRequest, config, cancellationToken);
@@ -175,10 +172,7 @@ namespace Cnp.Sdk
 
             return xmlResponse;
         }
-        /**
-        * Added by Chahat
-        * */
-
+       
         public bool IsProxyOn(Dictionary<string, string> config)
         {
             return config.ContainsKey("proxyHost") && config["proxyHost"] != null && config["proxyHost"].Length > 0 && config.ContainsKey("proxyPort") && config["proxyPort"] != null && config["proxyPort"].Length > 0;
@@ -228,7 +222,7 @@ namespace Cnp.Sdk
             req.ServicePoint.MaxIdleTime = 8000;
             req.ServicePoint.Expect100Continue = false;
             req.KeepAlive = true;
-            req.Timeout = 500000;
+            //req.Timeout = 500000;
             if (IsProxyOn(config))
             {
                 var myproxy = new WebProxy(config["proxyHost"], int.Parse(config["proxyPort"]))

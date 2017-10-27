@@ -49,7 +49,7 @@ namespace Cnp.Sdk.Properties {
         
         [global::System.Configuration.UserScopedSettingAttribute()]
         [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
-        [global::System.Configuration.DefaultSettingValueAttribute("50000000")]
+        [global::System.Configuration.DefaultSettingValueAttribute("500")]
         public string timeout {
             get {
                 return ((string)(this["timeout"]));
@@ -85,7 +85,7 @@ namespace Cnp.Sdk.Properties {
         
         [global::System.Configuration.UserScopedSettingAttribute()]
         [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
-        [global::System.Configuration.DefaultSettingValueAttribute("Sdk1")]
+        [global::System.Configuration.DefaultSettingValueAttribute("")]
         public string sftpUsername {
             get {
                 return ((string)(this["sftpUsername"]));
@@ -97,7 +97,7 @@ namespace Cnp.Sdk.Properties {
         
         [global::System.Configuration.UserScopedSettingAttribute()]
         [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
-        [global::System.Configuration.DefaultSettingValueAttribute("Up5Gp5I6")]
+        [global::System.Configuration.DefaultSettingValueAttribute("")]
         public string sftpPassword {
             get {
                 return ((string)(this["sftpPassword"]));
@@ -181,7 +181,7 @@ namespace Cnp.Sdk.Properties {
         
         [global::System.Configuration.UserScopedSettingAttribute()]
         [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
-        [global::System.Configuration.DefaultSettingValueAttribute("https://payments.vantivprelive.com/vap/communicator/online")]
+        [global::System.Configuration.DefaultSettingValueAttribute("https://www.testvantivcnp.com/sandbox/new/sandbox/communicator/online")]
         public string url {
             get {
                 return ((string)(this["url"]));
@@ -217,7 +217,7 @@ namespace Cnp.Sdk.Properties {
         
         [global::System.Configuration.UserScopedSettingAttribute()]
         [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
-        [global::System.Configuration.DefaultSettingValueAttribute("SDKTEAM")]
+        [global::System.Configuration.DefaultSettingValueAttribute("")]
         public string username {
             get {
                 return ((string)(this["username"]));
@@ -229,7 +229,7 @@ namespace Cnp.Sdk.Properties {
         
         [global::System.Configuration.UserScopedSettingAttribute()]
         [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
-        [global::System.Configuration.DefaultSettingValueAttribute("V3r5K6v7")]
+        [global::System.Configuration.DefaultSettingValueAttribute("")]
         public string password {
             get {
                 return ((string)(this["password"]));

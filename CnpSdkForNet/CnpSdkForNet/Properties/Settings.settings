@@ -9,7 +9,7 @@
       <Value Profile="(Default)">True</Value>
     </Setting>
     <Setting Name="timeout" Type="System.String" Scope="User">
-      <Value Profile="(Default)">50000000</Value>
+      <Value Profile="(Default)">500</Value>
     </Setting>
     <Setting Name="sftpUrl" Type="System.String" Scope="User">
       <Value Profile="(Default)">payments.vantivprelive.com</Value>
@@ -18,10 +18,10 @@
       <Value Profile="(Default)">C:\Vantiv\dll\knownhosts</Value>
     </Setting>
     <Setting Name="sftpUsername" Type="System.String" Scope="User">
-      <Value Profile="(Default)">Sdk1</Value>
+      <Value Profile="(Default)" />
     </Setting>
     <Setting Name="sftpPassword" Type="System.String" Scope="User">
-      <Value Profile="(Default)">Up5Gp5I6</Value>
+      <Value Profile="(Default)" />
     </Setting>
     <Setting Name="onlineBatchUrl" Type="System.String" Scope="User">
       <Value Profile="(Default)">payments.vantivprelive.com</Value>
@@ -42,7 +42,7 @@
       <Value Profile="(Default)">true</Value>
     </Setting>
     <Setting Name="url" Type="System.String" Scope="User">
-      <Value Profile="(Default)">https://payments.vantivprelive.com/vap/communicator/online</Value>
+      <Value Profile="(Default)">https://www.testvantivcnp.com/sandbox/new/sandbox/communicator/online</Value>
     </Setting>
     <Setting Name="proxyHost" Type="System.String" Scope="User">
       <Value Profile="(Default)" />
@@ -51,10 +51,10 @@
       <Value Profile="(Default)" />
     </Setting>
     <Setting Name="username" Type="System.String" Scope="User">
-      <Value Profile="(Default)">SDKTEAM</Value>
+      <Value Profile="(Default)" />
     </Setting>
     <Setting Name="password" Type="System.String" Scope="User">
-      <Value Profile="(Default)">V3r5K6v7</Value>
+      <Value Profile="(Default)" />
     </Setting>
     <Setting Name="merchantId" Type="System.String" Scope="User">
       <Value Profile="(Default)">1288791</Value>
