@@ -3,6 +3,8 @@ using System.Collections.Generic;
 using System.Text;
 using System.Xml.Serialization;
 using System.IO;
+using System.Threading;
+using System.Threading.Tasks;
 
 namespace Cnp.Sdk
 {
@@ -29,7 +31,7 @@ namespace Cnp.Sdk
             _config["logFile"] = Properties.Settings.Default.logFile;
             _config["neuterAccountNums"] = Properties.Settings.Default.neuterAccountNums;
             _communication = new Communications();
-            
+
         }
 
         /**
@@ -60,386 +62,485 @@ namespace Cnp.Sdk
             remove { _communication.HttpAction -= value; }
         }
 
-        public void setCommunication(Communications communication)
+        public void SetCommunication(Communications communication)
         {
             this._communication = communication;
         }
 
+
+        public Task<authorizationResponse> AuthorizeAsync(authorization auth, CancellationToken cancellationToken)
+        {
+            return SendRequestAsync(response => response.authorizationResponse, auth, cancellationToken);
+        }
+
+
+
+        private T SendRequest<T>(Func<cnpOnlineResponse, T> getResponse, transactionRequest transaction)
+        {
+            var request = CreateRequest(transaction);
+            cnpOnlineResponse response = SendToCnp(request);
+
+            return getResponse(response);
+        }
+
+        private cnpOnlineRequest CreateRequest(transactionRequest transaction)
+        {
+            cnpOnlineRequest request = CreateCnpOnlineRequest();
+
+            if (transaction is transactionTypeWithReportGroup)
+            {
+                FillInReportGroup((transactionTypeWithReportGroup)transaction);
+            }
+            else if (transaction is transactionTypeWithReportGroupAndPartial)
+            {
+                FillInReportGroup((transactionTypeWithReportGroupAndPartial)transaction);
+            }
+            if (transaction is authorization)
+            {
+                request.authorization = (authorization)transaction;
+            }
+            else if (transaction is authReversal)
+            {
+                request.authReversal = (authReversal)transaction;
+
+            }
+            else if (transaction is capture)
+            {
+                request.capture = (capture)transaction;
+
+            }
+            else if (transaction is captureGivenAuth)
+            {
+                request.captureGivenAuth = (captureGivenAuth)transaction;
+
+            }
+            else if (transaction is credit)
+            {
+                request.credit = (credit)transaction;
+
+            }
+            else if (transaction is echeckCredit)
+            {
+                request.echeckCredit = (echeckCredit)transaction;
+
+            }
+            else if (transaction is echeckRedeposit)
+            {
+                request.echeckRedeposit = (echeckRedeposit)transaction;
+
+            }
+            else if (transaction is echeckSale)
+            {
+                request.echeckSale = (echeckSale)transaction;
+
+            }
+            else if (transaction is echeckVerification)
+            {
+                request.echeckVerification = (echeckVerification)transaction;
+
+            }
+            else if (transaction is forceCapture)
+            {
+                request.forceCapture = (forceCapture)transaction;
+
+            }
+            else if (transaction is sale)
+            {
+                request.sale = (sale)transaction;
+
+            }
+            else if (transaction is registerTokenRequestType)
+            {
+                request.registerTokenRequest = (registerTokenRequestType)transaction;
+
+            }
+            else if (transaction is voidTxn)
+            {
+                request.voidTxn = (voidTxn)transaction;
+
+            }
+            else if (transaction is echeckVoid)
+            {
+                request.echeckVoid = (echeckVoid)transaction;
+
+            }
+            else if (transaction is updateCardValidationNumOnToken)
+            {
+                request.updateCardValidationNumOnToken = (updateCardValidationNumOnToken)transaction;
+
+            }
+            else if (transaction is cancelSubscription)
+            {
+                request.cancelSubscription = (cancelSubscription)transaction;
+
+            }
+            else if (transaction is updateSubscription)
+            {
+                request.updateSubscription = (updateSubscription)transaction;
+
+            }
+            else if (transaction is activate)
+            {
+                request.activate = (activate)transaction;
+
+            }
+            else if (transaction is deactivate)
+            {
+                request.deactivate = (deactivate)transaction;
+
+            }
+            else if (transaction is load)
+            {
+                request.load = (load)transaction;
+
+            }
+            else if (transaction is unload)
+            {
+                request.unload = (unload)transaction;
+
+            }
+            else if (transaction is balanceInquiry)
+            {
+                request.balanceInquiry = (balanceInquiry)transaction;
+
+            }
+            else if (transaction is createPlan)
+            {
+                request.createPlan = (createPlan)transaction;
+
+            }
+            else if (transaction is updatePlan)
+            {
+                request.updatePlan = (updatePlan)transaction;
+
+            }
+            else if (transaction is refundReversal)
+            {
+                request.refundReversal = (refundReversal)transaction;
+
+            }
+            else if (transaction is depositReversal)
+            {
+                request.depositReversal = (depositReversal)transaction;
+
+            }
+            else if (transaction is activateReversal)
+            {
+                request.activateReversal = (activateReversal)transaction;
+
+            }
+            else if (transaction is deactivateReversal)
+            {
+                request.deactivateReversal = (deactivateReversal)transaction;
+
+            }
+            else if (transaction is loadReversal)
+            {
+                request.loadReversal = (loadReversal)transaction;
+
+            }
+            else if (transaction is unloadReversal)
+            {
+                request.unloadReversal = (unloadReversal)transaction;
+
+            }
+            else if (transaction is fraudCheck)
+            {
+                request.fraudCheck = (fraudCheck)transaction;
+
+            }
+            else if (transaction is giftCardAuthReversal)
+            {
+                request.giftCardAuthReversal = (giftCardAuthReversal)transaction;
+            }
+            else if (transaction is giftCardCapture)
+            {
+                request.giftCardCapture = (giftCardCapture)transaction;
+            }
+            else if (transaction is giftCardCredit)
+            {
+                request.giftCardCredit = (giftCardCredit)transaction;
+            }
+            else if (transaction is queryTransaction)
+            {
+                request.queryTransaction = (queryTransaction)transaction;
+            }
+            else
+            {
+                throw new NotImplementedException("Support for type: " + transaction.GetType().Name +
+                                                  " not implemented.");
+            }
+            return request;
+        }
+
         public authorizationResponse Authorize(authorization auth)
         {
-            var request = CreateCnpOnlineRequest();          
-            fillInReportGroup(auth);
-            request.authorization = auth;
-
-            var response = sendToCnp(request);
-            var authResponse = response.authorizationResponse;
-            return authResponse;
+            return SendRequest(response => response.authorizationResponse, auth);
         }
 
         public authReversalResponse AuthReversal(authReversal reversal)
         {
-            var request = CreateCnpOnlineRequest();
-            fillInReportGroup(reversal);
-            request.authReversal = reversal;
+            return SendRequest(response => response.authReversalResponse, reversal);
+        }
 
-            var response = sendToCnp(request);
-            var reversalResponse = response.authReversalResponse;
-            return reversalResponse;
+        public Task<authReversalResponse> AuthReversalAsync(authReversal reversal, CancellationToken cancellationToken)
+        {
+            return SendRequestAsync(response => response.authReversalResponse, reversal, cancellationToken);
         }
 
         public giftCardAuthReversalResponse GiftCardAuthReversal(giftCardAuthReversal giftCard)
         {
-            var request = CreateCnpOnlineRequest();
-            fillInReportGroup(giftCard);
-            request.giftCardAuthReversal = giftCard;
+            return SendRequest(response => response.giftCardAuthReversalResponse, giftCard);
+        }
 
-            var response = sendToCnp(request);
-            var giftCardAuthReversalResponse = response.giftCardAuthReversalResponse;
-            return giftCardAuthReversalResponse;
+        public Task<giftCardAuthReversalResponse> GiftCardAuthReversalAsync(giftCardAuthReversal giftCard, CancellationToken cancellationToken)
+        {
+            return SendRequestAsync(response => response.giftCardAuthReversalResponse, giftCard, cancellationToken);
+        }
+
+        public Task<captureResponse> CaptureAsync(capture capture, CancellationToken cancellationToken)
+        {
+            return SendRequestAsync(response => response.captureResponse, capture, cancellationToken);
         }
 
         public captureResponse Capture(capture capture)
         {
-            var request = CreateCnpOnlineRequest();
-            fillInReportGroup(capture);
-            request.capture = capture;
-
-            var response = sendToCnp(request);
-            var captureResponse = response.captureResponse;
-            return captureResponse;
+            return SendRequest(response => response.captureResponse, capture);
         }
 
         public giftCardCaptureResponse GiftCardCapture(giftCardCapture giftCardCapture)
         {
-            var request = CreateCnpOnlineRequest();
-            fillInReportGroup(giftCardCapture);
-            request.giftCardCapture = giftCardCapture;
+            return SendRequest(response => response.giftCardCaptureResponse, giftCardCapture);
+        }
 
-            var response = sendToCnp(request);
-            var giftCardCaptureResponse = response.giftCardCaptureResponse;
-            return giftCardCaptureResponse;
+        public Task<giftCardCaptureResponse> GiftCardCaptureAsync(giftCardCapture giftCardCapture, CancellationToken cancellationToken)
+        {
+            return SendRequestAsync(response => response.giftCardCaptureResponse, giftCardCapture, cancellationToken);
+        }
+
+        public Task<captureGivenAuthResponse> CaptureGivenAuthAsync(captureGivenAuth captureGivenAuth, CancellationToken cancellationToken)
+        {
+            return SendRequestAsync(response => response.captureGivenAuthResponse, captureGivenAuth, cancellationToken);
         }
 
         public captureGivenAuthResponse CaptureGivenAuth(captureGivenAuth captureGivenAuth)
         {
-            var request = CreateCnpOnlineRequest();
-            fillInReportGroup(captureGivenAuth);
-            request.captureGivenAuth = captureGivenAuth;
-
-            var response = sendToCnp(request);
-            var captureGivenAuthResponse = response.captureGivenAuthResponse;
-            return captureGivenAuthResponse;
+            return SendRequest(response => response.captureGivenAuthResponse, captureGivenAuth);
         }
 
         public creditResponse Credit(credit credit)
         {
-            var request = CreateCnpOnlineRequest();
-            fillInReportGroup(credit);
-            request.credit = credit;
+            return SendRequest(response => response.creditResponse, credit);
+        }
 
-            var response = sendToCnp(request);
-            var creditResponse = response.creditResponse;
-            return creditResponse;
+        public Task<creditResponse> CreditAsync(credit credit, CancellationToken cancellationToken)
+        {
+            return SendRequestAsync(response => response.creditResponse, credit, cancellationToken);
         }
 
         public giftCardCreditResponse GiftCardCredit(giftCardCredit giftCardCredit)
         {
-            var request = CreateCnpOnlineRequest();
-            fillInReportGroup(giftCardCredit);
-            request.giftCardCredit = giftCardCredit;
+            return SendRequest(response => response.giftCardCreditResponse, giftCardCredit);
+        }
 
-            var response = sendToCnp(request);
-            var giftCardCreditResponse = response.giftCardCreditResponse;
-            return giftCardCreditResponse;
+        public Task<giftCardCreditResponse> GiftCardCreditAsync(giftCardCredit giftCardCredit, CancellationToken cancellationToken)
+        {
+            return SendRequestAsync(response => response.giftCardCreditResponse, giftCardCredit, cancellationToken);
+        }
+
+        public Task<echeckCreditResponse> EcheckCreditAsync(echeckCredit echeckCredit, CancellationToken cancellationToken)
+        {
+            return SendRequestAsync(response => response.echeckCreditResponse, echeckCredit, cancellationToken);
         }
 
         public echeckCreditResponse EcheckCredit(echeckCredit echeckCredit)
         {
-            var request = CreateCnpOnlineRequest();
-            fillInReportGroup(echeckCredit);
-            request.echeckCredit = echeckCredit;
+            return SendRequest(response => response.echeckCreditResponse, echeckCredit);
+        }
 
-            var response = sendToCnp(request);
-            var echeckCreditResponse = response.echeckCreditResponse;
-            return echeckCreditResponse;
+        public Task<echeckRedepositResponse> EcheckRedepositAsync(echeckRedeposit echeckRedeposit, CancellationToken cancellationToken)
+        {
+            return SendRequestAsync(response => response.echeckRedepositResponse, echeckRedeposit, cancellationToken);
         }
 
         public echeckRedepositResponse EcheckRedeposit(echeckRedeposit echeckRedeposit)
         {
-            var request = CreateCnpOnlineRequest();
-            fillInReportGroup(echeckRedeposit);
-            request.echeckRedeposit = echeckRedeposit;
+            return SendRequest(response => response.echeckRedepositResponse, echeckRedeposit);
+        }
 
-            var response = sendToCnp(request);
-            var echeckRedepositResponse = response.echeckRedepositResponse;
-            return echeckRedepositResponse;
+        public Task<echeckSalesResponse> EcheckSaleAsync(echeckSale echeckSale, CancellationToken cancellationToken)
+        {
+            return SendRequestAsync(response => response.echeckSalesResponse, echeckSale, cancellationToken);
         }
 
         public echeckSalesResponse EcheckSale(echeckSale echeckSale)
         {
-            var request = CreateCnpOnlineRequest();
-            fillInReportGroup(echeckSale);
-            request.echeckSale = echeckSale;
-
-            var response = sendToCnp(request);
-            var echeckSalesResponse = response.echeckSalesResponse;
-            return echeckSalesResponse;
+            return SendRequest(response => response.echeckSalesResponse, echeckSale);
         }
 
         public echeckVerificationResponse EcheckVerification(echeckVerification echeckVerification)
         {
-            var request = CreateCnpOnlineRequest();
-            fillInReportGroup(echeckVerification);
-            request.echeckVerification = echeckVerification;
+            return SendRequest(response => response.echeckVerificationResponse, echeckVerification);
+        }
 
-            var response = sendToCnp(request);
-            var echeckVerificationResponse = response.echeckVerificationResponse;
-            return echeckVerificationResponse;
+        public Task<echeckVerificationResponse> EcheckVerificationAsync(echeckVerification echeckVerification, CancellationToken cancellationToken)
+        {
+            return SendRequestAsync(response => response.echeckVerificationResponse, echeckVerification, cancellationToken);
         }
 
         public forceCaptureResponse ForceCapture(forceCapture forceCapture)
         {
-            var request = CreateCnpOnlineRequest();
-            fillInReportGroup(forceCapture);
-            request.forceCapture = forceCapture;
+            return SendRequest(response => response.forceCaptureResponse, forceCapture);
+        }
 
-            var response = sendToCnp(request);
-            var forceCaptureResponse = response.forceCaptureResponse;
-            return forceCaptureResponse;
+        public Task<forceCaptureResponse> ForceCaptureAsync(forceCapture forceCapture, CancellationToken cancellationToken)
+        {
+            return SendRequestAsync(response => response.forceCaptureResponse, forceCapture, cancellationToken);
         }
 
         public saleResponse Sale(sale sale)
         {
-            var request = CreateCnpOnlineRequest();
-            fillInReportGroup(sale);
-            request.sale = sale;
+            return SendRequest(response => response.saleResponse, sale);
+        }
 
-            var response = sendToCnp(request);
-            var saleResponse = response.saleResponse;
-            return saleResponse;
+        public Task<saleResponse> SaleAsync(sale sale, CancellationToken cancellationToken)
+        {
+            return SendRequestAsync(response => response.saleResponse, sale, cancellationToken);
+        }
+
+        public Task<registerTokenResponse> RegisterTokenAsync(registerTokenRequestType tokenRequest, CancellationToken cancellationToken)
+        {
+            return SendRequestAsync(response => response.registerTokenResponse, tokenRequest, cancellationToken);
         }
 
         public registerTokenResponse RegisterToken(registerTokenRequestType tokenRequest)
         {
-            var request = CreateCnpOnlineRequest();
-            fillInReportGroup(tokenRequest);
-            request.registerTokenRequest = tokenRequest;
-
-            var response = sendToCnp(request);
-            var registerTokenResponse = response.registerTokenResponse;
-            return registerTokenResponse;
+            return SendRequest(response => response.registerTokenResponse, tokenRequest);
         }
 
         public cnpOnlineResponseTransactionResponseVoidResponse DoVoid(voidTxn v)
         {
-            var request = CreateCnpOnlineRequest();
-            fillInReportGroup(v);
-            request.voidTxn = v;
+            return SendRequest(response => response.voidResponse, v);
+        }
 
-            var response = sendToCnp(request);
-            var voidResponse = response.voidResponse;
-            return voidResponse;
+        public Task<cnpOnlineResponseTransactionResponseVoidResponse> DoVoidAsync(voidTxn v, CancellationToken cancellationToken)
+        {
+            return SendRequestAsync(response => response.voidResponse, v, cancellationToken);
         }
 
         public cnpOnlineResponseTransactionResponseEcheckVoidResponse EcheckVoid(echeckVoid v)
         {
-            var request = CreateCnpOnlineRequest();
-            fillInReportGroup(v);
-            request.echeckVoid = v;
+            return SendRequest(response => response.echeckVoidResponse, v);
+        }
 
-            var response = sendToCnp(request);
-            var voidResponse = response.echeckVoidResponse;
-            return voidResponse;
+        public Task<cnpOnlineResponseTransactionResponseEcheckVoidResponse> EcheckVoidAsync(echeckVoid v, CancellationToken cancellationToken)
+        {
+            return SendRequestAsync(response => response.echeckVoidResponse, v, cancellationToken);
         }
 
         public updateCardValidationNumOnTokenResponse UpdateCardValidationNumOnToken(updateCardValidationNumOnToken updateCardValidationNumOnToken)
         {
-            var request = CreateCnpOnlineRequest();
-            fillInReportGroup(updateCardValidationNumOnToken);
-            request.updateCardValidationNumOnToken = updateCardValidationNumOnToken;
+            return SendRequest(response => response.updateCardValidationNumOnTokenResponse, updateCardValidationNumOnToken);
+        }
 
-            var response = sendToCnp(request);
-            var updateResponse = response.updateCardValidationNumOnTokenResponse;
-            return updateResponse;
+        public Task<updateCardValidationNumOnTokenResponse> UpdateCardValidationNumOnTokenAsync(updateCardValidationNumOnToken update, CancellationToken cancellationToken)
+        {
+            return SendRequestAsync(response => response.updateCardValidationNumOnTokenResponse, update, cancellationToken);
         }
 
         public cancelSubscriptionResponse CancelSubscription(cancelSubscription cancelSubscription)
         {
-            var request = CreateCnpOnlineRequest();
-            request.cancelSubscription = cancelSubscription;
-
-            var response = sendToCnp(request);
-            var cancelResponse = response.cancelSubscriptionResponse;
-            return cancelResponse;
+            return SendRequest(response => response.cancelSubscriptionResponse, cancelSubscription);
         }
 
         public updateSubscriptionResponse UpdateSubscription(updateSubscription updateSubscription)
         {
-            var request = CreateCnpOnlineRequest();
-            request.updateSubscription = updateSubscription;
-
-            var response = sendToCnp(request);
-            var updateResponse = response.updateSubscriptionResponse;
-            return updateResponse;
+            return SendRequest(response => response.updateSubscriptionResponse, updateSubscription);
         }
 
         public activateResponse Activate(activate activate)
         {
-            var request = CreateCnpOnlineRequest();
-            request.activate = activate;
-
-            var response = sendToCnp(request);
-            var activateResponse = response.activateResponse;
-            return activateResponse;
+            return SendRequest(response => response.activateResponse, activate);
         }
 
         public deactivateResponse Deactivate(deactivate deactivate)
         {
-            var request = CreateCnpOnlineRequest();
-            request.deactivate = deactivate;
-
-            var response = sendToCnp(request);
-            var deactivateResponse = response.deactivateResponse;
-            return deactivateResponse;
+            return SendRequest(response => response.deactivateResponse, deactivate);
         }
 
         public loadResponse Load(load load)
         {
-            var request = CreateCnpOnlineRequest();
-            request.load = load;
-
-            var response = sendToCnp(request);
-            var loadResponse = response.loadResponse;
-            return loadResponse;
+            return SendRequest(response => response.loadResponse, load);
         }
 
         public unloadResponse Unload(unload unload)
         {
-            var request = CreateCnpOnlineRequest();
-            request.unload = unload;
-
-            var response = sendToCnp(request);
-            var unloadResponse = response.unloadResponse;
-            return unloadResponse;
+            return SendRequest(response => response.unloadResponse, unload);
         }
 
         public balanceInquiryResponse BalanceInquiry(balanceInquiry balanceInquiry)
         {
-            var request = CreateCnpOnlineRequest();
-            request.balanceInquiry = balanceInquiry;
+            return SendRequest(response => response.balanceInquiryResponse, balanceInquiry);
+        }
 
-            var response = sendToCnp(request);
-            var balanceInquiryResponse = response.balanceInquiryResponse;
-            return balanceInquiryResponse;
+        public Task<balanceInquiryResponse> BalanceInquiryAsync(balanceInquiry balanceInquiry, CancellationToken cancellationToken)
+        {
+            return SendRequestAsync(response => response.balanceInquiryResponse, balanceInquiry, cancellationToken);
         }
 
         public createPlanResponse CreatePlan(createPlan createPlan)
         {
-            var request = CreateCnpOnlineRequest();
-            request.createPlan = createPlan;
-
-            var response = sendToCnp(request);
-            var createPlanResponse = response.createPlanResponse;
-            return createPlanResponse;
+            return SendRequest(response => response.createPlanResponse, createPlan);
         }
 
         public updatePlanResponse UpdatePlan(updatePlan updatePlan)
         {
-            var request = CreateCnpOnlineRequest();
-            request.updatePlan = updatePlan;
-
-            var response = sendToCnp(request);
-            var updatePlanResponse = response.updatePlanResponse;
-            return updatePlanResponse;
+            return SendRequest(response => response.updatePlanResponse, updatePlan);
         }
 
         public refundReversalResponse RefundReversal(refundReversal refundReversal)
         {
-            var request = CreateCnpOnlineRequest();
-            request.refundReversal = refundReversal;
-
-            var response = sendToCnp(request);
-            var refundReversalResponse = response.refundReversalResponse;
-            return refundReversalResponse;
+            return SendRequest(response => response.refundReversalResponse, refundReversal);
         }
 
         public depositReversalResponse DepositReversal(depositReversal depositReversal)
         {
-            var request = CreateCnpOnlineRequest();
-            request.depositReversal = depositReversal;
-
-            var response = sendToCnp(request);
-            var depositReversalResponse = response.depositReversalResponse;
-            return depositReversalResponse;
+            return SendRequest(response => response.depositReversalResponse, depositReversal);
         }
 
         public activateReversalResponse ActivateReversal(activateReversal activateReversal)
         {
-            var request = CreateCnpOnlineRequest();
-            request.activateReversal = activateReversal;
-
-            var response = sendToCnp(request);
-            var activateReversalResponse = response.activateReversalResponse;
-            return activateReversalResponse;
+            return SendRequest(response => response.activateReversalResponse, activateReversal);
         }
 
         public deactivateReversalResponse DeactivateReversal(deactivateReversal deactivateReversal)
         {
-            var request = CreateCnpOnlineRequest();
-            request.deactivateReversal = deactivateReversal;
-
-            var response = sendToCnp(request);
-            var deactivateReversalResponse = response.deactivateReversalResponse;
-            return deactivateReversalResponse;
+            return SendRequest(response => response.deactivateReversalResponse, deactivateReversal);
         }
 
         public loadReversalResponse LoadReversal(loadReversal loadReversal)
         {
-            var request = CreateCnpOnlineRequest();
-            request.loadReversal = loadReversal;
-
-            var response = sendToCnp(request);
-            var loadReversalResponse = response.loadReversalResponse;
-            return loadReversalResponse;
+            return SendRequest(response => response.loadReversalResponse, loadReversal);
         }
 
         public unloadReversalResponse UnloadReversal(unloadReversal unloadReversal)
         {
-            var request = CreateCnpOnlineRequest();
-            request.unloadReversal = unloadReversal;
-
-            var response = sendToCnp(request);
-            var unloadReversalResponse = response.unloadReversalResponse;
-            return unloadReversalResponse;
+            return SendRequest(response => response.unloadReversalResponse, unloadReversal);
         }
 
-        public transactionTypeWithReportGroup queryTransaction(queryTransaction queryTransaction)
+        public Task<transactionTypeWithReportGroup> QueryTransactionAsync(queryTransaction queryTransaction, CancellationToken cancellationToken)
         {
-            var request = CreateCnpOnlineRequest();
-            request.queryTransaction = queryTransaction;
+            return SendRequestAsync(response => (response.queryTransactionResponse ?? (transactionTypeWithReportGroup)response.queryTransactionUnavailableResponse), queryTransaction, cancellationToken);
+        }
 
-            var cnpresponse = sendToCnp(request);
-            transactionTypeWithReportGroup response = null;
-            if (cnpresponse.queryTransactionResponse != null)
-            {
-                response = cnpresponse.queryTransactionResponse;
-            }
-            else if (cnpresponse.queryTransactionUnavailableResponse != null)
-            {
-                response = cnpresponse.queryTransactionUnavailableResponse;
-            }
-            return response;
+        public transactionTypeWithReportGroup QueryTransaction(queryTransaction queryTransaction)
+        {
+            return SendRequest(response =>(response.queryTransactionResponse ?? (transactionTypeWithReportGroup)response.queryTransactionUnavailableResponse), queryTransaction);
         }
 
         public fraudCheckResponse FraudCheck(fraudCheck fraudCheck)
         {
-            var request = CreateCnpOnlineRequest();
-            fillInReportGroup(fraudCheck);
-            request.fraudCheck = fraudCheck;
-
-            var response = sendToCnp(request);
-            var fraudCheckResponse = response.fraudCheckResponse;
-            return fraudCheckResponse;
+            return SendRequest(response => response.fraudCheckResponse, fraudCheck);
         }
 
         private cnpOnlineRequest CreateCnpOnlineRequest()
@@ -454,14 +555,14 @@ namespace Cnp.Sdk
             return request;
         }
 
-        private cnpOnlineResponse sendToCnp(cnpOnlineRequest request)
+        private cnpOnlineResponse SendToCnp(cnpOnlineRequest request)
         {
             var xmlRequest = request.Serialize();
-            var xmlResponse = _communication.HttpPost(xmlRequest,_config);
+            var xmlResponse = _communication.HttpPost(xmlRequest, _config);
             try
             {
                 var cnpOnlineResponse = DeserializeObject(xmlResponse);
-
+                Console.WriteLine(cnpOnlineResponse.response);
                 if (!"0".Equals(cnpOnlineResponse.response))
                 {
                     if ("2".Equals(cnpOnlineResponse.response) || "3".Equals(cnpOnlineResponse.response))
@@ -489,6 +590,38 @@ namespace Cnp.Sdk
             }
         }
 
+        private async Task<T> SendRequestAsync<T>(Func<cnpOnlineResponse, T> getResponse, transactionRequest transaction, CancellationToken cancellationToken)
+        {
+            var request = CreateRequest(transaction);
+
+            cnpOnlineResponse response = await SendToCnpAsync(request, cancellationToken).ConfigureAwait(false);
+            return getResponse(response);
+        }
+
+        private async Task<cnpOnlineResponse> SendToCnpAsync(cnpOnlineRequest request, CancellationToken cancellationToken)
+        {
+            string xmlRequest = request.Serialize();
+            string xmlResponse = await _communication.HttpPostAsync(xmlRequest, _config, cancellationToken).ConfigureAwait(false);
+            return DeserializeResponse(xmlResponse);
+        }
+
+        private cnpOnlineResponse DeserializeResponse(string xmlResponse)
+        {
+            try
+            {
+                cnpOnlineResponse cnpOnlineResponse = DeserializeObject(xmlResponse);
+                if ("1".Equals(cnpOnlineResponse.response))
+                {
+                    throw new CnpOnlineException(cnpOnlineResponse.message);
+                }
+                return cnpOnlineResponse;
+            }
+            catch (InvalidOperationException ioe)
+            {
+                throw new CnpOnlineException("Error validating xml data against the schema", ioe);
+            }
+        }
+
         public static string SerializeObject(cnpOnlineRequest req)
         {
             var serializer = new XmlSerializer(typeof(cnpOnlineRequest));
@@ -506,7 +639,7 @@ namespace Cnp.Sdk
 
         }// deserialize the object
 
-        private void fillInReportGroup(transactionTypeWithReportGroup txn)
+        private void FillInReportGroup(transactionTypeWithReportGroup txn)
         {
             if (txn.reportGroup == null)
             {
@@ -514,7 +647,7 @@ namespace Cnp.Sdk
             }
         }
 
-        private void fillInReportGroup(transactionTypeWithReportGroupAndPartial txn)
+        private void FillInReportGroup(transactionTypeWithReportGroupAndPartial txn)
         {
             if (txn.reportGroup == null)
             {
@@ -526,19 +659,42 @@ namespace Cnp.Sdk
     public interface ICnpOnline
     {
         authorizationResponse Authorize(authorization auth);
+        Task<authorizationResponse> AuthorizeAsync(authorization auth, CancellationToken cancellationToken);
         authReversalResponse AuthReversal(authReversal reversal);
+        Task<authReversalResponse> AuthReversalAsync(authReversal reversal, CancellationToken cancellationToken);
         captureResponse Capture(capture capture);
+        Task<captureResponse> CaptureAsync(capture capture, CancellationToken cancellationToken);
         captureGivenAuthResponse CaptureGivenAuth(captureGivenAuth captureGivenAuth);
+        Task<captureGivenAuthResponse> CaptureGivenAuthAsync(captureGivenAuth captureGivenAuth, CancellationToken cancellationToken);
         creditResponse Credit(credit credit);
+        Task<creditResponse> CreditAsync(credit credit, CancellationToken cancellationToken);
         echeckCreditResponse EcheckCredit(echeckCredit echeckCredit);
+        Task<echeckCreditResponse> EcheckCreditAsync(echeckCredit echeckCredit, CancellationToken cancellationToken);
         echeckRedepositResponse EcheckRedeposit(echeckRedeposit echeckRedeposit);
+        Task<echeckRedepositResponse> EcheckRedepositAsync(echeckRedeposit echeckRedeposit, CancellationToken cancellationToken);
         echeckSalesResponse EcheckSale(echeckSale echeckSale);
+        Task<echeckSalesResponse> EcheckSaleAsync(echeckSale echeckSale, CancellationToken cancellationToken);
         echeckVerificationResponse EcheckVerification(echeckVerification echeckVerification);
+        Task<echeckVerificationResponse> EcheckVerificationAsync(echeckVerification echeckVerification, CancellationToken cancellationToken);
         forceCaptureResponse ForceCapture(forceCapture forceCapture);
+        Task<forceCaptureResponse> ForceCaptureAsync(forceCapture forceCapture, CancellationToken cancellationToken);
         saleResponse Sale(sale sale);
+        Task<saleResponse> SaleAsync(sale sale, CancellationToken cancellationToken);
         registerTokenResponse RegisterToken(registerTokenRequestType tokenRequest);
+        Task<registerTokenResponse> RegisterTokenAsync(registerTokenRequestType tokenRequest, CancellationToken cancellationToken);
         cnpOnlineResponseTransactionResponseVoidResponse DoVoid(voidTxn v);
+        Task<cnpOnlineResponseTransactionResponseVoidResponse> DoVoidAsync(voidTxn v, CancellationToken cancellationToken);
         cnpOnlineResponseTransactionResponseEcheckVoidResponse EcheckVoid(echeckVoid v);
+        Task<cnpOnlineResponseTransactionResponseEcheckVoidResponse> EcheckVoidAsync(echeckVoid v, CancellationToken cancellationToken);
         updateCardValidationNumOnTokenResponse UpdateCardValidationNumOnToken(updateCardValidationNumOnToken update);
+        Task<updateCardValidationNumOnTokenResponse> UpdateCardValidationNumOnTokenAsync(updateCardValidationNumOnToken update, CancellationToken cancellationToken);
+        giftCardAuthReversalResponse GiftCardAuthReversal(giftCardAuthReversal giftCard);
+        Task<giftCardAuthReversalResponse> GiftCardAuthReversalAsync(giftCardAuthReversal giftCard, CancellationToken cancellationToken);
+        giftCardCaptureResponse GiftCardCapture(giftCardCapture giftCardCapture);
+        Task<giftCardCaptureResponse> GiftCardCaptureAsync(giftCardCapture giftCardCapture, CancellationToken cancellationToken);
+        giftCardCreditResponse GiftCardCredit(giftCardCredit giftCardCredit);
+        Task<giftCardCreditResponse> GiftCardCreditAsync(giftCardCredit giftCardCredit, CancellationToken cancellationToken);
+        transactionTypeWithReportGroup QueryTransaction(queryTransaction queryTransaction);
+        Task<transactionTypeWithReportGroup> QueryTransactionAsync(queryTransaction queryTransaction, CancellationToken cancellationToken);
     }
 }

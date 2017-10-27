@@ -52,8 +52,8 @@ namespace Cnp.Sdk.Test.Unit
                 .Returns("<cnpOnlineResponse version='10.10' response='0' message='Valid Format' xmlns='http://www.vantivcnp.com/schema'><queryTransactionResponse id='FindAuth' reportGroup='Mer5PM1' customerId='1'><response>000</response><responseTime>2015-12-03T10:30:02</responseTime><message>Original transaction found</message><results_max10><authorizationResponse id='1' reportGroup='defaultReportGroup'><cnpTxnId>756027696701750</cnpTxnId><orderId>GenericOrderId</orderId><response>000</response><responseTime>2015-04-14T12:04:59</responseTime><postDate>2015-04-14</postDate><message>Approved</message><authCode>055858</authCode></authorizationResponse><authorizationResponse id='1' reportGroup='defaultReportGroup'><cnpTxnId>756027696701751</cnpTxnId><orderId>GenericOrderId</orderId><response>000</response><responseTime>2015-04-14T12:04:59</responseTime><postDate>2015-04-14</postDate><message>Approved</message><authCode>055858</authCode></authorizationResponse><captureResponse><response>000</response><message>Deposit approved</message></captureResponse></results_max10></queryTransactionResponse></cnpOnlineResponse>");
 
             Communications mockedCommunication = mock.Object;
-            cnp.setCommunication(mockedCommunication);
-            transactionTypeWithReportGroup response = (transactionTypeWithReportGroup)cnp.queryTransaction(query);
+            cnp.SetCommunication(mockedCommunication);
+            transactionTypeWithReportGroup response = (transactionTypeWithReportGroup)cnp.QueryTransaction(query);
             queryTransactionResponse queryTransactionResponse = (queryTransactionResponse)response;
 
             Assert.NotNull(queryTransactionResponse);
@@ -93,8 +93,8 @@ namespace Cnp.Sdk.Test.Unit
                 .Returns("<cnpOnlineResponse version='10.10' response='0' message='Valid Format' xmlns='http://www.vantivcnp.com/schema'><queryTransactionUnavailableResponse id='FindAuth' reportGroup='Mer5PM1' customerId='1'><response>152</response><responseTime>2015-12-03T14:45:31</responseTime><message>Original transaction found but response not yet available</message></queryTransactionUnavailableResponse></cnpOnlineResponse>");
 
             Communications mockedCommunication = mock.Object;
-            cnp.setCommunication(mockedCommunication);
-            transactionTypeWithReportGroup response = (transactionTypeWithReportGroup)cnp.queryTransaction(query);
+            cnp.SetCommunication(mockedCommunication);
+            transactionTypeWithReportGroup response = (transactionTypeWithReportGroup)cnp.QueryTransaction(query);
             queryTransactionUnavailableResponse queryTransactionResponse = (queryTransactionUnavailableResponse)response;
 
             Assert.NotNull(queryTransactionResponse);

@@ -37,7 +37,7 @@ namespace Cnp.Sdk.Test.Unit
                 .Returns("<cnpOnlineResponse version='8.10' response='0' message='Valid Format' xmlns='http://www.vantivcnp.com/schema'><creditResponse><cnpTxnId>123</cnpTxnId></creditResponse></cnpOnlineResponse>");
      
             Communications mockedCommunication = mock.Object;
-            cnp.setCommunication(mockedCommunication);
+            cnp.SetCommunication(mockedCommunication);
             cnp.Credit(credit);
         }
 
@@ -58,7 +58,7 @@ namespace Cnp.Sdk.Test.Unit
                 .Returns("<cnpOnlineResponse version='8.10' response='0' message='Valid Format' xmlns='http://www.vantivcnp.com/schema'><creditResponse><cnpTxnId>123</cnpTxnId></creditResponse></cnpOnlineResponse>");
 
             Communications mockedCommunication = mock.Object;
-            cnp.setCommunication(mockedCommunication);
+            cnp.SetCommunication(mockedCommunication);
             cnp.Credit(credit);
         }
 
@@ -78,7 +78,7 @@ namespace Cnp.Sdk.Test.Unit
                 .Returns("<cnpOnlineResponse version='8.14' response='0' message='Valid Format' xmlns='http://www.vantivcnp.com/schema'><creditResponse><cnpTxnId>123</cnpTxnId></creditResponse></cnpOnlineResponse>");
 
             Communications mockedCommunication = mock.Object;
-            cnp.setCommunication(mockedCommunication);
+            cnp.SetCommunication(mockedCommunication);
             cnp.Credit(credit);
         }
 
@@ -98,7 +98,7 @@ namespace Cnp.Sdk.Test.Unit
                 .Returns("<cnpOnlineResponse version='8.14' response='0' message='Valid Format' xmlns='http://www.vantivcnp.com/schema'><creditResponse><cnpTxnId>123</cnpTxnId></creditResponse></cnpOnlineResponse>");
 
             Communications mockedCommunication = mock.Object;
-            cnp.setCommunication(mockedCommunication);
+            cnp.SetCommunication(mockedCommunication);
             cnp.Credit(credit);
         }
 
@@ -118,7 +118,7 @@ namespace Cnp.Sdk.Test.Unit
                 .Returns("<cnpOnlineResponse version='8.14' response='0' message='Valid Format' xmlns='http://www.vantivcnp.com/schema'><creditResponse><cnpTxnId>123</cnpTxnId></creditResponse></cnpOnlineResponse>");
 
             Communications mockedCommunication = mock.Object;
-            cnp.setCommunication(mockedCommunication);
+            cnp.SetCommunication(mockedCommunication);
             cnp.Credit(credit);
         }
 
@@ -137,7 +137,7 @@ namespace Cnp.Sdk.Test.Unit
                 .Returns("<cnpOnlineResponse version='8.14' response='0' message='Valid Format' xmlns='http://www.vantivcnp.com/schema'><creditResponse><cnpTxnId>123</cnpTxnId></creditResponse></cnpOnlineResponse>");
 
             Communications mockedCommunication = mock.Object;
-            cnp.setCommunication(mockedCommunication);
+            cnp.SetCommunication(mockedCommunication);
             cnp.Credit(credit);
         }
 
@@ -157,7 +157,7 @@ namespace Cnp.Sdk.Test.Unit
                 .Returns("<cnpOnlineResponse version='8.14' response='0' message='Valid Format' xmlns='http://www.vantivcnp.com/schema'><creditResponse><cnpTxnId>123</cnpTxnId></creditResponse></cnpOnlineResponse>");
 
             Communications mockedCommunication = mock.Object;
-            cnp.setCommunication(mockedCommunication);
+            cnp.SetCommunication(mockedCommunication);
             cnp.Credit(credit);
         }
 
@@ -176,7 +176,7 @@ namespace Cnp.Sdk.Test.Unit
                 .Returns("<cnpOnlineResponse version='8.14' response='0' message='Valid Format' xmlns='http://www.vantivcnp.com/schema'><creditResponse><cnpTxnId>123</cnpTxnId></creditResponse></cnpOnlineResponse>");
 
             Communications mockedCommunication = mock.Object;
-            cnp.setCommunication(mockedCommunication);
+            cnp.SetCommunication(mockedCommunication);
             cnp.Credit(credit);
         }
 
@@ -197,7 +197,7 @@ namespace Cnp.Sdk.Test.Unit
                 .Returns("<cnpOnlineResponse version='8.14' response='0' message='Valid Format' xmlns='http://www.vantivcnp.com/schema'><creditResponse><cnpTxnId>123</cnpTxnId></creditResponse></cnpOnlineResponse>");
 
             Communications mockedCommunication = mock.Object;
-            cnp.setCommunication(mockedCommunication);
+            cnp.SetCommunication(mockedCommunication);
             cnp.Credit(credit);
         }
 
@@ -216,7 +216,7 @@ namespace Cnp.Sdk.Test.Unit
                 .Returns("<cnpOnlineResponse version='8.14' response='0' message='Valid Format' xmlns='http://www.vantivcnp.com/schema'><creditResponse><cnpTxnId>123</cnpTxnId></creditResponse></cnpOnlineResponse>");
 
             Communications mockedCommunication = mock.Object;
-            cnp.setCommunication(mockedCommunication);
+            cnp.SetCommunication(mockedCommunication);
             cnp.Credit(credit);
         }
 
@@ -240,7 +240,7 @@ namespace Cnp.Sdk.Test.Unit
                 .Returns("<cnpOnlineResponse version='8.10' response='0' message='Valid Format' xmlns='http://www.vantivcnp.com/schema'><creditResponse><cnpTxnId>123</cnpTxnId></creditResponse></cnpOnlineResponse>");
 
             Communications mockedCommunication = mock.Object;
-            cnp.setCommunication(mockedCommunication);
+            cnp.SetCommunication(mockedCommunication);
             cnp.Credit(credit);
         }
 

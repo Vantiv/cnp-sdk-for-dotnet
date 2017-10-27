@@ -37,7 +37,7 @@ namespace Cnp.Sdk.Properties {
         
         [global::System.Configuration.UserScopedSettingAttribute()]
         [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
-        [global::System.Configuration.DefaultSettingValueAttribute("true")]
+        [global::System.Configuration.DefaultSettingValueAttribute("True")]
         public string printxml {
             get {
                 return ((string)(this["printxml"]));
@@ -49,7 +49,7 @@ namespace Cnp.Sdk.Properties {
         
         [global::System.Configuration.UserScopedSettingAttribute()]
         [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
-        [global::System.Configuration.DefaultSettingValueAttribute("500")]
+        [global::System.Configuration.DefaultSettingValueAttribute("50000000")]
         public string timeout {
             get {
                 return ((string)(this["timeout"]));
@@ -85,7 +85,7 @@ namespace Cnp.Sdk.Properties {
         
         [global::System.Configuration.UserScopedSettingAttribute()]
         [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
-        [global::System.Configuration.DefaultSettingValueAttribute("")]
+        [global::System.Configuration.DefaultSettingValueAttribute("Sdk1")]
         public string sftpUsername {
             get {
                 return ((string)(this["sftpUsername"]));
@@ -97,7 +97,7 @@ namespace Cnp.Sdk.Properties {
         
         [global::System.Configuration.UserScopedSettingAttribute()]
         [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
-        [global::System.Configuration.DefaultSettingValueAttribute("")]
+        [global::System.Configuration.DefaultSettingValueAttribute("Up5Gp5I6")]
         public string sftpPassword {
             get {
                 return ((string)(this["sftpPassword"]));
@@ -181,7 +181,7 @@ namespace Cnp.Sdk.Properties {
         
         [global::System.Configuration.UserScopedSettingAttribute()]
         [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
-        [global::System.Configuration.DefaultSettingValueAttribute("https://www.testvantivcnp.com/sandbox/new/sandbox/communicator/online")]
+        [global::System.Configuration.DefaultSettingValueAttribute("https://payments.vantivprelive.com/vap/communicator/online")]
         public string url {
             get {
                 return ((string)(this["url"]));
@@ -217,7 +217,7 @@ namespace Cnp.Sdk.Properties {
         
         [global::System.Configuration.UserScopedSettingAttribute()]
         [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
-        [global::System.Configuration.DefaultSettingValueAttribute("")]
+        [global::System.Configuration.DefaultSettingValueAttribute("SDKTEAM")]
         public string username {
             get {
                 return ((string)(this["username"]));
@@ -229,7 +229,7 @@ namespace Cnp.Sdk.Properties {
         
         [global::System.Configuration.UserScopedSettingAttribute()]
         [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
-        [global::System.Configuration.DefaultSettingValueAttribute("")]
+        [global::System.Configuration.DefaultSettingValueAttribute("V3r5K6v7")]
         public string password {
             get {
                 return ((string)(this["password"]));
@@ -241,13 +241,25 @@ namespace Cnp.Sdk.Properties {
         
         [global::System.Configuration.UserScopedSettingAttribute()]
         [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
-        [global::System.Configuration.DefaultSettingValueAttribute("")]
+        [global::System.Configuration.DefaultSettingValueAttribute("1288791")]
         public string merchantId {
             get {
                 return ((string)(this["merchantId"]));
             }
             set {
                 this["merchantId"] = value;
+            }
+        }
+        
+        [global::System.Configuration.UserScopedSettingAttribute()]
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.Configuration.DefaultSettingValueAttribute("true")]
+        public string keepAlive {
+            get {
+                return ((string)(this["keepAlive"]));
+            }
+            set {
+                this["keepAlive"] = value;
             }
         }
     }

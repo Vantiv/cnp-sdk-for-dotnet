@@ -15,13 +15,13 @@ namespace Cnp.Sdk.Test.Certification
         public void setUp()
         {
             Dictionary<string, string> config = new Dictionary<string, string>();
-            config.Add("url", "https://www.testvantivcnp.com/sandbox/communicator/online");
+            config.Add("url", "https://payments.vantivprelive.com/vap/communicator/online");
             config.Add("reportGroup", "Default Report Group");
-            config.Add("username", "DOTNET");
+            config.Add("username", "SDKTEAM");
             config.Add("version", "11.0");
             config.Add("timeout", "500");
-            config.Add("merchantId", "101");
-            config.Add("password", "TESTCASE");
+            config.Add("merchantId", "1288791");
+            config.Add("password", "V3r5K6v7");
             config.Add("printxml", "true");
             config.Add("logFile", null);
             config.Add("neuterAccountNums", null);
@@ -106,7 +106,7 @@ namespace Cnp.Sdk.Test.Certification
             authorizationResponse authorizeResponse = cnp.Authorize(auth);
             Assert.AreEqual("000", authorizeResponse.response);
             Assert.AreEqual("Approved", authorizeResponse.message);
-            Assert.AreEqual("22222", authorizeResponse.authCode);
+            Assert.AreEqual("22222", authorizeResponse.authCode.Trim());
             Assert.AreEqual("10", authorizeResponse.fraudResult.avsResult);
             Assert.AreEqual("M", authorizeResponse.fraudResult.cardValidationResult);
 
@@ -145,7 +145,7 @@ namespace Cnp.Sdk.Test.Certification
             authorizationResponse authorizeResponse = cnp.Authorize(auth);
             Assert.AreEqual("000", authorizeResponse.response);
             Assert.AreEqual("Approved", authorizeResponse.message);
-            Assert.AreEqual("33333", authorizeResponse.authCode);
+            Assert.AreEqual("33333", authorizeResponse.authCode.Trim());
             Assert.AreEqual("10", authorizeResponse.fraudResult.avsResult);
             Assert.AreEqual("M", authorizeResponse.fraudResult.cardValidationResult);
 
@@ -182,7 +182,7 @@ namespace Cnp.Sdk.Test.Certification
             authorizationResponse authorizeResponse = cnp.Authorize(auth);
             Assert.AreEqual("000", authorizeResponse.response);
             Assert.AreEqual("Approved", authorizeResponse.message);
-            Assert.AreEqual("44444", authorizeResponse.authCode);
+            Assert.AreEqual("44444", authorizeResponse.authCode.Trim());
             Assert.AreEqual("12", authorizeResponse.fraudResult.avsResult);
 
             capture capture = new capture();

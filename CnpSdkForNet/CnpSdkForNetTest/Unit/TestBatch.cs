@@ -101,8 +101,8 @@ namespace Cnp.Sdk.Test.Unit
             var mockCnpXmlSerializer = new Mock<cnpXmlSerializer>();
 
             mockXmlReader.SetupSequence(XmlReader => XmlReader.ReadOuterXml())
-                .Returns("<accountUpdateResponse reportGroup=\"Merch01ReportGrp\" xmlns=\"http://www.cnp.com/schema\"><cnpTxnId>123</cnpTxnId><orderId>MERCH01-0002</orderId><response>000</response><responseTime>2010-04-11T15:44:26</responseTime><message>Approved</message></accountUpdateResponse>")
-                .Returns("<accountUpdateResponse reportGroup=\"Merch01ReportGrp\" xmlns=\"http://www.cnp.com/schema\"><cnpTxnId>124</cnpTxnId><orderId>MERCH01-0002</orderId><response>000</response><responseTime>2010-04-11T15:44:26</responseTime><message>Approved</message></accountUpdateResponse>");
+                .Returns("<accountUpdateResponse reportGroup=\"Merch01ReportGrp\" xmlns=\"http://www.vantivcnp.com/schema\"><cnpTxnId>123</cnpTxnId><orderId>MERCH01-0002</orderId><response>000</response><responseTime>2010-04-11T15:44:26</responseTime><message>Approved</message></accountUpdateResponse>")
+                .Returns("<accountUpdateResponse reportGroup=\"Merch01ReportGrp\" xmlns=\"http://www.vantivcnp.com/schema\"><cnpTxnId>124</cnpTxnId><orderId>MERCH01-0002</orderId><response>000</response><responseTime>2010-04-11T15:44:26</responseTime><message>Approved</message></accountUpdateResponse>");
 
             batchResponse mockCnpBatchResponse = new batchResponse();
             mockCnpBatchResponse.setAccountUpdateResponseReader(mockXmlReader.Object);
@@ -166,8 +166,8 @@ namespace Cnp.Sdk.Test.Unit
             var mockCnpXmlSerializer = new Mock<cnpXmlSerializer>();
 
             mockXmlReader.SetupSequence(XmlReader => XmlReader.ReadOuterXml())
-                .Returns("<authorizationResponse id=\"\" reportGroup=\"Planets\" xmlns=\"http://www.cnp.com/schema\"><cnpTxnId>123</cnpTxnId><orderId>123</orderId><response>000</response><responseTime>2013-06-19T19:54:42</responseTime><message>Approved</message><authCode>123457</authCode><fraudResult><avsResult>00</avsResult></fraudResult><tokenResponse><cnpToken>1711000103054242</cnpToken><tokenResponseCode>802</tokenResponseCode><tokenMessage>Account number was previously registered</tokenMessage><type>VI</type><bin>424242</bin></tokenResponse></authorizationResponse>")
-                .Returns("<authorizationResponse id=\"\" reportGroup=\"Planets\" xmlns=\"http://www.cnp.com/schema\"><cnpTxnId>124</cnpTxnId><orderId>124</orderId><response>000</response><responseTime>2013-06-19T19:54:42</responseTime><message>Approved</message><authCode>123457</authCode><fraudResult><avsResult>00</avsResult></fraudResult><tokenResponse><cnpToken>1711000103054242</cnpToken><tokenResponseCode>802</tokenResponseCode><tokenMessage>Account number was previously registered</tokenMessage><type>VI</type><bin>424242</bin></tokenResponse></authorizationResponse>");
+                .Returns("<authorizationResponse id=\"\" reportGroup=\"Planets\" xmlns=\"http://www.vantivcnp.com/schema\"><cnpTxnId>123</cnpTxnId><orderId>123</orderId><response>000</response><responseTime>2013-06-19T19:54:42</responseTime><message>Approved</message><authCode>123457</authCode><fraudResult><avsResult>00</avsResult></fraudResult><tokenResponse><cnpToken>1711000103054242</cnpToken><tokenResponseCode>802</tokenResponseCode><tokenMessage>Account number was previously registered</tokenMessage><type>VI</type><bin>424242</bin></tokenResponse></authorizationResponse>")
+                .Returns("<authorizationResponse id=\"\" reportGroup=\"Planets\" xmlns=\"http://www.vantivcnp.com/schema\"><cnpTxnId>124</cnpTxnId><orderId>124</orderId><response>000</response><responseTime>2013-06-19T19:54:42</responseTime><message>Approved</message><authCode>123457</authCode><fraudResult><avsResult>00</avsResult></fraudResult><tokenResponse><cnpToken>1711000103054242</cnpToken><tokenResponseCode>802</tokenResponseCode><tokenMessage>Account number was previously registered</tokenMessage><type>VI</type><bin>424242</bin></tokenResponse></authorizationResponse>");
 
             batchResponse mockCnpBatchResponse = new batchResponse();
             mockCnpBatchResponse.setAuthorizationResponseReader(mockXmlReader.Object);
@@ -220,8 +220,8 @@ namespace Cnp.Sdk.Test.Unit
             var mockCnpXmlSerializer = new Mock<cnpXmlSerializer>();
 
             mockXmlReader.SetupSequence(XmlReader => XmlReader.ReadOuterXml())
-                .Returns("<authReversalResponse id=\"123\" customerId=\"Customer Id\" reportGroup=\"Auth Reversals\" xmlns=\"http://www.cnp.com/schema\"><cnpTxnId>123</cnpTxnId><orderId>abc123</orderId><response>000</response><responseTime>2011-08-30T13:15:43</responseTime><message>Approved</message></authReversalResponse>")
-                .Returns("<authReversalResponse id=\"123\" customerId=\"Customer Id\" reportGroup=\"Auth Reversals\" xmlns=\"http://www.cnp.com/schema\"><cnpTxnId>124</cnpTxnId><orderId>abc123</orderId><response>000</response><responseTime>2011-08-30T13:15:43</responseTime><message>Approved</message></authReversalResponse>");
+                .Returns("<authReversalResponse id=\"123\" customerId=\"Customer Id\" reportGroup=\"Auth Reversals\" xmlns=\"http://www.vantivcnp.com/schema\"><cnpTxnId>123</cnpTxnId><orderId>abc123</orderId><response>000</response><responseTime>2011-08-30T13:15:43</responseTime><message>Approved</message></authReversalResponse>")
+                .Returns("<authReversalResponse id=\"123\" customerId=\"Customer Id\" reportGroup=\"Auth Reversals\" xmlns=\"http://www.vantivcnp.com/schema\"><cnpTxnId>124</cnpTxnId><orderId>abc123</orderId><response>000</response><responseTime>2011-08-30T13:15:43</responseTime><message>Approved</message></authReversalResponse>");
 
             batchResponse mockCnpBatchResponse = new batchResponse();
             mockCnpBatchResponse.setAuthReversalResponseReader(mockXmlReader.Object);
@@ -276,8 +276,8 @@ namespace Cnp.Sdk.Test.Unit
             var mockCnpXmlSerializer = new Mock<cnpXmlSerializer>();
 
             mockXmlReader.SetupSequence(XmlReader => XmlReader.ReadOuterXml())
-              .Returns("<captureResponse id=\"123\" reportGroup=\"RG27\" xmlns=\"http://www.cnp.com/schema\"> <cnpTxnId>123</cnpTxnId> <orderId>12z58743y1</orderId> <response>000</response> <responseTime>2011-09-01T10:24:31</responseTime> <message>message</message> </captureResponse>")
-              .Returns("<captureResponse id=\"124\" reportGroup=\"RG27\" xmlns=\"http://www.cnp.com/schema\"> <cnpTxnId>124</cnpTxnId> <orderId>12z58743y1</orderId> <response>000</response> <responseTime>2011-09-01T10:24:31</responseTime> <message>message</message> </captureResponse>");
+              .Returns("<captureResponse id=\"123\" reportGroup=\"RG27\" xmlns=\"http://www.vantivcnp.com/schema\"> <cnpTxnId>123</cnpTxnId> <orderId>12z58743y1</orderId> <response>000</response> <responseTime>2011-09-01T10:24:31</responseTime> <message>message</message> </captureResponse>")
+              .Returns("<captureResponse id=\"124\" reportGroup=\"RG27\" xmlns=\"http://www.vantivcnp.com/schema\"> <cnpTxnId>124</cnpTxnId> <orderId>12z58743y1</orderId> <response>000</response> <responseTime>2011-09-01T10:24:31</responseTime> <message>message</message> </captureResponse>");
 
             batchResponse mockedCnpBatchResponse = new batchResponse();
             mockedCnpBatchResponse.setCaptureResponseReader(mockXmlReader.Object);
@@ -1189,8 +1189,8 @@ namespace Cnp.Sdk.Test.Unit
             var mockCnpXmlSerializer = new Mock<cnpXmlSerializer>();
 
             mockXmlReader.SetupSequence(XmlReader => XmlReader.ReadOuterXml())
-                .Returns("<cancelSubscriptionResponse xmlns=\"http://www.cnp.com/schema\"><cnpTxnId>54321</cnpTxnId><response>000</response><message>Approved</message><responseTime>2013-09-04T21:55:14</responseTime><subscriptionId>12345</subscriptionId></cancelSubscriptionResponse>")
-                .Returns("<cancelSubscriptionResponse xmlns=\"http://www.cnp.com/schema\"><cnpTxnId>12345</cnpTxnId><response>000</response><message>Approved</message><responseTime>2013-09-04T21:55:14</responseTime><subscriptionId>54321</subscriptionId></cancelSubscriptionResponse>");
+                .Returns("<cancelSubscriptionResponse xmlns=\"http://www.vantivcnp.com/schema\"><cnpTxnId>54321</cnpTxnId><response>000</response><message>Approved</message><responseTime>2013-09-04T21:55:14</responseTime><subscriptionId>12345</subscriptionId></cancelSubscriptionResponse>")
+                .Returns("<cancelSubscriptionResponse xmlns=\"http://www.vantivcnp.com/schema\"><cnpTxnId>12345</cnpTxnId><response>000</response><message>Approved</message><responseTime>2013-09-04T21:55:14</responseTime><subscriptionId>54321</subscriptionId></cancelSubscriptionResponse>");
 
             batchResponse mockCnpBatchResponse = new batchResponse();
             mockCnpBatchResponse.setCancelSubscriptionResponseReader(mockXmlReader.Object);
@@ -1253,8 +1253,8 @@ namespace Cnp.Sdk.Test.Unit
             var mockCnpXmlSerializer = new Mock<cnpXmlSerializer>();
 
             mockXmlReader.SetupSequence(XmlReader => XmlReader.ReadOuterXml())
-                .Returns("<updateSubscriptionResponse xmlns=\"http://www.cnp.com/schema\"><cnpTxnId>54321</cnpTxnId><response>000</response><message>Approved</message><responseTime>2013-09-04T21:55:14</responseTime><subscriptionId>12345</subscriptionId></updateSubscriptionResponse>")
-                .Returns("<updateSubscriptionResponse xmlns=\"http://www.cnp.com/schema\"><cnpTxnId>12345</cnpTxnId><response>000</response><message>Approved</message><responseTime>2013-09-04T21:55:14</responseTime><subscriptionId>54321</subscriptionId></updateSubscriptionResponse>");
+                .Returns("<updateSubscriptionResponse xmlns=\"http://www.vantivcnp.com/schema\"><cnpTxnId>54321</cnpTxnId><response>000</response><message>Approved</message><responseTime>2013-09-04T21:55:14</responseTime><subscriptionId>12345</subscriptionId></updateSubscriptionResponse>")
+                .Returns("<updateSubscriptionResponse xmlns=\"http://www.vantivcnp.com/schema\"><cnpTxnId>12345</cnpTxnId><response>000</response><message>Approved</message><responseTime>2013-09-04T21:55:14</responseTime><subscriptionId>54321</subscriptionId></updateSubscriptionResponse>");
 
             batchResponse mockCnpBatchResponse = new batchResponse();
             mockCnpBatchResponse.setUpdateSubscriptionResponseReader(mockXmlReader.Object);
@@ -1307,8 +1307,8 @@ namespace Cnp.Sdk.Test.Unit
             var mockCnpXmlSerializer = new Mock<cnpXmlSerializer>();
 
             mockXmlReader.SetupSequence(XmlReader => XmlReader.ReadOuterXml())
-                .Returns("<createPlanResponse xmlns=\"http://www.cnp.com/schema\"><cnpTxnId>123</cnpTxnId></createPlanResponse>")
-                .Returns("<createPlanResponse xmlns=\"http://www.cnp.com/schema\"><cnpTxnId>124</cnpTxnId></createPlanResponse>");
+                .Returns("<createPlanResponse xmlns=\"http://www.vantivcnp.com/schema\"><cnpTxnId>123</cnpTxnId></createPlanResponse>")
+                .Returns("<createPlanResponse xmlns=\"http://www.vantivcnp.com/schema\"><cnpTxnId>124</cnpTxnId></createPlanResponse>");
 
             batchResponse mockCnpBatchResponse = new batchResponse();
             mockCnpBatchResponse.setCreatePlanResponseReader(mockXmlReader.Object);
@@ -1360,8 +1360,8 @@ namespace Cnp.Sdk.Test.Unit
             var mockCnpXmlSerializer = new Mock<cnpXmlSerializer>();
 
             mockXmlReader.SetupSequence(XmlReader => XmlReader.ReadOuterXml())
-                .Returns("<updatePlanResponse xmlns=\"http://www.cnp.com/schema\"><cnpTxnId>123</cnpTxnId></updatePlanResponse>")
-                .Returns("<updatePlanResponse xmlns=\"http://www.cnp.com/schema\"><cnpTxnId>124</cnpTxnId></updatePlanResponse>");
+                .Returns("<updatePlanResponse xmlns=\"http://www.vantivcnp.com/schema\"><cnpTxnId>123</cnpTxnId></updatePlanResponse>")
+                .Returns("<updatePlanResponse xmlns=\"http://www.vantivcnp.com/schema\"><cnpTxnId>124</cnpTxnId></updatePlanResponse>");
 
             batchResponse mockCnpBatchResponse = new batchResponse();
             mockCnpBatchResponse.setUpdatePlanResponseReader(mockXmlReader.Object);
@@ -1414,8 +1414,8 @@ namespace Cnp.Sdk.Test.Unit
             var mockCnpXmlSerializer = new Mock<cnpXmlSerializer>();
 
             mockXmlReader.SetupSequence(XmlReader => XmlReader.ReadOuterXml())
-                .Returns("<activateResponse reportGroup=\"A\" id=\"3\" customerId=\"4\" duplicate=\"true\" xmlns=\"http://www.cnp.com/schema\"><cnpTxnId>123</cnpTxnId><response>000</response><responseTime>2013-09-05T14:23:45</responseTime><postDate>2013-09-05</postDate><message>Approved</message><fraudResult></fraudResult><giftCardResponse></giftCardResponse></activateResponse>")
-                .Returns("<activateResponse xmlns=\"http://www.cnp.com/schema\"><cnpTxnId>124</cnpTxnId></activateResponse>");
+                .Returns("<activateResponse reportGroup=\"A\" id=\"3\" customerId=\"4\" duplicate=\"true\" xmlns=\"http://www.vantivcnp.com/schema\"><cnpTxnId>123</cnpTxnId><response>000</response><responseTime>2013-09-05T14:23:45</responseTime><postDate>2013-09-05</postDate><message>Approved</message><fraudResult></fraudResult><giftCardResponse></giftCardResponse></activateResponse>")
+                .Returns("<activateResponse xmlns=\"http://www.vantivcnp.com/schema\"><cnpTxnId>124</cnpTxnId></activateResponse>");
 
             batchResponse mockCnpBatchResponse = new batchResponse();
             mockCnpBatchResponse.setActivateResponseReader(mockXmlReader.Object);
@@ -1468,8 +1468,8 @@ namespace Cnp.Sdk.Test.Unit
             var mockCnpXmlSerializer = new Mock<cnpXmlSerializer>();
 
             mockXmlReader.SetupSequence(XmlReader => XmlReader.ReadOuterXml())
-                .Returns("<deactivateResponse xmlns=\"http://www.cnp.com/schema\"><cnpTxnId>123</cnpTxnId></deactivateResponse>")
-                .Returns("<deactivateResponse xmlns=\"http://www.cnp.com/schema\"><cnpTxnId>124</cnpTxnId></deactivateResponse>");
+                .Returns("<deactivateResponse xmlns=\"http://www.vantivcnp.com/schema\"><cnpTxnId>123</cnpTxnId></deactivateResponse>")
+                .Returns("<deactivateResponse xmlns=\"http://www.vantivcnp.com/schema\"><cnpTxnId>124</cnpTxnId></deactivateResponse>");
 
             batchResponse mockCnpBatchResponse = new batchResponse();
             mockCnpBatchResponse.setDeactivateResponseReader(mockXmlReader.Object);
@@ -1522,8 +1522,8 @@ namespace Cnp.Sdk.Test.Unit
             var mockCnpXmlSerializer = new Mock<cnpXmlSerializer>();
 
             mockXmlReader.SetupSequence(XmlReader => XmlReader.ReadOuterXml())
-                .Returns("<loadResponse xmlns=\"http://www.cnp.com/schema\"><cnpTxnId>123</cnpTxnId></loadResponse>")
-                .Returns("<loadResponse xmlns=\"http://www.cnp.com/schema\"><cnpTxnId>124</cnpTxnId></loadResponse>");
+                .Returns("<loadResponse xmlns=\"http://www.vantivcnp.com/schema\"><cnpTxnId>123</cnpTxnId></loadResponse>")
+                .Returns("<loadResponse xmlns=\"http://www.vantivcnp.com/schema\"><cnpTxnId>124</cnpTxnId></loadResponse>");
 
             batchResponse mockCnpBatchResponse = new batchResponse();
             mockCnpBatchResponse.setLoadResponseReader(mockXmlReader.Object);
@@ -1576,8 +1576,8 @@ namespace Cnp.Sdk.Test.Unit
             var mockCnpXmlSerializer = new Mock<cnpXmlSerializer>();
 
             mockXmlReader.SetupSequence(XmlReader => XmlReader.ReadOuterXml())
-                .Returns("<unloadResponse xmlns=\"http://www.cnp.com/schema\"><cnpTxnId>123</cnpTxnId></unloadResponse>")
-                .Returns("<unloadResponse xmlns=\"http://www.cnp.com/schema\"><cnpTxnId>124</cnpTxnId></unloadResponse>");
+                .Returns("<unloadResponse xmlns=\"http://www.vantivcnp.com/schema\"><cnpTxnId>123</cnpTxnId></unloadResponse>")
+                .Returns("<unloadResponse xmlns=\"http://www.vantivcnp.com/schema\"><cnpTxnId>124</cnpTxnId></unloadResponse>");
 
             batchResponse mockCnpBatchResponse = new batchResponse();
             mockCnpBatchResponse.setUnloadResponseReader(mockXmlReader.Object);
@@ -1630,8 +1630,8 @@ namespace Cnp.Sdk.Test.Unit
             var mockCnpXmlSerializer = new Mock<cnpXmlSerializer>();
 
             mockXmlReader.SetupSequence(XmlReader => XmlReader.ReadOuterXml())
-                .Returns("<balanceInquiryResponse xmlns=\"http://www.cnp.com/schema\"><cnpTxnId>123</cnpTxnId></balanceInquiryResponse>")
-                .Returns("<balanceInquiryResponse xmlns=\"http://www.cnp.com/schema\"><cnpTxnId>124</cnpTxnId></balanceInquiryResponse>");
+                .Returns("<balanceInquiryResponse xmlns=\"http://www.vantivcnp.com/schema\"><cnpTxnId>123</cnpTxnId></balanceInquiryResponse>")
+                .Returns("<balanceInquiryResponse xmlns=\"http://www.vantivcnp.com/schema\"><cnpTxnId>124</cnpTxnId></balanceInquiryResponse>");
 
             batchResponse mockCnpBatchResponse = new batchResponse();
             mockCnpBatchResponse.setBalanceInquiryResponseReader(mockXmlReader.Object);

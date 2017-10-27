@@ -33,7 +33,7 @@ namespace Cnp.Sdk.Test.Unit
                 .Returns("<cnpOnlineResponse version='8.13' response='0' message='Valid Format' xmlns='http://www.vantivcnp.com/schema'><echeckVoidResponse><cnpTxnId>123</cnpTxnId></echeckVoidResponse></cnpOnlineResponse>");
      
             Communications mockedCommunication = mock.Object;
-            cnp.setCommunication(mockedCommunication);
+            cnp.SetCommunication(mockedCommunication);
             cnp.EcheckVoid(echeckVoid);
         }
 

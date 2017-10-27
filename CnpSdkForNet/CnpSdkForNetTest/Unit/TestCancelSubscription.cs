@@ -32,7 +32,7 @@ namespace Cnp.Sdk.Test.Unit
                 .Returns("<cnpOnlineResponse version='8.20' response='0' message='Valid Format' xmlns='http://www.vantivcnp.com/schema'><cancelSubscriptionResponse><subscriptionId>12345</subscriptionId></cancelSubscriptionResponse></cnpOnlineResponse>");
      
             Communications mockedCommunication = mock.Object;
-            cnp.setCommunication(mockedCommunication);
+            cnp.SetCommunication(mockedCommunication);
             cnp.CancelSubscription(update);
         }
 

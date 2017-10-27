@@ -14,13 +14,13 @@ namespace Cnp.Sdk.Test.Functional
         {
             _config = new Dictionary<string, string>
             {
-                {"url", "https://www.testvantivcnp.com/sandbox/communicator/online"},
+                {"url", "https://payments.vantivprelive.com/vap/communicator/online"},
                 {"reportGroup", "Default Report Group"},
-                {"username", "DOTNET"},
+                {"username", "SDKTEAM"},
                 {"version", "11.0"},
                 {"timeout", "5000"},
-                {"merchantId", "101"},
-                {"password", "TESTCASE"},
+                {"merchantId", "1288791"},
+                {"password", "V3r5K6v7"},
                 {"printxml", "true"},
                 {"proxyHost", Properties.Settings.Default.proxyHost},
                 {"proxyPort", Properties.Settings.Default.proxyPort},
@@ -43,7 +43,7 @@ namespace Cnp.Sdk.Test.Functional
                 origCnpTxnId = 54321
             };
 
-            var response = _cnp.queryTransaction(query);
+            var response = _cnp.QueryTransaction(query);
             var queryResponse = (queryTransactionResponse)response;
 
             Assert.NotNull(queryResponse);
@@ -65,7 +65,7 @@ namespace Cnp.Sdk.Test.Functional
                 origCnpTxnId = 54321
             };
 
-            var response = _cnp.queryTransaction(query);
+            var response = _cnp.QueryTransaction(query);
             var queryResponse = (queryTransactionResponse)response;
 
             Assert.NotNull(queryResponse);
@@ -82,7 +82,7 @@ namespace Cnp.Sdk.Test.Functional
         }
 
         [Test]
-        public void testQueryTransactionUnavailableResponse()
+        public void TestQueryTransactionUnavailableResponse()
         {
             var query = new queryTransaction
             {
@@ -93,15 +93,24 @@ namespace Cnp.Sdk.Test.Functional
                 origCnpTxnId = 54321
             };
 
-            var response = _cnp.queryTransaction(query);
-            var queryResponse = (queryTransactionUnavailableResponse)response;
+            var response = _cnp.QueryTransaction(query);
+            if(response is queryTransactionResponse)
+            {
+                Assert.Fail("Unexpected type. Aborting the test");
+            }
+            else
+            {
+                var queryResponse = (queryTransactionUnavailableResponse)response;
+                Assert.AreEqual("152", queryResponse.response);
+                Assert.AreEqual("Original transaction found but response not yet available", queryResponse.message);
+            }
+            
 
-            Assert.AreEqual("152", queryResponse.response);
-            Assert.AreEqual("Original transaction found but response not yet available", queryResponse.message);
+           
         }
 
         [Test]
-        public void testQueryTransactionNotFoundResponse()
+        public void TestQueryTransactionNotFoundResponse()
         {
             var query = new queryTransaction
             {
@@ -112,7 +121,7 @@ namespace Cnp.Sdk.Test.Functional
                 origCnpTxnId = 54321
             };
 
-            var response = _cnp.queryTransaction(query);
+            var response = _cnp.QueryTransaction(query);
             var queryResponse = (queryTransactionResponse)response;
 
             Assert.AreEqual("151", queryResponse.response);

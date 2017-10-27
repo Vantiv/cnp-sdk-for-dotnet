@@ -968,10 +968,12 @@ namespace Cnp.Sdk.Test.Functional
 
             cnpBatchRequest.addAuthorization(authorization2);
 
-            var reversal = new authReversal();
-            reversal.cnpTxnId = 12345678000L;
-            reversal.amount = 106;
-            reversal.payPalNotes = "Notes";
+            var reversal = new authReversal
+            {
+                cnpTxnId = 12345678000L,
+                amount = 106,
+                payPalNotes = "Notes"
+            };
 
             cnpBatchRequest.addAuthReversal(reversal);
 
@@ -1040,137 +1042,173 @@ namespace Cnp.Sdk.Test.Functional
 
             cnpBatchRequest.addCredit(creditObj2);
 
-            var echeckcredit = new echeckCredit();
-            echeckcredit.amount = 12L;
-            echeckcredit.orderId = "12345";
-            echeckcredit.orderSource = orderSourceType.ecommerce;
-            var echeck = new echeckType();
-            echeck.accType = echeckAccountTypeEnum.Checking;
-            echeck.accNum = "1099999903";
-            echeck.routingNum = "011201995";
-            echeck.checkNum = "123455";
+            var echeckcredit = new echeckCredit
+            {
+                amount = 12L,
+                orderId = "12345",
+                orderSource = orderSourceType.ecommerce
+            };
+            var echeck = new echeckType
+            {
+                accType = echeckAccountTypeEnum.Checking,
+                accNum = "1099999903",
+                routingNum = "011201995",
+                checkNum = "123455"
+            };
             echeckcredit.echeck = echeck;
-            var billToAddress = new contact();
-            billToAddress.name = "Bob";
-            billToAddress.city = "Lowell";
-            billToAddress.state = "MA";
-            billToAddress.email = "cnp.com";
+            var billToAddress = new contact
+            {
+                name = "Bob",
+                city = "Lowell",
+                state = "MA",
+                email = "cnp.com"
+            };
             echeckcredit.billToAddress = billToAddress;
 
             cnpBatchRequest.addEcheckCredit(echeckcredit);
 
-            var echeckcredit2 = new echeckCredit();
-            echeckcredit2.amount = 12L;
-            echeckcredit2.orderId = "12346";
-            echeckcredit2.orderSource = orderSourceType.ecommerce;
-            var echeck2 = new echeckType();
-            echeck2.accType = echeckAccountTypeEnum.Checking;
-            echeck2.accNum = "1099999903";
-            echeck2.routingNum = "011201995";
-            echeck2.checkNum = "123456";
+            var echeckcredit2 = new echeckCredit
+            {
+                amount = 12L,
+                orderId = "12346",
+                orderSource = orderSourceType.ecommerce
+            };
+            var echeck2 = new echeckType
+            {
+                accType = echeckAccountTypeEnum.Checking,
+                accNum = "1099999903",
+                routingNum = "011201995",
+                checkNum = "123456"
+            };
             echeckcredit2.echeck = echeck2;
-            var billToAddress2 = new contact();
-            billToAddress2.name = "Mike";
-            billToAddress2.city = "Lowell";
-            billToAddress2.state = "MA";
-            billToAddress2.email = "cnp.com";
+            var billToAddress2 = new contact
+            {
+                name = "Mike",
+                city = "Lowell",
+                state = "MA",
+                email = "cnp.com"
+            };
             echeckcredit2.billToAddress = billToAddress2;
 
             cnpBatchRequest.addEcheckCredit(echeckcredit2);
 
-            var echeckredeposit = new echeckRedeposit();
-            echeckredeposit.cnpTxnId = 123456;
-            echeckredeposit.echeck = echeck;
+            var echeckredeposit = new echeckRedeposit
+            {
+                cnpTxnId = 123456,
+                echeck = echeck
+            };
 
             cnpBatchRequest.addEcheckRedeposit(echeckredeposit);
 
-            var echeckredeposit2 = new echeckRedeposit();
-            echeckredeposit2.cnpTxnId = 123457;
-            echeckredeposit2.echeck = echeck2;
+            var echeckredeposit2 = new echeckRedeposit
+            {
+                cnpTxnId = 123457,
+                echeck = echeck2
+            };
 
             cnpBatchRequest.addEcheckRedeposit(echeckredeposit2);
 
-            var echeckSaleObj = new echeckSale();
-            echeckSaleObj.amount = 123456;
-            echeckSaleObj.orderId = "12345";
-            echeckSaleObj.orderSource = orderSourceType.ecommerce;
-            echeckSaleObj.echeck = echeck;
-            echeckSaleObj.billToAddress = billToAddress;
+            var echeckSaleObj = new echeckSale
+            {
+                amount = 123456,
+                orderId = "12345",
+                orderSource = orderSourceType.ecommerce,
+                echeck = echeck,
+                billToAddress = billToAddress
+            };
 
             cnpBatchRequest.addEcheckSale(echeckSaleObj);
 
-            var echeckSaleObj2 = new echeckSale();
-            echeckSaleObj2.amount = 123456;
-            echeckSaleObj2.orderId = "12346";
-            echeckSaleObj2.orderSource = orderSourceType.ecommerce;
-            echeckSaleObj2.echeck = echeck2;
-            echeckSaleObj2.billToAddress = billToAddress2;
+            var echeckSaleObj2 = new echeckSale
+            {
+                amount = 123456,
+                orderId = "12346",
+                orderSource = orderSourceType.ecommerce,
+                echeck = echeck2,
+                billToAddress = billToAddress2
+            };
 
             cnpBatchRequest.addEcheckSale(echeckSaleObj2);
 
-            var echeckVerificationObject = new echeckVerification();
-            echeckVerificationObject.amount = 123456;
-            echeckVerificationObject.orderId = "12345";
-            echeckVerificationObject.orderSource = orderSourceType.ecommerce;
-            echeckVerificationObject.echeck = echeck;
-            echeckVerificationObject.billToAddress = billToAddress;
+            var echeckVerificationObject = new echeckVerification
+            {
+                amount = 123456,
+                orderId = "12345",
+                orderSource = orderSourceType.ecommerce,
+                echeck = echeck,
+                billToAddress = billToAddress
+            };
 
             cnpBatchRequest.addEcheckVerification(echeckVerificationObject);
 
-            var echeckVerificationObject2 = new echeckVerification();
-            echeckVerificationObject2.amount = 123456;
-            echeckVerificationObject2.orderId = "12346";
-            echeckVerificationObject2.orderSource = orderSourceType.ecommerce;
-            echeckVerificationObject2.echeck = echeck2;
-            echeckVerificationObject2.billToAddress = billToAddress2;
+            var echeckVerificationObject2 = new echeckVerification
+            {
+                amount = 123456,
+                orderId = "12346",
+                orderSource = orderSourceType.ecommerce,
+                echeck = echeck2,
+                billToAddress = billToAddress2
+            };
 
             cnpBatchRequest.addEcheckVerification(echeckVerificationObject2);
 
-            var forcecapture = new forceCapture();
-            forcecapture.amount = 106;
-            forcecapture.orderId = "12344";
-            forcecapture.orderSource = orderSourceType.ecommerce;
-            forcecapture.card = card;
+            var forcecapture = new forceCapture
+            {
+                amount = 106,
+                orderId = "12344",
+                orderSource = orderSourceType.ecommerce,
+                card = card
+            };
 
             cnpBatchRequest.addForceCapture(forcecapture);
 
-            var forcecapture2 = new forceCapture();
-            forcecapture2.amount = 106;
-            forcecapture2.orderId = "12345";
-            forcecapture2.orderSource = orderSourceType.ecommerce;
-            forcecapture2.card = card2;
+            var forcecapture2 = new forceCapture
+            {
+                amount = 106,
+                orderId = "12345",
+                orderSource = orderSourceType.ecommerce,
+                card = card2
+            };
 
             cnpBatchRequest.addForceCapture(forcecapture2);
 
-            var saleObj = new sale();
-            saleObj.amount = 106;
-            saleObj.cnpTxnId = 123456;
-            saleObj.orderId = "12344";
-            saleObj.orderSource = orderSourceType.ecommerce;
-            saleObj.card = card;
+            var saleObj = new sale
+            {
+                amount = 106,
+                cnpTxnId = 123456,
+                orderId = "12344",
+                orderSource = orderSourceType.ecommerce,
+                card = card
+            };
 
             cnpBatchRequest.addSale(saleObj);
 
-            var saleObj2 = new sale();
-            saleObj2.amount = 106;
-            saleObj2.cnpTxnId = 123456;
-            saleObj2.orderId = "12345";
-            saleObj2.orderSource = orderSourceType.ecommerce;
-            saleObj2.card = card2;
+            var saleObj2 = new sale
+            {
+                amount = 106,
+                cnpTxnId = 123456,
+                orderId = "12345",
+                orderSource = orderSourceType.ecommerce,
+                card = card2
+            };
 
             cnpBatchRequest.addSale(saleObj2);
 
-            var registerTokenRequest = new registerTokenRequestType();
-            registerTokenRequest.orderId = "12344";
-            registerTokenRequest.accountNumber = "1233456789103801";
-            registerTokenRequest.reportGroup = "Planets";
+            var registerTokenRequest = new registerTokenRequestType
+            {
+                orderId = "12344",
+                accountNumber = "1233456789103801",
+                reportGroup = "Planets"
+            };
 
             cnpBatchRequest.addRegisterTokenRequest(registerTokenRequest);
 
-            var registerTokenRequest2 = new registerTokenRequestType();
-            registerTokenRequest2.orderId = "12345";
-            registerTokenRequest2.accountNumber = "1233456789103801";
-            registerTokenRequest2.reportGroup = "Planets";
+            var registerTokenRequest2 = new registerTokenRequestType
+            {
+                orderId = "12345",
+                accountNumber = "1233456789103801",
+                reportGroup = "Planets"
+            };
 
             cnpBatchRequest.addRegisterTokenRequest(registerTokenRequest2);
 

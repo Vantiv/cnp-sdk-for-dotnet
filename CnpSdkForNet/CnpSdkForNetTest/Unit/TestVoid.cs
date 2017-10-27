@@ -33,7 +33,7 @@ namespace Cnp.Sdk.Test.Unit
                 .Returns("<cnpOnlineResponse version='8.16' response='0' message='Valid Format' xmlns='http://www.vantivcnp.com/schema'><voidResponse><cnpTxnId>123</cnpTxnId><response>000</response><responseTime>2013-01-31T15:48:09</responseTime><postDate>2013-01-31</postDate><message>Approved</message><recycling><creditCnpTxnId>456</creditCnpTxnId></recycling></voidResponse></cnpOnlineResponse>");
      
             Communications mockedCommunication = mock.Object;
-            cnp.setCommunication(mockedCommunication);
+            cnp.SetCommunication(mockedCommunication);
             cnpOnlineResponseTransactionResponseVoidResponse response = cnp.DoVoid(voidTxn);
             Assert.AreEqual(123, response.cnpTxnId);
             Assert.AreEqual(456, response.recycling.creditCnpTxnId);
@@ -51,7 +51,7 @@ namespace Cnp.Sdk.Test.Unit
                 .Returns("<cnpOnlineResponse version='8.16' response='0' message='Valid Format' xmlns='http://www.vantivcnp.com/schema'><voidResponse><cnpTxnId>123</cnpTxnId><response>000</response><responseTime>2013-01-31T15:48:09</responseTime><postDate>2013-01-31</postDate><message>Approved</message></voidResponse></cnpOnlineResponse>");
 
             Communications mockedCommunication = mock.Object;
-            cnp.setCommunication(mockedCommunication);
+            cnp.SetCommunication(mockedCommunication);
             cnpOnlineResponseTransactionResponseVoidResponse response = cnp.DoVoid(voidTxn);
             Assert.AreEqual(123, response.cnpTxnId);
             Assert.IsNull(response.recycling);

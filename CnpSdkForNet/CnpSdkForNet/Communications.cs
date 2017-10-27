@@ -10,6 +10,8 @@ using System.Net.Security;
 using System.Security.Authentication;
 using System.Security.Cryptography.X509Certificates;
 using System.Text.RegularExpressions;
+using System.Threading;
+using System.Threading.Tasks;
 
 namespace Cnp.Sdk
 {
@@ -18,7 +20,8 @@ namespace Cnp.Sdk
         private static readonly object SynLock = new object();
 
         public event EventHandler HttpAction;
-        
+
+
         private void OnHttpAction(RequestType requestType, string xmlPayload, bool neuter)
         {
             if (HttpAction != null)
@@ -62,7 +65,7 @@ namespace Cnp.Sdk
             inputXml = rgx2.Replace(inputXml, "<accNum>xxxxxxxxxx</accNum>");
             inputXml = rgx3.Replace(inputXml, "<track>xxxxxxxxxxxxxxxxxxxxxxxxxxxxxx</track>");
         }
-        
+
         public void Log(string logMessage, string logFile, bool neuter)
         {
             lock (SynLock)
@@ -80,18 +83,27 @@ namespace Cnp.Sdk
             }
         }
 
-        public virtual string HttpPost(string xmlRequest, Dictionary<string, string> config)
+
+        /**
+         * Added by Chahat
+         * */
+        public virtual Task<string> HttpPostAsync(string xmlRequest, Dictionary<string, string> config, CancellationToken cancellationToken)
+        {
+            return HttpPostCoreAsync(xmlRequest, config, cancellationToken);
+        }
+
+        private async Task<string> HttpPostCoreAsync(string xmlRequest, Dictionary<string, string> config, CancellationToken cancellationToken)
         {
             string logFile = null;
             if (config.ContainsKey("logFile"))
             {
                 logFile = config["logFile"];
             }
-            
+
             var uri = config["url"];
-            ServicePointManager.SecurityProtocol = SecurityProtocolType.Tls12 | SecurityProtocolType.Tls11 | SecurityProtocolType.Tls; 
-            var req = (HttpWebRequest)WebRequest.Create(uri);
-            
+            ServicePointManager.SecurityProtocol = SecurityProtocolType.Tls12 | SecurityProtocolType.Tls11 | SecurityProtocolType.Tls;
+            var request = (HttpWebRequest)WebRequest.Create(uri);
+
             var neuter = false;
             if (config.ContainsKey("neuterAccountNums"))
             {
@@ -101,13 +113,105 @@ namespace Cnp.Sdk
             var printxml = false;
             if (config.ContainsKey("printxml"))
             {
-                if("true".Equals(config["printxml"])) 
+                if ("true".Equals(config["printxml"]))
                 {
                     printxml = true;
                 }
             }
 
-            if (printxml) 
+            if (printxml)
+            {
+                Console.WriteLine(xmlRequest);
+                Console.WriteLine(logFile);
+            }
+
+            //log request
+            if (logFile != null)
+            {
+                Log(xmlRequest, logFile, neuter);
+            }
+
+            request.ContentType = "text/xml; charset=UTF-8";
+            request.Method = "POST";
+            request.ServicePoint.MaxIdleTime = 8000;
+            request.ServicePoint.Expect100Continue = false;
+            request.KeepAlive = false;
+            if (IsProxyOn(config))
+            {
+                var myproxy = new WebProxy(config["proxyHost"], int.Parse(config["proxyPort"]))
+                {
+                    BypassProxyOnLocal = true
+                };
+                request.Proxy = myproxy;
+            }
+
+            OnHttpAction(RequestType.Request, xmlRequest, neuter);
+
+            // submit http request
+            using (var writer = new StreamWriter(await request.GetRequestStreamAsync().ConfigureAwait(false)))
+            {
+                writer.Write(xmlRequest);
+            }
+
+            // read response
+            var response = await request.GetResponseAsync().ConfigureAwait(false);
+            string xmlResponse;
+            using (var reader = new StreamReader(response.GetResponseStream()))
+            {
+                xmlResponse = (await reader.ReadToEndAsync().ConfigureAwait(false)).Trim();
+            }
+            if (printxml)
+            {
+                Console.WriteLine(xmlResponse);
+            }
+
+            OnHttpAction(RequestType.Response, xmlResponse, neuter);
+
+            //log response
+            if (logFile != null)
+            {
+                Log(xmlResponse, logFile, neuter);
+            }
+
+            return xmlResponse;
+        }
+        /**
+        * Added by Chahat
+        * */
+
+        public bool IsProxyOn(Dictionary<string, string> config)
+        {
+            return config.ContainsKey("proxyHost") && config["proxyHost"] != null && config["proxyHost"].Length > 0 && config.ContainsKey("proxyPort") && config["proxyPort"] != null && config["proxyPort"].Length > 0;
+        }
+
+        public virtual string HttpPost(string xmlRequest, Dictionary<string, string> config)
+        {
+            string logFile = null;
+            if (config.ContainsKey("logFile"))
+            {
+                logFile = config["logFile"];
+            }
+
+            var uri = config["url"];
+            ServicePointManager.SecurityProtocol = SecurityProtocolType.Tls12 | SecurityProtocolType.Tls11 | SecurityProtocolType.Tls;
+            var req = (HttpWebRequest)WebRequest.Create(uri);
+
+            var neuter = false;
+            if (config.ContainsKey("neuterAccountNums"))
+            {
+                neuter = ("true".Equals(config["neuterAccountNums"]));
+            }
+
+            var printxml = false;
+            if (config.ContainsKey("printxml"))
+            {
+                if ("true".Equals(config["printxml"]))
+                {
+                    printxml = true;
+                }
+            }
+
+            if (printxml)
             {
                 Console.WriteLine(xmlRequest);
                 Console.WriteLine(logFile);
@@ -123,7 +227,8 @@ namespace Cnp.Sdk
             req.Method = "POST";
             req.ServicePoint.MaxIdleTime = 8000;
             req.ServicePoint.Expect100Continue = false;
-            req.KeepAlive = false;
+            req.KeepAlive = true;
+            req.Timeout = 500000;
             if (IsProxyOn(config))
             {
                 var myproxy = new WebProxy(config["proxyHost"], int.Parse(config["proxyPort"]))
@@ -170,9 +275,7 @@ namespace Cnp.Sdk
             return xmlResponse;
         }
 
-        public bool IsProxyOn(Dictionary<string,string> config) {
-            return config.ContainsKey("proxyHost") && config["proxyHost"] != null && config["proxyHost"].Length > 0 && config.ContainsKey("proxyPort") && config["proxyPort"] != null && config["proxyPort"].Length > 0;
-        }
+
 
         public virtual string SocketStream(string xmlRequestFilePath, string xmlResponseDestinationDirectory, Dictionary<string, string> config)
         {
@@ -322,7 +425,7 @@ namespace Cnp.Sdk
             }
             catch (SftpException e)
             {
-                throw new CnpOnlineException("Error occured while attempting to establish an SFTP connection",e);
+                throw new CnpOnlineException("Error occured while attempting to establish an SFTP connection", e);
             }
             catch (JSchException e)
             {
@@ -474,12 +577,12 @@ namespace Cnp.Sdk
         {
             Request, Response
         }
-        
+
         public class HttpActionEventArgs : EventArgs
         {
             public RequestType RequestType { get; set; }
             public string XmlPayload;
-    
+
             public HttpActionEventArgs(RequestType requestType, string xmlPayload)
             {
                 RequestType = requestType;
@@ -488,7 +591,7 @@ namespace Cnp.Sdk
         }
 
 
-public struct SshConnectionInfo
+        public struct SshConnectionInfo
         {
             public string Host;
             public string User;

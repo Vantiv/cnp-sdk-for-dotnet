@@ -23,7 +23,7 @@ namespace Cnp.Sdk.Test.Unit
         [Test]
         public void TestAuthorizationResponseContainsGiftCardResponse()
         {
-            String xml = "<authorizationResponse xmlns=\"http://www.cnp.com/schema\"><giftCardResponse></giftCardResponse></authorizationResponse>";
+            String xml = "<authorizationResponse xmlns=\"http://www.vantivcnp.com/schema\"><giftCardResponse></giftCardResponse></authorizationResponse>";
             XmlSerializer serializer = new XmlSerializer(typeof(authorizationResponse));
             StringReader reader = new StringReader(xml);
             authorizationResponse authorizationResponse = (authorizationResponse)serializer.Deserialize(reader);
@@ -37,7 +37,7 @@ namespace Cnp.Sdk.Test.Unit
         [Test]
         public void TestAuthReversalResponseContainsGiftCardResponse()
         {
-            String xml = "<authReversalResponse xmlns=\"http://www.cnp.com/schema\"><giftCardResponse></giftCardResponse></authReversalResponse>";
+            String xml = "<authReversalResponse xmlns=\"http://www.vantivcnp.com/schema\"><giftCardResponse></giftCardResponse></authReversalResponse>";
             XmlSerializer serializer = new XmlSerializer(typeof(authReversalResponse));
             StringReader reader = new StringReader(xml);
             authReversalResponse authReversalResponse = (authReversalResponse)serializer.Deserialize(reader);
@@ -49,7 +49,7 @@ namespace Cnp.Sdk.Test.Unit
         [Test]
         public void TestgiftCardAuthReversalResponseContainsGiftCardResponse()
         {
-            String xml = "<giftCardAuthReversalResponse xmlns=\"http://www.cnp.com/schema\"><giftCardResponse></giftCardResponse></giftCardAuthReversalResponse>";
+            String xml = "<giftCardAuthReversalResponse xmlns=\"http://www.vantivcnp.com/schema\"><giftCardResponse></giftCardResponse></giftCardAuthReversalResponse>";
             XmlSerializer serializer = new XmlSerializer(typeof(giftCardAuthReversalResponse));
             StringReader reader = new StringReader(xml);
             giftCardAuthReversalResponse giftCardAuthReversalResponse = (giftCardAuthReversalResponse)serializer.Deserialize(reader);
@@ -63,7 +63,7 @@ namespace Cnp.Sdk.Test.Unit
         [Test]
         public void TestCaptureResponseContainsGiftCardResponse()
         {
-            String xml = "<captureResponse xmlns=\"http://www.cnp.com/schema\"><giftCardResponse></giftCardResponse></captureResponse>";
+            String xml = "<captureResponse xmlns=\"http://www.vantivcnp.com/schema\"><giftCardResponse></giftCardResponse></captureResponse>";
             XmlSerializer serializer = new XmlSerializer(typeof(captureResponse));
             StringReader reader = new StringReader(xml);
             captureResponse captureResponse = (captureResponse)serializer.Deserialize(reader);
@@ -75,7 +75,7 @@ namespace Cnp.Sdk.Test.Unit
         [Test]
         public void TestCaptureResponseContainsFraudResult()
         {
-            String xml = "<captureResponse xmlns=\"http://www.cnp.com/schema\"><fraudResult></fraudResult></captureResponse>";
+            String xml = "<captureResponse xmlns=\"http://www.vantivcnp.com/schema\"><fraudResult></fraudResult></captureResponse>";
             XmlSerializer serializer = new XmlSerializer(typeof(captureResponse));
             StringReader reader = new StringReader(xml);
             captureResponse captureResponse = (captureResponse)serializer.Deserialize(reader);
@@ -86,7 +86,7 @@ namespace Cnp.Sdk.Test.Unit
         [Test]
         public void TestForceCaptureResponseContainsGiftCardResponse()
         {
-            String xml = "<forceCaptureResponse xmlns=\"http://www.cnp.com/schema\"><giftCardResponse></giftCardResponse></forceCaptureResponse>";
+            String xml = "<forceCaptureResponse xmlns=\"http://www.vantivcnp.com/schema\"><giftCardResponse></giftCardResponse></forceCaptureResponse>";
             XmlSerializer serializer = new XmlSerializer(typeof(forceCaptureResponse));
             StringReader reader = new StringReader(xml);
             forceCaptureResponse forceCaptureResponse = (forceCaptureResponse)serializer.Deserialize(reader);
@@ -97,7 +97,7 @@ namespace Cnp.Sdk.Test.Unit
         [Test]
         public void TestForceCaptureResponseContainsFraudResult()
         {
-            String xml = "<forceCaptureResponse xmlns=\"http://www.cnp.com/schema\"><fraudResult></fraudResult></forceCaptureResponse>";
+            String xml = "<forceCaptureResponse xmlns=\"http://www.vantivcnp.com/schema\"><fraudResult></fraudResult></forceCaptureResponse>";
             XmlSerializer serializer = new XmlSerializer(typeof(forceCaptureResponse));
             StringReader reader = new StringReader(xml);
             forceCaptureResponse forceCaptureResponse = (forceCaptureResponse)serializer.Deserialize(reader);
@@ -108,7 +108,7 @@ namespace Cnp.Sdk.Test.Unit
         [Test]
         public void TestCaptureGivenAuthResponseContainsGiftCardResponse()
         {
-            String xml = "<captureGivenAuthResponse xmlns=\"http://www.cnp.com/schema\"><giftCardResponse></giftCardResponse></captureGivenAuthResponse>";
+            String xml = "<captureGivenAuthResponse xmlns=\"http://www.vantivcnp.com/schema\"><giftCardResponse></giftCardResponse></captureGivenAuthResponse>";
             XmlSerializer serializer = new XmlSerializer(typeof(captureGivenAuthResponse));
             StringReader reader = new StringReader(xml);
             captureGivenAuthResponse captureGivenAuthResponse = (captureGivenAuthResponse)serializer.Deserialize(reader);
@@ -119,7 +119,7 @@ namespace Cnp.Sdk.Test.Unit
         [Test]
         public void TestCaptureGivenAuthResponseContainsFraudResult()
         {
-            String xml = "<captureGivenAuthResponse xmlns=\"http://www.cnp.com/schema\"><fraudResult></fraudResult></captureGivenAuthResponse>";
+            String xml = "<captureGivenAuthResponse xmlns=\"http://www.vantivcnp.com/schema\"><fraudResult></fraudResult></captureGivenAuthResponse>";
             XmlSerializer serializer = new XmlSerializer(typeof(captureGivenAuthResponse));
             StringReader reader = new StringReader(xml);
             captureGivenAuthResponse captureGivenAuthResponse = (captureGivenAuthResponse)serializer.Deserialize(reader);
@@ -130,7 +130,7 @@ namespace Cnp.Sdk.Test.Unit
         [Test]
         public void TestSaleResponseContainsGiftCardResponse()
         {
-            String xml = "<saleResponse xmlns=\"http://www.cnp.com/schema\"><giftCardResponse></giftCardResponse></saleResponse>";
+            String xml = "<saleResponse xmlns=\"http://www.vantivcnp.com/schema\"><giftCardResponse></giftCardResponse></saleResponse>";
             XmlSerializer serializer = new XmlSerializer(typeof(saleResponse));
             StringReader reader = new StringReader(xml);
             saleResponse saleResponse = (saleResponse)serializer.Deserialize(reader);
@@ -142,7 +142,7 @@ namespace Cnp.Sdk.Test.Unit
         //[Test]
         //public void TestCreditResponseContainsGiftCardResponse()
         //{
-        //    String xml = "<creditResponse xmlns=\"http://www.cnp.com/schema\"><giftCardResponse></giftCardResponse></creditResponse>";
+        //    String xml = "<creditResponse xmlns=\"http://www.vantivcnp.com/schema\"><giftCardResponse></giftCardResponse></creditResponse>";
         //    XmlSerializer serializer = new XmlSerializer(typeof(creditResponse));
         //    StringReader reader = new StringReader(xml);
         //    creditResponse creditResponse = (creditResponse)serializer.Deserialize(reader);
@@ -153,7 +153,7 @@ namespace Cnp.Sdk.Test.Unit
         [Test]
         public void TestCreditResponseContainsFraudResult()
         {
-            String xml = "<creditResponse xmlns=\"http://www.cnp.com/schema\"><fraudResult></fraudResult></creditResponse>";
+            String xml = "<creditResponse xmlns=\"http://www.vantivcnp.com/schema\"><fraudResult></fraudResult></creditResponse>";
             XmlSerializer serializer = new XmlSerializer(typeof(creditResponse));
             StringReader reader = new StringReader(xml);
             creditResponse creditResponse = (creditResponse)serializer.Deserialize(reader);
@@ -164,7 +164,7 @@ namespace Cnp.Sdk.Test.Unit
         [Test]
         public void TestActivateResponse()
         {
-            String xml = "<activateResponse reportGroup=\"A\" id=\"3\" customerId=\"4\"  xmlns=\"http://www.cnp.com/schema\"><response>000</response><cnpTxnId>1</cnpTxnId><responseTime>2013-09-05T14:23:45</responseTime><postDate>2013-09-05</postDate><message>Approved</message><fraudResult></fraudResult><giftCardResponse></giftCardResponse></activateResponse>";
+            String xml = "<activateResponse reportGroup=\"A\" id=\"3\" customerId=\"4\"  xmlns=\"http://www.vantivcnp.com/schema\"><response>000</response><cnpTxnId>1</cnpTxnId><responseTime>2013-09-05T14:23:45</responseTime><postDate>2013-09-05</postDate><message>Approved</message><fraudResult></fraudResult><giftCardResponse></giftCardResponse></activateResponse>";
             XmlSerializer serializer = new XmlSerializer(typeof(activateResponse));
             StringReader reader = new StringReader(xml);
             activateResponse activateResponse = (activateResponse)serializer.Deserialize(reader);
@@ -183,7 +183,7 @@ namespace Cnp.Sdk.Test.Unit
         [Test]
         public void TestLoadResponse()
         {
-            String xml = "<loadResponse reportGroup=\"A\" id=\"3\" customerId=\"4\" duplicate=\"true\" xmlns=\"http://www.cnp.com/schema\"><cnpTxnId>1</cnpTxnId><orderId>2</orderId><response>000</response><responseTime>2013-09-05T14:23:45</responseTime><postDate>2013-09-05</postDate><message>Approved</message><fraudResult></fraudResult><giftCardResponse></giftCardResponse></loadResponse>";
+            String xml = "<loadResponse reportGroup=\"A\" id=\"3\" customerId=\"4\" duplicate=\"true\" xmlns=\"http://www.vantivcnp.com/schema\"><cnpTxnId>1</cnpTxnId><orderId>2</orderId><response>000</response><responseTime>2013-09-05T14:23:45</responseTime><postDate>2013-09-05</postDate><message>Approved</message><fraudResult></fraudResult><giftCardResponse></giftCardResponse></loadResponse>";
             XmlSerializer serializer = new XmlSerializer(typeof(loadResponse));
             StringReader reader = new StringReader(xml);
             loadResponse loadResponse = (loadResponse)serializer.Deserialize(reader);
@@ -203,7 +203,7 @@ namespace Cnp.Sdk.Test.Unit
         [Test]
         public void TestUnloadResponse()
         {
-            String xml = "<unloadResponse reportGroup=\"A\" id=\"3\" customerId=\"4\" duplicate=\"true\" xmlns=\"http://www.cnp.com/schema\"><cnpTxnId>1</cnpTxnId><orderId>2</orderId><response>000</response><responseTime>2013-09-05T14:23:45</responseTime><postDate>2013-09-05</postDate><message>Approved</message><fraudResult></fraudResult><giftCardResponse></giftCardResponse></unloadResponse>";
+            String xml = "<unloadResponse reportGroup=\"A\" id=\"3\" customerId=\"4\" duplicate=\"true\" xmlns=\"http://www.vantivcnp.com/schema\"><cnpTxnId>1</cnpTxnId><orderId>2</orderId><response>000</response><responseTime>2013-09-05T14:23:45</responseTime><postDate>2013-09-05</postDate><message>Approved</message><fraudResult></fraudResult><giftCardResponse></giftCardResponse></unloadResponse>";
             XmlSerializer serializer = new XmlSerializer(typeof(unloadResponse));
             StringReader reader = new StringReader(xml);
             unloadResponse unloadResponse = (unloadResponse)serializer.Deserialize(reader);
@@ -222,7 +222,7 @@ namespace Cnp.Sdk.Test.Unit
         [Test]
         public void TestGiftCardResponse()
         {
-            String xml = "<balanceInquiryResponse reportGroup=\"A\" id=\"3\" customerId=\"4\" xmlns=\"http://www.cnp.com/schema\"><giftCardResponse><availableBalance>1</availableBalance><beginningBalance>2</beginningBalance><endingBalance>3</endingBalance><cashBackAmount>4</cashBackAmount></giftCardResponse></balanceInquiryResponse>";
+            String xml = "<balanceInquiryResponse reportGroup=\"A\" id=\"3\" customerId=\"4\" xmlns=\"http://www.vantivcnp.com/schema\"><giftCardResponse><availableBalance>1</availableBalance><beginningBalance>2</beginningBalance><endingBalance>3</endingBalance><cashBackAmount>4</cashBackAmount></giftCardResponse></balanceInquiryResponse>";
             XmlSerializer serializer = new XmlSerializer(typeof(balanceInquiryResponse));
             StringReader reader = new StringReader(xml);
             balanceInquiryResponse balanceInquiryResponse = (balanceInquiryResponse)serializer.Deserialize(reader);
@@ -237,7 +237,7 @@ namespace Cnp.Sdk.Test.Unit
         [Test]
         public void TestBalanceInquiryResponse()
         {
-            String xml = "<balanceInquiryResponse reportGroup=\"A\" id=\"3\" customerId=\"4\" xmlns=\"http://www.cnp.com/schema\"><cnpTxnId>1</cnpTxnId><orderId>2</orderId><response>000</response><responseTime>2013-09-05T14:23:45</responseTime><postDate>2013-09-05</postDate><message>Approved</message><fraudResult></fraudResult><giftCardResponse></giftCardResponse></balanceInquiryResponse>";
+            String xml = "<balanceInquiryResponse reportGroup=\"A\" id=\"3\" customerId=\"4\" xmlns=\"http://www.vantivcnp.com/schema\"><cnpTxnId>1</cnpTxnId><orderId>2</orderId><response>000</response><responseTime>2013-09-05T14:23:45</responseTime><postDate>2013-09-05</postDate><message>Approved</message><fraudResult></fraudResult><giftCardResponse></giftCardResponse></balanceInquiryResponse>";
             XmlSerializer serializer = new XmlSerializer(typeof(balanceInquiryResponse));
             StringReader reader = new StringReader(xml);
             balanceInquiryResponse balanceInquiryResponse = (balanceInquiryResponse)serializer.Deserialize(reader);
@@ -257,7 +257,7 @@ namespace Cnp.Sdk.Test.Unit
         [Test]
         public void TestDeactivateResponse()
         {
-            String xml = "<deactivateResponse reportGroup=\"A\" id=\"3\" customerId=\"4\" xmlns=\"http://www.cnp.com/schema\"><cnpTxnId>1</cnpTxnId><orderId>2</orderId><response>000</response><responseTime>2013-09-05T14:23:45</responseTime><postDate>2013-09-05</postDate><message>Approved</message><fraudResult></fraudResult><giftCardResponse></giftCardResponse></deactivateResponse>";
+            String xml = "<deactivateResponse reportGroup=\"A\" id=\"3\" customerId=\"4\" xmlns=\"http://www.vantivcnp.com/schema\"><cnpTxnId>1</cnpTxnId><orderId>2</orderId><response>000</response><responseTime>2013-09-05T14:23:45</responseTime><postDate>2013-09-05</postDate><message>Approved</message><fraudResult></fraudResult><giftCardResponse></giftCardResponse></deactivateResponse>";
             XmlSerializer serializer = new XmlSerializer(typeof(deactivateResponse));
             StringReader reader = new StringReader(xml);
             deactivateResponse deactivateResponse = (deactivateResponse)serializer.Deserialize(reader);

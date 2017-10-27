@@ -6,3 +6,12 @@ C:\Users\rchabhad\Desktop\cnp-sdk-for-dotnet\LitleSdkForNet\LitleSdkForNet\bin\D
 C:\Users\rchabhad\Desktop\cnp-sdk-for-dotnet\LitleSdkForNet\LitleSdkForNet\obj\Debug\CnpSdkForNet.csproj.CoreCompileInputs.cache
 C:\Users\rchabhad\Desktop\cnp-sdk-for-dotnet\LitleSdkForNet\LitleSdkForNet\obj\Debug\CnpSdkForNet.dll
 C:\Users\rchabhad\Desktop\cnp-sdk-for-dotnet\LitleSdkForNet\LitleSdkForNet\obj\Debug\CnpSdkForNet.pdb
+C:\Users\git\litle-sdk-for-dotNet\cnp-sdk-for-dotNet\CnpSdkForNet\CnpSdkForNet\bin\Debug\CnpSdkForNet.dll.config
+C:\Users\git\litle-sdk-for-dotNet\cnp-sdk-for-dotNet\CnpSdkForNet\CnpSdkForNet\bin\Debug\CnpSdkForNet.dll
+C:\Users\git\litle-sdk-for-dotNet\cnp-sdk-for-dotNet\CnpSdkForNet\CnpSdkForNet\bin\Debug\CnpSdkForNet.pdb
+C:\Users\git\litle-sdk-for-dotNet\cnp-sdk-for-dotNet\CnpSdkForNet\CnpSdkForNet\bin\Debug\Tamir.SharpSSH.dll
+C:\Users\git\litle-sdk-for-dotNet\cnp-sdk-for-dotNet\CnpSdkForNet\CnpSdkForNet\bin\Debug\DiffieHellman.dll
+C:\Users\git\litle-sdk-for-dotNet\cnp-sdk-for-dotNet\CnpSdkForNet\CnpSdkForNet\obj\Debug\CnpSdkForNet.csprojResolveAssemblyReference.cache
+C:\Users\git\litle-sdk-for-dotNet\cnp-sdk-for-dotNet\CnpSdkForNet\CnpSdkForNet\obj\Debug\CnpSdkForNet.csproj.CoreCompileInputs.cache
+C:\Users\git\litle-sdk-for-dotNet\cnp-sdk-for-dotNet\CnpSdkForNet\CnpSdkForNet\obj\Debug\CnpSdkForNet.dll
+C:\Users\git\litle-sdk-for-dotNet\cnp-sdk-for-dotNet\CnpSdkForNet\CnpSdkForNet\obj\Debug\CnpSdkForNet.pdb

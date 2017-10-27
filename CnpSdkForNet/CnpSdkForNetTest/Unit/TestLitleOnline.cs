@@ -41,7 +41,7 @@ namespace Cnp.Sdk.Test.Unit
                 .Returns("<cnpOnlineResponse version='8.10' response='0' message='Valid Format' xmlns='http://www.vantivcnp.com/schema'><authorizationResponse><cnpTxnId>123</cnpTxnId></authorizationResponse></cnpOnlineResponse>");
      
             Communications mockedCommunication = mock.Object;
-            cnp.setCommunication(mockedCommunication);
+            cnp.SetCommunication(mockedCommunication);
             authorizationResponse authorize = cnp.Authorize(authorization);
             Assert.AreEqual(123, authorize.cnpTxnId);
         }
@@ -61,7 +61,7 @@ namespace Cnp.Sdk.Test.Unit
                 .Returns("<cnpOnlineResponse version='8.10' response='0' message='Valid Format' xmlns='http://www.vantivcnp.com/schema'><authReversalResponse><cnpTxnId>123</cnpTxnId></authReversalResponse></cnpOnlineResponse>");
 
             Communications mockedCommunication = mock.Object;
-            cnp.setCommunication(mockedCommunication);
+            cnp.SetCommunication(mockedCommunication);
             authReversalResponse authreversalresponse = cnp.AuthReversal(authreversal);
             Assert.AreEqual(123, authreversalresponse.cnpTxnId);
         }
@@ -81,7 +81,7 @@ namespace Cnp.Sdk.Test.Unit
                 .Returns("<cnpOnlineResponse version='8.10' response='0' message='Valid Format' xmlns='http://www.vantivcnp.com/schema'><captureResponse><cnpTxnId>123</cnpTxnId></captureResponse></cnpOnlineResponse>");
 
             Communications mockedCommunication = mock.Object;
-            cnp.setCommunication(mockedCommunication);
+            cnp.SetCommunication(mockedCommunication);
             captureResponse captureresponse = cnp.Capture(caputure);
             Assert.AreEqual(123, captureresponse.cnpTxnId);
         }
@@ -110,7 +110,7 @@ namespace Cnp.Sdk.Test.Unit
                 .Returns("<cnpOnlineResponse version='8.10' response='0' message='Valid Format' xmlns='http://www.vantivcnp.com/schema'><captureGivenAuthResponse><cnpTxnId>123</cnpTxnId></captureGivenAuthResponse></cnpOnlineResponse>");
 
             Communications mockedCommunication = mock.Object;
-            cnp.setCommunication(mockedCommunication);
+            cnp.SetCommunication(mockedCommunication);
             captureGivenAuthResponse caputregivenauthresponse = cnp.CaptureGivenAuth(capturegivenauth);
             Assert.AreEqual(123, caputregivenauthresponse.cnpTxnId);
         }
@@ -134,7 +134,7 @@ namespace Cnp.Sdk.Test.Unit
                 .Returns("<cnpOnlineResponse version='8.10' response='0' message='Valid Format' xmlns='http://www.vantivcnp.com/schema'><creditResponse><cnpTxnId>123</cnpTxnId></creditResponse></cnpOnlineResponse>");
 
             Communications mockedCommunication = mock.Object;
-            cnp.setCommunication(mockedCommunication);
+            cnp.SetCommunication(mockedCommunication);
             creditResponse creditresponse = cnp.Credit(credit);
             Assert.AreEqual(123, creditresponse.cnpTxnId);
         }
@@ -152,7 +152,7 @@ namespace Cnp.Sdk.Test.Unit
                 .Returns("<cnpOnlineResponse version='8.10' response='0' message='Valid Format' xmlns='http://www.vantivcnp.com/schema'><echeckCreditResponse><cnpTxnId>123</cnpTxnId></echeckCreditResponse></cnpOnlineResponse>");
 
             Communications mockedCommunication = mock.Object;
-            cnp.setCommunication(mockedCommunication);
+            cnp.SetCommunication(mockedCommunication);
             echeckCreditResponse echeckcreditresponse = cnp.EcheckCredit(echeckcredit);
             Assert.AreEqual(123, echeckcreditresponse.cnpTxnId);
         }
@@ -169,7 +169,7 @@ namespace Cnp.Sdk.Test.Unit
                 .Returns("<cnpOnlineResponse version='8.10' response='0' message='Valid Format' xmlns='http://www.vantivcnp.com/schema'><echeckRedepositResponse><cnpTxnId>123</cnpTxnId></echeckRedepositResponse></cnpOnlineResponse>");
 
             Communications mockedCommunication = mock.Object;
-            cnp.setCommunication(mockedCommunication);
+            cnp.SetCommunication(mockedCommunication);
             echeckRedepositResponse echeckredepositresponse = cnp.EcheckRedeposit(echeckredeposit);
             Assert.AreEqual(123, echeckredepositresponse.cnpTxnId);
         }
@@ -201,7 +201,7 @@ namespace Cnp.Sdk.Test.Unit
                 .Returns("<cnpOnlineResponse version='8.10' response='0' message='Valid Format' xmlns='http://www.vantivcnp.com/schema'><echeckSalesResponse><cnpTxnId>123</cnpTxnId></echeckSalesResponse></cnpOnlineResponse>");
 
             Communications mockedCommunication = mock.Object;
-            cnp.setCommunication(mockedCommunication);
+            cnp.SetCommunication(mockedCommunication);
             echeckSalesResponse echecksaleresponse = cnp.EcheckSale(echecksale);
             Assert.AreEqual(123, echecksaleresponse.cnpTxnId);
         }
@@ -233,7 +233,7 @@ namespace Cnp.Sdk.Test.Unit
                 .Returns("<cnpOnlineResponse version='8.10' response='0' message='Valid Format' xmlns='http://www.vantivcnp.com/schema'><echeckVerificationResponse><cnpTxnId>123</cnpTxnId></echeckVerificationResponse></cnpOnlineResponse>");
 
             Communications mockedCommunication = mock.Object;
-            cnp.setCommunication(mockedCommunication);
+            cnp.SetCommunication(mockedCommunication);
             echeckVerificationResponse echeckverificaitonresponse = cnp.EcheckVerification(echeckverification);
             Assert.AreEqual(123, echeckverificaitonresponse.cnpTxnId);
         }
@@ -257,7 +257,7 @@ namespace Cnp.Sdk.Test.Unit
                 .Returns("<cnpOnlineResponse version='8.10' response='0' message='Valid Format' xmlns='http://www.vantivcnp.com/schema'><forceCaptureResponse><cnpTxnId>123</cnpTxnId></forceCaptureResponse></cnpOnlineResponse>");
 
             Communications mockedCommunication = mock.Object;
-            cnp.setCommunication(mockedCommunication);
+            cnp.SetCommunication(mockedCommunication);
             forceCaptureResponse forcecaptureresponse = cnp.ForceCapture(forcecapture);
             Assert.AreEqual(123, forcecaptureresponse.cnpTxnId);
         }
@@ -281,7 +281,7 @@ namespace Cnp.Sdk.Test.Unit
                 .Returns("<cnpOnlineResponse version='8.10' response='0' message='Valid Format' xmlns='http://www.vantivcnp.com/schema'><saleResponse><cnpTxnId>123</cnpTxnId></saleResponse></cnpOnlineResponse>");
 
             Communications mockedCommunication = mock.Object;
-            cnp.setCommunication(mockedCommunication);
+            cnp.SetCommunication(mockedCommunication);
             saleResponse saleresponse = cnp.Sale(sale);
             Assert.AreEqual(123, saleresponse.cnpTxnId);
         }
@@ -300,7 +300,7 @@ namespace Cnp.Sdk.Test.Unit
                 .Returns("<cnpOnlineResponse version='8.10' response='0' message='Valid Format' xmlns='http://www.vantivcnp.com/schema'><registerTokenResponse><cnpTxnId>123</cnpTxnId></registerTokenResponse></cnpOnlineResponse>");
 
             Communications mockedCommunication = mock.Object;
-            cnp.setCommunication(mockedCommunication);
+            cnp.SetCommunication(mockedCommunication);
             registerTokenResponse registertokenresponse = cnp.RegisterToken(token);
             Assert.AreEqual(123, registertokenresponse.cnpTxnId);
             Assert.IsNull(registertokenresponse.type);
@@ -336,7 +336,7 @@ response=""0"" message=""ValidFormat"">
 </cnpOnlineResponse>");
 
             Communications mockedCommunication = mock.Object;
-            cnp.setCommunication(mockedCommunication);
+            cnp.SetCommunication(mockedCommunication);
             activateResponse activateResponse = cnp.Activate(activate);
             Assert.AreEqual(82919789861357149, activateResponse.cnpTxnId);
             Assert.AreEqual("123456", activateResponse.virtualGiftCardResponse.accountNumber);
@@ -358,7 +358,7 @@ response=""0"" message=""ValidFormat"">
                 .Returns("<cnpOnlineResponse version='8.21' response='0' message='Valid Format' xmlns='http://www.vantivcnp.com/schema'><deactivateResponse><cnpTxnId>123</cnpTxnId></deactivateResponse></cnpOnlineResponse>");
 
             Communications mockedCommunication = mock.Object;
-            cnp.setCommunication(mockedCommunication);
+            cnp.SetCommunication(mockedCommunication);
             deactivateResponse deactivateResponse = cnp.Deactivate(deactivate);
             Assert.AreEqual(123, deactivateResponse.cnpTxnId);
         }
@@ -377,7 +377,7 @@ response=""0"" message=""ValidFormat"">
                 .Returns("<cnpOnlineResponse version='8.21' response='0' message='Valid Format' xmlns='http://www.vantivcnp.com/schema'><loadResponse><cnpTxnId>123</cnpTxnId></loadResponse></cnpOnlineResponse>");
 
             Communications mockedCommunication = mock.Object;
-            cnp.setCommunication(mockedCommunication);
+            cnp.SetCommunication(mockedCommunication);
             loadResponse loadResponse = cnp.Load(load);
             Assert.AreEqual(123, loadResponse.cnpTxnId);
         }
@@ -396,7 +396,7 @@ response=""0"" message=""ValidFormat"">
                 .Returns("<cnpOnlineResponse version='8.21' response='0' message='Valid Format' xmlns='http://www.vantivcnp.com/schema'><unloadResponse><cnpTxnId>123</cnpTxnId></unloadResponse></cnpOnlineResponse>");
 
             Communications mockedCommunication = mock.Object;
-            cnp.setCommunication(mockedCommunication);
+            cnp.SetCommunication(mockedCommunication);
             unloadResponse unloadResponse = cnp.Unload(unload);
             Assert.AreEqual(123, unloadResponse.cnpTxnId);
         }
@@ -415,7 +415,7 @@ response=""0"" message=""ValidFormat"">
                 .Returns("<cnpOnlineResponse version='8.21' response='0' message='Valid Format' xmlns='http://www.vantivcnp.com/schema'><balanceInquiryResponse><cnpTxnId>123</cnpTxnId></balanceInquiryResponse></cnpOnlineResponse>");
 
             Communications mockedCommunication = mock.Object;
-            cnp.setCommunication(mockedCommunication);
+            cnp.SetCommunication(mockedCommunication);
             balanceInquiryResponse balanceInquiryResponse = cnp.BalanceInquiry(balanceInquiry);
             Assert.AreEqual(123, balanceInquiryResponse.cnpTxnId);
         }
@@ -432,7 +432,7 @@ response=""0"" message=""ValidFormat"">
                 .Returns("<cnpOnlineResponse version='8.21' response='0' message='Valid Format' xmlns='http://www.vantivcnp.com/schema'><createPlanResponse><planCode>theCode</planCode></createPlanResponse></cnpOnlineResponse>");
 
             Communications mockedCommunication = mock.Object;
-            cnp.setCommunication(mockedCommunication);
+            cnp.SetCommunication(mockedCommunication);
             createPlanResponse createPlanResponse = cnp.CreatePlan(createPlan);
             Assert.AreEqual("theCode", createPlanResponse.planCode);
         }
@@ -449,7 +449,7 @@ response=""0"" message=""ValidFormat"">
                 .Returns("<cnpOnlineResponse version='8.21' response='0' message='Valid Format' xmlns='http://www.vantivcnp.com/schema'><updatePlanResponse><planCode>theCode</planCode></updatePlanResponse></cnpOnlineResponse>");
 
             Communications mockedCommunication = mock.Object;
-            cnp.setCommunication(mockedCommunication);
+            cnp.SetCommunication(mockedCommunication);
             updatePlanResponse updatePlanResponse = cnp.UpdatePlan(updatePlan);
             Assert.AreEqual("theCode", updatePlanResponse.planCode);
         }
@@ -474,7 +474,7 @@ response=""0"" message=""ValidFormat"">
                 .Returns("<cnpOnlineResponse version='8.10' response='1' message='Error validating xml data against the schema' xmlns='http://www.vantivcnp.com/schema'><authorizationResponse><cnpTxnId>123</cnpTxnId></authorizationResponse></cnpOnlineResponse>");
 
             Communications mockedCommunication = mock.Object;
-            cnp.setCommunication(mockedCommunication);
+            cnp.SetCommunication(mockedCommunication);
             try
             {
                 cnp.Authorize(authorization);
@@ -505,7 +505,7 @@ response=""0"" message=""ValidFormat"">
                 .Returns("no xml");
 
             Communications mockedCommunication = mock.Object;
-            cnp.setCommunication(mockedCommunication);
+            cnp.SetCommunication(mockedCommunication);
             try
             {
                 cnp.Authorize(authorization);
@@ -535,7 +535,7 @@ response=""0"" message=""ValidFormat"">
                 .Returns("<cnpOnlineResponse version='8.10' response='0' message='Valid Format' xmlns='http://www.vantivcnp.com/schema'><authorizationResponse reportGroup='Default Report Group'></authorizationResponse></cnpOnlineResponse>");
 
             Communications mockedCommunication = mock.Object;
-            cnp.setCommunication(mockedCommunication);
+            cnp.SetCommunication(mockedCommunication);
             authorizationResponse authorize = cnp.Authorize(authorization);
             Assert.AreEqual("Default Report Group", authorize.reportGroup);
         }

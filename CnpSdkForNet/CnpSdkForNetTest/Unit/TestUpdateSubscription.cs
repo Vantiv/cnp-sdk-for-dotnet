@@ -49,7 +49,7 @@ namespace Cnp.Sdk.Test.Unit
                 .Returns("<cnpOnlineResponse version='8.20' response='0' message='Valid Format' xmlns='http://www.vantivcnp.com/schema'><updateSubscriptionResponse ><cnpTxnId>456</cnpTxnId><response>000</response><message>Approved</message><responseTime>2013-09-04</responseTime><subscriptionId>12345</subscriptionId></updateSubscriptionResponse></cnpOnlineResponse>");
      
             var mockedCommunication = mock.Object;
-            _cnp.setCommunication(mockedCommunication);
+            _cnp.SetCommunication(mockedCommunication);
             var response = _cnp.UpdateSubscription(update);
             Assert.AreEqual("12345", response.subscriptionId);
             Assert.AreEqual("456", response.cnpTxnId);
@@ -88,7 +88,7 @@ namespace Cnp.Sdk.Test.Unit
                 .Returns("<cnpOnlineResponse version='8.20' response='0' message='Valid Format' xmlns='http://www.vantivcnp.com/schema'><updateSubscriptionResponse ><cnpTxnId>456</cnpTxnId><response>000</response><message>Approved</message><responseTime>2013-09-04</responseTime><subscriptionId>12345</subscriptionId></updateSubscriptionResponse></cnpOnlineResponse>");
      
             var mockedCommunication = mock.Object;
-            _cnp.setCommunication(mockedCommunication);
+            _cnp.SetCommunication(mockedCommunication);
             var response = _cnp.UpdateSubscription(update);
             Assert.AreEqual("12345", response.subscriptionId);
             Assert.AreEqual("456", response.cnpTxnId);

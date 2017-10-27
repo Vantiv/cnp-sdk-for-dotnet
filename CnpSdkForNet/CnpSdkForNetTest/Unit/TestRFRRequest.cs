@@ -82,7 +82,7 @@ namespace Cnp.Sdk.Test.Unit
 
             Assert.AreEqual(mockFilePath, rfrRequest.Serialize());
 
-            mockCnpFile.Verify(cnpFile => cnpFile.AppendLineToFile(mockFilePath, "\r\n<RFRRequest xmlns=\"http://www.cnp.com/schema\">"));
+            mockCnpFile.Verify(cnpFile => cnpFile.AppendLineToFile(mockFilePath, "\r\n<RFRRequest xmlns=\"http://www.vantivcnp.com/schema\">"));
             mockCnpFile.Verify(cnpFile => cnpFile.AppendLineToFile(mockFilePath, "\r\n<cnpSessionId>123456789</cnpSessionId>"));
             mockCnpFile.Verify(cnpFile => cnpFile.AppendLineToFile(mockFilePath, "\r\n</RFRRequest>"));
         }
