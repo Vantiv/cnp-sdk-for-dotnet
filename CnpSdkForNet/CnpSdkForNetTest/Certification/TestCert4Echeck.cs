@@ -12,16 +12,16 @@ namespace Cnp.Sdk.Test.Certification
         private CnpOnline cnp;
 
         [TestFixtureSetUp]
-        public void setUp()
+        public void SetUp()
         {
             Dictionary<string, string> config = new Dictionary<string, string>();
-            config.Add("url", "https://payments.vantivprelive.com/vap/communicator/online");
+            config.Add("url", "https://www.testvantivcnp.com/sandbox/communicator/online");
             config.Add("reportGroup", "Default Report Group");
-            config.Add("username", "SDKTEAM");
+            config.Add("username", "DOTNET");
             config.Add("version", "8.13");
             config.Add("timeout", "500");
-            config.Add("merchantId", "1288791");
-            config.Add("password", "V3r5K6v7");
+            config.Add("merchantId", "101");
+            config.Add("password", "TESTCASE");
             config.Add("printxml", "true");
             config.Add("logFile", null);
             config.Add("neuterAccountNums", null);
@@ -31,7 +31,7 @@ namespace Cnp.Sdk.Test.Certification
         }
 
         [Test]
-        public void test37()
+        public void Test37()
         {
             echeckVerification verification = new echeckVerification();
             verification.id = "1";
@@ -54,7 +54,7 @@ namespace Cnp.Sdk.Test.Certification
         }
 
         [Test]
-        public void test38()
+        public void Test38()
         {
             echeckVerification verification = new echeckVerification();
             verification.id = "1";
@@ -78,7 +78,7 @@ namespace Cnp.Sdk.Test.Certification
         }
 
         [Test]
-        public void test39()
+        public void Test39()
         {
             echeckVerification verification = new echeckVerification();
             verification.id = "1";
@@ -102,7 +102,7 @@ namespace Cnp.Sdk.Test.Certification
         }
 
         [Test]
-        public void test40()
+        public void Test40()
         {
             echeckVerification verification = new echeckVerification();
             verification.id = "1";
@@ -127,7 +127,7 @@ namespace Cnp.Sdk.Test.Certification
         }
 
         [Test]
-        public void test41()
+        public void Test41()
         {
             echeckSale sale = new echeckSale();
             sale.id = "1";
@@ -151,7 +151,7 @@ namespace Cnp.Sdk.Test.Certification
         }
 
         [Test]
-        public void test42()
+        public void Test42()
         {
             echeckSale sale = new echeckSale();
             sale.id = "1";
@@ -174,7 +174,7 @@ namespace Cnp.Sdk.Test.Certification
         }
 
         [Test]
-        public void test43()
+        public void Test43()
         {
             echeckSale sale = new echeckSale();
             sale.id = "1";
@@ -198,7 +198,7 @@ namespace Cnp.Sdk.Test.Certification
         }
 
         [Test]
-        public void test44()
+        public void Test44()
         {
             echeckSale sale = new echeckSale();
             sale.id = "1";
@@ -222,7 +222,7 @@ namespace Cnp.Sdk.Test.Certification
         }
 
         [Test]
-        public void test45()
+        public void Test45()
         {
             echeckCredit credit = new echeckCredit();
             credit.id = "1";
@@ -245,7 +245,7 @@ namespace Cnp.Sdk.Test.Certification
         }
 
         [Test]
-        public void test46()
+        public void Test46()
         {
             echeckCredit credit = new echeckCredit();
             credit.id = "1";
@@ -269,7 +269,7 @@ namespace Cnp.Sdk.Test.Certification
         }
 
         [Test]
-        public void test47()
+        public void Test47()
         {
             echeckCredit credit = new echeckCredit();
             credit.id = "1";
@@ -293,7 +293,7 @@ namespace Cnp.Sdk.Test.Certification
         }
 
         [Test]
-        public void test48()
+        public void Test48()
         {
             echeckCredit credit = new echeckCredit();
             credit.id = "1";
@@ -305,7 +305,7 @@ namespace Cnp.Sdk.Test.Certification
         }
 
         [Test]
-        public void test49()
+        public void Test49()
         {
             echeckCredit credit = new echeckCredit();
             credit.id = "1";

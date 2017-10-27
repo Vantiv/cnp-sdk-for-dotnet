@@ -12,16 +12,16 @@ namespace Cnp.Sdk.Test.Certification
         private CnpOnline cnp;
 
         [TestFixtureSetUp]
-        public void setUp()
+        public void SetUp()
         {
             Dictionary<string, string> config = new Dictionary<string, string>();
-            config.Add("url", "https://payments.vantivprelive.com/vap/communicator/online");
+            config.Add("url", "https://www.testvantivcnp.com/sandbox/communicator/online");
             config.Add("reportGroup", "Default Report Group");
-            config.Add("username", "SDKTEAM");
+            config.Add("username", "DOTNET");
             config.Add("version", "11.0");
             config.Add("timeout", "500");
-            config.Add("merchantId", "1288791");
-            config.Add("password", "V3r5K6v7");
+            config.Add("merchantId", "101");
+            config.Add("password", "TESTCASE");
             config.Add("printxml", "true");
             config.Add("logFile", null);
             config.Add("neuterAccountNums", null);
@@ -31,7 +31,7 @@ namespace Cnp.Sdk.Test.Certification
         }
 
         [Test]
-        public void test32()
+        public void Test32()
         {
             authorization auth = new authorization();
             auth.id = "1";
@@ -77,7 +77,7 @@ namespace Cnp.Sdk.Test.Certification
         }
 
         [Test]
-        public void test33()
+        public void Test33()
         {
             authorization auth = new authorization();
             auth.id = "1";
@@ -119,7 +119,7 @@ namespace Cnp.Sdk.Test.Certification
         }
 
         [Test]
-        public void test34()
+        public void Test34()
         {
             authorization auth = new authorization();
             auth.id = "1";
@@ -158,7 +158,7 @@ namespace Cnp.Sdk.Test.Certification
         }
 
         [Test]
-        public void test35()
+        public void Test35()
         {
             authorization auth = new authorization();
             auth.id = "1";
@@ -203,7 +203,7 @@ namespace Cnp.Sdk.Test.Certification
         }
 
         [Test]
-        public void test36()
+        public void Test36()
         {
             authorization auth = new authorization();
             auth.id = "1";

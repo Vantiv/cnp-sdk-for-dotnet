@@ -156,7 +156,7 @@ namespace Cnp.Sdk.Test.Unit
         }
 
         [Test]
-        public void testUpdateSubscription_OnlyRequired()
+        public void TestUpdateSubscription_OnlyRequired()
         {
             updateSubscription update = new updateSubscription();
             update.subscriptionId = 12345;
@@ -167,7 +167,7 @@ namespace Cnp.Sdk.Test.Unit
         }
 
         [Test]
-        public void testUpdateSubscription_CanContainCreateDiscounts()
+        public void TestUpdateSubscription_CanContainCreateDiscounts()
         {
             createDiscount cd1 = new createDiscount();
             cd1.discountCode = "1";
@@ -211,7 +211,7 @@ namespace Cnp.Sdk.Test.Unit
         }
 
         [Test]
-        public void testUpdateSubscription_CanContainUpdateDiscounts()
+        public void TestUpdateSubscription_CanContainUpdateDiscounts()
         {
             updateDiscount ud1 = new updateDiscount();
             ud1.discountCode = "1";
@@ -255,7 +255,7 @@ namespace Cnp.Sdk.Test.Unit
         }
 
         [Test]
-        public void testUpdateSubscription_CanContainDeleteDiscounts()
+        public void TestUpdateSubscription_CanContainDeleteDiscounts()
         {
             deleteDiscount dd1 = new deleteDiscount();
             dd1.discountCode = "1";
@@ -283,7 +283,7 @@ namespace Cnp.Sdk.Test.Unit
         }
 
         [Test]
-        public void testUpdateSubscription_CanContainCreateAddOns()
+        public void TestUpdateSubscription_CanContainCreateAddOns()
         {
             createAddOn cao1 = new createAddOn();
             cao1.addOnCode = "1";
@@ -327,7 +327,7 @@ namespace Cnp.Sdk.Test.Unit
         }
 
         [Test]
-        public void testUpdateSubscription_CanContainUpdateAddOns()
+        public void TestUpdateSubscription_CanContainUpdateAddOns()
         {
             updateAddOn uao1 = new updateAddOn();
             uao1.addOnCode = "1";
@@ -371,7 +371,7 @@ namespace Cnp.Sdk.Test.Unit
         }
 
         [Test]
-        public void testUpdateSubscription_CanContainDeleteAddOns()
+        public void TestUpdateSubscription_CanContainDeleteAddOns()
         {
             deleteAddOn dao1 = new deleteAddOn();
             dao1.addOnCode = "1";
@@ -399,7 +399,7 @@ namespace Cnp.Sdk.Test.Unit
         }
 
         [Test]
-        public void testUpdateSubscription_CanContainToken()
+        public void TestUpdateSubscription_CanContainToken()
         {
             updateSubscription update = new updateSubscription();
             update.subscriptionId = 1;
@@ -418,7 +418,7 @@ namespace Cnp.Sdk.Test.Unit
         }
 
         [Test]
-        public void testUpdateSubscription_CanContainPaypage()
+        public void TestUpdateSubscription_CanContainPaypage()
         {
             updateSubscription update = new updateSubscription();
             update.subscriptionId = 1;
@@ -452,7 +452,7 @@ namespace Cnp.Sdk.Test.Unit
         }
 
         [Test]
-        public void testCancelSubscription_OnlyRequired()
+        public void TestCancelSubscription_OnlyRequired()
         {
             cancelSubscription update = new cancelSubscription();
             update.subscriptionId = 12345;
@@ -466,7 +466,7 @@ namespace Cnp.Sdk.Test.Unit
         }
 
         [Test]
-        public void testActivate_Full()
+        public void TestActivate_Full()
         {
             activate activate = new activate();
             activate.orderId = "12345";
@@ -490,7 +490,7 @@ namespace Cnp.Sdk.Test.Unit
         }
 
         [Test]
-        public void testActivate_VirtualGiftCard()
+        public void TestActivate_VirtualGiftCard()
         {
             activate activate = new activate();
             activate.orderId = "12345";
@@ -513,7 +513,7 @@ namespace Cnp.Sdk.Test.Unit
         }
 
         [Test]
-        public void testVirtualGiftCard_Full()
+        public void TestVirtualGiftCard_Full()
         {
             virtualGiftCardType virtualGiftCard = new virtualGiftCardType();
             virtualGiftCard.accountNumberLength = 16;
@@ -527,7 +527,7 @@ namespace Cnp.Sdk.Test.Unit
         }
 
         [Test]
-        public void testDeactivate_Full()
+        public void TestDeactivate_Full()
         {
             deactivate deactivate = new deactivate();
             deactivate.orderId = "12345";
@@ -549,7 +549,7 @@ namespace Cnp.Sdk.Test.Unit
         }
 
         [Test]
-        public void testDeactivate_OnlyRequired()
+        public void TestDeactivate_OnlyRequired()
         {
             deactivate deactivate = new deactivate();
             deactivate.orderId = "12345";
@@ -571,7 +571,7 @@ namespace Cnp.Sdk.Test.Unit
         }
 
         [Test]
-        public void testLoad_Full()
+        public void TestLoad_Full()
         {
             load load = new load();
             load.orderId = "12345";
@@ -595,7 +595,7 @@ namespace Cnp.Sdk.Test.Unit
         }
 
         [Test]
-        public void testLoad_OnlyRequired()
+        public void TestLoad_OnlyRequired()
         {
             load load = new load();
             load.orderId = "12345";
@@ -619,7 +619,7 @@ namespace Cnp.Sdk.Test.Unit
         }
 
         [Test]
-        public void testUnload_Full()
+        public void TestUnload_Full()
         {
             unload unload = new unload();
             unload.orderId = "12345";
@@ -643,7 +643,7 @@ namespace Cnp.Sdk.Test.Unit
         }
 
         [Test]
-        public void testUnload_OnlyRequired()
+        public void TestUnload_OnlyRequired()
         {
             unload unload = new unload();
             unload.orderId = "12345";
@@ -667,7 +667,7 @@ namespace Cnp.Sdk.Test.Unit
         }
 
         [Test]
-        public void testBalanceInquiry_Full()
+        public void TestBalanceInquiry_Full()
         {
             balanceInquiry balanceInquiry = new balanceInquiry();
             balanceInquiry.orderId = "12345";
@@ -689,7 +689,7 @@ namespace Cnp.Sdk.Test.Unit
         }
 
         [Test]
-        public void testBalanceInquiry_OnlyRequired()
+        public void TestBalanceInquiry_OnlyRequired()
         {
             balanceInquiry balanceInquiry = new balanceInquiry();
             balanceInquiry.orderId = "12345";

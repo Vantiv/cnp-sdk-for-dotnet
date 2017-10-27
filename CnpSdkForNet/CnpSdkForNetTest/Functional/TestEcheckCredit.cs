@@ -14,13 +14,13 @@ namespace Cnp.Sdk.Test.Functional
         {
             _config = new Dictionary<string, string>
             {
-                {"url", "https://payments.vantivprelive.com/vap/communicator/online"},
+                {"url", "https://www.testvantivcnp.com/sandbox/communicator/online"},
                 {"reportGroup", "Default Report Group"},
-                {"username", "SDKTEAM"},
+                {"username", "DOTNET"},
                 {"version", "11.0"},
                 {"timeout", "5000"},
-                {"merchantId", "1288791"},
-                {"password", "V3r5K6v7"},
+                {"merchantId", "101"},
+                {"password", "TESTCASE"},
                 {"printxml", "true"},
                 {"proxyHost", Properties.Settings.Default.proxyHost},
                 {"proxyPort", Properties.Settings.Default.proxyPort},
@@ -32,7 +32,7 @@ namespace Cnp.Sdk.Test.Functional
         }
 
         [Test]
-        public void simpleEcheckCredit()
+        public void SimpleEcheckCredit()
         {
             var echeckcredit = new echeckCredit
             {
@@ -47,7 +47,7 @@ namespace Cnp.Sdk.Test.Functional
         }
 
         [Test]
-        public void noCnpTxnId()
+        public void NoCnpTxnId()
         {
             var echeckcredit = new echeckCredit
             {
@@ -67,7 +67,7 @@ namespace Cnp.Sdk.Test.Functional
         }
 
         [Test]
-        public void echeckCreditWithEcheck()
+        public void EcheckCreditWithEcheck()
         {
             var echeckcredit = new echeckCredit
             {
@@ -98,7 +98,7 @@ namespace Cnp.Sdk.Test.Functional
         }
 
         [Test]
-        public void echeckCreditWithToken()
+        public void EcheckCreditWithToken()
         {
             var echeckcredit = new echeckCredit
             {
@@ -131,7 +131,7 @@ namespace Cnp.Sdk.Test.Functional
         }
 
         [Test]
-        public void missingBilling()
+        public void MissingBilling()
         {
             var echeckcredit = new echeckCredit
             {
@@ -161,7 +161,7 @@ namespace Cnp.Sdk.Test.Functional
         }
 
         [Test]
-        public void echeckCreditWithSecondaryAmountWithOrderIdAndCcdPaymentInfo()
+        public void EcheckCreditWithSecondaryAmountWithOrderIdAndCcdPaymentInfo()
         {
             var echeckcredit = new echeckCredit
             {
@@ -194,7 +194,7 @@ namespace Cnp.Sdk.Test.Functional
         }
 
         [Test]
-        public void echeckCreditWithSecondaryAmountWithCnpTxnId()
+        public void EcheckCreditWithSecondaryAmountWithCnpTxnId()
         {
             var echeckcredit = new echeckCredit
             {

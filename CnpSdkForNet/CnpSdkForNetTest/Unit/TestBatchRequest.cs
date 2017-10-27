@@ -34,7 +34,7 @@ namespace Cnp.Sdk.Test.Unit
         }
 
         [SetUp]
-        public void beforeTestSetup()
+        public void BeforeTestSetup()
         {
             batchRequest = new batchRequest();
             batchRequest.setCnpFile(mockCnpFile.Object);
@@ -42,7 +42,7 @@ namespace Cnp.Sdk.Test.Unit
         }
 
         [Test]
-        public void testBatchRequestContainsMerchantSdkAttribute()
+        public void TestBatchRequestContainsMerchantSdkAttribute()
         {
             var mockConfig = new Dictionary<string, string>();
 
@@ -63,7 +63,7 @@ merchantId=""01234"">
         }
 
         [Test]
-        public void testInitialization()
+        public void TestInitialization()
         {
             var mockConfig = new Dictionary<string, string>();
 
@@ -95,7 +95,7 @@ merchantId=""01234"">
         }
 
         [Test]
-        public void testAddAuthorization()
+        public void TestAddAuthorization()
         {
             var authorization = new authorization();
             authorization.reportGroup = "Planets";
@@ -118,7 +118,7 @@ merchantId=""01234"">
         }
 
         [Test]
-        public void testAddAccountUpdate()
+        public void TestAddAccountUpdate()
         {
             var accountUpdate = new accountUpdate();
             accountUpdate.reportGroup = "Planets";
@@ -138,7 +138,7 @@ merchantId=""01234"">
         }
 
         [Test]
-        public void testAuthReversal()
+        public void TestAuthReversal()
         {
             var authreversal = new authReversal();
             authreversal.cnpTxnId = 12345678000;
@@ -155,7 +155,7 @@ merchantId=""01234"">
         }
 
         [Test]
-        public void testCapture()
+        public void TestCapture()
         {
             var capture = new capture();
             capture.cnpTxnId = 12345678000;
@@ -171,7 +171,7 @@ merchantId=""01234"">
         }
 
         [Test]
-        public void testCaptureGivenAuth()
+        public void TestCaptureGivenAuth()
         {
             var capturegivenauth = new captureGivenAuth();
             capturegivenauth.orderId = "12344";
@@ -198,7 +198,7 @@ merchantId=""01234"">
         }
 
         [Test]
-        public void testCredit()
+        public void TestCredit()
         {
             var credit = new credit();
             credit.orderId = "12344";
@@ -220,7 +220,7 @@ merchantId=""01234"">
         }
 
         [Test]
-        public void testEcheckCredit()
+        public void TestEcheckCredit()
         {
             var echeckcredit = new echeckCredit();
             echeckcredit.amount = 12;
@@ -236,7 +236,7 @@ merchantId=""01234"">
         }
 
         [Test]
-        public void testEcheckRedeposit()
+        public void TestEcheckRedeposit()
         {
             var echeckredeposit = new echeckRedeposit();
             echeckredeposit.cnpTxnId = 123456;
@@ -250,7 +250,7 @@ merchantId=""01234"">
         }
 
         [Test]
-        public void testEcheckSale()
+        public void TestEcheckSale()
         {
             var echecksale = new echeckSale();
             echecksale.orderId = "12345";
@@ -279,7 +279,7 @@ merchantId=""01234"">
         }
 
         [Test]
-        public void testEcheckVerification()
+        public void TestEcheckVerification()
         {
             var echeckverification = new echeckVerification();
             echeckverification.orderId = "12345";
@@ -308,7 +308,7 @@ merchantId=""01234"">
         }
 
         [Test]
-        public void testForceCapture()
+        public void TestForceCapture()
         {
             var forcecapture = new forceCapture();
             forcecapture.orderId = "12344";
@@ -330,7 +330,7 @@ merchantId=""01234"">
         }
 
         [Test]
-        public void testSale()
+        public void TestSale()
         {
             var sale = new sale();
             sale.orderId = "12344";
@@ -352,7 +352,7 @@ merchantId=""01234"">
         }
 
         [Test]
-        public void testToken()
+        public void TestToken()
         {
             var token = new registerTokenRequestType();
             token.orderId = "12344";
@@ -367,7 +367,7 @@ merchantId=""01234"">
         }
 
         [Test]
-        public void testUpdateCardValidationNumOnToken()
+        public void TestUpdateCardValidationNumOnToken()
         {
             var updateCardValidationNumOnToken = new updateCardValidationNumOnToken();
             updateCardValidationNumOnToken.orderId = "12344";
@@ -382,7 +382,7 @@ merchantId=""01234"">
         }
 
         [Test]
-        public void testUpdateSubscription()
+        public void TestUpdateSubscription()
         {
             var update = new updateSubscription();
             update.billingDate = new DateTime(2002, 10, 9);
@@ -409,7 +409,7 @@ merchantId=""01234"">
         }
 
         [Test]
-        public void testCreatePlan()
+        public void TestCreatePlan()
         {
             var createPlan = new createPlan();
 
@@ -422,7 +422,7 @@ merchantId=""01234"">
         }
 
         [Test]
-        public void testUpdatePlan()
+        public void TestUpdatePlan()
         {
             var updatePlan = new updatePlan();
 
@@ -435,7 +435,7 @@ merchantId=""01234"">
         }
 
         [Test]
-        public void testActivate()
+        public void TestActivate()
         {
             var activate = new activate();
             activate.amount = 500;
@@ -452,7 +452,7 @@ merchantId=""01234"">
         }
 
         [Test]
-        public void testDeactivate()
+        public void TestDeactivate()
         {
             var deactivate = new deactivate();
             deactivate.orderSource = orderSourceType.ecommerce;
@@ -467,7 +467,7 @@ merchantId=""01234"">
         }
 
         [Test]
-        public void testLoad()
+        public void TestLoad()
         {
             var load = new load();
             load.amount = 600;
@@ -484,7 +484,7 @@ merchantId=""01234"">
         }
 
         [Test]
-        public void testUnload()
+        public void TestUnload()
         {
             var unload = new unload();
             unload.amount = 700;
@@ -501,7 +501,7 @@ merchantId=""01234"">
         }
 
         [Test]
-        public void testBalanceInquiry()
+        public void TestBalanceInquiry()
         {
             var balanceInquiry = new balanceInquiry();
             balanceInquiry.orderSource = orderSourceType.ecommerce;
@@ -516,7 +516,7 @@ merchantId=""01234"">
         }
 
         [Test]
-        public void testCancelSubscription()
+        public void TestCancelSubscription()
         {
             var cancel = new cancelSubscription();
             cancel.subscriptionId = 12345;
@@ -530,7 +530,7 @@ merchantId=""01234"">
         }
 
         [Test]
-        public void testAddEcheckPreNoteSale()
+        public void TestAddEcheckPreNoteSale()
         {
             var echeckPreNoteSale = new echeckPreNoteSale();
             echeckPreNoteSale.orderId = "12345";
@@ -557,7 +557,7 @@ merchantId=""01234"">
         }
 
         [Test]
-        public void testAddEcheckPreNoteCredit()
+        public void TestAddEcheckPreNoteCredit()
         {
             var echeckPreNoteCredit = new echeckPreNoteCredit();
             echeckPreNoteCredit.orderId = "12345";
@@ -584,7 +584,7 @@ merchantId=""01234"">
         }
 
         [Test]
-        public void testAddSubmerchantCredit()
+        public void TestAddSubmerchantCredit()
         {
             var submerchantCredit = new submerchantCredit();
             submerchantCredit.fundingSubmerchantId = "123456";
@@ -612,7 +612,7 @@ merchantId=""01234"">
         }
 
         [Test]
-        public void testAddPayFacCredit()
+        public void TestAddPayFacCredit()
         {
             var payFacCredit = new payFacCredit();
             payFacCredit.fundingSubmerchantId = "123456";
@@ -631,7 +631,7 @@ merchantId=""01234"">
         }
 
         [Test]
-        public void testAddReserveCredit()
+        public void TestAddReserveCredit()
         {
             var reserveCredit = new reserveCredit();
             reserveCredit.fundingSubmerchantId = "123456";
@@ -650,7 +650,7 @@ merchantId=""01234"">
         }
 
         [Test]
-        public void testAddVendorCredit()
+        public void TestAddVendorCredit()
         {
             var vendorCredit = new vendorCredit();
             vendorCredit.fundingSubmerchantId = "123456";
@@ -676,7 +676,7 @@ merchantId=""01234"">
         }
 
         [Test]
-        public void testAddPhysicalCheckCredit()
+        public void TestAddPhysicalCheckCredit()
         {
             var physicalCheckCredit = new physicalCheckCredit();
             physicalCheckCredit.fundingSubmerchantId = "123456";
@@ -695,7 +695,7 @@ merchantId=""01234"">
         }
 
         [Test]
-        public void testAddSubmerchantDebit()
+        public void TestAddSubmerchantDebit()
         {
             var submerchantDebit = new submerchantDebit();
             submerchantDebit.fundingSubmerchantId = "123456";
@@ -722,7 +722,7 @@ merchantId=""01234"">
         }
 
         [Test]
-        public void testAddPayFacDebit()
+        public void TestAddPayFacDebit()
         {
             var payFacDebit = new payFacDebit();
             payFacDebit.fundingSubmerchantId = "123456";
@@ -741,7 +741,7 @@ merchantId=""01234"">
         }
 
         [Test]
-        public void testAddReserveDebit()
+        public void TestAddReserveDebit()
         {
             var reserveDebit = new reserveDebit();
             reserveDebit.fundingSubmerchantId = "123456";
@@ -760,7 +760,7 @@ merchantId=""01234"">
         }
 
         [Test]
-        public void testAddVendorDebit()
+        public void TestAddVendorDebit()
         {
             var vendorDebit = new vendorDebit();
             vendorDebit.fundingSubmerchantId = "123456";
@@ -786,7 +786,7 @@ merchantId=""01234"">
         }
 
         [Test]
-        public void testAddPhysicalCheckDebit()
+        public void TestAddPhysicalCheckDebit()
         {
             var physicalCheckDebit = new physicalCheckDebit();
             physicalCheckDebit.fundingSubmerchantId = "123456";

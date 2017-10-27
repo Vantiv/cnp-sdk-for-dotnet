@@ -13,16 +13,16 @@ namespace Cnp.Sdk.Test.Certification
         private CnpOnline cnp;
 
         [TestFixtureSetUp]
-        public void setUp()
+        public void SetUp()
         {
             Dictionary<string, string> config = new Dictionary<string, string>();
-            config.Add("url", "https://payments.vantivprelive.com/vap/communicator/online");
+            config.Add("url", "https://www.testvantivcnp.com/sandbox/communicator/online");
             config.Add("reportGroup", "Default Report Group");
-            config.Add("username", "SDKTEAM");
+            config.Add("username", "DOTNET");
             config.Add("version", "8.13");
             config.Add("timeout", "500");
-            config.Add("merchantId", "1288791");
-            config.Add("password", "V3r5K6v7");
+            config.Add("merchantId", "101");
+            config.Add("password", "TESTCASE");
             config.Add("printxml", "true");
             config.Add("logFile", null);
             config.Add("neuterAccountNums", null);
@@ -32,7 +32,7 @@ namespace Cnp.Sdk.Test.Certification
         }
 
         [Test]
-        public void test14()
+        public void Test14()
         {
             authorization authorization = new authorization();
             authorization.id = "1";
@@ -55,7 +55,7 @@ namespace Cnp.Sdk.Test.Certification
         }
 
         [Test]
-        public void test15()
+        public void Test15()
         {
             authorization authorization = new authorization();
             authorization.id = "1";
@@ -78,7 +78,7 @@ namespace Cnp.Sdk.Test.Certification
         }
 
         [Test]
-        public void test16()
+        public void Test16()
         {
             authorization authorization = new authorization();
             authorization.id = "1";
@@ -101,7 +101,7 @@ namespace Cnp.Sdk.Test.Certification
         }
 
         [Test]
-        public void test17()
+        public void Test17()
         {
             authorization authorization = new authorization();
             authorization.id = "1";
@@ -124,7 +124,7 @@ namespace Cnp.Sdk.Test.Certification
         }
 
         [Test]
-        public void test18()
+        public void Test18()
         {
             authorization authorization = new authorization();
             authorization.id = "1";
@@ -147,7 +147,7 @@ namespace Cnp.Sdk.Test.Certification
         }
 
         [Test]
-        public void test19()
+        public void Test19()
         {
             authorization authorization = new authorization();
             authorization.id = "1";
@@ -170,7 +170,7 @@ namespace Cnp.Sdk.Test.Certification
         }
 
         [Test]
-        public void test20()
+        public void Test20()
         {
             authorization authorization = new authorization();
             authorization.id = "1";
@@ -193,7 +193,7 @@ namespace Cnp.Sdk.Test.Certification
         }
 
         [Test]
-        public void test21()
+        public void Test21()
         {
             authorization authorization = new authorization();
             authorization.id = "1";
@@ -213,7 +213,7 @@ namespace Cnp.Sdk.Test.Certification
         }
 
         [Test]
-        public void test22()
+        public void Test22()
         {
             authorization authorization = new authorization();
             authorization.id = "1";
@@ -233,7 +233,7 @@ namespace Cnp.Sdk.Test.Certification
         }
 
         [Test]
-        public void test23()
+        public void Test23()
         {
             authorization authorization = new authorization();
             authorization.id = "1";
@@ -254,7 +254,7 @@ namespace Cnp.Sdk.Test.Certification
         }
 
         [Test]
-        public void test24()
+        public void Test24()
         {
             authorization authorization = new authorization();
             authorization.id = "1";
@@ -275,7 +275,7 @@ namespace Cnp.Sdk.Test.Certification
         }
 
         [Test]
-        public void test25()
+        public void Test25()
         {
             authorization authorization = new authorization();
             authorization.id = "1";
@@ -296,7 +296,7 @@ namespace Cnp.Sdk.Test.Certification
         }
 
         [Test]
-        public void test26()
+        public void Test26()
         {
             authorization authorization = new authorization();
             authorization.id = "1";
@@ -321,7 +321,7 @@ namespace Cnp.Sdk.Test.Certification
          }
 
         [Test]
-        public void test27()
+        public void Test27()
         {
             authorization authorization = new authorization();
             authorization.id = "1";
@@ -347,7 +347,7 @@ namespace Cnp.Sdk.Test.Certification
         }
 
         [Test]
-        public void test28()
+        public void Test28()
         {
             authorization authorization = new authorization();
             authorization.id = "1";
@@ -374,7 +374,7 @@ namespace Cnp.Sdk.Test.Certification
         }
 
         [Test]
-        public void test29()
+        public void Test29()
         {
             authorization authorization = new authorization();
             authorization.id = "1";
@@ -403,7 +403,7 @@ namespace Cnp.Sdk.Test.Certification
         }
 
         [Test]
-        public void test30()
+        public void Test30()
         {
             authorization authorization = new authorization();
             authorization.id = "1";
@@ -432,7 +432,7 @@ namespace Cnp.Sdk.Test.Certification
         }
 
         [Test]
-        public void test31()
+        public void Test31()
         {
             authorization authorization = new authorization();
             authorization.id = "1";

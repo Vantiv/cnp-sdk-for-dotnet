@@ -33,13 +33,13 @@ namespace Cnp.Sdk.Test.Unit
         }
 
         [SetUp]
-        public void setUpBeforeTest()
+        public void SetUpBeforeTest()
         {
             rfrRequest = new RFRRequest();
         }
 
         [Test]
-        public void testInitialization()
+        public void TestInitialization()
         {
             Dictionary<String, String> mockConfig = new Dictionary<string, string>();
 
@@ -71,7 +71,7 @@ namespace Cnp.Sdk.Test.Unit
         }
 
         [Test]
-        public void testSerialize()
+        public void TestSerialize()
         {
             cnpFile mockedCnpFile = mockCnpFile.Object;
             cnpTime mockedCnpTime = mockCnpTime.Object;
@@ -88,7 +88,7 @@ namespace Cnp.Sdk.Test.Unit
         }
 
         [Test]
-        public void testAccountUpdateFileRequestData() 
+        public void TestAccountUpdateFileRequestData() 
         {
             Dictionary<String, String> mockConfig = new Dictionary<string, string>();
 

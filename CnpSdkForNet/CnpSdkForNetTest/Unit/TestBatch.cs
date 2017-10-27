@@ -27,7 +27,7 @@ namespace Cnp.Sdk.Test.Unit
         private Mock<XmlReader> mockXmlReader;
 
         [TestFixtureSetUp]
-        public void setUp()
+        public void SetUp()
         {
             mockCnpTime = new Mock<cnpTime>();
             mockCnpTime.Setup(cnpTime => cnpTime.getCurrentTime(It.Is<String>(resultFormat => resultFormat == timeFormat))).Returns("01-01-1960_01-22-30-1234_");
@@ -42,7 +42,7 @@ namespace Cnp.Sdk.Test.Unit
         }
 
         [SetUp]
-        public void setUpBeforeEachTest()
+        public void SetUpBeforeEachTest()
         {
             cnp = new cnpRequest();
 
@@ -52,7 +52,7 @@ namespace Cnp.Sdk.Test.Unit
         }
 
         [Test]
-        public void testInitialization()
+        public void TestInitialization()
         {
             Dictionary<String, String> mockConfig = new Dictionary<string, string>();
 
@@ -86,7 +86,7 @@ namespace Cnp.Sdk.Test.Unit
         }
 
         [Test]
-        public void testAccountUpdate()
+        public void TestAccountUpdate()
         {
             accountUpdate accountUpdate = new accountUpdate();
             accountUpdate.reportGroup = "Planets";
@@ -149,7 +149,7 @@ namespace Cnp.Sdk.Test.Unit
 
 
         [Test]
-        public void testAuth()
+        public void TestAuth()
         {
             authorization authorization = new authorization();
             authorization.reportGroup = "Planets";
@@ -209,7 +209,7 @@ namespace Cnp.Sdk.Test.Unit
         }
 
         [Test]
-        public void testAuthReversal()
+        public void TestAuthReversal()
         {
             authReversal authreversal = new authReversal();
             authreversal.cnpTxnId = 12345678000;
@@ -266,7 +266,7 @@ namespace Cnp.Sdk.Test.Unit
         }
 
         [Test]
-        public void testCapture()
+        public void TestCapture()
         {
             capture capture = new capture();
             capture.cnpTxnId = 12345678000;
@@ -321,7 +321,7 @@ namespace Cnp.Sdk.Test.Unit
         }
 
         [Test]
-        public void testCaptureGivenAuth()
+        public void TestCaptureGivenAuth()
         {
             captureGivenAuth capturegivenauth = new captureGivenAuth();
             capturegivenauth.orderId = "12344";
@@ -387,7 +387,7 @@ namespace Cnp.Sdk.Test.Unit
         }
 
         [Test]
-        public void testCredit()
+        public void TestCredit()
         {
             credit credit = new credit();
             credit.orderId = "12344";
@@ -448,7 +448,7 @@ namespace Cnp.Sdk.Test.Unit
         }
 
         [Test]
-        public void testEcheckCredit()
+        public void TestEcheckCredit()
         {
             echeckCredit echeckcredit = new echeckCredit();
             echeckcredit.amount = 12;
@@ -503,7 +503,7 @@ namespace Cnp.Sdk.Test.Unit
         }
 
         [Test]
-        public void testEcheckRedeposit()
+        public void TestEcheckRedeposit()
         {
             echeckRedeposit echeckredeposit = new echeckRedeposit();
             echeckredeposit.cnpTxnId = 123456;
@@ -557,7 +557,7 @@ namespace Cnp.Sdk.Test.Unit
         }
 
         [Test]
-        public void testEcheckSale()
+        public void TestEcheckSale()
         {
             echeckSale echecksale = new echeckSale();
             echecksale.orderId = "12345";
@@ -625,7 +625,7 @@ namespace Cnp.Sdk.Test.Unit
         }
 
         [Test]
-        public void testEcheckVerification()
+        public void TestEcheckVerification()
         {
             echeckVerification echeckverification = new echeckVerification();
             echeckverification.orderId = "12345";
@@ -693,7 +693,7 @@ namespace Cnp.Sdk.Test.Unit
         }
 
         [Test]
-        public void testForceCapture()
+        public void TestForceCapture()
         {
             forceCapture forcecapture = new forceCapture();
             forcecapture.orderId = "12344";
@@ -754,7 +754,7 @@ namespace Cnp.Sdk.Test.Unit
         }
 
         [Test]
-        public void testSale()
+        public void TestSale()
         {
             sale sale = new sale();
             sale.orderId = "12344";
@@ -815,7 +815,7 @@ namespace Cnp.Sdk.Test.Unit
         }
 
         [Test]
-        public void testToken()
+        public void TestToken()
         {
             registerTokenRequestType token = new registerTokenRequestType();
             token.orderId = "12344";
@@ -870,7 +870,7 @@ namespace Cnp.Sdk.Test.Unit
         }
 
         [Test]
-        public void testUpdateCardValidationNumOnToken()
+        public void TestUpdateCardValidationNumOnToken()
         {
             updateCardValidationNumOnToken updateCardValidationNumOnToken = new updateCardValidationNumOnToken();
             updateCardValidationNumOnToken.orderId = "12344";
@@ -925,7 +925,7 @@ namespace Cnp.Sdk.Test.Unit
         }
 
         [Test]
-        public void testCnpOnlineException()
+        public void TestCnpOnlineException()
         {
             authorization authorization = new authorization();
             authorization.reportGroup = "Planets";
@@ -987,7 +987,7 @@ namespace Cnp.Sdk.Test.Unit
         }
 
         [Test]
-        public void testInvalidOperationException()
+        public void TestInvalidOperationException()
         {
             authorization authorization = new authorization();
             authorization.reportGroup = "Planets";
@@ -1035,7 +1035,7 @@ namespace Cnp.Sdk.Test.Unit
         }
 
         [Test]
-        public void testDefaultReportGroup()
+        public void TestDefaultReportGroup()
         {
             authorization authorization = new authorization();
             authorization.orderId = "12344";
@@ -1098,7 +1098,7 @@ namespace Cnp.Sdk.Test.Unit
         }
 
         [Test]
-        public void testSerialize()
+        public void TestSerialize()
         {
             authorization authorization = new authorization();
             authorization.orderId = "12344";
@@ -1129,7 +1129,7 @@ namespace Cnp.Sdk.Test.Unit
         }
 
         [Test]
-        public void testRFRRequest()
+        public void TestRFRRequest()
         {
             RFRRequest rfrRequest = new RFRRequest();
             rfrRequest.cnpSessionId = 123456789;
@@ -1180,7 +1180,7 @@ namespace Cnp.Sdk.Test.Unit
         }
 
         [Test]
-        public void testCancelSubscription()
+        public void TestCancelSubscription()
         {
             cancelSubscription cancel = new cancelSubscription();
             cancel.subscriptionId = 12345;
@@ -1231,7 +1231,7 @@ namespace Cnp.Sdk.Test.Unit
         }
 
         [Test]
-        public void testUpdateSubscription()
+        public void TestUpdateSubscription()
         {
             updateSubscription update = new updateSubscription();
             update.billingDate = new DateTime(2002, 10, 9);
@@ -1350,7 +1350,7 @@ namespace Cnp.Sdk.Test.Unit
         }
 
         [Test]
-        public void testUpdatePlan()
+        public void TestUpdatePlan()
         {
             updatePlan updatePlan = new updatePlan();
             updatePlan.planCode = "thePlanCode";
@@ -1403,7 +1403,7 @@ namespace Cnp.Sdk.Test.Unit
         }
 
         [Test]
-        public void testActivate()
+        public void TestActivate()
         {
             activate activate = new activate();
             activate.orderId = "theOrderId";
@@ -1619,7 +1619,7 @@ namespace Cnp.Sdk.Test.Unit
         }
 
         [Test]
-        public void testBalanceInquiry()
+        public void TestBalanceInquiry()
         {
             balanceInquiry balanceInquiry = new balanceInquiry();
             balanceInquiry.orderId = "theOrderId";
@@ -1673,7 +1673,7 @@ namespace Cnp.Sdk.Test.Unit
         }
 
         [Test]
-        public void testEcheckPreNoteSale()
+        public void TestEcheckPreNoteSale()
         {
             echeckPreNoteSale echeckPreNoteSale = new echeckPreNoteSale();
             echeckPreNoteSale.orderId = "12345";
@@ -1740,7 +1740,7 @@ namespace Cnp.Sdk.Test.Unit
         }
 
         [Test]
-        public void testEcheckPreNoteCredit()
+        public void TestEcheckPreNoteCredit()
         {
             echeckPreNoteCredit echeckPreNoteCredit = new echeckPreNoteCredit();
             echeckPreNoteCredit.orderId = "12345";
@@ -1807,7 +1807,7 @@ namespace Cnp.Sdk.Test.Unit
         }
 
         [Test]
-        public void testGiftCardAuthReversal()
+        public void TestGiftCardAuthReversal()
         {
             var giftCardAuthReversal = new giftCardAuthReversal
             {
@@ -1895,7 +1895,7 @@ namespace Cnp.Sdk.Test.Unit
         }
 
         [Test]
-        public void testGiftCardCapture()
+        public void TestGiftCardCapture()
         {
             var giftCardCapture = new giftCardCapture
             {
@@ -1982,7 +1982,7 @@ namespace Cnp.Sdk.Test.Unit
         }
 
         [Test]
-        public void testGiftCardCreditWithTxnId()
+        public void TestGiftCardCreditWithTxnId()
         {
             var giftCardCredit = new giftCardCredit
             {
@@ -2067,7 +2067,7 @@ namespace Cnp.Sdk.Test.Unit
         }
 
         [Test]
-        public void testGiftCardCreditWithOrderId()
+        public void TestGiftCardCreditWithOrderId()
         {
             var giftCardCredit = new giftCardCredit
             {

@@ -16,12 +16,12 @@ namespace Cnp.Sdk.Test.Functional
         {
             _config = new Dictionary<string, string>
             {
-                {"url", "https://payments.vantivprelive.com/vap/communicator/online"},
+                {"url", "https://www.testvantivcnp.com/sandbox/communicator/online"},
                 {"reportGroup", "Default Report Group"},
-                {"username", "SDKTEAM"},
+                {"username", "DOTNET"},
                 {"timeout", "5000"},
-                {"merchantId", "1288791"},
-                {"password", "V3r5K6v7"},
+                {"merchantId", "101"},
+                {"password", "TESTCASE"},
                 {"printxml", "true"},
                 {"proxyHost", Properties.Settings.Default.proxyHost},
                 {"proxyPort", Properties.Settings.Default.proxyPort},

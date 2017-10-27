@@ -47,7 +47,7 @@ namespace Cnp.Sdk.Test.Unit
         }
 
         [Test]
-        public void testAuthReversal()
+        public void TestAuthReversal()
         {
             authReversal authreversal = new authReversal();
             authreversal.cnpTxnId = 12345678000;
@@ -67,7 +67,7 @@ namespace Cnp.Sdk.Test.Unit
         }
 
         [Test]
-        public void testCapture()
+        public void TestCapture()
         {
             capture caputure = new capture();
             caputure.cnpTxnId = 123456000;
@@ -87,7 +87,7 @@ namespace Cnp.Sdk.Test.Unit
         }
 
         [Test]
-        public void testCaptureGivenAuth()
+        public void TestCaptureGivenAuth()
         {
             captureGivenAuth capturegivenauth = new captureGivenAuth();
             capturegivenauth.orderId = "12344";
@@ -116,7 +116,7 @@ namespace Cnp.Sdk.Test.Unit
         }
 
         [Test]
-        public void testCredit()
+        public void TestCredit()
         {
             credit credit = new credit();
             credit.orderId = "12344";
@@ -140,7 +140,7 @@ namespace Cnp.Sdk.Test.Unit
         }
 
         [Test]
-        public void testEcheckCredit()
+        public void TestEcheckCredit()
         {
             echeckCredit echeckcredit = new echeckCredit();
             echeckcredit.amount = 12;
@@ -158,7 +158,7 @@ namespace Cnp.Sdk.Test.Unit
         }
 
         [Test]
-        public void testEcheckRedeposit()
+        public void TestEcheckRedeposit()
         {
             echeckRedeposit echeckredeposit = new echeckRedeposit();
             echeckredeposit.cnpTxnId = 123456;
@@ -175,7 +175,7 @@ namespace Cnp.Sdk.Test.Unit
         }
 
         [Test]
-        public void testEcheckSale()
+        public void TestEcheckSale()
         {
             echeckSale echecksale = new echeckSale();
             echecksale.orderId = "12345";
@@ -207,7 +207,7 @@ namespace Cnp.Sdk.Test.Unit
         }
 
         [Test]
-        public void testEcheckVerification()
+        public void TestEcheckVerification()
         {
             echeckVerification echeckverification = new echeckVerification();
             echeckverification.orderId = "12345";
@@ -239,7 +239,7 @@ namespace Cnp.Sdk.Test.Unit
         }
 
         [Test]
-        public void testForceCapture()
+        public void TestForceCapture()
         {
             forceCapture forcecapture = new forceCapture();
             forcecapture.orderId = "12344";
@@ -263,7 +263,7 @@ namespace Cnp.Sdk.Test.Unit
         }
 
         [Test]
-        public void testSale()
+        public void TestSale()
         {
             sale sale = new sale();
             sale.orderId = "12344";
@@ -287,7 +287,7 @@ namespace Cnp.Sdk.Test.Unit
         }
 
         [Test]
-        public void testToken()
+        public void TestToken()
         {
             registerTokenRequestType token = new registerTokenRequestType();
             token.orderId = "12344";
@@ -307,7 +307,7 @@ namespace Cnp.Sdk.Test.Unit
         }
 
         [Test]
-        public void testActivate()
+        public void TestActivate()
         {
             activate activate = new activate();
             activate.orderId = "2";
@@ -345,7 +345,7 @@ response=""0"" message=""ValidFormat"">
         }
 
         [Test]
-        public void testDeactivate()
+        public void TestDeactivate()
         {
             deactivate deactivate = new deactivate();
             deactivate.orderId = "2";
@@ -364,7 +364,7 @@ response=""0"" message=""ValidFormat"">
         }
 
         [Test]
-        public void testLoad()
+        public void TestLoad()
         {
             load load = new load();
             load.orderId = "2";
@@ -383,7 +383,7 @@ response=""0"" message=""ValidFormat"">
         }
 
         [Test]
-        public void testUnload()
+        public void TestUnload()
         {
             unload unload = new unload();
             unload.orderId = "2";
@@ -402,7 +402,7 @@ response=""0"" message=""ValidFormat"">
         }
 
         [Test]
-        public void testBalanceInquiry()
+        public void TestBalanceInquiry()
         {
             balanceInquiry balanceInquiry = new balanceInquiry();
             balanceInquiry.orderId = "2";
@@ -421,7 +421,7 @@ response=""0"" message=""ValidFormat"">
         }
 
         [Test]
-        public void testCreatePlan()
+        public void TestCreatePlan()
         {
             createPlan createPlan = new createPlan();
             createPlan.planCode = "theCode";
@@ -438,7 +438,7 @@ response=""0"" message=""ValidFormat"">
         }
 
         [Test]
-        public void testUpdatePlan()
+        public void TestUpdatePlan()
         {
             updatePlan updatePlan = new updatePlan();
             updatePlan.planCode = "theCode";
@@ -455,7 +455,7 @@ response=""0"" message=""ValidFormat"">
         }
 
         [Test]
-        public void testCnpOnlineException()
+        public void TestCnpOnlineException()
         {
             authorization authorization = new authorization();
             authorization.reportGroup = "Planets";
@@ -486,7 +486,7 @@ response=""0"" message=""ValidFormat"">
         }
 
         [Test]
-        public void testInvalidOperationException()
+        public void TestInvalidOperationException()
         {
             authorization authorization = new authorization();
             authorization.reportGroup = "Planets";
@@ -517,7 +517,7 @@ response=""0"" message=""ValidFormat"">
         }
 
         [Test]
-        public void testDefaultReportGroup()
+        public void TestDefaultReportGroup()
         {
             authorization authorization = new authorization();
             authorization.orderId = "12344";
@@ -541,7 +541,7 @@ response=""0"" message=""ValidFormat"">
         }
 
         [Test]
-        public void testSetMerchantSdk()
+        public void TestSetMerchantSdk()
         {
 
         }

@@ -12,16 +12,16 @@ namespace Cnp.Sdk.Test.Certification
         private CnpOnline cnp;
 
         [TestFixtureSetUp]
-        public void setUp()
+        public void SetUp()
         {
             Dictionary<string, string> config = new Dictionary<string, string>();
-            config.Add("url", "https://payments.vantivprelive.com/vap/communicator/online");
+            config.Add("url", "https://www.testvantivcnp.com/sandbox/communicator/online");
             config.Add("reportGroup", "Default Report Group");
-            config.Add("username", "SDKTEAM");
+            config.Add("username", "DOTNET");
             config.Add("version", "8.13");
             config.Add("timeout", "500");
-            config.Add("merchantId", "1288791");
-            config.Add("password", "V3r5K6v7");
+            config.Add("merchantId", "101");
+            config.Add("password", "TESTCASE");
             config.Add("printxml", "true");
             config.Add("logFile", null);
             config.Add("neuterAccountNums", null);
@@ -31,7 +31,7 @@ namespace Cnp.Sdk.Test.Certification
         }
 
         [Test]
-        public void test50()
+        public void Test50()
         {
             registerTokenRequestType request = new registerTokenRequestType();
             request.id = "1";
@@ -47,7 +47,7 @@ namespace Cnp.Sdk.Test.Certification
         }
 
         [Test]
-        public void test51()
+        public void Test51()
         {
             registerTokenRequestType request = new registerTokenRequestType();
             request.id = "1";
@@ -60,7 +60,7 @@ namespace Cnp.Sdk.Test.Certification
         }
 
         [Test]
-        public void test52()
+        public void Test52()
         {
             registerTokenRequestType request = new registerTokenRequestType();
             request.id = "1";
@@ -76,7 +76,7 @@ namespace Cnp.Sdk.Test.Certification
         }
 
         [Test]
-        public void test53()
+        public void Test53()
         {
             registerTokenRequestType request = new registerTokenRequestType();
             request.id = "1";
@@ -95,7 +95,7 @@ namespace Cnp.Sdk.Test.Certification
         }
 
         [Test]
-        public void test54()
+        public void Test54()
         {
             registerTokenRequestType request = new registerTokenRequestType();
             request.id = "1";
@@ -110,7 +110,7 @@ namespace Cnp.Sdk.Test.Certification
         }
 
         [Test]
-        public void test55()
+        public void Test55()
         {
             authorization auth = new authorization();
             auth.id = "1";
@@ -134,7 +134,7 @@ namespace Cnp.Sdk.Test.Certification
         }
 
         [Test]
-        public void test56()
+        public void Test56()
         {
             authorization auth = new authorization();
             auth.id = "1";
@@ -153,7 +153,7 @@ namespace Cnp.Sdk.Test.Certification
         }
 
         [Test]
-        public void test57()
+        public void Test57()
         {
             authorization auth = new authorization();
             auth.id = "1";
@@ -177,7 +177,7 @@ namespace Cnp.Sdk.Test.Certification
         }
 
         [Test]
-        public void test59()
+        public void Test59()
         {
             authorization auth = new authorization();
             auth.id = "1";
@@ -195,7 +195,7 @@ namespace Cnp.Sdk.Test.Certification
         }
 
         [Test]
-        public void test60()
+        public void Test60()
         {
             authorization auth = new authorization();
             auth.id = "1";
@@ -212,7 +212,7 @@ namespace Cnp.Sdk.Test.Certification
         }
 
         [Test]
-        public void test61()
+        public void Test61()
         {
             echeckSale sale = new echeckSale();
             sale.id = "1";
@@ -237,7 +237,7 @@ namespace Cnp.Sdk.Test.Certification
         }
 
         [Test]
-        public void test62()
+        public void Test62()
         {
             echeckSale sale = new echeckSale();
             sale.id = "1";
@@ -263,7 +263,7 @@ namespace Cnp.Sdk.Test.Certification
         }
 
         [Test]
-        public void test63()
+        public void Test63()
         {
             echeckSale sale = new echeckSale();
             sale.id = "1";

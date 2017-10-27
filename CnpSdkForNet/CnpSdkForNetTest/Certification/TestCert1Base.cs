@@ -12,16 +12,16 @@ namespace Cnp.Sdk.Test.Certification
         private CnpOnline cnp;
 
         [TestFixtureSetUp]
-        public void setUp()
+        public void SetUp()
         {
             Dictionary<string, string> config = new Dictionary<string, string>();
-            config.Add("url", "https://payments.vantivprelive.com/vap/communicator/online");
+            config.Add("url", "https://www.testvantivcnp.com/sandbox/communicator/online");
             config.Add("reportGroup", "Default Report Group");
-            config.Add("username", "SDKTEAM");
+            config.Add("username", "DOTNET");
             config.Add("version", "9.00");
             config.Add("timeout", "500");
-            config.Add("merchantId", "1288791");
-            config.Add("password", "V3r5K6v7");
+            config.Add("merchantId", "101");
+            config.Add("password", "SDKTEAM");
             config.Add("printxml", "true");
             config.Add("logFile", null);
             config.Add("neuterAccountNums", null);
@@ -116,7 +116,7 @@ namespace Cnp.Sdk.Test.Certification
         }
 
         [Test]
-        public void test1Sale()
+        public void Test1Sale()
         {
             sale sale = new sale();
             sale.id = "1";
@@ -162,7 +162,7 @@ namespace Cnp.Sdk.Test.Certification
         }
 
         [Test]
-        public void test2Auth()
+        public void Test2Auth()
         {
             authorization authorization = new authorization();
             authorization.id = "1";
@@ -218,7 +218,7 @@ namespace Cnp.Sdk.Test.Certification
         }
 
         [Test]
-        public void test2AVS()
+        public void Test2AVS()
         {
             authorization authorization = new authorization();
             authorization.id = "1";
@@ -254,7 +254,7 @@ namespace Cnp.Sdk.Test.Certification
         }
 
         [Test]
-        public void test2Sale()
+        public void Test2Sale()
         {
             sale sale = new sale();
             sale.id = "1";
@@ -303,7 +303,7 @@ namespace Cnp.Sdk.Test.Certification
         }
 
         [Test]
-        public void test3Auth()
+        public void Test3Auth()
         {
             authorization authorization = new authorization();
             authorization.id = "1";
@@ -355,7 +355,7 @@ namespace Cnp.Sdk.Test.Certification
         }
 
         [Test]
-        public void test3AVS()
+        public void Test3AVS()
         {
             authorization authorization = new authorization();
             authorization.id = "1";
@@ -387,7 +387,7 @@ namespace Cnp.Sdk.Test.Certification
         }
 
         [Test]
-        public void test3Sale()
+        public void Test3Sale()
         {
             sale sale = new sale();
             sale.id = "1";
@@ -432,7 +432,7 @@ namespace Cnp.Sdk.Test.Certification
         }
 
         [Test]
-        public void test4Auth()
+        public void Test4Auth()
         {
             authorization authorization = new authorization();
             authorization.id = "1";
@@ -483,7 +483,7 @@ namespace Cnp.Sdk.Test.Certification
         }
 
         [Test]
-        public void test4AVS()
+        public void Test4AVS()
         {
             authorization authorization = new authorization();
             authorization.id = "1";
@@ -513,7 +513,7 @@ namespace Cnp.Sdk.Test.Certification
         }
 
         [Test]
-        public void test4Sale()
+        public void Test4Sale()
         {
             sale sale = new sale();
             sale.id = "1";
@@ -557,7 +557,7 @@ namespace Cnp.Sdk.Test.Certification
         }
 
         [Test]
-        public void test5Auth()
+        public void Test5Auth()
         {
             authorization authorization = new authorization();
             authorization.id = "1";
@@ -604,7 +604,7 @@ namespace Cnp.Sdk.Test.Certification
         }
 
         [Test]
-        public void test5AVS()
+        public void Test5AVS()
         {
             authorization authorization = new authorization();
             authorization.id = "1";
@@ -630,7 +630,7 @@ namespace Cnp.Sdk.Test.Certification
         }
 
         [Test]
-        public void test5Sale()
+        public void Test5Sale()
         {
             sale sale = new sale();
             sale.id = "1";
@@ -670,7 +670,7 @@ namespace Cnp.Sdk.Test.Certification
         }
 
         [Test]
-        public void test6Auth()
+        public void Test6Auth()
         {
             authorization authorization = new authorization();
             authorization.id = "1";
@@ -700,7 +700,7 @@ namespace Cnp.Sdk.Test.Certification
         }
 
         [Test]
-        public void test6Sale()
+        public void Test6Sale()
         {
             sale sale = new sale();
             sale.id = "1";
@@ -737,7 +737,7 @@ namespace Cnp.Sdk.Test.Certification
         }
 
         [Test]
-        public void test7Auth()
+        public void Test7Auth()
         {
             authorization authorization = new authorization();
             authorization.id = "1";
@@ -767,7 +767,7 @@ namespace Cnp.Sdk.Test.Certification
         }
 
         [Test]
-        public void test7AVS()
+        public void Test7AVS()
         {
             authorization authorization = new authorization();
             authorization.id = "1";
@@ -797,7 +797,7 @@ namespace Cnp.Sdk.Test.Certification
         }
 
         [Test]
-        public void test7Sale()
+        public void Test7Sale()
         {
             sale sale = new sale();
             sale.id = "1";
@@ -827,7 +827,7 @@ namespace Cnp.Sdk.Test.Certification
         }
 
         [Test]
-        public void test8Auth()
+        public void Test8Auth()
         {
             authorization authorization = new authorization();
             authorization.id = "1";
@@ -857,7 +857,7 @@ namespace Cnp.Sdk.Test.Certification
         }
 
         [Test]
-        public void test8AVS()
+        public void Test8AVS()
         {
             authorization authorization = new authorization();
             authorization.id = "1";
@@ -887,7 +887,7 @@ namespace Cnp.Sdk.Test.Certification
         }
 
         [Test]
-        public void test8Sale()
+        public void Test8Sale()
         {
             sale sale = new sale();
             sale.id = "1";
@@ -917,7 +917,7 @@ namespace Cnp.Sdk.Test.Certification
         }
 
         [Test]
-        public void test9Auth()
+        public void Test9Auth()
         {
             authorization authorization = new authorization();
             authorization.id = "1";
@@ -946,7 +946,7 @@ namespace Cnp.Sdk.Test.Certification
         }
 
         [Test]
-        public void test9AVS()
+        public void Test9AVS()
         {
             authorization authorization = new authorization();
             authorization.id = "1";
@@ -975,7 +975,7 @@ namespace Cnp.Sdk.Test.Certification
         }
 
         [Test]
-        public void test9Sale()
+        public void Test9Sale()
         {
             sale sale = new sale();
             sale.id = "1";
@@ -1004,7 +1004,7 @@ namespace Cnp.Sdk.Test.Certification
         }
 
         [Test]
-        public void test10()
+        public void Test10()
         {
             authorization authorization = new authorization();
             authorization.id = "1";
@@ -1025,7 +1025,7 @@ namespace Cnp.Sdk.Test.Certification
         }
 
         [Test]
-        public void test11()
+        public void Test11()
         {
             authorization authorization = new authorization();
             authorization.id = "1";
@@ -1046,7 +1046,7 @@ namespace Cnp.Sdk.Test.Certification
         }
 
         [Test]
-        public void test12()
+        public void Test12()
         {
             authorization authorization = new authorization();
             authorization.id = "1";
@@ -1067,7 +1067,7 @@ namespace Cnp.Sdk.Test.Certification
         }
 
         [Test]
-        public void test13()
+        public void Test13()
         {
             authorization authorization = new authorization();
             authorization.id = "1";
