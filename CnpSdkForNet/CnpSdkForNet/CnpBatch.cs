@@ -181,16 +181,16 @@ namespace Cnp.Sdk
             numOfRFRRequest++;
         }
 
-        public cnpResponse sendToCnpWithStream()
-        {
-            var requestFilePath = this.Serialize();
-            var batchName = Path.GetFileName(requestFilePath);
+        //public cnpResponse sendToCnpWithStream()
+        //{
+        //    var requestFilePath = this.Serialize();
+        //    var batchName = Path.GetFileName(requestFilePath);
 
-            var responseFilePath = communication.SocketStream(requestFilePath, responseDirectory, config);
+        //    var responseFilePath = communication.SocketStream(requestFilePath, responseDirectory, config);
 
-            var cnpResponse = (cnpResponse)cnpXmlSerializer.DeserializeObjectFromFile(responseFilePath);
-            return cnpResponse;
-        }
+        //    var cnpResponse = (cnpResponse)cnpXmlSerializer.DeserializeObjectFromFile(responseFilePath);
+        //    return cnpResponse;
+        //}
 
         public string sendToCnp()
         {

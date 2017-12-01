@@ -1,11 +1,12 @@
 # git ignore file
-LitleSdkForNet/LitleSdkForNet/bin
-LitleSdkForNet/LitleSdkForNet/obj
-LitleSdkForNet/LitleSdkForNetTest/bin
-LitleSdkForNet/LitleSdkForNetTest/obj
-LitleSdkForNet/LitleSdkForNet/obj/Release/LitleSdkForNet.csproj.FileListAbsolute.txt
-LitleSdkForNet/LitleSdkForNet.VisualState.xml
-LitleSdkForNet/TestResult.xml
+CnpSdkForNet/CnpSdkForNet/bin
+CnpSdkForNet/CnpSdkForNet/obj
+CnpSdkForNet/CnpSdkForNetTest/bin
+CnpSdkForNet/CnpSdkForNetTest/obj
+CnpSdkForNet/CnpSdkForNet/obj/Release/LitleSdkForNet.csproj.FileListAbsolute.txt
+CnpSdkForNet/CnpSdkForNet.VisualState.xml
+CnpSdkForNet/TestResult.xml
+CnpSdkForNet/.vs
 
 *.zip
 *.suo

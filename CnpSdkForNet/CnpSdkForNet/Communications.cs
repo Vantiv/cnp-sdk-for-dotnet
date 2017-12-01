@@ -271,82 +271,82 @@ namespace Cnp.Sdk
 
 
 
-        public virtual string SocketStream(string xmlRequestFilePath, string xmlResponseDestinationDirectory, Dictionary<string, string> config)
-        {
-            var url = config["onlineBatchUrl"];
-            var port = int.Parse(config["onlineBatchPort"]);
-            TcpClient tcpClient;
-            SslStream sslStream;
+        //public virtual string SocketStream(string xmlRequestFilePath, string xmlResponseDestinationDirectory, Dictionary<string, string> config)
+        //{
+        //    var url = config["onlineBatchUrl"];
+        //    var port = int.Parse(config["onlineBatchPort"]);
+        //    TcpClient tcpClient;
+        //    SslStream sslStream;
 
-            try
-            {
-                tcpClient = new TcpClient(url, port);
-                sslStream = new SslStream(tcpClient.GetStream(), false, ValidateServerCertificate, null);
-            }
-            catch (SocketException e)
-            {
-                throw new CnpOnlineException("Error establishing a network connection", e);
-            }
+        //    try
+        //    {
+        //        tcpClient = new TcpClient(url, port);
+        //        sslStream = new SslStream(tcpClient.GetStream(), false, ValidateServerCertificate, null);
+        //    }
+        //    catch (SocketException e)
+        //    {
+        //        throw new CnpOnlineException("Error establishing a network connection", e);
+        //    }
 
-            try
-            {
-                sslStream.AuthenticateAsClient(url);
-            }
-            catch (AuthenticationException e)
-            {
-                tcpClient.Close();
-                throw new CnpOnlineException("Error establishing a network connection - SSL Authencation failed", e);
-            }
+        //    try
+        //    {
+        //        sslStream.AuthenticateAsClient(url);
+        //    }
+        //    catch (AuthenticationException e)
+        //    {
+        //        tcpClient.Close();
+        //        throw new CnpOnlineException("Error establishing a network connection - SSL Authencation failed", e);
+        //    }
 
-            if ("true".Equals(config["printxml"]))
-            {
-                Console.WriteLine("Using XML File: " + xmlRequestFilePath);
-            }
+        //    if ("true".Equals(config["printxml"]))
+        //    {
+        //        Console.WriteLine("Using XML File: " + xmlRequestFilePath);
+        //    }
 
-            using (var readFileStream = new FileStream(xmlRequestFilePath, FileMode.Open))
-            {
-                var bytesRead = -1;
+        //    using (var readFileStream = new FileStream(xmlRequestFilePath, FileMode.Open))
+        //    {
+        //        var bytesRead = -1;
 
-                do
-                {
-                    var byteBuffer = new byte[1024 * sizeof(char)];
-                    bytesRead = readFileStream.Read(byteBuffer, 0, byteBuffer.Length);
+        //        do
+        //        {
+        //            var byteBuffer = new byte[1024 * sizeof(char)];
+        //            bytesRead = readFileStream.Read(byteBuffer, 0, byteBuffer.Length);
 
-                    sslStream.Write(byteBuffer, 0, bytesRead);
-                    sslStream.Flush();
-                } while (bytesRead != 0);
-            }
+        //            sslStream.Write(byteBuffer, 0, bytesRead);
+        //            sslStream.Flush();
+        //        } while (bytesRead != 0);
+        //    }
 
-            var batchName = Path.GetFileName(xmlRequestFilePath);
-            var destinationDirectory = Path.GetDirectoryName(xmlResponseDestinationDirectory);
-            if (!Directory.Exists(destinationDirectory))
-            {
-                if (destinationDirectory != null) Directory.CreateDirectory(destinationDirectory);
-            }
+        //    var batchName = Path.GetFileName(xmlRequestFilePath);
+        //    var destinationDirectory = Path.GetDirectoryName(xmlResponseDestinationDirectory);
+        //    if (!Directory.Exists(destinationDirectory))
+        //    {
+        //        if (destinationDirectory != null) Directory.CreateDirectory(destinationDirectory);
+        //    }
 
-            if ("true".Equals(config["printxml"]))
-            {
-                Console.WriteLine("Writing to XML File: " + xmlResponseDestinationDirectory + batchName);
-            }
+        //    if ("true".Equals(config["printxml"]))
+        //    {
+        //        Console.WriteLine("Writing to XML File: " + xmlResponseDestinationDirectory + batchName);
+        //    }
 
-            using (var writeFileStream = new FileStream(xmlResponseDestinationDirectory + batchName, FileMode.Create))
-            {
-                int bytesRead;
+        //    using (var writeFileStream = new FileStream(xmlResponseDestinationDirectory + batchName, FileMode.Create))
+        //    {
+        //        int bytesRead;
 
-                do
-                {
-                    var byteBuffer = new byte[1024 * sizeof(char)];
-                    bytesRead = sslStream.Read(byteBuffer, 0, byteBuffer.Length);
+        //        do
+        //        {
+        //            var byteBuffer = new byte[1024 * sizeof(char)];
+        //            bytesRead = sslStream.Read(byteBuffer, 0, byteBuffer.Length);
 
-                    writeFileStream.Write(byteBuffer, 0, bytesRead);
-                } while (bytesRead > 0);
-            }
+        //            writeFileStream.Write(byteBuffer, 0, bytesRead);
+        //        } while (bytesRead > 0);
+        //    }
 
-            tcpClient.Close();
-            sslStream.Close();
+        //    tcpClient.Close();
+        //    sslStream.Close();
 
-            return xmlResponseDestinationDirectory + batchName;
-        }
+        //    return xmlResponseDestinationDirectory + batchName;
+        //}
 
         public virtual void FtpDropOff(string fileDirectory, string fileName, Dictionary<string, string> config)
         {
