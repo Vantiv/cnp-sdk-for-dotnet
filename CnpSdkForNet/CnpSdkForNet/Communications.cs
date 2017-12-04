@@ -413,9 +413,9 @@ namespace Cnp.Sdk
                     Console.WriteLine("remote HostKey host: <" + hk.getHost() + "> type: <" + hk.getType() + "> fingerprint: <" + hk.getFingerPrint(jsch) + ">");
                 }
 
-                //var channel = session.openChannel("sftp");
-                //channel.connect();
-                //channelSftp = (ChannelSftp)channel;
+                var channel = session.openChannel("sftp");
+                channel.connect();
+                channelSftp = (ChannelSftp)channel;
             }
             catch (SftpException e)
             {
@@ -426,25 +426,25 @@ namespace Cnp.Sdk
                 throw new CnpOnlineException("Error occured while attempting to establish an SFTP connection", e);
             }
 
-            //try
-            //{
-               // if (printxml)
-               // {
-                 //   Console.WriteLine("Dropping off local file " + filePath + " to inbound/" + fileName + ".prg");
-               // }
-                //channelSftp.put(filePath, "inbound/" + fileName + ".prg", ChannelSftp.OVERWRITE);
-                //if (printxml)
-                //{
-                //    Console.WriteLine("File copied - renaming from inbound/" + fileName + ".prg to inbound/" + fileName + ".asc");
-               // }
-               // channelSftp.rename("inbound/" + fileName + ".prg", "inbound/" + fileName + ".asc");
-            //}
-           // catch (SftpException e)
-            //{
-               // throw new CnpOnlineException("Error occured while attempting to upload and save the file to SFTP", e);
-           // }
+            try
+            {
+                if (printxml)
+                {
+                    Console.WriteLine("Dropping off local file " + filePath + " to inbound/" + fileName + ".prg");
+                }
+                channelSftp.put(filePath, "inbound/" + fileName + ".prg", ChannelSftp.OVERWRITE);
+                if (printxml)
+                {
+                    Console.WriteLine("File copied - renaming from inbound/" + fileName + ".prg to inbound/" + fileName + ".asc");
+               }
+                channelSftp.rename("inbound/" + fileName + ".prg", "inbound/" + fileName + ".asc");
+            }
+            catch (SftpException e)
+            {
+                throw new CnpOnlineException("Error occured while attempting to upload and save the file to SFTP", e);
+            }
 
-            //channelSftp.quit();
+            channelSftp.quit();
 
             session.disconnect();
         }
