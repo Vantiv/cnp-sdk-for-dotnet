@@ -419,7 +419,7 @@ namespace Cnp.Sdk
             }
             catch (SftpException e)
             {
-                throw new CnpOnlineException("Error occured while attempting to establish an SFTP connection", e);
+                throw new CnpOnlineException("Error occured while establishing an SFTP connection", e);
             }
             catch (JSchException e)
             {
@@ -428,10 +428,10 @@ namespace Cnp.Sdk
 
             try
             {
-                if (printxml)
-                {
-                    Console.WriteLine("Dropping off local file " + filePath + " to inbound/" + fileName + ".prg");
-                }
+               // if (printxml)
+               // {
+                 //   Console.WriteLine("Dropping off local file " + filePath + " to inbound/" + fileName + ".prg");
+               // }
                 channelSftp.put(filePath, "inbound/" + fileName + ".prg", ChannelSftp.OVERWRITE);
                 if (printxml)
                 {
