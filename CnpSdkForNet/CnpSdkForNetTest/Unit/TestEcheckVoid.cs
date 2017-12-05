@@ -37,22 +37,6 @@ namespace Cnp.Sdk.Test.Unit
             cnp.EcheckVoid(echeckVoid);
         }
 
-        [Test]
-        public void simpleForceCaptureWithSecondaryAmount()
-        {
-            forceCapture forcecapture = new forceCapture();
-            forcecapture.id = "1";
-            forcecapture.amount = 106;
-            forcecapture.secondaryAmount = 50;
-            forcecapture.orderId = "12344";
-            forcecapture.orderSource = orderSourceType.ecommerce;
-            cardType card = new cardType();
-            card.type = methodOfPaymentTypeEnum.VI;
-            card.number = "4100000000000000";
-            card.expDate = "1210";
-            forcecapture.card = card;
-            forceCaptureResponse response = cnp.ForceCapture(forcecapture);
-            Assert.AreEqual("Approved", response.message);
-        }
+        
     }
 }
