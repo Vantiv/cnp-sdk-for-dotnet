@@ -195,20 +195,6 @@ namespace Cnp.Sdk
         public string sendToCnp()
         {
             var requestFilePath = this.Serialize();
- 
-            var url = config["sftpUrl"];
-            var username = config["sftpUsername"];
-            var password = config["sftpPassword"];
-            var knownHostsFile = config["knownHostsFile"];
-            var filePath = requestDirectory + Path.GetFileName(requestFilePath);
-
-           
-            
-                Console.WriteLine("Sftp Url: " + url);
-                Console.WriteLine("Username: " + username);
-                //Console.WriteLine("Password: " + password);
-                Console.WriteLine("Known hosts file path: " + knownHostsFile);
-            
             communication.FtpDropOff(requestDirectory, Path.GetFileName(requestFilePath), config);
             return Path.GetFileName(requestFilePath);
         }
