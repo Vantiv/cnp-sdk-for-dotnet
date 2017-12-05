@@ -419,9 +419,9 @@ namespace Cnp.Sdk
             }
             catch (SftpException e)
             {
-                throw new CnpOnlineException("Error occured while attempting to establish an SFTP connection", e);
+                throw new CnpOnlineException("Error occured while establishing an SFTP connection", e);
             }
-            catch (JSchException e)
+            catch (Exception e)
             {
                 throw new CnpOnlineException("Error occured while attempting to establish an SFTP connection", e);
             }
@@ -436,7 +436,7 @@ namespace Cnp.Sdk
                 if (printxml)
                 {
                     Console.WriteLine("File copied - renaming from inbound/" + fileName + ".prg to inbound/" + fileName + ".asc");
-                }
+               }
                 channelSftp.rename("inbound/" + fileName + ".prg", "inbound/" + fileName + ".asc");
             }
             catch (SftpException e)
