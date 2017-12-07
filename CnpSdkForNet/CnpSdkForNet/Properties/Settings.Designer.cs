@@ -12,7 +12,7 @@ namespace Cnp.Sdk.Properties {
     
     
     [global::System.Runtime.CompilerServices.CompilerGeneratedAttribute()]
-    [global::System.CodeDom.Compiler.GeneratedCodeAttribute("Microsoft.VisualStudio.Editors.SettingsDesigner.SettingsSingleFileGenerator", "15.3.0.0")]
+    [global::System.CodeDom.Compiler.GeneratedCodeAttribute("Microsoft.VisualStudio.Editors.SettingsDesigner.SettingsSingleFileGenerator", "15.5.0.0")]
     public sealed partial class Settings : global::System.Configuration.ApplicationSettingsBase {
         
         private static Settings defaultInstance = ((Settings)(global::System.Configuration.ApplicationSettingsBase.Synchronized(new Settings())));
@@ -32,78 +32,6 @@ namespace Cnp.Sdk.Properties {
             }
             set {
                 this["reportGroup"] = value;
-            }
-        }
-        
-        [global::System.Configuration.UserScopedSettingAttribute()]
-        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
-        [global::System.Configuration.DefaultSettingValueAttribute("True")]
-        public string printxml {
-            get {
-                return ((string)(this["printxml"]));
-            }
-            set {
-                this["printxml"] = value;
-            }
-        }
-        
-        [global::System.Configuration.UserScopedSettingAttribute()]
-        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
-        [global::System.Configuration.DefaultSettingValueAttribute("500")]
-        public string timeout {
-            get {
-                return ((string)(this["timeout"]));
-            }
-            set {
-                this["timeout"] = value;
-            }
-        }
-        
-        [global::System.Configuration.UserScopedSettingAttribute()]
-        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
-        [global::System.Configuration.DefaultSettingValueAttribute("payments.vantivprelive.com")]
-        public string sftpUrl {
-            get {
-                return ((string)(this["sftpUrl"]));
-            }
-            set {
-                this["sftpUrl"] = value;
-            }
-        }
-        
-        [global::System.Configuration.UserScopedSettingAttribute()]
-        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
-        [global::System.Configuration.DefaultSettingValueAttribute("C:\\Vantiv\\dll\\knownhosts")]
-        public string knownHostsFile {
-            get {
-                return ((string)(this["knownHostsFile"]));
-            }
-            set {
-                this["knownHostsFile"] = value;
-            }
-        }
-        
-        [global::System.Configuration.UserScopedSettingAttribute()]
-        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
-        [global::System.Configuration.DefaultSettingValueAttribute("")]
-        public string sftpUsername {
-            get {
-                return ((string)(this["sftpUsername"]));
-            }
-            set {
-                this["sftpUsername"] = value;
-            }
-        }
-        
-        [global::System.Configuration.UserScopedSettingAttribute()]
-        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
-        [global::System.Configuration.DefaultSettingValueAttribute("")]
-        public string sftpPassword {
-            get {
-                return ((string)(this["sftpPassword"]));
-            }
-            set {
-                this["sftpPassword"] = value;
             }
         }
         
@@ -241,7 +169,55 @@ namespace Cnp.Sdk.Properties {
         
         [global::System.Configuration.UserScopedSettingAttribute()]
         [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
-        [global::System.Configuration.DefaultSettingValueAttribute("1288791")]
+        [global::System.Configuration.DefaultSettingValueAttribute("true")]
+        public string keepAlive {
+            get {
+                return ((string)(this["keepAlive"]));
+            }
+            set {
+                this["keepAlive"] = value;
+            }
+        }
+        
+        [global::System.Configuration.UserScopedSettingAttribute()]
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.Configuration.DefaultSettingValueAttribute("true")]
+        public string printxml {
+            get {
+                return ((string)(this["printxml"]));
+            }
+            set {
+                this["printxml"] = value;
+            }
+        }
+        
+        [global::System.Configuration.UserScopedSettingAttribute()]
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.Configuration.DefaultSettingValueAttribute("5000")]
+        public string timeout {
+            get {
+                return ((string)(this["timeout"]));
+            }
+            set {
+                this["timeout"] = value;
+            }
+        }
+        
+        [global::System.Configuration.UserScopedSettingAttribute()]
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.Configuration.DefaultSettingValueAttribute("C:\\\\Vantiv\\\\dll\\\\knownhosts")]
+        public string knownHostsFile {
+            get {
+                return ((string)(this["knownHostsFile"]));
+            }
+            set {
+                this["knownHostsFile"] = value;
+            }
+        }
+        
+        [global::System.Configuration.UserScopedSettingAttribute()]
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.Configuration.DefaultSettingValueAttribute("101")]
         public string merchantId {
             get {
                 return ((string)(this["merchantId"]));
@@ -253,13 +229,37 @@ namespace Cnp.Sdk.Properties {
         
         [global::System.Configuration.UserScopedSettingAttribute()]
         [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
-        [global::System.Configuration.DefaultSettingValueAttribute("true")]
-        public string keepAlive {
+        [global::System.Configuration.DefaultSettingValueAttribute("prelive.litle.com")]
+        public string sftpUrl {
             get {
-                return ((string)(this["keepAlive"]));
+                return ((string)(this["sftpUrl"]));
             }
             set {
-                this["keepAlive"] = value;
+                this["sftpUrl"] = value;
+            }
+        }
+        
+        [global::System.Configuration.UserScopedSettingAttribute()]
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.Configuration.DefaultSettingValueAttribute("DOTNET")]
+        public string sftpUsername {
+            get {
+                return ((string)(this["sftpUsername"]));
+            }
+            set {
+                this["sftpUsername"] = value;
+            }
+        }
+        
+        [global::System.Configuration.UserScopedSettingAttribute()]
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.Configuration.DefaultSettingValueAttribute("DOTNET")]
+        public string sftpPassword {
+            get {
+                return ((string)(this["sftpPassword"]));
+            }
+            set {
+                this["sftpPassword"] = value;
             }
         }
     }

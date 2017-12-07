@@ -5,24 +5,6 @@
     <Setting Name="reportGroup" Type="System.String" Scope="User">
       <Value Profile="(Default)">Default Report Group</Value>
     </Setting>
-    <Setting Name="printxml" Type="System.String" Scope="User">
-      <Value Profile="(Default)">True</Value>
-    </Setting>
-    <Setting Name="timeout" Type="System.String" Scope="User">
-      <Value Profile="(Default)">500</Value>
-    </Setting>
-    <Setting Name="sftpUrl" Type="System.String" Scope="User">
-      <Value Profile="(Default)">payments.vantivprelive.com</Value>
-    </Setting>
-    <Setting Name="knownHostsFile" Type="System.String" Scope="User">
-      <Value Profile="(Default)">C:\Vantiv\dll\knownhosts</Value>
-    </Setting>
-    <Setting Name="sftpUsername" Type="System.String" Scope="User">
-      <Value Profile="(Default)" />
-    </Setting>
-    <Setting Name="sftpPassword" Type="System.String" Scope="User">
-      <Value Profile="(Default)" />
-    </Setting>
     <Setting Name="onlineBatchUrl" Type="System.String" Scope="User">
       <Value Profile="(Default)">payments.vantivprelive.com</Value>
     </Setting>
@@ -56,11 +38,29 @@
     <Setting Name="password" Type="System.String" Scope="User">
       <Value Profile="(Default)" />
     </Setting>
-    <Setting Name="merchantId" Type="System.String" Scope="User">
-      <Value Profile="(Default)">1288791</Value>
-    </Setting>
     <Setting Name="keepAlive" Type="System.String" Scope="User">
       <Value Profile="(Default)">true</Value>
+    </Setting>
+    <Setting Name="printxml" Type="System.String" Scope="User">
+      <Value Profile="(Default)">true</Value>
+    </Setting>
+    <Setting Name="timeout" Type="System.String" Scope="User">
+      <Value Profile="(Default)">5000</Value>
+    </Setting>
+    <Setting Name="knownHostsFile" Type="System.String" Scope="User">
+      <Value Profile="(Default)">C:\\Vantiv\\dll\\knownhosts</Value>
+    </Setting>
+    <Setting Name="merchantId" Type="System.String" Scope="User">
+      <Value Profile="(Default)">101</Value>
+    </Setting>
+    <Setting Name="sftpUrl" Type="System.String" Scope="User">
+      <Value Profile="(Default)">prelive.litle.com</Value>
+    </Setting>
+    <Setting Name="sftpUsername" Type="System.String" Scope="User">
+      <Value Profile="(Default)">DOTNET</Value>
+    </Setting>
+    <Setting Name="sftpPassword" Type="System.String" Scope="User">
+      <Value Profile="(Default)">DOTNET</Value>
     </Setting>
   </Settings>
 </SettingsFile>
