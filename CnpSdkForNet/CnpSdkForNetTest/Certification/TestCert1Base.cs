@@ -15,13 +15,12 @@ namespace Cnp.Sdk.Test.Certification
         public void SetUp()
         {
             Dictionary<string, string> config = new Dictionary<string, string>();
-            config.Add("url", "https://www.testvantivcnp.com/sandbox/new/sandbox/communicator/online");
+            config.Add("url", "https://payments.vantivprelive.com/vap/communicator/online");
             config.Add("reportGroup", "Default Report Group");
-            config.Add("username", "DOTNET");
-            config.Add("version", "9.00");
+            config.Add("username", Properties.Settings.Default.username);
             config.Add("timeout", "500");
-            config.Add("merchantId", "101");
-            config.Add("password", "SDKTEAM");
+            config.Add("merchantId", Properties.Settings.Default.merchantId);
+            config.Add("password", Properties.Settings.Default.password);
             config.Add("printxml", "true");
             config.Add("logFile", null);
             config.Add("neuterAccountNums", null);
@@ -41,7 +40,7 @@ namespace Cnp.Sdk.Test.Certification
             authorization.amount = 10010;
             authorization.orderSource = orderSourceType.ecommerce;
             contact contact = new contact();
-            contact.name = "John Smith";
+            contact.name = "John & Mary Smith";
             contact.addressLine1 = "1 Main St.";
             contact.city = "Burlington";
             contact.state = "MA";
@@ -51,7 +50,7 @@ namespace Cnp.Sdk.Test.Certification
             cardType card = new cardType();            
             card.type = methodOfPaymentTypeEnum.VI;
             card.number = "4457010000000009";
-            card.expDate = "0112";
+            card.expDate = "0121";
             card.cardValidationNum = "349";
             authorization.card = card;
 
@@ -437,7 +436,7 @@ namespace Cnp.Sdk.Test.Certification
             authorization authorization = new authorization();
             authorization.id = "1";
             authorization.orderId = "4";
-            authorization.amount = 40040;
+            authorization.amount = 10100;
             authorization.orderSource = orderSourceType.ecommerce;
             contact contact = new contact();
             contact.name = "Bob Black";
@@ -450,15 +449,15 @@ namespace Cnp.Sdk.Test.Certification
             cardType card = new cardType();
             card.type = methodOfPaymentTypeEnum.AX;
             card.number = "375001000000005";
-            card.expDate = "0412";
-            card.cardValidationNum = "758";
+            card.expDate = "0421";
+            //card.cardValidationNum = "758";
             authorization.card = card;
 
             authorizationResponse response = cnp.Authorize(authorization);
             Assert.AreEqual("000", response.response);
             Assert.AreEqual("Approved", response.message);
-            Assert.AreEqual("44444", response.authCode);
-            Assert.AreEqual("12", response.fraudResult.avsResult);
+            Assert.AreEqual("44444", response.authCode.Trim());
+            Assert.AreEqual("13", response.fraudResult.avsResult);
 
             capture capture = new capture();
             capture.id = response.id;
@@ -509,7 +508,7 @@ namespace Cnp.Sdk.Test.Certification
             Assert.AreEqual("000", response.response);
             Assert.AreEqual("Approved", response.message);
             Assert.AreEqual("44444", response.authCode.Trim());
-            Assert.AreEqual("12", response.fraudResult.avsResult);
+            Assert.AreEqual("13", response.fraudResult.avsResult);
         }
 
         [Test]
@@ -538,8 +537,8 @@ namespace Cnp.Sdk.Test.Certification
             saleResponse response = cnp.Sale(sale);
             Assert.AreEqual("000", response.response);
             Assert.AreEqual("Approved", response.message);
-            Assert.AreEqual("44444", response.authCode);
-            Assert.AreEqual("12", response.fraudResult.avsResult);
+            Assert.AreEqual("44444", response.authCode.Trim());
+            Assert.AreEqual("13", response.fraudResult.avsResult);
 
             credit credit = new credit();
             credit.id = response.id;
@@ -579,7 +578,7 @@ namespace Cnp.Sdk.Test.Certification
             Assert.AreEqual("Approved", response.message);
             Assert.AreEqual("55555 ", response.authCode);
             Assert.AreEqual("32", response.fraudResult.avsResult);
-            Assert.AreEqual("N", response.fraudResult.cardValidationResult);
+            Assert.AreEqual("M", response.fraudResult.cardValidationResult);
 
             capture capture = new capture();
             capture.id = response.id;
@@ -626,7 +625,7 @@ namespace Cnp.Sdk.Test.Certification
             Assert.AreEqual("Approved", response.message);
             Assert.AreEqual("55555 ", response.authCode);
             Assert.AreEqual("32", response.fraudResult.avsResult);
-            Assert.AreEqual("N", response.fraudResult.cardValidationResult);
+            Assert.AreEqual("M", response.fraudResult.cardValidationResult);
         }
 
         [Test]
@@ -652,7 +651,7 @@ namespace Cnp.Sdk.Test.Certification
             Assert.AreEqual("Approved", response.message);
             Assert.AreEqual("55555 ", response.authCode);
             Assert.AreEqual("32", response.fraudResult.avsResult);
-            Assert.AreEqual("N", response.fraudResult.cardValidationResult);
+            Assert.AreEqual("M", response.fraudResult.cardValidationResult);
 
             credit credit = new credit();
             credit.id = response.id;

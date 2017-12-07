@@ -15,13 +15,12 @@ namespace Cnp.Sdk.Test.Certification
         public void SetUp()
         {
             Dictionary<string, string> config = new Dictionary<string, string>();
-            config.Add("url", "https://www.testvantivcnp.com/sandbox/new/sandbox/communicator/online");
+            config.Add("url", "https://payments.vantivprelive.com/vap/communicator/online");
             config.Add("reportGroup", "Default Report Group");
-            config.Add("username", "DOTNET");
-            config.Add("version", "8.13");
+            config.Add("username", Properties.Settings.Default.username);
             config.Add("timeout", "500");
-            config.Add("merchantId", "101");
-            config.Add("password", "TESTCASE");
+            config.Add("merchantId", Properties.Settings.Default.merchantId);
+            config.Add("password", Properties.Settings.Default.password);
             config.Add("printxml", "true");
             config.Add("logFile", null);
             config.Add("neuterAccountNums", null);

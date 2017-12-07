@@ -15,13 +15,12 @@ namespace Cnp.Sdk.Test.Certification
         public void SetUp()
         {
             Dictionary<string, string> config = new Dictionary<string, string>();
-            config.Add("url", "https://www.testvantivcnp.com/sandbox/new/sandbox/communicator/online");
+            config.Add("url", "https://payments.vantivprelive.com/vap/communicator/online");
             config.Add("reportGroup", "Default Report Group");
-            config.Add("username", "DOTNET");
-            config.Add("version", "11.0");
+            config.Add("username", Properties.Settings.Default.username);
             config.Add("timeout", "500");
-            config.Add("merchantId", "101");
-            config.Add("password", "TESTCASE");
+            config.Add("merchantId", Properties.Settings.Default.merchantId);
+            config.Add("password", Properties.Settings.Default.password);
             config.Add("printxml", "true");
             config.Add("logFile", null);
             config.Add("neuterAccountNums", null);
@@ -163,7 +162,7 @@ namespace Cnp.Sdk.Test.Certification
             authorization auth = new authorization();
             auth.id = "1";
             auth.orderId = "35";
-            auth.amount = 40040;
+            auth.amount = 10100;
             auth.orderSource = orderSourceType.ecommerce;
             contact billToAddress = new contact();
             billToAddress.name = "Bob Black";
@@ -175,7 +174,7 @@ namespace Cnp.Sdk.Test.Certification
             auth.billToAddress = billToAddress;
             cardType card = new cardType();
             card.number = "375001000000005";
-            card.expDate = "0412";
+            card.expDate = "0421";
             card.type = methodOfPaymentTypeEnum.AX;
             auth.card = card;
 
@@ -183,7 +182,7 @@ namespace Cnp.Sdk.Test.Certification
             Assert.AreEqual("000", authorizeResponse.response);
             Assert.AreEqual("Approved", authorizeResponse.message);
             Assert.AreEqual("44444", authorizeResponse.authCode.Trim());
-            Assert.AreEqual("12", authorizeResponse.fraudResult.avsResult);
+            Assert.AreEqual("13", authorizeResponse.fraudResult.avsResult);
 
             capture capture = new capture();
             capture.id = authorizeResponse.id;
