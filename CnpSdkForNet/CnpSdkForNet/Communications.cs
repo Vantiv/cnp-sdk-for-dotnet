@@ -421,7 +421,7 @@ namespace Cnp.Sdk
             {
                 throw new CnpOnlineException("Error occured while establishing an SFTP connection", e);
             }
-            catch (Exception e)
+            catch (JSchException e)
             {
                 throw new CnpOnlineException("Error occured while attempting to establish an SFTP connection", e);
             }
