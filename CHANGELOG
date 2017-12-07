@@ -1,4 +1,13 @@
-= LitleOnline CHANGELOG
+= Vantiv eCommerce CNP CHANGELOG
+
+==Version 12.0.0 (Dec. 7, 2017)
+* Feature: implement XML v12
+* Feature: remove option of using TLSv1.0
+
++----------------------------------------------------------------------------------------------------------------------+
+|The version history below is preserved from the Litle branded SDK. All features and bug fixes apply to the            |
+|Vantiv CNP (>= SDK/XML v12) version of the SDK as well, hence the reason for preserving history.                      |
++----------------------------------------------------------------------------------------------------------------------+
 
 == Version 11.1.0 (July 21, 2017)
 * Feature: added same day funding for instruction based funding
