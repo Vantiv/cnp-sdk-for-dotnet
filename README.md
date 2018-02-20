@@ -19,16 +19,16 @@ This SDK is implemented to support the .NET plaform, including C#, VB.NET and Ma
 
 See LICENSE file for details on using this software.
 
-Source Code available from : https://github.com/LitleCo/litle-sdk-for-dotNet
+Source Code available from : https://github.com/Vantiv/cnp-sdk-for-dotNet
 
 Please contact [Vantiv eCommerce](http://developer.vantiv.com/community/ecommerce) to receive valid merchant credentials in order to run tests successfully or if you require assistance in any way.  We are reachable at sdksupport@Vantiv.com
 
 Setup
 -----
 
-1.) To install it, just copy LitleSdkForDotNet.dll into your Visual Studio referernces. 
+1.) To install it, just copy CnpSdkForDotNet.dll into your Visual Studio referernces. 
 
-2.) You can configure it statically by modifying LitleSdkForDotNet.dll.config or at runtime using the LitleOnline(Dictionary) constructor. If you are just trying it out, the username, password and merchant id don't matter, and you should choose the sandbox url at https://www.testlitle.com/sandbox/communicator/online.
+2.) You can configure it statically by modifying CnpSdkForDotNet.dll.config or at runtime using the CnpOnline(Dictionary) constructor. If you are just trying it out, the username, password and merchant id don't matter, and you should choose the sandbox url at https://www.testvantivcnp.com/sandbox/communicator/online.
 
 3.) Create a c# class similar to:  
 
@@ -37,14 +37,14 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
-using Litle.Sdk;
+using Cnp.Sdk;
 
     class Example
     {
 [STAThread]
         public static void Main(String[] args)
         {
-            LitleOnline litle = new LitleOnline();
+            CnpOnline cnp = new CnpOnline();
             sale sale = new sale();
             sale.orderId = "1";
             sale.amount = 10010;
@@ -64,11 +64,11 @@ using Litle.Sdk;
             card.cardValidationNum = "349";
             sale.card = card;
 
-            saleResponse response = litle.Sale(sale);
+            saleResponse response = cnp.Sale(sale);
             //Display Results
             Console.WriteLine("Response: " + response.response);
             Console.WriteLine("Message: " + response.message);
-            Console.WriteLine("Litle Transaction Id: " + response.litleTxnId);
+            Console.WriteLine("Cnp Transaction Id: " + response.cnpTxnId);
             Console.ReadLine();
         }
     }
@@ -79,8 +79,8 @@ using Litle.Sdk;
 
     Response: 000
     Message: Approved
-    Litle Transaction ID: <your-numeric-litle-txn-id>
+    Cnp Transaction ID: <your-numeric-cnp-txn-id>
 
-More examples can be found here [.Net Gists](https://gist.github.com/search?q=.net+sdk+Litle) or [Here](http://litleco.github.io/dotnet/) or in [Functional and Unit Tests] (https://github.com/LitleCo/litle-sdk-for-dotNet/tree/master/LitleSdkForNet/LitleSdkForNetTest)
+More examples can be found [Here](http://vantiv.github.io/dotnet/) or in [Functional and Unit Tests] (https://github.com/Vantiv/cnp-sdk-for-dotNet/tree/master/CnpSdkForNet/CnpSdkForNetTest)
 
 Please contact Vantiv eCommerce with any further questions.   You can reach us at sdksupport@Vantiv.com.
