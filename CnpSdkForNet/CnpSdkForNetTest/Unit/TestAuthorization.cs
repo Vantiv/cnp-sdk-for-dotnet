@@ -502,7 +502,8 @@ namespace Cnp.Sdk.Test.Unit
             Assert.AreEqual("ReviewStatus", authorizationResponse.fraudResult.advancedFraudResults.deviceReviewStatus);
             Assert.NotNull(authorizationResponse.fraudResult.advancedFraudResults.deviceReputationScore);
             Assert.AreEqual(800, authorizationResponse.fraudResult.advancedFraudResults.deviceReputationScore);
-            Assert.AreEqual("rule triggered", authorizationResponse.fraudResult.advancedFraudResults.triggeredRule);
+            Assert.AreEqual("rule triggered", authorizationResponse.fraudResult.advancedFraudResults.triggeredRule[0]);
+            Assert.AreEqual("rule triggered 2", authorizationResponse.fraudResult.advancedFraudResults.triggeredRule[1]);
         }
 
         [Test]
@@ -567,7 +568,7 @@ namespace Cnp.Sdk.Test.Unit
             Assert.AreEqual("ReviewStatus", authorizationResponse.fraudResult.advancedFraudResults.deviceReviewStatus);
             Assert.NotNull(authorizationResponse.fraudResult.advancedFraudResults.deviceReputationScore);
             Assert.AreEqual(800, authorizationResponse.fraudResult.advancedFraudResults.deviceReputationScore);
-            Assert.AreEqual("rule triggered", authorizationResponse.fraudResult.advancedFraudResults.triggeredRule);
+            Assert.AreEqual("rule triggered", authorizationResponse.fraudResult.advancedFraudResults.triggeredRule[0]);
             Assert.AreEqual(true, authorizationResponse.recycling.recycleEngineActive);
         }
 

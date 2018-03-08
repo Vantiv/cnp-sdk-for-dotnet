@@ -84,7 +84,7 @@ namespace Cnp.Sdk.Test.Unit
             fraudCheckResponse fraudCheckResponse = cnp.FraudCheck(fraudCheck);
 
             Assert.NotNull(fraudCheckResponse);
-            Assert.AreEqual("triggered_rule_default", fraudCheckResponse.advancedFraudResults.triggeredRule);
+            Assert.AreEqual("triggered_rule_default", fraudCheckResponse.advancedFraudResults.triggeredRule[0]);
         }
 
         [Test]

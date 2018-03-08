@@ -548,9 +548,67 @@ namespace Cnp.Sdk
     [System.Xml.Serialization.XmlRootAttribute(Namespace = "http://www.vantivcnp.com/schema", IsNullable = false)]
     public partial class advancedFraudResultsType
     {
-        public string deviceReviewStatus;
-        public int deviceReputationScore;
-        public string triggeredRule;
+        private string deviceReviewStatusField;
+
+        private int deviceReputationScoreField;
+
+        private bool deviceReputationScoreFieldSpecified;
+
+        private string[] triggeredRuleField;
+
+        /// <remarks/>
+        public string deviceReviewStatus
+        {
+            get
+            {
+                return this.deviceReviewStatusField;
+            }
+            set
+            {
+                this.deviceReviewStatusField = value;
+            }
+        }
+
+        /// <remarks/>
+        public int deviceReputationScore
+        {
+            get
+            {
+                return this.deviceReputationScoreField;
+            }
+            set
+            {
+                this.deviceReputationScoreField = value;
+            }
+        }
+
+        /// <remarks/>
+        [System.Xml.Serialization.XmlIgnoreAttribute()]
+        public bool deviceReputationScoreSpecified
+        {
+            get
+            {
+                return this.deviceReputationScoreFieldSpecified;
+            }
+            set
+            {
+                this.deviceReputationScoreFieldSpecified = value;
+            }
+        }
+
+        /// <remarks/>
+        [System.Xml.Serialization.XmlElementAttribute("triggeredRule")]
+        public string[] triggeredRule
+        {
+            get
+            {
+                return this.triggeredRuleField;
+            }
+            set
+            {
+                this.triggeredRuleField = value;
+            }
+        }
     }
 
     /// <remarks/>
