@@ -52,6 +52,7 @@
     <Compile Include="CnpConnectionLimitExceededException.cs" />
     <Compile Include="CnpInvalidCredentialException.cs" />
     <Compile Include="CnpObjectionableContentException.cs" />
+    <Compile Include="PgpHelper.cs" />
     <Compile Include="XmlSerializer.cs" />
     <Compile Include="Communications.cs" />
     <Compile Include="CnpBatchRequest.cs" />
@@ -82,7 +83,9 @@
   <ItemGroup>
     <WCFMetadata Include="Service References\" />
   </ItemGroup>
-  <ItemGroup />
+  <ItemGroup>
+    <Content Include="CnpSdkForNet.dll.config" />
+  </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <PropertyGroup>
     <PostBuildEvent>

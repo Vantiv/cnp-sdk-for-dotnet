@@ -356,7 +356,7 @@ namespace Cnp.Sdk
             var username = config["sftpUsername"];
             var password = config["sftpPassword"];
             var knownHostsFile = config["knownHostsFile"];
-            var filePath = fileDirectory + fileName;
+            var filePath = Path.Combine(fileDirectory, fileName);
 
             var printxml = config["printxml"] == "true";
             if (printxml)

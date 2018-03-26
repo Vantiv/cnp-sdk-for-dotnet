@@ -109,6 +109,8 @@
     <Compile Include="Certification\TestCert1Base.cs" />
     <Compile Include="Functional\TestBalanceInquiry.cs" />
     <Compile Include="Functional\TestHttpActionEvent.cs" />
+    <Compile Include="Functional\TestPgpBatchRequest.cs" />
+    <Compile Include="Functional\TestPgpHelper.cs" />
     <Compile Include="Functional\TestSubscriptionTxns.cs" />
     <Compile Include="Functional\TestUnload.cs" />
     <Compile Include="Functional\TestLoad.cs" />
@@ -135,6 +137,7 @@
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Functional\TestGiftCard.cs" />
+    <Compile Include="SampleGiftCardCapture.cs" />
     <Compile Include="Unit\TestAdvancedFraudCheck.cs" />
     <Compile Include="Unit\TestCommunications.cs" />
     <Compile Include="Unit\TestGiftCard.cs" />

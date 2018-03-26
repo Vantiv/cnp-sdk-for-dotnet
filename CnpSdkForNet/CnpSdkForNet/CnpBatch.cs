@@ -1,10 +1,12 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Configuration;
 using System.Text;
 using System.Xml;
 using System.Xml.Serialization;
 using System.IO;
 using System.Security.Cryptography;
+using Tamir.SharpSsh.jsch.examples;
 
 namespace Cnp.Sdk
 {
@@ -47,6 +49,9 @@ namespace Cnp.Sdk
             config["onlineBatchPort"] = Properties.Settings.Default.onlineBatchPort;
             config["requestDirectory"] = Properties.Settings.Default.requestDirectory;
             config["responseDirectory"] = Properties.Settings.Default.responseDirectory;
+            config["useEncryption"] = Properties.Settings.Default.useEncryption;
+            config["vantivPublicKeyId"] = Properties.Settings.Default.vantivPublicKeyId;
+            config["pgpPassphrase"] = Properties.Settings.Default.pgpPassphrase;
 
             initializeRequest();
         }
@@ -194,9 +199,25 @@ namespace Cnp.Sdk
 
         public string sendToCnp()
         {
+            var useEncryption = config["useEncryption"];
+            var vantivPublicKeyId = config["vantivPublicKeyId"];
+            
             var requestFilePath = this.Serialize();
-            communication.FtpDropOff(requestDirectory, Path.GetFileName(requestFilePath), config);
-            return Path.GetFileName(requestFilePath);
+            var batchRequestDir = requestDirectory;
+            var finalRequestFilePath = requestFilePath;
+            if ("true".Equals(useEncryption))
+            {
+                batchRequestDir = Path.Combine(requestDirectory, "encrypted");
+                Console.WriteLine(batchRequestDir);
+                finalRequestFilePath =
+                    Path.Combine(batchRequestDir, Path.GetFileName(requestFilePath) + ".encrypted");
+                cnpFile.createDirectory(finalRequestFilePath);
+                PgpHelper.EncryptFile(requestFilePath, finalRequestFilePath, vantivPublicKeyId);
+            }
+            
+            communication.FtpDropOff(batchRequestDir, Path.GetFileName(finalRequestFilePath), config);
+            
+            return Path.GetFileName(finalRequestFilePath);
         }
 
 
@@ -207,11 +228,32 @@ namespace Cnp.Sdk
 
         public cnpResponse receiveFromCnp(string batchFileName)
         {
+            var useEncryption = config["useEncryption"];
+            var pgpPassphrase = config["pgpPassphrase"];
+            
             cnpFile.createDirectory(responseDirectory);
+            
+            var responseFilePath = Path.Combine(responseDirectory, batchFileName);
+            var batchResponseDir = responseDirectory;
+            var finalResponseFilePath = responseFilePath;
 
-            communication.FtpPickUp(responseDirectory + batchFileName, config, batchFileName);
+            if ("true".Equals(useEncryption))
+            {
+                batchResponseDir = Path.Combine(responseDirectory, "encrypted");
+                finalResponseFilePath =
+                    Path.Combine(batchResponseDir, batchFileName);
+                cnpFile.createDirectory(finalResponseFilePath);
+            }
+            communication.FtpPickUp(finalResponseFilePath, config, batchFileName);
 
-            var cnpResponse = (cnpResponse)cnpXmlSerializer.DeserializeObjectFromFile(responseDirectory + batchFileName);
+            if ("true".Equals(useEncryption))
+            {
+                responseFilePath = responseFilePath.Replace(".encrypted", "");
+                PgpHelper.DecryptFile(finalResponseFilePath, responseFilePath, pgpPassphrase);
+            }
+
+            var cnpResponse = (cnpResponse)cnpXmlSerializer.DeserializeObjectFromFile(responseFilePath);
+                        
             return cnpResponse;
         }
 
@@ -347,6 +389,7 @@ namespace Cnp.Sdk
                 Directory.CreateDirectory(destinationDirectory);
             }
         }
+
     }
 
     public static class RandomGen
