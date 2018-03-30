@@ -44,6 +44,8 @@ namespace Cnp.Sdk
         [System.Xml.Serialization.XmlEnumAttribute("")]
         Item,
     }
+    
+    
 
     public abstract class methodOfPaymentSerializer
     {
@@ -59,5 +61,22 @@ namespace Cnp.Sdk
 
             }
         }
+    }
+    
+    /// <remarks/>
+    [System.CodeDom.Compiler.GeneratedCodeAttribute("xsd", "4.6.1055.0")]
+    [System.SerializableAttribute()]
+    [System.Xml.Serialization.XmlTypeAttribute(Namespace="http://www.vantivcnp.com/schema")]
+    public enum routingPreferenceEnum 
+    {
+    
+        /// <remarks/>
+        pinlessDebitOnly,
+    
+        /// <remarks/>
+        signatureOnly,
+    
+        /// <remarks/>
+        regular,
     }
 }

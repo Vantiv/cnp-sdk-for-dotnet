@@ -1,4 +1,5 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using NUnit.Framework;
 
 namespace Cnp.Sdk.Test.Functional
@@ -87,7 +88,7 @@ namespace Cnp.Sdk.Test.Functional
                     expDate = "1210"
                 }
             };
-
+            Console.WriteLine(saleObj.Serialize());
             var responseObj = _cnp.Sale(saleObj);
             StringAssert.AreEqualIgnoringCase("Approved", responseObj.message);
         }

@@ -265,6 +265,10 @@ namespace Cnp.Sdk
             {
                 request.queryTransaction = (queryTransaction)transaction;
             }
+            else if (transaction is fastAccessFunding)
+            {
+                request.fastAccessFunding = (fastAccessFunding) transaction;
+            }
             else
             {
                 throw new NotImplementedException("Support for type: " + transaction.GetType().Name +
@@ -543,11 +547,16 @@ namespace Cnp.Sdk
             return SendRequest(response => response.fraudCheckResponse, fraudCheck);
         }
 
+        public fastAccessFundingResponse FastAccessFunding(fastAccessFunding fastAccessFunding)
+        {
+            return SendRequest(response => response.fastAccessFundingResponse, fastAccessFunding);
+        }
+
         private cnpOnlineRequest CreateCnpOnlineRequest()
         {
             var request = new cnpOnlineRequest();
             request.merchantId = _config["merchantId"];
-            request.merchantSdk = "DotNet;12.0.0";
+            request.merchantSdk = "DotNet;12.1.0";
             var authentication = new authentication();
             authentication.password = _config["password"];
             authentication.user = _config["username"];

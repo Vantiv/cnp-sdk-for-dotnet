@@ -33,6 +33,7 @@ namespace Cnp.Sdk.Test.Functional
             _invalidConfig["knownHostsFile"] = Properties.Settings.Default.knownHostsFile;
             _invalidConfig["requestDirectory"] = Properties.Settings.Default.requestDirectory;
             _invalidConfig["responseDirectory"] = Properties.Settings.Default.responseDirectory;
+            _invalidConfig["useEncryption"] = "false";
            
 
             _invalidSftpConfig = new Dictionary<string, string>();
@@ -51,7 +52,7 @@ namespace Cnp.Sdk.Test.Functional
             _invalidSftpConfig["knownHostsFile"] = Properties.Settings.Default.knownHostsFile;
             _invalidSftpConfig["requestDirectory"] = Properties.Settings.Default.requestDirectory;
             _invalidSftpConfig["responseDirectory"] = Properties.Settings.Default.responseDirectory;
-
+            _invalidSftpConfig["useEncryption"] = "false";
         }
 
         [SetUp]

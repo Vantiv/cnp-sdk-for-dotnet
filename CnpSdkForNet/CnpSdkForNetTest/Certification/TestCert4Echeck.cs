@@ -239,8 +239,7 @@ namespace Cnp.Sdk.Test.Certification
             credit.echeck = echeck;
 
             echeckCreditResponse response = cnp.EcheckCredit(credit);
-            //Response from sandbox is wrong.
-            //Assert.AreEqual("301", response.response);
+            Assert.AreEqual("301", response.response);
         }
 
         [Test]

@@ -48,10 +48,10 @@ namespace Cnp.Sdk.Test.Certification
             Assert.AreEqual("000", response.response);
             Assert.AreEqual("Approved", response.message);
            //TODO: // Need to find why enhanced auth response is not generated for this merchant. Probably config issue
-           //Assert.AreEqual(fundingSourceTypeEnum.PREPAID, response.enhancedAuthResponse.fundingSource.type);
-            //Assert.AreEqual("2000", response.enhancedAuthResponse.fundingSource.availableBalance);
-            //Assert.AreEqual("NO", response.enhancedAuthResponse.fundingSource.reloadable);
-            //Assert.AreEqual("GIFT", response.enhancedAuthResponse.fundingSource.prepaidCardType);
+            Assert.AreEqual(fundingSourceTypeEnum.PREPAID, response.enhancedAuthResponse.fundingSource.type);
+            Assert.AreEqual("2000", response.enhancedAuthResponse.fundingSource.availableBalance);
+            Assert.AreEqual("NO", response.enhancedAuthResponse.fundingSource.reloadable);
+            Assert.AreEqual("GIFT", response.enhancedAuthResponse.fundingSource.prepaidCardType);
         }
 
         [Test]
@@ -72,10 +72,10 @@ namespace Cnp.Sdk.Test.Certification
             Assert.AreEqual("000", response.response);
             Assert.AreEqual("Approved", response.message);
             //TODO: // Need to find why enhanced auth response is not generated for this merchant. Probably config issue
-            //Assert.AreEqual(fundingSourceTypeEnum.PREPAID, response.enhancedAuthResponse.fundingSource.type);
-            //Assert.AreEqual("2000", response.enhancedAuthResponse.fundingSource.availableBalance);
-            //Assert.AreEqual("YES", response.enhancedAuthResponse.fundingSource.reloadable);
-            //Assert.AreEqual("PAYROLL", response.enhancedAuthResponse.fundingSource.prepaidCardType);
+            Assert.AreEqual(fundingSourceTypeEnum.PREPAID, response.enhancedAuthResponse.fundingSource.type);
+            Assert.AreEqual("2000", response.enhancedAuthResponse.fundingSource.availableBalance);
+            Assert.AreEqual("YES", response.enhancedAuthResponse.fundingSource.reloadable);
+            Assert.AreEqual("PAYROLL", response.enhancedAuthResponse.fundingSource.prepaidCardType);
         }
 
         [Test]
@@ -96,10 +96,10 @@ namespace Cnp.Sdk.Test.Certification
             Assert.AreEqual("000", response.response);
             Assert.AreEqual("Approved", response.message);
             //TODO: // Need to find why enhanced auth response is not generated for this merchant. Probably config issue
-            //Assert.AreEqual(fundingSourceTypeEnum.PREPAID, response.enhancedAuthResponse.fundingSource.type);
-            //Assert.AreEqual("0", response.enhancedAuthResponse.fundingSource.availableBalance);
-            //Assert.AreEqual("YES", response.enhancedAuthResponse.fundingSource.reloadable);
-            //Assert.AreEqual("PAYROLL", response.enhancedAuthResponse.fundingSource.prepaidCardType);
+            Assert.AreEqual(fundingSourceTypeEnum.PREPAID, response.enhancedAuthResponse.fundingSource.type);
+            Assert.AreEqual("0", response.enhancedAuthResponse.fundingSource.availableBalance);
+            Assert.AreEqual("YES", response.enhancedAuthResponse.fundingSource.reloadable);
+            Assert.AreEqual("PAYROLL", response.enhancedAuthResponse.fundingSource.prepaidCardType);
         }
 
         [Test]
@@ -120,10 +120,10 @@ namespace Cnp.Sdk.Test.Certification
             Assert.AreEqual("000", response.response);
             Assert.AreEqual("Approved", response.message);
             //TODO: // Need to find why enhanced auth response is not generated for this merchant. Probably config issue
-            //Assert.AreEqual(fundingSourceTypeEnum.PREPAID, response.enhancedAuthResponse.fundingSource.type);
-            //Assert.AreEqual("6500", response.enhancedAuthResponse.fundingSource.availableBalance);
-            //Assert.AreEqual("YES", response.enhancedAuthResponse.fundingSource.reloadable);
-            //Assert.AreEqual("PAYROLL", response.enhancedAuthResponse.fundingSource.prepaidCardType);
+            Assert.AreEqual(fundingSourceTypeEnum.PREPAID, response.enhancedAuthResponse.fundingSource.type);
+            Assert.AreEqual("6500", response.enhancedAuthResponse.fundingSource.availableBalance);
+            Assert.AreEqual("YES", response.enhancedAuthResponse.fundingSource.reloadable);
+            Assert.AreEqual("PAYROLL", response.enhancedAuthResponse.fundingSource.prepaidCardType);
         }
 
         [Test]
@@ -144,10 +144,10 @@ namespace Cnp.Sdk.Test.Certification
             Assert.AreEqual("000", response.response);
             Assert.AreEqual("Approved", response.message);
             //TODO: // Need to find why enhanced auth response is not generated for this merchant. Probably config issue
-            //Assert.AreEqual(fundingSourceTypeEnum.PREPAID, response.enhancedAuthResponse.fundingSource.type);
-            //Assert.AreEqual("12200", response.enhancedAuthResponse.fundingSource.availableBalance);
-            //Assert.AreEqual("YES", response.enhancedAuthResponse.fundingSource.reloadable);
-            //Assert.AreEqual("PAYROLL", response.enhancedAuthResponse.fundingSource.prepaidCardType);
+            Assert.AreEqual(fundingSourceTypeEnum.PREPAID, response.enhancedAuthResponse.fundingSource.type);
+            Assert.AreEqual("12200", response.enhancedAuthResponse.fundingSource.availableBalance);
+            Assert.AreEqual("YES", response.enhancedAuthResponse.fundingSource.reloadable);
+            Assert.AreEqual("PAYROLL", response.enhancedAuthResponse.fundingSource.prepaidCardType);
         }
 
         [Test]
@@ -168,10 +168,10 @@ namespace Cnp.Sdk.Test.Certification
             Assert.AreEqual("000", response.response);
             Assert.AreEqual("Approved", response.message);
             //TODO: // Need to find why enhanced auth response is not generated for this merchant. Probably config issue
-            //Assert.AreEqual(fundingSourceTypeEnum.PREPAID, response.enhancedAuthResponse.fundingSource.type);
-            //Assert.AreEqual("20000", response.enhancedAuthResponse.fundingSource.availableBalance);
-            //Assert.AreEqual("YES", response.enhancedAuthResponse.fundingSource.reloadable);
-            //Assert.AreEqual("PAYROLL", response.enhancedAuthResponse.fundingSource.prepaidCardType);
+            Assert.AreEqual(fundingSourceTypeEnum.PREPAID, response.enhancedAuthResponse.fundingSource.type);
+            Assert.AreEqual("20000", response.enhancedAuthResponse.fundingSource.availableBalance);
+            Assert.AreEqual("YES", response.enhancedAuthResponse.fundingSource.reloadable);
+            Assert.AreEqual("PAYROLL", response.enhancedAuthResponse.fundingSource.prepaidCardType);
         }
 
         [Test]
@@ -192,10 +192,10 @@ namespace Cnp.Sdk.Test.Certification
             Assert.AreEqual("000", response.response);
             Assert.AreEqual("Approved", response.message);
             //TODO: // Need to find why enhanced auth response is not generated for this merchant. Probably config issue
-            //Assert.AreEqual(fundingSourceTypeEnum.PREPAID, response.enhancedAuthResponse.fundingSource.type);
-            //Assert.AreEqual("10050", response.enhancedAuthResponse.fundingSource.availableBalance);
-            //Assert.AreEqual("YES", response.enhancedAuthResponse.fundingSource.reloadable);
-            //Assert.AreEqual("PAYROLL", response.enhancedAuthResponse.fundingSource.prepaidCardType);
+            Assert.AreEqual(fundingSourceTypeEnum.PREPAID, response.enhancedAuthResponse.fundingSource.type);
+            Assert.AreEqual("10050", response.enhancedAuthResponse.fundingSource.availableBalance);
+            Assert.AreEqual("YES", response.enhancedAuthResponse.fundingSource.reloadable);
+            Assert.AreEqual("PAYROLL", response.enhancedAuthResponse.fundingSource.prepaidCardType);
         }
 
         [Test]
@@ -216,7 +216,7 @@ namespace Cnp.Sdk.Test.Certification
             Assert.AreEqual("000", response.response);
             Assert.AreEqual("Approved", response.message);
             //TODO: // Need to find why enhanced auth response is not generated for this merchant. Probably config issue
-            //Assert.AreEqual(affluenceTypeEnum.AFFLUENT, response.enhancedAuthResponse.affluence);
+            Assert.AreEqual(affluenceTypeEnum.AFFLUENT, response.enhancedAuthResponse.affluence);
         }
 
         [Test]
@@ -237,7 +237,7 @@ namespace Cnp.Sdk.Test.Certification
             Assert.AreEqual("000", response.response);
             Assert.AreEqual("Approved", response.message);
             //TODO: // Need to find why enhanced auth response is not generated for this merchant. Probably config issue
-            //Assert.AreEqual(affluenceTypeEnum.MASSAFFLUENT, response.enhancedAuthResponse.affluence);
+            Assert.AreEqual(affluenceTypeEnum.MASSAFFLUENT, response.enhancedAuthResponse.affluence);
         }
 
         [Test]
@@ -258,7 +258,7 @@ namespace Cnp.Sdk.Test.Certification
             Assert.AreEqual("000", response.response);
             Assert.AreEqual("Approved", response.message);
             //TODO: // Need to find why enhanced auth response is not generated for this merchant. Probably config issue
-            //Assert.AreEqual(affluenceTypeEnum.AFFLUENT, response.enhancedAuthResponse.affluence);
+            Assert.AreEqual(affluenceTypeEnum.AFFLUENT, response.enhancedAuthResponse.affluence);
 
         }
 
@@ -280,7 +280,7 @@ namespace Cnp.Sdk.Test.Certification
             Assert.AreEqual("000", response.response);
             Assert.AreEqual("Approved", response.message);
             //TODO: // Need to find why enhanced auth response is not generated for this merchant. Probably config issue
-            //Assert.AreEqual(affluenceTypeEnum.MASSAFFLUENT, response.enhancedAuthResponse.affluence);
+            Assert.AreEqual(affluenceTypeEnum.MASSAFFLUENT, response.enhancedAuthResponse.affluence);
 
         }
 
@@ -302,175 +302,175 @@ namespace Cnp.Sdk.Test.Certification
             Assert.AreEqual("000", response.response);
             Assert.AreEqual("Approved", response.message);
             //TODO: // Need to find why enhanced auth response is not generated for this merchant. Probably config issue
-            //Assert.AreEqual("BRA", response.enhancedAuthResponse.issuerCountry);
+            Assert.AreEqual("BRA", response.enhancedAuthResponse.issuerCountry);
 
         }
 
-        // Excluding health care related tests.
-        //[Test]
-        //public void Test26()
-        //{
-        //    authorization authorization = new authorization();
-        //    authorization.id = "1";
-        //    authorization.orderId = "26";
-        //    authorization.amount = 18698;
-        //    authorization.orderSource = orderSourceType.ecommerce;
-        //    cardType card = new cardType();
-        //    card.type = methodOfPaymentTypeEnum.MC;
-        //    card.number = "5194560012341234";
-        //    card.expDate = "1212";
-        //    authorization.card = card;
-        //    authorization.allowPartialAuth = true;
-        //    healthcareIIAS healthcareiias = new healthcareIIAS();
-        //    healthcareAmounts healthcareamounts = new healthcareAmounts();
-        //    healthcareamounts.totalHealthcareAmount = 20000;
-        //    healthcareiias.healthcareAmounts = healthcareamounts;
-        //    healthcareiias.IIASFlag = IIASFlagType.Y;
-        //    authorization.healthcareIIAS = healthcareiias;
+         //Excluding health care related tests.
+        [Test]
+        public void Test26()
+        {
+            authorization authorization = new authorization();
+            authorization.id = "1";
+            authorization.orderId = "26";
+            authorization.amount = 18698;
+            authorization.orderSource = orderSourceType.ecommerce;
+            cardType card = new cardType();
+            card.type = methodOfPaymentTypeEnum.MC;
+            card.number = "5194560012341234";
+            card.expDate = "1212";
+            authorization.card = card;
+            authorization.allowPartialAuth = true;
+            healthcareIIAS healthcareiias = new healthcareIIAS();
+            healthcareAmounts healthcareamounts = new healthcareAmounts();
+            healthcareamounts.totalHealthcareAmount = 20000;
+            healthcareiias.healthcareAmounts = healthcareamounts;
+            healthcareiias.IIASFlag = IIASFlagType.Y;
+            authorization.healthcareIIAS = healthcareiias;
 
-        //    authorizationResponse response = cnp.Authorize(authorization);
-        //    Assert.AreEqual("341", response.response);
-        // }
+            authorizationResponse response = cnp.Authorize(authorization);
+            Assert.AreEqual("341", response.response);
+         }
 
-        //[Test]
-        //public void Test27()
-        //{
-        //    authorization authorization = new authorization();
-        //    authorization.id = "1";
-        //    authorization.orderId = "27";
-        //    authorization.amount = 18698;
-        //    authorization.orderSource = orderSourceType.ecommerce;
-        //    cardType card = new cardType();
-        //    card.type = methodOfPaymentTypeEnum.MC;
-        //    card.number = "5194560012341234";
-        //    card.expDate = "1212";
-        //    authorization.card = card;
-        //    authorization.allowPartialAuth = true;
-        //    healthcareIIAS healthcareiias = new healthcareIIAS();
-        //    healthcareAmounts healthcareamounts = new healthcareAmounts();
-        //    healthcareamounts.totalHealthcareAmount = 15000;
-        //    healthcareamounts.RxAmount = 16000;
-        //    healthcareiias.healthcareAmounts = healthcareamounts;
-        //    healthcareiias.IIASFlag = IIASFlagType.Y;
-        //    authorization.healthcareIIAS = healthcareiias;
+        [Test]
+        public void Test27()
+        {
+            authorization authorization = new authorization();
+            authorization.id = "1";
+            authorization.orderId = "27";
+            authorization.amount = 18698;
+            authorization.orderSource = orderSourceType.ecommerce;
+            cardType card = new cardType();
+            card.type = methodOfPaymentTypeEnum.MC;
+            card.number = "5194560012341234";
+            card.expDate = "1212";
+            authorization.card = card;
+            authorization.allowPartialAuth = true;
+            healthcareIIAS healthcareiias = new healthcareIIAS();
+            healthcareAmounts healthcareamounts = new healthcareAmounts();
+            healthcareamounts.totalHealthcareAmount = 15000;
+            healthcareamounts.RxAmount = 16000;
+            healthcareiias.healthcareAmounts = healthcareamounts;
+            healthcareiias.IIASFlag = IIASFlagType.Y;
+            authorization.healthcareIIAS = healthcareiias;
 
-        //    authorizationResponse response = cnp.Authorize(authorization);
-        //    Assert.AreEqual("341", response.response);
-        //}
+            authorizationResponse response = cnp.Authorize(authorization);
+            Assert.AreEqual("341", response.response);
+        }
 
-        //[Test]
-        //public void Test28()
-        //{
-        //    authorization authorization = new authorization();
-        //    authorization.id = "1";
-        //    authorization.orderId = "28";
-        //    authorization.amount = 15000;
-        //    authorization.orderSource = orderSourceType.ecommerce;
-        //    cardType card = new cardType();
-        //    card.type = methodOfPaymentTypeEnum.MC;
-        //    card.number = "5194560012341234";
-        //    card.expDate = "1212";
-        //    authorization.card = card;
-        //    authorization.allowPartialAuth = true;
-        //    healthcareIIAS healthcareiias = new healthcareIIAS();
-        //    healthcareAmounts healthcareamounts = new healthcareAmounts();
-        //    healthcareamounts.totalHealthcareAmount = 15000;
-        //    healthcareamounts.RxAmount = 3698;
-        //    healthcareiias.healthcareAmounts = healthcareamounts;
-        //    healthcareiias.IIASFlag = IIASFlagType.Y;
-        //    authorization.healthcareIIAS = healthcareiias;
+        [Test]
+        public void Test28()
+        {
+            authorization authorization = new authorization();
+            authorization.id = "1";
+            authorization.orderId = "28";
+            authorization.amount = 15000;
+            authorization.orderSource = orderSourceType.ecommerce;
+            cardType card = new cardType();
+            card.type = methodOfPaymentTypeEnum.MC;
+            card.number = "5194560012341234";
+            card.expDate = "1212";
+            authorization.card = card;
+            authorization.allowPartialAuth = true;
+            healthcareIIAS healthcareiias = new healthcareIIAS();
+            healthcareAmounts healthcareamounts = new healthcareAmounts();
+            healthcareamounts.totalHealthcareAmount = 15000;
+            healthcareamounts.RxAmount = 3698;
+            healthcareiias.healthcareAmounts = healthcareamounts;
+            healthcareiias.IIASFlag = IIASFlagType.Y;
+            authorization.healthcareIIAS = healthcareiias;
 
-        //    authorizationResponse response = cnp.Authorize(authorization);
-        //    Assert.AreEqual("000", response.response);
-        //    Assert.AreEqual("Approved", response.message);
-        //}
+            authorizationResponse response = cnp.Authorize(authorization);
+            Assert.AreEqual("000", response.response);
+            Assert.AreEqual("Approved", response.message);
+        }
 
-        //[Test]
-        //public void Test29()
-        //{
-        //    authorization authorization = new authorization();
-        //    authorization.id = "1";
-        //    authorization.orderId = "29";
-        //    authorization.amount = 18699;
-        //    authorization.orderSource = orderSourceType.ecommerce;
-        //    cardType card = new cardType();
-        //    card.type = methodOfPaymentTypeEnum.VI;
-        //    card.number = "4024720001231239";
-        //    card.expDate = "1212";
-        //    authorization.card = card;
-        //    authorization.allowPartialAuth = true;
-        //    healthcareIIAS healthcareiias = new healthcareIIAS();
-        //    healthcareAmounts healthcareamounts = new healthcareAmounts();
-        //    healthcareamounts.totalHealthcareAmount = 31000;
-        //    healthcareamounts.RxAmount = 1000;
-        //    healthcareamounts.visionAmount = 19901;
-        //    healthcareamounts.clinicOtherAmount = 9050;
-        //    healthcareamounts.dentalAmount = 1049;
-        //    healthcareiias.healthcareAmounts = healthcareamounts;
-        //    healthcareiias.IIASFlag = IIASFlagType.Y;
-        //    authorization.healthcareIIAS = healthcareiias;
+        [Test]
+        public void Test29()
+        {
+            authorization authorization = new authorization();
+            authorization.id = "1";
+            authorization.orderId = "29";
+            authorization.amount = 18699;
+            authorization.orderSource = orderSourceType.ecommerce;
+            cardType card = new cardType();
+            card.type = methodOfPaymentTypeEnum.VI;
+            card.number = "4024720001231239";
+            card.expDate = "1212";
+            authorization.card = card;
+            authorization.allowPartialAuth = true;
+            healthcareIIAS healthcareiias = new healthcareIIAS();
+            healthcareAmounts healthcareamounts = new healthcareAmounts();
+            healthcareamounts.totalHealthcareAmount = 31000;
+            healthcareamounts.RxAmount = 1000;
+            healthcareamounts.visionAmount = 19901;
+            healthcareamounts.clinicOtherAmount = 9050;
+            healthcareamounts.dentalAmount = 1049;
+            healthcareiias.healthcareAmounts = healthcareamounts;
+            healthcareiias.IIASFlag = IIASFlagType.Y;
+            authorization.healthcareIIAS = healthcareiias;
 
-        //    authorizationResponse response = cnp.Authorize(authorization);
-        //    Assert.AreEqual("341", response.response);
-        //}
+            authorizationResponse response = cnp.Authorize(authorization);
+            Assert.AreEqual("341", response.response);
+        }
 
-        //[Test]
-        //public void Test30()
-        //{
-        //    authorization authorization = new authorization();
-        //    authorization.id = "1";
-        //    authorization.orderId = "30";
-        //    authorization.amount = 20000;
-        //    authorization.orderSource = orderSourceType.ecommerce;
-        //    cardType card = new cardType();
-        //    card.type = methodOfPaymentTypeEnum.VI;
-        //    card.number = "4024720001231239";
-        //    card.expDate = "1212";
-        //    authorization.card = card;
-        //    authorization.allowPartialAuth = true;
-        //    healthcareIIAS healthcareiias = new healthcareIIAS();
-        //    healthcareAmounts healthcareamounts = new healthcareAmounts();
-        //    healthcareamounts.totalHealthcareAmount = 20000;
-        //    healthcareamounts.RxAmount = 1000;
-        //    healthcareamounts.visionAmount = 19901;
-        //    healthcareamounts.clinicOtherAmount = 9050;
-        //    healthcareamounts.dentalAmount = 1049;
-        //    healthcareiias.healthcareAmounts = healthcareamounts;
-        //    healthcareiias.IIASFlag = IIASFlagType.Y;
-        //    authorization.healthcareIIAS = healthcareiias;
+        [Test]
+        public void Test30()
+        {
+            authorization authorization = new authorization();
+            authorization.id = "1";
+            authorization.orderId = "30";
+            authorization.amount = 20000;
+            authorization.orderSource = orderSourceType.ecommerce;
+            cardType card = new cardType();
+            card.type = methodOfPaymentTypeEnum.VI;
+            card.number = "4024720001231239";
+            card.expDate = "1212";
+            authorization.card = card;
+            authorization.allowPartialAuth = true;
+            healthcareIIAS healthcareiias = new healthcareIIAS();
+            healthcareAmounts healthcareamounts = new healthcareAmounts();
+            healthcareamounts.totalHealthcareAmount = 20000;
+            healthcareamounts.RxAmount = 1000;
+            healthcareamounts.visionAmount = 19901;
+            healthcareamounts.clinicOtherAmount = 9050;
+            healthcareamounts.dentalAmount = 1049;
+            healthcareiias.healthcareAmounts = healthcareamounts;
+            healthcareiias.IIASFlag = IIASFlagType.Y;
+            authorization.healthcareIIAS = healthcareiias;
 
-        //    authorizationResponse response = cnp.Authorize(authorization);
-        //    Assert.AreEqual("341", response.response);
-        //}
+            authorizationResponse response = cnp.Authorize(authorization);
+            Assert.AreEqual("341", response.response);
+        }
 
-        //[Test]
-        //public void Test31()
-        //{
-        //    authorization authorization = new authorization();
-        //    authorization.id = "1";
-        //    authorization.orderId = "31";
-        //    authorization.amount = 25000;
-        //    authorization.orderSource = orderSourceType.ecommerce;
-        //    cardType card = new cardType();
-        //    card.type = methodOfPaymentTypeEnum.VI;
-        //    card.number = "4024720001231239";
-        //    card.expDate = "1212";
-        //    authorization.card = card;
-        //    authorization.allowPartialAuth = true;
-        //    healthcareIIAS healthcareiias = new healthcareIIAS();
-        //    healthcareAmounts healthcareamounts = new healthcareAmounts();
-        //    healthcareamounts.totalHealthcareAmount = 18699;
-        //    healthcareamounts.RxAmount = 1000;
-        //    healthcareamounts.visionAmount = 15099;
-        //    healthcareiias.healthcareAmounts = healthcareamounts;
-        //    healthcareiias.IIASFlag = IIASFlagType.Y;
-        //    authorization.healthcareIIAS = healthcareiias;
+        [Test]
+        public void Test31()
+        {
+            authorization authorization = new authorization();
+            authorization.id = "1";
+            authorization.orderId = "31";
+            authorization.amount = 25000;
+            authorization.orderSource = orderSourceType.ecommerce;
+            cardType card = new cardType();
+            card.type = methodOfPaymentTypeEnum.VI;
+            card.number = "4024720001231239";
+            card.expDate = "1212";
+            authorization.card = card;
+            authorization.allowPartialAuth = true;
+            healthcareIIAS healthcareiias = new healthcareIIAS();
+            healthcareAmounts healthcareamounts = new healthcareAmounts();
+            healthcareamounts.totalHealthcareAmount = 18699;
+            healthcareamounts.RxAmount = 1000;
+            healthcareamounts.visionAmount = 15099;
+            healthcareiias.healthcareAmounts = healthcareamounts;
+            healthcareiias.IIASFlag = IIASFlagType.Y;
+            authorization.healthcareIIAS = healthcareiias;
 
-        //    authorizationResponse response = cnp.Authorize(authorization);
-        //    Assert.AreEqual("010", response.response);
-        //    Assert.AreEqual("Partially Approved", response.message);
-        //    Assert.AreEqual("18699", response.approvedAmount);
-        //}
+            authorizationResponse response = cnp.Authorize(authorization);
+            Assert.AreEqual("010", response.response);
+            Assert.AreEqual("Partially Approved", response.message);
+            Assert.AreEqual("18699", response.approvedAmount);
+        }
             
     }
 }

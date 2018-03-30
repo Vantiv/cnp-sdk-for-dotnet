@@ -199,8 +199,8 @@ namespace Cnp.Sdk
 
         public string sendToCnp()
         {
-            var useEncryption = config["useEncryption"];
-            var vantivPublicKeyId = config["vantivPublicKeyId"];
+            var useEncryption =  config.ContainsKey("useEncryption")? config["useEncryption"] : "false";
+            var vantivPublicKeyId = config.ContainsKey("vantivPublicKeyId")? config["vantivPublicKeyId"] : "";
             
             var requestFilePath = this.Serialize();
             var batchRequestDir = requestDirectory;
@@ -228,8 +228,8 @@ namespace Cnp.Sdk
 
         public cnpResponse receiveFromCnp(string batchFileName)
         {
-            var useEncryption = config["useEncryption"];
-            var pgpPassphrase = config["pgpPassphrase"];
+            var useEncryption =  config.ContainsKey("useEncryption")? config["useEncryption"] : "false";
+            var pgpPassphrase = config.ContainsKey("pgpPassphrase")? config["pgpPassphrase"] : "";
             
             cnpFile.createDirectory(responseDirectory);
             
@@ -280,7 +280,7 @@ namespace Cnp.Sdk
 
         public string Serialize()
         {
-            var xmlHeader = "<?xml version='1.0' encoding='utf-8'?>\r\n<cnpRequest version=\"12.0\"" +
+            var xmlHeader = "<?xml version='1.0' encoding='utf-8'?>\r\n<cnpRequest version=\"12.1\"" +
              " xmlns=\"http://www.vantivcnp.com/schema\" " +
              "numBatchRequests=\"" + numOfCnpBatchRequest + "\">";
 

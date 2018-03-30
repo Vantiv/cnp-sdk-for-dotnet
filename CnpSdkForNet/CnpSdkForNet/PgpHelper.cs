@@ -115,7 +115,7 @@ namespace Cnp.Sdk
 
             var procStartInfo = new ProcessStartInfo(path, command)
             {
-                CreateNoWindow = false,
+                CreateNoWindow = true,
                 UseShellExecute = false,
                 RedirectStandardOutput = true,
                 RedirectStandardError = true,
@@ -141,7 +141,7 @@ namespace Cnp.Sdk
             string path = string.Format(@"{0}\" + executable, GpgPath);
             var procStartInfo = new ProcessStartInfo(path, command)
             {
-                CreateNoWindow = false,
+                CreateNoWindow = true,
                 UseShellExecute = false,
                 RedirectStandardOutput = true,
                 RedirectStandardError = true,

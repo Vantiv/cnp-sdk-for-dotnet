@@ -60,6 +60,7 @@ namespace Cnp.Sdk
         private int numVendorDebit;
         private int numPhysicalCheckDebit;
         private int numFundingInstructionVoid;
+        private int numFastAccessFunding;
 
         private long sumOfAuthorization;
         private long sumOfAuthReversal;
@@ -87,6 +88,7 @@ namespace Cnp.Sdk
         private long reserveDebitAmount;
         private long vendorDebitAmount;
         private long physicalCheckDebitAmount;
+        private long fastAccessFundingAmount;
 
         private bool sameDayFunding;
 
@@ -161,6 +163,7 @@ namespace Cnp.Sdk
             numVendorDebit = 0;
             numPhysicalCheckDebit = 0;
             numFundingInstructionVoid = 0;
+            numFastAccessFunding = 0;
 
             sumOfAuthorization = 0;
             sumOfAuthReversal = 0;
@@ -185,6 +188,7 @@ namespace Cnp.Sdk
             reserveDebitAmount = 0;
             vendorDebitAmount = 0;
             physicalCheckDebitAmount = 0;
+            fastAccessFundingAmount = 0;
             sameDayFunding = false;
         }
 
@@ -409,9 +413,14 @@ namespace Cnp.Sdk
             return numPhysicalCheckDebit;
         }
 
-        public long getNumFundingInstrucionVoid()
+        public long getNumFundingInstructionVoid()
         {
             return numFundingInstructionVoid;
+        }
+
+        public int getNumFastAccessFunding()
+        {
+            return numFastAccessFunding;
         }
 
         public long getLoadAmount()
@@ -542,6 +551,11 @@ namespace Cnp.Sdk
         public long getPhysicalCheckDebitAmount()
         {
             return physicalCheckDebitAmount;
+        }
+
+        public long getFastAccessFundingAmount()
+        {
+            return fastAccessFundingAmount;
         }
 
 
@@ -1096,13 +1110,28 @@ namespace Cnp.Sdk
             }
         }
 
-        public void addFundingInstrucionVoid(fundingInstructionVoid fundingInstructionVoid)
+        public void addFundingInstructionVoid(fundingInstructionVoid fundingInstructionVoid)
         {
             if (numAccountUpdates == 0)
             {
                 numFundingInstructionVoid++;
                 fillInReportGroup(fundingInstructionVoid);
                 tempBatchFilePath = saveElement(cnpFile, cnpTime, tempBatchFilePath, fundingInstructionVoid);
+            }
+            else
+            {
+                throw new CnpOnlineException(accountUpdateErrorMessage);
+            }
+        }
+
+        public void addfastAccessFunding(fastAccessFunding fastAccessFunding)
+        {
+            if (numAccountUpdates == 0)
+            {
+                numFastAccessFunding++;
+                fastAccessFundingAmount += (long)fastAccessFunding.amount;
+                fillInReportGroup(fastAccessFunding);
+                tempBatchFilePath = saveElement(cnpFile, cnpTime, tempBatchFilePath, fastAccessFunding);
             }
             else
             {
@@ -1335,6 +1364,17 @@ namespace Cnp.Sdk
                 xmlHeader += "physicalCheckCreditAmount=\"" + physicalCheckCreditAmount + "\"\r\n";
             }
 
+            if (numFundingInstructionVoid != 0)
+            {
+                xmlHeader += "numFundingInstructionVoid=\"" + numFundingInstructionVoid + "\"\r\n";
+            }
+
+            if (numFastAccessFunding != 0)
+            {
+                xmlHeader += "numFastAccessFunding=\"" + numFastAccessFunding + "\"\r\n";
+                xmlHeader += "fastAccessFundingAmount=\"" + fastAccessFundingAmount + "\"\r\n";
+            }
+
             if (numPayFacDebit != 0)
             {
 
@@ -1374,7 +1414,7 @@ namespace Cnp.Sdk
                 xmlHeader += "sameDayFunding=\"" + sameDayFunding.ToString().ToLower() + "\"\r\n";
             }
 
-            xmlHeader += "merchantSdk=\"DotNet;12.0.0\"\r\n";
+            xmlHeader += "merchantSdk=\"DotNet;12.1.0\"\r\n";
 
             xmlHeader += "merchantId=\"" + config["merchantId"] + "\">\r\n";
             return xmlHeader;
@@ -1437,6 +1477,8 @@ namespace Cnp.Sdk
                 && numReserveCredit == 0
                 && numVendorCredit == 0
                 && numPhysicalCheckCredit == 0
+                && numFundingInstructionVoid == 0
+                && numFastAccessFunding == 0
                 && numPayFacDebit == 0
                 && numSubmerchantDebit == 0
                 && numReserveDebit == 0

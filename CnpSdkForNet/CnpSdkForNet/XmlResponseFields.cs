@@ -3630,6 +3630,8 @@ namespace Cnp.Sdk
         private bool duplicateFieldSpecified;
 
         private string networkTransactionIdField;
+        
+        private pinlessDebitResponse pinlessDebitResponseField;
 
         /// <remarks/>
         public long cnpTxnId
@@ -4025,6 +4027,16 @@ namespace Cnp.Sdk
             set
             {
                 this.networkTransactionIdField = value;
+            }
+        }
+        
+        /// <remarks/>
+        public pinlessDebitResponse pinlessDebitResponse {
+            get {
+                return this.pinlessDebitResponseField;
+            }
+            set {
+                this.pinlessDebitResponseField = value;
             }
         }
     }
@@ -4893,6 +4905,7 @@ namespace Cnp.Sdk
         public queryTransactionResponse queryTransactionResponse;
         public queryTransactionUnavailableResponse queryTransactionUnavailableResponse;
         public fraudCheckResponse fraudCheckResponse;
+        public fastAccessFundingResponse fastAccessFundingResponse;
 
         /// <remarks/>
         [System.Xml.Serialization.XmlAttributeAttribute()]
@@ -6735,36 +6748,103 @@ namespace Cnp.Sdk
     {
         public string planCode;
     }
-
+    
     /// <remarks/>
+    [System.CodeDom.Compiler.GeneratedCodeAttribute("xsd", "4.6.1055.0")]
     [System.SerializableAttribute()]
     [System.Diagnostics.DebuggerStepThroughAttribute()]
     [System.ComponentModel.DesignerCategoryAttribute("code")]
-    [System.Xml.Serialization.XmlTypeAttribute(AnonymousType = true, Namespace = "http://www.vantivcnp.com/schema")]
-    [System.Xml.Serialization.XmlRootAttribute(Namespace = "http://www.vantivcnp.com/schema", IsNullable = false)]
-    public partial class loadReversalResponse : transactionTypeWithReportGroup
-    {
-        public long cnpTxnIdField;
-        public string response;
-        public DateTime responseTime;
-        public DateTime postDate;
-        public string message;
-        public fraudResult fraudResult;
-        public giftCardResponse giftCardResponse;
-
+    [System.Xml.Serialization.XmlTypeAttribute(AnonymousType=true, Namespace="http://www.vantivcnp.com/schema")]
+    [System.Xml.Serialization.XmlRootAttribute(Namespace="http://www.vantivcnp.com/schema", IsNullable=false)]
+    public partial class loadReversalResponse : transactionTypeWithReportGroup {
+        
+        private long cnpTxnIdField;
+        
+        private string responseField;
+        
+        private System.DateTime responseTimeField;
+        
+        private System.DateTime postDateField;
+        
+        private bool postDateFieldSpecified;
+        
+        private string messageField;
+        
+        private giftCardResponse giftCardResponseField;
+        
         /// <remarks/>
-        public long cnpTxnId
-        {
-            get
-            {
+        public long cnpTxnId {
+            get {
                 return this.cnpTxnIdField;
             }
-            set
-            {
+            set {
                 this.cnpTxnIdField = value;
             }
         }
+        
+        /// <remarks/>
+        public string response {
+            get {
+                return this.responseField;
+            }
+            set {
+                this.responseField = value;
+            }
+        }
+        
+        /// <remarks/>
+        public System.DateTime responseTime {
+            get {
+                return this.responseTimeField;
+            }
+            set {
+                this.responseTimeField = value;
+            }
+        }
+        
+        /// <remarks/>
+        [System.Xml.Serialization.XmlElementAttribute(DataType="date")]
+        public System.DateTime postDate {
+            get {
+                return this.postDateField;
+            }
+            set {
+                this.postDateField = value;
+            }
+        }
+        
+        /// <remarks/>
+        [System.Xml.Serialization.XmlIgnoreAttribute()]
+        public bool postDateSpecified {
+            get {
+                return this.postDateFieldSpecified;
+            }
+            set {
+                this.postDateFieldSpecified = value;
+            }
+        }
+        
+        /// <remarks/>
+        public string message {
+            get {
+                return this.messageField;
+            }
+            set {
+                this.messageField = value;
+            }
+        }
+        
+        /// <remarks/>
+        public giftCardResponse giftCardResponse {
+            get {
+                return this.giftCardResponseField;
+            }
+            set {
+                this.giftCardResponseField = value;
+            }
+        }
     }
+
 
     /// <remarks/>
     [System.SerializableAttribute()]
@@ -8453,6 +8533,141 @@ namespace Cnp.Sdk
         }
  
     }
+    
+    /// <remarks/>
+    [System.CodeDom.Compiler.GeneratedCodeAttribute("xsd", "4.6.1055.0")]
+    [System.SerializableAttribute()]
+    [System.Diagnostics.DebuggerStepThroughAttribute()]
+    [System.ComponentModel.DesignerCategoryAttribute("code")]
+    [System.Xml.Serialization.XmlTypeAttribute(AnonymousType=true, Namespace="http://www.vantivcnp.com/schema")]
+    [System.Xml.Serialization.XmlRootAttribute(Namespace="http://www.vantivcnp.com/schema", IsNullable=false)]
+    public partial class fastAccessFundingResponse : transactionTypeWithReportGroup {
+        
+        private long cnpTxnIdField;
+        
+        private string fundsTransferIdField;
+        
+        private string responseField;
+        
+        private System.DateTime responseTimeField;
+        
+        private System.DateTime postDateField;
+        
+        private bool postDateFieldSpecified;
+        
+        private string messageField;
+        
+        private tokenResponseType tokenResponseField;
+        
+        private bool duplicateField;
+        
+        private bool duplicateFieldSpecified;
+        
+        /// <remarks/>
+        public long cnpTxnId {
+            get {
+                return this.cnpTxnIdField;
+            }
+            set {
+                this.cnpTxnIdField = value;
+            }
+        }
+        
+        /// <remarks/>
+        public string fundsTransferId {
+            get {
+                return this.fundsTransferIdField;
+            }
+            set {
+                this.fundsTransferIdField = value;
+            }
+        }
+        
+        /// <remarks/>
+        public string response {
+            get {
+                return this.responseField;
+            }
+            set {
+                this.responseField = value;
+            }
+        }
+        
+        /// <remarks/>
+        public System.DateTime responseTime {
+            get {
+                return this.responseTimeField;
+            }
+            set {
+                this.responseTimeField = value;
+            }
+        }
+        
+        /// <remarks/>
+        [System.Xml.Serialization.XmlElementAttribute(DataType="date")]
+        public System.DateTime postDate {
+            get {
+                return this.postDateField;
+            }
+            set {
+                this.postDateField = value;
+            }
+        }
+        
+        /// <remarks/>
+        [System.Xml.Serialization.XmlIgnoreAttribute()]
+        public bool postDateSpecified {
+            get {
+                return this.postDateFieldSpecified;
+            }
+            set {
+                this.postDateFieldSpecified = value;
+            }
+        }
+        
+        /// <remarks/>
+        public string message {
+            get {
+                return this.messageField;
+            }
+            set {
+                this.messageField = value;
+            }
+        }
+        
+        /// <remarks/>
+        public tokenResponseType tokenResponse {
+            get {
+                return this.tokenResponseField;
+            }
+            set {
+                this.tokenResponseField = value;
+            }
+        }
+        
+        /// <remarks/>
+        [System.Xml.Serialization.XmlAttributeAttribute()]
+        public bool duplicate {
+            get {
+                return this.duplicateField;
+            }
+            set {
+                this.duplicateField = value;
+            }
+        }
+        
+        /// <remarks/>
+        [System.Xml.Serialization.XmlIgnoreAttribute()]
+        public bool duplicateSpecified {
+            get {
+                return this.duplicateFieldSpecified;
+            }
+            set {
+                this.duplicateFieldSpecified = value;
+            }
+        }
+    }
+
 
     
     /// <remarks/>
@@ -8637,6 +8852,28 @@ namespace Cnp.Sdk
             set
             {
                 this.fieldNumberField = value;
+            }
+        }
+    }
+    
+    /// <remarks/>
+    [System.CodeDom.Compiler.GeneratedCodeAttribute("xsd", "4.6.1055.0")]
+    [System.SerializableAttribute()]
+    [System.Diagnostics.DebuggerStepThroughAttribute()]
+    [System.ComponentModel.DesignerCategoryAttribute("code")]
+    [System.Xml.Serialization.XmlTypeAttribute(AnonymousType=true, Namespace="http://www.vantivcnp.com/schema")]
+    [System.Xml.Serialization.XmlRootAttribute(Namespace="http://www.vantivcnp.com/schema", IsNullable=false)]
+    public partial class pinlessDebitResponse {
+    
+        private string networkNameField;
+    
+        /// <remarks/>
+        public string networkName {
+            get {
+                return this.networkNameField;
+            }
+            set {
+                this.networkNameField = value;
             }
         }
     }

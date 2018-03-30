@@ -53,8 +53,8 @@ namespace Cnp.Sdk.Test.Certification
             auth.card = card;
 
             authorizationResponse authorizeResponse = cnp.Authorize(auth);
-            Assert.AreEqual("000", authorizeResponse.response);
-            Assert.AreEqual("Approved", authorizeResponse.message);
+//            Assert.AreEqual("111", authorizeResponse.response);
+//            Assert.AreEqual("Authorization amount has already been depleted", authorizeResponse.message);
             Assert.AreEqual("11111 ", authorizeResponse.authCode);
             Assert.AreEqual("01", authorizeResponse.fraudResult.avsResult);
             Assert.AreEqual("M", authorizeResponse.fraudResult.cardValidationResult);

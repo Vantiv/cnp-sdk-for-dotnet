@@ -47,10 +47,11 @@ namespace Cnp.Sdk
         public unloadReversal unloadReversal;
         public queryTransaction queryTransaction;
         public fraudCheck fraudCheck;
+        public fastAccessFunding fastAccessFunding;
 
         public string Serialize()
         {
-            var xml = "<?xml version='1.0' encoding='utf-8'?>\r\n<cnpOnlineRequest merchantId=\"" + merchantId + "\" version=\"12.0\" merchantSdk=\"" + merchantSdk + "\" xmlns=\"http://www.vantivcnp.com/schema\">"
+            var xml = "<?xml version='1.0' encoding='utf-8'?>\r\n<cnpOnlineRequest merchantId=\"" + merchantId + "\" version=\"12.1\" merchantSdk=\"" + merchantSdk + "\" xmlns=\"http://www.vantivcnp.com/schema\">"
                 + authentication.Serialize();
 
             if (authorization != null) xml += authorization.Serialize();
@@ -88,6 +89,7 @@ namespace Cnp.Sdk
             else if (giftCardAuthReversal != null) xml += giftCardAuthReversal.Serialize();
             else if (giftCardCapture != null) xml += giftCardCapture.Serialize();
             else if (giftCardCredit != null) xml += giftCardCredit.Serialize();
+            else if (fastAccessFunding != null) xml += fastAccessFunding.Serialize();
             xml += "\r\n</cnpOnlineRequest>";
 
             return xml;
@@ -1869,6 +1871,19 @@ namespace Cnp.Sdk
             }
         }
 
+        private routingPreferenceEnum routingPreferenceField;
+        private bool routingPreferenceSet;
+
+        public routingPreferenceEnum routingPreference
+        {
+            get { return routingPreferenceField; }
+            set
+            {
+                routingPreferenceField = value;
+                routingPreferenceSet = true;
+            }
+        }
+
         public override string Serialize()
         {
             var xml = "\r\n<sale";
@@ -2016,6 +2031,15 @@ namespace Cnp.Sdk
             if (originalTransactionAmountSet)
             {
                 xml += "\r\n<originalTransactionAmount>" + originalTransactionAmount + "</originalTransactionAmount>";
+            }
+
+            if (routingPreferenceSet)
+            {
+                var routingPreferenceName = routingPreferenceField.ToString();
+                var attributes = 
+                    (XmlEnumAttribute[])typeof(echeckAccountTypeEnum).GetMember(routingPreferenceField.ToString())[0].GetCustomAttributes(typeof(XmlEnumAttribute), false);
+                if (attributes.Length > 0) routingPreferenceName = attributes[0].Name;
+                xml += "\r\n<routingPreference>" + routingPreferenceName + "</routingPreference>";
             }
             xml += "\r\n</sale>";
             return xml;
@@ -4302,12 +4326,50 @@ namespace Cnp.Sdk
         }
     }
 
+    public partial class fastAccessFunding : transactionTypeWithReportGroup
+    {
+        public string fundingSubmerchantId;
+        public string submerchantName;
+        public string fundsTransferId;
+        public int amount;
+        public cardType card;
+        public cardTokenType token;
+        public cardPaypageType paypage;
+
+        public override string Serialize()
+        {
+            var xml = "\r\n<fastAccessFunding";
+            xml += " id=\"" + SecurityElement.Escape(id) + "\"";
+            if (customerId != null)
+            {
+                xml += " customerId=\"" + SecurityElement.Escape(customerId) + "\"";
+            }
+            xml += " reportGroup=\"" + SecurityElement.Escape(reportGroup) + "\">";
+            
+            // The first element of a sequence xml element  represent the sequence element
+            if (fundingSubmerchantId != null)
+            {
+                xml += "\r\n<fundingSubmerchantId>" + fundingSubmerchantId + "</fundingSubmerchantId>";
+                xml += "\r\n<submerchantName>" + submerchantName + "</submerchantName>";
+                xml += "\r\n<fundsTransferId>" + fundsTransferId + "</fundsTransferId>";
+                xml += "\r\n<amount>" + amount + "</amount>";
+                if (card != null) xml += "\r\n<card>" + card.Serialize() + "</card>";
+                else if (token != null) xml += "\r\n<token>" + token.Serialize() + "</token>";
+                else xml += "\r\n<paypage>" + paypage.Serialize() + "</paypage>";
+            }
+            xml += "\r\n</fastAccessFunding>";
+            return xml;
+        }
+    }
+
     public enum processingTypeEnum
     {
         accountFunding,
         initialRecurring,
-        initialInstallment
-        
+        initialInstallment,
+        initialCOF,
+        merchantInitiatedCOF,
+        cardholderInitiatedCOF   
     }
 
     public enum mandateProviderType

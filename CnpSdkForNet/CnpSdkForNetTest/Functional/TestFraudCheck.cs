@@ -44,7 +44,7 @@ namespace Cnp.Sdk.Test.Functional
                 {
                     threatMetrixSessionId = "123",
                     customAttribute1 = "pass",
-                    customAttribute2 = "60",
+                    customAttribute2 = "42",
                     customAttribute3 = "7",
                     customAttribute4 = "jkl",
                     customAttribute5 = "mno",
@@ -54,7 +54,7 @@ namespace Cnp.Sdk.Test.Functional
             var fraudCheckResponse = _cnp.FraudCheck(fraudCheck);
 
             Assert.NotNull(fraudCheckResponse);
-            Assert.AreEqual(60, fraudCheckResponse.advancedFraudResults.deviceReputationScore);
+            Assert.AreEqual(42, fraudCheckResponse.advancedFraudResults.deviceReputationScore);
             Assert.AreEqual(7, fraudCheckResponse.advancedFraudResults.triggeredRule.Length);
             Assert.AreEqual("triggered_rule_1", fraudCheckResponse.advancedFraudResults.triggeredRule[0]);
             Assert.AreEqual("triggered_rule_2", fraudCheckResponse.advancedFraudResults.triggeredRule[1]);
@@ -105,7 +105,7 @@ namespace Cnp.Sdk.Test.Functional
             var fraudCheckResponse = _cnp.FraudCheck(fraudCheck);
             Assert.NotNull(fraudCheckResponse);
             Assert.AreEqual("Call Discover", fraudCheckResponse.message);
-            Assert.AreEqual("fail", fraudCheckResponse.advancedFraudResults.deviceReviewStatus);
+            Assert.AreEqual("pass", fraudCheckResponse.advancedFraudResults.deviceReviewStatus);
 
         }
     }
