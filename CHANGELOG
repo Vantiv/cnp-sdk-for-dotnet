@@ -1,6 +1,9 @@
 
 = Vantiv eCommerce CNP CHANGELOG
 
+== Version 12.0.2 (Mar 26, 2018)
+* Feature: Add PGP encryption decryption for bach file requests
+
 == Version 12.0.1 (Mar 8, 2018)
 * BugFix: Adding support for multiple triggeredRule
 
