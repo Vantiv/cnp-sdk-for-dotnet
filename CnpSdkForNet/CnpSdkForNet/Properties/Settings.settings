@@ -3,7 +3,7 @@
   <Profiles />
   <Settings>
     <Setting Name="reportGroup" Type="System.String" Scope="User">
-      <Value Profile="(Default)">Default Report Group</Value>
+      <Value Profile="(Default)">Default Report Groupyyyyy</Value>
     </Setting>
     <Setting Name="onlineBatchUrl" Type="System.String" Scope="User">
       <Value Profile="(Default)">payments.vantivprelive.com</Value>
@@ -62,5 +62,17 @@
     <Setting Name="sftpPassword" Type="System.String" Scope="User">
       <Value Profile="(Default)">DOTNET</Value>
     </Setting>
+    <Setting Name="useEncryption" Type="System.String" Scope="User">
+      <Value Profile="(Default)">false</Value>
+    </Setting>
+    <Setting Name="vantivPublicKeyId" Type="System.String" Scope="User">
+      <Value Profile="(Default)" />
+    </Setting>
+    <Setting Name="pgpPassphrase" Type="System.String" Scope="User">
+      <Value Profile="(Default)" />
+    </Setting>
+    <Setting Name="GnuPgDir" Type="System.String" Scope="User">
+      <Value Profile="(Default)" />
+    </Setting>   
   </Settings>
 </SettingsFile>
