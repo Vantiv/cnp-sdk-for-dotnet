@@ -1,6 +1,11 @@
 
 = Vantiv eCommerce CNP CHANGELOG
 
+== Version 12.1.0 (Mar 30, 2018)
+* Feature: Added support for Visa card on file transactions
+* Feature: Added fastAccessFunding transaction
+* BugFix: Remove window popups occuring during PGP encryption decryption
+
 == Version 12.0.2 (Mar 26, 2018)
 * Feature: Add PGP encryption decryption for bach file requests
 
