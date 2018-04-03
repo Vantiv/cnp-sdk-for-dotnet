@@ -1,6 +1,9 @@
 
 = Vantiv eCommerce CNP CHANGELOG
 
+== Version 12.1.1 (April 3, 2018)
+* BugFix: Add iterator for fastAccessFundingResponse to batchresponse.
+
 == Version 12.1.0 (Mar 30, 2018)
 * Feature: Added support for Visa card on file transactions
 * Feature: Added fastAccessFunding transaction
