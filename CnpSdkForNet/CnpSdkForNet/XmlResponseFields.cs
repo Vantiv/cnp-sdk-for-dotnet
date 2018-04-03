@@ -5116,6 +5116,7 @@ namespace Cnp.Sdk
         private XmlReader reserveDebitResponseReader;
         private XmlReader physicalCheckDebitResponseReader;
         private XmlReader fundingInstructionVoidResponseReader;
+        private XmlReader fastAccessFundingResponseReader;
 
         public batchResponse()
         {
@@ -5320,6 +5321,11 @@ namespace Cnp.Sdk
         {
             this.fundingInstructionVoidResponseReader = xmlReader;
         }
+        
+        public void setFastAccessFundingResponseReader(XmlReader xmlReader)
+        {
+            this.fastAccessFundingResponseReader = xmlReader;
+        }
 
 
         public void readXml(XmlReader reader, string filePath)
@@ -5368,6 +5374,7 @@ namespace Cnp.Sdk
             vendorDebitResponseReader = new XmlTextReader(filePath);
             physicalCheckDebitResponseReader = new XmlTextReader(filePath);
             fundingInstructionVoidResponseReader = new XmlTextReader(filePath);
+            fastAccessFundingResponseReader = new XmlTextReader(filePath);
 
             if (!accountUpdateResponseReader.ReadToFollowing("accountUpdateResponse"))
             {
@@ -5523,6 +5530,10 @@ namespace Cnp.Sdk
             if (!fundingInstructionVoidResponseReader.ReadToFollowing("fundingInstructionVoidResponse"))
             {
                 fundingInstructionVoidResponseReader.Close();
+            }
+            if (!fastAccessFundingResponseReader.ReadToFollowing("fastAccessFundingResponse"))
+            {
+                fastAccessFundingResponseReader.Close();
             }
         }
 
@@ -6298,6 +6309,26 @@ namespace Cnp.Sdk
                 if (!fundingInstructionVoidResponseReader.ReadToFollowing("fundingInstructionVoidResponse"))
                 {
                     fundingInstructionVoidResponseReader.Close();
+                }
+
+                return i;
+            }
+
+            return null;
+        }
+        
+        virtual public fastAccessFundingResponse nextFastAccessFundingResponse()
+        {
+            if (fastAccessFundingResponseReader.ReadState != ReadState.Closed)
+            {
+                string response = fastAccessFundingResponseReader.ReadOuterXml();
+                XmlSerializer serializer = new XmlSerializer(typeof(fastAccessFundingResponse));
+                StringReader reader = new StringReader(response);
+                fastAccessFundingResponse i = (fastAccessFundingResponse)serializer.Deserialize(reader);
+
+                if (!fastAccessFundingResponseReader.ReadToFollowing("fastAccessFundingResponse"))
+                {
+                    fastAccessFundingResponseReader.Close();
                 }
 
                 return i;
@@ -8517,7 +8548,8 @@ namespace Cnp.Sdk
         [XmlArrayItem("echeckCreditResponse", typeof(echeckCreditResponse))]
         [XmlArrayItem("echeckRedepositResponse", typeof(echeckRedepositResponse))]
         [XmlArrayItem("echeckSalesResponse", typeof(echeckSalesResponse))]
-        [XmlArrayItem("saleResponse", typeof(saleResponse))] 
+        [XmlArrayItem("saleResponse", typeof(saleResponse))]
+        [XmlArrayItem("fastAccessFundingResponse", typeof(fastAccessFundingResponse))]
 
         public ArrayList results_max10
         {
