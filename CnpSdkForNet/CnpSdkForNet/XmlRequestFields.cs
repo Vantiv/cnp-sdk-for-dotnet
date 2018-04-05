@@ -6,54 +6,72 @@ using System.Xml.Serialization;
 
 namespace Cnp.Sdk
 {
+    // Represents cnpOnlineRequest object.
+    // A cnpOnlineRequest can contain only one transaction.
     public partial class cnpOnlineRequest
     {
 
-        public string merchantId;
-        public string merchantSdk;
+        public activate activate;
+        public activateReversal activateReversal;
         public authentication authentication;
         public authorization authorization;
-        public capture capture;
-        public giftCardCapture giftCardCapture;
-        public credit credit;
-        public giftCardCredit giftCardCredit;
-        public voidTxn voidTxn;
-        public sale sale;
         public authReversal authReversal;
-        public giftCardAuthReversal giftCardAuthReversal;
-        public echeckCredit echeckCredit;
-        public echeckVerification echeckVerification;
-        public echeckSale echeckSale;
-        public registerTokenRequestType registerTokenRequest;
-        public forceCapture forceCapture;
-        public captureGivenAuth captureGivenAuth;
-        public echeckRedeposit echeckRedeposit;
-        public echeckVoid echeckVoid;
-        public updateCardValidationNumOnToken updateCardValidationNumOnToken;
-        public updateSubscription updateSubscription;
-        public cancelSubscription cancelSubscription;
-        public activate activate;
-        public deactivate deactivate;
-        public load load;
-        public unload unload;
         public balanceInquiry balanceInquiry;
+        public cancelSubscription cancelSubscription;
+        public capture capture;
+        public captureGivenAuth captureGivenAuth;
         public createPlan createPlan;
-        public updatePlan updatePlan;
-        public refundReversal refundReversal;
-        public loadReversal loadReversal;
-        public depositReversal depositReversal;
-        public activateReversal activateReversal;
+        public credit credit;
+        public deactivate deactivate;
         public deactivateReversal deactivateReversal;
-        public unloadReversal unloadReversal;
-        public queryTransaction queryTransaction;
-        public fraudCheck fraudCheck;
+        public depositReversal depositReversal;
+        public echeckCredit echeckCredit;
+        public echeckRedeposit echeckRedeposit;
+        public echeckSale echeckSale;
+        public echeckVerification echeckVerification;
+        public echeckVoid echeckVoid;
         public fastAccessFunding fastAccessFunding;
-
+        public forceCapture forceCapture;
+        public fraudCheck fraudCheck;
+        public giftCardAuthReversal giftCardAuthReversal;
+        public giftCardCapture giftCardCapture;
+        public giftCardCredit giftCardCredit;
+        public load load;
+        public loadReversal loadReversal;
+        public payFacCredit payFacCredit;
+        public payFacDebit payFacDebit;
+        public physicalCheckCredit physicalCheckCredit;
+        public physicalCheckDebit physicalCheckDebit;
+        public reserveCredit reserveCredit;
+        public reserveDebit reserveDebit;
+        public vendorCredit vendorCredit;
+        public vendorDebit vendorDebit;
+        public submerchantCredit submerchantCredit;
+        public submerchantDebit submerchantDebit;
+        public queryTransaction queryTransaction;
+        public refundReversal refundReversal;
+        public registerTokenRequestType registerTokenRequest;
+        public sale sale;
+        public string merchantId;
+        public string merchantSdk;
+        public unload unload;
+        public unloadReversal unloadReversal;
+        public updateCardValidationNumOnToken updateCardValidationNumOnToken;
+        public updatePlan updatePlan;
+        public updateSubscription updateSubscription;
+        public voidTxn voidTxn;
+        
+        // Serialize the cnpOnlineRequest.
+        // Convert the cnpOnlineRequest object to xml string.
         public string Serialize()
         {
-            var xml = "<?xml version='1.0' encoding='utf-8'?>\r\n<cnpOnlineRequest merchantId=\"" + merchantId + "\" version=\"12.1\" merchantSdk=\"" + merchantSdk + "\" xmlns=\"http://www.vantivcnp.com/schema\">"
+            // Create header for the cnpOnlineRequest with user credential.
+            var xml = "<?xml version='1.0' encoding='utf-8'?>\r\n<cnpOnlineRequest merchantId=\"" + merchantId
+                + "\" version=\"12.1\" merchantSdk=\"" + merchantSdk + "\" xmlns=\"http://www.vantivcnp.com/schema\">"
                 + authentication.Serialize();
-
+            
+            // Because an online request can contain only one transaction, it assumes that only one instance variable of 
+            // this cnpOnlineRequest is not null, and the rest are null.
             if (authorization != null) xml += authorization.Serialize();
             else if (capture != null) xml += capture.Serialize();
             else if (credit != null) xml += credit.Serialize();
@@ -90,13 +108,23 @@ namespace Cnp.Sdk
             else if (giftCardCapture != null) xml += giftCardCapture.Serialize();
             else if (giftCardCredit != null) xml += giftCardCredit.Serialize();
             else if (fastAccessFunding != null) xml += fastAccessFunding.Serialize();
+            else if (payFacCredit != null) xml += payFacCredit.Serialize();
+            else if (payFacDebit != null) xml += payFacDebit.Serialize();
+            else if (physicalCheckCredit != null) xml += physicalCheckCredit.Serialize();
+            else if (physicalCheckDebit != null) xml += physicalCheckDebit.Serialize();
+            else if (reserveCredit != null) xml += reserveCredit.Serialize();
+            else if (reserveDebit != null) xml += reserveDebit.Serialize();
+            else if (submerchantCredit != null) xml += submerchantCredit.Serialize();
+            else if (submerchantDebit != null) xml += submerchantDebit.Serialize();
+            else if (vendorCredit != null) xml += vendorCredit.Serialize();
+            else if (vendorDebit != null) xml += vendorDebit.Serialize();
             xml += "\r\n</cnpOnlineRequest>";
 
             return xml;
         }
     }
 
-
+    // Authentication for requests.
     public partial class authentication
     {
         public string user;
@@ -106,508 +134,39 @@ namespace Cnp.Sdk
             return "\r\n<authentication>\r\n<user>" + SecurityElement.Escape(user) + "</user>\r\n<password>" + SecurityElement.Escape(password) + "</password>\r\n</authentication>";
         }
     }
-
-    public partial class customerInfo
+    
+    #region Supported Transactions.
+    
+    // Activate Transaction.
+    public partial class activate : transactionTypeWithReportGroup
     {
-
-        public string ssn;
-
-        public DateTime dob;
-
-        public DateTime customerRegistrationDate;
-
-        private customerInfoCustomerType customerTypeField;
-        private bool customerTypeSet;
-        public customerInfoCustomerType customerType
-        {
-            get { return customerTypeField; }
-            set { customerTypeField = value; customerTypeSet = true; }
-        }
-
-        private long incomeAmountField;
-        private bool incomeAmountSet;
-        public long incomeAmount
-        {
-            get { return incomeAmountField; }
-            set { incomeAmountField = value; incomeAmountSet = true; }
-        }
-
-        private currencyCodeEnum incomeCurrencyField;
-        private bool incomeCurrencySet;
-        public currencyCodeEnum incomeCurrency
-        {
-            get { return incomeCurrencyField; }
-            set { incomeCurrencyField = value; incomeCurrencySet = true; }
-        }
-
-        private bool customerCheckingAccountField;
-        private bool customerCheckingAccountSet;
-        public bool customerCheckingAccount
-        {
-            get { return customerCheckingAccountField; }
-            set { customerCheckingAccountField = value; customerCheckingAccountSet = true; }
-        }
-
-        private bool customerSavingAccountField;
-        private bool customerSavingAccountSet;
-        public bool customerSavingAccount
-        {
-            get { return customerSavingAccountField; }
-            set { customerSavingAccountField = value; customerSavingAccountSet = true; }
-        }
-
-        public string employerName;
-
-        public string customerWorkTelephone;
-
-        private customerInfoResidenceStatus residenceStatusField;
-        private bool residenceStatusSet;
-        public customerInfoResidenceStatus residenceStatus
-        {
-            get { return residenceStatusField; }
-            set { residenceStatusField = value; residenceStatusSet = true; }
-        }
-
-        private int yearsAtResidenceField;
-        private bool yearsAtResidenceSet;
-        public int yearsAtResidence
-        {
-            get { return yearsAtResidenceField; }
-            set { yearsAtResidenceField = value; yearsAtResidenceSet = true; }
-        }
-
-        private int yearsAtEmployerField;
-        private bool yearsAtEmployerSet;
-        public int yearsAtEmployer
-        {
-            get
-            {
-                return yearsAtEmployerField;
-            }
-            set
-            {
-                yearsAtEmployerField = value;
-                yearsAtEmployerSet = true;
-            }
-        }
-
-
-        public customerInfo()
-        {
-            incomeCurrency = currencyCodeEnum.USD;
-        }
-
-        public string Serialize()
-        {
-            var xml = "";
-            if (ssn != null)
-            {
-                xml += "\r\n<ssn>" + SecurityElement.Escape(ssn) + "</ssn>";
-            }
-            if (dob != null)
-            {
-                xml += "\r\n<dob>" + XmlUtil.toXsdDate(dob) + "</dob>";
-            }
-            if (customerRegistrationDate != null)
-            {
-                xml += "\r\n<customerRegistrationDate>" + XmlUtil.toXsdDate(customerRegistrationDate) + "</customerRegistrationDate>";
-            }
-            if (customerTypeSet)
-            {
-                xml += "\r\n<customerType>" + customerTypeField + "</customerType>";
-            }
-            if (incomeAmountSet)
-            {
-                xml += "\r\n<incomeAmount>" + incomeAmountField + "</incomeAmount>";
-            }
-            if (incomeCurrencySet)
-            {
-                xml += "\r\n<incomeCurrency>" + incomeCurrencyField + "</incomeCurrency>";
-            }
-            if (customerCheckingAccountSet)
-            {
-                xml += "\r\n<customerCheckingAccount>" + customerCheckingAccountField.ToString().ToLower() + "</customerCheckingAccount>";
-            }
-            if (customerSavingAccountSet)
-            {
-                xml += "\r\n<customerSavingAccount>" + customerSavingAccountField.ToString().ToLower() + "</customerSavingAccount>";
-            }
-            if (employerName != null)
-            {
-                xml += "\r\n<employerName>" + SecurityElement.Escape(employerName) + "</employerName>";
-            }
-            if (customerWorkTelephone != null)
-            {
-                xml += "\r\n<customerWorkTelephone>" + SecurityElement.Escape(customerWorkTelephone) + "</customerWorkTelephone>";
-            }
-            if (residenceStatusSet)
-            {
-                xml += "\r\n<residenceStatus>" + residenceStatusField + "</residenceStatus>";
-            }
-            if (yearsAtResidenceSet)
-            {
-                xml += "\r\n<yearsAtResidence>" + yearsAtResidenceField + "</yearsAtResidence>";
-            }
-            if (yearsAtEmployerSet)
-            {
-                xml += "\r\n<yearsAtEmployer>" + yearsAtEmployerField + "</yearsAtEmployer>";
-            }
-            return xml;
-        }
-
-
-    }
-
-    public enum customerInfoCustomerType
-    {
-
-        /// <remarks/>
-        New,
-        Existing,
-    }
-
-    public enum currencyCodeEnum
-    {
-
-        /// <remarks/>
-        AUD,
-        CAD,
-        CHF,
-        DKK,
-        EUR,
-        GBP,
-        HKD,
-        JPY,
-        NOK,
-        NZD,
-        SEK,
-        SGD,
-        USD,
-    }
-
-    public enum customerInfoResidenceStatus
-    {
-
-        /// <remarks/>
-        Own,
-        Rent,
-        Other,
-    }
-
-    public partial class enhancedData
-    {
-        public string customerReference;
-        private long salesTaxField;
-        private bool salesTaxSet;
-        public long salesTax
-        {
-            get { return salesTaxField; }
-            set { salesTaxField = value; salesTaxSet = true; }
-        }
-        private enhancedDataDeliveryType deliveryTypeField;
-        private bool deliveryTypeSet;
-        public enhancedDataDeliveryType deliveryType
-        {
-            get { return deliveryTypeField; }
-            set { deliveryTypeField = value; deliveryTypeSet = true; }
-        }
-        public bool taxExemptField;
-        public bool taxExemptSet;
-        public bool taxExempt
-        {
-            get { return taxExemptField; }
-            set { taxExemptField = value; taxExemptSet = true; }
-        }
-        private long discountAmountField;
-        private bool discountAmountSet;
-        public long discountAmount
-        {
-            get { return discountAmountField; }
-            set { discountAmountField = value; discountAmountSet = true; }
-        }
-        private long shippingAmountField;
-        private bool shippingAmountSet;
-        public long shippingAmount
-        {
-            get { return shippingAmountField; }
-            set { shippingAmountField = value; shippingAmountSet = true; }
-        }
-        private long dutyAmountField;
-        private bool dutyAmountSet;
-        public long dutyAmount
-        {
-            get { return dutyAmountField; }
-            set { dutyAmountField = value; dutyAmountSet = true; }
-        }
-        public string shipFromPostalCode;
-        public string destinationPostalCode;
-        private countryTypeEnum destinationCountryCodeField;
-        private bool destinationCountryCodeSet;
-        public countryTypeEnum destinationCountry
-        {
-            get { return destinationCountryCodeField; }
-            set { destinationCountryCodeField = value; destinationCountryCodeSet = true; }
-        }
-        public string invoiceReferenceNumber;
-        private DateTime orderDateField;
-        private bool orderDateSet;
-        public DateTime orderDate
-        {
-            get { return orderDateField; }
-            set { orderDateField = value; orderDateSet = true; }
-        }
-        public List<detailTax> detailTaxes;
-        public List<lineItemData> lineItems;
-
-        public enhancedData()
-        {
-            lineItems = new List<lineItemData>();
-            detailTaxes = new List<detailTax>();
-        }
-
-        public string Serialize()
-        {
-            var xml = "";
-            if (customerReference != null) xml += "\r\n<customerReference>" + SecurityElement.Escape(customerReference) + "</customerReference>";
-            if (salesTaxSet) xml += "\r\n<salesTax>" + salesTaxField + "</salesTax>";
-            if (deliveryTypeSet) xml += "\r\n<deliveryType>" + deliveryTypeField + "</deliveryType>";
-            if (taxExemptSet) xml += "\r\n<taxExempt>" + taxExemptField.ToString().ToLower() + "</taxExempt>";
-            if (discountAmountSet) xml += "\r\n<discountAmount>" + discountAmountField + "</discountAmount>";
-            if (shippingAmountSet) xml += "\r\n<shippingAmount>" + shippingAmountField + "</shippingAmount>";
-            if (dutyAmountSet) xml += "\r\n<dutyAmount>" + dutyAmountField + "</dutyAmount>";
-            if (shipFromPostalCode != null) xml += "\r\n<shipFromPostalCode>" + SecurityElement.Escape(shipFromPostalCode) + "</shipFromPostalCode>";
-            if (destinationPostalCode != null) xml += "\r\n<destinationPostalCode>" + SecurityElement.Escape(destinationPostalCode) + "</destinationPostalCode>";
-            if (destinationCountryCodeSet) xml += "\r\n<destinationCountryCode>" + destinationCountryCodeField + "</destinationCountryCode>";
-            if (invoiceReferenceNumber != null) xml += "\r\n<invoiceReferenceNumber>" + SecurityElement.Escape(invoiceReferenceNumber) + "</invoiceReferenceNumber>";
-            if (orderDateSet) xml += "\r\n<orderDate>" + XmlUtil.toXsdDate(orderDateField) + "</orderDate>";
-            foreach (var detailTax in detailTaxes)
-            {
-                xml += "\r\n<detailTax>" + detailTax.Serialize() + "\r\n</detailTax>";
-            }
-            foreach (var lineItem in lineItems)
-            {
-                xml += "\r\n<lineItemData>" + lineItem.Serialize() + "\r\n</lineItemData>";
-            }
-            return xml;
-        }
-    }
-
-    public partial class voidTxn : transactionTypeWithReportGroup
-    {
-        public long cnpTxnId;
-        public processingInstructions processingInstructions;
+        public string orderId;
+        public long amount;
+        public orderSourceType orderSource;
+        public giftCardCardType card;
+        public virtualGiftCardType virtualGiftCard;
 
         public override string Serialize()
         {
-            var xml = "\r\n<void";
+            var xml = "\r\n<activate";
             xml += " id=\"" + SecurityElement.Escape(id) + "\"";
             if (customerId != null)
             {
                 xml += " customerId=\"" + SecurityElement.Escape(customerId) + "\"";
             }
-            xml += " reportGroup=\"" + SecurityElement.Escape(reportGroup) + "\"";
-            xml += ">";
-            xml += "\r\n<cnpTxnId>" + cnpTxnId + "</cnpTxnId>";
-            if (processingInstructions != null) xml += "\r\n<processingInstructions>" + processingInstructions.Serialize() + "\r\n</processingInstructions>";
-            xml += "\r\n</void>";
-
-            return xml;
-        }
-
-    }
-
-    public partial class lineItemData
-    {
-        private int itemSeqenceNumberField;
-        private bool itemSequenceNumberSet;
-        public int itemSequenceNumber
-        {
-            get { return itemSeqenceNumberField; }
-            set { itemSeqenceNumberField = value; itemSequenceNumberSet = true; }
-        }
-        public string itemDescription;
-        public string productCode;
-        public string quantity;
-        public string unitOfMeasure;
-        private long taxAmountField;
-        private bool taxAmountSet;
-        public long taxAmount
-        {
-            get { return taxAmountField; }
-            set { taxAmountField = value; taxAmountSet = true; }
-        }
-        private long lineItemTotalField;
-        private bool lineItemTotalSet;
-        public long lineItemTotal
-        {
-            get { return lineItemTotalField; }
-            set { lineItemTotalField = value; lineItemTotalSet = true; }
-        }
-        private long lineItemTotalWithTaxField;
-        private bool lineItemTotalWithTaxSet;
-        public long lineItemTotalWithTax
-        {
-            get { return lineItemTotalWithTaxField; }
-            set { lineItemTotalWithTaxField = value; lineItemTotalWithTaxSet = true; }
-        }
-        private long itemDiscountAmountField;
-        private bool itemDiscountAmountSet;
-        public long itemDiscountAmount
-        {
-            get { return itemDiscountAmountField; }
-            set { itemDiscountAmountField = value; itemDiscountAmountSet = true; }
-        }
-        public string commodityCode;
-        public string unitCost;
-        public List<detailTax> detailTaxes;
-
-        public lineItemData()
-        {
-            detailTaxes = new List<detailTax>();
-        }
-
-        public string Serialize()
-        {
-            var xml = "";
-            if (itemSequenceNumberSet) xml += "\r\n<itemSequenceNumber>" + itemSeqenceNumberField + "</itemSequenceNumber>";
-            if (itemDescription != null) xml += "\r\n<itemDescription>" + SecurityElement.Escape(itemDescription) + "</itemDescription>";
-            if (productCode != null) xml += "\r\n<productCode>" + SecurityElement.Escape(productCode) + "</productCode>";
-            if (quantity != null) xml += "\r\n<quantity>" + SecurityElement.Escape(quantity) + "</quantity>";
-            if (unitOfMeasure != null) xml += "\r\n<unitOfMeasure>" + SecurityElement.Escape(unitOfMeasure) + "</unitOfMeasure>";
-            if (taxAmountSet) xml += "\r\n<taxAmount>" + taxAmountField + "</taxAmount>";
-            if (lineItemTotalSet) xml += "\r\n<lineItemTotal>" + lineItemTotalField + "</lineItemTotal>";
-            if (lineItemTotalWithTaxSet) xml += "\r\n<lineItemTotalWithTax>" + lineItemTotalWithTaxField + "</lineItemTotalWithTax>";
-            if (itemDiscountAmountSet) xml += "\r\n<itemDiscountAmount>" + itemDiscountAmountField + "</itemDiscountAmount>";
-            if (commodityCode != null) xml += "\r\n<commodityCode>" + SecurityElement.Escape(commodityCode) + "</commodityCode>";
-            if (unitCost != null) xml += "\r\n<unitCost>" + SecurityElement.Escape(unitCost) + "</unitCost>";
-            foreach (var detailTax in detailTaxes)
-            {
-                if (detailTax != null) xml += "\r\n<detailTax>" + detailTax.Serialize() + "</detailTax>";
-            }
-            return xml;
-        }
-
-    }
-
-
-    public partial class detailTax
-    {
-        private bool taxIncludedInTotalField;
-        private bool taxIncludedInTotalSet;
-        public bool taxIncludedInTotal
-        {
-            get { return taxIncludedInTotalField; }
-            set { taxIncludedInTotalField = value; taxIncludedInTotalSet = true; }
-        }
-        private long taxAmountField;
-        private bool taxAmountSet;
-        public long taxAmount
-        {
-            get { return taxAmountField; }
-            set { taxAmountField = value; taxAmountSet = true; }
-        }
-        public string taxRate;
-        private taxTypeIdentifierEnum taxTypeIdentifierField;
-        private bool taxTypeIdentifierSet;
-        public taxTypeIdentifierEnum taxTypeIdentifier
-        {
-            get { return taxTypeIdentifierField; }
-            set { taxTypeIdentifierField = value; taxTypeIdentifierSet = true; }
-        }
-        public string cardAcceptorTaxId;
-
-        public string Serialize()
-        {
-            var xml = "";
-            if (taxIncludedInTotalSet) xml += "\r\n<taxIncludedInTotal>" + taxIncludedInTotalField.ToString().ToLower() + "</taxIncludedInTotal>";
-            if (taxAmountSet) xml += "\r\n<taxAmount>" + taxAmountField + "</taxAmount>";
-            if (taxRate != null) xml += "\r\n<taxRate>" + SecurityElement.Escape(taxRate) + "</taxRate>";
-            if (taxTypeIdentifierSet)
-            {
-                var type = taxTypeIdentifierField.GetType();
-                var info = type.GetField(Enum.GetName(typeof(taxTypeIdentifierEnum), taxTypeIdentifierField));
-                var att = (XmlEnumAttribute)info.GetCustomAttributes(typeof(XmlEnumAttribute), false)[0];
-                //If there is an xmlattribute defined, return the name
-
-                xml += "\r\n<taxTypeIdentifier>" + att.Name + "</taxTypeIdentifier>";
-            }
-            if (cardAcceptorTaxId != null) xml += "\r\n<cardAcceptorTaxId>" + SecurityElement.Escape(cardAcceptorTaxId) + "</cardAcceptorTaxId>";
+            xml += " reportGroup=\"" + SecurityElement.Escape(reportGroup) + "\">";
+            xml += "\r\n<orderId>" + SecurityElement.Escape(orderId) + "</orderId>";
+            xml += "\r\n<amount>" + amount + "</amount>";
+            xml += "\r\n<orderSource>" + orderSource.Serialize() + "</orderSource>";
+            if (card != null) xml += "\r\n<card>" + card.Serialize() + "\r\n</card>";
+            else if (virtualGiftCard != null) xml += "\r\n<virtualGiftCard>" + virtualGiftCard.Serialize() + "\r\n</virtualGiftCard>";
+            xml += "\r\n</activate>";
             return xml;
         }
     }
-
-    public partial class transactionTypeWithReportGroupAndPartial : transactionType
-    {
-        public string reportGroup;
-        private bool partialField;
-        protected bool partialSet;
-        public bool partial
-        {
-            get { return partialField; }
-            set { partialField = value; partialSet = true; }
-        }
-    }
-
-    public partial class capture : transactionTypeWithReportGroupAndPartial
-    {
-        public long cnpTxnId;
-        private long amountField;
-        private bool amountSet;
-        public long amount
-        {
-            get { return amountField; }
-            set { amountField = value; amountSet = true; }
-        }
-        private bool surchargeAmountSet;
-        private long surchargeAmountField;
-        public long surchargeAmount
-        {
-            get { return surchargeAmountField; }
-            set { surchargeAmountField = value; surchargeAmountSet = true; }
-        }
-        public enhancedData enhancedData;
-        public processingInstructions processingInstructions;
-        private bool payPalOrderCompleteField;
-        private bool payPalOrderCompleteSet;
-        public bool payPalOrderComplete
-        {
-            get { return payPalOrderCompleteField; }
-            set { payPalOrderCompleteField = value; payPalOrderCompleteSet = true; }
-        }
-        public string payPalNotes;
-        public customBilling customBilling;
-        public string pin;
-
-        public override string Serialize()
-        {
-            var xml = "\r\n<capture";
-            xml += " id=\"" + SecurityElement.Escape(id) + "\"";
-            if (customerId != null)
-            {
-                xml += " customerId=\"" + SecurityElement.Escape(customerId) + "\"";
-            }
-            xml += " reportGroup=\"" + SecurityElement.Escape(reportGroup) + "\"";
-            if (partialSet)
-            {
-                xml += " partial=\"" + partial.ToString().ToLower() + "\"";
-            }
-            xml += ">";
-            xml += "\r\n<cnpTxnId>" + cnpTxnId + "</cnpTxnId>";
-            if (amountSet) xml += "\r\n<amount>" + amountField + "</amount>";
-            if (surchargeAmountSet) xml += "\r\n<surchargeAmount>" + surchargeAmountField + "</surchargeAmount>";
-            if (enhancedData != null) xml += "\r\n<enhancedData>" + enhancedData.Serialize() + "\r\n</enhancedData>";
-            if (processingInstructions != null) xml += "\r\n<processingInstructions>" + processingInstructions.Serialize() + "\r\n</processingInstructions>";
-            if (payPalOrderCompleteSet) xml += "\r\n<payPalOrderComplete>" + payPalOrderCompleteField.ToString().ToLower() + "</payPalOrderComplete>";
-            if (payPalNotes != null) xml += "\r\n<payPalNotes>" + SecurityElement.Escape(payPalNotes) + "</payPalNotes>";
-            if (customBilling != null) xml += "\r\n<customBilling>" + customBilling.Serialize() + "\r\n</customBilling>";
-            if (pin != null) xml += "\r\n<pin>" + pin + "</pin>";
-            xml += "\r\n</capture>";
-
-            return xml;
-        }
-    }
-
-    public partial class giftCardCapture : transactionTypeWithReportGroupAndPartial
+    
+    // Activate Reversal Transaction.
+    public partial class activateReversal : transactionTypeWithReportGroup
     {
         private long cnpTxnIdField;
         private bool cnpTxnIdSet;
@@ -623,814 +182,56 @@ namespace Cnp.Sdk
                 cnpTxnIdSet = true;
             }
         }
-        public long captureAmount;
+        private string virtualGiftCardBinField;
+        private bool virtualGiftCardBinSet;
+        public string virtualGiftCardBin
+        {
+            get
+            {
+                return virtualGiftCardBinField;
+            }
+            set
+            {
+                virtualGiftCardBinField = value;
+                virtualGiftCardBinSet = true;
+            }
+        }
         public giftCardCardType card;
         public string originalRefCode;
         public long originalAmount;
         public DateTime originalTxnTime;
+        public int originalSystemTraceId;
+        public string originalSequenceNumber;
 
         public override string Serialize()
         {
-            var xml = "\r\n<giftCardCapture";
-            xml += " id=\"" + SecurityElement.Escape(id) + "\"";
-            if (customerId != null)
-            {
-                xml += " customerId=\"" + SecurityElement.Escape(customerId) + "\"";
-            }
-            xml += " reportGroup=\"" + SecurityElement.Escape(reportGroup) + "\"";
-            if (partialSet)
-            {
-                xml += " partial=\"" + partial.ToString().ToLower() + "\"";
-            }
-            xml += ">";
-            if (cnpTxnIdSet)
-            {
-                xml += "\r\n<cnpTxnId>" + cnpTxnIdField + "</cnpTxnId>";
-            }
-
-            xml += "\r\n<captureAmount>" + captureAmount + "</captureAmount>";
-            
-            if (card != null)
-            {
-                xml += "\r\n<card>" + card.Serialize() + "\r\n</card>";
-            }
-            if (originalRefCode != null)
-            {
-                xml += "\r\n<originalRefCode>" + originalRefCode + "</originalRefCode>";
-            }
-            // Do I need to turn original amount long into a boolean because it cannot be compared to null
-            xml += "\r\n<originalAmount>" + originalAmount + "</originalAmount>";
-
-            if (originalTxnTime != null)
-            {
-                xml += "\r\n<originalTxnTime>" + originalTxnTime.ToString("yyyy-MM-ddTHH:mm:ssZ") + "</originalTxnTime>";
-            }
-            xml += "\r\n</giftCardCapture>";
-            return xml;
-        }
-    }
-
-    public partial class echeckCredit : transactionTypeWithReportGroup
-    {
-        private long cnpTxnIdField;
-        private bool cnpTxnIdSet;
-        public long cnpTxnId
-        {
-            get { return cnpTxnIdField; }
-            set { cnpTxnIdField = value; cnpTxnIdSet = true; }
-        }
-        private long amountField;
-        private bool amountSet;
-        public long amount
-        {
-            get { return amountField; }
-            set { amountField = value; amountSet = true; }
-        }
-        private bool secondaryAmountSet;
-        private long secondaryAmountField;
-        public long secondaryAmount
-        {
-            get { return secondaryAmountField; }
-            set { secondaryAmountField = value; secondaryAmountSet = true; }
-        }
-        public customBilling customBilling;
-        public string customIdentifier;
-        public string orderId;
-        public orderSourceType orderSource;
-        public contact billToAddress;
-        public echeckType echeck;
-
-        [Obsolete()]
-        public echeckTokenType token
-        {
-            get { return echeckToken; }
-            set { echeckToken = value; }
-        }
-
-        public echeckTokenType echeckToken;
-
-        public merchantDataType merchantData;
-
-        public override string Serialize()
-        {
-            var xml = "\r\n<echeckCredit";
-            xml += " id=\"" + SecurityElement.Escape(id) + "\"";
-            if (customerId != null)
-            {
-                xml += " customerId=\"" + SecurityElement.Escape(customerId) + "\"";
-            }
-            xml += " reportGroup=\"" + SecurityElement.Escape(reportGroup) + "\"";
-            xml += ">";
-
-            if (cnpTxnIdSet)
-            {
-                xml += "\r\n<cnpTxnId>" + cnpTxnIdField + "</cnpTxnId>";
-                if (amountSet) xml += "\r\n<amount>" + amountField + "</amount>";
-                if (secondaryAmountSet) xml += "\r\n<secondaryAmount>" + secondaryAmountField + "</secondaryAmount>";
-                if (customBilling != null) xml += "\r\n<customBilling>" + customBilling.Serialize() + "</customBilling>";
-                if (customIdentifier != null) xml += "\r\n<customIdentifier>" + customIdentifier + "</customIdentifier>";
-            }
-            else
-            {
-                xml += "\r\n<orderId>" + SecurityElement.Escape(orderId) + "</orderId>";
-                xml += "\r\n<amount>" + amountField + "</amount>";
-                if (secondaryAmountSet) xml += "\r\n<secondaryAmount>" + secondaryAmountField + "</secondaryAmount>";
-                if (orderSource != null) xml += "\r\n<orderSource>" + orderSource.Serialize() + "</orderSource>";
-                if (billToAddress != null) xml += "\r\n<billToAddress>" + billToAddress.Serialize() + "</billToAddress>";
-                if (echeck != null) xml += "\r\n<echeck>" + echeck.Serialize() + "</echeck>";
-                else if (echeckToken != null) xml += "\r\n<echeckToken>" + echeckToken.Serialize() + "</echeckToken>";
-                if (customBilling != null) xml += "\r\n<customBilling>" + customBilling.Serialize() + "</customBilling>";
-                if (merchantData != null) xml += "\r\n<merchantData>" + merchantData.Serialize() + "</merchantData>";
-                if (customIdentifier != null) xml += "\r\n<customIdentifier>" + customIdentifier + "</customIdentifier>";
-            }
-            xml += "\r\n</echeckCredit>";
-            return xml;
-        }
-    }
-
-    public partial class echeckSale : transactionTypeWithReportGroup
-    {
-        private long cnpTxnIdField;
-        private bool cnpTxnIdSet;
-        public long cnpTxnId
-        {
-            get { return cnpTxnIdField; }
-            set { cnpTxnIdField = value; cnpTxnIdSet = true; }
-        }
-        private long amountField;
-        private bool amountSet;
-        public long amount
-        {
-            get { return amountField; }
-            set { amountField = value; amountSet = true; }
-        }
-        private bool secondaryAmountSet;
-        private long secondaryAmountField;
-        public long secondaryAmount
-        {
-            get { return secondaryAmountField; }
-            set { secondaryAmountField = value; secondaryAmountSet = true; }
-        }
-        public customBilling customBilling;
-        public string customIdentifier;
-        public string orderId;
-        private bool verifyField;
-        private bool verifySet;
-        public bool verify
-        {
-            get { return verifyField; }
-            set { verifyField = value; verifySet = true; }
-        }
-        public orderSourceType orderSource;
-        public contact billToAddress;
-        public contact shipToAddress;
-        public echeckType echeck;
-        public echeckTokenType token;
-        public merchantDataType merchantData;
-
-        public override string Serialize()
-        {
-            var xml = "\r\n<echeckSale";
-            xml += " id=\"" + SecurityElement.Escape(id) + "\"";
-            if (customerId != null)
-            {
-                xml += " customerId=\"" + SecurityElement.Escape(customerId) + "\"";
-            }
-            xml += " reportGroup=\"" + SecurityElement.Escape(reportGroup) + "\"";
-            xml += ">";
-
-            if (cnpTxnIdSet)
-            {
-                xml += "\r\n<cnpTxnId>" + cnpTxnIdField + "</cnpTxnId>";
-                if (amountSet) xml += "\r\n<amount>" + amountField + "</amount>";
-                // let sandbox do the validation for secondaryAmount
-                if (secondaryAmountSet) xml += "\r\n<secondaryAmount>" + secondaryAmountField + "</secondaryAmount>";
-                if (customBilling != null) xml += "\r\n<customBilling>" + customBilling.Serialize() + "</customBilling>";
-                if (customIdentifier != null) xml += "\r\n<customIdentifier>" + customIdentifier + "</customIdentifier>";
-            }
-            else
-            {
-                xml += "\r\n<orderId>" + SecurityElement.Escape(orderId) + "</orderId>";
-                if (verifySet) xml += "\r\n<verify>" + (verifyField ? "true" : "false") + "</verify>";
-                xml += "\r\n<amount>" + amountField + "</amount>";
-                if (secondaryAmountSet) xml += "\r\n<secondaryAmount>" + secondaryAmountField + "</secondaryAmount>";
-                if (orderSource != null) xml += "\r\n<orderSource>" + orderSource.Serialize() + "</orderSource>";
-                if (billToAddress != null) xml += "\r\n<billToAddress>" + billToAddress.Serialize() + "</billToAddress>";
-                if (shipToAddress != null) xml += "\r\n<shipToAddress>" + shipToAddress.Serialize() + "</shipToAddress>";
-                if (echeck != null) xml += "\r\n<echeck>" + echeck.Serialize() + "</echeck>";
-                else if (token != null) xml += "\r\n<echeckToken>" + token.Serialize() + "</echeckToken>";
-                if (customBilling != null) xml += "\r\n<customBilling>" + customBilling.Serialize() + "</customBilling>";
-                if (merchantData != null) xml += "\r\n<merchantData>" + merchantData.Serialize() + "</merchantData>";
-                if (customIdentifier != null) xml += "\r\n<customIdentifier>" + customIdentifier + "</customIdentifier>";
-            }
-            xml += "\r\n</echeckSale>";
-            return xml;
-        }
-    }
-
-
-    public partial class echeckVerification : transactionTypeWithReportGroup
-    {
-        public string orderId;
-        private long amountField;
-        private bool amountSet;
-        public long amount
-        {
-            get { return amountField; }
-            set { amountField = value; amountSet = true; }
-        }
-        public orderSourceType orderSource;
-        public contact billToAddress;
-        public echeckType echeck;
-        public echeckTokenType token;
-        public merchantDataType merchantData;
-
-        public override string Serialize()
-        {
-            var xml = "\r\n<echeckVerification";
-            xml += " id=\"" + SecurityElement.Escape(id) + "\"";
-            if (customerId != null)
-            {
-                xml += " customerId=\"" + SecurityElement.Escape(customerId) + "\"";
-            }
-            xml += " reportGroup=\"" + SecurityElement.Escape(reportGroup) + "\"";
-            xml += ">";
-
-            xml += "\r\n<orderId>" + orderId + "</orderId>";
-            if (amountSet) xml += "\r\n<amount>" + amountField + "</amount>";
-            if (orderSource != null) xml += "\r\n<orderSource>" + orderSource.Serialize() + "</orderSource>";
-            if (billToAddress != null) xml += "\r\n<billToAddress>" + billToAddress.Serialize() + "</billToAddress>";
-            if (echeck != null) xml += "\r\n<echeck>" + echeck.Serialize() + "</echeck>";
-            else if (token != null) xml += "\r\n<echeckToken>" + token.Serialize() + "</echeckToken>";
-            if (merchantData != null) xml += "\r\n<merchantData>" + merchantData.Serialize() + "</merchantData>";
-            xml += "\r\n</echeckVerification>";
-            return xml;
-        }
-    }
-
-    public partial class registerTokenRequestType : transactionTypeWithReportGroup
-    {
-        public string orderId;
-        public string accountNumber;
-        public echeckForTokenType echeckForToken;
-        public string paypageRegistrationId;
-        public string cardValidationNum;
-        public applepayType applepay;
-
-        public override string Serialize()
-        {
-            var xml = "\r\n<registerTokenRequest";
-            xml += " id=\"" + SecurityElement.Escape(id) + "\"";
-            if (customerId != null)
-            {
-                xml += " customerId=\"" + SecurityElement.Escape(customerId) + "\"";
-            }
-            xml += " reportGroup=\"" + SecurityElement.Escape(reportGroup) + "\"";
-            xml += ">";
-
-            xml += "\r\n<orderId>" + orderId + "</orderId>";
-            if (accountNumber != null) xml += "\r\n<accountNumber>" + accountNumber + "</accountNumber>";
-            else if (echeckForToken != null) xml += "\r\n<echeckForToken>" + echeckForToken.Serialize() + "</echeckForToken>";
-            else if (paypageRegistrationId != null) xml += "\r\n<paypageRegistrationId>" + paypageRegistrationId + "</paypageRegistrationId>";
-            else if (applepay != null) xml += "\r\n<applepay>" + applepay.Serialize() + "\r\n</applepay>";
-            if (cardValidationNum != null) xml += "\r\n<cardValidationNum>" + cardValidationNum + "</cardValidationNum>";
-            xml += "\r\n</registerTokenRequest>";
-            return xml;
-        }
-    }
-
-    public partial class updateCardValidationNumOnToken : transactionTypeWithReportGroup
-    {
-        public string orderId;
-        public string cnpToken;
-        public string cardValidationNum;
-
-        public override string Serialize()
-        {
-            var xml = "\r\n<updateCardValidationNumOnToken";
-            xml += " id=\"" + SecurityElement.Escape(id) + "\"";
-            if (customerId != null)
-            {
-                xml += " customerId=\"" + SecurityElement.Escape(customerId) + "\"";
-            }
-            xml += " reportGroup=\"" + SecurityElement.Escape(reportGroup) + "\"";
-            xml += ">";
-
-            if (orderId != null) xml += "\r\n<orderId>" + SecurityElement.Escape(orderId) + "</orderId>";
-            if (cnpToken != null) xml += "\r\n<cnpToken>" + SecurityElement.Escape(cnpToken) + "</cnpToken>";
-            if (cardValidationNum != null) xml += "\r\n<cardValidationNum>" + SecurityElement.Escape(cardValidationNum) + "</cardValidationNum>";
-            xml += "\r\n</updateCardValidationNumOnToken>";
-            return xml;
-        }
-    }
-
-    public partial class echeckForTokenType
-    {
-        public string accNum;
-        public string routingNum;
-
-        public string Serialize()
-        {
-            var xml = "";
-            if (accNum != null) xml += "\r\n<accNum>" + SecurityElement.Escape(accNum) + "</accNum>";
-            if (routingNum != null) xml += "\r\n<routingNum>" + SecurityElement.Escape(routingNum) + "</routingNum>";
-            return xml;
-        }
-    }
-
-
-    public partial class credit : transactionTypeWithReportGroup
-    {
-        private long cnpTxnIdField;
-        private bool cnpTxnIdSet;
-        public long cnpTxnId
-        {
-            get { return cnpTxnIdField; }
-            set { cnpTxnIdField = value; cnpTxnIdSet = true; }
-        }
-        private long amountField;
-        private bool amountSet;
-        public long amount
-        {
-            get { return amountField; }
-            set { amountField = value; amountSet = true; }
-        }
-        private bool secondaryAmountSet;
-        private long secondaryAmountField;
-        public long secondaryAmount
-        {
-            get { return secondaryAmountField; }
-            set { secondaryAmountField = value; secondaryAmountSet = true; }
-        }
-        private bool surchargeAmountSet;
-        private long surchargeAmountField;
-        public long surchargeAmount
-        {
-            get { return surchargeAmountField; }
-            set { surchargeAmountField = value; surchargeAmountSet = true; }
-        }
-        public customBilling customBilling;
-        public enhancedData enhancedData;
-        public processingInstructions processingInstructions;
-        public string orderId;
-        public orderSourceType orderSource;
-        public contact billToAddress;
-        public cardType card;
-        public mposType mpos;
-        public cardTokenType token;
-        public cardPaypageType paypage;
-        public payPal paypal;
-        private taxTypeIdentifierEnum taxTypeField;
-        private bool taxTypeSet;
-        public taxTypeIdentifierEnum taxType
-        {
-            get { return taxTypeField; }
-            set { taxTypeField = value; taxTypeSet = true; }
-        }
-        public billMeLaterRequest billMeLaterRequest;
-        public pos pos;
-        private string pinField;
-        private bool pinSet;
-        public string pin
-        {
-            get { return pinField; }
-            set { pinField = value; pinSet = true; }
-        }
-        public amexAggregatorData amexAggregatorData;
-        public merchantDataType merchantData;
-        public string payPalNotes;
-        public string actionReason;
-
-        public override string Serialize()
-        {
-            var xml = "\r\n<credit";
-            xml += " id=\"" + SecurityElement.Escape(id) + "\"";
-            if (customerId != null)
-            {
-                xml += " customerId=\"" + SecurityElement.Escape(customerId) + "\"";
-            }
-            xml += " reportGroup=\"" + SecurityElement.Escape(reportGroup) + "\"";
-            xml += ">";
-
-            if (cnpTxnIdSet)
-            {
-                xml += "\r\n<cnpTxnId>" + cnpTxnIdField + "</cnpTxnId>";
-                if (amountSet) xml += "\r\n<amount>" + amountField + "</amount>";
-                if (secondaryAmountSet) xml += "\r\n<secondaryAmount>" + secondaryAmountField + "</secondaryAmount>";
-                if (surchargeAmountSet) xml += "\r\n<surchargeAmount>" + surchargeAmountField + "</surchargeAmount>";
-                if (customBilling != null) xml += "\r\n<customBilling>" + customBilling.Serialize() + "</customBilling>";
-                if (enhancedData != null) xml += "\r\n<enhancedData>" + enhancedData.Serialize() + "</enhancedData>";
-                if (processingInstructions != null) xml += "\r\n<processingInstructions>" + processingInstructions.Serialize() + "</processingInstructions>";
-                if (pos != null) xml += "\r\n<pos>" + pos.Serialize() + "</pos>";
-                if (pinSet) xml += "\r\n<pin>" + pinField + "</pin>";
-            }
-            else
-            {
-                xml += "\r\n<orderId>" + SecurityElement.Escape(orderId) + "</orderId>";
-                xml += "\r\n<amount>" + amountField + "</amount>";
-                if (secondaryAmountSet) xml += "\r\n<secondaryAmount>" + secondaryAmountField + "</secondaryAmount>";
-                if (surchargeAmountSet) xml += "\r\n<surchargeAmount>" + surchargeAmountField + "</surchargeAmount>";
-                if (orderSource != null) xml += "\r\n<orderSource>" + orderSource.Serialize() + "</orderSource>";
-                if (billToAddress != null) xml += "\r\n<billToAddress>" + billToAddress.Serialize() + "</billToAddress>";
-                if (card != null) xml += "\r\n<card>" + card.Serialize() + "</card>";
-                else if (token != null) xml += "\r\n<token>" + token.Serialize() + "</token>";
-                else if (mpos != null) xml += "\r\n<mpos>" + mpos.Serialize() + "</mpos>";
-                else if (paypage != null) xml += "\r\n<paypage>" + paypage.Serialize() + "</paypage>";
-                else if (paypal != null)
-                {
-                    xml += "\r\n<paypal>";
-                    if (paypal.payerId != null) xml += "\r\n<payerId>" + SecurityElement.Escape(paypal.payerId) + "</payerId>";
-                    else if (paypal.payerEmail != null) xml += "\r\n<payerEmail>" + SecurityElement.Escape(paypal.payerEmail) + "</payerEmail>";
-                    xml += "\r\n</paypal>";
-                }
-                if (customBilling != null) xml += "\r\n<customBilling>" + customBilling.Serialize() + "</customBilling>";
-                if (taxTypeSet) xml += "\r\n<taxType>" + taxTypeField + "</taxType>";
-                if (billMeLaterRequest != null) xml += "\r\n<billMeLaterRequest>" + billMeLaterRequest.Serialize() + "</billMeLaterRequest>";
-                if (enhancedData != null) xml += "\r\n<enhancedData>" + enhancedData.Serialize() + "</enhancedData>";
-                if (processingInstructions != null) xml += "\r\n<processingInstructions>" + processingInstructions.Serialize() + "</processingInstructions>";
-                if (pos != null) xml += "\r\n<pos>" + pos.Serialize() + "</pos>";
-                if (amexAggregatorData != null) xml += "\r\n<amexAggregatorData>" + amexAggregatorData.Serialize() + "</amexAggregatorData>";
-                if (merchantData != null) xml += "\r\n<merchantData>" + merchantData.Serialize() + "</merchantData>";
-            }
-            if (payPalNotes != null) xml += "\r\n<payPalNotes>" + SecurityElement.Escape(payPalNotes) + "</payPalNotes>";
-            if (actionReason != null) xml += "\r\n<actionReason>" + SecurityElement.Escape(actionReason) + "</actionReason>";
-            xml += "\r\n</credit>";
-            return xml;
-        }
-    }
-
-    public partial class giftCardCredit : transactionTypeWithReportGroup
-    {
-        private long cnpTxnIdField;
-        private bool cnpTxnIdSet;
-        public long cnpTxnId
-        {
-            get { return cnpTxnIdField; }
-            set { cnpTxnIdField = value; cnpTxnIdSet = true; }
-        }
-        public long creditAmount;
-        public giftCardCardType card;
-        public string orderId;
-        public orderSourceType orderSource;
-
-        public override string Serialize()
-        {
-            var xml = "\r\n<giftCardCredit";
+            var xml = "\r\n<activateReversal";
             xml += " id=\"" + SecurityElement.Escape(id) + "\"";
             if (customerId != null)
             {
                 xml += " customerId=\"" + SecurityElement.Escape(customerId) + "\"";
             }
             xml += " reportGroup=\"" + SecurityElement.Escape(reportGroup) + "\">";
-
             if (cnpTxnIdSet)
             {
-                xml += "\r\n<cnpTxnId>" + cnpTxnIdField + "</cnpTxnId>";
-                xml += "\r\n<creditAmount>" + creditAmount + "</creditAmount>";
-                xml += "\r\n<card>" + card.Serialize() + "\r\n</card>";
+                xml += "\r\n<cnpTxnId>" + cnpTxnId + "</cnpTxnId>";
             }
-            else
+            if (virtualGiftCardBinSet)
             {
-                xml += "\r\n<orderId>" + SecurityElement.Escape(orderId) + "</orderId>";
-                xml += "\r\n<creditAmount>" + creditAmount + "</creditAmount>";
-                xml += "\r\n<orderSource>" + orderSource.Serialize() + "</orderSource>";
-                xml += "\r\n<card>" + card.Serialize() + "\r\n</card>";
+                xml += "\r\n<virtualGiftCardBin>" + virtualGiftCardBin + "</virtualGiftCardBin>";
             }
-            xml += "\r\n</giftCardCredit>";
+            xml += "\r\n<card>" + card.Serialize() + "\r\n</card>";
+            xml += "\r\n<originalRefCode>" + originalRefCode + "</originalRefCode>";
+            xml += "\r\n<originalAmount>" + originalAmount + "</originalAmount>";
+            xml += "\r\n<originalTxnTime>" + originalTxnTime.ToString("yyyy-MM-ddTHH:mm:ssZ") + "</originalTxnTime>";
+            xml += "\r\n<originalSystemTraceId>" + originalSystemTraceId + "</originalSystemTraceId>";
+            xml += "\r\n<originalSequenceNumber>" + originalSequenceNumber + "</originalSequenceNumber>";
+            xml += "\r\n</activateReversal>";
             return xml;
         }
     }
-
-    public partial class echeckType
-    {
-        private echeckAccountTypeEnum accTypeField;
-        private bool accTypeSet;
-        public echeckAccountTypeEnum accType
-        {
-            get { return accTypeField; }
-            set { accTypeField = value; accTypeSet = true; }
-        }
-
-        public string accNum;
-        public string routingNum;
-        public string checkNum;
-        public string ccdPaymentInformation;
-
-        public string Serialize()
-        {
-            var xml = "";
-            var accTypeName = accTypeField.ToString();
-            var attributes = 
-                (XmlEnumAttribute[])typeof(echeckAccountTypeEnum).GetMember(accTypeField.ToString())[0].GetCustomAttributes(typeof(XmlEnumAttribute), false);
-            if (attributes.Length > 0) accTypeName = attributes[0].Name;
-            if (accTypeSet) xml += "\r\n<accType>" + accTypeName + "</accType>";
-            if (accNum != null) xml += "\r\n<accNum>" + SecurityElement.Escape(accNum) + "</accNum>";
-            if (routingNum != null) xml += "\r\n<routingNum>" + SecurityElement.Escape(routingNum) + "</routingNum>";
-            if (checkNum != null) xml += "\r\n<checkNum>" + SecurityElement.Escape(checkNum) + "</checkNum>";
-            if (ccdPaymentInformation != null) xml += "\r\n<ccdPaymentInformation>" + SecurityElement.Escape(ccdPaymentInformation) + "</ccdPaymentInformation>";
-            return xml;
-        }
-    }
-
-    public partial class echeckTokenType
-    {
-        public string cnpToken;
-        public string routingNum;
-        private echeckAccountTypeEnum accTypeField;
-        private bool accTypeSet;
-        public echeckAccountTypeEnum accType
-        {
-            get { return accTypeField; }
-            set { accTypeField = value; accTypeSet = true; }
-        }
-        public string checkNum;
-
-        public string Serialize()
-        {
-            var xml = "";
-            if (cnpToken != null) xml += "\r\n<cnpToken>" + SecurityElement.Escape(cnpToken) + "</cnpToken>";
-            if (routingNum != null) xml += "\r\n<routingNum>" + SecurityElement.Escape(routingNum) + "</routingNum>";
-            if (accTypeSet) xml += "\r\n<accType>" + accTypeField + "</accType>";
-            if (checkNum != null) xml += "\r\n<checkNum>" + SecurityElement.Escape(checkNum) + "</checkNum>";
-            return xml;
-        }
-
-    }
-
-
-    public partial class pos
-    {
-        private posCapabilityTypeEnum capabilityField;
-        private bool capabilitySet;
-        public posCapabilityTypeEnum capability
-        {
-            get { return capabilityField; }
-            set { capabilityField = value; capabilitySet = true; }
-        }
-
-        private posEntryModeTypeEnum entryModeField;
-        private bool entryModeSet;
-        public posEntryModeTypeEnum entryMode
-        {
-            get { return entryModeField; }
-            set { entryModeField = value; entryModeSet = true; }
-        }
-
-        private posCardholderIdTypeEnum cardholderIdField;
-        private bool cardholderIdSet;
-        public posCardholderIdTypeEnum cardholderId
-        {
-            get { return cardholderIdField; }
-            set { cardholderIdField = value; cardholderIdSet = true; }
-        }
-        public string terminalId;
-
-        private posCatLevelEnum catLevelField;
-        private bool catLevelSet;
-        public posCatLevelEnum catLevel
-        {
-            get { return catLevelField; }
-            set { catLevelField = value; catLevelSet = true; }
-        }
-
-        public string Serialize()
-        {
-            var xml = "";
-            if (capabilitySet) xml += "\r\n<capability>" + capabilityField + "</capability>";
-            if (entryModeSet) xml += "\r\n<entryMode>" + entryModeField + "</entryMode>";
-            if (cardholderIdSet) xml += "\r\n<cardholderId>" + cardholderIdField + "</cardholderId>";
-            if (terminalId != null) xml += "\r\n<terminalId>" + SecurityElement.Escape(terminalId) + "</terminalId>";
-            if (catLevelSet) xml += "\r\n<catLevel>" + catLevelField.Serialize() +"</catLevel>";
-            return xml;
-        }
-
-    }
-
-    public partial class payPal
-    {
-        public string payerId;
-        public string payerEmail;
-        public string token;
-        public string transactionId;
-
-        public string Serialize()
-        {
-            var xml = "";
-            if (payerId != null) xml += "\r\n<payerId>" + SecurityElement.Escape(payerId) + "</payerId>";
-            if (payerEmail != null) xml += "\r\n<payerEmail>" + SecurityElement.Escape(payerEmail) + "</payerEmail>";
-            if (token != null) xml += "\r\n<token>" + SecurityElement.Escape(token) + "</token>";
-            if (transactionId != null) xml += "\r\n<transactionId>" + SecurityElement.Escape(transactionId) + "</transactionId>";
-            return xml;
-        }
-    }
-
-    public partial class merchantDataType
-    {
-        public string campaign;
-        public string affiliate;
-        public string merchantGroupingId;
-
-        public string Serialize()
-        {
-            var xml = "";
-            if (campaign != null) xml += "\r\n<campaign>" + SecurityElement.Escape(campaign) + "</campaign>";
-            if (affiliate != null) xml += "\r\n<affiliate>" + SecurityElement.Escape(affiliate) + "</affiliate>";
-            if (merchantGroupingId != null) xml += "\r\n<merchantGroupingId>" + SecurityElement.Escape(merchantGroupingId) + "</merchantGroupingId>";
-            return xml;
-        }
-    }
-
-    public partial class cardTokenType
-    {
-        public string cnpToken;
-        public string expDate;
-        public string cardValidationNum;
-        private methodOfPaymentTypeEnum typeField;
-        private bool typeSet;
-        public methodOfPaymentTypeEnum type
-        {
-            get { return typeField; }
-            set { typeField = value; typeSet = true; }
-        }
-
-        private string checkoutIdTypeField;
-        private bool checkoutIdTypeSet;
-
-        public string checkoutIdType
-        {
-            get { return checkoutIdTypeField; }
-            set { checkoutIdTypeField = value;
-                checkoutIdTypeSet = true;
-            }
-        }    
-
-        public string Serialize()
-        {
-            var xml = "\r\n<cnpToken>" + SecurityElement.Escape(cnpToken) + "</cnpToken>";
-            if (expDate != null) xml += "\r\n<expDate>" + SecurityElement.Escape(expDate) + "</expDate>";
-            if (cardValidationNum != null) xml += "\r\n<cardValidationNum>" + SecurityElement.Escape(cardValidationNum) + "</cardValidationNum>";
-            if (typeSet) xml += "\r\n<type>" + methodOfPaymentSerializer.Serialize(typeField) + "</type>";
-            if (checkoutIdTypeSet) xml += "\r\n<checkoutId>" + checkoutIdType + "</checkoutId>";
-            return xml;
-        }
-    }
-
-    public partial class cardPaypageType
-    {
-        public string paypageRegistrationId;
-        public string expDate;
-        public string cardValidationNum;
-        private methodOfPaymentTypeEnum typeField;
-        private bool typeSet;
-        public methodOfPaymentTypeEnum type
-        {
-            get { return typeField; }
-            set { typeField = value; typeSet = true; }
-        }
-
-        public string Serialize()
-        {
-            var xml = "\r\n<paypageRegistrationId>" + SecurityElement.Escape(paypageRegistrationId) + "</paypageRegistrationId>";
-            if (expDate != null) xml += "\r\n<expDate>" + SecurityElement.Escape(expDate) + "</expDate>";
-            if (cardValidationNum != null) xml += "\r\n<cardValidationNum>" + SecurityElement.Escape(cardValidationNum) + "</cardValidationNum>";
-            if (typeSet) xml += "\r\n<type>" + methodOfPaymentSerializer.Serialize(typeField) + "</type>";
-            return xml;
-        }
-    }
-
-    public partial class billMeLaterRequest
-    {
-        private long bmlMerchantIdField;
-        private bool bmlMerchantIdSet;
-        public long bmlMerchantId
-        {
-            get { return bmlMerchantIdField; }
-            set { bmlMerchantIdField = value; bmlMerchantIdSet = true; }
-        }
-        private long bmlProductTypeField;
-        private bool bmlProductTypeSet;
-        public long bmlProductType
-        {
-            get { return bmlProductTypeField; }
-            set { bmlProductTypeField = value; bmlProductTypeSet = true; }
-        }
-        private int termsAndConditionsField;
-        private bool termsAndConditionsSet;
-        public int termsAndConditions
-        {
-            get { return termsAndConditionsField; }
-            set { termsAndConditionsField = value; termsAndConditionsSet = true; }
-        }
-        public string preapprovalNumber;
-        private int merchantPromotionalCodeField;
-        private bool merchantPromotionalCodeSet;
-        public int merchantPromotionalCode
-        {
-            get { return merchantPromotionalCodeField; }
-            set { merchantPromotionalCodeField = value; merchantPromotionalCodeSet = true; }
-        }
-        public string virtualAuthenticationKeyPresenceIndicator;
-        public string virtualAuthenticationKeyData;
-        private int itemCategoryCodeField;
-        private bool itemCategoryCodeSet;
-        public int itemCategoryCode
-        {
-            get { return itemCategoryCodeField; }
-            set { itemCategoryCodeField = value; itemCategoryCodeSet = true; }
-        }
-
-        public string Serialize()
-        {
-            var xml = "";
-            if (bmlMerchantIdSet) xml += "\r\n<bmlMerchantId>" + bmlMerchantIdField + "</bmlMerchantId>";
-            if (bmlProductTypeSet) xml += "\r\n<bmlProductType>" + bmlProductTypeField + "</bmlProductType>";
-            if (termsAndConditionsSet) xml += "\r\n<termsAndConditions>" + termsAndConditionsField + "</termsAndConditions>";
-            if (preapprovalNumber != null) xml += "\r\n<preapprovalNumber>" + SecurityElement.Escape(preapprovalNumber) + "</preapprovalNumber>";
-            if (merchantPromotionalCodeSet) xml += "\r\n<merchantPromotionalCode>" + merchantPromotionalCodeField + "</merchantPromotionalCode>";
-            if (virtualAuthenticationKeyPresenceIndicator != null) xml += "\r\n<virtualAuthenticationKeyPresenceIndicator>" + SecurityElement.Escape(virtualAuthenticationKeyPresenceIndicator) + "</virtualAuthenticationKeyPresenceIndicator>";
-            if (virtualAuthenticationKeyData != null) xml += "\r\n<virtualAuthenticationKeyData>" + SecurityElement.Escape(virtualAuthenticationKeyData) + "</virtualAuthenticationKeyData>";
-            if (itemCategoryCodeSet) xml += "\r\n<itemCategoryCode>" + itemCategoryCodeField + "</itemCategoryCode>";
-            return xml;
-        }
-
-    }
-
-    public partial class customBilling
-    {
-        public string phone;
-        public string city;
-        public string url;
-        public string descriptor;
-        public string Serialize()
-        {
-            var xml = "";
-            if (phone != null) xml += "\r\n<phone>" + SecurityElement.Escape(phone) + "</phone>";
-            else if (city != null) xml += "\r\n<city>" + SecurityElement.Escape(city) + "</city>";
-            else if (url != null) xml += "\r\n<url>" + SecurityElement.Escape(url) + "</url>";
-            if (descriptor != null) xml += "\r\n<descriptor>" + SecurityElement.Escape(descriptor) + "</descriptor>";
-            return xml;
-        }
-    }
-
-    public partial class amexAggregatorData
-    {
-        public string sellerId;
-        public string sellerMerchantCategoryCode;
-        public string Serialize()
-        {
-            var xml = "";
-            xml += "\r\n<sellerId>" + SecurityElement.Escape(sellerId) + "</sellerId>";
-            xml += "\r\n<sellerMerchantCategoryCode>" + SecurityElement.Escape(sellerMerchantCategoryCode) + "</sellerMerchantCategoryCode>";
-            return xml;
-        }
-
-    }
-
-    public partial class processingInstructions
-    {
-        private bool bypassVelocityCheckField;
-        private bool bypassVelocityCheckSet;
-        public bool bypassVelocityCheck
-        {
-            get { return bypassVelocityCheckField; }
-            set { bypassVelocityCheckField = value; bypassVelocityCheckSet = true; }
-        }
-
-        public string Serialize()
-        {
-            var xml = "";
-            if (bypassVelocityCheckSet) xml += "\r\n<bypassVelocityCheck>" + bypassVelocityCheckField.ToString().ToLower() + "</bypassVelocityCheck>";
-            return xml;
-        }
-    }
-
-    public partial class echeckRedeposit : baseRequestTransactionEcheckRedeposit
-    {
-        //cnpTxnIdField and set are in super
-        public echeckType echeck;
-        public echeckTokenType token;
-        public merchantDataType merchantData;
-        public string customIdentifier;
-
-        public override string Serialize()
-        {
-            var xml = "\r\n<echeckRedeposit";
-            xml += " id=\"" + id + "\"";
-            if (customerId != null)
-            {
-                xml += " customerId=\"" + customerId + "\"";
-            }
-            xml += " reportGroup=\"" + reportGroup + "\">";
-            if (cnpTxnIdSet) xml += "\r\n<cnpTxnId>" + cnpTxnIdField + "</cnpTxnId>";
-            if (echeck != null) xml += "\r\n<echeck>" + echeck.Serialize() + "</echeck>";
-            else if (token != null) xml += "\r\n<echeckToken>" + token.Serialize() + "</echeckToken>";
-            if (merchantData != null) { xml += "\r\n<merchantData>" + merchantData.Serialize() + "\r\n</merchantData>"; }
-            if (customIdentifier != null) xml += "\r\n<customIdentifier>" + customIdentifier + "</customIdentifier>";
-            xml += "\r\n</echeckRedeposit>";
-            return xml;
-        }
-    }
-
+    
+    // Authorization Transaction.
     public partial class authorization : transactionTypeWithReportGroup
     {
 
@@ -1715,7 +516,1410 @@ namespace Cnp.Sdk
             return xml;
         }
     }
+    
+    // Authorization Reversal Transaction.
+    public partial class authReversal : transactionTypeWithReportGroup
+    {
+        public long cnpTxnId;
+        private long amountField;
+        private bool amountSet;
+        public long amount
+        {
+            get { return amountField; }
+            set { amountField = value; amountSet = true; }
+        }
+        private bool surchargeAmountSet;
+        private long surchargeAmountField;
+        public long surchargeAmount
+        {
+            get { return surchargeAmountField; }
+            set { surchargeAmountField = value; surchargeAmountSet = true; }
+        }
+        public string payPalNotes;
+        public string actionReason;
 
+        public override string Serialize()
+        {
+            var xml = "\r\n<authReversal";
+            xml += " id=\"" + SecurityElement.Escape(id) + "\"";
+            if (customerId != null)
+            {
+                xml += " customerId=\"" + SecurityElement.Escape(customerId) + "\"";
+            }
+            xml += " reportGroup=\"" + SecurityElement.Escape(reportGroup) + "\">";
+            xml += "\r\n<cnpTxnId>" + cnpTxnId + "</cnpTxnId>";
+            if (amountSet)
+            {
+                xml += "\r\n<amount>" + amountField + "</amount>";
+            }
+            if (surchargeAmountSet) xml += "\r\n<surchargeAmount>" + surchargeAmountField + "</surchargeAmount>";
+            if (payPalNotes != null)
+            {
+                xml += "\r\n<payPalNotes>" + SecurityElement.Escape(payPalNotes) + "</payPalNotes>";
+            }
+            if (actionReason != null)
+            {
+                xml += "\r\n<actionReason>" + SecurityElement.Escape(actionReason) + "</actionReason>";
+            }
+            xml += "\r\n</authReversal>";
+            return xml;
+        }
+
+    }
+    
+    // Balance Inquiry Transaction.
+    public partial class balanceInquiry : transactionTypeWithReportGroup
+    {
+        public string orderId;
+        public orderSourceType orderSource;
+        public giftCardCardType card;
+
+        public override string Serialize()
+        {
+            var xml = "\r\n<balanceInquiry";
+            xml += " id=\"" + SecurityElement.Escape(id) + "\"";
+            if (customerId != null)
+            {
+                xml += " customerId=\"" + SecurityElement.Escape(customerId) + "\"";
+            }
+            xml += " reportGroup=\"" + SecurityElement.Escape(reportGroup) + "\">";
+            xml += "\r\n<orderId>" + SecurityElement.Escape(orderId) + "</orderId>";
+            xml += "\r\n<orderSource>" + orderSource.Serialize() + "</orderSource>";
+            xml += "\r\n<card>" + card.Serialize() + "\r\n</card>";
+            xml += "\r\n</balanceInquiry>";
+            return xml;
+        }
+    }
+    
+    // Cancel Subscription Transaction.
+    public partial class cancelSubscription : recurringTransactionType
+    {
+        private long subscriptionIdField;
+        private bool subscriptionIdSet;
+        public long subscriptionId
+        {
+            get
+            {
+                return subscriptionIdField;
+            }
+            set
+            {
+                subscriptionIdField = value;
+                subscriptionIdSet = true;
+            }
+        }
+
+        public override string Serialize()
+        {
+            var xml = "\r\n<cancelSubscription>";
+            if (subscriptionIdSet) xml += "\r\n<subscriptionId>" + subscriptionIdField + "</subscriptionId>";
+            xml += "\r\n</cancelSubscription>";
+            return xml;
+        }
+    }
+    
+    // Capture Transaction.
+    public partial class capture : transactionTypeWithReportGroupAndPartial
+    {
+        public long cnpTxnId;
+        private long amountField;
+        private bool amountSet;
+        public long amount
+        {
+            get { return amountField; }
+            set { amountField = value; amountSet = true; }
+        }
+        private bool surchargeAmountSet;
+        private long surchargeAmountField;
+        public long surchargeAmount
+        {
+            get { return surchargeAmountField; }
+            set { surchargeAmountField = value; surchargeAmountSet = true; }
+        }
+        public enhancedData enhancedData;
+        public processingInstructions processingInstructions;
+        private bool payPalOrderCompleteField;
+        private bool payPalOrderCompleteSet;
+        public bool payPalOrderComplete
+        {
+            get { return payPalOrderCompleteField; }
+            set { payPalOrderCompleteField = value; payPalOrderCompleteSet = true; }
+        }
+        public string payPalNotes;
+        public customBilling customBilling;
+        public string pin;
+
+        public override string Serialize()
+        {
+            var xml = "\r\n<capture";
+            xml += " id=\"" + SecurityElement.Escape(id) + "\"";
+            if (customerId != null)
+            {
+                xml += " customerId=\"" + SecurityElement.Escape(customerId) + "\"";
+            }
+            xml += " reportGroup=\"" + SecurityElement.Escape(reportGroup) + "\"";
+            if (partialSet)
+            {
+                xml += " partial=\"" + partial.ToString().ToLower() + "\"";
+            }
+            xml += ">";
+            xml += "\r\n<cnpTxnId>" + cnpTxnId + "</cnpTxnId>";
+            if (amountSet) xml += "\r\n<amount>" + amountField + "</amount>";
+            if (surchargeAmountSet) xml += "\r\n<surchargeAmount>" + surchargeAmountField + "</surchargeAmount>";
+            if (enhancedData != null) xml += "\r\n<enhancedData>" + enhancedData.Serialize() + "\r\n</enhancedData>";
+            if (processingInstructions != null) xml += "\r\n<processingInstructions>" + processingInstructions.Serialize() + "\r\n</processingInstructions>";
+            if (payPalOrderCompleteSet) xml += "\r\n<payPalOrderComplete>" + payPalOrderCompleteField.ToString().ToLower() + "</payPalOrderComplete>";
+            if (payPalNotes != null) xml += "\r\n<payPalNotes>" + SecurityElement.Escape(payPalNotes) + "</payPalNotes>";
+            if (customBilling != null) xml += "\r\n<customBilling>" + customBilling.Serialize() + "\r\n</customBilling>";
+            if (pin != null) xml += "\r\n<pin>" + pin + "</pin>";
+            xml += "\r\n</capture>";
+
+            return xml;
+        }
+    }
+    
+    // Capture Given Auth Transaction.
+    public partial class captureGivenAuth : transactionTypeWithReportGroup
+    {
+        public string orderId;
+        public authInformation authInformation;
+        public long amount;
+        private bool secondaryAmountSet;
+        private long secondaryAmountField;
+        public long secondaryAmount
+        {
+            get { return secondaryAmountField; }
+            set { secondaryAmountField = value; secondaryAmountSet = true; }
+        }
+        private bool surchargeAmountSet;
+        private long surchargeAmountField;
+        public long surchargeAmount
+        {
+            get { return surchargeAmountField; }
+            set { surchargeAmountField = value; surchargeAmountSet = true; }
+        }
+        public orderSourceType orderSource;
+        public contact billToAddress;
+        public contact shipToAddress;
+        public cardType card;
+        public mposType mpos;
+        public cardTokenType token;
+        public cardPaypageType paypage;
+        public customBilling customBilling;
+        private govtTaxTypeEnum taxTypeField;
+        private bool taxTypeSet;
+        public govtTaxTypeEnum taxType
+        {
+            get { return taxTypeField; }
+            set { taxTypeField = value; taxTypeSet = true; }
+        }
+        public billMeLaterRequest billMeLaterRequest;
+        public enhancedData enhancedData;
+        public processingInstructions processingInstructions;
+        public pos pos;
+        public amexAggregatorData amexAggregatorData;
+        public merchantDataType merchantData;
+        private bool debtRepaymentField;
+        private bool debtRepaymentSet;
+        public bool debtRepayment
+        {
+            get
+            {
+                return debtRepaymentField;
+            }
+            set
+            {
+                debtRepaymentField = value;
+                debtRepaymentSet = true;
+            }
+        }
+        private processingTypeEnum processingTypeField;
+        private bool processingTypeSet;
+        public processingTypeEnum processingType
+        {
+            get { return processingTypeField; }
+            set { processingTypeField = value; processingTypeSet = true; }
+        }
+        private string originalNetworkTransactionIdField;
+        private bool originalNetworkTransactionIdSet;
+        public string originalNetworkTransactionId
+        {
+            get
+            {
+                return originalNetworkTransactionIdField;
+            }
+            set
+            {
+                originalNetworkTransactionIdField = value;
+                originalNetworkTransactionIdSet = true;
+            }
+        }
+        private long originalTransactionAmountField;
+        private bool originalTransactionAmountSet;
+        public long originalTransactionAmount
+        {
+            get
+            {
+                return originalTransactionAmountField;
+            }
+            set
+            {
+                originalTransactionAmountField = value;
+                originalTransactionAmountSet = true;
+            }
+        }
+
+        public override string Serialize()
+        {
+            var xml = "\r\n<captureGivenAuth";
+            xml += " id=\"" + SecurityElement.Escape(id) + "\"";
+            if (customerId != null)
+            {
+                xml += " customerId=\"" + SecurityElement.Escape(customerId) + "\"";
+            }
+            xml += " reportGroup=\"" + SecurityElement.Escape(reportGroup) + "\">";
+            xml += "\r\n<orderId>" + SecurityElement.Escape(orderId) + "</orderId>";
+            if (authInformation != null) xml += "\r\n<authInformation>" + authInformation.Serialize() + "\r\n</authInformation>";
+            xml += "\r\n<amount>" + amount + "</amount>";
+            if (secondaryAmountSet) xml += "\r\n<secondaryAmount>" + secondaryAmountField + "</secondaryAmount>";
+            if (surchargeAmountSet) xml += "\r\n<surchargeAmount>" + surchargeAmountField + "</surchargeAmount>";
+            if (orderSource != null) xml += "\r\n<orderSource>" + orderSource.Serialize() + "</orderSource>";
+            if (billToAddress != null)
+            {
+                xml += "\r\n<billToAddress>" + billToAddress.Serialize() + "\r\n</billToAddress>";
+            }
+            if (shipToAddress != null)
+            {
+                xml += "\r\n<shipToAddress>" + shipToAddress.Serialize() + "\r\n</shipToAddress>";
+            }
+            if (card != null)
+            {
+                xml += "\r\n<card>" + card.Serialize() + "\r\n</card>";
+            }
+            else if (token != null)
+            {
+                xml += "\r\n<token>" + token.Serialize() + "\r\n</token>";
+            }
+            else if (mpos != null)
+            {
+                xml += "\r\n<mpos>" + mpos.Serialize() + "</mpos>";
+            }
+            else if (paypage != null)
+            {
+                xml += "\r\n<paypage>" + paypage.Serialize() + "\r\n</paypage>";
+            }
+            if (customBilling != null)
+            {
+                xml += "\r\n<customBilling>" + customBilling.Serialize() + "\r\n</customBilling>";
+            }
+            if (taxTypeSet)
+            {
+                xml += "\r\n<taxType>" + taxTypeField + "</taxType>";
+            }
+            if (billMeLaterRequest != null)
+            {
+                xml += "\r\n<billMeLaterRequest>" + billMeLaterRequest.Serialize() + "\r\n</billMeLaterRequest>";
+            }
+            if (enhancedData != null)
+            {
+                xml += "\r\n<enhancedData>" + enhancedData.Serialize() + "\r\n</enhancedData>";
+            }
+            if (processingInstructions != null)
+            {
+                xml += "\r\n<processingInstructions>" + processingInstructions.Serialize() + "\r\n</processingInstructions>";
+            }
+            if (pos != null)
+            {
+                xml += "\r\n<pos>" + pos.Serialize() + "\r\n</pos>";
+            }
+            if (amexAggregatorData != null)
+            {
+                xml += "\r\n<amexAggregatorData>" + amexAggregatorData.Serialize() + "\r\n</amexAggregatorData>";
+            }
+            if (merchantData != null)
+            {
+                xml += "\r\n<merchantData>" + merchantData.Serialize() + "\r\n</merchantData>";
+            }
+            if (debtRepaymentSet)
+            {
+                xml += "\r\n<debtRepayment>" + debtRepayment.ToString().ToLower() + "</debtRepayment>";
+            }
+            if (processingTypeSet)
+            {
+                xml += "\r\n<processingType>" + processingType + "</processingType>";
+            }
+            if (originalNetworkTransactionIdSet)
+            {
+                xml += "\r\n<originalNetworkTransactionId>" + originalNetworkTransactionId + "</originalNetworkTransactionId>";
+            }
+            if (originalTransactionAmountSet)
+            {
+                xml += "\r\n<originalTransactionAmount>" + originalTransactionAmount + "</originalTransactionAmount>";
+            }
+            xml += "\r\n</captureGivenAuth>";
+            return xml;
+        }
+    }
+    
+    // Create Plan Transaction.
+    public partial class createPlan : recurringTransactionType
+    {
+        public string planCode;
+        public string name;
+
+        private string descriptionField;
+        private bool descriptionSet;
+        public string description
+        {
+            get { return descriptionField; }
+            set { descriptionField = value; descriptionSet = true; }
+        }
+
+        public intervalType intervalType;
+        public long amount;
+
+        public int numberOfPaymentsField;
+        public bool numberOfPaymentsSet;
+        public int numberOfPayments
+        {
+            get { return numberOfPaymentsField; }
+            set { numberOfPaymentsField = value; numberOfPaymentsSet = true; }
+        }
+
+        public int trialNumberOfIntervalsField;
+        public bool trialNumberOfIntervalsSet;
+        public int trialNumberOfIntervals
+        {
+            get { return trialNumberOfIntervalsField; }
+            set { trialNumberOfIntervalsField = value; trialNumberOfIntervalsSet = true; }
+        }
+
+        private trialIntervalType trialIntervalTypeField;
+        private bool trialIntervalTypeSet;
+        public trialIntervalType trialIntervalType 
+        {
+            get { return trialIntervalTypeField; }
+            set { trialIntervalTypeField = value; trialIntervalTypeSet = true; }
+        }
+
+        private bool activeField;
+        private bool activeSet;
+        public bool active
+        {
+            get { return activeField; }
+            set { activeField = value; activeSet = true; }
+        }
+
+        public override string Serialize()
+        {
+            var xml = "\r\n<createPlan>";
+            xml += "\r\n<planCode>" + SecurityElement.Escape(planCode) + "</planCode>";
+            xml += "\r\n<name>" + SecurityElement.Escape(name) + "</name>";
+            if (descriptionSet) xml += "\r\n<description>" + SecurityElement.Escape(descriptionField) + "</description>";
+            xml += "\r\n<intervalType>" + intervalType + "</intervalType>";
+            xml += "\r\n<amount>" + amount + "</amount>";
+            if (numberOfPaymentsSet) xml += "\r\n<numberOfPayments>" + numberOfPaymentsField + "</numberOfPayments>";
+            if (trialNumberOfIntervalsSet) xml += "\r\n<trialNumberOfIntervals>" + trialNumberOfIntervalsField + "</trialNumberOfIntervals>";
+            if (trialIntervalTypeSet) xml += "\r\n<trialIntervalType>" + trialIntervalTypeField + "</trialIntervalType>";
+            if (activeSet) xml += "\r\n<active>" + activeField.ToString().ToLower() + "</active>";
+            xml += "\r\n</createPlan>";
+            return xml;
+        }
+    }
+    
+    // Credit Transaction.
+    public partial class credit : transactionTypeWithReportGroup
+    {
+        private long cnpTxnIdField;
+        private bool cnpTxnIdSet;
+        public long cnpTxnId
+        {
+            get { return cnpTxnIdField; }
+            set { cnpTxnIdField = value; cnpTxnIdSet = true; }
+        }
+        private long amountField;
+        private bool amountSet;
+        public long amount
+        {
+            get { return amountField; }
+            set { amountField = value; amountSet = true; }
+        }
+        private bool secondaryAmountSet;
+        private long secondaryAmountField;
+        public long secondaryAmount
+        {
+            get { return secondaryAmountField; }
+            set { secondaryAmountField = value; secondaryAmountSet = true; }
+        }
+        private bool surchargeAmountSet;
+        private long surchargeAmountField;
+        public long surchargeAmount
+        {
+            get { return surchargeAmountField; }
+            set { surchargeAmountField = value; surchargeAmountSet = true; }
+        }
+        public customBilling customBilling;
+        public enhancedData enhancedData;
+        public processingInstructions processingInstructions;
+        public string orderId;
+        public orderSourceType orderSource;
+        public contact billToAddress;
+        public cardType card;
+        public mposType mpos;
+        public cardTokenType token;
+        public cardPaypageType paypage;
+        public payPal paypal;
+        private taxTypeIdentifierEnum taxTypeField;
+        private bool taxTypeSet;
+        public taxTypeIdentifierEnum taxType
+        {
+            get { return taxTypeField; }
+            set { taxTypeField = value; taxTypeSet = true; }
+        }
+        public billMeLaterRequest billMeLaterRequest;
+        public pos pos;
+        private string pinField;
+        private bool pinSet;
+        public string pin
+        {
+            get { return pinField; }
+            set { pinField = value; pinSet = true; }
+        }
+        public amexAggregatorData amexAggregatorData;
+        public merchantDataType merchantData;
+        public string payPalNotes;
+        public string actionReason;
+
+        public override string Serialize()
+        {
+            var xml = "\r\n<credit";
+            xml += " id=\"" + SecurityElement.Escape(id) + "\"";
+            if (customerId != null)
+            {
+                xml += " customerId=\"" + SecurityElement.Escape(customerId) + "\"";
+            }
+            xml += " reportGroup=\"" + SecurityElement.Escape(reportGroup) + "\"";
+            xml += ">";
+
+            if (cnpTxnIdSet)
+            {
+                xml += "\r\n<cnpTxnId>" + cnpTxnIdField + "</cnpTxnId>";
+                if (amountSet) xml += "\r\n<amount>" + amountField + "</amount>";
+                if (secondaryAmountSet) xml += "\r\n<secondaryAmount>" + secondaryAmountField + "</secondaryAmount>";
+                if (surchargeAmountSet) xml += "\r\n<surchargeAmount>" + surchargeAmountField + "</surchargeAmount>";
+                if (customBilling != null) xml += "\r\n<customBilling>" + customBilling.Serialize() + "</customBilling>";
+                if (enhancedData != null) xml += "\r\n<enhancedData>" + enhancedData.Serialize() + "</enhancedData>";
+                if (processingInstructions != null) xml += "\r\n<processingInstructions>" + processingInstructions.Serialize() + "</processingInstructions>";
+                if (pos != null) xml += "\r\n<pos>" + pos.Serialize() + "</pos>";
+                if (pinSet) xml += "\r\n<pin>" + pinField + "</pin>";
+            }
+            else
+            {
+                xml += "\r\n<orderId>" + SecurityElement.Escape(orderId) + "</orderId>";
+                xml += "\r\n<amount>" + amountField + "</amount>";
+                if (secondaryAmountSet) xml += "\r\n<secondaryAmount>" + secondaryAmountField + "</secondaryAmount>";
+                if (surchargeAmountSet) xml += "\r\n<surchargeAmount>" + surchargeAmountField + "</surchargeAmount>";
+                if (orderSource != null) xml += "\r\n<orderSource>" + orderSource.Serialize() + "</orderSource>";
+                if (billToAddress != null) xml += "\r\n<billToAddress>" + billToAddress.Serialize() + "</billToAddress>";
+                if (card != null) xml += "\r\n<card>" + card.Serialize() + "</card>";
+                else if (token != null) xml += "\r\n<token>" + token.Serialize() + "</token>";
+                else if (mpos != null) xml += "\r\n<mpos>" + mpos.Serialize() + "</mpos>";
+                else if (paypage != null) xml += "\r\n<paypage>" + paypage.Serialize() + "</paypage>";
+                else if (paypal != null)
+                {
+                    xml += "\r\n<paypal>";
+                    if (paypal.payerId != null) xml += "\r\n<payerId>" + SecurityElement.Escape(paypal.payerId) + "</payerId>";
+                    else if (paypal.payerEmail != null) xml += "\r\n<payerEmail>" + SecurityElement.Escape(paypal.payerEmail) + "</payerEmail>";
+                    xml += "\r\n</paypal>";
+                }
+                if (customBilling != null) xml += "\r\n<customBilling>" + customBilling.Serialize() + "</customBilling>";
+                if (taxTypeSet) xml += "\r\n<taxType>" + taxTypeField + "</taxType>";
+                if (billMeLaterRequest != null) xml += "\r\n<billMeLaterRequest>" + billMeLaterRequest.Serialize() + "</billMeLaterRequest>";
+                if (enhancedData != null) xml += "\r\n<enhancedData>" + enhancedData.Serialize() + "</enhancedData>";
+                if (processingInstructions != null) xml += "\r\n<processingInstructions>" + processingInstructions.Serialize() + "</processingInstructions>";
+                if (pos != null) xml += "\r\n<pos>" + pos.Serialize() + "</pos>";
+                if (amexAggregatorData != null) xml += "\r\n<amexAggregatorData>" + amexAggregatorData.Serialize() + "</amexAggregatorData>";
+                if (merchantData != null) xml += "\r\n<merchantData>" + merchantData.Serialize() + "</merchantData>";
+            }
+            if (payPalNotes != null) xml += "\r\n<payPalNotes>" + SecurityElement.Escape(payPalNotes) + "</payPalNotes>";
+            if (actionReason != null) xml += "\r\n<actionReason>" + SecurityElement.Escape(actionReason) + "</actionReason>";
+            xml += "\r\n</credit>";
+            return xml;
+        }
+    }
+    
+    // Deactivate Transaction.
+    public partial class deactivate : transactionTypeWithReportGroup
+    {
+        public string orderId;
+        public orderSourceType orderSource;
+        public giftCardCardType card;
+
+        public override string Serialize()
+        {
+            var xml = "\r\n<deactivate";
+            xml += " id=\"" + SecurityElement.Escape(id) + "\"";
+            if (customerId != null)
+            {
+                xml += " customerId=\"" + SecurityElement.Escape(customerId) + "\"";
+            }
+            xml += " reportGroup=\"" + SecurityElement.Escape(reportGroup) + "\">";
+            xml += "\r\n<orderId>" + SecurityElement.Escape(orderId) + "</orderId>";
+            xml += "\r\n<orderSource>" + orderSource.Serialize() + "</orderSource>";
+            xml += "\r\n<card>" + card.Serialize() + "\r\n</card>";
+            xml += "\r\n</deactivate>";
+            return xml;
+        }
+    }
+    
+    // Deactivate Reversal Transaction.
+    public partial class deactivateReversal : transactionTypeWithReportGroup
+    {
+        private long cnpTxnIdField;
+        private bool cnpTxnIdSet;
+        public long cnpTxnId
+        {
+            get
+            {
+                return cnpTxnIdField;
+            }
+            set
+            {
+                cnpTxnIdField = value;
+                cnpTxnIdSet = true;
+            }
+        }
+        public giftCardCardType card;
+        public string originalRefCode;
+        public DateTime originalTxnTime;
+        public int originalSystemTraceId;
+        public string originalSequenceNumber;
+
+        public override string Serialize()
+        {
+            var xml = "\r\n<deactivateReversal";
+            xml += " id=\"" + SecurityElement.Escape(id) + "\"";
+            if (customerId != null)
+            {
+                xml += " customerId=\"" + SecurityElement.Escape(customerId) + "\"";
+            }
+            xml += " reportGroup=\"" + SecurityElement.Escape(reportGroup) + "\">";
+            if (cnpTxnIdSet)
+            {
+                xml += "\r\n<cnpTxnId>" + cnpTxnId + "</cnpTxnId>";
+            }
+            xml += "\r\n<card>" + card.Serialize() + "\r\n</card>";
+            xml += "\r\n<originalRefCode>" + originalRefCode + "</originalRefCode>";
+            xml += "\r\n<originalTxnTime>" + originalTxnTime.ToString("yyyy-MM-ddTHH:mm:ssZ") + "</originalTxnTime>";
+            xml += "\r\n<originalSystemTraceId>" + originalSystemTraceId + "</originalSystemTraceId>";
+            xml += "\r\n<originalSequenceNumber>" + originalSequenceNumber + "</originalSequenceNumber>";
+
+            xml += "\r\n</deactivateReversal>";
+            return xml;
+        }
+    }
+    
+    // Deposit Reservsal Transaction.
+    public partial class depositReversal : transactionTypeWithReportGroup
+    {
+        private long cnpTxnIdField;
+        private bool cnpTxnIdSet;
+        public long cnpTxnId
+        {
+            get
+            {
+                return cnpTxnIdField;
+            }
+            set
+            {
+                cnpTxnIdField = value;
+                cnpTxnIdSet = true;
+            }
+        }
+        public giftCardCardType card;
+        public string originalRefCode;
+        public long originalAmount;
+        public DateTime originalTxnTime;
+        public int originalSystemTraceId;
+        public string originalSequenceNumber;
+
+        public override string Serialize()
+        {
+            var xml = "\r\n<depositReversal";
+            xml += " id=\"" + SecurityElement.Escape(id) + "\"";
+            if (customerId != null)
+            {
+                xml += " customerId=\"" + SecurityElement.Escape(customerId) + "\"";
+            }
+            xml += " reportGroup=\"" + SecurityElement.Escape(reportGroup) + "\">";
+            if (cnpTxnIdSet)
+            {
+                xml += "\r\n<cnpTxnId>" + cnpTxnId + "</cnpTxnId>";
+            }
+            xml += "\r\n<card>" + card.Serialize() + "\r\n</card>";
+            xml += "\r\n<originalRefCode>" + originalRefCode + "</originalRefCode>";
+            xml += "\r\n<originalAmount>" + originalAmount + "</originalAmount>";
+            xml += "\r\n<originalTxnTime>" + originalTxnTime.ToString("yyyy-MM-ddTHH:mm:ssZ") + "</originalTxnTime>";
+            xml += "\r\n<originalSystemTraceId>" + originalSystemTraceId + "</originalSystemTraceId>";
+            xml += "\r\n<originalSequenceNumber>" + originalSequenceNumber + "</originalSequenceNumber>";
+
+            xml += "\r\n</depositReversal>";
+            return xml;
+        }
+    }
+    
+    // eCheck Credit Transaction.
+    public partial class echeckCredit : transactionTypeWithReportGroup
+    {
+        private long cnpTxnIdField;
+        private bool cnpTxnIdSet;
+        public long cnpTxnId
+        {
+            get { return cnpTxnIdField; }
+            set { cnpTxnIdField = value; cnpTxnIdSet = true; }
+        }
+        private long amountField;
+        private bool amountSet;
+        public long amount
+        {
+            get { return amountField; }
+            set { amountField = value; amountSet = true; }
+        }
+        private bool secondaryAmountSet;
+        private long secondaryAmountField;
+        public long secondaryAmount
+        {
+            get { return secondaryAmountField; }
+            set { secondaryAmountField = value; secondaryAmountSet = true; }
+        }
+        public customBilling customBilling;
+        public string customIdentifier;
+        public string orderId;
+        public orderSourceType orderSource;
+        public contact billToAddress;
+        public echeckType echeck;
+
+        [Obsolete()]
+        public echeckTokenType token
+        {
+            get { return echeckToken; }
+            set { echeckToken = value; }
+        }
+
+        public echeckTokenType echeckToken;
+
+        public merchantDataType merchantData;
+
+        public override string Serialize()
+        {
+            var xml = "\r\n<echeckCredit";
+            xml += " id=\"" + SecurityElement.Escape(id) + "\"";
+            if (customerId != null)
+            {
+                xml += " customerId=\"" + SecurityElement.Escape(customerId) + "\"";
+            }
+            xml += " reportGroup=\"" + SecurityElement.Escape(reportGroup) + "\"";
+            xml += ">";
+
+            if (cnpTxnIdSet)
+            {
+                xml += "\r\n<cnpTxnId>" + cnpTxnIdField + "</cnpTxnId>";
+                if (amountSet) xml += "\r\n<amount>" + amountField + "</amount>";
+                if (secondaryAmountSet) xml += "\r\n<secondaryAmount>" + secondaryAmountField + "</secondaryAmount>";
+                if (customBilling != null) xml += "\r\n<customBilling>" + customBilling.Serialize() + "</customBilling>";
+                if (customIdentifier != null) xml += "\r\n<customIdentifier>" + customIdentifier + "</customIdentifier>";
+            }
+            else
+            {
+                xml += "\r\n<orderId>" + SecurityElement.Escape(orderId) + "</orderId>";
+                xml += "\r\n<amount>" + amountField + "</amount>";
+                if (secondaryAmountSet) xml += "\r\n<secondaryAmount>" + secondaryAmountField + "</secondaryAmount>";
+                if (orderSource != null) xml += "\r\n<orderSource>" + orderSource.Serialize() + "</orderSource>";
+                if (billToAddress != null) xml += "\r\n<billToAddress>" + billToAddress.Serialize() + "</billToAddress>";
+                if (echeck != null) xml += "\r\n<echeck>" + echeck.Serialize() + "</echeck>";
+                else if (echeckToken != null) xml += "\r\n<echeckToken>" + echeckToken.Serialize() + "</echeckToken>";
+                if (customBilling != null) xml += "\r\n<customBilling>" + customBilling.Serialize() + "</customBilling>";
+                if (merchantData != null) xml += "\r\n<merchantData>" + merchantData.Serialize() + "</merchantData>";
+                if (customIdentifier != null) xml += "\r\n<customIdentifier>" + customIdentifier + "</customIdentifier>";
+            }
+            xml += "\r\n</echeckCredit>";
+            return xml;
+        }
+    }
+    
+    // eCheck Redeposit Transaction.
+    public partial class echeckRedeposit : baseRequestTransactionEcheckRedeposit
+    {
+        //cnpTxnIdField and set are in super
+        public echeckType echeck;
+        public echeckTokenType token;
+        public merchantDataType merchantData;
+        public string customIdentifier;
+
+        public override string Serialize()
+        {
+            var xml = "\r\n<echeckRedeposit";
+            xml += " id=\"" + id + "\"";
+            if (customerId != null)
+            {
+                xml += " customerId=\"" + customerId + "\"";
+            }
+            xml += " reportGroup=\"" + reportGroup + "\">";
+            if (cnpTxnIdSet) xml += "\r\n<cnpTxnId>" + cnpTxnIdField + "</cnpTxnId>";
+            if (echeck != null) xml += "\r\n<echeck>" + echeck.Serialize() + "</echeck>";
+            else if (token != null) xml += "\r\n<echeckToken>" + token.Serialize() + "</echeckToken>";
+            if (merchantData != null) { xml += "\r\n<merchantData>" + merchantData.Serialize() + "\r\n</merchantData>"; }
+            if (customIdentifier != null) xml += "\r\n<customIdentifier>" + customIdentifier + "</customIdentifier>";
+            xml += "\r\n</echeckRedeposit>";
+            return xml;
+        }
+    }
+    
+    // eCheck Sale Transaction.
+    public partial class echeckSale : transactionTypeWithReportGroup
+    {
+        private long cnpTxnIdField;
+        private bool cnpTxnIdSet;
+        public long cnpTxnId
+        {
+            get { return cnpTxnIdField; }
+            set { cnpTxnIdField = value; cnpTxnIdSet = true; }
+        }
+        private long amountField;
+        private bool amountSet;
+        public long amount
+        {
+            get { return amountField; }
+            set { amountField = value; amountSet = true; }
+        }
+        private bool secondaryAmountSet;
+        private long secondaryAmountField;
+        public long secondaryAmount
+        {
+            get { return secondaryAmountField; }
+            set { secondaryAmountField = value; secondaryAmountSet = true; }
+        }
+        public customBilling customBilling;
+        public string customIdentifier;
+        public string orderId;
+        private bool verifyField;
+        private bool verifySet;
+        public bool verify
+        {
+            get { return verifyField; }
+            set { verifyField = value; verifySet = true; }
+        }
+        public orderSourceType orderSource;
+        public contact billToAddress;
+        public contact shipToAddress;
+        public echeckType echeck;
+        public echeckTokenType token;
+        public merchantDataType merchantData;
+
+        public override string Serialize()
+        {
+            var xml = "\r\n<echeckSale";
+            xml += " id=\"" + SecurityElement.Escape(id) + "\"";
+            if (customerId != null)
+            {
+                xml += " customerId=\"" + SecurityElement.Escape(customerId) + "\"";
+            }
+            xml += " reportGroup=\"" + SecurityElement.Escape(reportGroup) + "\"";
+            xml += ">";
+
+            if (cnpTxnIdSet)
+            {
+                xml += "\r\n<cnpTxnId>" + cnpTxnIdField + "</cnpTxnId>";
+                if (amountSet) xml += "\r\n<amount>" + amountField + "</amount>";
+                // let sandbox do the validation for secondaryAmount
+                if (secondaryAmountSet) xml += "\r\n<secondaryAmount>" + secondaryAmountField + "</secondaryAmount>";
+                if (customBilling != null) xml += "\r\n<customBilling>" + customBilling.Serialize() + "</customBilling>";
+                if (customIdentifier != null) xml += "\r\n<customIdentifier>" + customIdentifier + "</customIdentifier>";
+            }
+            else
+            {
+                xml += "\r\n<orderId>" + SecurityElement.Escape(orderId) + "</orderId>";
+                if (verifySet) xml += "\r\n<verify>" + (verifyField ? "true" : "false") + "</verify>";
+                xml += "\r\n<amount>" + amountField + "</amount>";
+                if (secondaryAmountSet) xml += "\r\n<secondaryAmount>" + secondaryAmountField + "</secondaryAmount>";
+                if (orderSource != null) xml += "\r\n<orderSource>" + orderSource.Serialize() + "</orderSource>";
+                if (billToAddress != null) xml += "\r\n<billToAddress>" + billToAddress.Serialize() + "</billToAddress>";
+                if (shipToAddress != null) xml += "\r\n<shipToAddress>" + shipToAddress.Serialize() + "</shipToAddress>";
+                if (echeck != null) xml += "\r\n<echeck>" + echeck.Serialize() + "</echeck>";
+                else if (token != null) xml += "\r\n<echeckToken>" + token.Serialize() + "</echeckToken>";
+                if (customBilling != null) xml += "\r\n<customBilling>" + customBilling.Serialize() + "</customBilling>";
+                if (merchantData != null) xml += "\r\n<merchantData>" + merchantData.Serialize() + "</merchantData>";
+                if (customIdentifier != null) xml += "\r\n<customIdentifier>" + customIdentifier + "</customIdentifier>";
+            }
+            xml += "\r\n</echeckSale>";
+            return xml;
+        }
+    }
+
+    // eCheck Verification Transaction.
+    public partial class echeckVerification : transactionTypeWithReportGroup
+    {
+        public string orderId;
+        private long amountField;
+        private bool amountSet;
+        public long amount
+        {
+            get { return amountField; }
+            set { amountField = value; amountSet = true; }
+        }
+        public orderSourceType orderSource;
+        public contact billToAddress;
+        public echeckType echeck;
+        public echeckTokenType token;
+        public merchantDataType merchantData;
+
+        public override string Serialize()
+        {
+            var xml = "\r\n<echeckVerification";
+            xml += " id=\"" + SecurityElement.Escape(id) + "\"";
+            if (customerId != null)
+            {
+                xml += " customerId=\"" + SecurityElement.Escape(customerId) + "\"";
+            }
+            xml += " reportGroup=\"" + SecurityElement.Escape(reportGroup) + "\"";
+            xml += ">";
+
+            xml += "\r\n<orderId>" + orderId + "</orderId>";
+            if (amountSet) xml += "\r\n<amount>" + amountField + "</amount>";
+            if (orderSource != null) xml += "\r\n<orderSource>" + orderSource.Serialize() + "</orderSource>";
+            if (billToAddress != null) xml += "\r\n<billToAddress>" + billToAddress.Serialize() + "</billToAddress>";
+            if (echeck != null) xml += "\r\n<echeck>" + echeck.Serialize() + "</echeck>";
+            else if (token != null) xml += "\r\n<echeckToken>" + token.Serialize() + "</echeckToken>";
+            if (merchantData != null) xml += "\r\n<merchantData>" + merchantData.Serialize() + "</merchantData>";
+            xml += "\r\n</echeckVerification>";
+            return xml;
+        }
+    }
+    
+    // eCheck Void Transaction.
+    public partial class echeckVoid : transactionTypeWithReportGroup
+    {
+        public long cnpTxnId;
+
+        public override string Serialize()
+        {
+            var xml = "\r\n<echeckVoid";
+            xml += " id=\"" + SecurityElement.Escape(id) + "\"";
+            if (customerId != null)
+            {
+                xml += " customerId=\"" + SecurityElement.Escape(customerId) + "\"";
+            }
+            xml += " reportGroup=\"" + SecurityElement.Escape(reportGroup) + "\">";
+            xml += "\r\n<cnpTxnId>" + cnpTxnId + "</cnpTxnId>";
+            xml += "\r\n</echeckVoid>";
+            return xml;
+        }
+
+    }
+    
+    // Force Capture Transaction.
+    public partial class forceCapture : transactionTypeWithReportGroup
+    {
+        public string orderId;
+        public long amount;
+        private bool secondaryAmountSet;
+        private long secondaryAmountField;
+        public long secondaryAmount
+        {
+            get { return secondaryAmountField; }
+            set { secondaryAmountField = value; secondaryAmountSet = true; }
+        }
+        private bool surchargeAmountSet;
+        private long surchargeAmountField;
+        public long surchargeAmount
+        {
+            get { return surchargeAmountField; }
+            set { surchargeAmountField = value; surchargeAmountSet = true; }
+        }
+        public orderSourceType orderSource;
+        public contact billToAddress;
+        public cardType card;
+        public mposType mpos;
+        public cardTokenType token;
+        public cardPaypageType paypage;
+        public customBilling customBilling;
+        private govtTaxTypeEnum taxTypeField;
+        private bool taxTypeSet;
+        public govtTaxTypeEnum taxType
+        {
+            get { return taxTypeField; }
+            set { taxTypeField = value; taxTypeSet = true; }
+        }
+        public enhancedData enhancedData;
+        public processingInstructions processingInstructions;
+        public pos pos;
+        public amexAggregatorData amexAggregatorData;
+        public merchantDataType merchantData;
+        private bool debtRepaymentField;
+        private bool debtRepaymentSet;
+        public bool debtRepayment
+        {
+            get
+            {
+                return debtRepaymentField;
+            }
+            set
+            {
+                debtRepaymentField = value;
+                debtRepaymentSet = true;
+            }
+        }
+        private processingTypeEnum processingTypeField;
+        private bool processingTypeSet;
+        public processingTypeEnum processingType
+        {
+            get { return processingTypeField; }
+            set { processingTypeField = value; processingTypeSet = true; }
+        }
+
+        public override string Serialize()
+        {
+            var xml = "\r\n<forceCapture";
+            xml += " id=\"" + SecurityElement.Escape(id) + "\"";
+            if (customerId != null)
+            {
+                xml += " customerId=\"" + SecurityElement.Escape(customerId) + "\"";
+            }
+            xml += " reportGroup=\"" + SecurityElement.Escape(reportGroup) + "\">";
+            xml += "\r\n<orderId>" + SecurityElement.Escape(orderId) + "</orderId>";
+            xml += "\r\n<amount>" + amount + "</amount>";
+            if (secondaryAmountSet) xml += "\r\n<secondaryAmount>" + secondaryAmountField + "</secondaryAmount>";
+            if (surchargeAmountSet) xml += "\r\n<surchargeAmount>" + surchargeAmountField + "</surchargeAmount>";
+            if (orderSource != null) xml += "\r\n<orderSource>" + orderSource.Serialize() + "</orderSource>";
+            if (billToAddress != null)
+            {
+                xml += "\r\n<billToAddress>" + billToAddress.Serialize() + "\r\n</billToAddress>";
+            }
+            if (card != null)
+            {
+                xml += "\r\n<card>" + card.Serialize() + "\r\n</card>";
+            }
+            else if (token != null)
+            {
+                xml += "\r\n<token>" + token.Serialize() + "\r\n</token>";
+            }
+            else if (mpos != null)
+            {
+                xml += "\r\n<mpos>" + mpos.Serialize() + "</mpos>";
+            }
+            else if (paypage != null)
+            {
+                xml += "\r\n<paypage>" + paypage.Serialize() + "\r\n</paypage>";
+            }
+            if (customBilling != null)
+            {
+                xml += "\r\n<customBilling>" + customBilling.Serialize() + "\r\n</customBilling>";
+            }
+            if (taxTypeSet)
+            {
+                xml += "\r\n<taxType>" + taxTypeField + "</taxType>";
+            }
+            if (enhancedData != null)
+            {
+                xml += "\r\n<enhancedData>" + enhancedData.Serialize() + "\r\n</enhancedData>";
+            }
+            if (processingInstructions != null)
+            {
+                xml += "\r\n<processingInstructions>" + processingInstructions.Serialize() + "\r\n</processingInstructions>";
+            }
+            if (pos != null)
+            {
+                xml += "\r\n<pos>" + pos.Serialize() + "\r\n</pos>";
+            }
+            if (amexAggregatorData != null)
+            {
+                xml += "\r\n<amexAggregatorData>" + amexAggregatorData.Serialize() + "\r\n</amexAggregatorData>";
+            }
+            if (merchantData != null)
+            {
+                xml += "\r\n<merchantData>" + merchantData.Serialize() + "\r\n</merchantData>";
+            }
+            if (debtRepaymentSet)
+            {
+                xml += "\r\n<debtRepayment>" + debtRepayment.ToString().ToLower() + "</debtRepayment>";
+            }
+            if (processingTypeSet)
+            {
+                xml += "\r\n<processingType>" + processingType + "</processingType>";
+            }
+            xml += "\r\n</forceCapture>";
+            return xml;
+        }
+    }
+    
+    // Fraud Check Transaction. [Online]
+    public partial class fraudCheckType
+    {
+        public string authenticationValue;
+        public string authenticationTransactionId;
+        public string customerIpAddress;
+        private bool authenticatedByMerchantField;
+        private bool authenticatedByMerchantSet;
+        public bool authenticatedByMerchant
+        {
+            get { return authenticatedByMerchantField; }
+            set { authenticatedByMerchantField = value; authenticatedByMerchantSet = true; }
+        }
+
+        public string Serialize()
+        {
+            var xml = "";
+            if (authenticationValue != null) xml += "\r\n<authenticationValue>" + SecurityElement.Escape(authenticationValue) + "</authenticationValue>";
+            if (authenticationTransactionId != null) xml += "\r\n<authenticationTransactionId>" + SecurityElement.Escape(authenticationTransactionId) + "</authenticationTransactionId>";
+            if (customerIpAddress != null) xml += "\r\n<customerIpAddress>" + SecurityElement.Escape(customerIpAddress) + "</customerIpAddress>";
+            if (authenticatedByMerchantSet) xml += "\r\n<authenticatedByMerchant>" + authenticatedByMerchantField + "</authenticatedByMerchant>";
+            return xml;
+        }
+    }
+    
+    // Gift Card Auth Reversal Transaction.
+    public partial class giftCardAuthReversal : transactionTypeWithReportGroup
+    {
+        private long cnpTxnIdField;
+        private bool cnpTxnIdSet;
+        public long cnpTxnId
+        {
+            get
+            {
+                return cnpTxnIdField;
+            }
+            set
+            {
+                cnpTxnIdField = value;
+                cnpTxnIdSet = true;
+            }
+        }
+        public giftCardCardType card;
+        public string originalRefCode;
+        public long originalAmount;
+        public DateTime originalTxnTime;
+        private int originalSystemTraceIdField;
+        private bool originalSystemTraceIdSet;
+        public int originalSystemTraceId
+        {
+            get
+            {
+                return originalSystemTraceIdField;
+            }
+            set
+            {
+                originalSystemTraceIdField = value;
+                originalSystemTraceIdSet = true;
+            }
+        }
+        public string originalSequenceNumber;
+
+        public override string Serialize()
+        {
+            var xml = "\r\n<giftCardAuthReversal ";
+            xml += " id=\"" + SecurityElement.Escape(id) + "\"";
+            if (customerId != null)
+            {
+                xml += " customerId=\"" + SecurityElement.Escape(customerId) + "\"";
+            }
+            xml += " reportGroup=\"" + SecurityElement.Escape(reportGroup) + "\">";
+            if (cnpTxnIdSet)
+            {
+                xml += "\r\n<cnpTxnId>" + cnpTxnIdField + "</cnpTxnId>";
+            }
+            if (card != null)
+            {
+                xml += "\r\n<card>" + card.Serialize() + "\r\n</card>";
+            }
+            if (originalRefCode != null)
+            {
+                xml += "\r\n<originalRefCode>" + originalRefCode + "</originalRefCode>";
+            }
+            // Do I need to turn original amount long into a boolean because it cannot be compared to null
+            xml += "\r\n<originalAmount>" + originalAmount + "</originalAmount>";
+
+            if (originalTxnTime != null)
+            {
+                xml += "\r\n<originalTxnTime>" + originalTxnTime.ToString("yyyy-MM-ddTHH:mm:ssZ") + "</originalTxnTime>";
+            }
+            // I turned this into a boolean so the serialixing methos was in a boolean form
+            if (originalSystemTraceIdSet)
+            {
+                xml += "\r\n<originalSystemTraceId>" + originalSystemTraceIdField + "</originalSystemTraceId>";
+            }
+            if (originalSequenceNumber != null)
+            {
+                xml += "\r\n<originalSequenceNumber>" + originalSequenceNumber + "</originalSequenceNumber>";
+            }
+            xml += "\r\n</giftCardAuthReversal>";
+            return xml;
+        }
+    }
+    
+    // Gift Card Capture Transaction.
+    public partial class giftCardCapture : transactionTypeWithReportGroupAndPartial
+    {
+        private long cnpTxnIdField;
+        private bool cnpTxnIdSet;
+        public long cnpTxnId
+        {
+            get
+            {
+                return cnpTxnIdField;
+            }
+            set
+            {
+                cnpTxnIdField = value;
+                cnpTxnIdSet = true;
+            }
+        }
+        public long captureAmount;
+        public giftCardCardType card;
+        public string originalRefCode;
+        public long originalAmount;
+        public DateTime originalTxnTime;
+
+        public override string Serialize()
+        {
+            var xml = "\r\n<giftCardCapture";
+            xml += " id=\"" + SecurityElement.Escape(id) + "\"";
+            if (customerId != null)
+            {
+                xml += " customerId=\"" + SecurityElement.Escape(customerId) + "\"";
+            }
+            xml += " reportGroup=\"" + SecurityElement.Escape(reportGroup) + "\"";
+            if (partialSet)
+            {
+                xml += " partial=\"" + partial.ToString().ToLower() + "\"";
+            }
+            xml += ">";
+            if (cnpTxnIdSet)
+            {
+                xml += "\r\n<cnpTxnId>" + cnpTxnIdField + "</cnpTxnId>";
+            }
+
+            xml += "\r\n<captureAmount>" + captureAmount + "</captureAmount>";
+            
+            if (card != null)
+            {
+                xml += "\r\n<card>" + card.Serialize() + "\r\n</card>";
+            }
+            if (originalRefCode != null)
+            {
+                xml += "\r\n<originalRefCode>" + originalRefCode + "</originalRefCode>";
+            }
+            // Do I need to turn original amount long into a boolean because it cannot be compared to null
+            xml += "\r\n<originalAmount>" + originalAmount + "</originalAmount>";
+
+            if (originalTxnTime != null)
+            {
+                xml += "\r\n<originalTxnTime>" + originalTxnTime.ToString("yyyy-MM-ddTHH:mm:ssZ") + "</originalTxnTime>";
+            }
+            xml += "\r\n</giftCardCapture>";
+            return xml;
+        }
+    }
+    
+    // Gift Card Credit Transaction.
+    public partial class giftCardCredit : transactionTypeWithReportGroup
+    {
+        private long cnpTxnIdField;
+        private bool cnpTxnIdSet;
+        public long cnpTxnId
+        {
+            get { return cnpTxnIdField; }
+            set { cnpTxnIdField = value; cnpTxnIdSet = true; }
+        }
+        public long creditAmount;
+        public giftCardCardType card;
+        public string orderId;
+        public orderSourceType orderSource;
+
+        public override string Serialize()
+        {
+            var xml = "\r\n<giftCardCredit";
+            xml += " id=\"" + SecurityElement.Escape(id) + "\"";
+            if (customerId != null)
+            {
+                xml += " customerId=\"" + SecurityElement.Escape(customerId) + "\"";
+            }
+            xml += " reportGroup=\"" + SecurityElement.Escape(reportGroup) + "\">";
+
+            if (cnpTxnIdSet)
+            {
+                xml += "\r\n<cnpTxnId>" + cnpTxnIdField + "</cnpTxnId>";
+                xml += "\r\n<creditAmount>" + creditAmount + "</creditAmount>";
+                xml += "\r\n<card>" + card.Serialize() + "\r\n</card>";
+            }
+            else
+            {
+                xml += "\r\n<orderId>" + SecurityElement.Escape(orderId) + "</orderId>";
+                xml += "\r\n<creditAmount>" + creditAmount + "</creditAmount>";
+                xml += "\r\n<orderSource>" + orderSource.Serialize() + "</orderSource>";
+                xml += "\r\n<card>" + card.Serialize() + "\r\n</card>";
+            }
+            xml += "\r\n</giftCardCredit>";
+            return xml;
+        }
+    }
+    
+    // Load Transaction.
+    public partial class load : transactionTypeWithReportGroup
+    {
+        public string orderId;
+        public long amount;
+        public orderSourceType orderSource;
+        public giftCardCardType card;
+
+        public override string Serialize()
+        {
+            var xml = "\r\n<load";
+            xml += " id=\"" + SecurityElement.Escape(id) + "\"";
+            if (customerId != null)
+            {
+                xml += " customerId=\"" + SecurityElement.Escape(customerId) + "\"";
+            }
+            xml += " reportGroup=\"" + SecurityElement.Escape(reportGroup) + "\">";
+            xml += "\r\n<orderId>" + SecurityElement.Escape(orderId) + "</orderId>";
+            xml += "\r\n<amount>" + amount + "</amount>";
+            xml += "\r\n<orderSource>" + orderSource.Serialize() + "</orderSource>";
+            xml += "\r\n<card>" + card.Serialize() + "\r\n</card>";
+            xml += "\r\n</load>";
+            return xml;
+        }
+    }
+    
+    // Load Reversal Transaction.
+    public partial class loadReversal : transactionTypeWithReportGroup
+    {
+        private long cnpTxnIdField;
+        private bool cnpTxnIdSet;
+        public long cnpTxnId
+        {
+            get
+            {
+                return cnpTxnIdField;
+            }
+            set
+            {
+                cnpTxnIdField = value;
+                cnpTxnIdSet = true;
+            }
+        }
+        public giftCardCardType card;
+        public string originalRefCode;
+        public long originalAmount;
+        public DateTime originalTxnTime;
+        public int originalSystemTraceId;
+        public string originalSequenceNumber;
+
+        public override string Serialize()
+        {
+            var xml = "\r\n<loadReversal";
+            xml += " id=\"" + SecurityElement.Escape(id) + "\"";
+            if (customerId != null)
+            {
+                xml += " customerId=\"" + SecurityElement.Escape(customerId) + "\"";
+            }
+            xml += " reportGroup=\"" + SecurityElement.Escape(reportGroup) + "\">";
+            if (cnpTxnIdSet)
+            {
+                xml += "\r\n<cnpTxnId>" + cnpTxnId + "</cnpTxnId>";
+            }
+            xml += "\r\n<card>" + card.Serialize() + "\r\n</card>";
+            xml += "\r\n<originalRefCode>" + originalRefCode + "</originalRefCode>";
+            xml += "\r\n<originalAmount>" + originalAmount + "</originalAmount>";
+            xml += "\r\n<originalTxnTime>" + originalTxnTime.ToString("yyyy-MM-ddTHH:mm:ssZ") + "</originalTxnTime>";
+            xml += "\r\n<originalSystemTraceId>" + originalSystemTraceId + "</originalSystemTraceId>";
+            xml += "\r\n<originalSequenceNumber>" + originalSequenceNumber + "</originalSequenceNumber>";
+
+            xml += "\r\n</loadReversal>";
+            return xml;
+        }
+    }
+    
+    // Register Token Transaction.
+    public partial class registerTokenRequestType : transactionTypeWithReportGroup
+    {
+        public string orderId;
+        public string accountNumber;
+        public echeckForTokenType echeckForToken;
+        public string paypageRegistrationId;
+        public string cardValidationNum;
+        public applepayType applepay;
+
+        public override string Serialize()
+        {
+            var xml = "\r\n<registerTokenRequest";
+            xml += " id=\"" + SecurityElement.Escape(id) + "\"";
+            if (customerId != null)
+            {
+                xml += " customerId=\"" + SecurityElement.Escape(customerId) + "\"";
+            }
+            xml += " reportGroup=\"" + SecurityElement.Escape(reportGroup) + "\"";
+            xml += ">";
+
+            xml += "\r\n<orderId>" + orderId + "</orderId>";
+            if (accountNumber != null) xml += "\r\n<accountNumber>" + accountNumber + "</accountNumber>";
+            else if (echeckForToken != null) xml += "\r\n<echeckForToken>" + echeckForToken.Serialize() + "</echeckForToken>";
+            else if (paypageRegistrationId != null) xml += "\r\n<paypageRegistrationId>" + paypageRegistrationId + "</paypageRegistrationId>";
+            else if (applepay != null) xml += "\r\n<applepay>" + applepay.Serialize() + "\r\n</applepay>";
+            if (cardValidationNum != null) xml += "\r\n<cardValidationNum>" + cardValidationNum + "</cardValidationNum>";
+            xml += "\r\n</registerTokenRequest>";
+            return xml;
+        }
+    }
+    
+    // Refund Reversal Transaction.
+    public partial class refundReversal : transactionTypeWithReportGroup
+    {
+        private long cnpTxnIdField;
+        private bool cnpTxnIdSet;
+        public long cnpTxnId
+        {
+            get
+            {
+                return cnpTxnIdField;
+            }
+            set
+            {
+                cnpTxnIdField = value;
+                cnpTxnIdSet = true;
+            }
+        }
+        public giftCardCardType card;
+        public string originalRefCode;
+        public long originalAmount;
+        public DateTime originalTxnTime;
+        public int originalSystemTraceId;
+        public string originalSequenceNumber;
+
+        public override string Serialize()
+        {
+            var xml = "\r\n<refundReversal";
+            xml += " id=\"" + SecurityElement.Escape(id) + "\"";
+            if (customerId != null)
+            {
+                xml += " customerId=\"" + SecurityElement.Escape(customerId) + "\"";
+            }
+            xml += " reportGroup=\"" + SecurityElement.Escape(reportGroup) + "\">";
+            if (cnpTxnIdSet)
+            {
+                xml += "\r\n<cnpTxnId>" + cnpTxnId + "</cnpTxnId>";
+            }
+            xml += "\r\n<card>" + card.Serialize() + "\r\n</card>";
+            xml += "\r\n<originalRefCode>" + originalRefCode + "</originalRefCode>";
+            xml += "\r\n<originalAmount>" + originalAmount + "</originalAmount>";
+            xml += "\r\n<originalTxnTime>" + originalTxnTime.ToString("yyyy-MM-ddTHH:mm:ssZ") + "</originalTxnTime>";
+            xml += "\r\n<originalSystemTraceId>" + originalSystemTraceId + "</originalSystemTraceId>";
+            xml += "\r\n<originalSequenceNumber>" + originalSequenceNumber + "</originalSequenceNumber>";
+
+            xml += "\r\n</refundReversal>";
+            return xml;
+        }
+    }
+    
+    // Sale Transaction.
     public partial class sale : transactionTypeWithReportGroup
     {
 
@@ -2045,69 +2249,18 @@ namespace Cnp.Sdk
             return xml;
         }
     }
-
-    public partial class forceCapture : transactionTypeWithReportGroup
+    
+    // Unload Transaction.
+    public partial class unload : transactionTypeWithReportGroup
     {
         public string orderId;
         public long amount;
-        private bool secondaryAmountSet;
-        private long secondaryAmountField;
-        public long secondaryAmount
-        {
-            get { return secondaryAmountField; }
-            set { secondaryAmountField = value; secondaryAmountSet = true; }
-        }
-        private bool surchargeAmountSet;
-        private long surchargeAmountField;
-        public long surchargeAmount
-        {
-            get { return surchargeAmountField; }
-            set { surchargeAmountField = value; surchargeAmountSet = true; }
-        }
         public orderSourceType orderSource;
-        public contact billToAddress;
-        public cardType card;
-        public mposType mpos;
-        public cardTokenType token;
-        public cardPaypageType paypage;
-        public customBilling customBilling;
-        private govtTaxTypeEnum taxTypeField;
-        private bool taxTypeSet;
-        public govtTaxTypeEnum taxType
-        {
-            get { return taxTypeField; }
-            set { taxTypeField = value; taxTypeSet = true; }
-        }
-        public enhancedData enhancedData;
-        public processingInstructions processingInstructions;
-        public pos pos;
-        public amexAggregatorData amexAggregatorData;
-        public merchantDataType merchantData;
-        private bool debtRepaymentField;
-        private bool debtRepaymentSet;
-        public bool debtRepayment
-        {
-            get
-            {
-                return debtRepaymentField;
-            }
-            set
-            {
-                debtRepaymentField = value;
-                debtRepaymentSet = true;
-            }
-        }
-        private processingTypeEnum processingTypeField;
-        private bool processingTypeSet;
-        public processingTypeEnum processingType
-        {
-            get { return processingTypeField; }
-            set { processingTypeField = value; processingTypeSet = true; }
-        }
+        public giftCardCardType card;
 
         public override string Serialize()
         {
-            var xml = "\r\n<forceCapture";
+            var xml = "\r\n<unload";
             xml += " id=\"" + SecurityElement.Escape(id) + "\"";
             if (customerId != null)
             {
@@ -2116,362 +2269,40 @@ namespace Cnp.Sdk
             xml += " reportGroup=\"" + SecurityElement.Escape(reportGroup) + "\">";
             xml += "\r\n<orderId>" + SecurityElement.Escape(orderId) + "</orderId>";
             xml += "\r\n<amount>" + amount + "</amount>";
-            if (secondaryAmountSet) xml += "\r\n<secondaryAmount>" + secondaryAmountField + "</secondaryAmount>";
-            if (surchargeAmountSet) xml += "\r\n<surchargeAmount>" + surchargeAmountField + "</surchargeAmount>";
-            if (orderSource != null) xml += "\r\n<orderSource>" + orderSource.Serialize() + "</orderSource>";
-            if (billToAddress != null)
-            {
-                xml += "\r\n<billToAddress>" + billToAddress.Serialize() + "\r\n</billToAddress>";
-            }
-            if (card != null)
-            {
-                xml += "\r\n<card>" + card.Serialize() + "\r\n</card>";
-            }
-            else if (token != null)
-            {
-                xml += "\r\n<token>" + token.Serialize() + "\r\n</token>";
-            }
-            else if (mpos != null)
-            {
-                xml += "\r\n<mpos>" + mpos.Serialize() + "</mpos>";
-            }
-            else if (paypage != null)
-            {
-                xml += "\r\n<paypage>" + paypage.Serialize() + "\r\n</paypage>";
-            }
-            if (customBilling != null)
-            {
-                xml += "\r\n<customBilling>" + customBilling.Serialize() + "\r\n</customBilling>";
-            }
-            if (taxTypeSet)
-            {
-                xml += "\r\n<taxType>" + taxTypeField + "</taxType>";
-            }
-            if (enhancedData != null)
-            {
-                xml += "\r\n<enhancedData>" + enhancedData.Serialize() + "\r\n</enhancedData>";
-            }
-            if (processingInstructions != null)
-            {
-                xml += "\r\n<processingInstructions>" + processingInstructions.Serialize() + "\r\n</processingInstructions>";
-            }
-            if (pos != null)
-            {
-                xml += "\r\n<pos>" + pos.Serialize() + "\r\n</pos>";
-            }
-            if (amexAggregatorData != null)
-            {
-                xml += "\r\n<amexAggregatorData>" + amexAggregatorData.Serialize() + "\r\n</amexAggregatorData>";
-            }
-            if (merchantData != null)
-            {
-                xml += "\r\n<merchantData>" + merchantData.Serialize() + "\r\n</merchantData>";
-            }
-            if (debtRepaymentSet)
-            {
-                xml += "\r\n<debtRepayment>" + debtRepayment.ToString().ToLower() + "</debtRepayment>";
-            }
-            if (processingTypeSet)
-            {
-                xml += "\r\n<processingType>" + processingType + "</processingType>";
-            }
-            xml += "\r\n</forceCapture>";
+            xml += "\r\n<orderSource>" + orderSource.Serialize() + "</orderSource>";
+            xml += "\r\n<card>" + card.Serialize() + "\r\n</card>";
+            xml += "\r\n</unload>";
             return xml;
         }
     }
-
-    public partial class captureGivenAuth : transactionTypeWithReportGroup
+    
+    // Update Card Validation Number Transaction.
+    public partial class updateCardValidationNumOnToken : transactionTypeWithReportGroup
     {
         public string orderId;
-        public authInformation authInformation;
-        public long amount;
-        private bool secondaryAmountSet;
-        private long secondaryAmountField;
-        public long secondaryAmount
-        {
-            get { return secondaryAmountField; }
-            set { secondaryAmountField = value; secondaryAmountSet = true; }
-        }
-        private bool surchargeAmountSet;
-        private long surchargeAmountField;
-        public long surchargeAmount
-        {
-            get { return surchargeAmountField; }
-            set { surchargeAmountField = value; surchargeAmountSet = true; }
-        }
-        public orderSourceType orderSource;
-        public contact billToAddress;
-        public contact shipToAddress;
-        public cardType card;
-        public mposType mpos;
-        public cardTokenType token;
-        public cardPaypageType paypage;
-        public customBilling customBilling;
-        private govtTaxTypeEnum taxTypeField;
-        private bool taxTypeSet;
-        public govtTaxTypeEnum taxType
-        {
-            get { return taxTypeField; }
-            set { taxTypeField = value; taxTypeSet = true; }
-        }
-        public billMeLaterRequest billMeLaterRequest;
-        public enhancedData enhancedData;
-        public processingInstructions processingInstructions;
-        public pos pos;
-        public amexAggregatorData amexAggregatorData;
-        public merchantDataType merchantData;
-        private bool debtRepaymentField;
-        private bool debtRepaymentSet;
-        public bool debtRepayment
-        {
-            get
-            {
-                return debtRepaymentField;
-            }
-            set
-            {
-                debtRepaymentField = value;
-                debtRepaymentSet = true;
-            }
-        }
-        private processingTypeEnum processingTypeField;
-        private bool processingTypeSet;
-        public processingTypeEnum processingType
-        {
-            get { return processingTypeField; }
-            set { processingTypeField = value; processingTypeSet = true; }
-        }
-        private string originalNetworkTransactionIdField;
-        private bool originalNetworkTransactionIdSet;
-        public string originalNetworkTransactionId
-        {
-            get
-            {
-                return originalNetworkTransactionIdField;
-            }
-            set
-            {
-                originalNetworkTransactionIdField = value;
-                originalNetworkTransactionIdSet = true;
-            }
-        }
-        private long originalTransactionAmountField;
-        private bool originalTransactionAmountSet;
-        public long originalTransactionAmount
-        {
-            get
-            {
-                return originalTransactionAmountField;
-            }
-            set
-            {
-                originalTransactionAmountField = value;
-                originalTransactionAmountSet = true;
-            }
-        }
+        public string cnpToken;
+        public string cardValidationNum;
 
         public override string Serialize()
         {
-            var xml = "\r\n<captureGivenAuth";
+            var xml = "\r\n<updateCardValidationNumOnToken";
             xml += " id=\"" + SecurityElement.Escape(id) + "\"";
             if (customerId != null)
             {
                 xml += " customerId=\"" + SecurityElement.Escape(customerId) + "\"";
             }
-            xml += " reportGroup=\"" + SecurityElement.Escape(reportGroup) + "\">";
-            xml += "\r\n<orderId>" + SecurityElement.Escape(orderId) + "</orderId>";
-            if (authInformation != null) xml += "\r\n<authInformation>" + authInformation.Serialize() + "\r\n</authInformation>";
-            xml += "\r\n<amount>" + amount + "</amount>";
-            if (secondaryAmountSet) xml += "\r\n<secondaryAmount>" + secondaryAmountField + "</secondaryAmount>";
-            if (surchargeAmountSet) xml += "\r\n<surchargeAmount>" + surchargeAmountField + "</surchargeAmount>";
-            if (orderSource != null) xml += "\r\n<orderSource>" + orderSource.Serialize() + "</orderSource>";
-            if (billToAddress != null)
-            {
-                xml += "\r\n<billToAddress>" + billToAddress.Serialize() + "\r\n</billToAddress>";
-            }
-            if (shipToAddress != null)
-            {
-                xml += "\r\n<shipToAddress>" + shipToAddress.Serialize() + "\r\n</shipToAddress>";
-            }
-            if (card != null)
-            {
-                xml += "\r\n<card>" + card.Serialize() + "\r\n</card>";
-            }
-            else if (token != null)
-            {
-                xml += "\r\n<token>" + token.Serialize() + "\r\n</token>";
-            }
-            else if (mpos != null)
-            {
-                xml += "\r\n<mpos>" + mpos.Serialize() + "</mpos>";
-            }
-            else if (paypage != null)
-            {
-                xml += "\r\n<paypage>" + paypage.Serialize() + "\r\n</paypage>";
-            }
-            if (customBilling != null)
-            {
-                xml += "\r\n<customBilling>" + customBilling.Serialize() + "\r\n</customBilling>";
-            }
-            if (taxTypeSet)
-            {
-                xml += "\r\n<taxType>" + taxTypeField + "</taxType>";
-            }
-            if (billMeLaterRequest != null)
-            {
-                xml += "\r\n<billMeLaterRequest>" + billMeLaterRequest.Serialize() + "\r\n</billMeLaterRequest>";
-            }
-            if (enhancedData != null)
-            {
-                xml += "\r\n<enhancedData>" + enhancedData.Serialize() + "\r\n</enhancedData>";
-            }
-            if (processingInstructions != null)
-            {
-                xml += "\r\n<processingInstructions>" + processingInstructions.Serialize() + "\r\n</processingInstructions>";
-            }
-            if (pos != null)
-            {
-                xml += "\r\n<pos>" + pos.Serialize() + "\r\n</pos>";
-            }
-            if (amexAggregatorData != null)
-            {
-                xml += "\r\n<amexAggregatorData>" + amexAggregatorData.Serialize() + "\r\n</amexAggregatorData>";
-            }
-            if (merchantData != null)
-            {
-                xml += "\r\n<merchantData>" + merchantData.Serialize() + "\r\n</merchantData>";
-            }
-            if (debtRepaymentSet)
-            {
-                xml += "\r\n<debtRepayment>" + debtRepayment.ToString().ToLower() + "</debtRepayment>";
-            }
-            if (processingTypeSet)
-            {
-                xml += "\r\n<processingType>" + processingType + "</processingType>";
-            }
-            if (originalNetworkTransactionIdSet)
-            {
-                xml += "\r\n<originalNetworkTransactionId>" + originalNetworkTransactionId + "</originalNetworkTransactionId>";
-            }
-            if (originalTransactionAmountSet)
-            {
-                xml += "\r\n<originalTransactionAmount>" + originalTransactionAmount + "</originalTransactionAmount>";
-            }
-            xml += "\r\n</captureGivenAuth>";
+            xml += " reportGroup=\"" + SecurityElement.Escape(reportGroup) + "\"";
+            xml += ">";
+
+            if (orderId != null) xml += "\r\n<orderId>" + SecurityElement.Escape(orderId) + "</orderId>";
+            if (cnpToken != null) xml += "\r\n<cnpToken>" + SecurityElement.Escape(cnpToken) + "</cnpToken>";
+            if (cardValidationNum != null) xml += "\r\n<cardValidationNum>" + SecurityElement.Escape(cardValidationNum) + "</cardValidationNum>";
+            xml += "\r\n</updateCardValidationNumOnToken>";
             return xml;
         }
     }
-
-    public partial class cancelSubscription : recurringTransactionType
-    {
-        private long subscriptionIdField;
-        private bool subscriptionIdSet;
-        public long subscriptionId
-        {
-            get
-            {
-                return subscriptionIdField;
-            }
-            set
-            {
-                subscriptionIdField = value;
-                subscriptionIdSet = true;
-            }
-        }
-
-        public override string Serialize()
-        {
-            var xml = "\r\n<cancelSubscription>";
-            if (subscriptionIdSet) xml += "\r\n<subscriptionId>" + subscriptionIdField + "</subscriptionId>";
-            xml += "\r\n</cancelSubscription>";
-            return xml;
-        }
-    }
-
-    [SerializableAttribute()]
-    [XmlTypeAttribute(Namespace = "http://www.vantivcnp.com/schema")]
-    public enum intervalType
-    {
-        ANNUAL,
-        SEMIANNUAL,
-        QUARTERLY,
-        MONTHLY,
-        WEEKLY
-    }
-
-    [SerializableAttribute()]
-    [XmlTypeAttribute(Namespace = "http://www.vantivcnp.com/schema")]
-    public enum trialIntervalType
-    {
-        MONTH,
-        DAY
-    }
-
-    public partial class createPlan : recurringTransactionType
-    {
-        public string planCode;
-        public string name;
-
-        private string descriptionField;
-        private bool descriptionSet;
-        public string description
-        {
-            get { return descriptionField; }
-            set { descriptionField = value; descriptionSet = true; }
-        }
-
-        public intervalType intervalType;
-        public long amount;
-
-        public int numberOfPaymentsField;
-        public bool numberOfPaymentsSet;
-        public int numberOfPayments
-        {
-            get { return numberOfPaymentsField; }
-            set { numberOfPaymentsField = value; numberOfPaymentsSet = true; }
-        }
-
-        public int trialNumberOfIntervalsField;
-        public bool trialNumberOfIntervalsSet;
-        public int trialNumberOfIntervals
-        {
-            get { return trialNumberOfIntervalsField; }
-            set { trialNumberOfIntervalsField = value; trialNumberOfIntervalsSet = true; }
-        }
-
-        private trialIntervalType trialIntervalTypeField;
-        private bool trialIntervalTypeSet;
-        public trialIntervalType trialIntervalType 
-        {
-            get { return trialIntervalTypeField; }
-            set { trialIntervalTypeField = value; trialIntervalTypeSet = true; }
-        }
-
-        private bool activeField;
-        private bool activeSet;
-        public bool active
-        {
-            get { return activeField; }
-            set { activeField = value; activeSet = true; }
-        }
-
-        public override string Serialize()
-        {
-            var xml = "\r\n<createPlan>";
-            xml += "\r\n<planCode>" + SecurityElement.Escape(planCode) + "</planCode>";
-            xml += "\r\n<name>" + SecurityElement.Escape(name) + "</name>";
-            if (descriptionSet) xml += "\r\n<description>" + SecurityElement.Escape(descriptionField) + "</description>";
-            xml += "\r\n<intervalType>" + intervalType + "</intervalType>";
-            xml += "\r\n<amount>" + amount + "</amount>";
-            if (numberOfPaymentsSet) xml += "\r\n<numberOfPayments>" + numberOfPaymentsField + "</numberOfPayments>";
-            if (trialNumberOfIntervalsSet) xml += "\r\n<trialNumberOfIntervals>" + trialNumberOfIntervalsField + "</trialNumberOfIntervals>";
-            if (trialIntervalTypeSet) xml += "\r\n<trialIntervalType>" + trialIntervalTypeField + "</trialIntervalType>";
-            if (activeSet) xml += "\r\n<active>" + activeField.ToString().ToLower() + "</active>";
-            xml += "\r\n</createPlan>";
-            return xml;
-        }
-    }
-
+    
+    // Update Plan Transaction.
     public partial class updatePlan : recurringTransactionType
     {
         public string planCode;
@@ -2493,6 +2324,8 @@ namespace Cnp.Sdk
             return xml;
         }
     }
+    
+    // Update Subscription Transaction.
     public partial class updateSubscription : recurringTransactionType
     {
         private long subscriptionIdField;
@@ -2585,6 +2418,926 @@ namespace Cnp.Sdk
             return xml;
         }
     }
+    
+    // Unload Reversal Transaction.
+    public partial class unloadReversal : transactionTypeWithReportGroup
+    {
+        private long cnpTxnIdField;
+        private bool cnpTxnIdSet;
+        public long cnpTxnId
+        {
+            get
+            {
+                return cnpTxnIdField;
+            }
+            set
+            {
+                cnpTxnIdField = value;
+                cnpTxnIdSet = true;
+            }
+        }
+        public giftCardCardType card;
+        public string originalRefCode;
+        public long originalAmount;
+        public DateTime originalTxnTime;
+        public int originalSystemTraceId;
+        public string originalSequenceNumber;
+
+        public override string Serialize()
+        {
+            var xml = "\r\n<unloadReversal";
+            xml += " id=\"" + SecurityElement.Escape(id) + "\"";
+            if (customerId != null)
+            {
+                xml += " customerId=\"" + SecurityElement.Escape(customerId) + "\"";
+            }
+            xml += " reportGroup=\"" + SecurityElement.Escape(reportGroup) + "\">";
+            if (cnpTxnIdSet)
+            {
+                xml += "\r\n<cnpTxnId>" + cnpTxnId + "</cnpTxnId>";
+            }
+            xml += "\r\n<card>" + card.Serialize() + "\r\n</card>";
+            xml += "\r\n<originalRefCode>" + originalRefCode + "</originalRefCode>";
+            xml += "\r\n<originalAmount>" + originalAmount + "</originalAmount>";
+            xml += "\r\n<originalTxnTime>" + originalTxnTime.ToString("yyyy-MM-ddTHH:mm:ssZ") + "</originalTxnTime>";
+            xml += "\r\n<originalSystemTraceId>" + originalSystemTraceId + "</originalSystemTraceId>";
+            xml += "\r\n<originalSequenceNumber>" + originalSequenceNumber + "</originalSequenceNumber>";
+
+            xml += "\r\n</unloadReversal>";
+            return xml;
+        }
+    }
+    
+    // Void Transaction.
+    public partial class voidTxn : transactionTypeWithReportGroup
+    {
+        // The void element is the parent element for all Void transactions.
+        // You can use this element only in Online transactions.
+        // Note: the element Void named voidTxn as void is a keyword in C#.
+        public long cnpTxnId;
+        public processingInstructions processingInstructions;
+
+        public override string Serialize()
+        {
+            var xml = "\r\n<void";
+            xml += " id=\"" + SecurityElement.Escape(id) + "\"";
+            if (customerId != null)
+            {
+                xml += " customerId=\"" + SecurityElement.Escape(customerId) + "\"";
+            }
+            xml += " reportGroup=\"" + SecurityElement.Escape(reportGroup) + "\"";
+            xml += ">";
+            xml += "\r\n<cnpTxnId>" + cnpTxnId + "</cnpTxnId>";
+            if (processingInstructions != null) xml += "\r\n<processingInstructions>" + processingInstructions.Serialize() + "\r\n</processingInstructions>";
+            xml += "\r\n</void>";
+
+            return xml;
+        }
+
+    }
+
+    // Fast Access Funding Transaction.
+    public partial class fastAccessFunding : transactionTypeWithReportGroup
+    {
+        public string fundingSubmerchantId;
+        public string submerchantName;
+        public string fundsTransferId;
+        public int amount;
+        public cardType card;
+        public cardTokenType token;
+        public cardPaypageType paypage;
+
+        public override string Serialize()
+        {
+            var xml = "\r\n<fastAccessFunding";
+            xml += " id=\"" + SecurityElement.Escape(id) + "\"";
+            if (customerId != null)
+            {
+                xml += " customerId=\"" + SecurityElement.Escape(customerId) + "\"";
+            }
+            xml += " reportGroup=\"" + SecurityElement.Escape(reportGroup) + "\">";
+            
+            // The first element of a sequence xml element  represent the sequence element
+            if (fundingSubmerchantId != null)
+            {
+                xml += "\r\n<fundingSubmerchantId>" + fundingSubmerchantId + "</fundingSubmerchantId>";
+                xml += "\r\n<submerchantName>" + submerchantName + "</submerchantName>";
+                xml += "\r\n<fundsTransferId>" + fundsTransferId + "</fundsTransferId>";
+                xml += "\r\n<amount>" + amount + "</amount>";
+                if (card != null) xml += "\r\n<card>" + card.Serialize() + "</card>";
+                else if (token != null) xml += "\r\n<token>" + token.Serialize() + "</token>";
+                else xml += "\r\n<paypage>" + paypage.Serialize() + "</paypage>";
+            }
+            xml += "\r\n</fastAccessFunding>";
+            return xml;
+        }
+    }
+    
+    // PayFac Credit Transaction. Implemented in CnpBatchRequest.
+    
+    // PayFac Debit Transaction. Implemented in CnpBatchRequest.
+    
+    // Physical Check Credit Transaction. Implemented in CnpBatchRequest.
+    
+    // Physical Check Debit Transaction. Implemented in CnpBatchRequest.
+    
+    // Reserve Credit Transaction. Implemented in CnpBatchRequest.
+    
+    // Reserve Debit Transaction. Implemented in CnpBatchRequest.
+    
+    // Vendor Credit Transaction. Implemented in CnpBatchRequest.
+    
+    // Vendor Debit Transaction. Implemented in CnpBatchRequest.
+    
+    // Query Transaction. Implemented in CnpBatchRequest.
+    public partial class queryTransaction : transactionTypeWithReportGroup
+    {
+        public string origId;
+        public actionTypeEnum origActionType;
+        public long origCnpTxnId;
+
+        public override string Serialize()
+        {
+
+            var xml = "\r\n<queryTransaction";
+            xml += " id=\"" + SecurityElement.Escape(id) + "\"";
+            if (customerId != null)
+            {
+                xml += " customerId=\"" + SecurityElement.Escape(customerId) + "\"";
+            }
+            xml += " reportGroup=\"" + SecurityElement.Escape(reportGroup) + "\">";
+            xml += "\r\n<origId>" + SecurityElement.Escape(origId) + "</origId>";
+            xml += "\r\n<origActionType>" + origActionType + "</origActionType>";
+            if (origCnpTxnId != 0) xml += "\r\n<origCnpTxnId>" + origCnpTxnId + "</origCnpTxnId>";
+            xml += "\r\n</queryTransaction>";
+            return xml;
+        }
+
+    }
+    
+    // [END] SUPPORTED TRANSACTIONS FOR ONLINE PROCESSING.
+    
+    #endregion
+
+    #region Child elements.
+    // The customerInfo element is the parent of several child elements use to define customer information.
+    public partial class customerInfo
+    {
+
+        public string ssn;
+
+        public DateTime dob;
+
+        public DateTime customerRegistrationDate;
+
+        private customerInfoCustomerType customerTypeField;
+        private bool customerTypeSet;
+        public customerInfoCustomerType customerType
+        {
+            get { return customerTypeField; }
+            set { customerTypeField = value; customerTypeSet = true; }
+        }
+
+        private long incomeAmountField;
+        private bool incomeAmountSet;
+        public long incomeAmount
+        {
+            get { return incomeAmountField; }
+            set { incomeAmountField = value; incomeAmountSet = true; }
+        }
+
+        private currencyCodeEnum incomeCurrencyField;
+        private bool incomeCurrencySet;
+        public currencyCodeEnum incomeCurrency
+        {
+            get { return incomeCurrencyField; }
+            set { incomeCurrencyField = value; incomeCurrencySet = true; }
+        }
+
+        private bool customerCheckingAccountField;
+        private bool customerCheckingAccountSet;
+        public bool customerCheckingAccount
+        {
+            get { return customerCheckingAccountField; }
+            set { customerCheckingAccountField = value; customerCheckingAccountSet = true; }
+        }
+
+        private bool customerSavingAccountField;
+        private bool customerSavingAccountSet;
+        public bool customerSavingAccount
+        {
+            get { return customerSavingAccountField; }
+            set { customerSavingAccountField = value; customerSavingAccountSet = true; }
+        }
+
+        public string employerName;
+
+        public string customerWorkTelephone;
+
+        private customerInfoResidenceStatus residenceStatusField;
+        private bool residenceStatusSet;
+        public customerInfoResidenceStatus residenceStatus
+        {
+            get { return residenceStatusField; }
+            set { residenceStatusField = value; residenceStatusSet = true; }
+        }
+
+        private int yearsAtResidenceField;
+        private bool yearsAtResidenceSet;
+        public int yearsAtResidence
+        {
+            get { return yearsAtResidenceField; }
+            set { yearsAtResidenceField = value; yearsAtResidenceSet = true; }
+        }
+
+        private int yearsAtEmployerField;
+        private bool yearsAtEmployerSet;
+        public int yearsAtEmployer
+        {
+            get
+            {
+                return yearsAtEmployerField;
+            }
+            set
+            {
+                yearsAtEmployerField = value;
+                yearsAtEmployerSet = true;
+            }
+        }
+
+
+        public customerInfo()
+        {
+            incomeCurrency = currencyCodeEnum.USD;
+        }
+
+        public string Serialize()
+        {
+            var xml = "";
+            if (ssn != null)
+            {
+                xml += "\r\n<ssn>" + SecurityElement.Escape(ssn) + "</ssn>";
+            }
+            if (dob != null)
+            {
+                xml += "\r\n<dob>" + XmlUtil.toXsdDate(dob) + "</dob>";
+            }
+            if (customerRegistrationDate != null)
+            {
+                xml += "\r\n<customerRegistrationDate>" + XmlUtil.toXsdDate(customerRegistrationDate) + "</customerRegistrationDate>";
+            }
+            if (customerTypeSet)
+            {
+                xml += "\r\n<customerType>" + customerTypeField + "</customerType>";
+            }
+            if (incomeAmountSet)
+            {
+                xml += "\r\n<incomeAmount>" + incomeAmountField + "</incomeAmount>";
+            }
+            if (incomeCurrencySet)
+            {
+                xml += "\r\n<incomeCurrency>" + incomeCurrencyField + "</incomeCurrency>";
+            }
+            if (customerCheckingAccountSet)
+            {
+                xml += "\r\n<customerCheckingAccount>" + customerCheckingAccountField.ToString().ToLower() + "</customerCheckingAccount>";
+            }
+            if (customerSavingAccountSet)
+            {
+                xml += "\r\n<customerSavingAccount>" + customerSavingAccountField.ToString().ToLower() + "</customerSavingAccount>";
+            }
+            if (employerName != null)
+            {
+                xml += "\r\n<employerName>" + SecurityElement.Escape(employerName) + "</employerName>";
+            }
+            if (customerWorkTelephone != null)
+            {
+                xml += "\r\n<customerWorkTelephone>" + SecurityElement.Escape(customerWorkTelephone) + "</customerWorkTelephone>";
+            }
+            if (residenceStatusSet)
+            {
+                xml += "\r\n<residenceStatus>" + residenceStatusField + "</residenceStatus>";
+            }
+            if (yearsAtResidenceSet)
+            {
+                xml += "\r\n<yearsAtResidence>" + yearsAtResidenceField + "</yearsAtResidence>";
+            }
+            if (yearsAtEmployerSet)
+            {
+                xml += "\r\n<yearsAtEmployer>" + yearsAtEmployerField + "</yearsAtEmployer>";
+            }
+            return xml;
+        }
+
+
+    }
+
+    // Not used anywhere.
+    public enum customerInfoCustomerType
+    {
+
+        /// <remarks/>
+        New,
+        Existing,
+    }
+
+    public enum currencyCodeEnum
+    {
+
+        /// <remarks/>
+        AUD,
+        CAD,
+        CHF,
+        DKK,
+        EUR,
+        GBP,
+        HKD,
+        JPY,
+        NOK,
+        NZD,
+        SEK,
+        SGD,
+        USD,
+    }
+
+    public enum customerInfoResidenceStatus
+    {
+
+        /// <remarks/>
+        Own,
+        Rent,
+        Other,
+    }
+
+    // The enhancedData element allows you to specify extra information concerning a transaction
+    // in order to qualify for certain purchasing interchange rates.
+    public partial class enhancedData
+    {
+        public string customerReference;
+        private long salesTaxField;
+        private bool salesTaxSet;
+        public long salesTax
+        {
+            get { return salesTaxField; }
+            set { salesTaxField = value; salesTaxSet = true; }
+        }
+        private enhancedDataDeliveryType deliveryTypeField;
+        private bool deliveryTypeSet;
+        public enhancedDataDeliveryType deliveryType
+        {
+            get { return deliveryTypeField; }
+            set { deliveryTypeField = value; deliveryTypeSet = true; }
+        }
+        public bool taxExemptField;
+        public bool taxExemptSet;
+        public bool taxExempt
+        {
+            get { return taxExemptField; }
+            set { taxExemptField = value; taxExemptSet = true; }
+        }
+        private long discountAmountField;
+        private bool discountAmountSet;
+        public long discountAmount
+        {
+            get { return discountAmountField; }
+            set { discountAmountField = value; discountAmountSet = true; }
+        }
+        private long shippingAmountField;
+        private bool shippingAmountSet;
+        public long shippingAmount
+        {
+            get { return shippingAmountField; }
+            set { shippingAmountField = value; shippingAmountSet = true; }
+        }
+        private long dutyAmountField;
+        private bool dutyAmountSet;
+        public long dutyAmount
+        {
+            get { return dutyAmountField; }
+            set { dutyAmountField = value; dutyAmountSet = true; }
+        }
+        public string shipFromPostalCode;
+        public string destinationPostalCode;
+        private countryTypeEnum destinationCountryCodeField;
+        private bool destinationCountryCodeSet;
+        public countryTypeEnum destinationCountry
+        {
+            get { return destinationCountryCodeField; }
+            set { destinationCountryCodeField = value; destinationCountryCodeSet = true; }
+        }
+        public string invoiceReferenceNumber;
+        private DateTime orderDateField;
+        private bool orderDateSet;
+        public DateTime orderDate
+        {
+            get { return orderDateField; }
+            set { orderDateField = value; orderDateSet = true; }
+        }
+        public List<detailTax> detailTaxes;
+        public List<lineItemData> lineItems;
+
+        public enhancedData()
+        {
+            lineItems = new List<lineItemData>();
+            detailTaxes = new List<detailTax>();
+        }
+
+        public string Serialize()
+        {
+            var xml = "";
+            if (customerReference != null) xml += "\r\n<customerReference>" + SecurityElement.Escape(customerReference) + "</customerReference>";
+            if (salesTaxSet) xml += "\r\n<salesTax>" + salesTaxField + "</salesTax>";
+            if (deliveryTypeSet) xml += "\r\n<deliveryType>" + deliveryTypeField + "</deliveryType>";
+            if (taxExemptSet) xml += "\r\n<taxExempt>" + taxExemptField.ToString().ToLower() + "</taxExempt>";
+            if (discountAmountSet) xml += "\r\n<discountAmount>" + discountAmountField + "</discountAmount>";
+            if (shippingAmountSet) xml += "\r\n<shippingAmount>" + shippingAmountField + "</shippingAmount>";
+            if (dutyAmountSet) xml += "\r\n<dutyAmount>" + dutyAmountField + "</dutyAmount>";
+            if (shipFromPostalCode != null) xml += "\r\n<shipFromPostalCode>" + SecurityElement.Escape(shipFromPostalCode) + "</shipFromPostalCode>";
+            if (destinationPostalCode != null) xml += "\r\n<destinationPostalCode>" + SecurityElement.Escape(destinationPostalCode) + "</destinationPostalCode>";
+            if (destinationCountryCodeSet) xml += "\r\n<destinationCountryCode>" + destinationCountryCodeField + "</destinationCountryCode>";
+            if (invoiceReferenceNumber != null) xml += "\r\n<invoiceReferenceNumber>" + SecurityElement.Escape(invoiceReferenceNumber) + "</invoiceReferenceNumber>";
+            if (orderDateSet) xml += "\r\n<orderDate>" + XmlUtil.toXsdDate(orderDateField) + "</orderDate>";
+            foreach (var detailTax in detailTaxes)
+            {
+                xml += "\r\n<detailTax>" + detailTax.Serialize() + "\r\n</detailTax>";
+            }
+            foreach (var lineItem in lineItems)
+            {
+                xml += "\r\n<lineItemData>" + lineItem.Serialize() + "\r\n</lineItemData>";
+            }
+            return xml;
+        }
+    }
+
+    // The lineItemData element contains several child elements
+    // used to define information concerning individual items in the order.
+    public partial class lineItemData
+    {
+        private int itemSeqenceNumberField;
+        private bool itemSequenceNumberSet;
+        public int itemSequenceNumber
+        {
+            get { return itemSeqenceNumberField; }
+            set { itemSeqenceNumberField = value; itemSequenceNumberSet = true; }
+        }
+        public string itemDescription;
+        public string productCode;
+        public string quantity;
+        public string unitOfMeasure;
+        private long taxAmountField;
+        private bool taxAmountSet;
+        public long taxAmount
+        {
+            get { return taxAmountField; }
+            set { taxAmountField = value; taxAmountSet = true; }
+        }
+        private long lineItemTotalField;
+        private bool lineItemTotalSet;
+        public long lineItemTotal
+        {
+            get { return lineItemTotalField; }
+            set { lineItemTotalField = value; lineItemTotalSet = true; }
+        }
+        private long lineItemTotalWithTaxField;
+        private bool lineItemTotalWithTaxSet;
+        public long lineItemTotalWithTax
+        {
+            get { return lineItemTotalWithTaxField; }
+            set { lineItemTotalWithTaxField = value; lineItemTotalWithTaxSet = true; }
+        }
+        private long itemDiscountAmountField;
+        private bool itemDiscountAmountSet;
+        public long itemDiscountAmount
+        {
+            get { return itemDiscountAmountField; }
+            set { itemDiscountAmountField = value; itemDiscountAmountSet = true; }
+        }
+        public string commodityCode;
+        public string unitCost;
+        public List<detailTax> detailTaxes;
+
+        public lineItemData()
+        {
+            detailTaxes = new List<detailTax>();
+        }
+
+        public string Serialize()
+        {
+            var xml = "";
+            if (itemSequenceNumberSet) xml += "\r\n<itemSequenceNumber>" + itemSeqenceNumberField + "</itemSequenceNumber>";
+            if (itemDescription != null) xml += "\r\n<itemDescription>" + SecurityElement.Escape(itemDescription) + "</itemDescription>";
+            if (productCode != null) xml += "\r\n<productCode>" + SecurityElement.Escape(productCode) + "</productCode>";
+            if (quantity != null) xml += "\r\n<quantity>" + SecurityElement.Escape(quantity) + "</quantity>";
+            if (unitOfMeasure != null) xml += "\r\n<unitOfMeasure>" + SecurityElement.Escape(unitOfMeasure) + "</unitOfMeasure>";
+            if (taxAmountSet) xml += "\r\n<taxAmount>" + taxAmountField + "</taxAmount>";
+            if (lineItemTotalSet) xml += "\r\n<lineItemTotal>" + lineItemTotalField + "</lineItemTotal>";
+            if (lineItemTotalWithTaxSet) xml += "\r\n<lineItemTotalWithTax>" + lineItemTotalWithTaxField + "</lineItemTotalWithTax>";
+            if (itemDiscountAmountSet) xml += "\r\n<itemDiscountAmount>" + itemDiscountAmountField + "</itemDiscountAmount>";
+            if (commodityCode != null) xml += "\r\n<commodityCode>" + SecurityElement.Escape(commodityCode) + "</commodityCode>";
+            if (unitCost != null) xml += "\r\n<unitCost>" + SecurityElement.Escape(unitCost) + "</unitCost>";
+            foreach (var detailTax in detailTaxes)
+            {
+                if (detailTax != null) xml += "\r\n<detailTax>" + detailTax.Serialize() + "</detailTax>";
+            }
+            return xml;
+        }
+
+    }
+
+    // The detailTax element is an optional child of both the enhancedData and lineItemData elements,
+    // which you use to specify detailed tax information (for example, city or local tax).
+    public partial class detailTax
+    {
+        private bool taxIncludedInTotalField;
+        private bool taxIncludedInTotalSet;
+        public bool taxIncludedInTotal
+        {
+            get { return taxIncludedInTotalField; }
+            set { taxIncludedInTotalField = value; taxIncludedInTotalSet = true; }
+        }
+        private long taxAmountField;
+        private bool taxAmountSet;
+        public long taxAmount
+        {
+            get { return taxAmountField; }
+            set { taxAmountField = value; taxAmountSet = true; }
+        }
+        public string taxRate;
+        private taxTypeIdentifierEnum taxTypeIdentifierField;
+        private bool taxTypeIdentifierSet;
+        public taxTypeIdentifierEnum taxTypeIdentifier
+        {
+            get { return taxTypeIdentifierField; }
+            set { taxTypeIdentifierField = value; taxTypeIdentifierSet = true; }
+        }
+        public string cardAcceptorTaxId;
+
+        public string Serialize()
+        {
+            var xml = "";
+            if (taxIncludedInTotalSet) xml += "\r\n<taxIncludedInTotal>" + taxIncludedInTotalField.ToString().ToLower() + "</taxIncludedInTotal>";
+            if (taxAmountSet) xml += "\r\n<taxAmount>" + taxAmountField + "</taxAmount>";
+            if (taxRate != null) xml += "\r\n<taxRate>" + SecurityElement.Escape(taxRate) + "</taxRate>";
+            if (taxTypeIdentifierSet)
+            {
+                var type = taxTypeIdentifierField.GetType();
+                var info = type.GetField(Enum.GetName(typeof(taxTypeIdentifierEnum), taxTypeIdentifierField));
+                var att = (XmlEnumAttribute)info.GetCustomAttributes(typeof(XmlEnumAttribute), false)[0];
+                //If there is an xmlattribute defined, return the name
+
+                xml += "\r\n<taxTypeIdentifier>" + att.Name + "</taxTypeIdentifier>";
+            }
+            if (cardAcceptorTaxId != null) xml += "\r\n<cardAcceptorTaxId>" + SecurityElement.Escape(cardAcceptorTaxId) + "</cardAcceptorTaxId>";
+            return xml;
+        }
+    }
+
+    public partial class transactionTypeWithReportGroupAndPartial : transactionType
+    {
+        public string reportGroup;
+        private bool partialField;
+        protected bool partialSet;
+        public bool partial
+        {
+            get { return partialField; }
+            set { partialField = value; partialSet = true; }
+        }
+    }
+
+    public partial class echeckForTokenType
+    {
+        public string accNum;
+        public string routingNum;
+
+        public string Serialize()
+        {
+            var xml = "";
+            if (accNum != null) xml += "\r\n<accNum>" + SecurityElement.Escape(accNum) + "</accNum>";
+            if (routingNum != null) xml += "\r\n<routingNum>" + SecurityElement.Escape(routingNum) + "</routingNum>";
+            return xml;
+        }
+    }
+
+    public partial class echeckType
+    {
+        private echeckAccountTypeEnum accTypeField;
+        private bool accTypeSet;
+        public echeckAccountTypeEnum accType
+        {
+            get { return accTypeField; }
+            set { accTypeField = value; accTypeSet = true; }
+        }
+
+        public string accNum;
+        public string routingNum;
+        public string checkNum;
+        public string ccdPaymentInformation;
+
+        public string Serialize()
+        {
+            var xml = "";
+            var accTypeName = accTypeField.ToString();
+            var attributes = 
+                (XmlEnumAttribute[])typeof(echeckAccountTypeEnum).GetMember(accTypeField.ToString())[0].GetCustomAttributes(typeof(XmlEnumAttribute), false);
+            if (attributes.Length > 0) accTypeName = attributes[0].Name;
+            if (accTypeSet) xml += "\r\n<accType>" + accTypeName + "</accType>";
+            if (accNum != null) xml += "\r\n<accNum>" + SecurityElement.Escape(accNum) + "</accNum>";
+            if (routingNum != null) xml += "\r\n<routingNum>" + SecurityElement.Escape(routingNum) + "</routingNum>";
+            if (checkNum != null) xml += "\r\n<checkNum>" + SecurityElement.Escape(checkNum) + "</checkNum>";
+            if (ccdPaymentInformation != null) xml += "\r\n<ccdPaymentInformation>" + SecurityElement.Escape(ccdPaymentInformation) + "</ccdPaymentInformation>";
+            return xml;
+        }
+    }
+
+    public partial class echeckTokenType
+    {
+        public string cnpToken;
+        public string routingNum;
+        private echeckAccountTypeEnum accTypeField;
+        private bool accTypeSet;
+        public echeckAccountTypeEnum accType
+        {
+            get { return accTypeField; }
+            set { accTypeField = value; accTypeSet = true; }
+        }
+        public string checkNum;
+
+        public string Serialize()
+        {
+            var xml = "";
+            if (cnpToken != null) xml += "\r\n<cnpToken>" + SecurityElement.Escape(cnpToken) + "</cnpToken>";
+            if (routingNum != null) xml += "\r\n<routingNum>" + SecurityElement.Escape(routingNum) + "</routingNum>";
+            if (accTypeSet) xml += "\r\n<accType>" + accTypeField + "</accType>";
+            if (checkNum != null) xml += "\r\n<checkNum>" + SecurityElement.Escape(checkNum) + "</checkNum>";
+            return xml;
+        }
+
+    }
+
+    public partial class pos
+    {
+        private posCapabilityTypeEnum capabilityField;
+        private bool capabilitySet;
+        public posCapabilityTypeEnum capability
+        {
+            get { return capabilityField; }
+            set { capabilityField = value; capabilitySet = true; }
+        }
+
+        private posEntryModeTypeEnum entryModeField;
+        private bool entryModeSet;
+        public posEntryModeTypeEnum entryMode
+        {
+            get { return entryModeField; }
+            set { entryModeField = value; entryModeSet = true; }
+        }
+
+        private posCardholderIdTypeEnum cardholderIdField;
+        private bool cardholderIdSet;
+        public posCardholderIdTypeEnum cardholderId
+        {
+            get { return cardholderIdField; }
+            set { cardholderIdField = value; cardholderIdSet = true; }
+        }
+        public string terminalId;
+
+        private posCatLevelEnum catLevelField;
+        private bool catLevelSet;
+        public posCatLevelEnum catLevel
+        {
+            get { return catLevelField; }
+            set { catLevelField = value; catLevelSet = true; }
+        }
+
+        public string Serialize()
+        {
+            var xml = "";
+            if (capabilitySet) xml += "\r\n<capability>" + capabilityField + "</capability>";
+            if (entryModeSet) xml += "\r\n<entryMode>" + entryModeField + "</entryMode>";
+            if (cardholderIdSet) xml += "\r\n<cardholderId>" + cardholderIdField + "</cardholderId>";
+            if (terminalId != null) xml += "\r\n<terminalId>" + SecurityElement.Escape(terminalId) + "</terminalId>";
+            if (catLevelSet) xml += "\r\n<catLevel>" + catLevelField.Serialize() +"</catLevel>";
+            return xml;
+        }
+
+    }
+
+    public partial class payPal
+    {
+        public string payerId;
+        public string payerEmail;
+        public string token;
+        public string transactionId;
+
+        public string Serialize()
+        {
+            var xml = "";
+            if (payerId != null) xml += "\r\n<payerId>" + SecurityElement.Escape(payerId) + "</payerId>";
+            if (payerEmail != null) xml += "\r\n<payerEmail>" + SecurityElement.Escape(payerEmail) + "</payerEmail>";
+            if (token != null) xml += "\r\n<token>" + SecurityElement.Escape(token) + "</token>";
+            if (transactionId != null) xml += "\r\n<transactionId>" + SecurityElement.Escape(transactionId) + "</transactionId>";
+            return xml;
+        }
+    }
+
+    public partial class merchantDataType
+    {
+        public string campaign;
+        public string affiliate;
+        public string merchantGroupingId;
+
+        public string Serialize()
+        {
+            var xml = "";
+            if (campaign != null) xml += "\r\n<campaign>" + SecurityElement.Escape(campaign) + "</campaign>";
+            if (affiliate != null) xml += "\r\n<affiliate>" + SecurityElement.Escape(affiliate) + "</affiliate>";
+            if (merchantGroupingId != null) xml += "\r\n<merchantGroupingId>" + SecurityElement.Escape(merchantGroupingId) + "</merchantGroupingId>";
+            return xml;
+        }
+    }
+
+    public partial class cardTokenType
+    {
+        public string cnpToken;
+        public string expDate;
+        public string cardValidationNum;
+        private methodOfPaymentTypeEnum typeField;
+        private bool typeSet;
+        public methodOfPaymentTypeEnum type
+        {
+            get { return typeField; }
+            set { typeField = value; typeSet = true; }
+        }
+
+        private string checkoutIdTypeField;
+        private bool checkoutIdTypeSet;
+
+        public string checkoutIdType
+        {
+            get { return checkoutIdTypeField; }
+            set { checkoutIdTypeField = value;
+                checkoutIdTypeSet = true;
+            }
+        }    
+
+        public string Serialize()
+        {
+            var xml = "\r\n<cnpToken>" + SecurityElement.Escape(cnpToken) + "</cnpToken>";
+            if (expDate != null) xml += "\r\n<expDate>" + SecurityElement.Escape(expDate) + "</expDate>";
+            if (cardValidationNum != null) xml += "\r\n<cardValidationNum>" + SecurityElement.Escape(cardValidationNum) + "</cardValidationNum>";
+            if (typeSet) xml += "\r\n<type>" + methodOfPaymentSerializer.Serialize(typeField) + "</type>";
+            if (checkoutIdTypeSet) xml += "\r\n<checkoutId>" + checkoutIdType + "</checkoutId>";
+            return xml;
+        }
+    }
+
+    public partial class cardPaypageType
+    {
+        public string paypageRegistrationId;
+        public string expDate;
+        public string cardValidationNum;
+        private methodOfPaymentTypeEnum typeField;
+        private bool typeSet;
+        public methodOfPaymentTypeEnum type
+        {
+            get { return typeField; }
+            set { typeField = value; typeSet = true; }
+        }
+
+        public string Serialize()
+        {
+            var xml = "\r\n<paypageRegistrationId>" + SecurityElement.Escape(paypageRegistrationId) + "</paypageRegistrationId>";
+            if (expDate != null) xml += "\r\n<expDate>" + SecurityElement.Escape(expDate) + "</expDate>";
+            if (cardValidationNum != null) xml += "\r\n<cardValidationNum>" + SecurityElement.Escape(cardValidationNum) + "</cardValidationNum>";
+            if (typeSet) xml += "\r\n<type>" + methodOfPaymentSerializer.Serialize(typeField) + "</type>";
+            return xml;
+        }
+    }
+
+    public partial class billMeLaterRequest
+    {
+        private long bmlMerchantIdField;
+        private bool bmlMerchantIdSet;
+        public long bmlMerchantId
+        {
+            get { return bmlMerchantIdField; }
+            set { bmlMerchantIdField = value; bmlMerchantIdSet = true; }
+        }
+        private long bmlProductTypeField;
+        private bool bmlProductTypeSet;
+        public long bmlProductType
+        {
+            get { return bmlProductTypeField; }
+            set { bmlProductTypeField = value; bmlProductTypeSet = true; }
+        }
+        private int termsAndConditionsField;
+        private bool termsAndConditionsSet;
+        public int termsAndConditions
+        {
+            get { return termsAndConditionsField; }
+            set { termsAndConditionsField = value; termsAndConditionsSet = true; }
+        }
+        public string preapprovalNumber;
+        private int merchantPromotionalCodeField;
+        private bool merchantPromotionalCodeSet;
+        public int merchantPromotionalCode
+        {
+            get { return merchantPromotionalCodeField; }
+            set { merchantPromotionalCodeField = value; merchantPromotionalCodeSet = true; }
+        }
+        public string virtualAuthenticationKeyPresenceIndicator;
+        public string virtualAuthenticationKeyData;
+        private int itemCategoryCodeField;
+        private bool itemCategoryCodeSet;
+        public int itemCategoryCode
+        {
+            get { return itemCategoryCodeField; }
+            set { itemCategoryCodeField = value; itemCategoryCodeSet = true; }
+        }
+
+        public string Serialize()
+        {
+            var xml = "";
+            if (bmlMerchantIdSet) xml += "\r\n<bmlMerchantId>" + bmlMerchantIdField + "</bmlMerchantId>";
+            if (bmlProductTypeSet) xml += "\r\n<bmlProductType>" + bmlProductTypeField + "</bmlProductType>";
+            if (termsAndConditionsSet) xml += "\r\n<termsAndConditions>" + termsAndConditionsField + "</termsAndConditions>";
+            if (preapprovalNumber != null) xml += "\r\n<preapprovalNumber>" + SecurityElement.Escape(preapprovalNumber) + "</preapprovalNumber>";
+            if (merchantPromotionalCodeSet) xml += "\r\n<merchantPromotionalCode>" + merchantPromotionalCodeField + "</merchantPromotionalCode>";
+            if (virtualAuthenticationKeyPresenceIndicator != null) xml += "\r\n<virtualAuthenticationKeyPresenceIndicator>" + SecurityElement.Escape(virtualAuthenticationKeyPresenceIndicator) + "</virtualAuthenticationKeyPresenceIndicator>";
+            if (virtualAuthenticationKeyData != null) xml += "\r\n<virtualAuthenticationKeyData>" + SecurityElement.Escape(virtualAuthenticationKeyData) + "</virtualAuthenticationKeyData>";
+            if (itemCategoryCodeSet) xml += "\r\n<itemCategoryCode>" + itemCategoryCodeField + "</itemCategoryCode>";
+            return xml;
+        }
+
+    }
+
+    public partial class customBilling
+    {
+        public string phone;
+        public string city;
+        public string url;
+        public string descriptor;
+        public string Serialize()
+        {
+            var xml = "";
+            if (phone != null) xml += "\r\n<phone>" + SecurityElement.Escape(phone) + "</phone>";
+            else if (city != null) xml += "\r\n<city>" + SecurityElement.Escape(city) + "</city>";
+            else if (url != null) xml += "\r\n<url>" + SecurityElement.Escape(url) + "</url>";
+            if (descriptor != null) xml += "\r\n<descriptor>" + SecurityElement.Escape(descriptor) + "</descriptor>";
+            return xml;
+        }
+    }
+
+    public partial class amexAggregatorData
+    {
+        public string sellerId;
+        public string sellerMerchantCategoryCode;
+        public string Serialize()
+        {
+            var xml = "";
+            xml += "\r\n<sellerId>" + SecurityElement.Escape(sellerId) + "</sellerId>";
+            xml += "\r\n<sellerMerchantCategoryCode>" + SecurityElement.Escape(sellerMerchantCategoryCode) + "</sellerMerchantCategoryCode>";
+            return xml;
+        }
+
+    }
+
+    public partial class processingInstructions
+    {
+        private bool bypassVelocityCheckField;
+        private bool bypassVelocityCheckSet;
+        public bool bypassVelocityCheck
+        {
+            get { return bypassVelocityCheckField; }
+            set { bypassVelocityCheckField = value; bypassVelocityCheckSet = true; }
+        }
+
+        public string Serialize()
+        {
+            var xml = "";
+            if (bypassVelocityCheckSet) xml += "\r\n<bypassVelocityCheck>" + bypassVelocityCheckField.ToString().ToLower() + "</bypassVelocityCheck>";
+            return xml;
+        }
+    }
+
+    [SerializableAttribute()]
+    [XmlTypeAttribute(Namespace = "http://www.vantivcnp.com/schema")]
+    public enum intervalType
+    {
+        ANNUAL,
+        SEMIANNUAL,
+        QUARTERLY,
+        MONTHLY,
+        WEEKLY
+    }
+
+    [SerializableAttribute()]
+    [XmlTypeAttribute(Namespace = "http://www.vantivcnp.com/schema")]
+    public enum trialIntervalType
+    {
+        MONTH,
+        DAY
+    }
 
     public partial class fraudResult
     {
@@ -2620,25 +3373,6 @@ namespace Cnp.Sdk
             if (fraudResult != null) xml += "\r\n<fraudResult>" + fraudResult.Serialize() + "</fraudResult>";
             if (authAmountSet) xml += "\r\n<authAmount>" + authAmountField + "</authAmount>";
             return xml;
-        }
-    }
-
-    public class XmlUtil
-    {
-        public static string toXsdDate(DateTime dateTime)
-        {
-            var year = dateTime.Year.ToString();
-            var month = dateTime.Month.ToString();
-            if (dateTime.Month < 10)
-            {
-                month = "0" + month;
-            }
-            var day = dateTime.Day.ToString();
-            if (dateTime.Day < 10)
-            {
-                day = "0" + day;
-            }
-            return year + "-" + month + "-" + day;
         }
     }
 
@@ -2845,7 +3579,6 @@ namespace Cnp.Sdk
         }
     }
 
-
     public partial class subscription
     {
         public string planCode;
@@ -2900,11 +3633,7 @@ namespace Cnp.Sdk
             return xml;
         }
     }
-
-
-
-
-
+    
     public partial class filteringType
     {
         private bool prepaidField;
@@ -2973,7 +3702,6 @@ namespace Cnp.Sdk
             return xml;
         }
     }
-
 
     public partial class healthcareAmounts
     {
@@ -3350,30 +4078,6 @@ namespace Cnp.Sdk
         ME,
     }
 
-    public partial class fraudCheckType
-    {
-        public string authenticationValue;
-        public string authenticationTransactionId;
-        public string customerIpAddress;
-        private bool authenticatedByMerchantField;
-        private bool authenticatedByMerchantSet;
-        public bool authenticatedByMerchant
-        {
-            get { return authenticatedByMerchantField; }
-            set { authenticatedByMerchantField = value; authenticatedByMerchantSet = true; }
-        }
-
-        public string Serialize()
-        {
-            var xml = "";
-            if (authenticationValue != null) xml += "\r\n<authenticationValue>" + SecurityElement.Escape(authenticationValue) + "</authenticationValue>";
-            if (authenticationTransactionId != null) xml += "\r\n<authenticationTransactionId>" + SecurityElement.Escape(authenticationTransactionId) + "</authenticationTransactionId>";
-            if (customerIpAddress != null) xml += "\r\n<customerIpAddress>" + SecurityElement.Escape(customerIpAddress) + "</customerIpAddress>";
-            if (authenticatedByMerchantSet) xml += "\r\n<authenticatedByMerchant>" + authenticatedByMerchantField + "</authenticatedByMerchant>";
-            return xml;
-        }
-    }
-
     public partial class advancedFraudChecksType
     {
         public string threatMetrixSessionId;
@@ -3561,154 +4265,7 @@ namespace Cnp.Sdk
         }
 
     }
-
-    public partial class authReversal : transactionTypeWithReportGroup
-    {
-        public long cnpTxnId;
-        private long amountField;
-        private bool amountSet;
-        public long amount
-        {
-            get { return amountField; }
-            set { amountField = value; amountSet = true; }
-        }
-        private bool surchargeAmountSet;
-        private long surchargeAmountField;
-        public long surchargeAmount
-        {
-            get { return surchargeAmountField; }
-            set { surchargeAmountField = value; surchargeAmountSet = true; }
-        }
-        public string payPalNotes;
-        public string actionReason;
-
-        public override string Serialize()
-        {
-            var xml = "\r\n<authReversal";
-            xml += " id=\"" + SecurityElement.Escape(id) + "\"";
-            if (customerId != null)
-            {
-                xml += " customerId=\"" + SecurityElement.Escape(customerId) + "\"";
-            }
-            xml += " reportGroup=\"" + SecurityElement.Escape(reportGroup) + "\">";
-            xml += "\r\n<cnpTxnId>" + cnpTxnId + "</cnpTxnId>";
-            if (amountSet)
-            {
-                xml += "\r\n<amount>" + amountField + "</amount>";
-            }
-            if (surchargeAmountSet) xml += "\r\n<surchargeAmount>" + surchargeAmountField + "</surchargeAmount>";
-            if (payPalNotes != null)
-            {
-                xml += "\r\n<payPalNotes>" + SecurityElement.Escape(payPalNotes) + "</payPalNotes>";
-            }
-            if (actionReason != null)
-            {
-                xml += "\r\n<actionReason>" + SecurityElement.Escape(actionReason) + "</actionReason>";
-            }
-            xml += "\r\n</authReversal>";
-            return xml;
-        }
-
-    }
-
-    public partial class giftCardAuthReversal : transactionTypeWithReportGroup
-    {
-        private long cnpTxnIdField;
-        private bool cnpTxnIdSet;
-        public long cnpTxnId
-        {
-            get
-            {
-                return cnpTxnIdField;
-            }
-            set
-            {
-                cnpTxnIdField = value;
-                cnpTxnIdSet = true;
-            }
-        }
-        public giftCardCardType card;
-        public string originalRefCode;
-        public long originalAmount;
-        public DateTime originalTxnTime;
-        private int originalSystemTraceIdField;
-        private bool originalSystemTraceIdSet;
-        public int originalSystemTraceId
-        {
-            get
-            {
-                return originalSystemTraceIdField;
-            }
-            set
-            {
-                originalSystemTraceIdField = value;
-                originalSystemTraceIdSet = true;
-            }
-        }
-        public string originalSequenceNumber;
-
-        public override string Serialize()
-        {
-            var xml = "\r\n<giftCardAuthReversal ";
-            xml += " id=\"" + SecurityElement.Escape(id) + "\"";
-            if (customerId != null)
-            {
-                xml += " customerId=\"" + SecurityElement.Escape(customerId) + "\"";
-            }
-            xml += " reportGroup=\"" + SecurityElement.Escape(reportGroup) + "\">";
-            if (cnpTxnIdSet)
-            {
-                xml += "\r\n<cnpTxnId>" + cnpTxnIdField + "</cnpTxnId>";
-            }
-            if (card != null)
-            {
-                xml += "\r\n<card>" + card.Serialize() + "\r\n</card>";
-            }
-            if (originalRefCode != null)
-            {
-                xml += "\r\n<originalRefCode>" + originalRefCode + "</originalRefCode>";
-            }
-            // Do I need to turn original amount long into a boolean because it cannot be compared to null
-            xml += "\r\n<originalAmount>" + originalAmount + "</originalAmount>";
-
-            if (originalTxnTime != null)
-            {
-                xml += "\r\n<originalTxnTime>" + originalTxnTime.ToString("yyyy-MM-ddTHH:mm:ssZ") + "</originalTxnTime>";
-            }
-            // I turned this into a boolean so the serialixing methos was in a boolean form
-            if (originalSystemTraceIdSet)
-            {
-                xml += "\r\n<originalSystemTraceId>" + originalSystemTraceIdField + "</originalSystemTraceId>";
-            }
-            if (originalSequenceNumber != null)
-            {
-                xml += "\r\n<originalSequenceNumber>" + originalSequenceNumber + "</originalSequenceNumber>";
-            }
-            xml += "\r\n</giftCardAuthReversal>";
-            return xml;
-        }
-    }
-
-    public partial class echeckVoid : transactionTypeWithReportGroup
-    {
-        public long cnpTxnId;
-
-        public override string Serialize()
-        {
-            var xml = "\r\n<echeckVoid";
-            xml += " id=\"" + SecurityElement.Escape(id) + "\"";
-            if (customerId != null)
-            {
-                xml += " customerId=\"" + SecurityElement.Escape(customerId) + "\"";
-            }
-            xml += " reportGroup=\"" + SecurityElement.Escape(reportGroup) + "\">";
-            xml += "\r\n<cnpTxnId>" + cnpTxnId + "</cnpTxnId>";
-            xml += "\r\n</echeckVoid>";
-            return xml;
-        }
-
-    }
-
+    
     public class accountUpdate : transactionTypeWithReportGroup
     {
         public string orderId;
@@ -3776,433 +4333,6 @@ namespace Cnp.Sdk
         }
     }
 
-    public partial class activate : transactionTypeWithReportGroup
-    {
-        public string orderId;
-        public long amount;
-        public orderSourceType orderSource;
-        public giftCardCardType card;
-        public virtualGiftCardType virtualGiftCard;
-
-        public override string Serialize()
-        {
-            var xml = "\r\n<activate";
-            xml += " id=\"" + SecurityElement.Escape(id) + "\"";
-            if (customerId != null)
-            {
-                xml += " customerId=\"" + SecurityElement.Escape(customerId) + "\"";
-            }
-            xml += " reportGroup=\"" + SecurityElement.Escape(reportGroup) + "\">";
-            xml += "\r\n<orderId>" + SecurityElement.Escape(orderId) + "</orderId>";
-            xml += "\r\n<amount>" + amount + "</amount>";
-            xml += "\r\n<orderSource>" + orderSource.Serialize() + "</orderSource>";
-            if (card != null) xml += "\r\n<card>" + card.Serialize() + "\r\n</card>";
-            else if (virtualGiftCard != null) xml += "\r\n<virtualGiftCard>" + virtualGiftCard.Serialize() + "\r\n</virtualGiftCard>";
-            xml += "\r\n</activate>";
-            return xml;
-        }
-    }
-
-    public partial class deactivate : transactionTypeWithReportGroup
-    {
-        public string orderId;
-        public orderSourceType orderSource;
-        public giftCardCardType card;
-
-        public override string Serialize()
-        {
-            var xml = "\r\n<deactivate";
-            xml += " id=\"" + SecurityElement.Escape(id) + "\"";
-            if (customerId != null)
-            {
-                xml += " customerId=\"" + SecurityElement.Escape(customerId) + "\"";
-            }
-            xml += " reportGroup=\"" + SecurityElement.Escape(reportGroup) + "\">";
-            xml += "\r\n<orderId>" + SecurityElement.Escape(orderId) + "</orderId>";
-            xml += "\r\n<orderSource>" + orderSource.Serialize() + "</orderSource>";
-            xml += "\r\n<card>" + card.Serialize() + "\r\n</card>";
-            xml += "\r\n</deactivate>";
-            return xml;
-        }
-    }
-
-    public partial class load : transactionTypeWithReportGroup
-    {
-        public string orderId;
-        public long amount;
-        public orderSourceType orderSource;
-        public giftCardCardType card;
-
-        public override string Serialize()
-        {
-            var xml = "\r\n<load";
-            xml += " id=\"" + SecurityElement.Escape(id) + "\"";
-            if (customerId != null)
-            {
-                xml += " customerId=\"" + SecurityElement.Escape(customerId) + "\"";
-            }
-            xml += " reportGroup=\"" + SecurityElement.Escape(reportGroup) + "\">";
-            xml += "\r\n<orderId>" + SecurityElement.Escape(orderId) + "</orderId>";
-            xml += "\r\n<amount>" + amount + "</amount>";
-            xml += "\r\n<orderSource>" + orderSource.Serialize() + "</orderSource>";
-            xml += "\r\n<card>" + card.Serialize() + "\r\n</card>";
-            xml += "\r\n</load>";
-            return xml;
-        }
-    }
-
-    public partial class unload : transactionTypeWithReportGroup
-    {
-        public string orderId;
-        public long amount;
-        public orderSourceType orderSource;
-        public giftCardCardType card;
-
-        public override string Serialize()
-        {
-            var xml = "\r\n<unload";
-            xml += " id=\"" + SecurityElement.Escape(id) + "\"";
-            if (customerId != null)
-            {
-                xml += " customerId=\"" + SecurityElement.Escape(customerId) + "\"";
-            }
-            xml += " reportGroup=\"" + SecurityElement.Escape(reportGroup) + "\">";
-            xml += "\r\n<orderId>" + SecurityElement.Escape(orderId) + "</orderId>";
-            xml += "\r\n<amount>" + amount + "</amount>";
-            xml += "\r\n<orderSource>" + orderSource.Serialize() + "</orderSource>";
-            xml += "\r\n<card>" + card.Serialize() + "\r\n</card>";
-            xml += "\r\n</unload>";
-            return xml;
-        }
-    }
-
-    public partial class balanceInquiry : transactionTypeWithReportGroup
-    {
-        public string orderId;
-        public orderSourceType orderSource;
-        public giftCardCardType card;
-
-        public override string Serialize()
-        {
-            var xml = "\r\n<balanceInquiry";
-            xml += " id=\"" + SecurityElement.Escape(id) + "\"";
-            if (customerId != null)
-            {
-                xml += " customerId=\"" + SecurityElement.Escape(customerId) + "\"";
-            }
-            xml += " reportGroup=\"" + SecurityElement.Escape(reportGroup) + "\">";
-            xml += "\r\n<orderId>" + SecurityElement.Escape(orderId) + "</orderId>";
-            xml += "\r\n<orderSource>" + orderSource.Serialize() + "</orderSource>";
-            xml += "\r\n<card>" + card.Serialize() + "\r\n</card>";
-            xml += "\r\n</balanceInquiry>";
-            return xml;
-        }
-    }
-
-    public partial class loadReversal : transactionTypeWithReportGroup
-    {
-        private long cnpTxnIdField;
-        private bool cnpTxnIdSet;
-        public long cnpTxnId
-        {
-            get
-            {
-                return cnpTxnIdField;
-            }
-            set
-            {
-                cnpTxnIdField = value;
-                cnpTxnIdSet = true;
-            }
-        }
-        public giftCardCardType card;
-        public string originalRefCode;
-        public long originalAmount;
-        public DateTime originalTxnTime;
-        public int originalSystemTraceId;
-        public string originalSequenceNumber;
-
-        public override string Serialize()
-        {
-            var xml = "\r\n<loadReversal";
-            xml += " id=\"" + SecurityElement.Escape(id) + "\"";
-            if (customerId != null)
-            {
-                xml += " customerId=\"" + SecurityElement.Escape(customerId) + "\"";
-            }
-            xml += " reportGroup=\"" + SecurityElement.Escape(reportGroup) + "\">";
-            if (cnpTxnIdSet)
-            {
-                xml += "\r\n<cnpTxnId>" + cnpTxnId + "</cnpTxnId>";
-            }
-            xml += "\r\n<card>" + card.Serialize() + "\r\n</card>";
-            xml += "\r\n<originalRefCode>" + originalRefCode + "</originalRefCode>";
-            xml += "\r\n<originalAmount>" + originalAmount + "</originalAmount>";
-            xml += "\r\n<originalTxnTime>" + originalTxnTime.ToString("yyyy-MM-ddTHH:mm:ssZ") + "</originalTxnTime>";
-            xml += "\r\n<originalSystemTraceId>" + originalSystemTraceId + "</originalSystemTraceId>";
-            xml += "\r\n<originalSequenceNumber>" + originalSequenceNumber + "</originalSequenceNumber>";
-
-            xml += "\r\n</loadReversal>";
-            return xml;
-        }
-    }
-
-    public partial class unloadReversal : transactionTypeWithReportGroup
-    {
-        private long cnpTxnIdField;
-        private bool cnpTxnIdSet;
-        public long cnpTxnId
-        {
-            get
-            {
-                return cnpTxnIdField;
-            }
-            set
-            {
-                cnpTxnIdField = value;
-                cnpTxnIdSet = true;
-            }
-        }
-        public giftCardCardType card;
-        public string originalRefCode;
-        public long originalAmount;
-        public DateTime originalTxnTime;
-        public int originalSystemTraceId;
-        public string originalSequenceNumber;
-
-        public override string Serialize()
-        {
-            var xml = "\r\n<unloadReversal";
-            xml += " id=\"" + SecurityElement.Escape(id) + "\"";
-            if (customerId != null)
-            {
-                xml += " customerId=\"" + SecurityElement.Escape(customerId) + "\"";
-            }
-            xml += " reportGroup=\"" + SecurityElement.Escape(reportGroup) + "\">";
-            if (cnpTxnIdSet)
-            {
-                xml += "\r\n<cnpTxnId>" + cnpTxnId + "</cnpTxnId>";
-            }
-            xml += "\r\n<card>" + card.Serialize() + "\r\n</card>";
-            xml += "\r\n<originalRefCode>" + originalRefCode + "</originalRefCode>";
-            xml += "\r\n<originalAmount>" + originalAmount + "</originalAmount>";
-            xml += "\r\n<originalTxnTime>" + originalTxnTime.ToString("yyyy-MM-ddTHH:mm:ssZ") + "</originalTxnTime>";
-            xml += "\r\n<originalSystemTraceId>" + originalSystemTraceId + "</originalSystemTraceId>";
-            xml += "\r\n<originalSequenceNumber>" + originalSequenceNumber + "</originalSequenceNumber>";
-
-            xml += "\r\n</unloadReversal>";
-            return xml;
-        }
-    }
-
-    public partial class deactivateReversal : transactionTypeWithReportGroup
-    {
-        private long cnpTxnIdField;
-        private bool cnpTxnIdSet;
-        public long cnpTxnId
-        {
-            get
-            {
-                return cnpTxnIdField;
-            }
-            set
-            {
-                cnpTxnIdField = value;
-                cnpTxnIdSet = true;
-            }
-        }
-        public giftCardCardType card;
-        public string originalRefCode;
-        public DateTime originalTxnTime;
-        public int originalSystemTraceId;
-        public string originalSequenceNumber;
-
-        public override string Serialize()
-        {
-            var xml = "\r\n<deactivateReversal";
-            xml += " id=\"" + SecurityElement.Escape(id) + "\"";
-            if (customerId != null)
-            {
-                xml += " customerId=\"" + SecurityElement.Escape(customerId) + "\"";
-            }
-            xml += " reportGroup=\"" + SecurityElement.Escape(reportGroup) + "\">";
-            if (cnpTxnIdSet)
-            {
-                xml += "\r\n<cnpTxnId>" + cnpTxnId + "</cnpTxnId>";
-            }
-            xml += "\r\n<card>" + card.Serialize() + "\r\n</card>";
-            xml += "\r\n<originalRefCode>" + originalRefCode + "</originalRefCode>";
-            xml += "\r\n<originalTxnTime>" + originalTxnTime.ToString("yyyy-MM-ddTHH:mm:ssZ") + "</originalTxnTime>";
-            xml += "\r\n<originalSystemTraceId>" + originalSystemTraceId + "</originalSystemTraceId>";
-            xml += "\r\n<originalSequenceNumber>" + originalSequenceNumber + "</originalSequenceNumber>";
-
-            xml += "\r\n</deactivateReversal>";
-            return xml;
-        }
-    }
-
-    public partial class activateReversal : transactionTypeWithReportGroup
-    {
-        private long cnpTxnIdField;
-        private bool cnpTxnIdSet;
-        public long cnpTxnId
-        {
-            get
-            {
-                return cnpTxnIdField;
-            }
-            set
-            {
-                cnpTxnIdField = value;
-                cnpTxnIdSet = true;
-            }
-        }
-        private string virtualGiftCardBinField;
-        private bool virtualGiftCardBinSet;
-        public string virtualGiftCardBin
-        {
-            get
-            {
-                return virtualGiftCardBinField;
-            }
-            set
-            {
-                virtualGiftCardBinField = value;
-                virtualGiftCardBinSet = true;
-            }
-        }
-        public giftCardCardType card;
-        public string originalRefCode;
-        public long originalAmount;
-        public DateTime originalTxnTime;
-        public int originalSystemTraceId;
-        public string originalSequenceNumber;
-
-        public override string Serialize()
-        {
-            var xml = "\r\n<activateReversal";
-            xml += " id=\"" + SecurityElement.Escape(id) + "\"";
-            if (customerId != null)
-            {
-                xml += " customerId=\"" + SecurityElement.Escape(customerId) + "\"";
-            }
-            xml += " reportGroup=\"" + SecurityElement.Escape(reportGroup) + "\">";
-            if (cnpTxnIdSet)
-            {
-                xml += "\r\n<cnpTxnId>" + cnpTxnId + "</cnpTxnId>";
-            }
-            if (virtualGiftCardBinSet)
-            {
-                xml += "\r\n<virtualGiftCardBin>" + virtualGiftCardBin + "</virtualGiftCardBin>";
-            }
-            xml += "\r\n<card>" + card.Serialize() + "\r\n</card>";
-            xml += "\r\n<originalRefCode>" + originalRefCode + "</originalRefCode>";
-            xml += "\r\n<originalAmount>" + originalAmount + "</originalAmount>";
-            xml += "\r\n<originalTxnTime>" + originalTxnTime.ToString("yyyy-MM-ddTHH:mm:ssZ") + "</originalTxnTime>";
-            xml += "\r\n<originalSystemTraceId>" + originalSystemTraceId + "</originalSystemTraceId>";
-            xml += "\r\n<originalSequenceNumber>" + originalSequenceNumber + "</originalSequenceNumber>";
-
-            xml += "\r\n</activateReversal>";
-            return xml;
-        }
-    }
-
-    public partial class refundReversal : transactionTypeWithReportGroup
-    {
-        private long cnpTxnIdField;
-        private bool cnpTxnIdSet;
-        public long cnpTxnId
-        {
-            get
-            {
-                return cnpTxnIdField;
-            }
-            set
-            {
-                cnpTxnIdField = value;
-                cnpTxnIdSet = true;
-            }
-        }
-        public giftCardCardType card;
-        public string originalRefCode;
-        public long originalAmount;
-        public DateTime originalTxnTime;
-        public int originalSystemTraceId;
-        public string originalSequenceNumber;
-
-        public override string Serialize()
-        {
-            var xml = "\r\n<refundReversal";
-            xml += " id=\"" + SecurityElement.Escape(id) + "\"";
-            if (customerId != null)
-            {
-                xml += " customerId=\"" + SecurityElement.Escape(customerId) + "\"";
-            }
-            xml += " reportGroup=\"" + SecurityElement.Escape(reportGroup) + "\">";
-            if (cnpTxnIdSet)
-            {
-                xml += "\r\n<cnpTxnId>" + cnpTxnId + "</cnpTxnId>";
-            }
-            xml += "\r\n<card>" + card.Serialize() + "\r\n</card>";
-            xml += "\r\n<originalRefCode>" + originalRefCode + "</originalRefCode>";
-            xml += "\r\n<originalAmount>" + originalAmount + "</originalAmount>";
-            xml += "\r\n<originalTxnTime>" + originalTxnTime.ToString("yyyy-MM-ddTHH:mm:ssZ") + "</originalTxnTime>";
-            xml += "\r\n<originalSystemTraceId>" + originalSystemTraceId + "</originalSystemTraceId>";
-            xml += "\r\n<originalSequenceNumber>" + originalSequenceNumber + "</originalSequenceNumber>";
-
-            xml += "\r\n</refundReversal>";
-            return xml;
-        }
-    }
-
-    public partial class depositReversal : transactionTypeWithReportGroup
-    {
-        private long cnpTxnIdField;
-        private bool cnpTxnIdSet;
-        public long cnpTxnId
-        {
-            get
-            {
-                return cnpTxnIdField;
-            }
-            set
-            {
-                cnpTxnIdField = value;
-                cnpTxnIdSet = true;
-            }
-        }
-        public giftCardCardType card;
-        public string originalRefCode;
-        public long originalAmount;
-        public DateTime originalTxnTime;
-        public int originalSystemTraceId;
-        public string originalSequenceNumber;
-
-        public override string Serialize()
-        {
-            var xml = "\r\n<depositReversal";
-            xml += " id=\"" + SecurityElement.Escape(id) + "\"";
-            if (customerId != null)
-            {
-                xml += " customerId=\"" + SecurityElement.Escape(customerId) + "\"";
-            }
-            xml += " reportGroup=\"" + SecurityElement.Escape(reportGroup) + "\">";
-            if (cnpTxnIdSet)
-            {
-                xml += "\r\n<cnpTxnId>" + cnpTxnId + "</cnpTxnId>";
-            }
-            xml += "\r\n<card>" + card.Serialize() + "\r\n</card>";
-            xml += "\r\n<originalRefCode>" + originalRefCode + "</originalRefCode>";
-            xml += "\r\n<originalAmount>" + originalAmount + "</originalAmount>";
-            xml += "\r\n<originalTxnTime>" + originalTxnTime.ToString("yyyy-MM-ddTHH:mm:ssZ") + "</originalTxnTime>";
-            xml += "\r\n<originalSystemTraceId>" + originalSystemTraceId + "</originalSystemTraceId>";
-            xml += "\r\n<originalSequenceNumber>" + originalSequenceNumber + "</originalSequenceNumber>";
-
-            xml += "\r\n</depositReversal>";
-            return xml;
-        }
-    }
-
     public partial class applepayType
     {
         public string data;
@@ -4258,8 +4388,6 @@ namespace Cnp.Sdk
         MasterPass,
         VisaCheckout
     }
-
-    
 
     public partial class fraudCheck : transactionTypeWithReportGroup
     {
@@ -4326,42 +4454,6 @@ namespace Cnp.Sdk
         }
     }
 
-    public partial class fastAccessFunding : transactionTypeWithReportGroup
-    {
-        public string fundingSubmerchantId;
-        public string submerchantName;
-        public string fundsTransferId;
-        public int amount;
-        public cardType card;
-        public cardTokenType token;
-        public cardPaypageType paypage;
-
-        public override string Serialize()
-        {
-            var xml = "\r\n<fastAccessFunding";
-            xml += " id=\"" + SecurityElement.Escape(id) + "\"";
-            if (customerId != null)
-            {
-                xml += " customerId=\"" + SecurityElement.Escape(customerId) + "\"";
-            }
-            xml += " reportGroup=\"" + SecurityElement.Escape(reportGroup) + "\">";
-            
-            // The first element of a sequence xml element  represent the sequence element
-            if (fundingSubmerchantId != null)
-            {
-                xml += "\r\n<fundingSubmerchantId>" + fundingSubmerchantId + "</fundingSubmerchantId>";
-                xml += "\r\n<submerchantName>" + submerchantName + "</submerchantName>";
-                xml += "\r\n<fundsTransferId>" + fundsTransferId + "</fundsTransferId>";
-                xml += "\r\n<amount>" + amount + "</amount>";
-                if (card != null) xml += "\r\n<card>" + card.Serialize() + "</card>";
-                else if (token != null) xml += "\r\n<token>" + token.Serialize() + "</token>";
-                else xml += "\r\n<paypage>" + paypage.Serialize() + "</paypage>";
-            }
-            xml += "\r\n</fastAccessFunding>";
-            return xml;
-        }
-    }
-
     public enum processingTypeEnum
     {
         accountFunding,
@@ -4386,7 +4478,7 @@ namespace Cnp.Sdk
             FinalRecurring
      }
 
-public partial class sepaDirectDebitType
+    public partial class sepaDirectDebitType
     {
         public mandateProviderType mandateProvider;
         public sequenceTypeType sequenceType;
@@ -4477,31 +4569,6 @@ public partial class sepaDirectDebitType
         }
     }
 
-    public partial class queryTransaction : transactionTypeWithReportGroup
-    {
-        public string origId;
-        public actionTypeEnum origActionType;
-        public long origCnpTxnId;
-
-        public override string Serialize()
-        {
-
-            var xml = "\r\n<queryTransaction";
-            xml += " id=\"" + SecurityElement.Escape(id) + "\"";
-            if (customerId != null)
-            {
-                xml += " customerId=\"" + SecurityElement.Escape(customerId) + "\"";
-            }
-            xml += " reportGroup=\"" + SecurityElement.Escape(reportGroup) + "\">";
-            xml += "\r\n<origId>" + SecurityElement.Escape(origId) + "</origId>";
-            xml += "\r\n<origActionType>" + origActionType + "</origActionType>";
-            if (origCnpTxnId != 0) xml += "\r\n<origCnpTxnId>" + origCnpTxnId + "</origCnpTxnId>";
-            xml += "\r\n</queryTransaction>";
-            return xml;
-        }
-
-    }
-
     public enum actionTypeEnum
     {
         A,
@@ -4580,6 +4647,9 @@ public partial class sepaDirectDebitType
         }
     }
 
+    // The sofort element is a child of the sale transaction that, through its child elements,
+    // defines information needed to process an SOFORT (Real-time Bank Transfer) transaction.
+    // At this time, you can use the iDeal method of payment in Online transactions only.
     public class sofortType
     {
         public countryTypeEnum preferredLanguageField;
@@ -4607,5 +4677,25 @@ public partial class sepaDirectDebitType
             return xml;
         }
     }
+    
+    #endregion
 
+    public class XmlUtil
+    {
+        public static string toXsdDate(DateTime dateTime)
+        {
+            var year = dateTime.Year.ToString();
+            var month = dateTime.Month.ToString();
+            if (dateTime.Month < 10)
+            {
+                month = "0" + month;
+            }
+            var day = dateTime.Day.ToString();
+            if (dateTime.Day < 10)
+            {
+                day = "0" + day;
+            }
+            return year + "-" + month + "-" + day;
+        }
+    }
 }

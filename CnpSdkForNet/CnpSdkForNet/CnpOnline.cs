@@ -8,9 +8,13 @@ using System.Threading.Tasks;
 
 namespace Cnp.Sdk
 {
+    // Represent an online request.
+    // Defining all transactions supported for online processing.
     public class CnpOnline : ICnpOnline
     {
+        // Configuration object containing credentials and settings.
         private Dictionary<string, string> _config;
+        // 
         private Communications _communication;
 
         /**
@@ -67,13 +71,10 @@ namespace Cnp.Sdk
             this._communication = communication;
         }
 
-
         public Task<authorizationResponse> AuthorizeAsync(authorization auth, CancellationToken cancellationToken)
         {
             return SendRequestAsync(response => response.authorizationResponse, auth, cancellationToken);
         }
-
-
 
         private T SendRequest<T>(Func<cnpOnlineResponse, T> getResponse, transactionRequest transaction)
         {
@@ -269,6 +270,46 @@ namespace Cnp.Sdk
             {
                 request.fastAccessFunding = (fastAccessFunding) transaction;
             }
+            else if (transaction is payFacCredit)
+            {
+                request.payFacCredit = (payFacCredit) transaction;
+            }
+            else if (transaction is payFacDebit)
+            {
+                request.payFacDebit = (payFacDebit) transaction;
+            }
+            else if (transaction is physicalCheckCredit)
+            {
+                request.physicalCheckCredit = (physicalCheckCredit) transaction;
+            }
+            else if (transaction is physicalCheckDebit)
+            {
+                request.physicalCheckDebit = (physicalCheckDebit) transaction;
+            }
+            else if (transaction is reserveCredit)
+            {
+                request.reserveCredit = (reserveCredit) transaction;
+            }
+            else if (transaction is reserveDebit)
+            {
+                request.reserveDebit = (reserveDebit) transaction;
+            }
+            else if (transaction is submerchantCredit)
+            {
+                request.submerchantCredit = (submerchantCredit) transaction;
+            }
+            else if (transaction is submerchantDebit)
+            {
+                request.submerchantDebit = (submerchantDebit) transaction;
+            }
+            else if (transaction is vendorCredit)
+            {
+                request.vendorCredit = (vendorCredit) transaction;
+            }
+            else if (transaction is vendorDebit)
+            {
+                request.vendorDebit = (vendorDebit) transaction;
+            }
             else
             {
                 throw new NotImplementedException("Support for type: " + transaction.GetType().Name +
@@ -340,6 +381,11 @@ namespace Cnp.Sdk
         public Task<creditResponse> CreditAsync(credit credit, CancellationToken cancellationToken)
         {
             return SendRequestAsync(response => response.creditResponse, credit, cancellationToken);
+        }
+
+        public Task<vendorDebitResponse> VendorDebitAsync(vendorDebit vendorDebit, CancellationToken cancellationToken)
+        {
+            return SendRequestAsync(response => response.vendorDebitResponse, vendorDebit, cancellationToken);
         }
 
         public giftCardCreditResponse GiftCardCredit(giftCardCredit giftCardCredit)
@@ -551,6 +597,101 @@ namespace Cnp.Sdk
         {
             return SendRequest(response => response.fastAccessFundingResponse, fastAccessFunding);
         }
+        
+        public payFacCreditResponse PayFacCredit(payFacCredit payFacCredit)
+        {
+            return SendRequest(response => response.payFacCreditResponse, payFacCredit);
+        }
+
+        public Task<payFacCreditResponse> PayFacCreditAsync(payFacCredit payFacCredit, CancellationToken cancellationToken)
+        {
+            return SendRequestAsync(response => response.payFacCreditResponse, payFacCredit, cancellationToken);
+        }
+
+        public payFacDebitResponse PayFacDebit(payFacDebit payFacDebit)
+        {
+            return SendRequest(response => response.payFacDebitResponse, payFacDebit);
+        }
+
+        public Task<payFacDebitResponse> PayFacDebitAsync(payFacDebit payFacDebit, CancellationToken cancellationToken)
+        {
+            return SendRequestAsync(response => response.payFacDebitResponse, payFacDebit, cancellationToken);
+        }
+
+        public physicalCheckCreditResponse PhysicalCheckCredit(physicalCheckCredit physicalCheckCredit)
+        {
+            return SendRequest(response => response.physicalCheckCreditResponse, physicalCheckCredit);
+        }
+
+        public Task<physicalCheckCreditResponse> PhysicalCheckCreditAsync(physicalCheckCredit physicalCheckCredit, CancellationToken cancellationToken)
+        {
+            return SendRequestAsync(response => response.physicalCheckCreditResponse, physicalCheckCredit, cancellationToken);
+        }
+
+        public physicalCheckDebitResponse PhysicalCheckDebit(physicalCheckDebit physicalCheckDebit)
+        {
+            return SendRequest(response => response.physicalCheckDebitResponse, physicalCheckDebit);
+        }
+
+        public Task<physicalCheckDebitResponse> PhysicalCheckDebitAsync(physicalCheckDebit physicalCheckDebit, CancellationToken cancellationToken)
+        {
+            return SendRequestAsync(response => response.physicalCheckDebitResponse, physicalCheckDebit, cancellationToken);
+        }
+
+        public reserveCreditResponse ReserveCredit(reserveCredit reserveCredit)
+        {
+            return SendRequest(response => response.reserveCreditResponse, reserveCredit);
+        }
+
+        public Task<reserveCreditResponse> ReserveCreditAsync(reserveCredit reserveCredit, CancellationToken cancellationToken)
+        {
+            return SendRequestAsync(response => response.reserveCreditResponse, reserveCredit, cancellationToken);
+        }
+
+        public reserveDebitResponse ReserveDebit(reserveDebit reserveDebit)
+        {
+            return SendRequest(response => response.reserveDebitResponse, reserveDebit);
+        }
+
+        public Task<reserveDebitResponse> ReserveDebitAsync(reserveDebit reserveDebit, CancellationToken cancellationToken)
+        {
+            return SendRequestAsync(response => response.reserveDebitResponse, reserveDebit, cancellationToken);
+        }
+
+        public submerchantCreditResponse SubmerchantCredit(submerchantCredit submerchantCredit)
+        {
+            return SendRequest(response => response.submerchantCreditResponse, submerchantCredit);
+        }
+
+        public Task<submerchantCreditResponse> SubmerchantCreditAsync(submerchantCredit submerchantCredit, CancellationToken cancellationToken)
+        {
+            return SendRequestAsync(response => response.submerchantCreditResponse, submerchantCredit, cancellationToken);
+        }
+
+        public submerchantDebitResponse SubmerchantDebit(submerchantDebit submerchantDebit)
+        {
+            return SendRequest(response => response.submerchantDebitResponse, submerchantDebit);
+        }
+
+        public Task<submerchantDebitResponse> SubmerchantDebitAsync(submerchantDebit submerchantDebit, CancellationToken cancellationToken)
+        {
+            return SendRequestAsync(response => response.submerchantDebitResponse, submerchantDebit, cancellationToken);
+        }
+
+        public vendorCreditResponse VendorCredit(vendorCredit vendorCredit)
+        {
+            return SendRequest(response => response.vendorCreditResponse, vendorCredit);
+        }
+
+        public Task<vendorCreditResponse> VendorCreditAsync(vendorCredit vendorCredit, CancellationToken cancellationToken)
+        {
+            return SendRequestAsync(response => response.vendorCreditResponse, vendorCredit, cancellationToken);
+        }
+
+        public vendorDebitResponse VendorDebit(vendorDebit vendorDebit)
+        {
+            return SendRequest(response => response.vendorDebitResponse, vendorDebit);
+        }
 
         private cnpOnlineRequest CreateCnpOnlineRequest()
         {
@@ -665,6 +806,7 @@ namespace Cnp.Sdk
         }
     }
 
+    // CnpOnline interface for synchronous and asynchronous call.
     public interface ICnpOnline
     {
         authorizationResponse Authorize(authorization auth);
@@ -701,6 +843,32 @@ namespace Cnp.Sdk
         Task<giftCardAuthReversalResponse> GiftCardAuthReversalAsync(giftCardAuthReversal giftCard, CancellationToken cancellationToken);
         giftCardCaptureResponse GiftCardCapture(giftCardCapture giftCardCapture);
         Task<giftCardCaptureResponse> GiftCardCaptureAsync(giftCardCapture giftCardCapture, CancellationToken cancellationToken);
+        
+        payFacCreditResponse PayFacCredit(payFacCredit payFacCredit);
+        Task<payFacCreditResponse> PayFacCreditAsync(payFacCredit payFacCredit, CancellationToken cancellationToken);
+        payFacDebitResponse PayFacDebit(payFacDebit payFacDebit);
+        Task<payFacDebitResponse> PayFacDebitAsync(payFacDebit payFacDebit, CancellationToken cancellationToken);
+        
+        physicalCheckCreditResponse PhysicalCheckCredit(physicalCheckCredit physicalCheckCredit);
+        Task<physicalCheckCreditResponse> PhysicalCheckCreditAsync(physicalCheckCredit physicalCheckCredit, CancellationToken cancellationToken);
+        physicalCheckDebitResponse PhysicalCheckDebit(physicalCheckDebit physicalCheckDebit);
+        Task<physicalCheckDebitResponse> PhysicalCheckDebitAsync(physicalCheckDebit physicalCheckDebit, CancellationToken cancellationToken);
+        
+        reserveCreditResponse ReserveCredit(reserveCredit reserveCredit);
+        Task<reserveCreditResponse> ReserveCreditAsync(reserveCredit reserveCredit, CancellationToken cancellationToken);
+        reserveDebitResponse ReserveDebit(reserveDebit reserveDebit);
+        Task<reserveDebitResponse> ReserveDebitAsync(reserveDebit reserveDebit, CancellationToken cancellationToken);
+        
+        submerchantCreditResponse SubmerchantCredit(submerchantCredit submerchantCredit);
+        Task<submerchantCreditResponse> SubmerchantCreditAsync(submerchantCredit submerchantCredit, CancellationToken cancellationToken);
+        submerchantDebitResponse SubmerchantDebit(submerchantDebit submerchantDebit);
+        Task<submerchantDebitResponse> SubmerchantDebitAsync(submerchantDebit submerchantDebit, CancellationToken cancellationToken);
+        
+        vendorCreditResponse VendorCredit(vendorCredit vendorCredit);
+        Task<vendorCreditResponse> VendorCreditAsync(vendorCredit vendorCredit, CancellationToken cancellationToken);
+        vendorDebitResponse VendorDebit(vendorDebit vendorDebit);
+        Task<vendorDebitResponse> VendorDebitAsync(vendorDebit vendorDebit, CancellationToken cancellationToken);
+        
         giftCardCreditResponse GiftCardCredit(giftCardCredit giftCardCredit);
         Task<giftCardCreditResponse> GiftCardCreditAsync(giftCardCredit giftCardCredit, CancellationToken cancellationToken);
         transactionTypeWithReportGroup QueryTransaction(queryTransaction queryTransaction);

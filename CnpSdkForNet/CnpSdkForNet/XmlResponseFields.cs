@@ -4906,6 +4906,16 @@ namespace Cnp.Sdk
         public queryTransactionUnavailableResponse queryTransactionUnavailableResponse;
         public fraudCheckResponse fraudCheckResponse;
         public fastAccessFundingResponse fastAccessFundingResponse;
+        public payFacCreditResponse payFacCreditResponse;
+        public payFacDebitResponse payFacDebitResponse;
+        public physicalCheckCreditResponse physicalCheckCreditResponse;
+        public physicalCheckDebitResponse physicalCheckDebitResponse;
+        public reserveCreditResponse reserveCreditResponse;
+        public reserveDebitResponse reserveDebitResponse;
+        public submerchantCreditResponse submerchantCreditResponse;
+        public submerchantDebitResponse submerchantDebitResponse;
+        public vendorCreditResponse vendorCreditResponse;
+        public vendorDebitResponse vendorDebitResponse;
 
         /// <remarks/>
         [System.Xml.Serialization.XmlAttributeAttribute()]

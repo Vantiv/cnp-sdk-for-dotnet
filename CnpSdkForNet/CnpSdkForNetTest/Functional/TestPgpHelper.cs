@@ -27,8 +27,11 @@ namespace Cnp.Sdk.Test.Functional
                 Directory.CreateDirectory(_testDir);
             }
             _merchantPublickeyId = Environment.GetEnvironmentVariable("merchantPublicKeyId");
+            Console.WriteLine("Merchant Public Key ID:" + _merchantPublickeyId);
             _passphrase = Environment.GetEnvironmentVariable("pgpPassphrase");
+            Console.WriteLine("Pgp Passphrase:" + _passphrase);
             _vantivPublicKeyId = Environment.GetEnvironmentVariable("vantivPublicKeyId");
+            Console.WriteLine(("Vantiv Public Key ID:" + _vantivPublicKeyId));
         }
 
         [Test]

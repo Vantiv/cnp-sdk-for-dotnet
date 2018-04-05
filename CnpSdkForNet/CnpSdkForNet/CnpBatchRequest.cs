@@ -1145,6 +1145,7 @@ namespace Cnp.Sdk
         }
 
 
+        // Create an xml file for the batch request.
         public string Serialize()
         {
             var xmlHeader = generateXmlHeader();

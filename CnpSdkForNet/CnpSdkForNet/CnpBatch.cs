@@ -10,6 +10,7 @@ using Tamir.SharpSsh.jsch.examples;
 
 namespace Cnp.Sdk
 {
+    // Represent cnpRequest, which contains multiple batches.
     public class cnpRequest
     {
         private authentication authentication;
@@ -31,7 +32,7 @@ namespace Cnp.Sdk
         public cnpRequest()
         {
             config = new Dictionary<string, string>();
-
+            // Retrieve all the settings.
             config["url"] = Properties.Settings.Default.url;
             config["reportGroup"] = Properties.Settings.Default.reportGroup;
             config["username"] = Properties.Settings.Default.username;
@@ -83,10 +84,10 @@ namespace Cnp.Sdk
         public cnpRequest(Dictionary<string, string> config)
         {
             this.config = config;
-
             initializeRequest();
         }
 
+        // 
         private void initializeRequest()
         {
             communication = new Communications();
@@ -158,15 +159,16 @@ namespace Cnp.Sdk
             return this.cnpFile;
         }
 
+        // Add a single batch to batch request.
         public void addBatch(batchRequest cnpBatchRequest)
         {
             if (numOfRFRRequest != 0)
             {
                 throw new CnpOnlineException("Can not add a batch request to a batch with an RFRrequest!");
             }
-
+            // Fill in report group attribute for cnpRequest xml element.
             fillInReportGroup(cnpBatchRequest);
-
+            // Add batchRequest xml element into cnpRequest xml element.
             batchFilePath = SerializeBatchRequestToFile(cnpBatchRequest, batchFilePath);
             numOfCnpBatchRequest++;
         }
@@ -257,14 +259,17 @@ namespace Cnp.Sdk
             return cnpResponse;
         }
 
+        // Serialize the batch into temp xml file, and return the path to it.
         public string SerializeBatchRequestToFile(batchRequest cnpBatchRequest, string filePath)
         {
-
+            // Create cnpRequest xml file if not exist.
+            // Otherwise, the xml file created, thus storing some batch requests.
             filePath = cnpFile.createRandomFile(requestDirectory, Path.GetFileName(filePath), "_temp_cnpRequest.xml", cnpTime);
+            // Serializing the batchRequest creates an xml for that batch request and returns the path to it.
             var tempFilePath = cnpBatchRequest.Serialize();
-
+            // Append the batch request xml just created to the accummulating cnpRequest xml file.
             cnpFile.AppendFileToFile(filePath, tempFilePath);
-
+            // Return the path to temp xml file.
             return filePath;
         }
 
@@ -278,6 +283,7 @@ namespace Cnp.Sdk
             return filePath;
         }
 
+        // Convert all batch objects into xml and place them in cnpRequest, then build the Session file.
         public string Serialize()
         {
             var xmlHeader = "<?xml version='1.0' encoding='utf-8'?>\r\n<cnpRequest version=\"12.1\"" +
@@ -286,12 +292,16 @@ namespace Cnp.Sdk
 
             var xmlFooter = "\r\n</cnpRequest>";
 
+            // Create the Session file.
             finalFilePath = cnpFile.createRandomFile(requestDirectory, Path.GetFileName(finalFilePath), ".xml", cnpTime);
             var filePath = finalFilePath;
 
+            // Add the header into the Session file.
             cnpFile.AppendLineToFile(finalFilePath, xmlHeader);
+            // Add authentication.
             cnpFile.AppendLineToFile(finalFilePath, authentication.Serialize());
 
+            // batchFilePath is not null when some batch is added into the batch request.
             if (batchFilePath != null)
             {
                 cnpFile.AppendFileToFile(finalFilePath, batchFilePath);
@@ -300,7 +310,8 @@ namespace Cnp.Sdk
             {
                 throw new CnpOnlineException("No batch was added to the CnpBatch!");
             }
-
+            
+            // Add the footer into Session file
             cnpFile.AppendLineToFile(finalFilePath, xmlFooter);
 
             finalFilePath = null;
@@ -320,6 +331,7 @@ namespace Cnp.Sdk
 
     public class cnpFile
     {
+        // Create a file with name and timestamp if not exists.
         public virtual string createRandomFile(string fileDirectory, string fileName, string fileExtension, cnpTime cnpTime)
         {
             string filePath = null;
