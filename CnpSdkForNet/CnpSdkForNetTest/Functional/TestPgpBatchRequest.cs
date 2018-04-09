@@ -46,6 +46,9 @@ namespace Cnp.Sdk.Test.Functional
         {
             _cnp = new cnpRequest(_config);
             batchRequest cnpBatchRequest = new batchRequest(_config);
+            Console.WriteLine("Merchant Id:"+cnpBatchRequest.config["merchantId"]);
+            Console.WriteLine("Merchant Username:"+cnpBatchRequest.config["username"]);
+            Console.WriteLine("Merchant Password:"+cnpBatchRequest.config["password"]);
             var authorization = new authorization
             {
                 reportGroup = "Planets",
