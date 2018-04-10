@@ -25,8 +25,8 @@ namespace Cnp.Sdk.Test.Functional
             _config["printxml"] = Properties.Settings.Default.printxml;
             _config["timeout"] = Properties.Settings.Default.timeout;
             _config["proxyHost"] = Properties.Settings.Default.proxyHost;
-            _config["merchantId"] = Environment.GetEnvironmentVariable("encMerchantId").Replace("\"","");
-            _config["password"] = Environment.GetEnvironmentVariable("encPassword");
+            _config["merchantId"] = Environment.GetEnvironmentVariable("encMerchantId");
+            _config["password"] = Environment.GetEnvironmentVariable("encPassword").Replace("\"","");
             _config["proxyPort"] = Properties.Settings.Default.proxyPort;
             _config["sftpUrl"] = Properties.Settings.Default.sftpUrl;
             _config["sftpUsername"] = Environment.GetEnvironmentVariable("encSftpUsername");
