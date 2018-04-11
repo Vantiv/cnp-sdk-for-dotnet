@@ -873,5 +873,6 @@ namespace Cnp.Sdk
         Task<giftCardCreditResponse> GiftCardCreditAsync(giftCardCredit giftCardCredit, CancellationToken cancellationToken);
         transactionTypeWithReportGroup QueryTransaction(queryTransaction queryTransaction);
         Task<transactionTypeWithReportGroup> QueryTransactionAsync(queryTransaction queryTransaction, CancellationToken cancellationToken);
+        event EventHandler HttpAction;
     }
 }
