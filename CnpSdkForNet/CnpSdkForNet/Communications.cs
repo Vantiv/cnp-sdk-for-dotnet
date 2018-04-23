@@ -18,6 +18,7 @@ namespace Cnp.Sdk
     public class Communications
     {
         private static readonly object SynLock = new object();
+        public static string ContentTypeTextXmlUTF8 = "text/xml; charset=UTF-8";
 
         public event EventHandler HttpAction;
 
@@ -128,7 +129,7 @@ namespace Cnp.Sdk
                 Log(xmlRequest, logFile, neuter);
             }
 
-            request.ContentType = "text/xml; charset=UTF-8";
+            request.ContentType = ContentTypeTextXmlUTF8;
             request.Method = "POST";
             request.ServicePoint.MaxIdleTime = 8000;
             request.ServicePoint.Expect100Continue = false;
