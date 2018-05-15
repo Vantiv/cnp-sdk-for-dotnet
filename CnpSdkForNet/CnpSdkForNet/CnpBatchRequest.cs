@@ -61,7 +61,7 @@ namespace Cnp.Sdk
         private int numPhysicalCheckDebit;
         private int numFundingInstructionVoid;
         private int numFastAccessFunding;
-
+        private int numTranslateToLowValueTokenRequests;
         private long sumOfAuthorization;
         private long sumOfAuthReversal;
         private long sumOfGiftCardAuthReversal;
@@ -164,7 +164,7 @@ namespace Cnp.Sdk
             numPhysicalCheckDebit = 0;
             numFundingInstructionVoid = 0;
             numFastAccessFunding = 0;
-
+            numTranslateToLowValueTokenRequests = 0;
             sumOfAuthorization = 0;
             sumOfAuthReversal = 0;
             sumOfGiftCardAuthReversal = 0;
@@ -421,6 +421,11 @@ namespace Cnp.Sdk
         public int getNumFastAccessFunding()
         {
             return numFastAccessFunding;
+        }
+
+        public int getNumTranslateToLowValueTokenRequests()
+        {
+            return numTranslateToLowValueTokenRequests;
         }
 
         public long getLoadAmount()
@@ -1138,7 +1143,22 @@ namespace Cnp.Sdk
                 throw new CnpOnlineException(accountUpdateErrorMessage);
             }
         }
-        
+
+
+        public void addTranslateToLowValueTokenRequest(translateToLowValueTokenRequest translateToLowValueTokenRequest)
+        {
+            if (numAccountUpdates == 0)
+            {
+                numTranslateToLowValueTokenRequests++;
+                fillInReportGroup(translateToLowValueTokenRequest);
+                tempBatchFilePath = saveElement(cnpFile, cnpTime, tempBatchFilePath, translateToLowValueTokenRequest);
+            }
+            else
+            {
+                throw new CnpOnlineException(accountUpdateErrorMessage);
+            }
+        }
+
         public void SameDayFunding(bool setSameDayFunding)
         {
             sameDayFunding = setSameDayFunding;
@@ -1376,6 +1396,11 @@ namespace Cnp.Sdk
                 xmlHeader += "fastAccessFundingAmount=\"" + fastAccessFundingAmount + "\"\r\n";
             }
 
+            if (numTranslateToLowValueTokenRequests++ != 0)
+            {
+                xmlHeader += "numTranslateToLowValueTokenRequests=\"" + numTranslateToLowValueTokenRequests + "\"\r\n";
+            }
+
             if (numPayFacDebit != 0)
             {
 
@@ -1415,7 +1440,7 @@ namespace Cnp.Sdk
                 xmlHeader += "sameDayFunding=\"" + sameDayFunding.ToString().ToLower() + "\"\r\n";
             }
 
-            xmlHeader += "merchantSdk=\"DotNet;12.1.2\"\r\n";
+            xmlHeader += "merchantSdk=\"DotNet;12.3.0\"\r\n";
 
             xmlHeader += "merchantId=\"" + config["merchantId"] + "\">\r\n";
             return xmlHeader;
@@ -1480,6 +1505,7 @@ namespace Cnp.Sdk
                 && numPhysicalCheckCredit == 0
                 && numFundingInstructionVoid == 0
                 && numFastAccessFunding == 0
+                && numTranslateToLowValueTokenRequests == 0
                 && numPayFacDebit == 0
                 && numSubmerchantDebit == 0
                 && numReserveDebit == 0
@@ -2250,5 +2276,6 @@ namespace Cnp.Sdk
             return xml;
         }
     }
+
 
 }

@@ -67,7 +67,7 @@ namespace Cnp.Sdk
         {
             // Create header for the cnpOnlineRequest with user credential.
             var xml = "<?xml version='1.0' encoding='utf-8'?>\r\n<cnpOnlineRequest merchantId=\"" + merchantId
-                + "\" version=\"12.1\" merchantSdk=\"" + merchantSdk + "\" xmlns=\"http://www.vantivcnp.com/schema\">"
+                + "\" version=\"12.3\" merchantSdk=\"" + merchantSdk + "\" xmlns=\"http://www.vantivcnp.com/schema\">"
                 + authentication.Serialize();
             
             // Because an online request can contain only one transaction, it assumes that only one instance variable of 
@@ -311,6 +311,7 @@ namespace Cnp.Sdk
             }
         }
         public healthcareIIAS healthcareIIAS;
+        public lodgingInfo lodgingInfo;
         public filteringType filtering;
         public merchantDataType merchantData;
         public recyclingRequestType recyclingRequest;
@@ -471,6 +472,10 @@ namespace Cnp.Sdk
                 {
                     xml += "\r\n<healthcareIIAS>" + healthcareIIAS.Serialize() + "\r\n</healthcareIIAS>";
                 }
+                if (lodgingInfo != null)
+                {
+                    xml += "\r\n<lodgingInfo>" + lodgingInfo.Serialize() + "\r\n</lodgingInfo>";
+                }
                 if (filtering != null)
                 {
                     xml += "\r\n<filtering>" + filtering.Serialize() + "\r\n</filtering>";
@@ -499,7 +504,7 @@ namespace Cnp.Sdk
                 }
                 if (processingTypeSet)
                 {
-                    xml += "\r\n<processingType>" + processingType + "</processingType>";
+                    xml += "\r\n<processingType>" + processingTypeField + "</processingType>";
                 }
                 if (originalNetworkTransactionIdSet)
                 {
@@ -647,6 +652,7 @@ namespace Cnp.Sdk
         }
         public string payPalNotes;
         public customBilling customBilling;
+        public lodgingInfo lodgingInfo;
         public string pin;
 
         public override string Serialize()
@@ -671,6 +677,10 @@ namespace Cnp.Sdk
             if (payPalOrderCompleteSet) xml += "\r\n<payPalOrderComplete>" + payPalOrderCompleteField.ToString().ToLower() + "</payPalOrderComplete>";
             if (payPalNotes != null) xml += "\r\n<payPalNotes>" + SecurityElement.Escape(payPalNotes) + "</payPalNotes>";
             if (customBilling != null) xml += "\r\n<customBilling>" + customBilling.Serialize() + "\r\n</customBilling>";
+            if (lodgingInfo != null)
+            {
+                xml += "\r\n<lodgingInfo>" + lodgingInfo.Serialize() + "\r\n</lodgingInfo>";
+            }
             if (pin != null) xml += "\r\n<pin>" + pin + "</pin>";
             xml += "\r\n</capture>";
 
@@ -715,6 +725,7 @@ namespace Cnp.Sdk
         }
         public billMeLaterRequest billMeLaterRequest;
         public enhancedData enhancedData;
+        public lodgingInfo lodgingInfo;
         public processingInstructions processingInstructions;
         public pos pos;
         public amexAggregatorData amexAggregatorData;
@@ -823,6 +834,10 @@ namespace Cnp.Sdk
             if (enhancedData != null)
             {
                 xml += "\r\n<enhancedData>" + enhancedData.Serialize() + "\r\n</enhancedData>";
+            }
+            if (lodgingInfo != null)
+            {
+                xml += "\r\n<lodgingInfo>" + lodgingInfo.Serialize() + "\r\n</lodgingInfo>";
             }
             if (processingInstructions != null)
             {
@@ -960,6 +975,7 @@ namespace Cnp.Sdk
         }
         public customBilling customBilling;
         public enhancedData enhancedData;
+        public lodgingInfo lodgingInfo;
         public processingInstructions processingInstructions;
         public string orderId;
         public orderSourceType orderSource;
@@ -1009,6 +1025,7 @@ namespace Cnp.Sdk
                 if (surchargeAmountSet) xml += "\r\n<surchargeAmount>" + surchargeAmountField + "</surchargeAmount>";
                 if (customBilling != null) xml += "\r\n<customBilling>" + customBilling.Serialize() + "</customBilling>";
                 if (enhancedData != null) xml += "\r\n<enhancedData>" + enhancedData.Serialize() + "</enhancedData>";
+                if (lodgingInfo != null) xml += "\r\n<lodgingInfo>" + lodgingInfo.Serialize() + "\r\n</lodgingInfo>";
                 if (processingInstructions != null) xml += "\r\n<processingInstructions>" + processingInstructions.Serialize() + "</processingInstructions>";
                 if (pos != null) xml += "\r\n<pos>" + pos.Serialize() + "</pos>";
                 if (pinSet) xml += "\r\n<pin>" + pinField + "</pin>";
@@ -1036,6 +1053,7 @@ namespace Cnp.Sdk
                 if (taxTypeSet) xml += "\r\n<taxType>" + taxTypeField + "</taxType>";
                 if (billMeLaterRequest != null) xml += "\r\n<billMeLaterRequest>" + billMeLaterRequest.Serialize() + "</billMeLaterRequest>";
                 if (enhancedData != null) xml += "\r\n<enhancedData>" + enhancedData.Serialize() + "</enhancedData>";
+                if (lodgingInfo != null) xml += "\r\n<lodgingInfo>" + lodgingInfo.Serialize() + "\r\n</lodgingInfo>";
                 if (processingInstructions != null) xml += "\r\n<processingInstructions>" + processingInstructions.Serialize() + "</processingInstructions>";
                 if (pos != null) xml += "\r\n<pos>" + pos.Serialize() + "</pos>";
                 if (amexAggregatorData != null) xml += "\r\n<amexAggregatorData>" + amexAggregatorData.Serialize() + "</amexAggregatorData>";
@@ -1451,6 +1469,7 @@ namespace Cnp.Sdk
             set { taxTypeField = value; taxTypeSet = true; }
         }
         public enhancedData enhancedData;
+        public lodgingInfo lodgingInfo;
         public processingInstructions processingInstructions;
         public pos pos;
         public amexAggregatorData amexAggregatorData;
@@ -1522,6 +1541,10 @@ namespace Cnp.Sdk
             if (enhancedData != null)
             {
                 xml += "\r\n<enhancedData>" + enhancedData.Serialize() + "\r\n</enhancedData>";
+            }
+            if (lodgingInfo != null)
+            {
+                xml += "\r\n<lodgingInfo>" + lodgingInfo.Serialize() + "\r\n</lodgingInfo>";
             }
             if (processingInstructions != null)
             {
@@ -2004,6 +2027,7 @@ namespace Cnp.Sdk
             }
         }
         public healthcareIIAS healthcareIIAS;
+        public lodgingInfo lodgingInfo;
         public filteringType filtering;
         public merchantDataType merchantData;
         public recyclingRequestType recyclingRequest;
@@ -2075,18 +2099,20 @@ namespace Cnp.Sdk
             }
         }
 
-        private routingPreferenceEnum routingPreferenceField;
-        private bool routingPreferenceSet;
+        public pinlessDebitRequestType pinlessDebitRequest;
 
-        public routingPreferenceEnum routingPreference
-        {
-            get { return routingPreferenceField; }
-            set
-            {
-                routingPreferenceField = value;
-                routingPreferenceSet = true;
-            }
-        }
+        //private routingPreferenceEnum routingPreferenceField;
+        //private bool routingPreferenceSet;
+
+        //public routingPreferenceEnum routingPreference
+        //{
+        //    get { return routingPreferenceField; }
+        //    set
+        //    {
+        //        routingPreferenceField = value;
+        //        routingPreferenceSet = true;
+        //    }
+        //}
 
         public override string Serialize()
         {
@@ -2197,6 +2223,10 @@ namespace Cnp.Sdk
             {
                 xml += "\r\n<healthcareIIAS>" + healthcareIIAS.Serialize() + "\r\n</healthcareIIAS>";
             }
+            if (lodgingInfo != null)
+            {
+                xml += "\r\n<lodgingInfo>" + lodgingInfo.Serialize() + "\r\n</lodgingInfo>";
+            }
             if (filtering != null)
             {
                 xml += "\r\n<filtering>" + filtering.Serialize() + "\r\n</filtering>";
@@ -2236,15 +2266,20 @@ namespace Cnp.Sdk
             {
                 xml += "\r\n<originalTransactionAmount>" + originalTransactionAmount + "</originalTransactionAmount>";
             }
-
-            if (routingPreferenceSet)
+            if(pinlessDebitRequest != null)
             {
-                var routingPreferenceName = routingPreferenceField.ToString();
-                var attributes = 
-                    (XmlEnumAttribute[])typeof(echeckAccountTypeEnum).GetMember(routingPreferenceField.ToString())[0].GetCustomAttributes(typeof(XmlEnumAttribute), false);
-                if (attributes.Length > 0) routingPreferenceName = attributes[0].Name;
-                xml += "\r\n<routingPreference>" + routingPreferenceName + "</routingPreference>";
+                xml += "\r\n<pinlessDebitRequest>" + pinlessDebitRequest.Serialize() + "</pinlessDebitRequest>";
             }
+
+            //if (routingPreferenceSet)
+            //{
+            //    var routingPreferenceName = routingPreferenceField.ToString();
+            //    var attributes = 
+            //        (XmlEnumAttribute[])typeof(echeckAccountTypeEnum).GetMember(routingPreferenceField.ToString())[0].GetCustomAttributes(typeof(XmlEnumAttribute), false);
+            //    if (attributes.Length > 0) routingPreferenceName = attributes[0].Name;
+            //    xml += "\r\n<routingPreference>" + routingPreferenceName + "</routingPreference>";
+            //}
+
             xml += "\r\n</sale>";
             return xml;
         }
@@ -2532,51 +2567,146 @@ namespace Cnp.Sdk
             return xml;
         }
     }
-    
+
+    // Translate To Low Value Token Request Transaction.
+    public partial class translateToLowValueTokenRequest : transactionTypeWithReportGroup
+    {
+        public string orderId { get; set; }
+
+        public string token { get; set; }
+
+
+        public override string Serialize()
+        {
+            var xml = "\r\n<translateToLowValueTokenRequest ";
+
+            xml += "id=\"" + SecurityElement.Escape(id) + "\" ";
+            if (customerId != null)
+                xml += "customerId=\"" + SecurityElement.Escape(customerId) + "\" ";
+            xml += "reportGroup=\"" + SecurityElement.Escape(reportGroup) + "\">";
+            if (orderId != null)
+                xml += "\r\n<orderId>" + SecurityElement.Escape(orderId) + "</orderId>";
+            xml += "\r\n<token>" + SecurityElement.Escape(token) + "</token>";
+            xml += "\r\n</translateToLowValueTokenRequest>";
+
+            return xml;
+        }
+    }
+
     // PayFac Credit Transaction. Implemented in CnpBatchRequest.
-    
+
     // PayFac Debit Transaction. Implemented in CnpBatchRequest.
-    
+
     // Physical Check Credit Transaction. Implemented in CnpBatchRequest.
-    
+
     // Physical Check Debit Transaction. Implemented in CnpBatchRequest.
-    
+
     // Reserve Credit Transaction. Implemented in CnpBatchRequest.
-    
+
     // Reserve Debit Transaction. Implemented in CnpBatchRequest.
-    
+
     // Vendor Credit Transaction. Implemented in CnpBatchRequest.
-    
+
     // Vendor Debit Transaction. Implemented in CnpBatchRequest.
-    
+
     // Query Transaction. Implemented in CnpBatchRequest.
     public partial class queryTransaction : transactionTypeWithReportGroup
     {
         public string origId;
-        public actionTypeEnum origActionType;
+        private actionTypeEnum origActionTypeField;
+        private bool origActionTypeSet;
         public long origCnpTxnId;
+        private yesNoTypeEnum showStatusOnlyField;
+        private bool showStatusOnlySet;
+
+        public actionTypeEnum origActionType
+        {
+            get
+            {
+                return origActionTypeField;
+            }
+            set
+            {
+                origActionTypeField = value;
+                origActionTypeSet = true;
+            }
+        }
+
+        public yesNoTypeEnum showStatusOnly
+        {
+            get
+            {
+                return showStatusOnlyField;
+            }
+            set
+            {
+                showStatusOnlyField = value;
+                showStatusOnlySet = true;
+            }
+        }
 
         public override string Serialize()
         {
 
             var xml = "\r\n<queryTransaction";
+
             xml += " id=\"" + SecurityElement.Escape(id) + "\"";
-            if (customerId != null)
-            {
-                xml += " customerId=\"" + SecurityElement.Escape(customerId) + "\"";
-            }
+
+            if (customerId != null) xml += " customerId=\"" + SecurityElement.Escape(customerId) + "\"";
+
             xml += " reportGroup=\"" + SecurityElement.Escape(reportGroup) + "\">";
-            xml += "\r\n<origId>" + SecurityElement.Escape(origId) + "</origId>";
-            xml += "\r\n<origActionType>" + origActionType + "</origActionType>";
+
+            if(origId != null) xml += "\r\n<origId>" + SecurityElement.Escape(origId) + "</origId>";
+
+            if(origActionTypeSet) xml += "\r\n<origActionType>" + origActionTypeField + "</origActionType>";
+
             if (origCnpTxnId != 0) xml += "\r\n<origCnpTxnId>" + origCnpTxnId + "</origCnpTxnId>";
+
+            if(showStatusOnlySet) xml += "\r\n<showStatusOnly>" + showStatusOnlyField + "</showStatusOnly>";
+
             xml += "\r\n</queryTransaction>";
+
             return xml;
         }
 
     }
-    
+
+    // All Enum declarations
+
+    public enum actionTypeEnum
+    {
+        A,
+        D,
+        R,
+        AR,
+        G,
+        I,
+        J,
+        L,
+        LR,
+        P,
+        RR,
+        S,
+        T,
+        UR,
+        V,
+        W,
+        X
+
+    }
+
+    // 12.3.0: To include element showStatusOnly having type Enum
+    public enum yesNoTypeEnum
+    {
+
+        Y,
+        N,
+    }
+
     // [END] SUPPORTED TRANSACTIONS FOR ONLINE PROCESSING.
-    
+
+
+
     #endregion
 
     #region Child elements.
@@ -3352,6 +3482,7 @@ namespace Cnp.Sdk
         }
     }
 
+
     public partial class authInformation
     {
         public DateTime authDate;
@@ -3690,6 +3821,168 @@ namespace Cnp.Sdk
             return xml;
         }
     }
+
+    public partial class lodgingInfo
+    {
+        public string hotelFolioNumber;
+        public DateTime checkInDate;
+        public DateTime checkOutDate;
+
+        private int durationField;
+        private bool durationSet;
+        public int duration
+        {
+            get
+            {
+                return durationField;
+            }
+            set
+            {
+                durationField = value;
+                durationSet = true;
+            }
+        }
+
+        public string customerServicePhone;
+        public lodgingProgramCodeType programCode;
+
+        private int roomRateField;
+        private bool roomRateSet;
+        public int roomRate
+        {
+            get
+            {
+                return roomRateField;
+            }
+            set
+            {
+                roomRateField = value;
+                roomRateSet = true;
+            }
+        }
+
+
+        private int roomTaxField;
+        private bool roomTaxSet;
+        public int roomTax
+        {
+            get
+            {
+                return roomTaxField;
+            }
+            set
+            {
+                roomTaxField = value;
+                roomTaxSet = true;
+            }
+        }
+
+        private int numAdultsField;
+        private bool numAdultsSet;
+        public int numAdults
+        {
+            get
+            {
+                return numAdultsField;
+            }
+            set
+            {
+                numAdultsField = value;
+                numAdultsSet = true;
+            }
+        }
+
+        public string propertyLocalPhone;
+
+        private bool fireSafetyIndicatorField;
+        private bool fireSafetyIndicatorSet;
+        public bool fireSafetyIndicator
+        {
+            get
+            {
+                return fireSafetyIndicatorField;
+            }
+            set
+            {
+                fireSafetyIndicatorField = value;
+                fireSafetyIndicatorSet = true;
+            }
+        }
+
+        public List<lodgingCharge> lodgingCharges;
+
+        public lodgingInfo()
+        {
+
+            lodgingCharges = new List<lodgingCharge>();
+
+        }
+
+        public string Serialize()
+        {
+            var xml = "";
+            if(hotelFolioNumber != null) xml +=  "\r\n<hotelFolioNumber>" + SecurityElement.Escape(hotelFolioNumber) + "</hotelFolioNumber>";
+            if (checkInDate != null) xml += "\r\n<checkInDate>" + XmlUtil.toXsdDate(checkInDate) + "</checkInDate>";
+            if (checkOutDate != null) xml += "\r\n<checkOutDate>" + XmlUtil.toXsdDate(checkOutDate) + "</checkOutDate>";
+            if(durationSet) xml += "\r\n<duration>" + durationField + "</duration>";
+            if (customerServicePhone != null) xml += "\r\n<customerServicePhone>" + SecurityElement.Escape(customerServicePhone) + "</customerServicePhone>";
+            xml += "\r\n<programCode>" + programCode + "</programCode>";
+            if (roomRateSet) xml += "\r\n<roomRate>" + roomRateField + "</roomRate>";
+            if (roomTaxSet) xml += "\r\n<roomTax>" + roomTaxField + "</roomTax>";
+            if (numAdultsSet) xml += "\r\n<numAdults>" + numAdultsField + "</numAdults>";
+            if(propertyLocalPhone != null) xml += "\r\n<propertyLocalPhone>" + propertyLocalPhone + "</propertyLocalPhone>";
+            if(fireSafetyIndicatorSet) xml += "\r\n<fireSafetyIndicator>" + fireSafetyIndicatorField + "</fireSafetyIndicator>";
+
+            foreach(var lodgingCharge in lodgingCharges)
+            {
+                xml += "\r\n<lodgingCharge>" + lodgingCharge.Serialize() + "</lodgingCharge>";
+            }
+
+            return xml;
+        }
+    }
+
+    public enum lodgingProgramCodeType
+    {
+        LODGING = 0,
+        NOSHOW,
+        ADVANCEDDEPOSIT,
+    }
+
+    public partial class lodgingCharge
+    {
+
+        private lodgingExtraChargeEnum nameField;
+        private bool nameSet;
+        public lodgingExtraChargeEnum name
+        {
+            get { return nameField; }
+            set { nameField = value; nameSet = true; }
+        }
+
+        public string Serialize()
+        {
+            var xml = "";
+
+            if(nameSet) xml += "\r\n<name>" + nameField + "</name>";
+            return xml;
+
+        }
+
+    }
+
+    public enum lodgingExtraChargeEnum
+    {
+        OTHER = 0,
+        RESTAURANT,
+        GIFTSHOP,
+        MINIBAR,
+        TELEPHONE,
+        LAUNDRY,
+
+    }
+
+
 
     public partial class recurringRequest
     {
@@ -4383,11 +4676,80 @@ namespace Cnp.Sdk
         }
     }
 
+
+    public partial class pinlessDebitRequestType
+    {
+
+        public routingPreferenceEnum routingPreferenceField;
+        public bool routingPreferenceSet;
+        public routingPreferenceEnum routingPreference
+        {
+            get
+            {
+                return routingPreferenceField;
+            }
+            set
+            {
+                routingPreferenceField = value;
+                routingPreferenceSet = true;
+            }
+        }
+
+        public preferredDebitNetworksType preferredDebitNetworks;
+
+
+        public string Serialize()
+        {
+            var xml = "";
+            if (routingPreferenceSet) xml += "\r\n<routingPreference>" + routingPreferenceField + "</routingPreference>";
+            if(preferredDebitNetworks != null) xml += "\r\n<preferredDebitNetworks>" + preferredDebitNetworks.Serialize() + "</preferredDebitNetworks>";
+
+            return xml;
+
+        }
+
+    }
+
+    public partial class preferredDebitNetworksType
+    {
+
+        public List<string> debitNetworkName;
+
+        public preferredDebitNetworksType()
+        {
+
+            debitNetworkName = new List<string>();
+
+        }
+
+        public string Serialize()
+        {
+            var xml = "";
+            if (debitNetworkName.Count > 0)
+            {
+                foreach (string dnn in debitNetworkName)
+                {
+                    xml += "\r\n<debitNetworkName>" + dnn + "</debitNetworkName>";
+                }
+            }
+
+            return xml;
+
+        }
+
+    }
+
+
     public enum walletWalletSourceType
     {
         MasterPass,
         VisaCheckout
     }
+
+    public partial class preferredDebitNetworksType
+    { }
+
+
 
     public partial class fraudCheck : transactionTypeWithReportGroup
     {
@@ -4436,6 +4798,26 @@ namespace Cnp.Sdk
             }
         }
 
+        private eventTypeEnum eventTypeField;
+        private bool eventTypeSet;
+
+        public eventTypeEnum eventType
+        {
+            get
+            {
+                return eventTypeField;
+            }
+            set
+            {
+                eventTypeField = value;
+                eventTypeSet = true;
+
+            }
+        }
+
+        public string accountLogin;
+        public string accountPasshash;
+
         public override string Serialize()
         {
             var xml = "\r\n<fraudCheck";
@@ -4449,9 +4831,21 @@ namespace Cnp.Sdk
             if (billToAddressSet) xml += "\r\n<billToAddress>" + billToAddressField.Serialize() + "</billToAddress>";
             if (shipToAddressSet) xml += "\r\n<shipToAddress>" + shipToAddressField.Serialize() + "</shipToAddress>";
             if (amountSet) xml += "\r\n<amount>" + amountField.ToString() + "</amount>";
+            if(eventTypeSet) xml += "\r\n<eventType>" + eventTypeField + "</eventType>";
+            if (accountLogin != null) xml += "\r\n<accountLogin>" + SecurityElement.Escape(accountLogin) + "</accountLogin>";
+            if (accountPasshash != null) xml += "\r\n<accountPasshash>" + SecurityElement.Escape(accountPasshash) + "</accountPasshash>";
+
             xml += "\r\n</fraudCheck>";
             return xml;
         }
+    }
+
+    public enum eventTypeEnum
+    {
+        payment,
+        login,
+        account_creation,
+        details_change
     }
 
     public enum processingTypeEnum
@@ -4569,27 +4963,6 @@ namespace Cnp.Sdk
         }
     }
 
-    public enum actionTypeEnum
-    {
-        A,
-        D,
-        R,
-        AR,
-        G,
-        I,
-        J,
-        L,
-        LR,
-        P,
-        RR,
-        S,
-        T,
-        UR,
-        V,
-        W,
-        X
-       
-    }
 
     public class idealType
     {

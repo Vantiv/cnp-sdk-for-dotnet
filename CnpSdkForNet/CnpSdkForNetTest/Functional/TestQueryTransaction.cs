@@ -121,5 +121,29 @@ namespace Cnp.Sdk.Test.Functional
             Assert.AreEqual("151", queryResponse.response);
             Assert.AreEqual("Original transaction not found", queryResponse.message);
         }
+        // Release 12.3
+        // Add showStatusOnly of type yesNoType as optional
+        [Test]
+        public void SimpleQueryTransactionShowStatusOnly()
+        {
+            var query = new queryTransaction
+            {
+                id = "myId",
+                reportGroup = "myReportGroup",
+                origId = "Auth2",
+                origActionType = actionTypeEnum.A,
+                origCnpTxnId = 54321,
+                showStatusOnly = yesNoTypeEnum.Y
+            };
+
+            var response = _cnp.QueryTransaction(query);
+            var queryResponse = (queryTransactionResponse)response;
+
+            Assert.NotNull(queryResponse);
+            Assert.AreEqual("150", queryResponse.response);
+            Assert.AreEqual("Original transaction found", queryResponse.message);
+            Assert.AreEqual(1, queryResponse.results_max10.Count);
+
+        }
     }
 }

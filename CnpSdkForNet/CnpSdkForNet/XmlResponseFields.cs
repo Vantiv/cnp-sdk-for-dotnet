@@ -26,6 +26,8 @@ namespace Cnp.Sdk
 
 
     /// <remarks/>
+    [System.Xml.Serialization.XmlIncludeAttribute(typeof(translateToLowValueTokenRequestType))]
+    [System.Xml.Serialization.XmlIncludeAttribute(typeof(updateCardValidationNumOnToken))]
     [System.Xml.Serialization.XmlIncludeAttribute(typeof(registerTokenRequestType))]
     //[System.CodeDom.Compiler.GeneratedCodeAttribute("xsd", "2.0.50727.42")]
     //[System.SerializableAttribute()]
@@ -80,6 +82,8 @@ namespace Cnp.Sdk
     [System.Xml.Serialization.XmlIncludeAttribute(typeof(transactionTypeOptionReportGroup))]
     [System.Xml.Serialization.XmlIncludeAttribute(typeof(transactionTypeWithReportGroupAndPartial))]
     [System.Xml.Serialization.XmlIncludeAttribute(typeof(transactionTypeWithReportGroup))]
+    [System.Xml.Serialization.XmlIncludeAttribute(typeof(translateToLowValueTokenRequestType))]
+    [System.Xml.Serialization.XmlIncludeAttribute(typeof(updateCardValidationNumOnToken))]
     [System.Xml.Serialization.XmlIncludeAttribute(typeof(registerTokenRequestType))]
     [System.CodeDom.Compiler.GeneratedCodeAttribute("xsd", "2.0.50727.42")]
     [System.SerializableAttribute()]
@@ -538,6 +542,7 @@ namespace Cnp.Sdk
                 this.advancedAVSResultField = value;
             }
         }
+
     }
 
     [System.CodeDom.Compiler.GeneratedCodeAttribute("xsd", "2.0.50727.42")]
@@ -1711,6 +1716,12 @@ namespace Cnp.Sdk
 
         private applepayResponse applepayResponseField;
 
+        private androidpayResponse androidpayResponseField;
+
+        private long accountRangeIdField;
+
+        private bool accountRangeIdFieldSpecified;
+
         /// <remarks/>
         public long cnpTxnId
         {
@@ -1840,6 +1851,46 @@ namespace Cnp.Sdk
             set
             {
                 this.applepayResponseField = value;
+            }
+        }
+
+        /// <remarks/>
+        public androidpayResponse androidpayResponse
+        {
+            get
+            {
+                return this.androidpayResponseField;
+            }
+            set
+            {
+                this.androidpayResponseField = value;
+            }
+        }
+
+        /// <remarks/>
+        public long accountRangeId
+        {
+            get
+            {
+                return this.accountRangeIdField;
+            }
+            set
+            {
+                this.accountRangeIdField = value;
+            }
+        }
+
+        /// <remarks/>
+        [System.Xml.Serialization.XmlIgnoreAttribute()]
+        public bool accountRangeIdSpecified
+        {
+            get
+            {
+                return this.accountRangeIdFieldSpecified;
+            }
+            set
+            {
+                this.accountRangeIdFieldSpecified = value;
             }
         }
     }
@@ -2551,6 +2602,10 @@ namespace Cnp.Sdk
 
         private networkRespnse networkResponseField;
 
+        private long accountRangeIdField;
+
+        private bool accountRangeIdFieldSpecified;
+
         /// <remarks/>
         public enhancedAuthResponseFundingSource fundingSource
         {
@@ -2668,6 +2723,33 @@ namespace Cnp.Sdk
             set
             {
                 this.networkResponseField = value;
+            }
+        }
+
+        /// <remarks/>
+        public long accountRangeId
+        {
+            get
+            {
+                return this.accountRangeIdField;
+            }
+            set
+            {
+                this.accountRangeIdField = value;
+            }
+        }
+
+        /// <remarks/>
+        [System.Xml.Serialization.XmlIgnoreAttribute()]
+        public bool accountRangeIdSpecified
+        {
+            get
+            {
+                return this.accountRangeIdFieldSpecified;
+            }
+            set
+            {
+                this.accountRangeIdFieldSpecified = value;
             }
         }
     }
@@ -9048,4 +9130,132 @@ namespace Cnp.Sdk
             }
         }
     }
+
+    /// <remarks/>
+    [System.CodeDom.Compiler.GeneratedCodeAttribute("xsd", "4.6.1055.0")]
+    [System.SerializableAttribute()]
+    [System.Diagnostics.DebuggerStepThroughAttribute()]
+    [System.ComponentModel.DesignerCategoryAttribute("code")]
+    [System.Xml.Serialization.XmlTypeAttribute(Namespace = "http://www.vantivcnp.com/schema")]
+    [System.Xml.Serialization.XmlRootAttribute("translateToLowValueTokenRequest", Namespace = "http://www.vantivcnp.com/schema", IsNullable = false)]
+    public partial class translateToLowValueTokenRequestType : transactionTypeWithReportGroup
+    {
+
+        private string orderIdField;
+
+        private string tokenField;
+
+        /// <remarks/>
+        public string orderId
+        {
+            get
+            {
+                return this.orderIdField;
+            }
+            set
+            {
+                this.orderIdField = value;
+            }
+        }
+
+        /// <remarks/>
+        public string token
+        {
+            get
+            {
+                return this.tokenField;
+            }
+            set
+            {
+                this.tokenField = value;
+            }
+        }
+    }
+
+    /// <remarks/>
+    [System.CodeDom.Compiler.GeneratedCodeAttribute("xsd", "4.6.1055.0")]
+    [System.SerializableAttribute()]
+    [System.Diagnostics.DebuggerStepThroughAttribute()]
+    [System.ComponentModel.DesignerCategoryAttribute("code")]
+    [System.Xml.Serialization.XmlTypeAttribute(AnonymousType = true, Namespace = "http://www.vantivcnp.com/schema")]
+    [System.Xml.Serialization.XmlRootAttribute(Namespace = "http://www.vantivcnp.com/schema", IsNullable = false)]
+    public partial class translateToLowValueTokenResponse : transactionTypeWithReportGroup
+    {
+
+        private string orderIdField;
+
+        private string paypageRegistrationIdField;
+
+        private string responseField;
+
+        private string messageField;
+
+        private System.DateTime responseTimeField;
+
+        /// <remarks/>
+        public string orderId
+        {
+            get
+            {
+                return this.orderIdField;
+            }
+            set
+            {
+                this.orderIdField = value;
+            }
+        }
+
+        /// <remarks/>
+        public string paypageRegistrationId
+        {
+            get
+            {
+                return this.paypageRegistrationIdField;
+            }
+            set
+            {
+                this.paypageRegistrationIdField = value;
+            }
+        }
+
+        /// <remarks/>
+        public string response
+        {
+            get
+            {
+                return this.responseField;
+            }
+            set
+            {
+                this.responseField = value;
+            }
+        }
+
+        /// <remarks/>
+        public string message
+        {
+            get
+            {
+                return this.messageField;
+            }
+            set
+            {
+                this.messageField = value;
+            }
+        }
+
+        /// <remarks/>
+        public System.DateTime responseTime
+        {
+            get
+            {
+                return this.responseTimeField;
+            }
+            set
+            {
+                this.responseTimeField = value;
+            }
+        }
+    }
 }
+

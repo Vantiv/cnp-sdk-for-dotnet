@@ -32,6 +32,7 @@ namespace Cnp.Sdk.Test.Functional
             Console.WriteLine("Pgp Passphrase:" + _passphrase);
             _vantivPublicKeyId = Environment.GetEnvironmentVariable("vantivPublicKeyId");
             Console.WriteLine(("Vantiv Public Key ID:" + _vantivPublicKeyId));
+
         }
 
         [Test]
