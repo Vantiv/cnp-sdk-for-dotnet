@@ -1,6 +1,9 @@
 
 = Vantiv eCommerce CNP CHANGELOG
 
+== Version 12.3.0 
+* Feature: Support for cnpXML 12.3
+
 == Version 12.1.2 (April 5, 2018)
 * BugFix: Added payFacCredit, payFacDebit, physicalCheckCredit, physicalCheckDebit, reserveCredit, reserveDebit, submerchantCredit, submerchantDebit, vendorCredit, vendorDebit transactions for CNP Online Request.
 
