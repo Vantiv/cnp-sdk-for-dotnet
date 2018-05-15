@@ -21,7 +21,7 @@ namespace Cnp.Sdk.Test.Functional
                 {"timeout", "5000"},
                 {"merchantId", "101"},
                 {"password", "TESTCASE"},
-                {"printxml", "true"},
+                {"printxml", "false"},
                 {"proxyHost", Properties.Settings.Default.proxyHost},
                 {"proxyPort", Properties.Settings.Default.proxyPort},
                 {"logFile", Properties.Settings.Default.logFile},

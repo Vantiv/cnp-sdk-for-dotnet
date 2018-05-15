@@ -93,7 +93,8 @@ namespace Cnp.Sdk.Test.Functional
                 card = new cardType
                 {
                     type = methodOfPaymentTypeEnum.VI,
-                    number = "410070000000000000",
+                    //number = "410070000000000000",
+                    number = "400000500000000000",
                     expDate = "1210"
                 },
                 customBilling = new customBilling { phone = "1112223333" }
