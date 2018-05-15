@@ -1396,7 +1396,7 @@ namespace Cnp.Sdk
                 xmlHeader += "fastAccessFundingAmount=\"" + fastAccessFundingAmount + "\"\r\n";
             }
 
-            if (numTranslateToLowValueTokenRequests++ != 0)
+            if (numTranslateToLowValueTokenRequests != 0)
             {
                 xmlHeader += "numTranslateToLowValueTokenRequests=\"" + numTranslateToLowValueTokenRequests + "\"\r\n";
             }

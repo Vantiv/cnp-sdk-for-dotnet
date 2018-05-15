@@ -315,5 +315,57 @@ namespace Cnp.Sdk.Test.Functional
             var responseObj = _cnp.Sale(saleObj);
             StringAssert.AreEqualIgnoringCase("Approved", responseObj.message);
         }
+
+
+        [Test]
+        public void SimpleSaleWithLodginInfo()
+        {
+            var saleObj = new sale
+            {
+                id = "1",
+                amount = 106,
+                cnpTxnId = 123456,
+                orderId = "12344",
+                orderSource = orderSourceType.ecommerce,
+                sofort = new sofortType
+                {
+                    preferredLanguage = countryTypeEnum.US
+                },
+                lodgingInfo = new lodgingInfo
+                {
+                    hotelFolioNumber = "12345",
+                    checkInDate = new DateTime(2017, 1, 18),
+                    customerServicePhone = "854213",
+                    lodgingCharges = new List<lodgingCharge>(),
+
+                }
+            };
+            saleObj.lodgingInfo.lodgingCharges.Add(new lodgingCharge() { name = lodgingExtraChargeEnum.GIFTSHOP });
+            var responseObj = _cnp.Sale(saleObj);
+            StringAssert.AreEqualIgnoringCase("Approved", responseObj.message);
+        }
+
+
+        [Test]
+        public void SimpleSaleWithPinlessDebitRequest()
+        {
+            var saleObj = new sale
+            {
+                id = "1",
+                amount = 106,
+                cnpTxnId = 123456,
+                orderId = "12344",
+                orderSource = orderSourceType.ecommerce,
+                sofort = new sofortType
+                {
+                    preferredLanguage = countryTypeEnum.US
+                },
+                pinlessDebitRequest = new pinlessDebitRequestType { routingPreference = routingPreferenceEnum .pinlessDebitOnly}
+
+            };
+            
+            var responseObj = _cnp.Sale(saleObj);
+            StringAssert.AreEqualIgnoringCase("Approved", responseObj.message);
+        }
     }
 }

@@ -5172,6 +5172,7 @@ namespace Cnp.Sdk
         private XmlReader accountUpdateResponseReader;
         private XmlReader authorizationResponseReader;
         private XmlReader authReversalResponseReader;
+        private XmlReader translateToLowValueTokenResponseReader;
         private XmlReader giftCardAuthReversalResponseReader;
         private XmlReader captureResponseReader;
         private XmlReader giftCardCaptureResponseReader;
@@ -5232,6 +5233,11 @@ namespace Cnp.Sdk
         public void setAuthReversalResponseReader(XmlReader xmlReader)
         {
             this.authReversalResponseReader = xmlReader;
+        }
+
+        public void setTranslateToLowValueTokenResponseReader(XmlReader xmlReader)
+        {
+            this.translateToLowValueTokenResponseReader = xmlReader;
         }
 
         public void setGiftCardAuthReversalResponseReader(XmlReader xmlReader)
@@ -5429,6 +5435,7 @@ namespace Cnp.Sdk
             originalXmlReader = reader;
             accountUpdateResponseReader = new XmlTextReader(filePath);
             authorizationResponseReader = new XmlTextReader(filePath);
+            translateToLowValueTokenResponseReader = new XmlTextReader(filePath);
             authReversalResponseReader = new XmlTextReader(filePath);
             giftCardAuthReversalResponseReader = new XmlTextReader(filePath);
             captureResponseReader = new XmlTextReader(filePath);
@@ -5475,6 +5482,10 @@ namespace Cnp.Sdk
             if (!authorizationResponseReader.ReadToFollowing("authorizationResponse"))
             {
                 authorizationResponseReader.Close();
+            }
+            if (!translateToLowValueTokenResponseReader.ReadToFollowing("translateToLowValueTokenResponse"))
+            {
+                translateToLowValueTokenResponseReader.Close();
             }
             if (!authReversalResponseReader.ReadToFollowing("authReversalResponse"))
             {
@@ -5681,6 +5692,26 @@ namespace Cnp.Sdk
                 if (!authReversalResponseReader.ReadToFollowing("authReversalResponse"))
                 {
                     authReversalResponseReader.Close();
+                }
+
+                return i;
+            }
+
+            return null;
+        }
+
+        virtual public translateToLowValueTokenResponse nextTranslateToLowValueTokenResponse()
+        {
+            if (translateToLowValueTokenResponseReader.ReadState != ReadState.Closed)
+            {
+                string response = translateToLowValueTokenResponseReader.ReadOuterXml();
+                XmlSerializer serializer = new XmlSerializer(typeof(translateToLowValueTokenResponse));
+                StringReader reader = new StringReader(response);
+                translateToLowValueTokenResponse i = (translateToLowValueTokenResponse)serializer.Deserialize(reader);
+
+                if (!translateToLowValueTokenResponseReader.ReadToFollowing("translateToLowValueTokenResponse"))
+                {
+                    translateToLowValueTokenResponseReader.Close();
                 }
 
                 return i;

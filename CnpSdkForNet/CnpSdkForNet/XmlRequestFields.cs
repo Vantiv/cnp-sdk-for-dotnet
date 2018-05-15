@@ -3254,6 +3254,7 @@ namespace Cnp.Sdk
 
     public partial class payPal
     {
+   
         public string payerId;
         public string payerEmail;
         public string token;
@@ -3825,8 +3826,35 @@ namespace Cnp.Sdk
     public partial class lodgingInfo
     {
         public string hotelFolioNumber;
-        public DateTime checkInDate;
-        public DateTime checkOutDate;
+        public DateTime checkInDateField;
+        public bool checkInDateSet;
+        public DateTime checkInDate
+        {
+            get
+            {
+                return checkInDateField;
+            }
+            set
+            {
+                checkInDateField = value;
+                checkInDateSet = true;
+            }
+        }
+
+        public DateTime checkOutDateField;
+        public bool checkOutDateSet;
+        public DateTime checkOutDate
+        {
+            get
+            {
+                return checkOutDateField;
+            }
+            set
+            {
+                checkOutDateField = value;
+                checkOutDateSet = true;
+            }
+        }
 
         private int durationField;
         private bool durationSet;
@@ -3922,8 +3950,8 @@ namespace Cnp.Sdk
         {
             var xml = "";
             if(hotelFolioNumber != null) xml +=  "\r\n<hotelFolioNumber>" + SecurityElement.Escape(hotelFolioNumber) + "</hotelFolioNumber>";
-            if (checkInDate != null) xml += "\r\n<checkInDate>" + XmlUtil.toXsdDate(checkInDate) + "</checkInDate>";
-            if (checkOutDate != null) xml += "\r\n<checkOutDate>" + XmlUtil.toXsdDate(checkOutDate) + "</checkOutDate>";
+            if (checkInDateSet) xml += "\r\n<checkInDate>" + checkInDate.ToString("yyyy-MM-dd") + "</checkInDate>";
+            if (checkOutDateSet) xml += "\r\n<checkOutDate>" + checkOutDate.ToString("yyyy-MM-dd") + "</checkOutDate>";
             if(durationSet) xml += "\r\n<duration>" + durationField + "</duration>";
             if (customerServicePhone != null) xml += "\r\n<customerServicePhone>" + SecurityElement.Escape(customerServicePhone) + "</customerServicePhone>";
             xml += "\r\n<programCode>" + programCode + "</programCode>";

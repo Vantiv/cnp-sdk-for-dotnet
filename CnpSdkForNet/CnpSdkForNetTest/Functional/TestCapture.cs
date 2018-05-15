@@ -108,5 +108,28 @@ namespace Cnp.Sdk.Test.Functional
             var response = _cnp.Capture(capture);
             Assert.AreEqual("Approved", response.message);
         }
+
+        [Test]
+        public void SimpleCaptureWithLodgingInfo()
+        {
+            var capture = new capture
+            {
+                id = "1",
+                cnpTxnId = 123456000,
+                amount = 106,
+                payPalNotes = "<'&\">",
+                lodgingInfo = new lodgingInfo
+                {
+                    hotelFolioNumber = "12345",
+                    checkInDate = new System.DateTime(2017, 1, 18),
+                    customerServicePhone = "854213",
+                    lodgingCharges = new List<lodgingCharge>(),
+
+                }
+            };
+            capture.lodgingInfo.lodgingCharges.Add(new lodgingCharge() { name = lodgingExtraChargeEnum.GIFTSHOP });
+            var response = _cnp.Capture(capture);
+            Assert.AreEqual("Approved", response.message);
+        }
     }
 }

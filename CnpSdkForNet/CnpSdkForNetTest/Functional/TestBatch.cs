@@ -78,11 +78,21 @@ namespace Cnp.Sdk.Test.Functional
                 type = methodOfPaymentTypeEnum.VI,
                 number = "4100000000000001",
                 expDate = "1210"
+
             };
             authorization.card = card;
             authorization.id = "id";
 
             cnpBatchRequest.addAuthorization(authorization);
+
+            var translateToLowValueTokenRequest = new translateToLowValueTokenRequest
+            {
+                orderId = "2121",
+                token = "22",
+            };
+            translateToLowValueTokenRequest.id = "id";
+            translateToLowValueTokenRequest.reportGroup = "Planets";
+            cnpBatchRequest.addTranslateToLowValueTokenRequest(translateToLowValueTokenRequest);
 
             var authorization2 = new authorization();
             authorization2.reportGroup = "Planets";
@@ -449,6 +459,15 @@ namespace Cnp.Sdk.Test.Functional
                     Assert.AreEqual("000", authReversalResponse.response);
 
                     authReversalResponse = cnpBatchResponse.nextAuthReversalResponse();
+                }
+
+                var translateToLowValueTokenResponse = cnpBatchResponse.nextTranslateToLowValueTokenResponse();
+                while (translateToLowValueTokenResponse != null)
+                {
+                    Assert.NotNull(translateToLowValueTokenResponse.message);
+                    Assert.NotNull(translateToLowValueTokenResponse.response);
+
+                    translateToLowValueTokenResponse = cnpBatchResponse.nextTranslateToLowValueTokenResponse();
                 }
 
                 var giftCardAuthReversalResponse = cnpBatchResponse.nextGiftCardAuthReversalResponse();

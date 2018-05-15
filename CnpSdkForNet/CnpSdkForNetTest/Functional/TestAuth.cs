@@ -598,5 +598,41 @@ namespace Cnp.Sdk.Test.Functional
             Assert.AreEqual("2050", response.androidpayResponse.expYear);
         }
 
+        [Test]
+        public void SimpleAuthWithLodgingInfo()
+        {
+
+            var authorization = new authorization
+            {
+                id = "1",
+                reportGroup = "Planets",
+                orderId = "12344",
+                amount = 106,
+                orderSource = orderSourceType.androidpay,
+                card = new cardType
+                {
+                    type = methodOfPaymentTypeEnum.MC,
+                    number = "414100000000000000",
+                    expDate = "1210",
+                    pin = "1234",
+                },
+                customBilling = new customBilling { phone = "1112223333" },
+                lodgingInfo = new lodgingInfo
+                {
+                    hotelFolioNumber = "12345",
+                    checkInDate = new DateTime(2017, 1, 18),
+                    customerServicePhone = "854213",
+                    lodgingCharges = new List<lodgingCharge>(),
+
+                },
+
+            };
+
+            authorization.lodgingInfo.lodgingCharges.Add(new lodgingCharge() { name = lodgingExtraChargeEnum.GIFTSHOP});
+            var response = _cnp.Authorize(authorization);
+            Assert.AreEqual("000", response.response);
+
+        }
+
     }
 }
