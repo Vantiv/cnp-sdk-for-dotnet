@@ -712,7 +712,8 @@ namespace Cnp.Sdk
             try
             {
                 var cnpOnlineResponse = DeserializeObject(xmlResponse);
-                Console.WriteLine(cnpOnlineResponse.response);
+                if (!_config.ContainsKey("logResponse") || "1".Equals(_config["logResponse"]))
+                    Console.WriteLine(cnpOnlineResponse.response);
                 if (!"0".Equals(cnpOnlineResponse.response))
                 {
                     if ("2".Equals(cnpOnlineResponse.response) || "3".Equals(cnpOnlineResponse.response))
