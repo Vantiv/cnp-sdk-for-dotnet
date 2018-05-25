@@ -11,8 +11,6 @@ namespace Cnp.Sdk.Test.Functional
     class TestBatchRequest
     {
         private cnpRequest cnp;
-        private Dictionary<string, string> invalidConfig;
-        private Dictionary<string, string> invalidSftpConfig;
 
         [SetUp]
         public void setUpBeforeTest()

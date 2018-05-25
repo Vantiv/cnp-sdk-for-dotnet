@@ -42,6 +42,8 @@ namespace Cnp.Sdk
                     throw new CnpOnlineException(procResult.error);
                 }
             }
+            
+            Console.WriteLine("Encrypted with key id " + recipientKeyId + " successfully!");
         }
 
         public static void DecryptFile(string inputFileName, string outputFileName, string passphrase)

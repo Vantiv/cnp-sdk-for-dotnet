@@ -26,7 +26,7 @@ namespace Cnp.Sdk.Test.Functional
             _config["timeout"] = Properties.Settings.Default.timeout;
             _config["proxyHost"] = Properties.Settings.Default.proxyHost;
             _config["merchantId"] = Environment.GetEnvironmentVariable("encMerchantId");
-            _config["password"] = Environment.GetEnvironmentVariable("encPassword");
+            _config["password"] = Environment.GetEnvironmentVariable("encPassword").Replace("\"","");
             _config["proxyPort"] = Properties.Settings.Default.proxyPort;
             _config["sftpUrl"] = Properties.Settings.Default.sftpUrl;
             _config["sftpUsername"] = Environment.GetEnvironmentVariable("encSftpUsername");
@@ -46,6 +46,10 @@ namespace Cnp.Sdk.Test.Functional
         {
             _cnp = new cnpRequest(_config);
             batchRequest cnpBatchRequest = new batchRequest(_config);
+            Console.WriteLine("Merchant Id:"+cnpBatchRequest.config["merchantId"]);
+            Console.WriteLine("Merchant Username:"+cnpBatchRequest.config["username"]);
+            Console.WriteLine("Merchant Password:"+cnpBatchRequest.config["password"]);
+            Console.WriteLine("Length of Password:"+cnpBatchRequest.config["password"].Length);
             var authorization = new authorization
             {
                 reportGroup = "Planets",

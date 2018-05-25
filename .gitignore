@@ -7,7 +7,7 @@ CnpSdkForNet/CnpSdkForNet/obj/Release/LitleSdkForNet.csproj.FileListAbsolute.txt
 CnpSdkForNet/CnpSdkForNet.VisualState.xml
 CnpSdkForNet/TestResult.xml
 CnpSdkForNet/.vs
-
+CnpSdkForNet/.idea
 *.zip
 *.suo
 Project.sln
