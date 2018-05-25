@@ -4998,6 +4998,7 @@ namespace Cnp.Sdk
         public submerchantDebitResponse submerchantDebitResponse;
         public vendorCreditResponse vendorCreditResponse;
         public vendorDebitResponse vendorDebitResponse;
+        public translateToLowValueTokenResponse translateToLowValueTokenResponse;
 
         /// <remarks/>
         [System.Xml.Serialization.XmlAttributeAttribute()]
