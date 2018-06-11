@@ -141,6 +141,7 @@ namespace Cnp.Sdk
         private static ProcResult ExecuteCommandSync(string command, string executable) 
         {
             string path = string.Format(@"{0}\" + executable, GpgPath);
+            
             var procStartInfo = new ProcessStartInfo(path, command)
             {
                 CreateNoWindow = true,

@@ -1,7 +1,7 @@
 
 = Vantiv eCommerce CNP CHANGELOG
 
-== Version 12.3.01
+== Version 12.3.1
 * BugFix: Added translateToLowValueTokenRequest and Response for CnpOnline  
 
 == Version 12.3.0 

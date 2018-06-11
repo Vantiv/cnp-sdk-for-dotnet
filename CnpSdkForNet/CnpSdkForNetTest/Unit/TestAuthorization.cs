@@ -613,6 +613,5 @@ namespace Cnp.Sdk.Test.Unit
             var authorizationResponse = cnp.Authorize(auth);
             Assert.AreEqual(123, authorizationResponse.cnpTxnId);
         }
-
     }
 }

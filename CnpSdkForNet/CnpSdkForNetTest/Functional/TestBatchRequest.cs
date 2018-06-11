@@ -377,6 +377,23 @@ namespace Cnp.Sdk.Test.Functional
             updateCardValidationNumOnToken2.id = "id";
 
             cnpBatchRequest.addUpdateCardValidationNumOnToken(updateCardValidationNumOnToken2);
+            
+//            fastAccessFunding fastAccessFunding = new fastAccessFunding();
+//            fastAccessFunding.id = "A123456";
+//            fastAccessFunding.reportGroup = "FastPayment";
+//            fastAccessFunding.fundingSubmerchantId = "SomeSubMerchant";
+//            fastAccessFunding.submerchantName = "Some Merchant Inc.";
+//            fastAccessFunding.fundsTransferId = "123e4567e89b12d3";
+//            fastAccessFunding.amount = 3000;
+//            fastAccessFunding.token = new cardTokenType
+//            {
+//                cnpToken = "1111000101039449",
+//                expDate = "1112",
+//                cardValidationNum = "987",
+//                type = methodOfPaymentTypeEnum.VI,
+//            };
+//            cnpBatchRequest.addfastAccessFunding(fastAccessFunding);
+            
             cnp.addBatch(cnpBatchRequest);
 
             var batchName = cnp.sendToCnp();

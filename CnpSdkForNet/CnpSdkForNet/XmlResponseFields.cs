@@ -8976,6 +8976,8 @@ namespace Cnp.Sdk
             }
         }
     }
+    
+    
     [System.CodeDom.Compiler.GeneratedCodeAttribute("xsd", "2.0.50727.42")]
     [System.SerializableAttribute()]
     [System.Diagnostics.DebuggerStepThroughAttribute()]
