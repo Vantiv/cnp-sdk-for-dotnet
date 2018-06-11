@@ -14,14 +14,14 @@ namespace Cnp.Sdk.Test.Functional
         {
             _config = new Dictionary<string, string>
             {
-                {"url", "https://www.testvantivcnp.com/sandbox/new/sandbox/communicator/online"},
+                {"url", Properties.Settings.Default.url},
                 {"reportGroup", "Default Report Group"},
                 {"username", "DOTNET"},
                 {"version", "11.0"},
                 {"timeout", "5000"},
                 {"merchantId", "101"},
                 {"password", "TESTCASE"},
-                {"printxml", "false"},
+                {"printxml", "true"},
                 {"proxyHost", Properties.Settings.Default.proxyHost},
                 {"proxyPort", Properties.Settings.Default.proxyPort},
                 {"logFile", Properties.Settings.Default.logFile},
@@ -71,7 +71,7 @@ namespace Cnp.Sdk.Test.Functional
             Assert.NotNull(queryResponse);
             Assert.AreEqual("150", queryResponse.response);
             Assert.AreEqual("Original transaction found", queryResponse.message);
-            Assert.AreEqual(1, queryResponse.results_max10.Count);
+            Assert.AreEqual(2, queryResponse.results_max10.Count);
 
         }
 
@@ -130,7 +130,7 @@ namespace Cnp.Sdk.Test.Functional
             {
                 id = "myId",
                 reportGroup = "myReportGroup",
-                origId = "Auth2",
+                origId = "Auth1",
                 origActionType = actionTypeEnum.A,
                 origCnpTxnId = 54321,
                 showStatusOnly = yesNoTypeEnum.Y

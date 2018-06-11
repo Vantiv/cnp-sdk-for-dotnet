@@ -147,8 +147,5 @@ namespace Cnp.Sdk.Test.Unit
             cnp.SetCommunication(mockedCommunication);
             cnp.ForceCapture(capture);
         }
-
-
-
     }
 }
