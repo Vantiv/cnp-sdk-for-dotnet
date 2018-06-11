@@ -60,7 +60,8 @@ namespace Cnp.Sdk
         public updatePlan updatePlan;
         public updateSubscription updateSubscription;
         public voidTxn voidTxn;
-        
+        public translateToLowValueTokenRequest translateToLowValueTokenRequest;
+
         // Serialize the cnpOnlineRequest.
         // Convert the cnpOnlineRequest object to xml string.
         public string Serialize()
@@ -118,6 +119,7 @@ namespace Cnp.Sdk
             else if (submerchantDebit != null) xml += submerchantDebit.Serialize();
             else if (vendorCredit != null) xml += vendorCredit.Serialize();
             else if (vendorDebit != null) xml += vendorDebit.Serialize();
+            else if(translateToLowValueTokenRequest != null) xml += translateToLowValueTokenRequest.Serialize();
             xml += "\r\n</cnpOnlineRequest>";
 
             return xml;

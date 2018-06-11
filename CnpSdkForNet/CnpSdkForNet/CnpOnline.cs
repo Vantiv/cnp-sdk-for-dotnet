@@ -306,9 +306,13 @@ namespace Cnp.Sdk
             {
                 request.vendorCredit = (vendorCredit) transaction;
             }
+            else if (transaction is translateToLowValueTokenRequest)
+            {
+                request.translateToLowValueTokenRequest = (translateToLowValueTokenRequest) transaction;
+            }
             else if (transaction is vendorDebit)
             {
-                request.vendorDebit = (vendorDebit) transaction;
+                request.vendorDebit = (vendorDebit)transaction;
             }
             else
             {
@@ -688,6 +692,16 @@ namespace Cnp.Sdk
             return SendRequestAsync(response => response.vendorCreditResponse, vendorCredit, cancellationToken);
         }
 
+        public translateToLowValueTokenResponse TranslateToLowValueTokenRequest(translateToLowValueTokenRequest translateToLowValueTokenRequest)
+        {
+            return SendRequest(response => response.translateToLowValueTokenResponse, translateToLowValueTokenRequest);
+        }
+
+        public Task<translateToLowValueTokenResponse> TranslateToLowValueTokenRequestAsync(translateToLowValueTokenRequest translateToLowValueTokenRequest, CancellationToken cancellationToken)
+        {
+            return SendRequestAsync(response => response.translateToLowValueTokenResponse, translateToLowValueTokenRequest, cancellationToken);
+        }
+
         public vendorDebitResponse VendorDebit(vendorDebit vendorDebit)
         {
             return SendRequest(response => response.vendorDebitResponse, vendorDebit);
@@ -878,6 +892,11 @@ namespace Cnp.Sdk
         Task<giftCardCreditResponse> GiftCardCreditAsync(giftCardCredit giftCardCredit, CancellationToken cancellationToken);
         transactionTypeWithReportGroup QueryTransaction(queryTransaction queryTransaction);
         Task<transactionTypeWithReportGroup> QueryTransactionAsync(queryTransaction queryTransaction, CancellationToken cancellationToken);
+
+        translateToLowValueTokenResponse TranslateToLowValueTokenRequest(translateToLowValueTokenRequest translateToLowValueTokenRequest);
+        Task<translateToLowValueTokenResponse> TranslateToLowValueTokenRequestAsync(translateToLowValueTokenRequest translateToLowValueTokenRequest, CancellationToken cancellationToken);
+
+
         event EventHandler HttpAction;
     }
 }
