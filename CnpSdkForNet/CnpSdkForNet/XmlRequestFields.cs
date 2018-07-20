@@ -68,7 +68,7 @@ namespace Cnp.Sdk
         {
             // Create header for the cnpOnlineRequest with user credential.
             var xml = "<?xml version='1.0' encoding='utf-8'?>\r\n<cnpOnlineRequest merchantId=\"" + merchantId
-                + "\" version=\"12.3\" merchantSdk=\"" + merchantSdk + "\" xmlns=\"http://www.vantivcnp.com/schema\">"
+                + "\" version=\"12.4\" merchantSdk=\"" + merchantSdk + "\" xmlns=\"http://www.vantivcnp.com/schema\">"
                 + authentication.Serialize();
             
             // Because an online request can contain only one transaction, it assumes that only one instance variable of 
@@ -2540,9 +2540,21 @@ namespace Cnp.Sdk
         public string submerchantName;
         public string fundsTransferId;
         public int amount;
+        private disbursementTypeEnum disbursementTypeField;
+        private bool disbursementTypeSet;
         public cardType card;
         public cardTokenType token;
         public cardPaypageType paypage;
+
+        public disbursementTypeEnum disbursementType
+        {
+            get { return disbursementTypeField; }
+            set
+            {
+                disbursementTypeField = value;
+                disbursementTypeSet = true;
+            }
+        }
 
         public override string Serialize()
         {
@@ -2561,6 +2573,8 @@ namespace Cnp.Sdk
                 xml += "\r\n<submerchantName>" + submerchantName + "</submerchantName>";
                 xml += "\r\n<fundsTransferId>" + fundsTransferId + "</fundsTransferId>";
                 xml += "\r\n<amount>" + amount + "</amount>";
+                if (disbursementTypeSet)
+                    xml += "\r\n<disbursementType>" + disbursementTypeField + "</disbursementType>";
                 if (card != null) xml += "\r\n<card>" + card.Serialize() + "</card>";
                 else if (token != null) xml += "\r\n<token>" + token.Serialize() + "</token>";
                 else xml += "\r\n<paypage>" + paypage.Serialize() + "</paypage>";
@@ -2568,6 +2582,33 @@ namespace Cnp.Sdk
             xml += "\r\n</fastAccessFunding>";
             return xml;
         }
+    }
+    
+    public enum disbursementTypeEnum
+    {
+        VAA,
+        VBB,
+        VBI,
+        VBP,
+        VCC,
+        VCI,
+        VCO,
+        VCP,
+        VFD,
+        VGD,
+        VGP,
+        VLO,
+        VMA,
+        VMD,
+        VMI,
+        VMP,
+        VOG,
+        VPD,
+        VPG,
+        VPP,
+        VPS,
+        VTU,
+        VWT,
     }
 
     // Translate To Low Value Token Request Transaction.
@@ -2697,7 +2738,7 @@ namespace Cnp.Sdk
 
     }
 
-    // 12.3.0: To include element showStatusOnly having type Enum
+    // 12.4.0: To include element showStatusOnly having type Enum
     public enum yesNoTypeEnum
     {
 

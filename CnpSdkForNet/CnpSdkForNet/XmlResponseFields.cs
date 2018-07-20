@@ -2024,6 +2024,8 @@ namespace Cnp.Sdk
 
         private string networkTransactionIdField;
 
+        private string paymentAccountReferenceNumberField;
+
         /// <remarks/>
         public long cnpTxnId
         {
@@ -2337,6 +2339,11 @@ namespace Cnp.Sdk
             }
         }
 
+        public string paymentAccountReferenceNumber
+        {
+            get { return paymentAccountReferenceNumberField; }
+            set { paymentAccountReferenceNumberField = value; }
+        }
     }
     
     /// <remarks/>
@@ -3715,6 +3722,8 @@ namespace Cnp.Sdk
         
         private pinlessDebitResponse pinlessDebitResponseField;
 
+        private string paymentAccountReferenceNumberField;
+
         /// <remarks/>
         public long cnpTxnId
         {
@@ -4120,6 +4129,12 @@ namespace Cnp.Sdk
             set {
                 this.pinlessDebitResponseField = value;
             }
+        }
+
+        public string paymentAccountReferenceNumber
+        {
+            get { return paymentAccountReferenceNumberField; }
+            set { paymentAccountReferenceNumberField = value; }
         }
     }
 

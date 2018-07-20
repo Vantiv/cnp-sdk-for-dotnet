@@ -557,6 +557,43 @@ namespace Cnp.Sdk.Test.Functional
                 cnpBatchResponse = cnpResponse.nextBatchResponse();
             }
         }
+        
+        
+        [Test]
+        public void simpleBatchWithJustFastAccessFunding()
+        {
+            var cnpBatchRequest = new batchRequest();
+            var fastAccessFunding = new fastAccessFunding();
+            fastAccessFunding.id = "id";
+            fastAccessFunding.fundingSubmerchantId = "SomeSubMerchant";
+            fastAccessFunding.submerchantName = "Some Merchant Inc.";
+            fastAccessFunding.fundsTransferId = "123e4567e89b12d3";
+            fastAccessFunding.amount = 4000;
+            //fastAccessFunding.disbursementType = disbursementTypeEnum.VAA;
+            fastAccessFunding.card = new cardType
+            {
+                type = methodOfPaymentTypeEnum.VI,
+                number = "4100000000000001",
+                expDate = "1210"
+            };
+            
+            cnpBatchRequest.addfastAccessFunding(fastAccessFunding);
+            
+            cnp.addBatch(cnpBatchRequest);
+
+            var batchName = cnp.sendToCnp();
+
+            cnp.blockAndWaitForResponse(batchName, estimatedResponseTime(0, 1));
+
+            var cnpResponse = cnp.receiveFromCnp(batchName);
+
+            Assert.NotNull(cnpResponse);
+            Assert.AreEqual("0", cnpResponse.response);
+            Assert.AreEqual("Valid Format", cnpResponse.message);
+            
+        }
+        
+        
         private int estimatedResponseTime(int numAuthsAndSales, int numRest)
         {
             return (int)(5 * 60 * 1000 + 2.5 * 1000 + numAuthsAndSales * (1 / 5) * 1000 + numRest * (1 / 50) * 1000) * 5;

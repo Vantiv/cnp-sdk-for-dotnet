@@ -121,7 +121,7 @@ namespace Cnp.Sdk.Test.Functional
             Assert.AreEqual("151", queryResponse.response);
             Assert.AreEqual("Original transaction not found", queryResponse.message);
         }
-        // Release 12.3
+        // Release 12.4
         // Add showStatusOnly of type yesNoType as optional
         [Test]
         public void SimpleQueryTransactionShowStatusOnly()

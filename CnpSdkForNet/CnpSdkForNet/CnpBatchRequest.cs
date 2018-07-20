@@ -1440,7 +1440,7 @@ namespace Cnp.Sdk
                 xmlHeader += "sameDayFunding=\"" + sameDayFunding.ToString().ToLower() + "\"\r\n";
             }
 
-            xmlHeader += "merchantSdk=\"DotNet;12.3.1\"\r\n";
+            xmlHeader += "merchantSdk=\"DotNet;12.4.1\"\r\n";
 
             xmlHeader += "merchantId=\"" + config["merchantId"] + "\">\r\n";
             return xmlHeader;
