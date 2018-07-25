@@ -1,3 +1,8 @@
+
+
+![NuGet](https://img.shields.io/nuget/v/Vantiv.CnpSdkForNet.svg?style=flat-square)
+
+
 Vantiv eCommerce .NET SDK
 =====================
 
