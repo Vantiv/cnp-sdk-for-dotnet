@@ -19,9 +19,32 @@ namespace Cnp.Sdk.Test.Unit
         [Test]
         public void TestSettingProxyPropertiesToNullShouldTurnOffProxy()
         {
-            var config = new Dictionary<string, string> {{"proxyHost", null}, {"proxyPort", null}};
+            var config = new Dictionary<string, string> { { "proxyHost", null }, { "proxyPort", null } };
 
             Assert.IsFalse(_objectUnderTest.IsProxyOn(config));
+
+        }
+
+        [Test]
+        public void TestSettingProxyPropertiesToEmptyShouldTurnOffProxy()
+        {
+            var config = new Dictionary<string, string> { { "proxyHost", "" }, { "proxyPort", "" } };
+
+            Assert.IsFalse(_objectUnderTest.IsProxyOn(config));
+
+        }
+
+        [Test]
+        public void TestSettingLogFileToEmptyShouldTurnOffLogFile()
+        {
+            var config = new Dictionary<string, string> { { "logFile", "" } };
+
+            Assert.IsFalse(_objectUnderTest.IsValidConfigValueSet(config, "logFile"));
+
+            config = null;
+
+            Assert.IsFalse(_objectUnderTest.IsValidConfigValueSet(config, "logFile"));
+
         }
 
 

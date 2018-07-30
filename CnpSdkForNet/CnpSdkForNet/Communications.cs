@@ -93,7 +93,7 @@ namespace Cnp.Sdk
         private async Task<string> HttpPostCoreAsync(string xmlRequest, Dictionary<string, string> config, CancellationToken cancellationToken)
         {
             string logFile = null;
-            if (config.ContainsKey("logFile"))
+            if (IsValidConfigValueSet(config, "logFile"))
             {
                 logFile = config["logFile"];
             }
@@ -176,19 +176,24 @@ namespace Cnp.Sdk
        
         public bool IsProxyOn(Dictionary<string, string> config)
         {
-            return config.ContainsKey("proxyHost") && config["proxyHost"] != null && config["proxyHost"].Length > 0 && config.ContainsKey("proxyPort") && config["proxyPort"] != null && config["proxyPort"].Length > 0;
+            return IsValidConfigValueSet(config, "proxyHost") && IsValidConfigValueSet(config, "proxyPort");
+        }
+
+        public bool IsValidConfigValueSet(Dictionary<string, string> config, string propertyName)
+        {
+            return config != null && !String.IsNullOrEmpty(config[propertyName]);
         }
 
         public virtual string HttpPost(string xmlRequest, Dictionary<string, string> config)
         {
             string logFile = null;
-            if (config.ContainsKey("logFile"))
+            if (IsValidConfigValueSet(config, "logFile"))
             {
                 logFile = config["logFile"];
             }
 
             var uri = config["url"];
-            ServicePointManager.SecurityProtocol = SecurityProtocolType.Tls12 | SecurityProtocolType.Tls11 | SecurityProtocolType.Tls;
+            ServicePointManager.SecurityProtocol = SecurityProtocolType.Tls12 | SecurityProtocolType.Tls11;
             var req = (HttpWebRequest)WebRequest.Create(uri);
 
             var neuter = false;
