@@ -181,7 +181,7 @@ namespace Cnp.Sdk
 
         public bool IsValidConfigValueSet(Dictionary<string, string> config, string propertyName)
         {
-            return config != null && !String.IsNullOrEmpty(config[propertyName]);
+            return config != null && config.ContainsKey(propertyName) && !String.IsNullOrEmpty(config[propertyName]);
         }
 
         public virtual string HttpPost(string xmlRequest, Dictionary<string, string> config)

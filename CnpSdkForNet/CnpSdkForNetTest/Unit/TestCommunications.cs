@@ -47,6 +47,15 @@ namespace Cnp.Sdk.Test.Unit
 
         }
 
+        [Test]
+        public void TestConfigNotPresentInDictionary()
+        {
+            var config = new Dictionary<string, string> { };
+
+            Assert.IsFalse(_objectUnderTest.IsValidConfigValueSet(config, "logFile"));
+
+        }
+
 
     }
 }
