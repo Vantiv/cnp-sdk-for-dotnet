@@ -560,6 +560,7 @@ namespace Cnp.Sdk.Test.Functional
         
         
         [Test]
+        [Ignore("Fast access funding not setup for test merchant")]
         public void simpleBatchWithJustFastAccessFunding()
         {
             var cnpBatchRequest = new batchRequest();
