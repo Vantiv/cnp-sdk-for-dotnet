@@ -19,15 +19,17 @@ About Vantiv eCommerce
 
 About this SDK
 --------------
-The Vantiv eCommerce .NET SDK is a C# implementation of the [Vantiv eCommerce](https://developer.vantiv.com/community/ecommerce) XML API. This SDK was created to make it as easy as possible to connect and process your payments with Vantiv eCommerce. This SDK utilizes  the HTTPS protocol to securely connect to Vantiv eCommerce. Using the SDK requires coordination with the Vantiv eCommerce team in order to be provided with credentials for accessing our systems.
+The Vantiv eCommerce .NET SDK is a C# implementation of the [CNP](https://developer.vantiv.com/community/ecommerce) XML API. This SDK was created to make it as easy as possible to connect and process your payments with Vantiv eCommerce. This SDK utilizes  the HTTPS protocol to securely connect to Vantiv eCommerce. Using the SDK requires coordination with the Vantiv eCommerce team in order to be provided with credentials for accessing our systems.
 
-Each .NET SDK release supports all of the functionality present in the associated Vantiv eCommerce XML version (e.g., SDK v9.3.2 supports Vantiv eCommerce XML v9.3). Please see the online copy of our XSD for Vantiv eCommerce XML to get more details on what the Vantiv eCommerce payments engine supports.
+Each .NET SDK release supports all of the functionality present in the associated CNP XML version (e.g., SDK v12.4.0 supports Vantiv eCommerce XML v12.4). Please see the online copy of our XSD for CNP XML to get more details on what the Vantiv eCommerce payments engine supports.
 
 This SDK is implemented to support the .NET plaform, including C#, VB.NET and Managed C++ and was created by Vantiv eCommerce. Its intended use is for online transactions processing utilizing your account on the Vantiv eComerce payments engine.
 
 See LICENSE file for details on using this software.
 
 Source Code available from : https://github.com/Vantiv/cnp-sdk-for-dotNet
+
+SDK can be tested in [sandbox environment](https://www.testvantivcnp.com/sandbox/communicator/online). Sandbox does not require valid credentials to begin testing. 
 
 Please contact [Vantiv eCommerce](http://developer.vantiv.com/community/ecommerce) to receive valid merchant credentials in order to run tests successfully or if you require assistance in any way.  We are reachable at sdksupport@Vantiv.com
 
@@ -37,6 +39,36 @@ Setup
 1.) To install it, just copy CnpSdkForDotNet.dll into your Visual Studio referernces. 
 
 2.) You can configure it statically by modifying CnpSdkForDotNet.dll.config or at runtime using the CnpOnline(Dictionary) constructor. If you are just trying it out, the username, password and merchant id don't matter, and you should choose the sandbox url at https://www.testvantivcnp.com/sandbox/communicator/online.
+
+Configuration
+------ 
+| Name               | Example                                                   | Description                                                              |
+| ------------------ | ----------------------------------------------------------| -------------------------------------------------------------------------|
+| reportGroup        | "Default Report Group"                                    | Sub-group in the user interface where this transaction will be displayed |
+| onlineBatchUrl     | payments.vantivprelive.com                                | URL for sending batch transactions                                       |
+| onlineBatchPort    | 15000                                                     | Port for sending batch transactions                                      |
+| requestDirectory   | C:\Vantiv\                                                | Directory path to store request XMLs sent to Worldpay                    |
+| responseDirectory  | C:\Vantiv\                                                | Directory path to store response XMLs sent to Worldpay                   |
+| logFile            | C:\Vantiv\logs\                                           | Directory path to store all logs                                         |
+| neuterAccountNums  | true                                                      | If true, masks card number in logs                                       |
+| url                | https://www.testvantivcnp.com/sandbox/communicator/online | URL to send online transactions                                          |
+| proxyHost          |                                                           | Proxy host name (if applicable)                                          |
+| proxyPort          |                                                           | Proxy port number (if applicable)                                        |
+| username           |                                                           | Presenter username for sending transactions                              |
+| password           |                                                           | Presenter password for sending transactions                              |
+| keepAlive          | true                                                      | Not configurable, need to remove                                         |
+| printxml           | true                                                      | If true, prints the request and response XML on the console              |
+| timeout            | 5000                                                      | Not configurable, need to remove                                         |
+| knownHostsFile     | C:\\Vantiv\\dll\\knownhosts                               | Directory path to hosts file                                             |
+| merchantId         | 101                                                       | Assigned merchant ID for sending transactions                            |
+| sftpUrl            | payments.vantivprelive.com                                | URL for sending batch transactions as SFTP                               |
+| sftpUsername       | DOTNETUSER                                                | SFTP username for sending batch transactions                             |
+| sftpPassword       | DOTNETPASS                                                | SFTP password for sending batch transactions                             |
+| useEncryption      | false                                                     | If true, will use PGP encryption to send batches                         |
+| vantivPublicKeyId  |                                                           | Vantiv's public key ID to be used for encryption                         |
+| pgpPassphrase      |                                                           | Passphrase for your private key used for decrypting responses            |
+| GnuPgDir           |                                                           |                                                                          |
+
 
 3.) Create a c# class similar to:  
 
