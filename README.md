@@ -36,9 +36,9 @@ Please contact [Vantiv eCommerce](http://developer.vantiv.com/community/ecommerc
 Setup
 -----
 
-1.) To install it, just copy CnpSdkForDotNet.dll into your Visual Studio referernces. 
+1. To install it, just copy CnpSdkForDotNet.dll into your Visual Studio referernces. 
 
-2.) You can configure it statically by modifying CnpSdkForDotNet.dll.config or at runtime using the CnpOnline(Dictionary) constructor. If you are just trying it out, the username, password and merchant id don't matter, and you should choose the sandbox url at https://www.testvantivcnp.com/sandbox/communicator/online.
+2. You can configure it statically by modifying CnpSdkForDotNet.dll.config or at runtime using the CnpOnline(Dictionary) constructor. If you are just trying it out, the username, password and merchant id don't matter, and you should choose the sandbox url at https://www.testvantivcnp.com/sandbox/communicator/online.
 
 Configuration
 ------ 
@@ -69,8 +69,10 @@ Configuration
 | pgpPassphrase      |                                                           | Passphrase for your private key used for decrypting responses            |
 | GnuPgDir           |                                                           |                                                                          |
 
+Test
+------
 
-3.) Create a c# class similar to:  
+1. Create a c# class similar to:  
 
 ```c#
 using System;
@@ -116,7 +118,7 @@ using Cnp.Sdk;
 
 ```
 
-4) Compile and run this file.  You should see the following result:
+2. Compile and run this file.  You should see the following result:
 
     Response: 000
     Message: Approved
