@@ -124,6 +124,6 @@ using Cnp.Sdk;
     Message: Approved
     Cnp Transaction ID: <your-numeric-cnp-txn-id>
 
-More examples can be found [Here](http://vantiv.github.io/dotnet/) or in [Functional and Unit Tests] (https://github.com/Vantiv/cnp-sdk-for-dotNet/tree/master/CnpSdkForNet/CnpSdkForNetTest)
+More examples can be found [Here](http://vantiv.github.io/dotnet/) or in [Functional and Unit Tests](https://github.com/Vantiv/cnp-sdk-for-dotNet/tree/master/CnpSdkForNet/CnpSdkForNetTest)
 
 Please contact Vantiv eCommerce with any further questions.   You can reach us at sdksupport@Vantiv.com.
