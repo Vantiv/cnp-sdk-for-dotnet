@@ -42,32 +42,7 @@ Setup
 
 Configuration
 ------ 
-| Name               | Example                                                   | Description                                                              |
-| ------------------ | ----------------------------------------------------------| -------------------------------------------------------------------------|
-| reportGroup        | "Default Report Group"                                    | Sub-group in the user interface where this transaction will be displayed |
-| onlineBatchUrl     | payments.vantivprelive.com                                | URL for sending batch transactions                                       |
-| onlineBatchPort    | 15000                                                     | Port for sending batch transactions                                      |
-| requestDirectory   | C:\Vantiv\                                                | Directory path to store request XMLs sent to Worldpay                    |
-| responseDirectory  | C:\Vantiv\                                                | Directory path to store response XMLs sent to Worldpay                   |
-| logFile            | C:\Vantiv\logs\                                           | Directory path to store all logs                                         |
-| neuterAccountNums  | true                                                      | If true, masks card number in logs                                       |
-| url                | https://www.testvantivcnp.com/sandbox/communicator/online | URL to send online transactions                                          |
-| proxyHost          | sampleProxy                                               | Proxy host name (if applicable)                                          |
-| proxyPort          | 8080                                                      | Proxy port number (if applicable)                                        |
-| username           | testUsername                                              | Presenter username for sending transactions                              |
-| password           | testPassword                                              | Presenter password for sending transactions                              |
-| keepAlive          | true                                                      | Not configurable, need to remove                                         |
-| printxml           | true                                                      | If true, prints the request and response XML on the console              |
-| timeout            | 5000                                                      | Not configurable, need to remove                                         |
-| knownHostsFile     | C:\\Vantiv\\dll\\knownhosts                               | Directory path to hosts file                                             |
-| merchantId         | 101                                                       | Assigned merchant ID for sending transactions                            |
-| sftpUrl            | payments.vantivprelive.com                                | URL for sending batch transactions as SFTP                               |
-| sftpUsername       | DOTNETUSER                                                | SFTP username for sending batch transactions                             |
-| sftpPassword       | DOTNETPASS                                                | SFTP password for sending batch transactions                             |
-| useEncryption      | false                                                     | If true, will use PGP encryption to send batches                         |
-| vantivPublicKeyId  | ABCDE90E                                                  | Vantiv's public key ID to be used for encryption                         |
-| pgpPassphrase      | testPassPhrase                                            | Passphrase for your private key used for decrypting responses            |
-| GnuPgDir           | C:\Windows\Gpg\                                           | Directory path of the GPG application containing gpg.exe                 |
+Check out the configuration [gist](https://gist.github.com/VantivSDK/38c7b8f3ea135c036a6a4322b9ddda5e) to get more information on the configurable parameters used by the SDK.
 
 
 Test
