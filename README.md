@@ -52,10 +52,10 @@ Configuration
 | logFile            | C:\Vantiv\logs\                                           | Directory path to store all logs                                         |
 | neuterAccountNums  | true                                                      | If true, masks card number in logs                                       |
 | url                | https://www.testvantivcnp.com/sandbox/communicator/online | URL to send online transactions                                          |
-| proxyHost          |                                                           | Proxy host name (if applicable)                                          |
-| proxyPort          |                                                           | Proxy port number (if applicable)                                        |
-| username           |                                                           | Presenter username for sending transactions                              |
-| password           |                                                           | Presenter password for sending transactions                              |
+| proxyHost          | sampleProxy                                               | Proxy host name (if applicable)                                          |
+| proxyPort          | 8080                                                      | Proxy port number (if applicable)                                        |
+| username           | testUsername                                              | Presenter username for sending transactions                              |
+| password           | testPassword                                              | Presenter password for sending transactions                              |
 | keepAlive          | true                                                      | Not configurable, need to remove                                         |
 | printxml           | true                                                      | If true, prints the request and response XML on the console              |
 | timeout            | 5000                                                      | Not configurable, need to remove                                         |
@@ -65,9 +65,10 @@ Configuration
 | sftpUsername       | DOTNETUSER                                                | SFTP username for sending batch transactions                             |
 | sftpPassword       | DOTNETPASS                                                | SFTP password for sending batch transactions                             |
 | useEncryption      | false                                                     | If true, will use PGP encryption to send batches                         |
-| vantivPublicKeyId  |                                                           | Vantiv's public key ID to be used for encryption                         |
-| pgpPassphrase      |                                                           | Passphrase for your private key used for decrypting responses            |
-| GnuPgDir           |                                                           |                                                                          |
+| vantivPublicKeyId  | ABCDE90E                                                  | Vantiv's public key ID to be used for encryption                         |
+| pgpPassphrase      | testPassPhrase                                            | Passphrase for your private key used for decrypting responses            |
+| GnuPgDir           | C:\Windows\Gpg\                                           | Directory path of the GPG application containing gpg.exe                 |
+
 
 Test
 ------
@@ -124,6 +125,11 @@ using Cnp.Sdk;
     Message: Approved
     Cnp Transaction ID: <your-numeric-cnp-txn-id>
 
+Examples
+--------
+
 More examples can be found [Here](http://vantiv.github.io/dotnet/) or in [Functional and Unit Tests](https://github.com/Vantiv/cnp-sdk-for-dotNet/tree/master/CnpSdkForNet/CnpSdkForNetTest)
 
+Support
+-------
 Please contact Vantiv eCommerce with any further questions.   You can reach us at sdksupport@Vantiv.com.
