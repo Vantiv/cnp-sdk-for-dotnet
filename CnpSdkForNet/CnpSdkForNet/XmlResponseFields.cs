@@ -4108,7 +4108,6 @@ namespace Cnp.Sdk
         }
 
         /// <remarks/>
-        [System.Xml.Serialization.XmlIgnoreAttribute()]
         public string networkTransactionId
         {
             get
