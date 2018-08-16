@@ -1,6 +1,9 @@
 
 = Vantiv eCommerce CNP CHANGELOG
 
+== Version 12.4.1
+*BugFix: Fixed networkTransactionId Unmarshalling to null in saleResponse bug.
+
 == Version 12.4.0
 * Feature: Support for CNP XML v12.4
 
