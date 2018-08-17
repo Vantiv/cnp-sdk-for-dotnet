@@ -3,7 +3,7 @@
   <Profiles />
   <Settings>
     <Setting Name="reportGroup" Type="System.String" Scope="User">
-      <Value Profile="(Default)">Default Report Groupyyyyy</Value>
+      <Value Profile="(Default)">Default Report Group</Value>
     </Setting>
     <Setting Name="onlineBatchUrl" Type="System.String" Scope="User">
       <Value Profile="(Default)">payments.vantivprelive.com</Value>
@@ -24,7 +24,7 @@
       <Value Profile="(Default)">true</Value>
     </Setting>
     <Setting Name="url" Type="System.String" Scope="User">
-      <Value Profile="(Default)">https://www.testvantivcnp.com/sandbox/new/sandbox/communicator/online</Value>
+      <Value Profile="(Default)">https://www.testvantivcnp.com/sandbox/communicator/online</Value>
     </Setting>
     <Setting Name="proxyHost" Type="System.String" Scope="User">
       <Value Profile="(Default)" />
@@ -71,8 +71,8 @@
     <Setting Name="pgpPassphrase" Type="System.String" Scope="User">
       <Value Profile="(Default)" />
     </Setting>
-    <Setting Name="GnuPgDir" Type="System.String" Scope="User">
+    <Setting Name="gnuPgDir" Type="System.String" Scope="User">
       <Value Profile="(Default)" />
-    </Setting>   
+    </Setting>
   </Settings>
 </SettingsFile>
