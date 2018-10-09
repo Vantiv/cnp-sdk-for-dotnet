@@ -68,7 +68,7 @@ namespace Cnp.Sdk
         {
             // Create header for the cnpOnlineRequest with user credential.
             var xml = "<?xml version='1.0' encoding='utf-8'?>\r\n<cnpOnlineRequest merchantId=\"" + merchantId
-                + "\" version=\"12.4\" merchantSdk=\"" + merchantSdk + "\" xmlns=\"http://www.vantivcnp.com/schema\">"
+                + "\" version=\"12.5\" merchantSdk=\"" + merchantSdk + "\" xmlns=\"http://www.vantivcnp.com/schema\">"
                 + authentication.Serialize();
             
             // Because an online request can contain only one transaction, it assumes that only one instance variable of 
@@ -1866,12 +1866,16 @@ namespace Cnp.Sdk
     // Register Token Transaction.
     public partial class registerTokenRequestType : transactionTypeWithReportGroup
     {
+        public string encryptionKeyId;
         public string orderId;
+        public mposType mpos;
         public string accountNumber;
+        public string encryptedAccountNumber;
         public echeckForTokenType echeckForToken;
         public string paypageRegistrationId;
         public string cardValidationNum;
         public applepayType applepay;
+        public string encryptedCardValidationNum;
 
         public override string Serialize()
         {
@@ -1883,13 +1887,16 @@ namespace Cnp.Sdk
             }
             xml += " reportGroup=\"" + SecurityElement.Escape(reportGroup) + "\"";
             xml += ">";
-
+            xml += "\r\n<encryptionKeyId>" + encryptionKeyId + "</encryptionKeyId>";
             xml += "\r\n<orderId>" + orderId + "</orderId>";
-            if (accountNumber != null) xml += "\r\n<accountNumber>" + accountNumber + "</accountNumber>";
+            if(mpos != null) xml += "\r\n<mpos>" + mpos.Serialize() + "</mpos>";
+            else if (accountNumber != null) xml += "\r\n<accountNumber>" + accountNumber + "</accountNumber>";
+            else if(encryptedAccountNumber != null) xml += "\r\n<encryptedAccountNumber>" + encryptedAccountNumber + "</encryptedAccountNumber>";
             else if (echeckForToken != null) xml += "\r\n<echeckForToken>" + echeckForToken.Serialize() + "</echeckForToken>";
             else if (paypageRegistrationId != null) xml += "\r\n<paypageRegistrationId>" + paypageRegistrationId + "</paypageRegistrationId>";
             else if (applepay != null) xml += "\r\n<applepay>" + applepay.Serialize() + "\r\n</applepay>";
             if (cardValidationNum != null) xml += "\r\n<cardValidationNum>" + cardValidationNum + "</cardValidationNum>";
+            else if(encryptedCardValidationNum != null) xml += "\r\n<encryptedCardValidationNum>" + encryptedCardValidationNum + "</encryptedCardValidationNum>";
             xml += "\r\n</registerTokenRequest>";
             return xml;
         }
@@ -2738,7 +2745,7 @@ namespace Cnp.Sdk
 
     }
 
-    // 12.4.0: To include element showStatusOnly having type Enum
+    // 12.5.0: To include element showStatusOnly having type Enum
     public enum yesNoTypeEnum
     {
 
