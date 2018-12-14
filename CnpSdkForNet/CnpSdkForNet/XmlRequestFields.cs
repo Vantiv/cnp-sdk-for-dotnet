@@ -504,7 +504,7 @@ namespace Cnp.Sdk
                 {
                     xml += "\r\n<wallet>" + wallet.Serialize() + "\r\n</wallet>";
                 }
-                if (processingTypeSet)
+                if (processingTypeSet && processingType != processingTypeEnum.undefined)
                 {
                     xml += "\r\n<processingType>" + processingTypeField + "</processingType>";
                 }
@@ -861,7 +861,7 @@ namespace Cnp.Sdk
             {
                 xml += "\r\n<debtRepayment>" + debtRepayment.ToString().ToLower() + "</debtRepayment>";
             }
-            if (processingTypeSet)
+            if (processingTypeSet && processingType != processingTypeEnum.undefined)
             {
                 xml += "\r\n<processingType>" + processingType + "</processingType>";
             }
@@ -1568,7 +1568,7 @@ namespace Cnp.Sdk
             {
                 xml += "\r\n<debtRepayment>" + debtRepayment.ToString().ToLower() + "</debtRepayment>";
             }
-            if (processingTypeSet)
+            if (processingTypeSet && processingType != processingTypeEnum.undefined)
             {
                 xml += "\r\n<processingType>" + processingType + "</processingType>";
             }
@@ -2263,7 +2263,7 @@ namespace Cnp.Sdk
             {
                 xml += "\r\n<wallet>" + wallet.Serialize() + "\r\n</wallet>";
             }
-            if (processingTypeSet)
+            if (processingTypeSet && processingType != processingTypeEnum.undefined)
             {
                 xml += "\r\n<processingType>" + processingType + "</processingType>";
             }
@@ -2745,7 +2745,7 @@ namespace Cnp.Sdk
 
     }
 
-    // 12.5.0: To include element showStatusOnly having type Enum
+    // 12.5.1: To include element showStatusOnly having type Enum
     public enum yesNoTypeEnum
     {
 
@@ -4928,6 +4928,7 @@ namespace Cnp.Sdk
 
     public enum processingTypeEnum
     {
+        undefined,
         accountFunding,
         initialRecurring,
         initialInstallment,

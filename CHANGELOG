@@ -1,5 +1,9 @@
 
-= Vantiv eCommerce CNP CHANGELOG
+= Worldpay CNP CHANGELOG
+
+==Version 12.5.1 (Dec. 14, 2018)
+* Changed processingTypeEnum from accountFunding to undefined
+* Updated assembly information and Changelog header from Vantiv eCommerce to Worldpay
 
 ==Version 12.5.0 (Oct 04, 2018)
 * Feature: Full functions for XML v12.5

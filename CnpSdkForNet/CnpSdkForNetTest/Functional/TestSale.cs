@@ -257,6 +257,32 @@ namespace Cnp.Sdk.Test.Functional
         }
 
         [Test]
+        public void SimpleSaleWithUndefinedProcessTypeNetIdTranAmt()
+        {
+            var saleObj = new sale
+            {
+                id = "1",
+                amount = 106,
+                cnpTxnId = 123456,
+                orderId = "12344",
+                orderSource = orderSourceType.ecommerce,
+                card = new cardType
+                {
+                    type = methodOfPaymentTypeEnum.VI,
+                    number = "4100000000000000",
+                    expDate = "1210"
+                },
+
+                processingType = processingTypeEnum.undefined,
+                originalNetworkTransactionId = "123456789123456789123456789",
+                originalTransactionAmount = 12
+            };
+
+            var responseObj = _cnp.Sale(saleObj);
+            StringAssert.AreEqualIgnoringCase("Approved", responseObj.message);
+        }
+
+        [Test]
         public void SimpleSaleWithIdealResponse()
         {
             var saleObj = new sale
