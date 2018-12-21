@@ -7667,7 +7667,7 @@ namespace Cnp.Sdk
     }
 
     /// <remarks/>
-    [System.CodeDom.Compiler.GeneratedCodeAttribute("xsd", "2.0.50727.3038")]
+    [System.CodeDom.Compiler.GeneratedCodeAttribute("xsd", "4.6.1055.0")]
     [System.SerializableAttribute()]
     [System.Diagnostics.DebuggerStepThroughAttribute()]
     [System.ComponentModel.DesignerCategoryAttribute("code")]
@@ -7684,7 +7684,15 @@ namespace Cnp.Sdk
 
         private System.DateTime responseTimeField;
 
+        private System.DateTime postDateField;
+
+        private bool postDateFieldSpecified;
+
         private string messageField;
+
+        private bool duplicateField;
+
+        private bool duplicateFieldSpecified;
 
         /// <remarks/>
         public long cnpTxnId
@@ -7739,6 +7747,34 @@ namespace Cnp.Sdk
         }
 
         /// <remarks/>
+        [System.Xml.Serialization.XmlElementAttribute(DataType = "date")]
+        public System.DateTime postDate
+        {
+            get
+            {
+                return this.postDateField;
+            }
+            set
+            {
+                this.postDateField = value;
+            }
+        }
+
+        /// <remarks/>
+        [System.Xml.Serialization.XmlIgnoreAttribute()]
+        public bool postDateSpecified
+        {
+            get
+            {
+                return this.postDateFieldSpecified;
+            }
+            set
+            {
+                this.postDateFieldSpecified = value;
+            }
+        }
+
+        /// <remarks/>
         public string message
         {
             get
@@ -7748,6 +7784,34 @@ namespace Cnp.Sdk
             set
             {
                 this.messageField = value;
+            }
+        }
+
+        /// <remarks/>
+        [System.Xml.Serialization.XmlAttributeAttribute()]
+        public bool duplicate
+        {
+            get
+            {
+                return this.duplicateField;
+            }
+            set
+            {
+                this.duplicateField = value;
+            }
+        }
+
+        /// <remarks/>
+        [System.Xml.Serialization.XmlIgnoreAttribute()]
+        public bool duplicateSpecified
+        {
+            get
+            {
+                return this.duplicateFieldSpecified;
+            }
+            set
+            {
+                this.duplicateFieldSpecified = value;
             }
         }
     }
@@ -7839,7 +7903,7 @@ namespace Cnp.Sdk
     }
 
     /// <remarks/>
-    [System.CodeDom.Compiler.GeneratedCodeAttribute("xsd", "2.0.50727.3038")]
+    [System.CodeDom.Compiler.GeneratedCodeAttribute("xsd", "4.6.1055.0")]
     [System.SerializableAttribute()]
     [System.Diagnostics.DebuggerStepThroughAttribute()]
     [System.ComponentModel.DesignerCategoryAttribute("code")]
@@ -7856,7 +7920,15 @@ namespace Cnp.Sdk
 
         private System.DateTime responseTimeField;
 
+        private System.DateTime postDateField;
+
+        private bool postDateFieldSpecified;
+
         private string messageField;
+
+        private bool duplicateField;
+
+        private bool duplicateFieldSpecified;
 
         /// <remarks/>
         public long cnpTxnId
@@ -7911,6 +7983,34 @@ namespace Cnp.Sdk
         }
 
         /// <remarks/>
+        [System.Xml.Serialization.XmlElementAttribute(DataType = "date")]
+        public System.DateTime postDate
+        {
+            get
+            {
+                return this.postDateField;
+            }
+            set
+            {
+                this.postDateField = value;
+            }
+        }
+
+        /// <remarks/>
+        [System.Xml.Serialization.XmlIgnoreAttribute()]
+        public bool postDateSpecified
+        {
+            get
+            {
+                return this.postDateFieldSpecified;
+            }
+            set
+            {
+                this.postDateFieldSpecified = value;
+            }
+        }
+
+        /// <remarks/>
         public string message
         {
             get
@@ -7920,6 +8020,34 @@ namespace Cnp.Sdk
             set
             {
                 this.messageField = value;
+            }
+        }
+
+        /// <remarks/>
+        [System.Xml.Serialization.XmlAttributeAttribute()]
+        public bool duplicate
+        {
+            get
+            {
+                return this.duplicateField;
+            }
+            set
+            {
+                this.duplicateField = value;
+            }
+        }
+
+        /// <remarks/>
+        [System.Xml.Serialization.XmlIgnoreAttribute()]
+        public bool duplicateSpecified
+        {
+            get
+            {
+                return this.duplicateFieldSpecified;
+            }
+            set
+            {
+                this.duplicateFieldSpecified = value;
             }
         }
     }
@@ -8081,7 +8209,7 @@ namespace Cnp.Sdk
     }
 
     /// <remarks/>
-    [System.CodeDom.Compiler.GeneratedCodeAttribute("xsd", "2.0.50727.3038")]
+    [System.CodeDom.Compiler.GeneratedCodeAttribute("xsd", "4.6.1055.0")]
     [System.SerializableAttribute()]
     [System.Diagnostics.DebuggerStepThroughAttribute()]
     [System.ComponentModel.DesignerCategoryAttribute("code")]
@@ -8098,7 +8226,15 @@ namespace Cnp.Sdk
 
         private System.DateTime responseTimeField;
 
+        private System.DateTime postDateField;
+
+        private bool postDateFieldSpecified;
+
         private string messageField;
+
+        private bool duplicateField;
+
+        private bool duplicateFieldSpecified;
 
         /// <remarks/>
         public long cnpTxnId
@@ -8153,6 +8289,34 @@ namespace Cnp.Sdk
         }
 
         /// <remarks/>
+        [System.Xml.Serialization.XmlElementAttribute(DataType = "date")]
+        public System.DateTime postDate
+        {
+            get
+            {
+                return this.postDateField;
+            }
+            set
+            {
+                this.postDateField = value;
+            }
+        }
+
+        /// <remarks/>
+        [System.Xml.Serialization.XmlIgnoreAttribute()]
+        public bool postDateSpecified
+        {
+            get
+            {
+                return this.postDateFieldSpecified;
+            }
+            set
+            {
+                this.postDateFieldSpecified = value;
+            }
+        }
+
+        /// <remarks/>
         public string message
         {
             get
@@ -8162,6 +8326,34 @@ namespace Cnp.Sdk
             set
             {
                 this.messageField = value;
+            }
+        }
+
+        /// <remarks/>
+        [System.Xml.Serialization.XmlAttributeAttribute()]
+        public bool duplicate
+        {
+            get
+            {
+                return this.duplicateField;
+            }
+            set
+            {
+                this.duplicateField = value;
+            }
+        }
+
+        /// <remarks/>
+        [System.Xml.Serialization.XmlIgnoreAttribute()]
+        public bool duplicateSpecified
+        {
+            get
+            {
+                return this.duplicateFieldSpecified;
+            }
+            set
+            {
+                this.duplicateFieldSpecified = value;
             }
         }
     }
@@ -8253,7 +8445,7 @@ namespace Cnp.Sdk
     }
 
     /// <remarks/>
-    [System.CodeDom.Compiler.GeneratedCodeAttribute("xsd", "2.0.50727.3038")]
+    [System.CodeDom.Compiler.GeneratedCodeAttribute("xsd", "4.6.1055.0")]
     [System.SerializableAttribute()]
     [System.Diagnostics.DebuggerStepThroughAttribute()]
     [System.ComponentModel.DesignerCategoryAttribute("code")]
@@ -8270,7 +8462,15 @@ namespace Cnp.Sdk
 
         private System.DateTime responseTimeField;
 
+        private System.DateTime postDateField;
+
+        private bool postDateFieldSpecified;
+
         private string messageField;
+
+        private bool duplicateField;
+
+        private bool duplicateFieldSpecified;
 
         /// <remarks/>
         public long cnpTxnId
@@ -8325,6 +8525,34 @@ namespace Cnp.Sdk
         }
 
         /// <remarks/>
+        [System.Xml.Serialization.XmlElementAttribute(DataType = "date")]
+        public System.DateTime postDate
+        {
+            get
+            {
+                return this.postDateField;
+            }
+            set
+            {
+                this.postDateField = value;
+            }
+        }
+
+        /// <remarks/>
+        [System.Xml.Serialization.XmlIgnoreAttribute()]
+        public bool postDateSpecified
+        {
+            get
+            {
+                return this.postDateFieldSpecified;
+            }
+            set
+            {
+                this.postDateFieldSpecified = value;
+            }
+        }
+
+        /// <remarks/>
         public string message
         {
             get
@@ -8334,6 +8562,34 @@ namespace Cnp.Sdk
             set
             {
                 this.messageField = value;
+            }
+        }
+
+        /// <remarks/>
+        [System.Xml.Serialization.XmlAttributeAttribute()]
+        public bool duplicate
+        {
+            get
+            {
+                return this.duplicateField;
+            }
+            set
+            {
+                this.duplicateField = value;
+            }
+        }
+
+        /// <remarks/>
+        [System.Xml.Serialization.XmlIgnoreAttribute()]
+        public bool duplicateSpecified
+        {
+            get
+            {
+                return this.duplicateFieldSpecified;
+            }
+            set
+            {
+                this.duplicateFieldSpecified = value;
             }
         }
     }

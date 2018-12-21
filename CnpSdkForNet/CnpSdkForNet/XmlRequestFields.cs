@@ -67,6 +67,7 @@ namespace Cnp.Sdk
         public string Serialize()
         {
             // Create header for the cnpOnlineRequest with user credential.
+            //Dec. 21 2018 Left version at 12.5 because schema version 12.7 not active yet; update after kit install
             var xml = "<?xml version='1.0' encoding='utf-8'?>\r\n<cnpOnlineRequest merchantId=\"" + merchantId
                 + "\" version=\"12.5\" merchantSdk=\"" + merchantSdk + "\" xmlns=\"http://www.vantivcnp.com/schema\">"
                 + authentication.Serialize();
@@ -2745,7 +2746,7 @@ namespace Cnp.Sdk
 
     }
 
-    // 12.5.1: To include element showStatusOnly having type Enum
+    // To include element showStatusOnly having type Enum
     public enum yesNoTypeEnum
     {
 

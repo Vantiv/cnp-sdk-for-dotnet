@@ -557,7 +557,142 @@ namespace Cnp.Sdk.Test.Functional
                 cnpBatchResponse = cnpResponse.nextBatchResponse();
             }
         }
-        
+
+        [Ignore("schema 12.7 not yet active")]
+        [Test]
+        public void ctxAll()
+        {
+            var cnpBatchRequest = new batchRequest();
+
+            string[] ctxPaymentInformation = { "payment info 1", "payment info 2" };
+            var submerchantCreditCtx = new submerchantCreditCtx
+            {
+                // attributes.
+                id = "1",
+                reportGroup = "Default Report Group",
+                // required child elements.
+                accountInfo = new echeckTypeCtx()
+                {
+                    accType = echeckAccountTypeEnum.Savings,
+                    accNum = "1234",
+                    routingNum = "12345678",
+                    ctxPaymentInformation = ctxPaymentInformation
+                },
+                amount = 1500,
+                fundingSubmerchantId = "value for fundingSubmerchantId",
+                fundsTransferId = "value for fundsTransferId",
+                submerchantName = "Vantiv",
+                customIdentifier = "WorldPay"
+            };
+            cnpBatchRequest.addSubmerchantCreditCtx(submerchantCreditCtx);
+            var req = submerchantCreditCtx.Serialize();
+            var submerchantDebitCtx = new submerchantDebitCtx
+            {
+                // attributes.
+                id = "1",
+                reportGroup = "Default Report Group",
+                // required child elements.
+                accountInfo = new echeckTypeCtx()
+                {
+                    accType = echeckAccountTypeEnum.Savings,
+                    accNum = "1234",
+                    routingNum = "12345678",
+                    ctxPaymentInformation = ctxPaymentInformation
+                },
+                amount = 1500,
+                fundingSubmerchantId = "value for fundingSubmerchantId",
+                fundsTransferId = "value for fundsTransferId",
+                submerchantName = "Vantiv",
+                customIdentifier = "WorldPay"
+            };
+            cnpBatchRequest.addSubmerchantDebitCtx(submerchantDebitCtx);
+
+            var vendorCreditCtx = new vendorCreditCtx
+            {
+                // attributes.
+                id = "1",
+                reportGroup = "Default Report Group",
+                // required child elements.
+                accountInfo = new echeckTypeCtx()
+                {
+                    accType = echeckAccountTypeEnum.Savings,
+                    accNum = "1234",
+                    routingNum = "12345678",
+                    ctxPaymentInformation = ctxPaymentInformation
+                },
+                amount = 1500,
+                fundingSubmerchantId = "value for fundingSubmerchantId",
+                fundsTransferId = "value for fundsTransferId",
+                vendorName = "Vantiv"
+            };
+            cnpBatchRequest.addVendorCreditCtx(vendorCreditCtx);
+
+            var vendorDebitCtx = new vendorDebitCtx
+            {
+                // attributes.
+                id = "1",
+                reportGroup = "Default Report Group",
+                // required child elements.
+                accountInfo = new echeckTypeCtx()
+                {
+                    accType = echeckAccountTypeEnum.Savings,
+                    accNum = "1234",
+                    routingNum = "12345678",
+                    ctxPaymentInformation = ctxPaymentInformation
+                },
+                amount = 1500,
+                fundingSubmerchantId = "value for fundingSubmerchantId",
+                fundsTransferId = "value for fundsTransferId",
+                vendorName = "Vantiv"
+            };
+            cnpBatchRequest.addVendorDebitCtx(vendorDebitCtx);
+
+            cnp.addBatch(cnpBatchRequest);
+            var batchName = cnp.sendToCnp();
+            cnp.blockAndWaitForResponse(batchName, estimatedResponseTime(0, 1));
+            var cnpResponse = cnp.receiveFromCnp(batchName);
+
+            Assert.NotNull(cnpResponse);
+            Assert.AreEqual("0", cnpResponse.response);
+            Assert.AreEqual("Valid Format", cnpResponse.message);
+
+            var cnpBatchResponse = cnpResponse.nextBatchResponse();
+            while (cnpBatchResponse != null)
+            {
+                var submerchantCreditResponse = cnpBatchResponse.nextSubmerchantCreditResponse();
+                while (submerchantCreditResponse != null)
+                {
+                    Assert.AreEqual("000", submerchantCreditResponse.response);
+
+                    submerchantCreditResponse = cnpBatchResponse.nextSubmerchantCreditResponse();
+                }
+
+                var submerchantDebitResponse = cnpBatchResponse.nextSubmerchantDebitResponse();
+                while (submerchantDebitResponse != null)
+                {
+                    Assert.AreEqual("000", submerchantDebitResponse.response);
+
+                    submerchantDebitResponse = cnpBatchResponse.nextSubmerchantDebitResponse();
+                }
+
+                var vendorCreditResponse = cnpBatchResponse.nextVendorCreditResponse();
+                while (vendorCreditResponse != null)
+                {
+                    Assert.AreEqual("000", vendorCreditResponse.response);
+
+                    vendorCreditResponse = cnpBatchResponse.nextVendorCreditResponse();
+                }
+
+                var vendorDebitResponse = cnpBatchResponse.nextVendorDebitResponse();
+                while (vendorDebitResponse != null)
+                {
+                    Assert.AreEqual("000", vendorDebitResponse.response);
+
+                    vendorDebitResponse = cnpBatchResponse.nextVendorDebitResponse();
+                }
+            }
+        }
+
         
         [Test]
         [Ignore("Fast access funding not setup for test merchant")]

@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Text;
 using System.IO;
 using System.Security;
+using System.Xml.Serialization;
 
 namespace Cnp.Sdk
 {
@@ -980,6 +981,21 @@ namespace Cnp.Sdk
             }
         }
 
+        public void addSubmerchantCreditCtx(submerchantCreditCtx submerchantCreditCtx)
+        {
+            if (numAccountUpdates == 0)
+            {
+                numSubmerchantCredit++;
+                submerchantCreditAmount += (long)submerchantCreditCtx.amount;
+                fillInReportGroup(submerchantCreditCtx);
+                tempBatchFilePath = saveElement(cnpFile, cnpTime, tempBatchFilePath, submerchantCreditCtx);
+            }
+            else
+            {
+                throw new CnpOnlineException(accountUpdateErrorMessage);
+            }
+        }
+
         public void addPayFacCredit(payFacCredit payFacCredit)
         {
             if (numAccountUpdates == 0)
@@ -1025,6 +1041,21 @@ namespace Cnp.Sdk
             }
         }
 
+        public void addVendorCreditCtx(vendorCreditCtx vendorCreditCtx)
+        {
+            if (numAccountUpdates == 0)
+            {
+                numVendorCredit++;
+                vendorCreditAmount += (long)vendorCreditCtx.amount;
+                fillInReportGroup(vendorCreditCtx);
+                tempBatchFilePath = saveElement(cnpFile, cnpTime, tempBatchFilePath, vendorCreditCtx);
+            }
+            else
+            {
+                throw new CnpOnlineException(accountUpdateErrorMessage);
+            }
+        }
+
         public void addPhysicalCheckCredit(physicalCheckCredit physicalCheckCredit)
         {
             if (numAccountUpdates == 0)
@@ -1048,6 +1079,21 @@ namespace Cnp.Sdk
                 submerchantDebitAmount += (long)submerchantDebit.amount;
                 fillInReportGroup(submerchantDebit);
                 tempBatchFilePath = saveElement(cnpFile, cnpTime, tempBatchFilePath, submerchantDebit);
+            }
+            else
+            {
+                throw new CnpOnlineException(accountUpdateErrorMessage);
+            }
+        }
+
+        public void addSubmerchantDebitCtx(submerchantDebitCtx submerchantDebitCtx)
+        {
+            if (numAccountUpdates == 0)
+            {
+                numSubmerchantDebit++;
+                submerchantDebitAmount += (long)submerchantDebitCtx.amount;
+                fillInReportGroup(submerchantDebitCtx);
+                tempBatchFilePath = saveElement(cnpFile, cnpTime, tempBatchFilePath, submerchantDebitCtx);
             }
             else
             {
@@ -1093,6 +1139,21 @@ namespace Cnp.Sdk
                 vendorDebitAmount += (long)vendorDebit.amount;
                 fillInReportGroup(vendorDebit);
                 tempBatchFilePath = saveElement(cnpFile, cnpTime, tempBatchFilePath, vendorDebit);
+            }
+            else
+            {
+                throw new CnpOnlineException(accountUpdateErrorMessage);
+            }
+        }
+
+        public void addVendorDebitCtx(vendorDebitCtx vendorDebitCtx)
+        {
+            if (numAccountUpdates == 0)
+            {
+                numVendorDebit++;
+                vendorDebitAmount += (long)vendorDebitCtx.amount;
+                fillInReportGroup(vendorDebitCtx);
+                tempBatchFilePath = saveElement(cnpFile, cnpTime, tempBatchFilePath, vendorDebitCtx);
             }
             else
             {
@@ -1440,7 +1501,7 @@ namespace Cnp.Sdk
                 xmlHeader += "sameDayFunding=\"" + sameDayFunding.ToString().ToLower() + "\"\r\n";
             }
 
-            xmlHeader += "merchantSdk=\"DotNet;12.5.1\"\r\n";
+            xmlHeader += "merchantSdk=\"DotNet;12.7.0\"\r\n";
 
             xmlHeader += "merchantId=\"" + config["merchantId"] + "\">\r\n";
             return xmlHeader;
@@ -2276,6 +2337,355 @@ namespace Cnp.Sdk
             return xml;
         }
     }
+
+    /// <remarks/>
+    [System.CodeDom.Compiler.GeneratedCodeAttribute("xsd", "4.6.1055.0")]
+    [System.SerializableAttribute()]
+    [System.Diagnostics.DebuggerStepThroughAttribute()]
+    [System.ComponentModel.DesignerCategoryAttribute("code")]
+    [System.Xml.Serialization.XmlTypeAttribute(Namespace = "http://www.vantivcnp.com/schema")]
+    public partial class echeckTypeCtx
+    {
+        private bool accTypeSet;
+        private echeckAccountTypeEnum accTypeField;
+        private string accNumField;
+        private string routingNumField;
+        private string checkNumField;
+        private string ccdPaymentInformationField;
+        private string[] ctxPaymentInformationField;
+        public echeckAccountTypeEnum accType
+        {
+            get
+            {
+                return this.accTypeField;
+            }
+            set
+            {
+                this.accTypeField = value;
+                this.accTypeSet = true;
+            }
+        }
+        
+        public string accNum
+        {
+            get
+            {
+                return this.accNumField;
+            }
+            set
+            {
+                this.accNumField = value;
+            }
+        }
+        
+        public string routingNum
+        {
+            get
+            {
+                return this.routingNumField;
+            }
+            set
+            {
+                this.routingNumField = value;
+            }
+        }
+        
+        public string checkNum
+        {
+            get
+            {
+                return this.checkNumField;
+            }
+            set
+            {
+                this.checkNumField = value;
+            }
+        }
+        
+        public string ccdPaymentInformation
+        {
+            get
+            {
+                return this.ccdPaymentInformationField;
+            }
+            set
+            {
+                this.ccdPaymentInformationField = value;
+            }
+        }
+
+        /// <remarks/>
+        [System.Xml.Serialization.XmlArrayItemAttribute("ctxPaymentDetail", IsNullable = false)]
+        public string[] ctxPaymentInformation
+        {
+            get
+            {
+                return this.ctxPaymentInformationField;
+            }
+            set
+            {
+                this.ctxPaymentInformationField = value;
+            }
+        }
+
+        public string Serialize()
+        {
+            var xml = "";
+            var accTypeName = accTypeField.ToString();
+            var attributes =
+                (XmlEnumAttribute[])typeof(echeckAccountTypeEnum).GetMember(accTypeField.ToString())[0].GetCustomAttributes(typeof(XmlEnumAttribute), false);
+            if (attributes.Length > 0) accTypeName = attributes[0].Name;
+            if (accTypeSet) xml += "\r\n<accType>" + accTypeName + "</accType>";
+            if (accNum != null) xml += "\r\n<accNum>" + SecurityElement.Escape(accNum) + "</accNum>";
+            if (routingNum != null) xml += "\r\n<routingNum>" + SecurityElement.Escape(routingNum) + "</routingNum>";
+            if (checkNum != null) xml += "\r\n<checkNum>" + SecurityElement.Escape(checkNum) + "</checkNum>";
+            if (ccdPaymentInformation != null) xml += "\r\n<ccdPaymentInformation>" + SecurityElement.Escape(ccdPaymentInformation) + "</ccdPaymentInformation>";
+            if (ctxPaymentInformation != null)
+            {
+                xml += "\r\n<ctxPaymentInformation>";
+                for (int i = 0; i < ctxPaymentInformation.Length; i++) xml += "\r\n<ctxPaymentDetail>" + SecurityElement.Escape(ctxPaymentInformation[i]) + "</ctxPaymentInformation>";
+                xml += "\r\n</ctxPaymentInformation>";
+            }
+            return xml;
+        }
+    }
+
+    /// <remarks/>
+    [System.CodeDom.Compiler.GeneratedCodeAttribute("xsd", "4.6.1055.0")]
+    [System.SerializableAttribute()]
+    [System.Diagnostics.DebuggerStepThroughAttribute()]
+    [System.ComponentModel.DesignerCategoryAttribute("code")]
+    [System.Xml.Serialization.XmlTypeAttribute(AnonymousType = true, Namespace = "http://www.vantivcnp.com/schema")]
+    [System.Xml.Serialization.XmlRootAttribute("submerchantCredit", Namespace = "http://www.vantivcnp.com/schema", IsNullable = false)]
+    public partial class submerchantCreditCtx : transactionTypeWithReportGroup
+    {
+        /// <remarks/>
+        [System.Xml.Serialization.XmlElementAttribute("accountInfo", typeof(echeckTypeCtx))]
+        [System.Xml.Serialization.XmlElementAttribute("amount", typeof(string), DataType = "integer")]
+        [System.Xml.Serialization.XmlElementAttribute("customIdentifier", typeof(string))]
+        [System.Xml.Serialization.XmlElementAttribute("fundingSubmerchantId", typeof(string))]
+        [System.Xml.Serialization.XmlElementAttribute("fundsTransferId", typeof(string))]
+        [System.Xml.Serialization.XmlElementAttribute("submerchantName", typeof(string))]
+        
+        public string fundingSubmerchantId { get; set; }
+
+        public string submerchantName { get; set; }
+
+        public string fundsTransferId { get; set; }
+
+        public long? amount { get; set; }
+
+        public echeckTypeCtx accountInfo { get; set; }
+
+        public string customIdentifier { get; set; }
+
+        public override string Serialize()
+        {
+            var xml = "\r\n<submerchantCredit ";
+
+            if (id != null)
+                xml += "id=\"" + SecurityElement.Escape(id) + "\" ";
+            if (customerId != null)
+                xml += "customerId=\"" + SecurityElement.Escape(customerId) + "\" ";
+            xml += "reportGroup=\"" + SecurityElement.Escape(reportGroup) + "\">";
+            if (fundingSubmerchantId != null)
+                xml += "\r\n<fundingSubmerchantId>" + SecurityElement.Escape(fundingSubmerchantId) + "</fundingSubmerchantId>";
+            if (submerchantName != null)
+                xml += "\r\n<submerchantName>" + SecurityElement.Escape(submerchantName) + "</submerchantName>";
+            if (fundsTransferId != null)
+                xml += "\r\n<fundsTransferId>" + SecurityElement.Escape(fundsTransferId) + "</fundsTransferId>";
+            if (amount != null)
+                xml += "\r\n<amount>" + amount + "</amount>";
+            if (accountInfo != null)
+            {
+                xml += "\r\n<accountInfo>";
+                xml += accountInfo.Serialize();
+                xml += "</accountInfo>";
+            }
+            if (customIdentifier != null)
+                xml += "\r\n<customIdentifier>" + customIdentifier + "</customIdentifier>";
+
+            xml += "\r\n</submerchantCredit>";
+
+            return xml;
+        }
+    }
+
+    /// <remarks/>
+    [System.CodeDom.Compiler.GeneratedCodeAttribute("xsd", "4.6.1055.0")]
+    [System.SerializableAttribute()]
+    [System.Diagnostics.DebuggerStepThroughAttribute()]
+    [System.ComponentModel.DesignerCategoryAttribute("code")]
+    [System.Xml.Serialization.XmlTypeAttribute(AnonymousType = true, Namespace = "http://www.vantivcnp.com/schema")]
+    [System.Xml.Serialization.XmlRootAttribute("submerchantCredit", Namespace = "http://www.vantivcnp.com/schema", IsNullable = false)]
+    public partial class submerchantDebitCtx : transactionTypeWithReportGroup
+    {
+        /// <remarks/>
+        [System.Xml.Serialization.XmlElementAttribute("accountInfo", typeof(echeckTypeCtx))]
+        [System.Xml.Serialization.XmlElementAttribute("amount", typeof(string), DataType = "integer")]
+        [System.Xml.Serialization.XmlElementAttribute("customIdentifier", typeof(string))]
+        [System.Xml.Serialization.XmlElementAttribute("fundingSubmerchantId", typeof(string))]
+        [System.Xml.Serialization.XmlElementAttribute("fundsTransferId", typeof(string))]
+        [System.Xml.Serialization.XmlElementAttribute("submerchantName", typeof(string))]
+
+        public string fundingSubmerchantId { get; set; }
+
+        public string submerchantName { get; set; }
+
+        public string fundsTransferId { get; set; }
+
+        public long? amount { get; set; }
+
+        public echeckTypeCtx accountInfo { get; set; }
+
+        public string customIdentifier { get; set; }
+
+        public override string Serialize()
+        {
+            var xml = "\r\n<submerchantDebit ";
+
+            if (id != null)
+                xml += "id=\"" + SecurityElement.Escape(id) + "\" ";
+            if (customerId != null)
+                xml += "customerId=\"" + SecurityElement.Escape(customerId) + "\" ";
+            xml += "reportGroup=\"" + SecurityElement.Escape(reportGroup) + "\">";
+            if (fundingSubmerchantId != null)
+                xml += "\r\n<fundingSubmerchantId>" + SecurityElement.Escape(fundingSubmerchantId) + "</fundingSubmerchantId>";
+            if (submerchantName != null)
+                xml += "\r\n<submerchantName>" + SecurityElement.Escape(submerchantName) + "</submerchantName>";
+            if (fundsTransferId != null)
+                xml += "\r\n<fundsTransferId>" + SecurityElement.Escape(fundsTransferId) + "</fundsTransferId>";
+            if (amount != null)
+                xml += "\r\n<amount>" + amount + "</amount>";
+            if (accountInfo != null)
+            {
+                xml += "\r\n<accountInfo>";
+                xml += accountInfo.Serialize();
+                xml += "</accountInfo>";
+            }
+            if (customIdentifier != null)
+                xml += "\r\n<customIdentifier>" + customIdentifier + "</customIdentifier>";
+
+            xml += "\r\n</submerchantDebit>";
+
+            return xml;
+        }
+    }
+
+    /// <remarks/>
+    [System.CodeDom.Compiler.GeneratedCodeAttribute("xsd", "4.6.1055.0")]
+    [System.SerializableAttribute()]
+    [System.Diagnostics.DebuggerStepThroughAttribute()]
+    [System.ComponentModel.DesignerCategoryAttribute("code")]
+    [System.Xml.Serialization.XmlTypeAttribute(AnonymousType = true, Namespace = "http://www.vantivcnp.com/schema")]
+    [System.Xml.Serialization.XmlRootAttribute("vendorCredit", Namespace = "http://www.vantivcnp.com/schema", IsNullable = false)]
+    public partial class vendorCreditCtx : transactionTypeWithReportGroup
+    {
+        /// <remarks/>
+        [System.Xml.Serialization.XmlElementAttribute("accountInfo", typeof(echeckTypeCtx))]
+        [System.Xml.Serialization.XmlElementAttribute("amount", typeof(string), DataType = "integer")]
+        [System.Xml.Serialization.XmlElementAttribute("fundingSubmerchantId", typeof(string))]
+        [System.Xml.Serialization.XmlElementAttribute("fundsTransferId", typeof(string))]
+        [System.Xml.Serialization.XmlElementAttribute("vendorName", typeof(string))]
+
+        public string fundingSubmerchantId { get; set; }
+
+        public string vendorName { get; set; }
+
+        public string fundsTransferId { get; set; }
+
+        public long? amount { get; set; }
+
+        public echeckTypeCtx accountInfo { get; set; }
+
+        public override string Serialize()
+        {
+            var xml = "\r\n<vendorCredit ";
+
+            if (id != null)
+                xml += "id=\"" + SecurityElement.Escape(id) + "\" ";
+            if (customerId != null)
+                xml += "customerId=\"" + SecurityElement.Escape(customerId) + "\" ";
+            xml += "reportGroup=\"" + SecurityElement.Escape(reportGroup) + "\">";
+            if (fundingSubmerchantId != null)
+                xml += "\r\n<fundingSubmerchantId>" + SecurityElement.Escape(fundingSubmerchantId) + "</fundingSubmerchantId>";
+            if (vendorName != null)
+                xml += "\r\n<vendorName>" + SecurityElement.Escape(vendorName) + "</vendorName>";
+            if (fundsTransferId != null)
+                xml += "\r\n<fundsTransferId>" + SecurityElement.Escape(fundsTransferId) + "</fundsTransferId>";
+            if (amount != null)
+                xml += "\r\n<amount>" + amount + "</amount>";
+            if (accountInfo != null)
+            {
+                xml += "\r\n<accountInfo>";
+                xml += accountInfo.Serialize();
+                xml += "</accountInfo>";
+            }
+
+            xml += "\r\n</vendorCredit>";
+
+            return xml;
+        }
+
+    }
+
+    /// <remarks/>
+    [System.CodeDom.Compiler.GeneratedCodeAttribute("xsd", "4.6.1055.0")]
+    [System.SerializableAttribute()]
+    [System.Diagnostics.DebuggerStepThroughAttribute()]
+    [System.ComponentModel.DesignerCategoryAttribute("code")]
+    [System.Xml.Serialization.XmlTypeAttribute(AnonymousType = true, Namespace = "http://www.vantivcnp.com/schema")]
+    [System.Xml.Serialization.XmlRootAttribute("vendorCredit", Namespace = "http://www.vantivcnp.com/schema", IsNullable = false)]
+    public partial class vendorDebitCtx : transactionTypeWithReportGroup
+    {
+        /// <remarks/>
+        [System.Xml.Serialization.XmlElementAttribute("accountInfo", typeof(echeckTypeCtx))]
+        [System.Xml.Serialization.XmlElementAttribute("amount", typeof(string), DataType = "integer")]
+        [System.Xml.Serialization.XmlElementAttribute("fundingSubmerchantId", typeof(string))]
+        [System.Xml.Serialization.XmlElementAttribute("fundsTransferId", typeof(string))]
+        [System.Xml.Serialization.XmlElementAttribute("vendorName", typeof(string))]
+
+        public string fundingSubmerchantId { get; set; }
+
+        public string vendorName { get; set; }
+
+        public string fundsTransferId { get; set; }
+
+        public long? amount { get; set; }
+
+        public echeckTypeCtx accountInfo { get; set; }
+
+        public override string Serialize()
+        {
+            var xml = "\r\n<vendorDebit ";
+
+            if (id != null)
+                xml += "id=\"" + SecurityElement.Escape(id) + "\" ";
+            if (customerId != null)
+                xml += "customerId=\"" + SecurityElement.Escape(customerId) + "\" ";
+            xml += "reportGroup=\"" + SecurityElement.Escape(reportGroup) + "\">";
+            if (fundingSubmerchantId != null)
+                xml += "\r\n<fundingSubmerchantId>" + SecurityElement.Escape(fundingSubmerchantId) + "</fundingSubmerchantId>";
+            if (vendorName != null)
+                xml += "\r\n<vendorName>" + SecurityElement.Escape(vendorName) + "</vendorName>";
+            if (fundsTransferId != null)
+                xml += "\r\n<fundsTransferId>" + SecurityElement.Escape(fundsTransferId) + "</fundsTransferId>";
+            if (amount != null)
+                xml += "\r\n<amount>" + amount + "</amount>";
+            if (accountInfo != null)
+            {
+                xml += "\r\n<accountInfo>";
+                xml += accountInfo.Serialize();
+                xml += "</accountInfo>";
+            }
+
+            xml += "\r\n</vendorDebit>";
+
+            return xml;
+        }
+
+    }
+
 
 
 }
