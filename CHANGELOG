@@ -1,6 +1,9 @@
 
 = Worldpay CNP CHANGELOG
 
+==Version 12.7.1 (Dec. 27, 2018)
+ * BugFix: Fixed ctxPaymentDetail xml serialization
+
 ==Version 12.7.0 (Dec. 21, 2018)
 * Feature: Support for CNP XML v12.7
 
