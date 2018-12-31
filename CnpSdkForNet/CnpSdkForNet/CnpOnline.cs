@@ -472,22 +472,22 @@ namespace Cnp.Sdk
             return SendRequest(response => response.registerTokenResponse, tokenRequest);
         }
 
-        public cnpOnlineResponseTransactionResponseVoidResponse DoVoid(voidTxn v)
+        public voidResponse DoVoid(voidTxn v)
         {
             return SendRequest(response => response.voidResponse, v);
         }
 
-        public Task<cnpOnlineResponseTransactionResponseVoidResponse> DoVoidAsync(voidTxn v, CancellationToken cancellationToken)
+        public Task<voidResponse> DoVoidAsync(voidTxn v, CancellationToken cancellationToken)
         {
             return SendRequestAsync(response => response.voidResponse, v, cancellationToken);
         }
 
-        public cnpOnlineResponseTransactionResponseEcheckVoidResponse EcheckVoid(echeckVoid v)
+        public echeckVoidResponse EcheckVoid(echeckVoid v)
         {
             return SendRequest(response => response.echeckVoidResponse, v);
         }
 
-        public Task<cnpOnlineResponseTransactionResponseEcheckVoidResponse> EcheckVoidAsync(echeckVoid v, CancellationToken cancellationToken)
+        public Task<echeckVoidResponse> EcheckVoidAsync(echeckVoid v, CancellationToken cancellationToken)
         {
             return SendRequestAsync(response => response.echeckVoidResponse, v, cancellationToken);
         }
@@ -852,10 +852,10 @@ namespace Cnp.Sdk
         Task<saleResponse> SaleAsync(sale sale, CancellationToken cancellationToken);
         registerTokenResponse RegisterToken(registerTokenRequestType tokenRequest);
         Task<registerTokenResponse> RegisterTokenAsync(registerTokenRequestType tokenRequest, CancellationToken cancellationToken);
-        cnpOnlineResponseTransactionResponseVoidResponse DoVoid(voidTxn v);
-        Task<cnpOnlineResponseTransactionResponseVoidResponse> DoVoidAsync(voidTxn v, CancellationToken cancellationToken);
-        cnpOnlineResponseTransactionResponseEcheckVoidResponse EcheckVoid(echeckVoid v);
-        Task<cnpOnlineResponseTransactionResponseEcheckVoidResponse> EcheckVoidAsync(echeckVoid v, CancellationToken cancellationToken);
+        voidResponse DoVoid(voidTxn v);
+        Task<voidResponse> DoVoidAsync(voidTxn v, CancellationToken cancellationToken);
+        echeckVoidResponse EcheckVoid(echeckVoid v);
+        Task<echeckVoidResponse> EcheckVoidAsync(echeckVoid v, CancellationToken cancellationToken);
         updateCardValidationNumOnTokenResponse UpdateCardValidationNumOnToken(updateCardValidationNumOnToken update);
         Task<updateCardValidationNumOnTokenResponse> UpdateCardValidationNumOnTokenAsync(updateCardValidationNumOnToken update, CancellationToken cancellationToken);
         giftCardAuthReversalResponse GiftCardAuthReversal(giftCardAuthReversal giftCard);

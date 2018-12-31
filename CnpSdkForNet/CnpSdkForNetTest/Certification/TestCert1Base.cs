@@ -78,7 +78,7 @@ namespace Cnp.Sdk.Test.Certification
             voidTxn newvoid = new voidTxn();
             newvoid.id = creditResponse.id;
             newvoid.cnpTxnId = creditResponse.cnpTxnId;
-            cnpOnlineResponseTransactionResponseVoidResponse voidResponse = cnp.DoVoid(newvoid);
+            voidResponse voidResponse = cnp.DoVoid(newvoid);
             Assert.AreEqual("000", voidResponse.response);
             Assert.AreEqual("Approved", voidResponse.message);
         }
@@ -155,7 +155,7 @@ namespace Cnp.Sdk.Test.Certification
             voidTxn newvoid = new voidTxn();
             newvoid.id = creditResponse.id;
             newvoid.cnpTxnId = creditResponse.cnpTxnId;
-            cnpOnlineResponseTransactionResponseVoidResponse voidResponse = cnp.DoVoid(newvoid);
+            voidResponse voidResponse = cnp.DoVoid(newvoid);
             Assert.AreEqual("000",voidResponse.response);
             Assert.AreEqual("Approved", voidResponse.message);
         }
@@ -211,7 +211,7 @@ namespace Cnp.Sdk.Test.Certification
             voidTxn newvoid = new voidTxn();
             newvoid.id = creditResponse.id;
             newvoid.cnpTxnId = creditResponse.cnpTxnId;
-            cnpOnlineResponseTransactionResponseVoidResponse voidResponse = cnp.DoVoid(newvoid);
+            voidResponse voidResponse = cnp.DoVoid(newvoid);
             Assert.AreEqual("000",voidResponse.response);
             Assert.AreEqual("Approved", voidResponse.message);
         }
@@ -296,7 +296,7 @@ namespace Cnp.Sdk.Test.Certification
             voidTxn newvoid = new voidTxn();
             newvoid.id = creditResponse.id;
             newvoid.cnpTxnId = creditResponse.cnpTxnId;
-            cnpOnlineResponseTransactionResponseVoidResponse voidResponse = cnp.DoVoid(newvoid);
+            voidResponse voidResponse = cnp.DoVoid(newvoid);
             Assert.AreEqual("000", voidResponse.response);
             Assert.AreEqual("Approved", voidResponse.message);
         }
@@ -348,7 +348,7 @@ namespace Cnp.Sdk.Test.Certification
             voidTxn newvoid = new voidTxn();
             newvoid.id = creditResponse.id;
             newvoid.cnpTxnId = creditResponse.cnpTxnId;
-            cnpOnlineResponseTransactionResponseVoidResponse voidResponse = cnp.DoVoid(newvoid);
+            voidResponse voidResponse = cnp.DoVoid(newvoid);
             Assert.AreEqual("000", voidResponse.response);
             Assert.AreEqual("Approved", voidResponse.message);
         }
@@ -425,7 +425,7 @@ namespace Cnp.Sdk.Test.Certification
             voidTxn newvoid = new voidTxn();
             newvoid.id = creditResponse.id;
             newvoid.cnpTxnId = creditResponse.cnpTxnId;
-            cnpOnlineResponseTransactionResponseVoidResponse voidResponse = cnp.DoVoid(newvoid);
+            voidResponse voidResponse = cnp.DoVoid(newvoid);
             Assert.AreEqual("000", voidResponse.response);
             Assert.AreEqual("Approved", voidResponse.message);
         }
@@ -476,7 +476,7 @@ namespace Cnp.Sdk.Test.Certification
             voidTxn newvoid = new voidTxn();
             newvoid.id = creditResponse.id;
             newvoid.cnpTxnId = creditResponse.cnpTxnId;
-            cnpOnlineResponseTransactionResponseVoidResponse voidResponse = cnp.DoVoid(newvoid);
+            voidResponse voidResponse = cnp.DoVoid(newvoid);
             Assert.AreEqual("000", voidResponse.response);
             Assert.AreEqual("Approved", voidResponse.message);
         }
@@ -549,7 +549,7 @@ namespace Cnp.Sdk.Test.Certification
             voidTxn newvoid = new voidTxn();
             newvoid.id = creditResponse.id;
             newvoid.cnpTxnId = creditResponse.cnpTxnId;
-            cnpOnlineResponseTransactionResponseVoidResponse voidResponse = cnp.DoVoid(newvoid);
+            voidResponse voidResponse = cnp.DoVoid(newvoid);
             Assert.AreEqual("000", voidResponse.response);
             Assert.AreEqual("Approved", voidResponse.message);
         }
@@ -596,7 +596,7 @@ namespace Cnp.Sdk.Test.Certification
             voidTxn newvoid = new voidTxn();
             newvoid.id = creditResponse.id;
             newvoid.cnpTxnId = creditResponse.cnpTxnId;
-            cnpOnlineResponseTransactionResponseVoidResponse voidResponse = cnp.DoVoid(newvoid);
+            voidResponse voidResponse = cnp.DoVoid(newvoid);
             Assert.AreEqual("000", voidResponse.response);
             Assert.AreEqual("Approved", voidResponse.message);
         }
@@ -662,7 +662,7 @@ namespace Cnp.Sdk.Test.Certification
             voidTxn newvoid = new voidTxn();
             newvoid.id = creditResponse.id;
             newvoid.cnpTxnId = creditResponse.cnpTxnId;
-            cnpOnlineResponseTransactionResponseVoidResponse voidResponse = cnp.DoVoid(newvoid);
+            voidResponse voidResponse = cnp.DoVoid(newvoid);
             Assert.AreEqual("000", voidResponse.response);
             Assert.AreEqual("Approved", voidResponse.message);
         }
@@ -729,7 +729,7 @@ namespace Cnp.Sdk.Test.Certification
             voidTxn newvoid = new voidTxn();
             newvoid.id = response.id;
             newvoid.cnpTxnId = response.cnpTxnId;
-            cnpOnlineResponseTransactionResponseVoidResponse voidResponse = cnp.DoVoid(newvoid);
+            voidResponse voidResponse = cnp.DoVoid(newvoid);
             Assert.AreEqual("000", voidResponse.response);
             Assert.AreEqual("Approved", voidResponse.message);
         }

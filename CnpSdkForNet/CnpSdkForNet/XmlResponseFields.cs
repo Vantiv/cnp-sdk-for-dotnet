@@ -4977,11 +4977,11 @@ namespace Cnp.Sdk
         public echeckRedepositResponse echeckRedepositResponse;
         public echeckSalesResponse echeckSalesResponse;
         public echeckVerificationResponse echeckVerificationResponse;
-        public cnpOnlineResponseTransactionResponseEcheckVoidResponse echeckVoidResponse;
+        public echeckVoidResponse echeckVoidResponse;
         public forceCaptureResponse forceCaptureResponse;
         public registerTokenResponse registerTokenResponse;
         public saleResponse saleResponse;
-        public cnpOnlineResponseTransactionResponseVoidResponse voidResponse;
+        public voidResponse voidResponse;
         public updateCardValidationNumOnTokenResponse updateCardValidationNumOnTokenResponse;
         public cancelSubscriptionResponse cancelSubscriptionResponse;
         public updateSubscriptionResponse updateSubscriptionResponse;
@@ -6507,6 +6507,7 @@ namespace Cnp.Sdk
     public class accountUpdateResponse : transactionTypeWithReportGroup
     {
         public long cnpTxnId;
+        public string orderId;
         public string response;
         public DateTime responseTime;
         public string message;
@@ -6526,7 +6527,7 @@ namespace Cnp.Sdk
     [System.ComponentModel.DesignerCategoryAttribute("code")]
     [System.Xml.Serialization.XmlTypeAttribute(AnonymousType = true, Namespace = "http://www.vantivcnp.com/schema")]
     [System.Xml.Serialization.XmlRootAttribute("echeckVoidResponse", Namespace = "http://www.vantivcnp.com/schema", IsNullable = false)]
-    public partial class cnpOnlineResponseTransactionResponseEcheckVoidResponse : transactionTypeWithReportGroup
+    public partial class echeckVoidResponse : transactionTypeWithReportGroup
     {
 
         private long cnpTxnIdField;
@@ -6614,7 +6615,7 @@ namespace Cnp.Sdk
     [System.ComponentModel.DesignerCategoryAttribute("code")]
     [System.Xml.Serialization.XmlTypeAttribute(AnonymousType = true, Namespace = "http://www.vantivcnp.com/schema")]
     [System.Xml.Serialization.XmlRootAttribute("voidResponse", Namespace = "http://www.vantivcnp.com/schema", IsNullable = false)]
-    public partial class cnpOnlineResponseTransactionResponseVoidResponse : transactionTypeWithReportGroup
+    public partial class voidResponse : transactionTypeWithReportGroup
     {
 
         private long cnpTxnIdField;

@@ -34,7 +34,7 @@ namespace Cnp.Sdk.Test.Unit
      
             Communications mockedCommunication = mock.Object;
             cnp.SetCommunication(mockedCommunication);
-            cnpOnlineResponseTransactionResponseVoidResponse response = cnp.DoVoid(voidTxn);
+            voidResponse response = cnp.DoVoid(voidTxn);
             Assert.AreEqual(123, response.cnpTxnId);
             Assert.AreEqual(456, response.recycling.creditCnpTxnId);
         }
@@ -52,7 +52,7 @@ namespace Cnp.Sdk.Test.Unit
 
             Communications mockedCommunication = mock.Object;
             cnp.SetCommunication(mockedCommunication);
-            cnpOnlineResponseTransactionResponseVoidResponse response = cnp.DoVoid(voidTxn);
+            voidResponse response = cnp.DoVoid(voidTxn);
             Assert.AreEqual(123, response.cnpTxnId);
             Assert.IsNull(response.recycling);
         }
