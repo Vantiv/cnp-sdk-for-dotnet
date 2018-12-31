@@ -1,5 +1,5 @@
 
-
+[![](https://img.shields.io/github/release/vantiv/cnp-sdk-for-dotnet.svg)](https://github.com/Vantiv/cnp-sdk-for-dotnet/releases/latest)
 ![NuGet](https://img.shields.io/nuget/v/Vantiv.CnpSdkForNet.svg?style=plastic) 
 [![GitHub issues](https://img.shields.io/github/issues/Vantiv/cnp-sdk-for-dotnet.svg)](https://github.com/Vantiv/cnp-sdk-for-dotnet/issues) [![Main distribution](https://img.shields.io/badge/zip-download-blue.svg)](https://github.com/Vantiv/cnp-sdk-for-dotnet/releases/latest)
 
