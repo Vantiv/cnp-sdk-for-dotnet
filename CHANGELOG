@@ -1,6 +1,9 @@
 
 = Worldpay CNP CHANGELOG
 
+==Version 12.7.1 (Jan. 3, 2019)
+* Feature: Support for multi-site funcionality
+
 ==Version 12.7.0 (Dec. 31, 2018)
 * Feature: Support for CNP XML v12.7
 * Change: names of voidResponse and echeckVoidResponse

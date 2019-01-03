@@ -74,5 +74,23 @@
     <Setting Name="gnuPgDir" Type="System.String" Scope="User">
       <Value Profile="(Default)" />
     </Setting>
+    <Setting Name="multiSite" Type="System.String" Scope="User">
+      <Value Profile="(Default)">false</Value>
+    </Setting>
+    <Setting Name="multiSiteErrorThreshold" Type="System.String" Scope="User">
+      <Value Profile="(Default)">5</Value>
+    </Setting>
+    <Setting Name="maxHoursWithoutSwitch" Type="System.String" Scope="User">
+      <Value Profile="(Default)">48</Value>
+    </Setting>
+    <Setting Name="printMultiSiteDebug" Type="System.String" Scope="User">
+      <Value Profile="(Default)">false</Value>
+    </Setting>
+    <Setting Name="multiSiteUrl1" Type="System.String" Scope="User">
+      <Value Profile="(Default)">https://multisite1.com</Value>
+    </Setting>
+    <Setting Name="multiSiteUrl2" Type="System.String" Scope="User">
+      <Value Profile="(Default)">https://multisite2.com</Value>
+    </Setting>
   </Settings>
 </SettingsFile>

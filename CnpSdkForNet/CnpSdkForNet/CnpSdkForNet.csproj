@@ -49,9 +49,11 @@
     </Reference>
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="RequestTarget.cs" />
     <Compile Include="CnpConnectionLimitExceededException.cs" />
     <Compile Include="CnpInvalidCredentialException.cs" />
     <Compile Include="CnpObjectionableContentException.cs" />
+    <Compile Include="CommManager.cs" />
     <Compile Include="PgpHelper.cs" />
     <Compile Include="XmlSerializer.cs" />
     <Compile Include="Communications.cs" />

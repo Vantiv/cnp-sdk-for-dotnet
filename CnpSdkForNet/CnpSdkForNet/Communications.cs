@@ -98,7 +98,8 @@ namespace Cnp.Sdk
                 logFile = config["logFile"];
             }
 
-            var uri = config["url"];
+            RequestTarget reqTarget = CommManager.instance().findUrl();
+            var uri = reqTarget.getUrl();
             ServicePointManager.SecurityProtocol = SecurityProtocolType.Tls12 | SecurityProtocolType.Tls11 ;
             var request = (HttpWebRequest)WebRequest.Create(uri);
 
@@ -152,23 +153,36 @@ namespace Cnp.Sdk
             }
 
             // read response
+            string xmlResponse = null;
             var response = await request.GetResponseAsync().ConfigureAwait(false);
-            string xmlResponse;
-            using (var reader = new StreamReader(response.GetResponseStream()))
+            HttpWebResponse httpResp = (HttpWebResponse)response;
+            CommManager.instance().reportResult(reqTarget, CommManager.REQUEST_RESULT_RESPONSE_RECEIVED, Int32.Parse(httpResp.StatusCode.ToString()));
+            try
             {
-                xmlResponse = (await reader.ReadToEndAsync().ConfigureAwait(false)).Trim();
-            }
-            if (printxml)
-            {
-                Console.WriteLine(xmlResponse);
-            }
+                using (var reader = new StreamReader(response.GetResponseStream()))
+                {
+                    xmlResponse = (await reader.ReadToEndAsync().ConfigureAwait(false)).Trim();
+                }
+                if (printxml)
+                {
+                    Console.WriteLine(xmlResponse);
+                }
 
-            OnHttpAction(RequestType.Response, xmlResponse, neuter);
+                OnHttpAction(RequestType.Response, xmlResponse, neuter);
 
-            //log response
-            if (logFile != null)
+                //log response
+                if (logFile != null)
+                {
+                    Log(xmlResponse, logFile, neuter);
+                }
+            }catch (WebException we)
             {
-                Log(xmlResponse, logFile, neuter);
+                int result = CommManager.REQUEST_RESULT_CONNECTION_FAILED;
+                if (we.Status == WebExceptionStatus.Timeout)
+                {
+                    result = CommManager.REQUEST_RESULT_RESPONSE_TIMEOUT;
+                }
+                CommManager.instance().reportResult(reqTarget, result, 0);
             }
 
             return xmlResponse;
@@ -192,7 +206,8 @@ namespace Cnp.Sdk
                 logFile = config["logFile"];
             }
 
-            var uri = config["url"];
+            RequestTarget reqTarget = CommManager.instance().findUrl();
+            var uri = reqTarget.getUrl();
             ServicePointManager.SecurityProtocol = SecurityProtocolType.Tls12 | SecurityProtocolType.Tls11;
             var req = (HttpWebRequest)WebRequest.Create(uri);
 
@@ -247,33 +262,47 @@ namespace Cnp.Sdk
             }
 
 
-
+            string xmlResponse = null;
             // read response
-            var resp = req.GetResponse();
-            if (resp == null)
+            try
             {
-                return null;
-            }
-            string xmlResponse;
-            using (var reader = new StreamReader(resp.GetResponseStream()))
-            {
-                xmlResponse = reader.ReadToEnd().Trim();
-            }
-            if (printxml)
-            {
-                Console.WriteLine(xmlResponse);
-            }
+                var resp = req.GetResponse();
+                if (resp == null)
+                {
+                    return null;
+                }
+                HttpWebResponse httpResp = (HttpWebResponse)resp;
 
-            OnHttpAction(RequestType.Response, xmlResponse, neuter);
+                CommManager.instance().reportResult(reqTarget, CommManager.REQUEST_RESULT_RESPONSE_RECEIVED, (int)httpResp.StatusCode);
 
-            //log response
-            if (logFile != null)
+                using (var reader = new StreamReader(resp.GetResponseStream()))
+                {
+                    xmlResponse = reader.ReadToEnd().Trim();
+                }
+                if (printxml)
+                {
+                    Console.WriteLine(xmlResponse);
+                }
+
+                OnHttpAction(RequestType.Response, xmlResponse, neuter);
+
+                //log response
+                if (logFile != null)
+                {
+                    Log(xmlResponse, logFile, neuter);
+                }
+            } catch (WebException we)
             {
-                Log(xmlResponse, logFile, neuter);
+                int result = CommManager.REQUEST_RESULT_CONNECTION_FAILED;
+                if (we.Status == WebExceptionStatus.Timeout)
+                {
+                    result = CommManager.REQUEST_RESULT_RESPONSE_TIMEOUT;
+                }
+               
+                CommManager.instance().reportResult(reqTarget, result, 0);
             }
-
             return xmlResponse;
-        }
+            }
 
 
 

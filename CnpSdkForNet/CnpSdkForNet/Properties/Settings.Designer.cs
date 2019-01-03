@@ -12,7 +12,7 @@ namespace Cnp.Sdk.Properties {
     
     
     [global::System.Runtime.CompilerServices.CompilerGeneratedAttribute()]
-    [global::System.CodeDom.Compiler.GeneratedCodeAttribute("Microsoft.VisualStudio.Editors.SettingsDesigner.SettingsSingleFileGenerator", "15.5.0.0")]
+    [global::System.CodeDom.Compiler.GeneratedCodeAttribute("Microsoft.VisualStudio.Editors.SettingsDesigner.SettingsSingleFileGenerator", "15.9.0.0")]
     public sealed partial class Settings : global::System.Configuration.ApplicationSettingsBase {
         
         private static Settings defaultInstance = ((Settings)(global::System.Configuration.ApplicationSettingsBase.Synchronized(new Settings())));
@@ -308,6 +308,78 @@ namespace Cnp.Sdk.Properties {
             }
             set {
                 this["gnuPgDir"] = value;
+            }
+        }
+        
+        [global::System.Configuration.UserScopedSettingAttribute()]
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.Configuration.DefaultSettingValueAttribute("false")]
+        public string multiSite {
+            get {
+                return ((string)(this["multiSite"]));
+            }
+            set {
+                this["multiSite"] = value;
+            }
+        }
+        
+        [global::System.Configuration.UserScopedSettingAttribute()]
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.Configuration.DefaultSettingValueAttribute("5")]
+        public string multiSiteErrorThreshold {
+            get {
+                return ((string)(this["multiSiteErrorThreshold"]));
+            }
+            set {
+                this["multiSiteErrorThreshold"] = value;
+            }
+        }
+        
+        [global::System.Configuration.UserScopedSettingAttribute()]
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.Configuration.DefaultSettingValueAttribute("48")]
+        public string maxHoursWithoutSwitch {
+            get {
+                return ((string)(this["maxHoursWithoutSwitch"]));
+            }
+            set {
+                this["maxHoursWithoutSwitch"] = value;
+            }
+        }
+        
+        [global::System.Configuration.UserScopedSettingAttribute()]
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.Configuration.DefaultSettingValueAttribute("false")]
+        public string printMultiSiteDebug {
+            get {
+                return ((string)(this["printMultiSiteDebug"]));
+            }
+            set {
+                this["printMultiSiteDebug"] = value;
+            }
+        }
+        
+        [global::System.Configuration.UserScopedSettingAttribute()]
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.Configuration.DefaultSettingValueAttribute("https://multisite1.com")]
+        public string multiSiteUrl1 {
+            get {
+                return ((string)(this["multiSiteUrl1"]));
+            }
+            set {
+                this["multiSiteUrl1"] = value;
+            }
+        }
+        
+        [global::System.Configuration.UserScopedSettingAttribute()]
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.Configuration.DefaultSettingValueAttribute("https://multisite2.com")]
+        public string multiSiteUrl2 {
+            get {
+                return ((string)(this["multiSiteUrl2"]));
+            }
+            set {
+                this["multiSiteUrl2"] = value;
             }
         }
     }
