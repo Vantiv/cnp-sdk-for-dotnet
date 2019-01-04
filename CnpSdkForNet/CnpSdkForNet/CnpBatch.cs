@@ -286,8 +286,7 @@ namespace Cnp.Sdk
         // Convert all batch objects into xml and place them in cnpRequest, then build the Session file.
         public string Serialize()
         {
-            //Dec. 21 2018 Left version at 12.5 because schema version 12.7 not active yet; update after kit install
-            var xmlHeader = "<?xml version='1.0' encoding='utf-8'?>\r\n<cnpRequest version=\"12.5\"" +
+            var xmlHeader = "<?xml version='1.0' encoding='utf-8'?>\r\n<cnpRequest version=\"12.7\"" +
              " xmlns=\"http://www.vantivcnp.com/schema\" " +
              "numBatchRequests=\"" + numOfCnpBatchRequest + "\">";
 

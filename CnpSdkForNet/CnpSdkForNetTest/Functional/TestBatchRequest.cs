@@ -557,51 +557,56 @@ namespace Cnp.Sdk.Test.Functional
                 cnpBatchResponse = cnpResponse.nextBatchResponse();
             }
         }
-
-        [Ignore("schema 12.7 not yet active")]
+        
         [Test]
         public void ctxAll()
         {
             var cnpBatchRequest = new batchRequest();
+            cnpBatchRequest.config["merchantId"] = Environment.GetEnvironmentVariable("payfacMerchantId_v12_7");
+            cnpBatchRequest.config["username"] = Environment.GetEnvironmentVariable("payfacUsername_v12_7");
+            cnpBatchRequest.config["password"] = Environment.GetEnvironmentVariable("payfacPassword_v12_7");
+            cnpBatchRequest.config["sftpUsername"] = Environment.GetEnvironmentVariable("payfacSftpUsername_v12_7");
+            cnpBatchRequest.config["sftpPassword"] = Environment.GetEnvironmentVariable("payfacSftpPassword_v12_7");
 
-            string[] ctxPaymentInformation = { "payment info 1", "payment info 2" };
+            var cnpCtx = new cnpRequest(cnpBatchRequest.config);
+
+            string[] ctxPaymentInformation = { "ctx1 for submerchantcredit", "ctx2 for submerchantcredit", "ctx3 for submerchantcredit", "ctx4 for submerchantcredit", "ctx5 for submerchantcredit"};
+            string fundsTransferIdString = DateTime.Now.Ticks.ToString();
+            var accountInfoCtx = new echeckTypeCtx()
+            {
+                accType = echeckAccountTypeEnum.Checking,
+                accNum = "1092969901",
+                routingNum = "011075150",
+                checkNum = "123455",
+                ctxPaymentInformation = ctxPaymentInformation
+            };
+            
             var submerchantCreditCtx = new submerchantCreditCtx
             {
                 // attributes.
-                id = "1",
-                reportGroup = "Default Report Group",
+                id = "111",
+                reportGroup = "submerchantCredit",
                 // required child elements.
-                accountInfo = new echeckTypeCtx()
-                {
-                    accType = echeckAccountTypeEnum.Savings,
-                    accNum = "1234",
-                    routingNum = "12345678",
-                    ctxPaymentInformation = ctxPaymentInformation
-                },
-                amount = 1500,
-                fundingSubmerchantId = "value for fundingSubmerchantId",
-                fundsTransferId = "value for fundsTransferId",
+                accountInfo = accountInfoCtx,
+                amount = 500,
+                fundingSubmerchantId = "submerchantCredit",
+                fundsTransferId = fundsTransferIdString,
                 submerchantName = "Vantiv",
                 customIdentifier = "WorldPay"
             };
             cnpBatchRequest.addSubmerchantCreditCtx(submerchantCreditCtx);
+
             var req = submerchantCreditCtx.Serialize();
             var submerchantDebitCtx = new submerchantDebitCtx
             {
                 // attributes.
-                id = "1",
-                reportGroup = "Default Report Group",
+                id = "11",
+                reportGroup = "CTX Report Group",
                 // required child elements.
-                accountInfo = new echeckTypeCtx()
-                {
-                    accType = echeckAccountTypeEnum.Savings,
-                    accNum = "1234",
-                    routingNum = "12345678",
-                    ctxPaymentInformation = ctxPaymentInformation
-                },
-                amount = 1500,
+                accountInfo = accountInfoCtx,
+                amount = 500,
                 fundingSubmerchantId = "value for fundingSubmerchantId",
-                fundsTransferId = "value for fundsTransferId",
+                fundsTransferId = fundsTransferIdString,
                 submerchantName = "Vantiv",
                 customIdentifier = "WorldPay"
             };
@@ -610,19 +615,13 @@ namespace Cnp.Sdk.Test.Functional
             var vendorCreditCtx = new vendorCreditCtx
             {
                 // attributes.
-                id = "1",
-                reportGroup = "Default Report Group",
+                id = "11",
+                reportGroup = "CTX Report Group",
                 // required child elements.
-                accountInfo = new echeckTypeCtx()
-                {
-                    accType = echeckAccountTypeEnum.Savings,
-                    accNum = "1234",
-                    routingNum = "12345678",
-                    ctxPaymentInformation = ctxPaymentInformation
-                },
-                amount = 1500,
+                accountInfo = accountInfoCtx,
+                amount = 500,
                 fundingSubmerchantId = "value for fundingSubmerchantId",
-                fundsTransferId = "value for fundsTransferId",
+                fundsTransferId = fundsTransferIdString,
                 vendorName = "Vantiv"
             };
             cnpBatchRequest.addVendorCreditCtx(vendorCreditCtx);
@@ -630,32 +629,27 @@ namespace Cnp.Sdk.Test.Functional
             var vendorDebitCtx = new vendorDebitCtx
             {
                 // attributes.
-                id = "1",
-                reportGroup = "Default Report Group",
+                id = "11",
+                reportGroup = "CTX Report Group",
                 // required child elements.
-                accountInfo = new echeckTypeCtx()
-                {
-                    accType = echeckAccountTypeEnum.Savings,
-                    accNum = "1234",
-                    routingNum = "12345678",
-                    ctxPaymentInformation = ctxPaymentInformation
-                },
-                amount = 1500,
+                accountInfo = accountInfoCtx,
+                amount = 500,
                 fundingSubmerchantId = "value for fundingSubmerchantId",
-                fundsTransferId = "value for fundsTransferId",
+                fundsTransferId = fundsTransferIdString,
                 vendorName = "Vantiv"
             };
             cnpBatchRequest.addVendorDebitCtx(vendorDebitCtx);
 
-            cnp.addBatch(cnpBatchRequest);
-            var batchName = cnp.sendToCnp();
-            cnp.blockAndWaitForResponse(batchName, estimatedResponseTime(0, 1));
-            var cnpResponse = cnp.receiveFromCnp(batchName);
+
+            cnpCtx.addBatch(cnpBatchRequest);
+            var batchName = cnpCtx.sendToCnp();
+            cnpCtx.blockAndWaitForResponse(batchName, estimatedResponseTime(0, 1));
+            var cnpResponse = cnpCtx.receiveFromCnp(batchName);
 
             Assert.NotNull(cnpResponse);
             Assert.AreEqual("0", cnpResponse.response);
             Assert.AreEqual("Valid Format", cnpResponse.message);
-
+            
             var cnpBatchResponse = cnpResponse.nextBatchResponse();
             while (cnpBatchResponse != null)
             {
@@ -690,7 +684,9 @@ namespace Cnp.Sdk.Test.Functional
 
                     vendorDebitResponse = cnpBatchResponse.nextVendorDebitResponse();
                 }
+                cnpBatchResponse = cnpResponse.nextBatchResponse();
             }
+            
         }
 
         
