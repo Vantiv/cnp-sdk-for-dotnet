@@ -1,16 +1,14 @@
 ﻿using System.Collections.Generic;
-using NUnit.Framework;
+using Xunit;
 
 namespace Cnp.Sdk.Test.Functional
 {
-    [TestFixture]
-    internal class TestAuthReversal
+    public class TestAuthReversal
     {
         private CnpOnline _cnp;
         private Dictionary<string, string> _config;
 
-        [TestFixtureSetUp]
-        public void SetUpCnp()
+        public TestAuthReversal()
         {
             _config = new Dictionary<string, string>
             {
@@ -31,7 +29,7 @@ namespace Cnp.Sdk.Test.Functional
             _cnp = new CnpOnline(_config);
         }
 
-        [Test]
+        [Fact]
         public void SimpleAuthReversal()
         {
             var reversal = new authReversal
@@ -44,10 +42,10 @@ namespace Cnp.Sdk.Test.Functional
             };
 
             var response = _cnp.AuthReversal(reversal);
-            Assert.AreEqual("Approved", response.message);
+            Assert.Equal("Approved", response.message);
         }
 
-        [Test]
+        [Fact]
         public void TestAuthReversalHandleSpecialCharacters()
         {
             var reversal = new authReversal
@@ -61,7 +59,7 @@ namespace Cnp.Sdk.Test.Functional
 
 
             var response = _cnp.AuthReversal(reversal);
-            Assert.AreEqual("Approved", response.message);
+            Assert.Equal("Approved", response.message);
         }
     }
 }

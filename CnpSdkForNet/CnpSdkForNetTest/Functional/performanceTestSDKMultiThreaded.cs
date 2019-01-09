@@ -4,17 +4,17 @@ using System.Linq;
 using System.Text;
 using System.Threading;
 using System.Threading.Tasks;
-using NUnit.Framework;
+using Xunit;
 
 namespace Cnp.Sdk.Test.Functional
 {
-    class performanceTestSDKMultiThreaded
+    public class performanceTestSDKMultiThreaded
     {
         List<Thread> testPool = new List<Thread>();
 
         static String merchantId = "07103229";
 
-        [Test]
+        [Fact]
         public void runTest()
         {
             for (int x = 0; x < 50; x++)
@@ -139,7 +139,7 @@ namespace Cnp.Sdk.Test.Functional
                 long startTime = DateTime.Now.Ticks / TimeSpan.TicksPerMillisecond;
                 authorizationResponse response = cnp.Authorize(authorization);
                 long responseTime = DateTime.Now.Ticks / TimeSpan.TicksPerMillisecond - startTime;
-                Assert.AreEqual("123456", response.reportGroup);
+                Assert.Equal("123456", response.reportGroup);
                 if (response.response =="000")
                 {
                     successCount++;

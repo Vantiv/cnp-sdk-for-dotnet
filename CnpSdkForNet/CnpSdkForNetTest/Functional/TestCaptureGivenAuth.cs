@@ -1,17 +1,15 @@
 ﻿using System.Collections.Generic;
-using NUnit.Framework;
+using Xunit;
 using System;
 
 namespace Cnp.Sdk.Test.Functional
 {
-    [TestFixture]
-    internal class TestCaptureGivenAuth
+    public class TestCaptureGivenAuth
     {
         private CnpOnline _cnp;
         private Dictionary<string, string> _config;
-
-        [TestFixtureSetUp]
-        public void SetUpCnp()
+        
+        public TestCaptureGivenAuth()
         {
             _config = new Dictionary<string, string>
             {
@@ -32,7 +30,7 @@ namespace Cnp.Sdk.Test.Functional
             _cnp = new CnpOnline(_config);
         }
 
-        [Test]
+        [Fact]
         public void SimpleCaptureGivenAuthWithCard()
         {
             var capturegivenauth = new captureGivenAuth
@@ -59,10 +57,10 @@ namespace Cnp.Sdk.Test.Functional
             };
 
             var response = _cnp.CaptureGivenAuth(capturegivenauth);
-            Assert.AreEqual("Approved", response.message);
+            Assert.Equal("Approved", response.message);
         }
 
-        [Test]
+        [Fact]
         public void SimpleCaptureGivenAuthWithMpos()
         {
             var capturegivenauth = new captureGivenAuth
@@ -88,10 +86,10 @@ namespace Cnp.Sdk.Test.Functional
             };
 
             var response = _cnp.CaptureGivenAuth(capturegivenauth);
-            Assert.AreEqual("Approved", response.message);
+            Assert.Equal("Approved", response.message);
         }
 
-        [Test]
+        [Fact]
         public void SimpleCaptureGivenAuthWithToken()
         {
             var capturegivenauth = new captureGivenAuth
@@ -117,10 +115,10 @@ namespace Cnp.Sdk.Test.Functional
             };
 
             var response = _cnp.CaptureGivenAuth(capturegivenauth);
-            Assert.AreEqual("Approved", response.message);
+            Assert.Equal("Approved", response.message);
         }
 
-        [Test]
+        [Fact]
         public void ComplexCaptureGivenAuth()
         {
             var capturegivenauth = new captureGivenAuth
@@ -161,10 +159,10 @@ namespace Cnp.Sdk.Test.Functional
 
 
             var response = _cnp.CaptureGivenAuth(capturegivenauth);
-            Assert.AreEqual("Approved", response.message);
+            Assert.Equal("Approved", response.message);
         }
 
-        [Test]
+        [Fact]
         public void AuthInfo()
         {
             var capturegivenauth = new captureGivenAuth
@@ -198,10 +196,10 @@ namespace Cnp.Sdk.Test.Functional
             };
 
             var response = _cnp.CaptureGivenAuth(capturegivenauth);
-            Assert.AreEqual("Approved", response.message);
+            Assert.Equal("Approved", response.message);
         }
 
-        [Test]
+        [Fact]
         public void SimpleCaptureGivenAuthWithTokenAndSpecialCharacters()
         {
             var capturegivenauth = new captureGivenAuth
@@ -226,10 +224,10 @@ namespace Cnp.Sdk.Test.Functional
             };
 
             var response = _cnp.CaptureGivenAuth(capturegivenauth);
-            Assert.AreEqual("Approved", response.message);
+            Assert.Equal("Approved", response.message);
         }
 
-        [Test]
+        [Fact]
         public void SimpleCaptureGivenAuthWithSecondaryAmount()
         {
             var capturegivenauth = new captureGivenAuth
@@ -259,7 +257,7 @@ namespace Cnp.Sdk.Test.Functional
             };
 
             var response = _cnp.CaptureGivenAuth(capturegivenauth);
-            Assert.AreEqual("Approved", response.message);
+            Assert.Equal("Approved", response.message);
         }
     }
 }

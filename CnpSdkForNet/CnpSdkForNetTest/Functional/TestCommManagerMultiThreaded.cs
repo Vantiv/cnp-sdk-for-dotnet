@@ -4,19 +4,18 @@ using System.Linq;
 using System.Text;
 using System.Threading;
 using System.Threading.Tasks;
-using NUnit.Framework;
+using Xunit;
 
 namespace Cnp.Sdk.Test.Functional
 {
-    internal class TestCommManagerMultiThreaded
+    public class TestCommManagerMultiThreaded
     {
         List<Thread> testPool = new List<Thread>();
 
         int threadCount = 100;
         int cycleCount = 1000;
         Dictionary<string, string> _config;
-        [TestFixtureSetUp]
-        public void setup() {
+        public TestCommManagerMultiThreaded() {
        
             _config = new Dictionary<string, string>
                 {
@@ -31,7 +30,7 @@ namespace Cnp.Sdk.Test.Functional
         
         
 
-        [Test]
+        [Fact]
         public void testMultiThreaded()
         {
 

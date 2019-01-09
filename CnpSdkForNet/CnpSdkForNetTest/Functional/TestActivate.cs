@@ -1,16 +1,14 @@
 ﻿using System.Collections.Generic;
-using NUnit.Framework;
+using Xunit;
 
 namespace Cnp.Sdk.Test.Functional
 {
-    [TestFixture]
-    internal class TestActivate
+    public class TestActivate
     {
         private CnpOnline _cnp;
         private Dictionary<string, string> _config;
 
-        [TestFixtureSetUp]
-        public void SetUpCnp()
+        public TestActivate()
         {
             _config = new Dictionary<string, string>
             {
@@ -31,7 +29,7 @@ namespace Cnp.Sdk.Test.Functional
             _cnp = new CnpOnline(_config);
         }
 
-        [Test]
+        [Fact]
         public void SimpleActivate()
         {
             var activate = new activate
@@ -50,10 +48,10 @@ namespace Cnp.Sdk.Test.Functional
                 }
             };
             var response = _cnp.Activate(activate);
-            Assert.AreEqual("000", response.response);
+            Assert.Equal("000", response.response);
         }
 
-        [Test]
+        [Fact]
         public void VirtualGiftCardActivate()
         {
             var activate = new activate
@@ -71,7 +69,7 @@ namespace Cnp.Sdk.Test.Functional
             };
 
             var response = _cnp.Activate(activate);
-            Assert.AreEqual("000", response.response);
+            Assert.Equal("000", response.response);
         }
     }
 }

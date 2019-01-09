@@ -1,16 +1,14 @@
 ﻿using System.Collections.Generic;
-using NUnit.Framework;
+using Xunit;
 
 namespace Cnp.Sdk.Test.Functional
 {
-    [TestFixture]
-    internal class TestCapture
+    public class TestCapture
     {
         private CnpOnline _cnp;
         private Dictionary<string, string> _config;
 
-        [TestFixtureSetUp]
-        public void SetUpCnp()
+        public TestCapture()
         {
             _config = new Dictionary<string, string>
             {
@@ -31,7 +29,7 @@ namespace Cnp.Sdk.Test.Functional
             _cnp = new CnpOnline(_config);
         }
 
-        [Test]
+        [Fact]
         public void SimpleCapture()
         {
             var capture = new capture
@@ -44,10 +42,10 @@ namespace Cnp.Sdk.Test.Functional
             };
 
             var response = _cnp.Capture(capture);
-            Assert.AreEqual("Approved", response.message);
+            Assert.Equal("Approved", response.message);
         }
 
-        [Test]
+        [Fact]
         public void SimpleCaptureWithPartial()
         {
             var capture = new capture
@@ -61,10 +59,10 @@ namespace Cnp.Sdk.Test.Functional
 
 
             var response = _cnp.Capture(capture);
-            Assert.AreEqual("Approved", response.message);
+            Assert.Equal("Approved", response.message);
         }
 
-        [Test]
+        [Fact]
         public void ComplexCapture()
         {
             var capture = new capture
@@ -91,10 +89,10 @@ namespace Cnp.Sdk.Test.Functional
             };
 
             var response = _cnp.Capture(capture);
-            Assert.AreEqual("Approved", response.message);
+            Assert.Equal("Approved", response.message);
         }
 
-        [Test]
+        [Fact]
         public void SimpleCaptureWithSpecial()
         {
             var capture = new capture
@@ -106,10 +104,10 @@ namespace Cnp.Sdk.Test.Functional
             };
             
             var response = _cnp.Capture(capture);
-            Assert.AreEqual("Approved", response.message);
+            Assert.Equal("Approved", response.message);
         }
 
-        [Test]
+        [Fact]
         public void SimpleCaptureWithLodgingInfo()
         {
             var capture = new capture
@@ -129,7 +127,7 @@ namespace Cnp.Sdk.Test.Functional
             };
             capture.lodgingInfo.lodgingCharges.Add(new lodgingCharge() { name = lodgingExtraChargeEnum.GIFTSHOP });
             var response = _cnp.Capture(capture);
-            Assert.AreEqual("Approved", response.message);
+            Assert.Equal("Approved", response.message);
         }
     }
 }

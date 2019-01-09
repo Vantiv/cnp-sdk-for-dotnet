@@ -1,17 +1,15 @@
 ﻿using System;
 using System.Collections.Generic;
-using NUnit.Framework;
+using Xunit;
 
 namespace Cnp.Sdk.Test.Functional
 {
-    [TestFixture]
-    internal class TestAuth
+    public class TestAuth
     {
         private CnpOnline _cnp;
         private Dictionary<string, string> _config;
 
-        [TestFixtureSetUp]
-        public void SetUpCnp()
+        public TestAuth()
         {
             _config = new Dictionary<string, string>
             {
@@ -32,7 +30,7 @@ namespace Cnp.Sdk.Test.Functional
             _cnp = new CnpOnline(_config);
         }
 
-        [Test]
+        [Fact]
         public void SimpleAuthWithCard()
         {
             var authorization = new authorization
@@ -52,10 +50,10 @@ namespace Cnp.Sdk.Test.Functional
             };
             var response = _cnp.Authorize(authorization);
 
-            Assert.AreEqual("000", response.response);
+            Assert.Equal("000", response.response);
         }
 
-        [Test]
+        [Fact]
         public void SimpleAuthWithMasterCard()
         {
             var authorization = new authorization
@@ -75,11 +73,11 @@ namespace Cnp.Sdk.Test.Functional
             };
 
             var response = _cnp.Authorize(authorization);
-            Assert.AreEqual("000", response.response);
+            Assert.Equal("000", response.response);
             Assert.Null(response.networkTransactionId);
         }
 
-        [Test]
+        [Fact]
         public void SimpleAuthWithCard_CardSuffixResponse()
         {
             var authorization = new authorization
@@ -101,13 +99,13 @@ namespace Cnp.Sdk.Test.Functional
             };
 
             var response = _cnp.Authorize(authorization);
-            Assert.AreEqual("000", response.response);
-            Assert.AreEqual("Approved", response.message);
+            Assert.Equal("000", response.response);
+            Assert.Equal("Approved", response.message);
             // SANDBOX BRB
-            //Assert.AreEqual("123456", response.cardSuffix);
+            //Assert.Equal("123456", response.cardSuffix);
         }
 
-        [Test]
+        [Fact]
         public void SimpleAuthWithCard_networkTxnId()
         {
             var authorization = new authorization
@@ -128,13 +126,13 @@ namespace Cnp.Sdk.Test.Functional
             };
 
             var response = _cnp.Authorize(authorization);
-            Assert.AreEqual("000", response.response);
-            Assert.AreEqual("Approved", response.message);
+            Assert.Equal("000", response.response);
+            Assert.Equal("Approved", response.message);
             // SANDBOX BRB
-            //Assert.AreEqual("63225578415568556365452427825", response.networkTransactionId);
+            //Assert.Equal("63225578415568556365452427825", response.networkTransactionId);
         }
 
-        [Test]
+        [Fact]
         public void SimpleAuthWithCard_origTxnIdAndAmount()
         {
             var authorization = new authorization
@@ -156,10 +154,10 @@ namespace Cnp.Sdk.Test.Functional
             };
 
             var response = _cnp.Authorize(authorization);
-            Assert.AreEqual("000", response.response);
+            Assert.Equal("000", response.response);
         }
 
-        [Test]
+        [Fact]
         public void SimpleAuthWithMpos()
         {
             var authorization = new authorization
@@ -181,10 +179,10 @@ namespace Cnp.Sdk.Test.Functional
             };
 
             var response = _cnp.Authorize(authorization);
-            Assert.AreEqual("000", response.response);
+            Assert.Equal("000", response.response);
         }
 
-        [Test]
+        [Fact]
         public void AuthWithAmpersand()
         {
             var authorization = new authorization
@@ -212,10 +210,10 @@ namespace Cnp.Sdk.Test.Functional
             };
 
             var response = _cnp.Authorize(authorization);
-            Assert.AreEqual("000", response.response);
+            Assert.Equal("000", response.response);
         }
 
-        [Test]
+        [Fact]
         public void SimpleAuthWithPaypal()
         {
             var authorization = new authorization
@@ -235,10 +233,10 @@ namespace Cnp.Sdk.Test.Functional
             };
 
             var response = _cnp.Authorize(authorization);
-            Assert.AreEqual("Approved", response.message);
+            Assert.Equal("Approved", response.message);
         }
 
-        [Test]
+        [Fact]
         public void SimpleAuthWithAndroidPay()
         {
             var authorization = new authorization
@@ -258,13 +256,13 @@ namespace Cnp.Sdk.Test.Functional
             };
 
             var response = _cnp.Authorize(authorization);
-            Assert.AreEqual("Approved", response.message);
-            Assert.AreEqual("01", response.androidpayResponse.expMonth);
-            Assert.AreEqual("2050", response.androidpayResponse.expYear);
-            Assert.IsNotEmpty(response.androidpayResponse.cryptogram);
+            Assert.Equal("Approved", response.message);
+            Assert.Equal("01", response.androidpayResponse.expMonth);
+            Assert.Equal("2050", response.androidpayResponse.expYear);
+            Assert.NotEmpty(response.androidpayResponse.cryptogram);
         }
 
-        [Test]
+        [Fact]
         public void SimpleAuthWithApplepayAndSecondaryAmountAndWallet_MasterPass()
         {
             var authorization = new authorization
@@ -296,11 +294,11 @@ namespace Cnp.Sdk.Test.Functional
             };
 
             var response = _cnp.Authorize(authorization);
-            Assert.AreEqual("Insufficient Funds", response.message);
-            Assert.AreEqual("110", response.applepayResponse.transactionAmount);
+            Assert.Equal("Insufficient Funds", response.message);
+            Assert.Equal("110", response.applepayResponse.transactionAmount);
         }
 
-        [Test]
+        [Fact]
         public void SimpleAuthWithApplepayAndSecondaryAmountAndWallet_VisaCheckout()
         {
             var authorization = new authorization
@@ -332,11 +330,11 @@ namespace Cnp.Sdk.Test.Functional
             };
 
             var response = _cnp.Authorize(authorization);
-            Assert.AreEqual("Insufficient Funds", response.message);
-            Assert.AreEqual("110", response.applepayResponse.transactionAmount);
+            Assert.Equal("Insufficient Funds", response.message);
+            Assert.Equal("110", response.applepayResponse.transactionAmount);
         }
 
-        [Test]
+        [Fact]
         public void PosWithoutCapabilityAndEntryMode()
         {
             var authorization = new authorization
@@ -359,7 +357,7 @@ namespace Cnp.Sdk.Test.Functional
             try
             {
                 _cnp.Authorize(authorization);
-                Assert.Fail("Exception is expected!");
+                Assert.True(false, "Exception is expected!");
             }
             catch (CnpOnlineException e)
             {
@@ -367,7 +365,7 @@ namespace Cnp.Sdk.Test.Functional
             }
         }
 
-        [Test]
+        [Fact]
         public void TrackData()
         {
             var authorization = new authorization
@@ -388,10 +386,10 @@ namespace Cnp.Sdk.Test.Functional
             };
 
             var response = _cnp.Authorize(authorization);
-            Assert.AreEqual("Approved", response.message);
+            Assert.Equal("Approved", response.message);
         }
 
-        [Test]
+        [Fact]
         public void TestAuthHandleSpecialCharacters()
         {
             var authorization = new authorization
@@ -410,10 +408,10 @@ namespace Cnp.Sdk.Test.Functional
             };
 
             var response = _cnp.Authorize(authorization);
-            Assert.AreEqual("Approved", response.message);
+            Assert.Equal("Approved", response.message);
         }
 
-        [Test]
+        [Fact]
         public void TestNotHavingTheLogFileSettingShouldDefaultItsValueToNull()
         {
             _config.Remove("logFile");
@@ -434,10 +432,10 @@ namespace Cnp.Sdk.Test.Functional
             };
 
             var response = _cnp.Authorize(authorization);
-            Assert.AreEqual("000", response.response);
+            Assert.Equal("000", response.response);
         }
 
-        [Test]
+        [Fact]
         public void TestNeuterAccountNumsShouldDefaultToFalse()
         {
             _config.Remove("neuterAccountNums");
@@ -458,10 +456,10 @@ namespace Cnp.Sdk.Test.Functional
             };
 
             var response = _cnp.Authorize(authorization);
-            Assert.AreEqual("000", response.response);
+            Assert.Equal("000", response.response);
         }
 
-        [Test]
+        [Fact]
         public void TestPrintxmlShouldDefaultToFalse()
         {
             _config.Remove("printxml");
@@ -482,13 +480,13 @@ namespace Cnp.Sdk.Test.Functional
             };
 
             var response = _cnp.Authorize(authorization);
-            Assert.AreEqual("000", response.response);
-            Assert.AreEqual("Approved", response.message);
+            Assert.Equal("000", response.response);
+            Assert.Equal("Approved", response.message);
             // SANDBOX BRB
-            //Assert.AreEqual("63225578415568556365452427825", response.networkTransactionId);
+            //Assert.Equal("63225578415568556365452427825", response.networkTransactionId);
         }
 
-        [Test]
+        [Fact]
         public void TestEnhancedAuthResponse()
         {
             var authorization = new authorization
@@ -510,13 +508,13 @@ namespace Cnp.Sdk.Test.Functional
             };
 
             var response = _cnp.Authorize(authorization);
-            Assert.AreEqual("000", response.response);
-            Assert.AreEqual("Approved", response.message);
+            Assert.Equal("000", response.response);
+            Assert.Equal("Approved", response.message);
             // SANDBOX BRB
-            //Assert.AreEqual("63225578415568556365452427825", response.networkTransactionId);
+            //Assert.Equal("63225578415568556365452427825", response.networkTransactionId);
         }
 
-        [Test]
+        [Fact]
         public void TestEnhancedAuthResponseWithNetworkResponse()
         {
             var authorization = new authorization
@@ -537,17 +535,17 @@ namespace Cnp.Sdk.Test.Functional
                 processingType = processingTypeEnum.initialInstallment,
             };
             var response = _cnp.Authorize(authorization);
-            Assert.AreEqual("000", response.response);
+            Assert.Equal("000", response.response);
 
             // SANDBOX BRB
-            //Assert.AreEqual("63225578415568556365452427825", response.networkTransactionId);
-            Assert.AreEqual("visa", response.enhancedAuthResponse.networkResponse.endpoint);
-            Assert.AreEqual(4, response.enhancedAuthResponse.networkResponse.networkField.fieldNumber);
-            Assert.AreEqual("Transaction Amount", response.enhancedAuthResponse.networkResponse.networkField.fieldName);
-            Assert.AreEqual("135798642", response.enhancedAuthResponse.networkResponse.networkField.fieldValue);
+            //Assert.Equal("63225578415568556365452427825", response.networkTransactionId);
+            Assert.Equal("visa", response.enhancedAuthResponse.networkResponse.endpoint);
+            Assert.Equal(4, response.enhancedAuthResponse.networkResponse.networkField.fieldNumber);
+            Assert.Equal("Transaction Amount", response.enhancedAuthResponse.networkResponse.networkField.fieldName);
+            Assert.Equal("135798642", response.enhancedAuthResponse.networkResponse.networkField.fieldValue);
         }
 
-        [Test]
+        [Fact]
         public void SimpleAuthWithCardPin()
         {
             var authorization = new authorization
@@ -568,10 +566,10 @@ namespace Cnp.Sdk.Test.Functional
             };
             
             var response = _cnp.Authorize(authorization);
-            Assert.AreEqual("000", response.response);
+            Assert.Equal("000", response.response);
         }
 
-        [Test]
+        [Fact]
         public void SimpleAuthWithAndroidpay()
         {
             var authorization = new authorization
@@ -593,13 +591,13 @@ namespace Cnp.Sdk.Test.Functional
             
 
             var response = _cnp.Authorize(authorization);
-            Assert.AreEqual("000", response.response);
-            Assert.AreEqual("aHR0cHM6Ly93d3cueW91dHViZS5jb20vd2F0Y2g/dj1kUXc0dzlXZ1hjUQ0K", response.androidpayResponse.cryptogram);
-            Assert.AreEqual("01", response.androidpayResponse.expMonth);
-            Assert.AreEqual("2050", response.androidpayResponse.expYear);
+            Assert.Equal("000", response.response);
+            Assert.Equal("aHR0cHM6Ly93d3cueW91dHViZS5jb20vd2F0Y2g/dj1kUXc0dzlXZ1hjUQ0K", response.androidpayResponse.cryptogram);
+            Assert.Equal("01", response.androidpayResponse.expMonth);
+            Assert.Equal("2050", response.androidpayResponse.expYear);
         }
 
-        [Test]
+        [Fact]
         public void SimpleAuthWithLodgingInfo()
         {
 
@@ -631,7 +629,7 @@ namespace Cnp.Sdk.Test.Functional
 
             authorization.lodgingInfo.lodgingCharges.Add(new lodgingCharge() { name = lodgingExtraChargeEnum.GIFTSHOP});
             var response = _cnp.Authorize(authorization);
-            Assert.AreEqual("000", response.response);
+            Assert.Equal("000", response.response);
 
         }
 
