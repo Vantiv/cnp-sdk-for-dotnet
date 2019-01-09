@@ -1,7 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Text;
-using NUnit.Framework;
+using Xunit;
 using Cnp.Sdk;
 using Moq;
 using System.Text.RegularExpressions;
@@ -9,16 +9,9 @@ using System.Text.RegularExpressions;
 
 namespace Cnp.Sdk.Test.Unit
 {
-    [TestFixture]
-    class TestXmlFieldsSerializer
+    public class TestXmlFieldsSerializer
     {
-
-        [TestFixtureSetUp]
-        public void SetUpCnp()
-        {
-        }
-
-        [Test]
+        [Fact]
         public void TestRecurringRequest_Full()
         {
             recurringRequest request = new recurringRequest();
@@ -30,10 +23,10 @@ namespace Cnp.Sdk.Test.Unit
 
             String xml = request.Serialize();
             System.Text.RegularExpressions.Match match = Regex.Match(xml,"<subscription>\r\n<planCode>123abc</planCode>\r\n<numberOfPayments>10</numberOfPayments>\r\n<startDate>2013-07-25</startDate>\r\n<amount>102</amount>\r\n</subscription>");
-            Assert.IsTrue(match.Success, xml);
+            Assert.True(match.Success, xml);
         }
 
-        [Test]
+        [Fact]
         public void TestRecurringRequest_OnlyRequired()
         {
             recurringRequest request = new recurringRequest();
@@ -42,10 +35,10 @@ namespace Cnp.Sdk.Test.Unit
 
             String xml = request.Serialize();
             System.Text.RegularExpressions.Match match = Regex.Match(xml, "<subscription>\r\n<planCode>123abc</planCode>\r\n</subscription>");
-            Assert.IsTrue(match.Success, xml);
+            Assert.True(match.Success, xml);
         }
 
-        [Test]
+        [Fact]
         public void TestSubscription_CanContainCreateDiscounts()
         {
             subscription subscription = new subscription();
@@ -85,10 +78,10 @@ namespace Cnp.Sdk.Test.Unit
 <startDate>2013-09-03</startDate>
 <endDate>2013-09-04</endDate>
 </createDiscount>";
-            Assert.AreEqual(Regex.Replace(expected, @"\s+", String.Empty), Regex.Replace(actual, @"\s+", String.Empty));
+            Assert.Equal(Regex.Replace(expected, @"\s+", String.Empty), Regex.Replace(actual, @"\s+", String.Empty));
         }
 
-        [Test]
+        [Fact]
         public void TestSubscription_CanContainCreateAddOns()
         {
             subscription subscription = new subscription();
@@ -128,10 +121,10 @@ namespace Cnp.Sdk.Test.Unit
 <startDate>2013-09-04</startDate>
 <endDate>2013-09-05</endDate>
 </createAddOn>";
-            Assert.AreEqual(Regex.Replace(expected, @"\s+", String.Empty), Regex.Replace(actual, @"\s+", String.Empty));
+            Assert.Equal(Regex.Replace(expected, @"\s+", String.Empty), Regex.Replace(actual, @"\s+", String.Empty));
         }
 
-        [Test]
+        [Fact]
         public void TestUpdateSubscription_Full()
         {
             updateSubscription update = new updateSubscription();
@@ -152,10 +145,10 @@ namespace Cnp.Sdk.Test.Unit
 
             String actual = update.Serialize();
             String expected = "\r\n<updateSubscription>\r\n<subscriptionId>12345</subscriptionId>\r\n<planCode>abcdefg</planCode>\r\n<billToAddress>\r\n<name>Greg Dake</name>\r\n<city>Lowell</city>\r\n<state>MA</state>\r\n<email>sdksupport@cnp.com</email>\r\n</billToAddress>\r\n<card>\r\n<type>VI</type>\r\n<number>4100000000000001</number>\r\n<expDate>1215</expDate>\r\n</card>\r\n<billingDate>2002-10-09</billingDate>\r\n</updateSubscription>";
-            Assert.AreEqual(Regex.Replace(expected, @"\s+", String.Empty), Regex.Replace(actual, @"\s+", String.Empty));
+            Assert.Equal(Regex.Replace(expected, @"\s+", String.Empty), Regex.Replace(actual, @"\s+", String.Empty));
         }
 
-        [Test]
+        [Fact]
         public void TestUpdateSubscription_OnlyRequired()
         {
             updateSubscription update = new updateSubscription();
@@ -163,10 +156,10 @@ namespace Cnp.Sdk.Test.Unit
 
             String actual = update.Serialize();
             String expected = "\r\n<updateSubscription>\r\n<subscriptionId>12345</subscriptionId>\r\n</updateSubscription>";
-            Assert.AreEqual(Regex.Replace(expected, @"\s+", String.Empty), Regex.Replace(actual, @"\s+", String.Empty));
+            Assert.Equal(Regex.Replace(expected, @"\s+", String.Empty), Regex.Replace(actual, @"\s+", String.Empty));
         }
 
-        [Test]
+        [Fact]
         public void TestUpdateSubscription_CanContainCreateDiscounts()
         {
             createDiscount cd1 = new createDiscount();
@@ -207,10 +200,10 @@ namespace Cnp.Sdk.Test.Unit
 <endDate>2013-09-04</endDate>
 </createDiscount>
 </updateSubscription>";
-            Assert.AreEqual(Regex.Replace(expected, @"\s+", String.Empty), Regex.Replace(actual, @"\s+", String.Empty));
+            Assert.Equal(Regex.Replace(expected, @"\s+", String.Empty), Regex.Replace(actual, @"\s+", String.Empty));
         }
 
-        [Test]
+        [Fact]
         public void TestUpdateSubscription_CanContainUpdateDiscounts()
         {
             updateDiscount ud1 = new updateDiscount();
@@ -251,10 +244,10 @@ namespace Cnp.Sdk.Test.Unit
 <endDate>2013-09-04</endDate>
 </updateDiscount>
 </updateSubscription>";
-            Assert.AreEqual(Regex.Replace(expected, @"\s+", String.Empty), Regex.Replace(actual, @"\s+", String.Empty));
+            Assert.Equal(Regex.Replace(expected, @"\s+", String.Empty), Regex.Replace(actual, @"\s+", String.Empty));
         }
 
-        [Test]
+        [Fact]
         public void TestUpdateSubscription_CanContainDeleteDiscounts()
         {
             deleteDiscount dd1 = new deleteDiscount();
@@ -279,10 +272,10 @@ namespace Cnp.Sdk.Test.Unit
 <discountCode>2</discountCode>
 </deleteDiscount>
 </updateSubscription>";
-            Assert.AreEqual(Regex.Replace(expected, @"\s+", String.Empty), Regex.Replace(actual, @"\s+", String.Empty));
+            Assert.Equal(Regex.Replace(expected, @"\s+", String.Empty), Regex.Replace(actual, @"\s+", String.Empty));
         }
 
-        [Test]
+        [Fact]
         public void TestUpdateSubscription_CanContainCreateAddOns()
         {
             createAddOn cao1 = new createAddOn();
@@ -323,10 +316,10 @@ namespace Cnp.Sdk.Test.Unit
 <endDate>2013-09-05</endDate>
 </createAddOn>
 </updateSubscription>";
-            Assert.AreEqual(Regex.Replace(expected, @"\s+", String.Empty), Regex.Replace(actual, @"\s+", String.Empty));
+            Assert.Equal(Regex.Replace(expected, @"\s+", String.Empty), Regex.Replace(actual, @"\s+", String.Empty));
         }
 
-        [Test]
+        [Fact]
         public void TestUpdateSubscription_CanContainUpdateAddOns()
         {
             updateAddOn uao1 = new updateAddOn();
@@ -367,10 +360,10 @@ namespace Cnp.Sdk.Test.Unit
 <endDate>2013-09-05</endDate>
 </updateAddOn>
 </updateSubscription>";
-            Assert.AreEqual(Regex.Replace(expected, @"\s+", String.Empty), Regex.Replace(actual, @"\s+", String.Empty));
+            Assert.Equal(Regex.Replace(expected, @"\s+", String.Empty), Regex.Replace(actual, @"\s+", String.Empty));
         }
 
-        [Test]
+        [Fact]
         public void TestUpdateSubscription_CanContainDeleteAddOns()
         {
             deleteAddOn dao1 = new deleteAddOn();
@@ -395,10 +388,10 @@ namespace Cnp.Sdk.Test.Unit
 <addOnCode>2</addOnCode>
 </deleteAddOn>
 </updateSubscription>";
-            Assert.AreEqual(Regex.Replace(expected, @"\s+", String.Empty), Regex.Replace(actual, @"\s+", String.Empty));
+            Assert.Equal(Regex.Replace(expected, @"\s+", String.Empty), Regex.Replace(actual, @"\s+", String.Empty));
         }
 
-        [Test]
+        [Fact]
         public void TestUpdateSubscription_CanContainToken()
         {
             updateSubscription update = new updateSubscription();
@@ -414,10 +407,10 @@ namespace Cnp.Sdk.Test.Unit
 <cnpToken>123456</cnpToken>
 </token>
 </updateSubscription>";
-            Assert.AreEqual(Regex.Replace(expected, @"\s+", String.Empty), Regex.Replace(actual, @"\s+", String.Empty));
+            Assert.Equal(Regex.Replace(expected, @"\s+", String.Empty), Regex.Replace(actual, @"\s+", String.Empty));
         }
 
-        [Test]
+        [Fact]
         public void TestUpdateSubscription_CanContainPaypage()
         {
             updateSubscription update = new updateSubscription();
@@ -433,11 +426,11 @@ namespace Cnp.Sdk.Test.Unit
 <paypageRegistrationId>abc123</paypageRegistrationId>
 </paypage>
 </updateSubscription>";
-            Assert.AreEqual(Regex.Replace(expected, @"\s+", String.Empty), Regex.Replace(actual, @"\s+", String.Empty));
+            Assert.Equal(Regex.Replace(expected, @"\s+", String.Empty), Regex.Replace(actual, @"\s+", String.Empty));
         }
 
 
-        [Test]
+        [Fact]
         public void TestCancelSubscription_Full()
         {
             cancelSubscription cancel = new cancelSubscription();
@@ -448,10 +441,10 @@ namespace Cnp.Sdk.Test.Unit
 <cancelSubscription>
 <subscriptionId>12345</subscriptionId>
 </cancelSubscription>";
-            Assert.AreEqual(Regex.Replace(expected, @"\s+", String.Empty), Regex.Replace(actual, @"\s+", String.Empty));
+            Assert.Equal(Regex.Replace(expected, @"\s+", String.Empty), Regex.Replace(actual, @"\s+", String.Empty));
         }
 
-        [Test]
+        [Fact]
         public void TestCancelSubscription_OnlyRequired()
         {
             cancelSubscription update = new cancelSubscription();
@@ -462,10 +455,10 @@ namespace Cnp.Sdk.Test.Unit
 <cancelSubscription>
 <subscriptionId>12345</subscriptionId>
 </cancelSubscription>";
-            Assert.AreEqual(Regex.Replace(expected, @"\s+", String.Empty), Regex.Replace(actual, @"\s+", String.Empty));
+            Assert.Equal(Regex.Replace(expected, @"\s+", String.Empty), Regex.Replace(actual, @"\s+", String.Empty));
         }
 
-        [Test]
+        [Fact]
         public void TestActivate_Full()
         {
             activate activate = new activate();
@@ -486,10 +479,10 @@ namespace Cnp.Sdk.Test.Unit
 <type>MC</type>
 </card>
 </activate>";
-            Assert.AreEqual(Regex.Replace(expected, @"\s+", String.Empty), Regex.Replace(actual, @"\s+", String.Empty));
+            Assert.Equal(Regex.Replace(expected, @"\s+", String.Empty), Regex.Replace(actual, @"\s+", String.Empty));
         }
 
-        [Test]
+        [Fact]
         public void TestActivate_VirtualGiftCard()
         {
             activate activate = new activate();
@@ -509,10 +502,10 @@ namespace Cnp.Sdk.Test.Unit
 <virtualGiftCard>
 </virtualGiftCard>
 </activate>";
-            Assert.AreEqual(Regex.Replace(expected, @"\s+", String.Empty), Regex.Replace(actual, @"\s+", String.Empty));
+            Assert.Equal(Regex.Replace(expected, @"\s+", String.Empty), Regex.Replace(actual, @"\s+", String.Empty));
         }
 
-        [Test]
+        [Fact]
         public void TestVirtualGiftCard_Full()
         {
             virtualGiftCardType virtualGiftCard = new virtualGiftCardType();
@@ -523,10 +516,10 @@ namespace Cnp.Sdk.Test.Unit
             String expected = @"
 <accountNumberLength>16</accountNumberLength>
 <giftCardBin>123456</giftCardBin>";
-            Assert.AreEqual(Regex.Replace(expected, @"\s+", String.Empty), Regex.Replace(actual, @"\s+", String.Empty));
+            Assert.Equal(Regex.Replace(expected, @"\s+", String.Empty), Regex.Replace(actual, @"\s+", String.Empty));
         }
 
-        [Test]
+        [Fact]
         public void TestDeactivate_Full()
         {
             deactivate deactivate = new deactivate();
@@ -545,10 +538,10 @@ namespace Cnp.Sdk.Test.Unit
 <type>MC</type>
 </card>
 </deactivate>";
-            Assert.AreEqual(Regex.Replace(expected, @"\s+", String.Empty), Regex.Replace(actual, @"\s+", String.Empty));
+            Assert.Equal(Regex.Replace(expected, @"\s+", String.Empty), Regex.Replace(actual, @"\s+", String.Empty));
         }
 
-        [Test]
+        [Fact]
         public void TestDeactivate_OnlyRequired()
         {
             deactivate deactivate = new deactivate();
@@ -567,10 +560,10 @@ namespace Cnp.Sdk.Test.Unit
 <type>MC</type>
 </card>
 </deactivate>";
-            Assert.AreEqual(Regex.Replace(expected, @"\s+", String.Empty), Regex.Replace(actual, @"\s+", String.Empty));
+            Assert.Equal(Regex.Replace(expected, @"\s+", String.Empty), Regex.Replace(actual, @"\s+", String.Empty));
         }
 
-        [Test]
+        [Fact]
         public void TestLoad_Full()
         {
             load load = new load();
@@ -591,10 +584,10 @@ namespace Cnp.Sdk.Test.Unit
 <type>MC</type>
 </card>
 </load>";
-            Assert.AreEqual(Regex.Replace(expected, @"\s+", String.Empty), Regex.Replace(actual, @"\s+", String.Empty));
+            Assert.Equal(Regex.Replace(expected, @"\s+", String.Empty), Regex.Replace(actual, @"\s+", String.Empty));
         }
 
-        [Test]
+        [Fact]
         public void TestLoad_OnlyRequired()
         {
             load load = new load();
@@ -615,10 +608,10 @@ namespace Cnp.Sdk.Test.Unit
 <type>MC</type>
 </card>
 </load>";
-            Assert.AreEqual(Regex.Replace(expected, @"\s+", String.Empty), Regex.Replace(actual, @"\s+", String.Empty));
+            Assert.Equal(Regex.Replace(expected, @"\s+", String.Empty), Regex.Replace(actual, @"\s+", String.Empty));
         }
 
-        [Test]
+        [Fact]
         public void TestUnload_Full()
         {
             unload unload = new unload();
@@ -639,10 +632,10 @@ namespace Cnp.Sdk.Test.Unit
 <type>MC</type>
 </card>
 </unload>";
-            Assert.AreEqual(Regex.Replace(expected, @"\s+", String.Empty), Regex.Replace(actual, @"\s+", String.Empty));
+            Assert.Equal(Regex.Replace(expected, @"\s+", String.Empty), Regex.Replace(actual, @"\s+", String.Empty));
         }
 
-        [Test]
+        [Fact]
         public void TestUnload_OnlyRequired()
         {
             unload unload = new unload();
@@ -663,10 +656,10 @@ namespace Cnp.Sdk.Test.Unit
 <type>MC</type>
 </card>
 </unload>";
-            Assert.AreEqual(Regex.Replace(expected, @"\s+", String.Empty), Regex.Replace(actual, @"\s+", String.Empty));
+            Assert.Equal(Regex.Replace(expected, @"\s+", String.Empty), Regex.Replace(actual, @"\s+", String.Empty));
         }
 
-        [Test]
+        [Fact]
         public void TestBalanceInquiry_Full()
         {
             balanceInquiry balanceInquiry = new balanceInquiry();
@@ -685,10 +678,10 @@ namespace Cnp.Sdk.Test.Unit
 <type>MC</type>
 </card>
 </balanceInquiry>";
-            Assert.AreEqual(Regex.Replace(expected, @"\s+", String.Empty), Regex.Replace(actual, @"\s+", String.Empty));
+            Assert.Equal(Regex.Replace(expected, @"\s+", String.Empty), Regex.Replace(actual, @"\s+", String.Empty));
         }
 
-        [Test]
+        [Fact]
         public void TestBalanceInquiry_OnlyRequired()
         {
             balanceInquiry balanceInquiry = new balanceInquiry();
@@ -707,10 +700,10 @@ namespace Cnp.Sdk.Test.Unit
 <type>MC</type>
 </card>
 </balanceInquiry>";
-            Assert.AreEqual(Regex.Replace(expected, @"\s+", String.Empty), Regex.Replace(actual, @"\s+", String.Empty));
+            Assert.Equal(Regex.Replace(expected, @"\s+", String.Empty), Regex.Replace(actual, @"\s+", String.Empty));
         }
 
-        [Test]
+        [Fact]
         public void TestCreatePlan_Full()
         {
             createPlan create = new createPlan();
@@ -737,11 +730,11 @@ namespace Cnp.Sdk.Test.Unit
 <trialIntervalType>MONTH</trialIntervalType>
 <active>true</active>
 </createPlan>";
-            Assert.AreEqual(Regex.Replace(expected, @"\s+", String.Empty), Regex.Replace(actual, @"\s+", String.Empty));
+            Assert.Equal(Regex.Replace(expected, @"\s+", String.Empty), Regex.Replace(actual, @"\s+", String.Empty));
         }
 
 
-        [Test]
+        [Fact]
         public void TestCreatePlan_OnlyRequired()
         {
             createPlan create = new createPlan();
@@ -758,10 +751,10 @@ namespace Cnp.Sdk.Test.Unit
 <intervalType>ANNUAL</intervalType>
 <amount>100</amount>
 </createPlan>";
-            Assert.AreEqual(Regex.Replace(expected, @"\s+", String.Empty), Regex.Replace(actual, @"\s+", String.Empty));
+            Assert.Equal(Regex.Replace(expected, @"\s+", String.Empty), Regex.Replace(actual, @"\s+", String.Empty));
         }
 
-        [Test]
+        [Fact]
         public void TestUpdatePlan_Full()
         {
             updatePlan update = new updatePlan();
@@ -774,10 +767,10 @@ namespace Cnp.Sdk.Test.Unit
 <planCode>abc</planCode>
 <active>true</active>
 </updatePlan>";
-            Assert.AreEqual(Regex.Replace(expected, @"\s+", String.Empty), Regex.Replace(actual, @"\s+", String.Empty));
+            Assert.Equal(Regex.Replace(expected, @"\s+", String.Empty), Regex.Replace(actual, @"\s+", String.Empty));
         }
 
-        [Test]
+        [Fact]
         public void TesCnpInternalRecurringRequestMustContainFinalPayment()
         {
             cnpInternalRecurringRequest cnpInternalRecurringRequest = new cnpInternalRecurringRequest();
@@ -790,10 +783,10 @@ namespace Cnp.Sdk.Test.Unit
 <subscriptionId>123</subscriptionId>
 <recurringTxnId>456</recurringTxnId>
 <finalPayment>true</finalPayment>";
-            Assert.AreEqual(Regex.Replace(expected, @"\s+", String.Empty), Regex.Replace(actual, @"\s+", String.Empty));
+            Assert.Equal(Regex.Replace(expected, @"\s+", String.Empty), Regex.Replace(actual, @"\s+", String.Empty));
         }
 
-        [Test]
+        [Fact]
         public void TestCreateDiscount_Full()
         {
             createDiscount cd = new createDiscount();
@@ -810,10 +803,10 @@ namespace Cnp.Sdk.Test.Unit
 <amount>200</amount>
 <startDate>2013-09-05</startDate>
 <endDate>2013-09-06</endDate>";
-            Assert.AreEqual(Regex.Replace(expected, @"\s+", String.Empty), Regex.Replace(actual, @"\s+", String.Empty));
+            Assert.Equal(Regex.Replace(expected, @"\s+", String.Empty), Regex.Replace(actual, @"\s+", String.Empty));
         }
 
-        [Test]
+        [Fact]
         public void TestUpdateDiscount_Full()
         {
             updateDiscount ud = new updateDiscount();
@@ -830,10 +823,10 @@ namespace Cnp.Sdk.Test.Unit
 <amount>200</amount>
 <startDate>2013-09-05</startDate>
 <endDate>2013-09-06</endDate>";
-            Assert.AreEqual(Regex.Replace(expected, @"\s+", String.Empty), Regex.Replace(actual, @"\s+", String.Empty));
+            Assert.Equal(Regex.Replace(expected, @"\s+", String.Empty), Regex.Replace(actual, @"\s+", String.Empty));
         }
 
-        [Test]
+        [Fact]
         public void TestUpdateDiscount_OnlyRequired()
         {
             updateDiscount ud = new updateDiscount();
@@ -842,10 +835,10 @@ namespace Cnp.Sdk.Test.Unit
             String actual = ud.Serialize();
             String expected = @"
 <discountCode>1</discountCode>";
-            Assert.AreEqual(Regex.Replace(expected, @"\s+", String.Empty), Regex.Replace(actual, @"\s+", String.Empty));
+            Assert.Equal(Regex.Replace(expected, @"\s+", String.Empty), Regex.Replace(actual, @"\s+", String.Empty));
         }
 
-        [Test]
+        [Fact]
         public void TestDeleteDiscount()
         {
             deleteDiscount ud = new deleteDiscount();
@@ -854,10 +847,10 @@ namespace Cnp.Sdk.Test.Unit
             String actual = ud.Serialize();
             String expected = @"
 <discountCode>1</discountCode>";
-            Assert.AreEqual(Regex.Replace(expected, @"\s+", String.Empty), Regex.Replace(actual, @"\s+", String.Empty));
+            Assert.Equal(Regex.Replace(expected, @"\s+", String.Empty), Regex.Replace(actual, @"\s+", String.Empty));
         }
 
-        [Test]
+        [Fact]
         public void TestCreateAddOn()
         {
             createAddOn cao = new createAddOn();
@@ -874,10 +867,10 @@ namespace Cnp.Sdk.Test.Unit
 <amount>100</amount>
 <startDate>2013-09-05</startDate>
 <endDate>2013-09-06</endDate>";
-            Assert.AreEqual(Regex.Replace(expected, @"\s+", String.Empty), Regex.Replace(actual, @"\s+", String.Empty));
+            Assert.Equal(Regex.Replace(expected, @"\s+", String.Empty), Regex.Replace(actual, @"\s+", String.Empty));
         }
 
-        [Test]
+        [Fact]
         public void TestUpdateAddOn_Full()
         {
             updateAddOn uao = new updateAddOn();
@@ -894,10 +887,10 @@ namespace Cnp.Sdk.Test.Unit
 <amount>100</amount>
 <startDate>2013-09-05</startDate>
 <endDate>2013-09-06</endDate>";
-            Assert.AreEqual(Regex.Replace(expected, @"\s+", String.Empty), Regex.Replace(actual, @"\s+", String.Empty));
+            Assert.Equal(Regex.Replace(expected, @"\s+", String.Empty), Regex.Replace(actual, @"\s+", String.Empty));
         }
 
-        [Test]
+        [Fact]
         public void TestUpdateAddOn_OnlyRequired()
         {
             updateAddOn uao = new updateAddOn();
@@ -906,10 +899,10 @@ namespace Cnp.Sdk.Test.Unit
             String actual = uao.Serialize();
             String expected = @"
 <addOnCode>1</addOnCode>";
-            Assert.AreEqual(Regex.Replace(expected, @"\s+", String.Empty), Regex.Replace(actual, @"\s+", String.Empty));
+            Assert.Equal(Regex.Replace(expected, @"\s+", String.Empty), Regex.Replace(actual, @"\s+", String.Empty));
         }
 
-        [Test]
+        [Fact]
         public void TestDeleteAddOn()
         {
             deleteAddOn dao = new deleteAddOn();
@@ -918,10 +911,10 @@ namespace Cnp.Sdk.Test.Unit
             String actual = dao.Serialize();
             String expected = @"
 <addOnCode>1</addOnCode>";
-            Assert.AreEqual(Regex.Replace(expected, @"\s+", String.Empty), Regex.Replace(actual, @"\s+", String.Empty));
+            Assert.Equal(Regex.Replace(expected, @"\s+", String.Empty), Regex.Replace(actual, @"\s+", String.Empty));
         }
 
-        [Test]
+        [Fact]
         public void TestEmptyMethodOfPayment()
         {
             cardType card = new cardType();
@@ -934,7 +927,7 @@ namespace Cnp.Sdk.Test.Unit
 <type></type>
 <number>4100000000000001</number>
 <expDate>1250</expDate>";
-            Assert.AreEqual(Regex.Replace(expected, @"\s+", String.Empty), Regex.Replace(actual, @"\s+", String.Empty));
+            Assert.Equal(Regex.Replace(expected, @"\s+", String.Empty), Regex.Replace(actual, @"\s+", String.Empty));
         }
     }
 }

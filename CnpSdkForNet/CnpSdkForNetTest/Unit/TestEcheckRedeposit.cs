@@ -1,7 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Text;
-using NUnit.Framework;
+using Xunit;
 using Cnp.Sdk;
 using Moq;
 using System.Text.RegularExpressions;
@@ -9,19 +9,13 @@ using System.Text.RegularExpressions;
 
 namespace Cnp.Sdk.Test.Unit
 {
-    [TestFixture]
-    class TestEcheckRedeposit
+    public class TestEcheckRedeposit
     {
         
-        private CnpOnline cnp;
+        private CnpOnline cnp = new CnpOnline();
+        
 
-        [TestFixtureSetUp]
-        public void SetUpCnp()
-        {
-            cnp = new CnpOnline();
-        }
-
-        [Test]
+        [Fact]
         public void TestMerchantData()
         {
             echeckRedeposit echeckRedeposit = new echeckRedeposit();

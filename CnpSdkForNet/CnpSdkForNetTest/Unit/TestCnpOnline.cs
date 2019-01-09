@@ -1,7 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Text;
-using NUnit.Framework;
+using Xunit;
 using Cnp.Sdk;
 using Moq;
 using System.Text.RegularExpressions;
@@ -9,19 +9,14 @@ using System.Text.RegularExpressions;
 
 namespace Cnp.Sdk.Test.Unit
 {
-    [TestFixture]
-    class TestCnpOnline
+    
+    public class TestCnpOnline
     {
         
-        private CnpOnline cnp;
+        private CnpOnline cnp = new CnpOnline();
+        
 
-        [TestFixtureSetUp]
-        public void SetUpCnp()
-        {
-            cnp = new CnpOnline();
-        }
-
-        [Test]
+        [Fact]
         public void TestAuth()
         {
             authorization authorization = new authorization();
@@ -43,10 +38,10 @@ namespace Cnp.Sdk.Test.Unit
             Communications mockedCommunication = mock.Object;
             cnp.SetCommunication(mockedCommunication);
             authorizationResponse authorize = cnp.Authorize(authorization);
-            Assert.AreEqual(123, authorize.cnpTxnId);
+            Assert.Equal(123, authorize.cnpTxnId);
         }
 
-        [Test]
+        [Fact]
         public void TestAuthReversal()
         {
             authReversal authreversal = new authReversal();
@@ -63,10 +58,10 @@ namespace Cnp.Sdk.Test.Unit
             Communications mockedCommunication = mock.Object;
             cnp.SetCommunication(mockedCommunication);
             authReversalResponse authreversalresponse = cnp.AuthReversal(authreversal);
-            Assert.AreEqual(123, authreversalresponse.cnpTxnId);
+            Assert.Equal(123, authreversalresponse.cnpTxnId);
         }
 
-        [Test]
+        [Fact]
         public void TestCapture()
         {
             capture caputure = new capture();
@@ -83,10 +78,10 @@ namespace Cnp.Sdk.Test.Unit
             Communications mockedCommunication = mock.Object;
             cnp.SetCommunication(mockedCommunication);
             captureResponse captureresponse = cnp.Capture(caputure);
-            Assert.AreEqual(123, captureresponse.cnpTxnId);
+            Assert.Equal(123, captureresponse.cnpTxnId);
         }
 
-        [Test]
+        [Fact]
         public void TestCaptureGivenAuth()
         {
             captureGivenAuth capturegivenauth = new captureGivenAuth();
@@ -112,10 +107,10 @@ namespace Cnp.Sdk.Test.Unit
             Communications mockedCommunication = mock.Object;
             cnp.SetCommunication(mockedCommunication);
             captureGivenAuthResponse caputregivenauthresponse = cnp.CaptureGivenAuth(capturegivenauth);
-            Assert.AreEqual(123, caputregivenauthresponse.cnpTxnId);
+            Assert.Equal(123, caputregivenauthresponse.cnpTxnId);
         }
 
-        [Test]
+        [Fact]
         public void TestCredit()
         {
             credit credit = new credit();
@@ -136,10 +131,10 @@ namespace Cnp.Sdk.Test.Unit
             Communications mockedCommunication = mock.Object;
             cnp.SetCommunication(mockedCommunication);
             creditResponse creditresponse = cnp.Credit(credit);
-            Assert.AreEqual(123, creditresponse.cnpTxnId);
+            Assert.Equal(123, creditresponse.cnpTxnId);
         }
 
-        [Test]
+        [Fact]
         public void TestEcheckCredit()
         {
             echeckCredit echeckcredit = new echeckCredit();
@@ -154,10 +149,10 @@ namespace Cnp.Sdk.Test.Unit
             Communications mockedCommunication = mock.Object;
             cnp.SetCommunication(mockedCommunication);
             echeckCreditResponse echeckcreditresponse = cnp.EcheckCredit(echeckcredit);
-            Assert.AreEqual(123, echeckcreditresponse.cnpTxnId);
+            Assert.Equal(123, echeckcreditresponse.cnpTxnId);
         }
 
-        [Test]
+        [Fact]
         public void TestEcheckRedeposit()
         {
             echeckRedeposit echeckredeposit = new echeckRedeposit();
@@ -171,10 +166,10 @@ namespace Cnp.Sdk.Test.Unit
             Communications mockedCommunication = mock.Object;
             cnp.SetCommunication(mockedCommunication);
             echeckRedepositResponse echeckredepositresponse = cnp.EcheckRedeposit(echeckredeposit);
-            Assert.AreEqual(123, echeckredepositresponse.cnpTxnId);
+            Assert.Equal(123, echeckredepositresponse.cnpTxnId);
         }
 
-        [Test]
+        [Fact]
         public void TestEcheckSale()
         {
             echeckSale echecksale = new echeckSale();
@@ -203,10 +198,10 @@ namespace Cnp.Sdk.Test.Unit
             Communications mockedCommunication = mock.Object;
             cnp.SetCommunication(mockedCommunication);
             echeckSalesResponse echecksaleresponse = cnp.EcheckSale(echecksale);
-            Assert.AreEqual(123, echecksaleresponse.cnpTxnId);
+            Assert.Equal(123, echecksaleresponse.cnpTxnId);
         }
 
-        [Test]
+        [Fact]
         public void TestEcheckVerification()
         {
             echeckVerification echeckverification = new echeckVerification();
@@ -235,10 +230,10 @@ namespace Cnp.Sdk.Test.Unit
             Communications mockedCommunication = mock.Object;
             cnp.SetCommunication(mockedCommunication);
             echeckVerificationResponse echeckverificaitonresponse = cnp.EcheckVerification(echeckverification);
-            Assert.AreEqual(123, echeckverificaitonresponse.cnpTxnId);
+            Assert.Equal(123, echeckverificaitonresponse.cnpTxnId);
         }
 
-        [Test]
+        [Fact]
         public void TestForceCapture()
         {
             forceCapture forcecapture = new forceCapture();
@@ -259,10 +254,10 @@ namespace Cnp.Sdk.Test.Unit
             Communications mockedCommunication = mock.Object;
             cnp.SetCommunication(mockedCommunication);
             forceCaptureResponse forcecaptureresponse = cnp.ForceCapture(forcecapture);
-            Assert.AreEqual(123, forcecaptureresponse.cnpTxnId);
+            Assert.Equal(123, forcecaptureresponse.cnpTxnId);
         }
 
-        [Test]
+        [Fact]
         public void TestSale()
         {
             sale sale = new sale();
@@ -283,10 +278,10 @@ namespace Cnp.Sdk.Test.Unit
             Communications mockedCommunication = mock.Object;
             cnp.SetCommunication(mockedCommunication);
             saleResponse saleresponse = cnp.Sale(sale);
-            Assert.AreEqual(123, saleresponse.cnpTxnId);
+            Assert.Equal(123, saleresponse.cnpTxnId);
         }
 
-        [Test]
+        [Fact]
         public void TestToken()
         {
             registerTokenRequestType token = new registerTokenRequestType();
@@ -302,11 +297,11 @@ namespace Cnp.Sdk.Test.Unit
             Communications mockedCommunication = mock.Object;
             cnp.SetCommunication(mockedCommunication);
             registerTokenResponse registertokenresponse = cnp.RegisterToken(token);
-            Assert.AreEqual(123, registertokenresponse.cnpTxnId);
-            Assert.IsNull(registertokenresponse.type);
+            Assert.Equal(123, registertokenresponse.cnpTxnId);
+            Assert.Null(registertokenresponse.type);
         }
 
-        [Test]
+        [Fact]
         public void TestActivate()
         {
             activate activate = new activate();
@@ -338,13 +333,13 @@ response=""0"" message=""ValidFormat"">
             Communications mockedCommunication = mock.Object;
             cnp.SetCommunication(mockedCommunication);
             activateResponse activateResponse = cnp.Activate(activate);
-            Assert.AreEqual(82919789861357149, activateResponse.cnpTxnId);
-            Assert.AreEqual("123456", activateResponse.virtualGiftCardResponse.accountNumber);
-            Assert.AreEqual("123456", activateResponse.virtualGiftCardResponse.cardValidationNum);
-            Assert.AreEqual("1234", activateResponse.virtualGiftCardResponse.pin);
+            Assert.Equal(82919789861357149, activateResponse.cnpTxnId);
+            Assert.Equal("123456", activateResponse.virtualGiftCardResponse.accountNumber);
+            Assert.Equal("123456", activateResponse.virtualGiftCardResponse.cardValidationNum);
+            Assert.Equal("1234", activateResponse.virtualGiftCardResponse.pin);
         }
 
-        [Test]
+        [Fact]
         public void TestDeactivate()
         {
             deactivate deactivate = new deactivate();
@@ -360,10 +355,10 @@ response=""0"" message=""ValidFormat"">
             Communications mockedCommunication = mock.Object;
             cnp.SetCommunication(mockedCommunication);
             deactivateResponse deactivateResponse = cnp.Deactivate(deactivate);
-            Assert.AreEqual(123, deactivateResponse.cnpTxnId);
+            Assert.Equal(123, deactivateResponse.cnpTxnId);
         }
 
-        [Test]
+        [Fact]
         public void TestLoad()
         {
             load load = new load();
@@ -379,10 +374,10 @@ response=""0"" message=""ValidFormat"">
             Communications mockedCommunication = mock.Object;
             cnp.SetCommunication(mockedCommunication);
             loadResponse loadResponse = cnp.Load(load);
-            Assert.AreEqual(123, loadResponse.cnpTxnId);
+            Assert.Equal(123, loadResponse.cnpTxnId);
         }
 
-        [Test]
+        [Fact]
         public void TestUnload()
         {
             unload unload = new unload();
@@ -398,10 +393,10 @@ response=""0"" message=""ValidFormat"">
             Communications mockedCommunication = mock.Object;
             cnp.SetCommunication(mockedCommunication);
             unloadResponse unloadResponse = cnp.Unload(unload);
-            Assert.AreEqual(123, unloadResponse.cnpTxnId);
+            Assert.Equal(123, unloadResponse.cnpTxnId);
         }
 
-        [Test]
+        [Fact]
         public void TestBalanceInquiry()
         {
             balanceInquiry balanceInquiry = new balanceInquiry();
@@ -417,10 +412,10 @@ response=""0"" message=""ValidFormat"">
             Communications mockedCommunication = mock.Object;
             cnp.SetCommunication(mockedCommunication);
             balanceInquiryResponse balanceInquiryResponse = cnp.BalanceInquiry(balanceInquiry);
-            Assert.AreEqual(123, balanceInquiryResponse.cnpTxnId);
+            Assert.Equal(123, balanceInquiryResponse.cnpTxnId);
         }
 
-        [Test]
+        [Fact]
         public void TestCreatePlan()
         {
             createPlan createPlan = new createPlan();
@@ -434,10 +429,10 @@ response=""0"" message=""ValidFormat"">
             Communications mockedCommunication = mock.Object;
             cnp.SetCommunication(mockedCommunication);
             createPlanResponse createPlanResponse = cnp.CreatePlan(createPlan);
-            Assert.AreEqual("theCode", createPlanResponse.planCode);
+            Assert.Equal("theCode", createPlanResponse.planCode);
         }
 
-        [Test]
+        [Fact]
         public void TestUpdatePlan()
         {
             updatePlan updatePlan = new updatePlan();
@@ -451,10 +446,10 @@ response=""0"" message=""ValidFormat"">
             Communications mockedCommunication = mock.Object;
             cnp.SetCommunication(mockedCommunication);
             updatePlanResponse updatePlanResponse = cnp.UpdatePlan(updatePlan);
-            Assert.AreEqual("theCode", updatePlanResponse.planCode);
+            Assert.Equal("theCode", updatePlanResponse.planCode);
         }
 
-        [Test]
+        [Fact]
         public void TestCnpOnlineException()
         {
             authorization authorization = new authorization();
@@ -481,11 +476,11 @@ response=""0"" message=""ValidFormat"">
             }
             catch (CnpOnlineException e)
             {
-                Assert.AreEqual("Error validating xml data against the schema", e.Message);
+                Assert.Equal("Error validating xml data against the schema", e.Message);
             }
         }
 
-        [Test]
+        [Fact]
         public void TestInvalidOperationException()
         {
             authorization authorization = new authorization();
@@ -512,11 +507,11 @@ response=""0"" message=""ValidFormat"">
             }
             catch (CnpOnlineException e)
             {
-                Assert.AreEqual("Error validating xml data against the schema", e.Message);
+                Assert.Equal("Error validating xml data against the schema", e.Message);
             }
         }
 
-        [Test]
+        [Fact]
         public void TestDefaultReportGroup()
         {
             authorization authorization = new authorization();
@@ -537,10 +532,10 @@ response=""0"" message=""ValidFormat"">
             Communications mockedCommunication = mock.Object;
             cnp.SetCommunication(mockedCommunication);
             authorizationResponse authorize = cnp.Authorize(authorization);
-            Assert.AreEqual("Default Report Group", authorize.reportGroup);
+            Assert.Equal("Default Report Group", authorize.reportGroup);
         }
 
-        [Test]
+        [Fact]
         public void TestSetMerchantSdk()
         {
 

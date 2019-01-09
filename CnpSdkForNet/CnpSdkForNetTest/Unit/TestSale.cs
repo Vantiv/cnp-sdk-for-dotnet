@@ -1,7 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Text;
-using NUnit.Framework;
+using Xunit;
 using Cnp.Sdk;
 using Moq;
 using System.Text.RegularExpressions;
@@ -9,19 +9,12 @@ using System.Text.RegularExpressions;
 
 namespace Cnp.Sdk.Test.Unit
 {
-    [TestFixture]
-    class TestSale
+    public class TestSale
     {
         
-        private CnpOnline cnp;
+        private CnpOnline cnp = new CnpOnline();
 
-        [TestFixtureSetUp]
-        public void SetUpCnp()
-        {
-            cnp = new CnpOnline();
-        }
-
-        [Test]
+        [Fact]
         public void TestFraudFilterOverride()
         {
             sale sale = new sale();
@@ -41,7 +34,7 @@ namespace Cnp.Sdk.Test.Unit
             cnp.Sale(sale);
         }
 
-        [Test]
+        [Fact]
         public void TestSurchargeAmount()
         {
             sale sale = new sale();
@@ -60,7 +53,7 @@ namespace Cnp.Sdk.Test.Unit
             cnp.Sale(sale);
         }
 
-        [Test]
+        [Fact]
         public void TestSurchargeAmount_Optional()
         {
             sale sale = new sale();
@@ -78,7 +71,7 @@ namespace Cnp.Sdk.Test.Unit
             cnp.Sale(sale);
         }
 
-        [Test]
+        [Fact]
         public void TestRecurringRequest()
         {
             sale sale = new sale();
@@ -105,34 +98,34 @@ namespace Cnp.Sdk.Test.Unit
             cnp.Sale(sale);
         }
 
-        [Test]
+        [Fact]
         public void TestRecurringResponse_Full() {
             String xmlResponse = "<cnpOnlineResponse version='8.18' response='0' message='Valid Format' xmlns='http://www.vantivcnp.com/schema'><saleResponse><cnpTxnId>123</cnpTxnId><recurringResponse><subscriptionId>12</subscriptionId><responseCode>345</responseCode><responseMessage>Foo</responseMessage><recurringTxnId>678</recurringTxnId></recurringResponse></saleResponse></cnpOnlineResponse>";
             cnpOnlineResponse cnpOnlineResponse = CnpOnline.DeserializeObject(xmlResponse);
             saleResponse saleResponse = (saleResponse)cnpOnlineResponse.saleResponse;
 
-            Assert.AreEqual(123, saleResponse.cnpTxnId);
-            Assert.AreEqual(12, saleResponse.recurringResponse.subscriptionId);
-            Assert.AreEqual("345", saleResponse.recurringResponse.responseCode);
-            Assert.AreEqual("Foo", saleResponse.recurringResponse.responseMessage);
-            Assert.AreEqual(678, saleResponse.recurringResponse.recurringTxnId);
+            Assert.Equal(123, saleResponse.cnpTxnId);
+            Assert.Equal(12, saleResponse.recurringResponse.subscriptionId);
+            Assert.Equal("345", saleResponse.recurringResponse.responseCode);
+            Assert.Equal("Foo", saleResponse.recurringResponse.responseMessage);
+            Assert.Equal(678, saleResponse.recurringResponse.recurringTxnId);
         }
 
-        [Test]
+        [Fact]
         public void TestRecurringResponse_NoRecurringTxnId()
         {
             String xmlResponse = "<cnpOnlineResponse version='8.18' response='0' message='Valid Format' xmlns='http://www.vantivcnp.com/schema'><saleResponse><cnpTxnId>123</cnpTxnId><recurringResponse><subscriptionId>12</subscriptionId><responseCode>345</responseCode><responseMessage>Foo</responseMessage></recurringResponse></saleResponse></cnpOnlineResponse>";
             cnpOnlineResponse cnpOnlineResponse = CnpOnline.DeserializeObject(xmlResponse);
             saleResponse saleResponse = (saleResponse)cnpOnlineResponse.saleResponse;
 
-            Assert.AreEqual(123, saleResponse.cnpTxnId);
-            Assert.AreEqual(12, saleResponse.recurringResponse.subscriptionId);
-            Assert.AreEqual("345", saleResponse.recurringResponse.responseCode);
-            Assert.AreEqual("Foo", saleResponse.recurringResponse.responseMessage);
-            Assert.AreEqual(0,saleResponse.recurringResponse.recurringTxnId);
+            Assert.Equal(123, saleResponse.cnpTxnId);
+            Assert.Equal(12, saleResponse.recurringResponse.subscriptionId);
+            Assert.Equal("345", saleResponse.recurringResponse.responseCode);
+            Assert.Equal("Foo", saleResponse.recurringResponse.responseMessage);
+            Assert.Equal(0,saleResponse.recurringResponse.recurringTxnId);
         }
 
-        [Test]
+        [Fact]
         public void TestRecurringRequest_Optional()
         {
             sale sale = new sale();
@@ -155,7 +148,7 @@ namespace Cnp.Sdk.Test.Unit
             cnp.Sale(sale);
         }
 
-        [Test]
+        [Fact]
         public void Test_CnpInternalRecurringRequest()
         {
             sale sale = new sale();
@@ -203,7 +196,7 @@ namespace Cnp.Sdk.Test.Unit
             cnp.Sale(sale);
         }
 
-        [Test]
+        [Fact]
         public void TestDebtRepayment_True()
         {
             sale sale = new sale();
@@ -220,7 +213,7 @@ namespace Cnp.Sdk.Test.Unit
             cnp.Sale(sale);
         }
 
-        [Test]
+        [Fact]
         public void TestDebtRepayment_False()
         {
             sale sale = new sale();
@@ -237,7 +230,7 @@ namespace Cnp.Sdk.Test.Unit
             cnp.Sale(sale);
         }
 
-        [Test]
+        [Fact]
         public void TestDebtRepayment_Optional()
         {
             sale sale = new sale();
@@ -253,7 +246,7 @@ namespace Cnp.Sdk.Test.Unit
             cnp.Sale(sale);
         }
 
-        [Test]
+        [Fact]
         public void TestSecondaryAmount()
         {
             sale sale = new sale();
@@ -272,7 +265,7 @@ namespace Cnp.Sdk.Test.Unit
             cnp.Sale(sale);
         }
 
-        [Test]
+        [Fact]
         public void TestApplepayAndWallet()
         {
             sale sale = new sale();
@@ -303,7 +296,7 @@ namespace Cnp.Sdk.Test.Unit
             cnp.Sale(sale);
         }
 
-        [Test]
+        [Fact]
         public void SimpleSaleWithDirectDebit()
         {
             sale sale = new sale();
@@ -328,7 +321,7 @@ namespace Cnp.Sdk.Test.Unit
             cnp.Sale(sale);
         }
 
-        [Test]
+        [Fact]
         public void SimpleSaleWithProcessTypeNetIdTranAmt()
         {
             sale sale = new sale();
@@ -351,7 +344,7 @@ namespace Cnp.Sdk.Test.Unit
             cnp.Sale(sale);
         }
 
-        [Test]
+        [Fact]
         public void SimpleSaleWithIdealResponse()
         {
             sale sale = new sale();
@@ -374,7 +367,7 @@ namespace Cnp.Sdk.Test.Unit
             cnp.Sale(sale);
         }
 
-        [Test]
+        [Fact]
         public void SimpleSaleWithGiropayResponse()
         {
             sale sale = new sale();
@@ -397,7 +390,7 @@ namespace Cnp.Sdk.Test.Unit
             cnp.Sale(sale);
         }
 
-        [Test]
+        [Fact]
         public void SimpleSaleWithSofortResponse()
         {
             sale sale = new sale();

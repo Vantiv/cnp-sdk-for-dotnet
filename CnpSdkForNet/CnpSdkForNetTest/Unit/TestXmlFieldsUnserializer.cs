@@ -1,7 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Text;
-using NUnit.Framework;
+using Xunit;
 using Cnp.Sdk;
 using Moq;
 using System.Text.RegularExpressions;
@@ -11,16 +11,9 @@ using System.IO;
 
 namespace Cnp.Sdk.Test.Unit
 {
-    [TestFixture]
-    class TestXmlFieldsUnserializer
+    public class TestXmlFieldsUnserializer
     {
-
-        [TestFixtureSetUp]
-        public void SetUpCnp()
-        {
-        }
-
-        [Test]
+        [Fact]
         public void TestAuthorizationResponseContainsGiftCardResponse()
         {
             String xml = "<authorizationResponse xmlns=\"http://www.vantivcnp.com/schema\"><giftCardResponse></giftCardResponse></authorizationResponse>";
@@ -34,7 +27,7 @@ namespace Cnp.Sdk.Test.Unit
         // CES: Commenting this out because AuthReversal no longer uses giftCardResponse
         
         /*
-        [Test]
+        [Fact]
         public void TestAuthReversalResponseContainsGiftCardResponse()
         {
             String xml = "<authReversalResponse xmlns=\"http://www.vantivcnp.com/schema\"><giftCardResponse></giftCardResponse></authReversalResponse>";
@@ -46,7 +39,7 @@ namespace Cnp.Sdk.Test.Unit
         }
         */
 
-        [Test]
+        [Fact]
         public void TestgiftCardAuthReversalResponseContainsGiftCardResponse()
         {
             String xml = "<giftCardAuthReversalResponse xmlns=\"http://www.vantivcnp.com/schema\"><giftCardResponse></giftCardResponse></giftCardAuthReversalResponse>";
@@ -60,7 +53,7 @@ namespace Cnp.Sdk.Test.Unit
         // CES: Commenting this out because captureResponse no longer uses giftCardResponse
         // I will add a test for giftCardCapture
         /*
-        [Test]
+        [Fact]
         public void TestCaptureResponseContainsGiftCardResponse()
         {
             String xml = "<captureResponse xmlns=\"http://www.vantivcnp.com/schema\"><giftCardResponse></giftCardResponse></captureResponse>";
@@ -72,7 +65,7 @@ namespace Cnp.Sdk.Test.Unit
         }
         */
 
-        [Test]
+        [Fact]
         public void TestCaptureResponseContainsFraudResult()
         {
             String xml = "<captureResponse xmlns=\"http://www.vantivcnp.com/schema\"><fraudResult></fraudResult></captureResponse>";
@@ -83,7 +76,7 @@ namespace Cnp.Sdk.Test.Unit
             Assert.NotNull(captureResponse.fraudResult);
         }
 
-        [Test]
+        [Fact]
         public void TestForceCaptureResponseContainsGiftCardResponse()
         {
             String xml = "<forceCaptureResponse xmlns=\"http://www.vantivcnp.com/schema\"><giftCardResponse></giftCardResponse></forceCaptureResponse>";
@@ -94,7 +87,7 @@ namespace Cnp.Sdk.Test.Unit
             Assert.NotNull(forceCaptureResponse.giftCardResponse);
         }
 
-        [Test]
+        [Fact]
         public void TestForceCaptureResponseContainsFraudResult()
         {
             String xml = "<forceCaptureResponse xmlns=\"http://www.vantivcnp.com/schema\"><fraudResult></fraudResult></forceCaptureResponse>";
@@ -105,7 +98,7 @@ namespace Cnp.Sdk.Test.Unit
             Assert.NotNull(forceCaptureResponse.fraudResult);
         }
 
-        [Test]
+        [Fact]
         public void TestCaptureGivenAuthResponseContainsGiftCardResponse()
         {
             String xml = "<captureGivenAuthResponse xmlns=\"http://www.vantivcnp.com/schema\"><giftCardResponse></giftCardResponse></captureGivenAuthResponse>";
@@ -116,7 +109,7 @@ namespace Cnp.Sdk.Test.Unit
             Assert.NotNull(captureGivenAuthResponse.giftCardResponse);
         }
 
-        [Test]
+        [Fact]
         public void TestCaptureGivenAuthResponseContainsFraudResult()
         {
             String xml = "<captureGivenAuthResponse xmlns=\"http://www.vantivcnp.com/schema\"><fraudResult></fraudResult></captureGivenAuthResponse>";
@@ -127,7 +120,7 @@ namespace Cnp.Sdk.Test.Unit
             Assert.NotNull(captureGivenAuthResponse.fraudResult);
         }
 
-        [Test]
+        [Fact]
         public void TestSaleResponseContainsGiftCardResponse()
         {
             String xml = "<saleResponse xmlns=\"http://www.vantivcnp.com/schema\"><giftCardResponse></giftCardResponse></saleResponse>";
@@ -139,7 +132,7 @@ namespace Cnp.Sdk.Test.Unit
         }
 
         // Gift card response is now its own class
-        //[Test]
+        //[Fact]
         //public void TestCreditResponseContainsGiftCardResponse()
         //{
         //    String xml = "<creditResponse xmlns=\"http://www.vantivcnp.com/schema\"><giftCardResponse></giftCardResponse></creditResponse>";
@@ -150,7 +143,7 @@ namespace Cnp.Sdk.Test.Unit
         //    Assert.NotNull(creditResponse.giftCardResponse);
         //}
 
-        [Test]
+        [Fact]
         public void TestCreditResponseContainsFraudResult()
         {
             String xml = "<creditResponse xmlns=\"http://www.vantivcnp.com/schema\"><fraudResult></fraudResult></creditResponse>";
@@ -161,7 +154,7 @@ namespace Cnp.Sdk.Test.Unit
             Assert.NotNull(creditResponse.fraudResult);
         }
 
-        [Test]
+        [Fact]
         public void TestActivateResponse()
         {
             String xml = "<activateResponse reportGroup=\"A\" id=\"3\" customerId=\"4\"  xmlns=\"http://www.vantivcnp.com/schema\"><response>000</response><cnpTxnId>1</cnpTxnId><responseTime>2013-09-05T14:23:45</responseTime><postDate>2013-09-05</postDate><message>Approved</message><fraudResult></fraudResult><giftCardResponse></giftCardResponse></activateResponse>";
@@ -169,18 +162,18 @@ namespace Cnp.Sdk.Test.Unit
             StringReader reader = new StringReader(xml);
             activateResponse activateResponse = (activateResponse)serializer.Deserialize(reader);
 
-            Assert.AreEqual("A", activateResponse.reportGroup);
-            Assert.AreEqual("4", activateResponse.customerId);
-            Assert.AreEqual(1, activateResponse.cnpTxnId);
-            Assert.AreEqual("000", activateResponse.response);
-            Assert.AreEqual(new DateTime(2013,9,5,14,23,45), activateResponse.responseTime);
-            Assert.AreEqual(new DateTime(2013,9,5), activateResponse.postDate);
-            Assert.AreEqual("Approved", activateResponse.message);
+            Assert.Equal("A", activateResponse.reportGroup);
+            Assert.Equal("4", activateResponse.customerId);
+            Assert.Equal(1, activateResponse.cnpTxnId);
+            Assert.Equal("000", activateResponse.response);
+            Assert.Equal(new DateTime(2013,9,5,14,23,45), activateResponse.responseTime);
+            Assert.Equal(new DateTime(2013,9,5), activateResponse.postDate);
+            Assert.Equal("Approved", activateResponse.message);
             Assert.NotNull(activateResponse.fraudResult);
             Assert.NotNull(activateResponse.giftCardResponse);
         }
 
-        [Test]
+        [Fact]
         public void TestLoadResponse()
         {
             String xml = "<loadResponse reportGroup=\"A\" id=\"3\" customerId=\"4\" duplicate=\"true\" xmlns=\"http://www.vantivcnp.com/schema\"><cnpTxnId>1</cnpTxnId><orderId>2</orderId><response>000</response><responseTime>2013-09-05T14:23:45</responseTime><postDate>2013-09-05</postDate><message>Approved</message><fraudResult></fraudResult><giftCardResponse></giftCardResponse></loadResponse>";
@@ -188,19 +181,19 @@ namespace Cnp.Sdk.Test.Unit
             StringReader reader = new StringReader(xml);
             loadResponse loadResponse = (loadResponse)serializer.Deserialize(reader);
 
-            Assert.AreEqual("A", loadResponse.reportGroup);
-            Assert.AreEqual("3", loadResponse.id);
-            Assert.AreEqual("4", loadResponse.customerId);
-            Assert.AreEqual(1, loadResponse.cnpTxnId);
-            Assert.AreEqual("000", loadResponse.response);
-            Assert.AreEqual(new DateTime(2013, 9, 5, 14, 23, 45), loadResponse.responseTime);
-            Assert.AreEqual(new DateTime(2013, 9, 5), loadResponse.postDate);
-            Assert.AreEqual("Approved", loadResponse.message);
+            Assert.Equal("A", loadResponse.reportGroup);
+            Assert.Equal("3", loadResponse.id);
+            Assert.Equal("4", loadResponse.customerId);
+            Assert.Equal(1, loadResponse.cnpTxnId);
+            Assert.Equal("000", loadResponse.response);
+            Assert.Equal(new DateTime(2013, 9, 5, 14, 23, 45), loadResponse.responseTime);
+            Assert.Equal(new DateTime(2013, 9, 5), loadResponse.postDate);
+            Assert.Equal("Approved", loadResponse.message);
             Assert.NotNull(loadResponse.fraudResult);
             Assert.NotNull(loadResponse.giftCardResponse);
         }
 
-        [Test]
+        [Fact]
         public void TestUnloadResponse()
         {
             String xml = "<unloadResponse reportGroup=\"A\" id=\"3\" customerId=\"4\" duplicate=\"true\" xmlns=\"http://www.vantivcnp.com/schema\"><cnpTxnId>1</cnpTxnId><orderId>2</orderId><response>000</response><responseTime>2013-09-05T14:23:45</responseTime><postDate>2013-09-05</postDate><message>Approved</message><fraudResult></fraudResult><giftCardResponse></giftCardResponse></unloadResponse>";
@@ -208,18 +201,18 @@ namespace Cnp.Sdk.Test.Unit
             StringReader reader = new StringReader(xml);
             unloadResponse unloadResponse = (unloadResponse)serializer.Deserialize(reader);
 
-            Assert.AreEqual("A", unloadResponse.reportGroup);
-            Assert.AreEqual("4", unloadResponse.customerId);
-            Assert.AreEqual(1, unloadResponse.cnpTxnId);
-            Assert.AreEqual("000", unloadResponse.response);
-            Assert.AreEqual(new DateTime(2013, 9, 5, 14, 23, 45), unloadResponse.responseTime);
-            Assert.AreEqual(new DateTime(2013, 9, 5), unloadResponse.postDate);
-            Assert.AreEqual("Approved", unloadResponse.message);
+            Assert.Equal("A", unloadResponse.reportGroup);
+            Assert.Equal("4", unloadResponse.customerId);
+            Assert.Equal(1, unloadResponse.cnpTxnId);
+            Assert.Equal("000", unloadResponse.response);
+            Assert.Equal(new DateTime(2013, 9, 5, 14, 23, 45), unloadResponse.responseTime);
+            Assert.Equal(new DateTime(2013, 9, 5), unloadResponse.postDate);
+            Assert.Equal("Approved", unloadResponse.message);
             Assert.NotNull(unloadResponse.fraudResult);
             Assert.NotNull(unloadResponse.giftCardResponse);
         }
 
-        [Test]
+        [Fact]
         public void TestGiftCardResponse()
         {
             String xml = "<balanceInquiryResponse reportGroup=\"A\" id=\"3\" customerId=\"4\" xmlns=\"http://www.vantivcnp.com/schema\"><giftCardResponse><availableBalance>1</availableBalance><beginningBalance>2</beginningBalance><endingBalance>3</endingBalance><cashBackAmount>4</cashBackAmount></giftCardResponse></balanceInquiryResponse>";
@@ -228,13 +221,13 @@ namespace Cnp.Sdk.Test.Unit
             balanceInquiryResponse balanceInquiryResponse = (balanceInquiryResponse)serializer.Deserialize(reader);
             giftCardResponse giftCardResponse = balanceInquiryResponse.giftCardResponse;
 
-            Assert.AreEqual("1", giftCardResponse.availableBalance);
-            Assert.AreEqual("2", giftCardResponse.beginningBalance);
-            Assert.AreEqual("3", giftCardResponse.endingBalance);
-            Assert.AreEqual("4", giftCardResponse.cashBackAmount);
+            Assert.Equal("1", giftCardResponse.availableBalance);
+            Assert.Equal("2", giftCardResponse.beginningBalance);
+            Assert.Equal("3", giftCardResponse.endingBalance);
+            Assert.Equal("4", giftCardResponse.cashBackAmount);
         }
 
-        [Test]
+        [Fact]
         public void TestBalanceInquiryResponse()
         {
             String xml = "<balanceInquiryResponse reportGroup=\"A\" id=\"3\" customerId=\"4\" xmlns=\"http://www.vantivcnp.com/schema\"><cnpTxnId>1</cnpTxnId><orderId>2</orderId><response>000</response><responseTime>2013-09-05T14:23:45</responseTime><postDate>2013-09-05</postDate><message>Approved</message><fraudResult></fraudResult><giftCardResponse></giftCardResponse></balanceInquiryResponse>";
@@ -242,19 +235,19 @@ namespace Cnp.Sdk.Test.Unit
             StringReader reader = new StringReader(xml);
             balanceInquiryResponse balanceInquiryResponse = (balanceInquiryResponse)serializer.Deserialize(reader);
 
-            Assert.AreEqual("A", balanceInquiryResponse.reportGroup);
-            Assert.AreEqual("3", balanceInquiryResponse.id);
-            Assert.AreEqual("4", balanceInquiryResponse.customerId);
-            Assert.AreEqual(1, balanceInquiryResponse.cnpTxnId);
-            Assert.AreEqual("000", balanceInquiryResponse.response);
-            Assert.AreEqual(new DateTime(2013, 9, 5, 14, 23, 45), balanceInquiryResponse.responseTime);
-            Assert.AreEqual(new DateTime(2013, 9, 5), balanceInquiryResponse.postDate);
-            Assert.AreEqual("Approved", balanceInquiryResponse.message);
+            Assert.Equal("A", balanceInquiryResponse.reportGroup);
+            Assert.Equal("3", balanceInquiryResponse.id);
+            Assert.Equal("4", balanceInquiryResponse.customerId);
+            Assert.Equal(1, balanceInquiryResponse.cnpTxnId);
+            Assert.Equal("000", balanceInquiryResponse.response);
+            Assert.Equal(new DateTime(2013, 9, 5, 14, 23, 45), balanceInquiryResponse.responseTime);
+            Assert.Equal(new DateTime(2013, 9, 5), balanceInquiryResponse.postDate);
+            Assert.Equal("Approved", balanceInquiryResponse.message);
             Assert.NotNull(balanceInquiryResponse.fraudResult);
             Assert.NotNull(balanceInquiryResponse.giftCardResponse);
         }
 
-        [Test]
+        [Fact]
         public void TestDeactivateResponse()
         {
             String xml = "<deactivateResponse reportGroup=\"A\" id=\"3\" customerId=\"4\" xmlns=\"http://www.vantivcnp.com/schema\"><cnpTxnId>1</cnpTxnId><orderId>2</orderId><response>000</response><responseTime>2013-09-05T14:23:45</responseTime><postDate>2013-09-05</postDate><message>Approved</message><fraudResult></fraudResult><giftCardResponse></giftCardResponse></deactivateResponse>";
@@ -262,19 +255,19 @@ namespace Cnp.Sdk.Test.Unit
             StringReader reader = new StringReader(xml);
             deactivateResponse deactivateResponse = (deactivateResponse)serializer.Deserialize(reader);
 
-            Assert.AreEqual("A", deactivateResponse.reportGroup);
-            Assert.AreEqual("3", deactivateResponse.id);
-            Assert.AreEqual("4", deactivateResponse.customerId);
-            Assert.AreEqual(1, deactivateResponse.cnpTxnId);
-            Assert.AreEqual("000", deactivateResponse.response);
-            Assert.AreEqual(new DateTime(2013, 9, 5, 14, 23, 45), deactivateResponse.responseTime);
-            Assert.AreEqual(new DateTime(2013, 9, 5), deactivateResponse.postDate);
-            Assert.AreEqual("Approved", deactivateResponse.message);
+            Assert.Equal("A", deactivateResponse.reportGroup);
+            Assert.Equal("3", deactivateResponse.id);
+            Assert.Equal("4", deactivateResponse.customerId);
+            Assert.Equal(1, deactivateResponse.cnpTxnId);
+            Assert.Equal("000", deactivateResponse.response);
+            Assert.Equal(new DateTime(2013, 9, 5, 14, 23, 45), deactivateResponse.responseTime);
+            Assert.Equal(new DateTime(2013, 9, 5), deactivateResponse.postDate);
+            Assert.Equal("Approved", deactivateResponse.message);
             Assert.NotNull(deactivateResponse.fraudResult);
             Assert.NotNull(deactivateResponse.giftCardResponse);
         }
 
-        [Test]
+        [Fact]
         public void TestCreatePlanResponse()
         {
             String xml = @"
@@ -289,14 +282,14 @@ namespace Cnp.Sdk.Test.Unit
             StringReader reader = new StringReader(xml);
             createPlanResponse createPlanResponse = (createPlanResponse)serializer.Deserialize(reader);
 
-            Assert.AreEqual("1", createPlanResponse.cnpTxnId);
-            Assert.AreEqual("000", createPlanResponse.response);
-            Assert.AreEqual("Approved", createPlanResponse.message);
-            Assert.AreEqual(new DateTime(2013, 9, 5, 14, 23, 45), createPlanResponse.responseTime);
-            Assert.AreEqual("thePlan", createPlanResponse.planCode);
+            Assert.Equal("1", createPlanResponse.cnpTxnId);
+            Assert.Equal("000", createPlanResponse.response);
+            Assert.Equal("Approved", createPlanResponse.message);
+            Assert.Equal(new DateTime(2013, 9, 5, 14, 23, 45), createPlanResponse.responseTime);
+            Assert.Equal("thePlan", createPlanResponse.planCode);
         }
 
-        [Test]
+        [Fact]
         public void TestUpdatePlanResponse()
         {
             String xml = @"
@@ -311,14 +304,14 @@ namespace Cnp.Sdk.Test.Unit
             StringReader reader = new StringReader(xml);
             updatePlanResponse updatePlanResponse = (updatePlanResponse)serializer.Deserialize(reader);
 
-            Assert.AreEqual("1", updatePlanResponse.cnpTxnId);
-            Assert.AreEqual("000", updatePlanResponse.response);
-            Assert.AreEqual("Approved", updatePlanResponse.message);
-            Assert.AreEqual(new DateTime(2013, 9, 5, 14, 23, 45), updatePlanResponse.responseTime);
-            Assert.AreEqual("thePlan", updatePlanResponse.planCode);
+            Assert.Equal("1", updatePlanResponse.cnpTxnId);
+            Assert.Equal("000", updatePlanResponse.response);
+            Assert.Equal("Approved", updatePlanResponse.message);
+            Assert.Equal(new DateTime(2013, 9, 5, 14, 23, 45), updatePlanResponse.responseTime);
+            Assert.Equal("thePlan", updatePlanResponse.planCode);
         }
 
-        [Test]
+        [Fact]
         public void TestUpdateSubscriptionResponseCanContainTokenResponse()
         {
             String xml = @"
@@ -335,11 +328,11 @@ namespace Cnp.Sdk.Test.Unit
             XmlSerializer serializer = new XmlSerializer(typeof(updateSubscriptionResponse));
             StringReader reader = new StringReader(xml);
             updateSubscriptionResponse updateSubscriptionResponse = (updateSubscriptionResponse)serializer.Deserialize(reader);
-            Assert.AreEqual("123", updateSubscriptionResponse.subscriptionId);
-            Assert.AreEqual("123456", updateSubscriptionResponse.tokenResponse.cnpToken);
+            Assert.Equal("123", updateSubscriptionResponse.subscriptionId);
+            Assert.Equal("123456", updateSubscriptionResponse.tokenResponse.cnpToken);
         }
 
-        [Test]
+        [Fact]
         public void TestEnhancedAuthResponseCanContainVirtualAccountNumber()
         {
             String xml = @"
@@ -349,10 +342,10 @@ namespace Cnp.Sdk.Test.Unit
             XmlSerializer serializer = new XmlSerializer(typeof(enhancedAuthResponse));
             StringReader reader = new StringReader(xml);
             enhancedAuthResponse enhancedAuthResponse = (enhancedAuthResponse)serializer.Deserialize(reader);
-            Assert.IsTrue(enhancedAuthResponse.virtualAccountNumber);
+            Assert.True(enhancedAuthResponse.virtualAccountNumber);
         }
 
-        [Test]
+        [Fact]
         public void TestEnhancedAuthResponseWithCardProductType()
         {
             String xml = @"
@@ -363,11 +356,11 @@ namespace Cnp.Sdk.Test.Unit
             XmlSerializer serializer = new XmlSerializer(typeof(enhancedAuthResponse));
             StringReader reader = new StringReader(xml);
             enhancedAuthResponse enhancedAuthResponse = (enhancedAuthResponse)serializer.Deserialize(reader);
-            Assert.IsTrue(enhancedAuthResponse.virtualAccountNumber);
-            Assert.AreEqual(cardProductTypeEnum.COMMERCIAL, enhancedAuthResponse.cardProductType);
+            Assert.True(enhancedAuthResponse.virtualAccountNumber);
+            Assert.Equal(cardProductTypeEnum.COMMERCIAL, enhancedAuthResponse.cardProductType);
         }
 
-        [Test]
+        [Fact]
         public void TestEnhancedAuthResponseWithNullableEnumFields()
         {
             String xml = @"
@@ -377,12 +370,12 @@ namespace Cnp.Sdk.Test.Unit
             XmlSerializer serializer = new XmlSerializer(typeof(enhancedAuthResponse));
             StringReader reader = new StringReader(xml);
             enhancedAuthResponse enhancedAuthResponse = (enhancedAuthResponse)serializer.Deserialize(reader);
-            Assert.IsTrue(enhancedAuthResponse.virtualAccountNumber);
-            Assert.IsNull(enhancedAuthResponse.cardProductType);
-            Assert.IsNull(enhancedAuthResponse.affluence);
+            Assert.True(enhancedAuthResponse.virtualAccountNumber);
+            Assert.Null(enhancedAuthResponse.cardProductType);
+            Assert.Null(enhancedAuthResponse.affluence);
         }
 
-        //        [Test]
+        //        [Fact]
         //        public void TestAuthReversalResponseCanContainGiftCardResponse()
         //        {
         //            String xml = @"
@@ -400,18 +393,18 @@ namespace Cnp.Sdk.Test.Unit
         //            XmlSerializer serializer = new XmlSerializer(typeof(authReversalResponse));
         //            StringReader reader = new StringReader(xml);
         //            authReversalResponse authReversalResponse = (authReversalResponse)serializer.Deserialize(reader);
-        //            Assert.AreEqual("theId", authReversalResponse.id);
-        //            Assert.AreEqual("theCustomerId", authReversalResponse.customerId);
-        //            Assert.AreEqual("theReportGroup", authReversalResponse.reportGroup);
-        //            Assert.AreEqual(1, authReversalResponse.cnpTxnId);
-        //            Assert.AreEqual("000", authReversalResponse.response);
-        //            Assert.AreEqual(new DateTime(2013, 9, 5, 14, 23, 45), authReversalResponse.responseTime);
-        //            Assert.AreEqual(new DateTime(2013, 9, 5), authReversalResponse.postDate);
-        //            Assert.AreEqual("Foo", authReversalResponse.message);
-        //            Assert.AreEqual("5", authReversalResponse.giftCardResponse.availableBalance);
+        //            Assert.Equal("theId", authReversalResponse.id);
+        //            Assert.Equal("theCustomerId", authReversalResponse.customerId);
+        //            Assert.Equal("theReportGroup", authReversalResponse.reportGroup);
+        //            Assert.Equal(1, authReversalResponse.cnpTxnId);
+        //            Assert.Equal("000", authReversalResponse.response);
+        //            Assert.Equal(new DateTime(2013, 9, 5, 14, 23, 45), authReversalResponse.responseTime);
+        //            Assert.Equal(new DateTime(2013, 9, 5), authReversalResponse.postDate);
+        //            Assert.Equal("Foo", authReversalResponse.message);
+        //            Assert.Equal("5", authReversalResponse.giftCardResponse.availableBalance);
         //        }
 
-        [Test]
+        [Fact]
         public void TestgiftCardAuthReversalResponseCanContainGiftCardResponse()
         {
             String xml = @"
@@ -429,18 +422,18 @@ namespace Cnp.Sdk.Test.Unit
             XmlSerializer serializer = new XmlSerializer(typeof(giftCardAuthReversalResponse));
             StringReader reader = new StringReader(xml);
             giftCardAuthReversalResponse giftCardAuthReversalResponse = (giftCardAuthReversalResponse)serializer.Deserialize(reader);
-            Assert.AreEqual("theId", giftCardAuthReversalResponse.id);
-            Assert.AreEqual("theCustomerId", giftCardAuthReversalResponse.customerId);
-            Assert.AreEqual("theReportGroup", giftCardAuthReversalResponse.reportGroup);
-            Assert.AreEqual(1, giftCardAuthReversalResponse.cnpTxnId);
-            Assert.AreEqual("000", giftCardAuthReversalResponse.response);
-            Assert.AreEqual(new DateTime(2013, 9, 5, 14, 23, 45), giftCardAuthReversalResponse.responseTime);
-            Assert.AreEqual(new DateTime(2013, 9, 5), giftCardAuthReversalResponse.postDate);
-            Assert.AreEqual("Foo", giftCardAuthReversalResponse.message);
-            Assert.AreEqual("5", giftCardAuthReversalResponse.giftCardResponse.availableBalance);
+            Assert.Equal("theId", giftCardAuthReversalResponse.id);
+            Assert.Equal("theCustomerId", giftCardAuthReversalResponse.customerId);
+            Assert.Equal("theReportGroup", giftCardAuthReversalResponse.reportGroup);
+            Assert.Equal(1, giftCardAuthReversalResponse.cnpTxnId);
+            Assert.Equal("000", giftCardAuthReversalResponse.response);
+            Assert.Equal(new DateTime(2013, 9, 5, 14, 23, 45), giftCardAuthReversalResponse.responseTime);
+            Assert.Equal(new DateTime(2013, 9, 5), giftCardAuthReversalResponse.postDate);
+            Assert.Equal("Foo", giftCardAuthReversalResponse.message);
+            Assert.Equal("5", giftCardAuthReversalResponse.giftCardResponse.availableBalance);
         }
 
-        [Test]
+        [Fact]
         public void TestDepositReversalResponseCanContainGiftCardResponse()
         {
             String xml = @"
@@ -458,18 +451,18 @@ namespace Cnp.Sdk.Test.Unit
             XmlSerializer serializer = new XmlSerializer(typeof(depositReversalResponse));
             StringReader reader = new StringReader(xml);
             depositReversalResponse depositReversalResponse = (depositReversalResponse)serializer.Deserialize(reader);
-            Assert.AreEqual("theId", depositReversalResponse.id);
-            Assert.AreEqual("theCustomerId", depositReversalResponse.customerId);
-            Assert.AreEqual("theReportGroup", depositReversalResponse.reportGroup);
-            Assert.AreEqual(1, depositReversalResponse.cnpTxnId);
-            Assert.AreEqual("000", depositReversalResponse.response);
-            Assert.AreEqual(new DateTime(2013, 9, 5, 14, 23, 45), depositReversalResponse.responseTime);
-            Assert.AreEqual(new DateTime(2013, 9, 5), depositReversalResponse.postDate);
-            Assert.AreEqual("Foo", depositReversalResponse.message);
-            Assert.AreEqual("5", depositReversalResponse.giftCardResponse.availableBalance);
+            Assert.Equal("theId", depositReversalResponse.id);
+            Assert.Equal("theCustomerId", depositReversalResponse.customerId);
+            Assert.Equal("theReportGroup", depositReversalResponse.reportGroup);
+            Assert.Equal(1, depositReversalResponse.cnpTxnId);
+            Assert.Equal("000", depositReversalResponse.response);
+            Assert.Equal(new DateTime(2013, 9, 5, 14, 23, 45), depositReversalResponse.responseTime);
+            Assert.Equal(new DateTime(2013, 9, 5), depositReversalResponse.postDate);
+            Assert.Equal("Foo", depositReversalResponse.message);
+            Assert.Equal("5", depositReversalResponse.giftCardResponse.availableBalance);
         }
 
-        [Test]
+        [Fact]
         public void TestActivateReversalResponseCanContainGiftCardResponse()
         {
             String xml = @"
@@ -487,18 +480,18 @@ namespace Cnp.Sdk.Test.Unit
             XmlSerializer serializer = new XmlSerializer(typeof(activateReversalResponse));
             StringReader reader = new StringReader(xml);
             activateReversalResponse activateReversalResponse = (activateReversalResponse)serializer.Deserialize(reader);
-            Assert.AreEqual("theId", activateReversalResponse.id);
-            Assert.AreEqual("theCustomerId", activateReversalResponse.customerId);
-            Assert.AreEqual("theReportGroup", activateReversalResponse.reportGroup);
-            Assert.AreEqual(1, activateReversalResponse.cnpTxnId);
-            Assert.AreEqual("000", activateReversalResponse.response);
-            Assert.AreEqual(new DateTime(2013, 9, 5, 14, 23, 45), activateReversalResponse.responseTime);
-            Assert.AreEqual(new DateTime(2013, 9, 5), activateReversalResponse.postDate);
-            Assert.AreEqual("Foo", activateReversalResponse.message);
-            Assert.AreEqual("5", activateReversalResponse.giftCardResponse.availableBalance);
+            Assert.Equal("theId", activateReversalResponse.id);
+            Assert.Equal("theCustomerId", activateReversalResponse.customerId);
+            Assert.Equal("theReportGroup", activateReversalResponse.reportGroup);
+            Assert.Equal(1, activateReversalResponse.cnpTxnId);
+            Assert.Equal("000", activateReversalResponse.response);
+            Assert.Equal(new DateTime(2013, 9, 5, 14, 23, 45), activateReversalResponse.responseTime);
+            Assert.Equal(new DateTime(2013, 9, 5), activateReversalResponse.postDate);
+            Assert.Equal("Foo", activateReversalResponse.message);
+            Assert.Equal("5", activateReversalResponse.giftCardResponse.availableBalance);
         }
 
-        [Test]
+        [Fact]
         public void TestDeactivateReversalResponseCanContainGiftCardResponse()
         {
             String xml = @"
@@ -516,18 +509,18 @@ namespace Cnp.Sdk.Test.Unit
             XmlSerializer serializer = new XmlSerializer(typeof(deactivateReversalResponse));
             StringReader reader = new StringReader(xml);
             deactivateReversalResponse deactivateReversalResponse = (deactivateReversalResponse)serializer.Deserialize(reader);
-            Assert.AreEqual("theId", deactivateReversalResponse.id);
-            Assert.AreEqual("theCustomerId", deactivateReversalResponse.customerId);
-            Assert.AreEqual("theReportGroup", deactivateReversalResponse.reportGroup);
-            Assert.AreEqual(1, deactivateReversalResponse.cnpTxnId);
-            Assert.AreEqual("000", deactivateReversalResponse.response);
-            Assert.AreEqual(new DateTime(2013, 9, 5, 14, 23, 45), deactivateReversalResponse.responseTime);
-            Assert.AreEqual(new DateTime(2013, 9, 5), deactivateReversalResponse.postDate);
-            Assert.AreEqual("Foo", deactivateReversalResponse.message);
-            Assert.AreEqual("5", deactivateReversalResponse.giftCardResponse.availableBalance);
+            Assert.Equal("theId", deactivateReversalResponse.id);
+            Assert.Equal("theCustomerId", deactivateReversalResponse.customerId);
+            Assert.Equal("theReportGroup", deactivateReversalResponse.reportGroup);
+            Assert.Equal(1, deactivateReversalResponse.cnpTxnId);
+            Assert.Equal("000", deactivateReversalResponse.response);
+            Assert.Equal(new DateTime(2013, 9, 5, 14, 23, 45), deactivateReversalResponse.responseTime);
+            Assert.Equal(new DateTime(2013, 9, 5), deactivateReversalResponse.postDate);
+            Assert.Equal("Foo", deactivateReversalResponse.message);
+            Assert.Equal("5", deactivateReversalResponse.giftCardResponse.availableBalance);
         }
 
-        [Test]
+        [Fact]
         public void TestLoadReversalResponseCanContainGiftCardResponse()
         {
             String xml = @"
@@ -545,18 +538,18 @@ namespace Cnp.Sdk.Test.Unit
             XmlSerializer serializer = new XmlSerializer(typeof(loadReversalResponse));
             StringReader reader = new StringReader(xml);
             loadReversalResponse loadReversalResponse = (loadReversalResponse)serializer.Deserialize(reader);
-            Assert.AreEqual("theId", loadReversalResponse.id);
-            Assert.AreEqual("theCustomerId", loadReversalResponse.customerId);
-            Assert.AreEqual("theReportGroup", loadReversalResponse.reportGroup);
-            Assert.AreEqual(1, loadReversalResponse.cnpTxnId);
-            Assert.AreEqual("000", loadReversalResponse.response);
-            Assert.AreEqual(new DateTime(2013, 9, 5, 14, 23, 45), loadReversalResponse.responseTime);
-            Assert.AreEqual(new DateTime(2013, 9, 5), loadReversalResponse.postDate);
-            Assert.AreEqual("Foo", loadReversalResponse.message);
-            Assert.AreEqual("5", loadReversalResponse.giftCardResponse.availableBalance);
+            Assert.Equal("theId", loadReversalResponse.id);
+            Assert.Equal("theCustomerId", loadReversalResponse.customerId);
+            Assert.Equal("theReportGroup", loadReversalResponse.reportGroup);
+            Assert.Equal(1, loadReversalResponse.cnpTxnId);
+            Assert.Equal("000", loadReversalResponse.response);
+            Assert.Equal(new DateTime(2013, 9, 5, 14, 23, 45), loadReversalResponse.responseTime);
+            Assert.Equal(new DateTime(2013, 9, 5), loadReversalResponse.postDate);
+            Assert.Equal("Foo", loadReversalResponse.message);
+            Assert.Equal("5", loadReversalResponse.giftCardResponse.availableBalance);
         }
 
-        [Test]
+        [Fact]
         public void TestUnloadReversalResponseCanContainGiftCardResponse()
         {
             String xml = @"
@@ -574,18 +567,18 @@ namespace Cnp.Sdk.Test.Unit
             XmlSerializer serializer = new XmlSerializer(typeof(unloadReversalResponse));
             StringReader reader = new StringReader(xml);
             unloadReversalResponse unloadReversalResponse = (unloadReversalResponse)serializer.Deserialize(reader);
-            Assert.AreEqual("theId", unloadReversalResponse.id);
-            Assert.AreEqual("theCustomerId", unloadReversalResponse.customerId);
-            Assert.AreEqual("theReportGroup", unloadReversalResponse.reportGroup);
-            Assert.AreEqual(1, unloadReversalResponse.cnpTxnId);
-            Assert.AreEqual("000", unloadReversalResponse.response);
-            Assert.AreEqual(new DateTime(2013, 9, 5, 14, 23, 45), unloadReversalResponse.responseTime);
-            Assert.AreEqual(new DateTime(2013, 9, 5), unloadReversalResponse.postDate);
-            Assert.AreEqual("Foo", unloadReversalResponse.message);
-            Assert.AreEqual("5", unloadReversalResponse.giftCardResponse.availableBalance);
+            Assert.Equal("theId", unloadReversalResponse.id);
+            Assert.Equal("theCustomerId", unloadReversalResponse.customerId);
+            Assert.Equal("theReportGroup", unloadReversalResponse.reportGroup);
+            Assert.Equal(1, unloadReversalResponse.cnpTxnId);
+            Assert.Equal("000", unloadReversalResponse.response);
+            Assert.Equal(new DateTime(2013, 9, 5, 14, 23, 45), unloadReversalResponse.responseTime);
+            Assert.Equal(new DateTime(2013, 9, 5), unloadReversalResponse.postDate);
+            Assert.Equal("Foo", unloadReversalResponse.message);
+            Assert.Equal("5", unloadReversalResponse.giftCardResponse.availableBalance);
         }
 
-        [Test]
+        [Fact]
         public void TestActivateResponseCanContainVirtualGiftCardResponse()
         {
             String xml = @"
@@ -603,10 +596,10 @@ namespace Cnp.Sdk.Test.Unit
             StringReader reader = new StringReader(xml);
             activateResponse activateResponse = (activateResponse)serializer.Deserialize(reader);
 
-            Assert.AreEqual("123",activateResponse.virtualGiftCardResponse.accountNumber);
+            Assert.Equal("123",activateResponse.virtualGiftCardResponse.accountNumber);
         }
 
-        [Test]
+        [Fact]
         public void TestVirtualGiftCardResponse()
         {
             String xml = @"
@@ -625,11 +618,11 @@ namespace Cnp.Sdk.Test.Unit
             StringReader reader = new StringReader(xml);
             activateResponse activateResponse = (activateResponse)serializer.Deserialize(reader);
 
-            Assert.AreEqual("123", activateResponse.virtualGiftCardResponse.accountNumber);
-            Assert.AreEqual("abc", activateResponse.virtualGiftCardResponse.cardValidationNum);
+            Assert.Equal("123", activateResponse.virtualGiftCardResponse.accountNumber);
+            Assert.Equal("abc", activateResponse.virtualGiftCardResponse.cardValidationNum);
         }
 
-        [Test]
+        [Fact]
         public void TestAccountUpdaterResponse()
         {
             String xml = @"
@@ -654,14 +647,14 @@ namespace Cnp.Sdk.Test.Unit
             XmlSerializer serializer = new XmlSerializer(typeof(authorizationResponse));
             StringReader reader = new StringReader(xml);
             authorizationResponse authorizationResponse = (authorizationResponse)serializer.Deserialize(reader);
-            Assert.AreEqual("TheMessage", authorizationResponse.accountUpdater.extendedCardResponse.message);
-            Assert.AreEqual("TheCode", authorizationResponse.accountUpdater.extendedCardResponse.code);
-            Assert.AreEqual(methodOfPaymentTypeEnum.VI, authorizationResponse.accountUpdater.newCardInfo.type);
-            Assert.AreEqual("4100000000000000", authorizationResponse.accountUpdater.newCardInfo.number);
-            Assert.AreEqual("1000", authorizationResponse.accountUpdater.newCardInfo.expDate);
-            Assert.AreEqual(methodOfPaymentTypeEnum.MC, authorizationResponse.accountUpdater.originalCardInfo.type);
-            Assert.AreEqual("5300000000000000", authorizationResponse.accountUpdater.originalCardInfo.number);
-            Assert.AreEqual("1100", authorizationResponse.accountUpdater.originalCardInfo.expDate);
+            Assert.Equal("TheMessage", authorizationResponse.accountUpdater.extendedCardResponse.message);
+            Assert.Equal("TheCode", authorizationResponse.accountUpdater.extendedCardResponse.code);
+            Assert.Equal(methodOfPaymentTypeEnum.VI, authorizationResponse.accountUpdater.newCardInfo.type);
+            Assert.Equal("4100000000000000", authorizationResponse.accountUpdater.newCardInfo.number);
+            Assert.Equal("1000", authorizationResponse.accountUpdater.newCardInfo.expDate);
+            Assert.Equal(methodOfPaymentTypeEnum.MC, authorizationResponse.accountUpdater.originalCardInfo.type);
+            Assert.Equal("5300000000000000", authorizationResponse.accountUpdater.originalCardInfo.number);
+            Assert.Equal("1100", authorizationResponse.accountUpdater.originalCardInfo.expDate);
         }
     }
 }

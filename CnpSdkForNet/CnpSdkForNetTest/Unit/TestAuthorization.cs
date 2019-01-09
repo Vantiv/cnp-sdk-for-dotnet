@@ -1,7 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Text;
-using NUnit.Framework;
+using Xunit;
 using Cnp.Sdk;
 using Moq;
 using System.Text.RegularExpressions;
@@ -9,19 +9,14 @@ using System.Text.RegularExpressions;
 
 namespace Cnp.Sdk.Test.Unit
 {
-    [TestFixture]
-    class TestAuthorization
+    
+    public class TestAuthorization
     {
 
-        private CnpOnline cnp;
+        private CnpOnline cnp = new CnpOnline();
+        
 
-        [TestFixtureSetUp]
-        public void SetUpCnp()
-        {
-            cnp = new CnpOnline();
-        }
-
-        [Test]
+        [Fact]
         public void TestFraudFilterOverride()
         {
             var auth = new authorization();
@@ -41,10 +36,10 @@ namespace Cnp.Sdk.Test.Unit
             var authorizationResponse = cnp.Authorize(auth);
 
             Assert.NotNull(authorizationResponse);
-            Assert.AreEqual(123, authorizationResponse.cnpTxnId);
+            Assert.Equal(123, authorizationResponse.cnpTxnId);
         }
 
-        [Test]
+        [Fact]
         public void TestContactShouldSendEmailForEmail_NotZip()
         {
             var auth = new authorization();
@@ -67,10 +62,10 @@ namespace Cnp.Sdk.Test.Unit
             var authorizationResponse = cnp.Authorize(auth);
 
             Assert.NotNull(authorizationResponse);
-            Assert.AreEqual(123, authorizationResponse.cnpTxnId);
+            Assert.Equal(123, authorizationResponse.cnpTxnId);
         }
 
-        [Test]
+        [Fact]
         public void Test3dsAttemptedShouldNotSayItem()
         {
             var auth = new authorization();
@@ -93,10 +88,10 @@ namespace Cnp.Sdk.Test.Unit
             var authorizationResponse = cnp.Authorize(auth);
 
             Assert.NotNull(authorizationResponse);
-            Assert.AreEqual(123, authorizationResponse.cnpTxnId);
+            Assert.Equal(123, authorizationResponse.cnpTxnId);
         }
 
-        [Test]
+        [Fact]
         public void Test3dsAuthenticatedShouldNotSayItem()
         {
             var auth = new authorization();
@@ -119,10 +114,10 @@ namespace Cnp.Sdk.Test.Unit
             var authorizationResponse = cnp.Authorize(auth);
 
             Assert.NotNull(authorizationResponse);
-            Assert.AreEqual(123, authorizationResponse.cnpTxnId);
+            Assert.Equal(123, authorizationResponse.cnpTxnId);
         }
 
-        [Test]
+        [Fact]
         public void TestSecondaryAmount()
         {
             var auth = new authorization();
@@ -142,10 +137,10 @@ namespace Cnp.Sdk.Test.Unit
             var authorizationResponse = cnp.Authorize(auth);
 
             Assert.NotNull(authorizationResponse);
-            Assert.AreEqual(123, authorizationResponse.cnpTxnId);
+            Assert.Equal(123, authorizationResponse.cnpTxnId);
         }
 
-        [Test]
+        [Fact]
         public void TestSurchargeAmount()
         {
             var auth = new authorization();
@@ -165,10 +160,10 @@ namespace Cnp.Sdk.Test.Unit
             var authorizationResponse = cnp.Authorize(auth);
 
             Assert.NotNull(authorizationResponse);
-            Assert.AreEqual(123, authorizationResponse.cnpTxnId);
+            Assert.Equal(123, authorizationResponse.cnpTxnId);
         }
 
-        [Test]
+        [Fact]
         public void TestSurchargeAmount_Optional()
         {
             var auth = new authorization();
@@ -187,10 +182,10 @@ namespace Cnp.Sdk.Test.Unit
             var authorizationResponse = cnp.Authorize(auth);
 
             Assert.NotNull(authorizationResponse);
-            Assert.AreEqual(123, authorizationResponse.cnpTxnId);
+            Assert.Equal(123, authorizationResponse.cnpTxnId);
         }
 
-        [Test]
+        [Fact]
         public void TestMethodOfPaymentAllowsGiftCard()
         {
             var auth = new authorization();
@@ -214,10 +209,10 @@ namespace Cnp.Sdk.Test.Unit
             var authorizationResponse = cnp.Authorize(auth);
 
             Assert.NotNull(authorizationResponse);
-            Assert.AreEqual(123, authorizationResponse.cnpTxnId);
+            Assert.Equal(123, authorizationResponse.cnpTxnId);
         }
 
-        [Test]
+        [Fact]
         public void TestMethodOfPaymentApplepayAndWallet()
         {
             var auth = new authorization();
@@ -251,10 +246,10 @@ namespace Cnp.Sdk.Test.Unit
             var authorizationResponse = cnp.Authorize(auth);
 
             Assert.NotNull(authorizationResponse);
-            Assert.AreEqual(123, authorizationResponse.cnpTxnId);
+            Assert.Equal(123, authorizationResponse.cnpTxnId);
         }
 
-        [Test]
+        [Fact]
         public void TestRecurringRequest()
         {
             var auth = new authorization();
@@ -281,10 +276,10 @@ namespace Cnp.Sdk.Test.Unit
             var authorizationResponse = cnp.Authorize(auth);
 
             Assert.NotNull(authorizationResponse);
-            Assert.AreEqual(123, authorizationResponse.cnpTxnId);
+            Assert.Equal(123, authorizationResponse.cnpTxnId);
         }
 
-        [Test]
+        [Fact]
         public void TestDebtRepayment()
         {
             var auth = new authorization();
@@ -308,38 +303,38 @@ namespace Cnp.Sdk.Test.Unit
             var authorizationResponse = cnp.Authorize(auth);
 
             Assert.NotNull(authorizationResponse);
-            Assert.AreEqual(123, authorizationResponse.cnpTxnId);
+            Assert.Equal(123, authorizationResponse.cnpTxnId);
         }
 
-        [Test]
+        [Fact]
         public void TestRecurringResponse_Full()
         {
             var xmlResponse = "<cnpOnlineResponse version='8.18' response='0' message='Valid Format' xmlns='http://www.vantivcnp.com/schema'><authorizationResponse><cnpTxnId>123</cnpTxnId><recurringResponse><subscriptionId>12</subscriptionId><responseCode>345</responseCode><responseMessage>Foo</responseMessage><recurringTxnId>678</recurringTxnId></recurringResponse></authorizationResponse></cnpOnlineResponse>";
             var cnpOnlineResponse = CnpOnline.DeserializeObject(xmlResponse);
             var authorizationResponse = (authorizationResponse)cnpOnlineResponse.authorizationResponse;
 
-            Assert.AreEqual(123, authorizationResponse.cnpTxnId);
-            Assert.AreEqual(12, authorizationResponse.recurringResponse.subscriptionId);
-            Assert.AreEqual("345", authorizationResponse.recurringResponse.responseCode);
-            Assert.AreEqual("Foo", authorizationResponse.recurringResponse.responseMessage);
-            Assert.AreEqual(678, authorizationResponse.recurringResponse.recurringTxnId);
+            Assert.Equal(123, authorizationResponse.cnpTxnId);
+            Assert.Equal(12, authorizationResponse.recurringResponse.subscriptionId);
+            Assert.Equal("345", authorizationResponse.recurringResponse.responseCode);
+            Assert.Equal("Foo", authorizationResponse.recurringResponse.responseMessage);
+            Assert.Equal(678, authorizationResponse.recurringResponse.recurringTxnId);
         }
 
-        [Test]
+        [Fact]
         public void TestRecurringResponse_NoRecurringTxnId()
         {
             var xmlResponse = "<cnpOnlineResponse version='8.18' response='0' message='Valid Format' xmlns='http://www.vantivcnp.com/schema'><authorizationResponse><cnpTxnId>123</cnpTxnId><recurringResponse><subscriptionId>12</subscriptionId><responseCode>345</responseCode><responseMessage>Foo</responseMessage></recurringResponse></authorizationResponse></cnpOnlineResponse>";
             var cnpOnlineResponse = CnpOnline.DeserializeObject(xmlResponse);
             var authorizationResponse = (authorizationResponse)cnpOnlineResponse.authorizationResponse;
 
-            Assert.AreEqual(123, authorizationResponse.cnpTxnId);
-            Assert.AreEqual(12, authorizationResponse.recurringResponse.subscriptionId);
-            Assert.AreEqual("345", authorizationResponse.recurringResponse.responseCode);
-            Assert.AreEqual("Foo", authorizationResponse.recurringResponse.responseMessage);
-            Assert.AreEqual(0, authorizationResponse.recurringResponse.recurringTxnId);
+            Assert.Equal(123, authorizationResponse.cnpTxnId);
+            Assert.Equal(12, authorizationResponse.recurringResponse.subscriptionId);
+            Assert.Equal("345", authorizationResponse.recurringResponse.responseCode);
+            Assert.Equal("Foo", authorizationResponse.recurringResponse.responseMessage);
+            Assert.Equal(0, authorizationResponse.recurringResponse.recurringTxnId);
         }
 
-        [Test]
+        [Fact]
         public void TestSimpleAuthWithFraudCheck()
         {
             var auth = new authorization();
@@ -368,7 +363,7 @@ namespace Cnp.Sdk.Test.Unit
 </cardholderAuthentication>
 </authorization>";
 
-            Assert.AreEqual(Regex.Replace(expectedResult, @"\s+", string.Empty), Regex.Replace(auth.Serialize(), @"\s+", string.Empty));
+            Assert.Equal(Regex.Replace(expectedResult, @"\s+", string.Empty), Regex.Replace(auth.Serialize(), @"\s+", string.Empty));
 
             var mock = new Mock<Communications>();
             mock.Setup(Communications => Communications.HttpPost(It.IsRegex(".*<authorization id=\".*>.*<customerIpAddress>192.168.1.1</customerIpAddress>.*</authorization>.*", RegexOptions.Singleline), It.IsAny<Dictionary<string, string>>()))
@@ -381,10 +376,10 @@ namespace Cnp.Sdk.Test.Unit
             var authorizationResponse = cnp.Authorize(auth);
 
             Assert.NotNull(authorizationResponse);
-            Assert.AreEqual(123, authorizationResponse.cnpTxnId);
+            Assert.Equal(123, authorizationResponse.cnpTxnId);
         }
 
-        [Test]
+        [Fact]
         public void TestSimpleAuthWithBillMeLaterRequest()
         {
             var auth = new authorization();
@@ -415,7 +410,7 @@ namespace Cnp.Sdk.Test.Unit
 </billMeLaterRequest>
 </authorization>";
 
-            Assert.AreEqual(Regex.Replace(expectedResult, @"\s+", string.Empty), Regex.Replace(auth.Serialize(), @"\s+", string.Empty));
+            Assert.Equal(Regex.Replace(expectedResult, @"\s+", string.Empty), Regex.Replace(auth.Serialize(), @"\s+", string.Empty));
 
             var mock = new Mock<Communications>();
             mock.Setup(Communications => Communications.HttpPost(It.IsRegex(".*<authorization id=\".*>.*<billMeLaterRequest>\r\n<virtualAuthenticationKeyPresenceIndicator>Presence</virtualAuthenticationKeyPresenceIndicator>\r\n<virtualAuthenticationKeyData>Data</virtualAuthenticationKeyData>\r\n</billMeLaterRequest>.*</authorization>.*", RegexOptions.Singleline), It.IsAny<Dictionary<string, string>>()))
@@ -428,10 +423,10 @@ namespace Cnp.Sdk.Test.Unit
             var authorizationResponse = cnp.Authorize(auth);
 
             Assert.NotNull(authorizationResponse);
-            Assert.AreEqual(123, authorizationResponse.cnpTxnId);
+            Assert.Equal(123, authorizationResponse.cnpTxnId);
         }
 
-        [Test]
+        [Fact]
         public void TestAuthWithAdvancedFraud()
         {
             var auth = new authorization();
@@ -460,7 +455,7 @@ namespace Cnp.Sdk.Test.Unit
 </advancedFraudChecks>
 </authorization>";
             var test = auth.Serialize();
-            Assert.AreEqual(Regex.Replace(expectedResult, @"\s+", string.Empty), Regex.Replace(auth.Serialize(), @"\s+", string.Empty));
+            Assert.Equal(Regex.Replace(expectedResult, @"\s+", string.Empty), Regex.Replace(auth.Serialize(), @"\s+", string.Empty));
 
             var mock = new Mock<Communications>();
             mock.Setup(Communications => Communications.HttpPost(It.IsAny<string>(), It.IsAny<Dictionary<string, string>>()))
@@ -471,10 +466,10 @@ namespace Cnp.Sdk.Test.Unit
             var authorizationResponse = cnp.Authorize(auth);
 
             Assert.NotNull(authorizationResponse);
-            Assert.AreEqual("123", authorizationResponse.orderId);
+            Assert.Equal("123", authorizationResponse.orderId);
         }
 
-        [Test]
+        [Fact]
         public void TestAdvancedFraudResponse()
         {
             var xmlResponse = @"<cnpOnlineResponse version='8.23' response='0' message='Valid Format' xmlns='http://www.vantivcnp.com/schema'>
@@ -495,18 +490,18 @@ namespace Cnp.Sdk.Test.Unit
             var authorizationResponse = (authorizationResponse)cnpOnlineResponse.authorizationResponse;
 
 
-            Assert.AreEqual(123, authorizationResponse.cnpTxnId);
+            Assert.Equal(123, authorizationResponse.cnpTxnId);
             Assert.NotNull(authorizationResponse.fraudResult);
             Assert.NotNull(authorizationResponse.fraudResult.advancedFraudResults);
             Assert.NotNull(authorizationResponse.fraudResult.advancedFraudResults.deviceReviewStatus);
-            Assert.AreEqual("ReviewStatus", authorizationResponse.fraudResult.advancedFraudResults.deviceReviewStatus);
+            Assert.Equal("ReviewStatus", authorizationResponse.fraudResult.advancedFraudResults.deviceReviewStatus);
             Assert.NotNull(authorizationResponse.fraudResult.advancedFraudResults.deviceReputationScore);
-            Assert.AreEqual(800, authorizationResponse.fraudResult.advancedFraudResults.deviceReputationScore);
-            Assert.AreEqual("rule triggered", authorizationResponse.fraudResult.advancedFraudResults.triggeredRule[0]);
-            Assert.AreEqual("rule triggered 2", authorizationResponse.fraudResult.advancedFraudResults.triggeredRule[1]);
+            Assert.Equal(800, authorizationResponse.fraudResult.advancedFraudResults.deviceReputationScore);
+            Assert.Equal("rule triggered", authorizationResponse.fraudResult.advancedFraudResults.triggeredRule[0]);
+            Assert.Equal("rule triggered 2", authorizationResponse.fraudResult.advancedFraudResults.triggeredRule[1]);
         }
 
-        [Test]
+        [Fact]
         public void TestAuthWithPosCatLevelEnum()
         {
             var auth = new authorization();
@@ -524,7 +519,7 @@ namespace Cnp.Sdk.Test.Unit
 </pos>
 </authorization>";
 
-            Assert.AreEqual(Regex.Replace(expectedResult, @"\s+", string.Empty), Regex.Replace(auth.Serialize(), @"\s+", string.Empty));
+            Assert.Equal(Regex.Replace(expectedResult, @"\s+", string.Empty), Regex.Replace(auth.Serialize(), @"\s+", string.Empty));
 
             var mock = new Mock<Communications>();
             mock.Setup(Communications => Communications.HttpPost(It.IsAny<string>(), It.IsAny<Dictionary<string, string>>()))
@@ -535,10 +530,10 @@ namespace Cnp.Sdk.Test.Unit
             var authorizationResponse = cnp.Authorize(auth);
 
             Assert.NotNull(authorizationResponse);
-            Assert.AreEqual(123, authorizationResponse.cnpTxnId);
+            Assert.Equal(123, authorizationResponse.cnpTxnId);
         }
 
-        [Test]
+        [Fact]
         public void TestRecycleEngineActive()
         {
             var xmlResponse = @"<cnpOnlineResponse version='8.23' response='0' message='Valid Format' xmlns='http://www.vantivcnp.com/schema'>
@@ -561,18 +556,18 @@ namespace Cnp.Sdk.Test.Unit
             var authorizationResponse = (authorizationResponse)cnpOnlineResponse.authorizationResponse;
 
 
-            Assert.AreEqual(123, authorizationResponse.cnpTxnId);
+            Assert.Equal(123, authorizationResponse.cnpTxnId);
             Assert.NotNull(authorizationResponse.fraudResult);
             Assert.NotNull(authorizationResponse.fraudResult.advancedFraudResults);
             Assert.NotNull(authorizationResponse.fraudResult.advancedFraudResults.deviceReviewStatus);
-            Assert.AreEqual("ReviewStatus", authorizationResponse.fraudResult.advancedFraudResults.deviceReviewStatus);
+            Assert.Equal("ReviewStatus", authorizationResponse.fraudResult.advancedFraudResults.deviceReviewStatus);
             Assert.NotNull(authorizationResponse.fraudResult.advancedFraudResults.deviceReputationScore);
-            Assert.AreEqual(800, authorizationResponse.fraudResult.advancedFraudResults.deviceReputationScore);
-            Assert.AreEqual("rule triggered", authorizationResponse.fraudResult.advancedFraudResults.triggeredRule[0]);
-            Assert.AreEqual(true, authorizationResponse.recycling.recycleEngineActive);
+            Assert.Equal(800, authorizationResponse.fraudResult.advancedFraudResults.deviceReputationScore);
+            Assert.Equal("rule triggered", authorizationResponse.fraudResult.advancedFraudResults.triggeredRule[0]);
+            Assert.Equal(true, authorizationResponse.recycling.recycleEngineActive);
         }
 
-        [Test]
+        [Fact]
         public void TestOriginalTransaction()
         {
             var auth = new authorization();
@@ -587,10 +582,10 @@ namespace Cnp.Sdk.Test.Unit
             var mockedCommunication = mock.Object;
             cnp.SetCommunication(mockedCommunication);
             var authorizationResponse = cnp.Authorize(auth);
-            Assert.AreEqual(123, authorizationResponse.cnpTxnId);
+            Assert.Equal(123, authorizationResponse.cnpTxnId);
         }
 
-        [Test]
+        [Fact]
         public void TestOriginalTransactionWithPin()
         {
             var auth = new authorization();
@@ -611,7 +606,7 @@ namespace Cnp.Sdk.Test.Unit
             var mockedCommunication = mock.Object;
             cnp.SetCommunication(mockedCommunication);
             var authorizationResponse = cnp.Authorize(auth);
-            Assert.AreEqual(123, authorizationResponse.cnpTxnId);
+            Assert.Equal(123, authorizationResponse.cnpTxnId);
         }
     }
 }

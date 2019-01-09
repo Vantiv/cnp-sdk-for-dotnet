@@ -1,7 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Text;
-using NUnit.Framework;
+using Xunit;
 using Cnp.Sdk;
 using Moq;
 using System.Text.RegularExpressions;
@@ -9,18 +9,11 @@ using System.Text.RegularExpressions;
 
 namespace Cnp.Sdk.Test.Unit
 {
-    [TestFixture]
-    internal class TestUpdateSubscription
+    public class TestUpdateSubscription
     {        
-        private CnpOnline _cnp;
+        private CnpOnline _cnp = new CnpOnline();
 
-        [TestFixtureSetUp]
-        public void SetUpCnp()
-        {
-            _cnp = new CnpOnline();
-        }
-
-        [Test]
+        [Fact]
         public void TestSimple()
         {
             var update = new updateSubscription
@@ -51,13 +44,13 @@ namespace Cnp.Sdk.Test.Unit
             var mockedCommunication = mock.Object;
             _cnp.SetCommunication(mockedCommunication);
             var response = _cnp.UpdateSubscription(update);
-            Assert.AreEqual("12345", response.subscriptionId);
-            Assert.AreEqual("456", response.cnpTxnId);
-            Assert.AreEqual("000", response.response);
+            Assert.Equal("12345", response.subscriptionId);
+            Assert.Equal("456", response.cnpTxnId);
+            Assert.Equal("000", response.response);
             Assert.NotNull(response.responseTime);
         }
 
-        [Test]
+        [Fact]
         public void TestWithToken()
         {
             var update = new updateSubscription
@@ -90,9 +83,9 @@ namespace Cnp.Sdk.Test.Unit
             var mockedCommunication = mock.Object;
             _cnp.SetCommunication(mockedCommunication);
             var response = _cnp.UpdateSubscription(update);
-            Assert.AreEqual("12345", response.subscriptionId);
-            Assert.AreEqual("456", response.cnpTxnId);
-            Assert.AreEqual("000", response.response);
+            Assert.Equal("12345", response.subscriptionId);
+            Assert.Equal("456", response.cnpTxnId);
+            Assert.Equal("000", response.response);
             Assert.NotNull(response.responseTime);
         }
     }

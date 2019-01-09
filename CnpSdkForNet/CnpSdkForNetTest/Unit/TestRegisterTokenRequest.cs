@@ -1,7 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Text;
-using NUnit.Framework;
+using Xunit;
 using Cnp.Sdk;
 using Moq;
 using System.Text.RegularExpressions;
@@ -9,19 +9,12 @@ using System.Text.RegularExpressions;
 
 namespace Cnp.Sdk.Test.Unit
 {
-    [TestFixture]
-    class TestRegisterTokenRequest
+    public class TestRegisterTokenRequest
     {
         
-        private CnpOnline cnp;
+        private CnpOnline cnp = new CnpOnline();
 
-        [TestFixtureSetUp]
-        public void SetUpCnp()
-        {
-            cnp = new CnpOnline();
-        }
-
-        [Test]
+        [Fact]
         public void TestSimpleRequest()
         {
             registerTokenRequestType register = new registerTokenRequestType();
@@ -38,7 +31,7 @@ namespace Cnp.Sdk.Test.Unit
             cnp.RegisterToken(register);
         }
 
-        [Test]
+        [Fact]
         public void TestCanContainCardValidationNum()
         {
             registerTokenRequestType register = new registerTokenRequestType();
@@ -56,7 +49,7 @@ namespace Cnp.Sdk.Test.Unit
             cnp.RegisterToken(register);
         }
 
-        [Test]
+        [Fact]
         public void TestSimpleRequestWithApplepay()
         {
             registerTokenRequestType register = new registerTokenRequestType();

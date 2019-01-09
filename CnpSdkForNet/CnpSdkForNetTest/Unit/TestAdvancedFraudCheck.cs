@@ -1,4 +1,4 @@
-﻿using NUnit.Framework;
+﻿using Xunit;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -9,19 +9,14 @@ using System.Text.RegularExpressions;
 
 namespace Cnp.Sdk.Test.Unit
 {
-    [TestFixture]
-    class TestAdvancedFraudCheck
+    
+    public class TestAdvancedFraudCheck
     {
 
-        private CnpOnline cnp;
+        private CnpOnline cnp = new CnpOnline();
+        
 
-        [TestFixtureSetUp]
-        public void SetUpCnp()
-        {
-            cnp = new CnpOnline();
-        }
-
-        [Test]
+        [Fact]
         public void TestNoCustomAttributes()
         {
             fraudCheck fraudCheck = new fraudCheck();
@@ -39,10 +34,10 @@ namespace Cnp.Sdk.Test.Unit
             fraudCheckResponse fraudCheckResponse = cnp.FraudCheck(fraudCheck);
 
             Assert.NotNull(fraudCheckResponse);
-            Assert.AreEqual("pass", fraudCheckResponse.advancedFraudResults.deviceReviewStatus);
+            Assert.Equal("pass", fraudCheckResponse.advancedFraudResults.deviceReviewStatus);
         }
 
-        [Test]
+        [Fact]
         public void TestCustomAttribute1()
         {
             fraudCheck fraudCheck = new fraudCheck();
@@ -61,10 +56,10 @@ namespace Cnp.Sdk.Test.Unit
             fraudCheckResponse fraudCheckResponse = cnp.FraudCheck(fraudCheck);
 
             Assert.NotNull(fraudCheckResponse);
-            Assert.AreEqual(42, fraudCheckResponse.advancedFraudResults.deviceReputationScore);
+            Assert.Equal(42, fraudCheckResponse.advancedFraudResults.deviceReputationScore);
         }
 
-        [Test]
+        [Fact]
         public void TestCustomAttribute2()
         {
             fraudCheck fraudCheck = new fraudCheck();
@@ -84,10 +79,10 @@ namespace Cnp.Sdk.Test.Unit
             fraudCheckResponse fraudCheckResponse = cnp.FraudCheck(fraudCheck);
 
             Assert.NotNull(fraudCheckResponse);
-            Assert.AreEqual("triggered_rule_default", fraudCheckResponse.advancedFraudResults.triggeredRule[0]);
+            Assert.Equal("triggered_rule_default", fraudCheckResponse.advancedFraudResults.triggeredRule[0]);
         }
 
-        [Test]
+        [Fact]
         public void TestCustomAttribute3()
         {
             fraudCheck fraudCheck = new fraudCheck();
@@ -108,10 +103,10 @@ namespace Cnp.Sdk.Test.Unit
             fraudCheckResponse fraudCheckResponse = cnp.FraudCheck(fraudCheck);
 
             Assert.NotNull(fraudCheckResponse);
-            Assert.AreEqual("Approved", fraudCheckResponse.message);
+            Assert.Equal("Approved", fraudCheckResponse.message);
         }
 
-        [Test]
+        [Fact]
         public void TestCustomAttribute4()
         {
             fraudCheck fraudCheck = new fraudCheck();
@@ -133,10 +128,10 @@ namespace Cnp.Sdk.Test.Unit
             fraudCheckResponse fraudCheckResponse = cnp.FraudCheck(fraudCheck);
 
             Assert.NotNull(fraudCheckResponse);
-            Assert.AreEqual("000", fraudCheckResponse.response);
+            Assert.Equal("000", fraudCheckResponse.response);
         }
 
-        [Test]
+        [Fact]
         public void TestCustomAttribute5()
         {
             fraudCheck fraudCheck = new fraudCheck();
@@ -159,7 +154,7 @@ namespace Cnp.Sdk.Test.Unit
             fraudCheckResponse fraudCheckResponse = cnp.FraudCheck(fraudCheck);
 
             Assert.NotNull(fraudCheckResponse);
-            Assert.AreEqual(742802348034313000, fraudCheckResponse.cnpTxnId);
+            Assert.Equal(742802348034313000, fraudCheckResponse.cnpTxnId);
         }
 
     }

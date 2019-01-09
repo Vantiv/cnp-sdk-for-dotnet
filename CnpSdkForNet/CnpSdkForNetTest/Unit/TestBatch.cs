@@ -1,7 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Text;
-using NUnit.Framework;
+using Xunit;
 using Cnp.Sdk;
 using Moq;
 using System.Text.RegularExpressions;
@@ -11,10 +11,10 @@ using System.Xml;
 
 namespace Cnp.Sdk.Test.Unit
 {
-    [TestFixture]
-    class TestBatch
+    
+    public class TestBatch
     {
-        private cnpRequest cnp;
+        private cnpRequest cnp = new cnpRequest();
         private const string timeFormat = "MM-dd-yyyy_HH-mm-ss-ffff_";
         private const string timeRegex = "[0-1][0-9]-[0-3][0-9]-[0-9]{4}_[0-9]{2}-[0-9]{2}-[0-9]{2}-[0-9]{4}_";
         private const string batchNameRegex = timeRegex + "[A-Z]{8}";
@@ -24,10 +24,10 @@ namespace Cnp.Sdk.Test.Unit
         private Mock<cnpTime> mockCnpTime;
         private Mock<cnpFile> mockCnpFile;
         private Mock<Communications> mockCommunications;
-        private Mock<XmlReader> mockXmlReader;
+        private Mock<XmlReader> mockXmlReader = new Mock<XmlReader>();
 
-        [TestFixtureSetUp]
-        public void SetUp()
+        
+        public TestBatch()
         {
             mockCnpTime = new Mock<cnpTime>();
             mockCnpTime.Setup(cnpTime => cnpTime.getCurrentTime(It.Is<String>(resultFormat => resultFormat == timeFormat))).Returns("01-01-1960_01-22-30-1234_");
@@ -39,19 +39,12 @@ namespace Cnp.Sdk.Test.Unit
             mockCnpFile.Setup(cnpFile => cnpFile.AppendLineToFile(mockFilePath, It.IsAny<String>())).Returns(mockFilePath);
 
             mockCommunications = new Mock<Communications>();
-        }
-
-        [SetUp]
-        public void SetUpBeforeEachTest()
-        {
-            cnp = new cnpRequest();
-
-            mockXmlReader = new Mock<XmlReader>();
+   
             mockXmlReader.SetupSequence(XmlReader => XmlReader.ReadToFollowing(It.IsAny<String>())).Returns(true).Returns(true).Returns(false);
             mockXmlReader.SetupSequence(XmlReader => XmlReader.ReadState).Returns(ReadState.Initial).Returns(ReadState.Interactive).Returns(ReadState.Closed);
         }
 
-        [Test]
+        [Fact]
         public void TestInitialization()
         {
             Dictionary<String, String> mockConfig = new Dictionary<string, string>();
@@ -76,8 +69,8 @@ namespace Cnp.Sdk.Test.Unit
 
             cnp = new cnpRequest(mockConfig);
 
-            Assert.AreEqual("C:\\MockRequests\\Requests\\", cnp.getRequestDirectory());
-            Assert.AreEqual("C:\\MockResponses\\Responses\\", cnp.getResponseDirectory());
+            Assert.Equal("C:\\MockRequests\\Requests\\", cnp.getRequestDirectory());
+            Assert.Equal("C:\\MockResponses\\Responses\\", cnp.getResponseDirectory());
 
             Assert.NotNull(cnp.getCommunication());
             Assert.NotNull(cnp.getCnpTime());
@@ -85,7 +78,7 @@ namespace Cnp.Sdk.Test.Unit
             Assert.NotNull(cnp.getCnpXmlSerializer());
         }
 
-        [Test]
+        [Fact]
         public void TestAccountUpdate()
         {
             accountUpdate accountUpdate = new accountUpdate();
@@ -137,18 +130,18 @@ namespace Cnp.Sdk.Test.Unit
             accountUpdateResponse actualAccountUpdateResponse2 = actualCnpBatchResponse.nextAccountUpdateResponse();
             accountUpdateResponse nullAccountUpdateResponse = actualCnpBatchResponse.nextAccountUpdateResponse();
 
-            Assert.AreEqual(123, actualAccountUpdateResponse1.cnpTxnId);
-            Assert.AreEqual("000", actualAccountUpdateResponse1.response);
-            Assert.AreEqual(124, actualAccountUpdateResponse2.cnpTxnId);
-            Assert.AreEqual("000", actualAccountUpdateResponse2.response);
-            Assert.IsNull(nullAccountUpdateResponse);
+            Assert.Equal(123, actualAccountUpdateResponse1.cnpTxnId);
+            Assert.Equal("000", actualAccountUpdateResponse1.response);
+            Assert.Equal(124, actualAccountUpdateResponse2.cnpTxnId);
+            Assert.Equal("000", actualAccountUpdateResponse2.response);
+            Assert.Null(nullAccountUpdateResponse);
 
             mockCommunications.Verify(Communications => Communications.FtpDropOff(It.IsAny<String>(), mockFileName, It.IsAny<Dictionary<String, String>>()));
             mockCommunications.Verify(Communications => Communications.FtpPickUp(It.IsAny<String>(), It.IsAny<Dictionary<String, String>>(), mockFileName));
         }
 
 
-        [Test]
+        [Fact]
         public void TestAuth()
         {
             authorization authorization = new authorization();
@@ -199,16 +192,16 @@ namespace Cnp.Sdk.Test.Unit
             cnpResponse actualCnpResponse = cnp.receiveFromCnp(batchFileName);
             batchResponse actualCnpBatchResponse = actualCnpResponse.nextBatchResponse();
 
-            Assert.AreSame(mockCnpBatchResponse, actualCnpBatchResponse);
-            Assert.AreEqual(123, actualCnpBatchResponse.nextAuthorizationResponse().cnpTxnId);
-            Assert.AreEqual(124, actualCnpBatchResponse.nextAuthorizationResponse().cnpTxnId);
-            Assert.IsNull(actualCnpBatchResponse.nextAuthorizationResponse());
+            Assert.Same(mockCnpBatchResponse, actualCnpBatchResponse);
+            Assert.Equal(123, actualCnpBatchResponse.nextAuthorizationResponse().cnpTxnId);
+            Assert.Equal(124, actualCnpBatchResponse.nextAuthorizationResponse().cnpTxnId);
+            Assert.Null(actualCnpBatchResponse.nextAuthorizationResponse());
 
             mockCommunications.Verify(Communications => Communications.FtpDropOff(It.IsAny<String>(), mockFileName, It.IsAny<Dictionary<String, String>>()));
             mockCommunications.Verify(Communications => Communications.FtpPickUp(It.IsAny<String>(), It.IsAny<Dictionary<String, String>>(), mockFileName));
         }
 
-        [Test]
+        [Fact]
         public void TestAuthReversal()
         {
             authReversal authreversal = new authReversal();
@@ -257,15 +250,15 @@ namespace Cnp.Sdk.Test.Unit
             authReversalResponse actualAuthReversalResponse2 = actualCnpBatchResponse.nextAuthReversalResponse();
             authReversalResponse nullAuthReversalResponse = actualCnpBatchResponse.nextAuthReversalResponse();
 
-            Assert.AreEqual(123, actualAuthReversalResponse1.cnpTxnId);
-            Assert.AreEqual(124, actualAuthReversalResponse2.cnpTxnId);
-            Assert.IsNull(nullAuthReversalResponse);
+            Assert.Equal(123, actualAuthReversalResponse1.cnpTxnId);
+            Assert.Equal(124, actualAuthReversalResponse2.cnpTxnId);
+            Assert.Null(nullAuthReversalResponse);
 
             mockCommunications.Verify(Communications => Communications.FtpDropOff(It.IsAny<String>(), mockFileName, It.IsAny<Dictionary<String, String>>()));
             mockCommunications.Verify(Communications => Communications.FtpPickUp(It.IsAny<String>(), It.IsAny<Dictionary<String, String>>(), mockFileName));
         }
 
-        [Test]
+        [Fact]
         public void TestCapture()
         {
             capture capture = new capture();
@@ -312,15 +305,15 @@ namespace Cnp.Sdk.Test.Unit
             captureResponse actualCaptureResponse2 = actualCnpBatchResponse.nextCaptureResponse();
             captureResponse nullCaptureResponse = actualCnpBatchResponse.nextCaptureResponse();
 
-            Assert.AreEqual(123, actualCaptureResponse1.cnpTxnId);
-            Assert.AreEqual(124, actualCaptureResponse2.cnpTxnId);
-            Assert.IsNull(nullCaptureResponse);
+            Assert.Equal(123, actualCaptureResponse1.cnpTxnId);
+            Assert.Equal(124, actualCaptureResponse2.cnpTxnId);
+            Assert.Null(nullCaptureResponse);
 
             mockCommunications.Verify(Communications => Communications.FtpDropOff(It.IsAny<String>(), mockFileName, It.IsAny<Dictionary<String, String>>()));
             mockCommunications.Verify(Communications => Communications.FtpPickUp(It.IsAny<String>(), It.IsAny<Dictionary<String, String>>(), mockFileName));
         }
 
-        [Test]
+        [Fact]
         public void TestCaptureGivenAuth()
         {
             captureGivenAuth capturegivenauth = new captureGivenAuth();
@@ -378,15 +371,15 @@ namespace Cnp.Sdk.Test.Unit
             captureGivenAuthResponse actualCaptureGivenAuthReponse2 = actualCnpBatchResponse.nextCaptureGivenAuthResponse();
             captureGivenAuthResponse nullCaptureGivenAuthReponse = actualCnpBatchResponse.nextCaptureGivenAuthResponse();
 
-            Assert.AreEqual(123, actualCaptureGivenAuthReponse1.cnpTxnId);
-            Assert.AreEqual(124, actualCaptureGivenAuthReponse2.cnpTxnId);
-            Assert.IsNull(nullCaptureGivenAuthReponse);
+            Assert.Equal(123, actualCaptureGivenAuthReponse1.cnpTxnId);
+            Assert.Equal(124, actualCaptureGivenAuthReponse2.cnpTxnId);
+            Assert.Null(nullCaptureGivenAuthReponse);
 
             mockCommunications.Verify(Communications => Communications.FtpDropOff(It.IsAny<String>(), mockFileName, It.IsAny<Dictionary<String, String>>()));
             mockCommunications.Verify(Communications => Communications.FtpPickUp(It.IsAny<String>(), It.IsAny<Dictionary<String, String>>(), mockFileName));
         }
 
-        [Test]
+        [Fact]
         public void TestCredit()
         {
             credit credit = new credit();
@@ -439,15 +432,15 @@ namespace Cnp.Sdk.Test.Unit
             creditResponse actualCreditReponse2 = actualCnpBatchResponse.nextCreditResponse();
             creditResponse nullCreditReponse1 = actualCnpBatchResponse.nextCreditResponse();
 
-            Assert.AreEqual(123, actualCreditReponse1.cnpTxnId);
-            Assert.AreEqual(124, actualCreditReponse2.cnpTxnId);
-            Assert.IsNull(nullCreditReponse1);
+            Assert.Equal(123, actualCreditReponse1.cnpTxnId);
+            Assert.Equal(124, actualCreditReponse2.cnpTxnId);
+            Assert.Null(nullCreditReponse1);
 
             mockCommunications.Verify(Communications => Communications.FtpDropOff(It.IsAny<String>(), mockFileName, It.IsAny<Dictionary<String, String>>()));
             mockCommunications.Verify(Communications => Communications.FtpPickUp(It.IsAny<String>(), It.IsAny<Dictionary<String, String>>(), mockFileName));
         }
 
-        [Test]
+        [Fact]
         public void TestEcheckCredit()
         {
             echeckCredit echeckcredit = new echeckCredit();
@@ -494,15 +487,15 @@ namespace Cnp.Sdk.Test.Unit
             echeckCreditResponse actualEcheckCreditResponse2 = actualCnpBatchResponse.nextEcheckCreditResponse();
             echeckCreditResponse nullEcheckCreditResponse = actualCnpBatchResponse.nextEcheckCreditResponse();
 
-            Assert.AreEqual(123, actualEcheckCreditResponse1.cnpTxnId);
-            Assert.AreEqual(124, actualEcheckCreditResponse2.cnpTxnId);
-            Assert.IsNull(nullEcheckCreditResponse);
+            Assert.Equal(123, actualEcheckCreditResponse1.cnpTxnId);
+            Assert.Equal(124, actualEcheckCreditResponse2.cnpTxnId);
+            Assert.Null(nullEcheckCreditResponse);
 
             mockCommunications.Verify(Communications => Communications.FtpDropOff(It.IsAny<String>(), mockFileName, It.IsAny<Dictionary<String, String>>()));
             mockCommunications.Verify(Communications => Communications.FtpPickUp(It.IsAny<String>(), It.IsAny<Dictionary<String, String>>(), mockFileName));
         }
 
-        [Test]
+        [Fact]
         public void TestEcheckRedeposit()
         {
             echeckRedeposit echeckredeposit = new echeckRedeposit();
@@ -548,15 +541,15 @@ namespace Cnp.Sdk.Test.Unit
             echeckRedepositResponse actualEcheckRedepositResponse2 = actualCnpBatchResponse.nextEcheckRedepositResponse();
             echeckRedepositResponse nullEcheckRedepositResponse = actualCnpBatchResponse.nextEcheckRedepositResponse();
 
-            Assert.AreEqual(123, actualEcheckRedepositResponse1.cnpTxnId);
-            Assert.AreEqual(124, actualEcheckRedepositResponse2.cnpTxnId);
-            Assert.IsNull(nullEcheckRedepositResponse);
+            Assert.Equal(123, actualEcheckRedepositResponse1.cnpTxnId);
+            Assert.Equal(124, actualEcheckRedepositResponse2.cnpTxnId);
+            Assert.Null(nullEcheckRedepositResponse);
 
             mockCommunications.Verify(Communications => Communications.FtpDropOff(It.IsAny<String>(), mockFileName, It.IsAny<Dictionary<String, String>>()));
             mockCommunications.Verify(Communications => Communications.FtpPickUp(It.IsAny<String>(), It.IsAny<Dictionary<String, String>>(), mockFileName));
         }
 
-        [Test]
+        [Fact]
         public void TestEcheckSale()
         {
             echeckSale echecksale = new echeckSale();
@@ -616,15 +609,15 @@ namespace Cnp.Sdk.Test.Unit
             echeckSalesResponse actualEcheckSalesResponse2 = actualCnpBatchResponse.nextEcheckSalesResponse();
             echeckSalesResponse nullEcheckSalesResponse = actualCnpBatchResponse.nextEcheckSalesResponse();
 
-            Assert.AreEqual(123, actualEcheckSalesResponse1.cnpTxnId);
-            Assert.AreEqual(124, actualEcheckSalesResponse2.cnpTxnId);
-            Assert.IsNull(nullEcheckSalesResponse);
+            Assert.Equal(123, actualEcheckSalesResponse1.cnpTxnId);
+            Assert.Equal(124, actualEcheckSalesResponse2.cnpTxnId);
+            Assert.Null(nullEcheckSalesResponse);
 
             mockCommunications.Verify(Communications => Communications.FtpDropOff(It.IsAny<String>(), mockFileName, It.IsAny<Dictionary<String, String>>()));
             mockCommunications.Verify(Communications => Communications.FtpPickUp(It.IsAny<String>(), It.IsAny<Dictionary<String, String>>(), mockFileName));
         }
 
-        [Test]
+        [Fact]
         public void TestEcheckVerification()
         {
             echeckVerification echeckverification = new echeckVerification();
@@ -684,15 +677,15 @@ namespace Cnp.Sdk.Test.Unit
             echeckVerificationResponse actualEcheckVerificationResponse2 = actualCnpBatchResponse.nextEcheckVerificationResponse();
             echeckVerificationResponse nullEcheckVerificationResponse = actualCnpBatchResponse.nextEcheckVerificationResponse();
 
-            Assert.AreEqual(123, actualEcheckVerificationResponse1.cnpTxnId);
-            Assert.AreEqual(124, actualEcheckVerificationResponse2.cnpTxnId);
-            Assert.IsNull(nullEcheckVerificationResponse);
+            Assert.Equal(123, actualEcheckVerificationResponse1.cnpTxnId);
+            Assert.Equal(124, actualEcheckVerificationResponse2.cnpTxnId);
+            Assert.Null(nullEcheckVerificationResponse);
 
             mockCommunications.Verify(Communications => Communications.FtpDropOff(It.IsAny<String>(), mockFileName, It.IsAny<Dictionary<String, String>>()));
             mockCommunications.Verify(Communications => Communications.FtpPickUp(It.IsAny<String>(), It.IsAny<Dictionary<String, String>>(), mockFileName));
         }
 
-        [Test]
+        [Fact]
         public void TestForceCapture()
         {
             forceCapture forcecapture = new forceCapture();
@@ -745,15 +738,15 @@ namespace Cnp.Sdk.Test.Unit
             forceCaptureResponse actualForceCaptureResponse2 = actualCnpBatchResponse.nextForceCaptureResponse();
             forceCaptureResponse nullForceCaptureResponse = actualCnpBatchResponse.nextForceCaptureResponse();
 
-            Assert.AreEqual(123, actualForceCaptureResponse1.cnpTxnId);
-            Assert.AreEqual(124, actualForceCaptureResponse2.cnpTxnId);
-            Assert.IsNull(nullForceCaptureResponse);
+            Assert.Equal(123, actualForceCaptureResponse1.cnpTxnId);
+            Assert.Equal(124, actualForceCaptureResponse2.cnpTxnId);
+            Assert.Null(nullForceCaptureResponse);
 
             mockCommunications.Verify(Communications => Communications.FtpDropOff(It.IsAny<String>(), mockFileName, It.IsAny<Dictionary<String, String>>()));
             mockCommunications.Verify(Communications => Communications.FtpPickUp(It.IsAny<String>(), It.IsAny<Dictionary<String, String>>(), mockFileName));
         }
 
-        [Test]
+        [Fact]
         public void TestSale()
         {
             sale sale = new sale();
@@ -806,15 +799,15 @@ namespace Cnp.Sdk.Test.Unit
             saleResponse actualSaleResponse2 = actualCnpBatchResponse.nextSaleResponse();
             saleResponse nullSaleResponse = actualCnpBatchResponse.nextSaleResponse();
 
-            Assert.AreEqual(123, actualSaleResponse1.cnpTxnId);
-            Assert.AreEqual(124, actualSaleResponse2.cnpTxnId);
-            Assert.IsNull(nullSaleResponse);
+            Assert.Equal(123, actualSaleResponse1.cnpTxnId);
+            Assert.Equal(124, actualSaleResponse2.cnpTxnId);
+            Assert.Null(nullSaleResponse);
 
             mockCommunications.Verify(Communications => Communications.FtpDropOff(It.IsAny<String>(), mockFileName, It.IsAny<Dictionary<String, String>>()));
             mockCommunications.Verify(Communications => Communications.FtpPickUp(It.IsAny<String>(), It.IsAny<Dictionary<String, String>>(), mockFileName));
         }
 
-        [Test]
+        [Fact]
         public void TestToken()
         {
             registerTokenRequestType token = new registerTokenRequestType();
@@ -861,15 +854,15 @@ namespace Cnp.Sdk.Test.Unit
             registerTokenResponse actualRegisterTokenResponse2 = actualCnpBatchResponse.nextRegisterTokenResponse();
             registerTokenResponse nullRegisterTokenResponse = actualCnpBatchResponse.nextRegisterTokenResponse();
 
-            Assert.AreEqual(123, actualRegisterTokenResponse1.cnpTxnId);
-            Assert.AreEqual(124, actualRegisterTokenResponse2.cnpTxnId);
-            Assert.IsNull(nullRegisterTokenResponse);
+            Assert.Equal(123, actualRegisterTokenResponse1.cnpTxnId);
+            Assert.Equal(124, actualRegisterTokenResponse2.cnpTxnId);
+            Assert.Null(nullRegisterTokenResponse);
 
             mockCommunications.Verify(Communications => Communications.FtpDropOff(It.IsAny<String>(), mockFileName, It.IsAny<Dictionary<String, String>>()));
             mockCommunications.Verify(Communications => Communications.FtpPickUp(It.IsAny<String>(), It.IsAny<Dictionary<String, String>>(), mockFileName));
         }
 
-        [Test]
+        [Fact]
         public void TestUpdateCardValidationNumOnToken()
         {
             updateCardValidationNumOnToken updateCardValidationNumOnToken = new updateCardValidationNumOnToken();
@@ -916,15 +909,15 @@ namespace Cnp.Sdk.Test.Unit
             updateCardValidationNumOnTokenResponse actualUpdateCardValidationNumOnTokenResponse2 = actualCnpBatchResponse.nextUpdateCardValidationNumOnTokenResponse();
             updateCardValidationNumOnTokenResponse nullUpdateCardValidationNumOnTokenResponse = actualCnpBatchResponse.nextUpdateCardValidationNumOnTokenResponse();
 
-            Assert.AreEqual(123, actualUpdateCardValidationNumOnTokenResponse1.cnpTxnId);
-            Assert.AreEqual(124, actualUpdateCardValidationNumOnTokenResponse2.cnpTxnId);
-            Assert.IsNull(nullUpdateCardValidationNumOnTokenResponse);
+            Assert.Equal(123, actualUpdateCardValidationNumOnTokenResponse1.cnpTxnId);
+            Assert.Equal(124, actualUpdateCardValidationNumOnTokenResponse2.cnpTxnId);
+            Assert.Null(nullUpdateCardValidationNumOnTokenResponse);
 
             mockCommunications.Verify(Communications => Communications.FtpDropOff(It.IsAny<String>(), mockFileName, It.IsAny<Dictionary<String, String>>()));
             mockCommunications.Verify(Communications => Communications.FtpPickUp(It.IsAny<String>(), It.IsAny<Dictionary<String, String>>(), mockFileName));
         }
 
-        [Test]
+        [Fact]
         public void TestCnpOnlineException()
         {
             authorization authorization = new authorization();
@@ -982,11 +975,11 @@ namespace Cnp.Sdk.Test.Unit
             }
             catch (CnpOnlineException e)
             {
-                Assert.AreEqual("Error validating xml data against the schema", e.Message);
+                Assert.Equal("Error validating xml data against the schema", e.Message);
             }
         }
 
-        [Test]
+        [Fact]
         public void TestInvalidOperationException()
         {
             authorization authorization = new authorization();
@@ -1030,11 +1023,11 @@ namespace Cnp.Sdk.Test.Unit
             }
             catch (CnpOnlineException e)
             {
-                Assert.AreEqual("Error validating xml data against the schema", e.Message);
+                Assert.Equal("Error validating xml data against the schema", e.Message);
             }
         }
 
-        [Test]
+        [Fact]
         public void TestDefaultReportGroup()
         {
             authorization authorization = new authorization();
@@ -1086,18 +1079,18 @@ namespace Cnp.Sdk.Test.Unit
             authorizationResponse actualAuthorizationResponse2 = actualCnpBatchResponse.nextAuthorizationResponse();
             authorizationResponse nullAuthorizationResponse = actualCnpBatchResponse.nextAuthorizationResponse();
 
-            Assert.AreEqual(123, actualAuthorizationResponse1.cnpTxnId);
-            Assert.AreEqual("Default Report Group", actualAuthorizationResponse1.reportGroup);
-            Assert.AreEqual(124, actualAuthorizationResponse2.cnpTxnId);
-            Assert.AreEqual("Default Report Group", actualAuthorizationResponse2.reportGroup);
-            Assert.IsNull(nullAuthorizationResponse);
+            Assert.Equal(123, actualAuthorizationResponse1.cnpTxnId);
+            Assert.Equal("Default Report Group", actualAuthorizationResponse1.reportGroup);
+            Assert.Equal(124, actualAuthorizationResponse2.cnpTxnId);
+            Assert.Equal("Default Report Group", actualAuthorizationResponse2.reportGroup);
+            Assert.Null(nullAuthorizationResponse);
 
             mockCnpFile.Verify(cnpFile => cnpFile.AppendLineToFile(mockFilePath, It.IsRegex(".*reportGroup=\"Default Report Group\".*", RegexOptions.Singleline)));
             mockCommunications.Verify(Communications => Communications.FtpDropOff(It.IsAny<String>(), mockFileName, It.IsAny<Dictionary<String, String>>()));
             mockCommunications.Verify(Communications => Communications.FtpPickUp(It.IsAny<String>(), It.IsAny<Dictionary<String, String>>(), mockFileName));
         }
 
-        [Test]
+        [Fact]
         public void TestSerialize()
         {
             authorization authorization = new authorization();
@@ -1123,12 +1116,12 @@ namespace Cnp.Sdk.Test.Unit
 
             string resultFile = cnp.Serialize();
 
-            Assert.IsTrue(resultFile.Equals(mockFilePath));
+            Assert.True(resultFile.Equals(mockFilePath));
 
             mockCnpFile.Verify(cnpFile => cnpFile.AppendFileToFile(mockFilePath, It.IsAny<String>()));
         }
 
-        [Test]
+        [Fact]
         public void TestRFRRequest()
         {
             RFRRequest rfrRequest = new RFRRequest();
@@ -1169,17 +1162,17 @@ namespace Cnp.Sdk.Test.Unit
             RFRResponse actualRFRResponse = actualCnpResponse.nextRFRResponse();
             RFRResponse nullRFRResponse = actualCnpResponse.nextRFRResponse();
 
-            Assert.IsNotNull(actualRFRResponse);
-            Assert.AreEqual("1", actualRFRResponse.response);
-            Assert.AreEqual("The account update file is not ready yet. Please try again later.", actualRFRResponse.message);
-            Assert.IsNull(nullCnpBatchResponse);
-            Assert.IsNull(nullRFRResponse);
+            Assert.NotNull(actualRFRResponse);
+            Assert.Equal("1", actualRFRResponse.response);
+            Assert.Equal("The account update file is not ready yet. Please try again later.", actualRFRResponse.message);
+            Assert.Null(nullCnpBatchResponse);
+            Assert.Null(nullRFRResponse);
 
             mockCommunications.Verify(Communications => Communications.FtpDropOff(It.IsAny<String>(), mockFileName, It.IsAny<Dictionary<String, String>>()));
             mockCommunications.Verify(Communications => Communications.FtpPickUp(It.IsAny<String>(), It.IsAny<Dictionary<String, String>>(), mockFileName));
         }
 
-        [Test]
+        [Fact]
         public void TestCancelSubscription()
         {
             cancelSubscription cancel = new cancelSubscription();
@@ -1221,16 +1214,16 @@ namespace Cnp.Sdk.Test.Unit
             cnpResponse actualCnpResponse = cnp.receiveFromCnp(batchFileName);
             batchResponse actualCnpBatchResponse = actualCnpResponse.nextBatchResponse();
 
-            Assert.AreSame(mockCnpBatchResponse, actualCnpBatchResponse);
-            Assert.AreEqual("12345", actualCnpBatchResponse.nextCancelSubscriptionResponse().subscriptionId);
-            Assert.AreEqual("54321", actualCnpBatchResponse.nextCancelSubscriptionResponse().subscriptionId);
-            Assert.IsNull(actualCnpBatchResponse.nextCancelSubscriptionResponse());
+            Assert.Same(mockCnpBatchResponse, actualCnpBatchResponse);
+            Assert.Equal("12345", actualCnpBatchResponse.nextCancelSubscriptionResponse().subscriptionId);
+            Assert.Equal("54321", actualCnpBatchResponse.nextCancelSubscriptionResponse().subscriptionId);
+            Assert.Null(actualCnpBatchResponse.nextCancelSubscriptionResponse());
 
             mockCommunications.Verify(Communications => Communications.FtpDropOff(It.IsAny<String>(), mockFileName, It.IsAny<Dictionary<String, String>>()));
             mockCommunications.Verify(Communications => Communications.FtpPickUp(It.IsAny<String>(), It.IsAny<Dictionary<String, String>>(), mockFileName));
         }
 
-        [Test]
+        [Fact]
         public void TestUpdateSubscription()
         {
             updateSubscription update = new updateSubscription();
@@ -1285,16 +1278,16 @@ namespace Cnp.Sdk.Test.Unit
             cnpResponse actualCnpResponse = cnp.receiveFromCnp(batchFileName);
             batchResponse actualCnpBatchResponse = actualCnpResponse.nextBatchResponse();
 
-            Assert.AreSame(mockCnpBatchResponse, actualCnpBatchResponse);
-            Assert.AreEqual("12345", actualCnpBatchResponse.nextUpdateSubscriptionResponse().subscriptionId);
-            Assert.AreEqual("54321", actualCnpBatchResponse.nextUpdateSubscriptionResponse().subscriptionId);
-            Assert.IsNull(actualCnpBatchResponse.nextUpdateSubscriptionResponse());
+            Assert.Same(mockCnpBatchResponse, actualCnpBatchResponse);
+            Assert.Equal("12345", actualCnpBatchResponse.nextUpdateSubscriptionResponse().subscriptionId);
+            Assert.Equal("54321", actualCnpBatchResponse.nextUpdateSubscriptionResponse().subscriptionId);
+            Assert.Null(actualCnpBatchResponse.nextUpdateSubscriptionResponse());
 
             mockCommunications.Verify(Communications => Communications.FtpDropOff(It.IsAny<String>(), mockFileName, It.IsAny<Dictionary<String, String>>()));
             mockCommunications.Verify(Communications => Communications.FtpPickUp(It.IsAny<String>(), It.IsAny<Dictionary<String, String>>(), mockFileName));
         }
 
-        [Test]
+        [Fact]
         public void testCreatePlan()
         {
             createPlan createPlan = new createPlan();
@@ -1340,16 +1333,16 @@ namespace Cnp.Sdk.Test.Unit
             cnpResponse actualCnpResponse = cnp.receiveFromCnp(batchFileName);
             batchResponse actualCnpBatchResponse = actualCnpResponse.nextBatchResponse();
 
-            Assert.AreSame(mockCnpBatchResponse, actualCnpBatchResponse);
-            Assert.AreEqual("123", actualCnpBatchResponse.nextCreatePlanResponse().cnpTxnId);
-            Assert.AreEqual("124", actualCnpBatchResponse.nextCreatePlanResponse().cnpTxnId);
-            Assert.IsNull(actualCnpBatchResponse.nextCreatePlanResponse());
+            Assert.Same(mockCnpBatchResponse, actualCnpBatchResponse);
+            Assert.Equal("123", actualCnpBatchResponse.nextCreatePlanResponse().cnpTxnId);
+            Assert.Equal("124", actualCnpBatchResponse.nextCreatePlanResponse().cnpTxnId);
+            Assert.Null(actualCnpBatchResponse.nextCreatePlanResponse());
 
             mockCommunications.Verify(Communications => Communications.FtpDropOff(It.IsAny<String>(), mockFileName, It.IsAny<Dictionary<String, String>>()));
             mockCommunications.Verify(Communications => Communications.FtpPickUp(It.IsAny<String>(), It.IsAny<Dictionary<String, String>>(), mockFileName));
         }
 
-        [Test]
+        [Fact]
         public void TestUpdatePlan()
         {
             updatePlan updatePlan = new updatePlan();
@@ -1393,16 +1386,16 @@ namespace Cnp.Sdk.Test.Unit
             cnpResponse actualCnpResponse = cnp.receiveFromCnp(batchFileName);
             batchResponse actualCnpBatchResponse = actualCnpResponse.nextBatchResponse();
 
-            Assert.AreSame(mockCnpBatchResponse, actualCnpBatchResponse);
-            Assert.AreEqual("123", actualCnpBatchResponse.nextUpdatePlanResponse().cnpTxnId);
-            Assert.AreEqual("124", actualCnpBatchResponse.nextUpdatePlanResponse().cnpTxnId);
-            Assert.IsNull(actualCnpBatchResponse.nextUpdatePlanResponse());
+            Assert.Same(mockCnpBatchResponse, actualCnpBatchResponse);
+            Assert.Equal("123", actualCnpBatchResponse.nextUpdatePlanResponse().cnpTxnId);
+            Assert.Equal("124", actualCnpBatchResponse.nextUpdatePlanResponse().cnpTxnId);
+            Assert.Null(actualCnpBatchResponse.nextUpdatePlanResponse());
 
             mockCommunications.Verify(Communications => Communications.FtpDropOff(It.IsAny<String>(), mockFileName, It.IsAny<Dictionary<String, String>>()));
             mockCommunications.Verify(Communications => Communications.FtpPickUp(It.IsAny<String>(), It.IsAny<Dictionary<String, String>>(), mockFileName));
         }
 
-        [Test]
+        [Fact]
         public void TestActivate()
         {
             activate activate = new activate();
@@ -1447,16 +1440,16 @@ namespace Cnp.Sdk.Test.Unit
             cnpResponse actualCnpResponse = cnp.receiveFromCnp(batchFileName);
             batchResponse actualCnpBatchResponse = actualCnpResponse.nextBatchResponse();
 
-            Assert.AreSame(mockCnpBatchResponse, actualCnpBatchResponse);
-            Assert.AreEqual(123, actualCnpBatchResponse.nextActivateResponse().cnpTxnId);
-            Assert.AreEqual(124, actualCnpBatchResponse.nextActivateResponse().cnpTxnId);
-            Assert.IsNull(actualCnpBatchResponse.nextActivateResponse());
+            Assert.Same(mockCnpBatchResponse, actualCnpBatchResponse);
+            Assert.Equal(123, actualCnpBatchResponse.nextActivateResponse().cnpTxnId);
+            Assert.Equal(124, actualCnpBatchResponse.nextActivateResponse().cnpTxnId);
+            Assert.Null(actualCnpBatchResponse.nextActivateResponse());
 
             mockCommunications.Verify(Communications => Communications.FtpDropOff(It.IsAny<String>(), mockFileName, It.IsAny<Dictionary<String, String>>()));
             mockCommunications.Verify(Communications => Communications.FtpPickUp(It.IsAny<String>(), It.IsAny<Dictionary<String, String>>(), mockFileName));
         }
 
-        [Test]
+        [Fact]
         public void testDeactivate()
         {
             deactivate deactivate = new deactivate();
@@ -1501,16 +1494,16 @@ namespace Cnp.Sdk.Test.Unit
             cnpResponse actualCnpResponse = cnp.receiveFromCnp(batchFileName);
             batchResponse actualCnpBatchResponse = actualCnpResponse.nextBatchResponse();
 
-            Assert.AreSame(mockCnpBatchResponse, actualCnpBatchResponse);
-            Assert.AreEqual(123, actualCnpBatchResponse.nextDeactivateResponse().cnpTxnId);
-            Assert.AreEqual(124, actualCnpBatchResponse.nextDeactivateResponse().cnpTxnId);
-            Assert.IsNull(actualCnpBatchResponse.nextDeactivateResponse());
+            Assert.Same(mockCnpBatchResponse, actualCnpBatchResponse);
+            Assert.Equal(123, actualCnpBatchResponse.nextDeactivateResponse().cnpTxnId);
+            Assert.Equal(124, actualCnpBatchResponse.nextDeactivateResponse().cnpTxnId);
+            Assert.Null(actualCnpBatchResponse.nextDeactivateResponse());
 
             mockCommunications.Verify(Communications => Communications.FtpDropOff(It.IsAny<String>(), mockFileName, It.IsAny<Dictionary<String, String>>()));
             mockCommunications.Verify(Communications => Communications.FtpPickUp(It.IsAny<String>(), It.IsAny<Dictionary<String, String>>(), mockFileName));
         }
 
-        [Test]
+        [Fact]
         public void testLoad()
         {
             load load = new load();
@@ -1555,16 +1548,16 @@ namespace Cnp.Sdk.Test.Unit
             cnpResponse actualCnpResponse = cnp.receiveFromCnp(batchFileName);
             batchResponse actualCnpBatchResponse = actualCnpResponse.nextBatchResponse();
 
-            Assert.AreSame(mockCnpBatchResponse, actualCnpBatchResponse);
-            Assert.AreEqual(123, actualCnpBatchResponse.nextLoadResponse().cnpTxnId);
-            Assert.AreEqual(124, actualCnpBatchResponse.nextLoadResponse().cnpTxnId);
-            Assert.IsNull(actualCnpBatchResponse.nextLoadResponse());
+            Assert.Same(mockCnpBatchResponse, actualCnpBatchResponse);
+            Assert.Equal(123, actualCnpBatchResponse.nextLoadResponse().cnpTxnId);
+            Assert.Equal(124, actualCnpBatchResponse.nextLoadResponse().cnpTxnId);
+            Assert.Null(actualCnpBatchResponse.nextLoadResponse());
 
             mockCommunications.Verify(Communications => Communications.FtpDropOff(It.IsAny<String>(), mockFileName, It.IsAny<Dictionary<String, String>>()));
             mockCommunications.Verify(Communications => Communications.FtpPickUp(It.IsAny<String>(), It.IsAny<Dictionary<String, String>>(), mockFileName));
         }
 
-        [Test]
+        [Fact]
         public void testUnload()
         {
             unload unload = new unload();
@@ -1609,16 +1602,16 @@ namespace Cnp.Sdk.Test.Unit
             cnpResponse actualCnpResponse = cnp.receiveFromCnp(batchFileName);
             batchResponse actualCnpBatchResponse = actualCnpResponse.nextBatchResponse();
 
-            Assert.AreSame(mockCnpBatchResponse, actualCnpBatchResponse);
-            Assert.AreEqual(123, actualCnpBatchResponse.nextUnloadResponse().cnpTxnId);
-            Assert.AreEqual(124, actualCnpBatchResponse.nextUnloadResponse().cnpTxnId);
-            Assert.IsNull(actualCnpBatchResponse.nextUnloadResponse());
+            Assert.Same(mockCnpBatchResponse, actualCnpBatchResponse);
+            Assert.Equal(123, actualCnpBatchResponse.nextUnloadResponse().cnpTxnId);
+            Assert.Equal(124, actualCnpBatchResponse.nextUnloadResponse().cnpTxnId);
+            Assert.Null(actualCnpBatchResponse.nextUnloadResponse());
 
             mockCommunications.Verify(Communications => Communications.FtpDropOff(It.IsAny<String>(), mockFileName, It.IsAny<Dictionary<String, String>>()));
             mockCommunications.Verify(Communications => Communications.FtpPickUp(It.IsAny<String>(), It.IsAny<Dictionary<String, String>>(), mockFileName));
         }
 
-        [Test]
+        [Fact]
         public void TestBalanceInquiry()
         {
             balanceInquiry balanceInquiry = new balanceInquiry();
@@ -1663,16 +1656,16 @@ namespace Cnp.Sdk.Test.Unit
             cnpResponse actualCnpResponse = cnp.receiveFromCnp(batchFileName);
             batchResponse actualCnpBatchResponse = actualCnpResponse.nextBatchResponse();
 
-            Assert.AreSame(mockCnpBatchResponse, actualCnpBatchResponse);
-            Assert.AreEqual(123, actualCnpBatchResponse.nextBalanceInquiryResponse().cnpTxnId);
-            Assert.AreEqual(124, actualCnpBatchResponse.nextBalanceInquiryResponse().cnpTxnId);
-            Assert.IsNull(actualCnpBatchResponse.nextBalanceInquiryResponse());
+            Assert.Same(mockCnpBatchResponse, actualCnpBatchResponse);
+            Assert.Equal(123, actualCnpBatchResponse.nextBalanceInquiryResponse().cnpTxnId);
+            Assert.Equal(124, actualCnpBatchResponse.nextBalanceInquiryResponse().cnpTxnId);
+            Assert.Null(actualCnpBatchResponse.nextBalanceInquiryResponse());
 
             mockCommunications.Verify(Communications => Communications.FtpDropOff(It.IsAny<String>(), mockFileName, It.IsAny<Dictionary<String, String>>()));
             mockCommunications.Verify(Communications => Communications.FtpPickUp(It.IsAny<String>(), It.IsAny<Dictionary<String, String>>(), mockFileName));
         }
 
-        [Test]
+        [Fact]
         public void TestEcheckPreNoteSale()
         {
             echeckPreNoteSale echeckPreNoteSale = new echeckPreNoteSale();
@@ -1731,15 +1724,15 @@ namespace Cnp.Sdk.Test.Unit
             echeckPreNoteSaleResponse actualEcheckPreNoteSaleResponse2 = actualCnpBatchResponse.nextEcheckPreNoteSaleResponse();
             echeckPreNoteSaleResponse nullEcheckPreNoteSalesResponse = actualCnpBatchResponse.nextEcheckPreNoteSaleResponse();
 
-            Assert.AreEqual(123, actualEcheckPreNoteSaleResponse1.cnpTxnId);
-            Assert.AreEqual(124, actualEcheckPreNoteSaleResponse2.cnpTxnId);
-            Assert.IsNull(nullEcheckPreNoteSalesResponse);
+            Assert.Equal(123, actualEcheckPreNoteSaleResponse1.cnpTxnId);
+            Assert.Equal(124, actualEcheckPreNoteSaleResponse2.cnpTxnId);
+            Assert.Null(nullEcheckPreNoteSalesResponse);
 
             mockCommunications.Verify(Communications => Communications.FtpDropOff(It.IsAny<String>(), mockFileName, It.IsAny<Dictionary<String, String>>()));
             mockCommunications.Verify(Communications => Communications.FtpPickUp(It.IsAny<String>(), It.IsAny<Dictionary<String, String>>(), mockFileName));
         }
 
-        [Test]
+        [Fact]
         public void TestEcheckPreNoteCredit()
         {
             echeckPreNoteCredit echeckPreNoteCredit = new echeckPreNoteCredit();
@@ -1798,15 +1791,15 @@ namespace Cnp.Sdk.Test.Unit
             echeckPreNoteCreditResponse actualEcheckPreNoteCreditResponse2 = actualCnpBatchResponse.nextEcheckPreNoteCreditResponse();
             echeckPreNoteCreditResponse nullEcheckPreNoteCreditsResponse = actualCnpBatchResponse.nextEcheckPreNoteCreditResponse();
 
-            Assert.AreEqual(123, actualEcheckPreNoteCreditResponse1.cnpTxnId);
-            Assert.AreEqual(124, actualEcheckPreNoteCreditResponse2.cnpTxnId);
-            Assert.IsNull(nullEcheckPreNoteCreditsResponse);
+            Assert.Equal(123, actualEcheckPreNoteCreditResponse1.cnpTxnId);
+            Assert.Equal(124, actualEcheckPreNoteCreditResponse2.cnpTxnId);
+            Assert.Null(nullEcheckPreNoteCreditsResponse);
 
             mockCommunications.Verify(Communications => Communications.FtpDropOff(It.IsAny<String>(), mockFileName, It.IsAny<Dictionary<String, String>>()));
             mockCommunications.Verify(Communications => Communications.FtpPickUp(It.IsAny<String>(), It.IsAny<Dictionary<String, String>>(), mockFileName));
         }
 
-        [Test]
+        [Fact]
         public void TestGiftCardAuthReversal()
         {
             var giftCardAuthReversal = new giftCardAuthReversal
@@ -1885,16 +1878,16 @@ namespace Cnp.Sdk.Test.Unit
             cnpResponse actualCnpResponse = cnp.receiveFromCnp(batchFileName);
             batchResponse actualCnpBatchResponse = actualCnpResponse.nextBatchResponse();
 
-            Assert.AreSame(mockCnpBatchResponse, actualCnpBatchResponse);
-            Assert.AreEqual(522547723741503000, actualCnpBatchResponse.nextGiftCardAuthReversalResponse().cnpTxnId);
-            Assert.AreEqual(522547723741503001, actualCnpBatchResponse.nextGiftCardAuthReversalResponse().cnpTxnId);
-            Assert.IsNull(actualCnpBatchResponse.nextGiftCardAuthReversalResponse());
+            Assert.Same(mockCnpBatchResponse, actualCnpBatchResponse);
+            Assert.Equal(522547723741503000, actualCnpBatchResponse.nextGiftCardAuthReversalResponse().cnpTxnId);
+            Assert.Equal(522547723741503001, actualCnpBatchResponse.nextGiftCardAuthReversalResponse().cnpTxnId);
+            Assert.Null(actualCnpBatchResponse.nextGiftCardAuthReversalResponse());
 
             mockCommunications.Verify(Communications => Communications.FtpDropOff(It.IsAny<String>(), mockFileName, It.IsAny<Dictionary<String, String>>()));
             mockCommunications.Verify(Communications => Communications.FtpPickUp(It.IsAny<String>(), It.IsAny<Dictionary<String, String>>(), mockFileName));
         }
 
-        [Test]
+        [Fact]
         public void TestGiftCardCapture()
         {
             var giftCardCapture = new giftCardCapture
@@ -1972,16 +1965,16 @@ namespace Cnp.Sdk.Test.Unit
             cnpResponse actualCnpResponse = cnp.receiveFromCnp(batchFileName);
             batchResponse actualCnpBatchResponse = actualCnpResponse.nextBatchResponse();
 
-            Assert.AreSame(mockCnpBatchResponse, actualCnpBatchResponse);
-            Assert.AreEqual(522547723741503000, actualCnpBatchResponse.nextGiftCardCaptureResponse().cnpTxnId);
-            Assert.AreEqual(522547723741503001, actualCnpBatchResponse.nextGiftCardCaptureResponse().cnpTxnId);
-            Assert.IsNull(actualCnpBatchResponse.nextGiftCardCaptureResponse());
+            Assert.Same(mockCnpBatchResponse, actualCnpBatchResponse);
+            Assert.Equal(522547723741503000, actualCnpBatchResponse.nextGiftCardCaptureResponse().cnpTxnId);
+            Assert.Equal(522547723741503001, actualCnpBatchResponse.nextGiftCardCaptureResponse().cnpTxnId);
+            Assert.Null(actualCnpBatchResponse.nextGiftCardCaptureResponse());
 
             mockCommunications.Verify(Communications => Communications.FtpDropOff(It.IsAny<String>(), mockFileName, It.IsAny<Dictionary<String, String>>()));
             mockCommunications.Verify(Communications => Communications.FtpPickUp(It.IsAny<String>(), It.IsAny<Dictionary<String, String>>(), mockFileName));
         }
 
-        [Test]
+        [Fact]
         public void TestGiftCardCreditWithTxnId()
         {
             var giftCardCredit = new giftCardCredit
@@ -2057,16 +2050,16 @@ namespace Cnp.Sdk.Test.Unit
             cnpResponse actualCnpResponse = cnp.receiveFromCnp(batchFileName);
             batchResponse actualCnpBatchResponse = actualCnpResponse.nextBatchResponse();
 
-            Assert.AreSame(mockCnpBatchResponse, actualCnpBatchResponse);
-            Assert.AreEqual(522547723741503000, actualCnpBatchResponse.nextGiftCardCreditResponse().cnpTxnId);
-            Assert.AreEqual(522547723741503001, actualCnpBatchResponse.nextGiftCardCreditResponse().cnpTxnId);
-            Assert.IsNull(actualCnpBatchResponse.nextGiftCardCreditResponse());
+            Assert.Same(mockCnpBatchResponse, actualCnpBatchResponse);
+            Assert.Equal(522547723741503000, actualCnpBatchResponse.nextGiftCardCreditResponse().cnpTxnId);
+            Assert.Equal(522547723741503001, actualCnpBatchResponse.nextGiftCardCreditResponse().cnpTxnId);
+            Assert.Null(actualCnpBatchResponse.nextGiftCardCreditResponse());
 
             mockCommunications.Verify(Communications => Communications.FtpDropOff(It.IsAny<String>(), mockFileName, It.IsAny<Dictionary<String, String>>()));
             mockCommunications.Verify(Communications => Communications.FtpPickUp(It.IsAny<String>(), It.IsAny<Dictionary<String, String>>(), mockFileName));
         }
 
-        [Test]
+        [Fact]
         public void TestGiftCardCreditWithOrderId()
         {
             var giftCardCredit = new giftCardCredit
@@ -2145,10 +2138,10 @@ namespace Cnp.Sdk.Test.Unit
             cnpResponse actualCnpResponse = cnp.receiveFromCnp(batchFileName);
             batchResponse actualCnpBatchResponse = actualCnpResponse.nextBatchResponse();
 
-            Assert.AreSame(mockCnpBatchResponse, actualCnpBatchResponse);
-            Assert.AreEqual(522547723741503000, actualCnpBatchResponse.nextGiftCardCreditResponse().cnpTxnId);
-            Assert.AreEqual(522547723741503001, actualCnpBatchResponse.nextGiftCardCreditResponse().cnpTxnId);
-            Assert.IsNull(actualCnpBatchResponse.nextGiftCardCreditResponse());
+            Assert.Same(mockCnpBatchResponse, actualCnpBatchResponse);
+            Assert.Equal(522547723741503000, actualCnpBatchResponse.nextGiftCardCreditResponse().cnpTxnId);
+            Assert.Equal(522547723741503001, actualCnpBatchResponse.nextGiftCardCreditResponse().cnpTxnId);
+            Assert.Null(actualCnpBatchResponse.nextGiftCardCreditResponse());
 
             mockCommunications.Verify(Communications => Communications.FtpDropOff(It.IsAny<String>(), mockFileName, It.IsAny<Dictionary<String, String>>()));
             mockCommunications.Verify(Communications => Communications.FtpPickUp(It.IsAny<String>(), It.IsAny<Dictionary<String, String>>(), mockFileName));

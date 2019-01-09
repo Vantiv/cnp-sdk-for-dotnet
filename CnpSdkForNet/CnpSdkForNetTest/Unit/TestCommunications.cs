@@ -1,58 +1,53 @@
-﻿using System.Collections.Generic;
-using NUnit.Framework;
+﻿ using System.Collections.Generic;
+using Xunit;
 
 
 
 namespace Cnp.Sdk.Test.Unit
 {
-    [TestFixture]
-    internal class TestCommunications
+
+    public class TestCommunications
     {
-        private Communications _objectUnderTest;
+        private Communications _objectUnderTest = new Communications();
+        
 
-        [TestFixtureSetUp]
-        public void SetUpCnp()
-        {
-            _objectUnderTest = new Communications();
-        }
-
-        [Test]
+        [Fact]
         public void TestSettingProxyPropertiesToNullShouldTurnOffProxy()
         {
             var config = new Dictionary<string, string> { { "proxyHost", null }, { "proxyPort", null } };
 
-            Assert.IsFalse(_objectUnderTest.IsProxyOn(config));
+            Assert.False(_objectUnderTest.IsProxyOn(config));
 
         }
 
-        [Test]
+        [Fact]
         public void TestSettingProxyPropertiesToEmptyShouldTurnOffProxy()
         {
             var config = new Dictionary<string, string> { { "proxyHost", "" }, { "proxyPort", "" } };
 
-            Assert.IsFalse(_objectUnderTest.IsProxyOn(config));
+            Assert.False(_objectUnderTest.IsProxyOn(config));
 
         }
 
-        [Test]
+        [Fact]
         public void TestSettingLogFileToEmptyShouldTurnOffLogFile()
         {
             var config = new Dictionary<string, string> { { "logFile", "" } };
 
-            Assert.IsFalse(_objectUnderTest.IsValidConfigValueSet(config, "logFile"));
+            Assert.False(_objectUnderTest.IsValidConfigValueSet(config, "logFile"));
 
             config = null;
 
-            Assert.IsFalse(_objectUnderTest.IsValidConfigValueSet(config, "logFile"));
+            Assert.False(_objectUnderTest.IsValidConfigValueSet(config, "logFile"));
 
         }
 
-        [Test]
+        [Fact]
         public void TestConfigNotPresentInDictionary()
         {
             var config = new Dictionary<string, string> { };
 
-            Assert.IsFalse(_objectUnderTest.IsValidConfigValueSet(config, "logFile"));
+            Assert.False(_objectUnderTest.IsValidConfigValueSet(config, "logFile"));
 
         }
 

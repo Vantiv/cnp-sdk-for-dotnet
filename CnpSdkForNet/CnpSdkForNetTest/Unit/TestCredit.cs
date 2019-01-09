@@ -1,7 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Text;
-using NUnit.Framework;
+using Xunit;
 using Cnp.Sdk;
 using Moq;
 using System.Text.RegularExpressions;
@@ -9,19 +9,13 @@ using System.Text.RegularExpressions;
 
 namespace Cnp.Sdk.Test.Unit
 {
-    [TestFixture]
-    class TestCredit
+    public class TestCredit
     {
         
-        private CnpOnline cnp;
+        private CnpOnline cnp = new CnpOnline();
+        
 
-        [TestFixtureSetUp]
-        public void SetUpCnp()
-        {
-            cnp = new CnpOnline();
-        }
-
-        [Test]
+        [Fact]
         public void TestActionReasonOnOrphanedRefund()
         {
             credit credit = new credit();
@@ -41,7 +35,7 @@ namespace Cnp.Sdk.Test.Unit
             cnp.Credit(credit);
         }
 
-        [Test]
+        [Fact]
         public void TestOrderSource_Set()
         {
             credit credit = new credit();
@@ -62,7 +56,7 @@ namespace Cnp.Sdk.Test.Unit
             cnp.Credit(credit);
         }
 
-        [Test]
+        [Fact]
         public void TestSecondaryAmount_Orphan()
         {
             credit credit = new credit();
@@ -82,7 +76,7 @@ namespace Cnp.Sdk.Test.Unit
             cnp.Credit(credit);
         }
 
-        [Test]
+        [Fact]
         public void TestSecondaryAmount_Tied()
         {
             credit credit = new credit();
@@ -102,7 +96,7 @@ namespace Cnp.Sdk.Test.Unit
             cnp.Credit(credit);
         }
 
-        [Test]
+        [Fact]
         public void TestSurchargeAmount_Tied()
         {
             credit credit = new credit();
@@ -122,7 +116,7 @@ namespace Cnp.Sdk.Test.Unit
             cnp.Credit(credit);
         }
 
-        [Test]
+        [Fact]
         public void TestSurchargeAmount_TiedOptional()
         {
             credit credit = new credit();
@@ -141,7 +135,7 @@ namespace Cnp.Sdk.Test.Unit
             cnp.Credit(credit);
         }
 
-        [Test]
+        [Fact]
         public void TestSurchargeAmount_Orphan()
         {
             credit credit = new credit();
@@ -161,7 +155,7 @@ namespace Cnp.Sdk.Test.Unit
             cnp.Credit(credit);
         }
 
-        [Test]
+        [Fact]
         public void TestSurchargeAmount_OrphanOptional()
         {
             credit credit = new credit();
@@ -180,7 +174,7 @@ namespace Cnp.Sdk.Test.Unit
             cnp.Credit(credit);
         }
 
-        [Test]
+        [Fact]
         public void TestPos_Tied()
         {
             credit credit = new credit();
@@ -201,7 +195,7 @@ namespace Cnp.Sdk.Test.Unit
             cnp.Credit(credit);
         }
 
-        [Test]
+        [Fact]
         public void TestPos_TiedOptional()
         {
             credit credit = new credit();
@@ -220,7 +214,7 @@ namespace Cnp.Sdk.Test.Unit
             cnp.Credit(credit);
         }
 
-        [Test]
+        [Fact]
         public void TestCreditWithPin()
         {
             credit credit = new credit();

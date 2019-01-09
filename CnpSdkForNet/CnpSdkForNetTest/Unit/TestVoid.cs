@@ -1,7 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Text;
-using NUnit.Framework;
+using Xunit;
 using Cnp.Sdk;
 using Moq;
 using System.Text.RegularExpressions;
@@ -9,19 +9,12 @@ using System.Text.RegularExpressions;
 
 namespace Cnp.Sdk.Test.Unit
 {
-    [TestFixture]
-    class TestVoid
+    public class TestVoid
     {
         
-        private CnpOnline cnp;
+        private CnpOnline cnp = new CnpOnline();
 
-        [TestFixtureSetUp]
-        public void SetUpCnp()
-        {
-            cnp = new CnpOnline();
-        }
-
-        [Test]
+        [Fact]
         public void TestRecyclingDataOnVoidResponse()
         {
             voidTxn voidTxn = new voidTxn();
@@ -35,11 +28,11 @@ namespace Cnp.Sdk.Test.Unit
             Communications mockedCommunication = mock.Object;
             cnp.SetCommunication(mockedCommunication);
             voidResponse response = cnp.DoVoid(voidTxn);
-            Assert.AreEqual(123, response.cnpTxnId);
-            Assert.AreEqual(456, response.recycling.creditCnpTxnId);
+            Assert.Equal(123, response.cnpTxnId);
+            Assert.Equal(456, response.recycling.creditCnpTxnId);
         }
 
-        [Test]
+        [Fact]
         public void TestRecyclingDataOnVoidResponseIsOptional()
         {
             voidTxn voidTxn = new voidTxn();
@@ -53,8 +46,8 @@ namespace Cnp.Sdk.Test.Unit
             Communications mockedCommunication = mock.Object;
             cnp.SetCommunication(mockedCommunication);
             voidResponse response = cnp.DoVoid(voidTxn);
-            Assert.AreEqual(123, response.cnpTxnId);
-            Assert.IsNull(response.recycling);
+            Assert.Equal(123, response.cnpTxnId);
+            Assert.Null(response.recycling);
         }
 
     }

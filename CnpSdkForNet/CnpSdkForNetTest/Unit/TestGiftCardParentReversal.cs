@@ -1,7 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Text;
-using NUnit.Framework;
+using Xunit;
 using Cnp.Sdk;
 using Moq;
 using System.Text.RegularExpressions;
@@ -9,18 +9,12 @@ using System.Text.RegularExpressions;
 namespace Cnp.Sdk.Test.Unit
 {
 
-    [TestFixture]
-    class TestGiftCardParentReversal
+    public class TestGiftCardParentReversal
     {
-        private CnpOnline cnp;
+        private CnpOnline cnp = new CnpOnline();
+        
 
-        [TestFixtureSetUp]
-        public void SetUpCnp()
-        {
-            cnp = new CnpOnline();
-        }
-
-        [Test]
+        [Fact]
         public void DepositReversal()
         {
             depositReversal reversal = new depositReversal();
@@ -49,7 +43,7 @@ namespace Cnp.Sdk.Test.Unit
             cnp.DepositReversal(reversal);
         }
 
-        [Test]
+        [Fact]
         public void RefundReversal()
         {
             refundReversal reversal = new refundReversal();
@@ -78,7 +72,7 @@ namespace Cnp.Sdk.Test.Unit
             cnp.RefundReversal(reversal);
         }
 
-        [Test]
+        [Fact]
         public void ActivateReversal()
         {
             activateReversal reversal = new activateReversal();
@@ -107,7 +101,7 @@ namespace Cnp.Sdk.Test.Unit
             cnp.ActivateReversal(reversal);
         }
 
-        [Test]
+        [Fact]
         public void DeactivateReversal()
         {
             deactivateReversal reversal = new deactivateReversal();
@@ -135,7 +129,7 @@ namespace Cnp.Sdk.Test.Unit
             cnp.DeactivateReversal(reversal);
         }
 
-        [Test]
+        [Fact]
         public void LoadReversal()
         {
             loadReversal reversal = new loadReversal();
@@ -164,7 +158,7 @@ namespace Cnp.Sdk.Test.Unit
             cnp.LoadReversal(reversal);
         }
 
-        [Test]
+        [Fact]
         public void UnloadReversal()
         {
             unloadReversal reversal = new unloadReversal();

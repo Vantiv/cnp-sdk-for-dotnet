@@ -1,25 +1,19 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Text;
-using NUnit.Framework;
+using Xunit;
 using Cnp.Sdk;
 using Moq;
 using System.Text.RegularExpressions;
 
 namespace Cnp.Sdk.Test.Unit
 {
-    [TestFixture]
-    class TestGiftCard
+    public class TestGiftCard
     {
-        private CnpOnline cnp;
+        private CnpOnline  cnp = new CnpOnline();
+        
 
-        [TestFixtureSetUp]
-        public void SetUpCnp()
-        {
-            cnp = new CnpOnline();
-        }
-
-        [Test]
+        [Fact]
         public void TestGiftCardAuthReversalSimple()
         {
             giftCardAuthReversal giftCard = new giftCardAuthReversal();
@@ -40,10 +34,10 @@ namespace Cnp.Sdk.Test.Unit
             Communications mockedCommunication = mock.Object;
             cnp.SetCommunication(mockedCommunication);
             giftCardAuthReversalResponse giftCardAuthReversalResponse = cnp.GiftCardAuthReversal(giftCard);
-            Assert.AreEqual(123, giftCardAuthReversalResponse.cnpTxnId);
+            Assert.Equal(123, giftCardAuthReversalResponse.cnpTxnId);
         }
 
-        [Test]
+        [Fact]
         public void TestGiftCardAuthReversalWithCard()
         {
             giftCardAuthReversal giftCard = new giftCardAuthReversal();
@@ -64,10 +58,10 @@ namespace Cnp.Sdk.Test.Unit
             Communications mockedCommunication = mock.Object;
             cnp.SetCommunication(mockedCommunication);
             giftCardAuthReversalResponse giftCardAuthReversalResponse = cnp.GiftCardAuthReversal(giftCard);
-            Assert.AreEqual(123, giftCardAuthReversalResponse.cnpTxnId);
+            Assert.Equal(123, giftCardAuthReversalResponse.cnpTxnId);
         }
 
-        [Test]
+        [Fact]
         public void TestGiftCardCaptureSimple()
         {
             giftCardCapture giftCardCapture = new giftCardCapture();
@@ -94,7 +88,7 @@ namespace Cnp.Sdk.Test.Unit
             cnp.GiftCardCapture(giftCardCapture);
         }
 
-        [Test]
+        [Fact]
         public void TestGiftCardCreditTxnId()
         {
             giftCardCredit credit = new giftCardCredit();
@@ -118,7 +112,7 @@ namespace Cnp.Sdk.Test.Unit
             cnp.GiftCardCredit(credit);
         }
 
-        [Test]
+        [Fact]
         public void TestGiftCardCreditOrderId()
         {
             giftCardCredit credit = new giftCardCredit();

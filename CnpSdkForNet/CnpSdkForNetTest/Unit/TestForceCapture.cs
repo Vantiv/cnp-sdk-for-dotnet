@@ -1,7 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Text;
-using NUnit.Framework;
+using Xunit;
 using Cnp.Sdk;
 using Moq;
 using System.Text.RegularExpressions;
@@ -9,19 +9,13 @@ using System.Text.RegularExpressions;
 
 namespace Cnp.Sdk.Test.Unit
 {
-    [TestFixture]
-    class TestForceCapture
+    public class TestForceCapture
     {
         
-        private CnpOnline cnp;
+        private CnpOnline cnp = new CnpOnline();
+        
 
-        [TestFixtureSetUp]
-        public void SetUpCnp()
-        {
-            cnp = new CnpOnline();
-        }
-
-        [Test]
+        [Fact]
         public void TestSecondaryAmount()
         {
             forceCapture capture = new forceCapture();
@@ -40,7 +34,7 @@ namespace Cnp.Sdk.Test.Unit
             cnp.ForceCapture(capture);
         }
 
-        [Test]
+        [Fact]
         public void TestSurchargeAmount()
         {
             forceCapture capture = new forceCapture();
@@ -60,7 +54,7 @@ namespace Cnp.Sdk.Test.Unit
         }
 
 
-        [Test]
+        [Fact]
         public void TestSurchargeAmount_Optional()
         {
             forceCapture capture = new forceCapture();
@@ -78,7 +72,7 @@ namespace Cnp.Sdk.Test.Unit
             cnp.ForceCapture(capture);
         }
 
-        [Test]
+        [Fact]
         public void TestDebtRepayment_True()
         {
             forceCapture forceCapture = new forceCapture();
@@ -95,7 +89,7 @@ namespace Cnp.Sdk.Test.Unit
             cnp.ForceCapture(forceCapture);
         }
 
-        [Test]
+        [Fact]
         public void TestDebtRepayment_False()
         {
             forceCapture forceCapture = new forceCapture();
@@ -112,7 +106,7 @@ namespace Cnp.Sdk.Test.Unit
             cnp.ForceCapture(forceCapture);
         }
 
-        [Test]
+        [Fact]
         public void TestDebtRepayment_Optional()
         {
             forceCapture forceCapture = new forceCapture();
@@ -128,7 +122,7 @@ namespace Cnp.Sdk.Test.Unit
             cnp.ForceCapture(forceCapture);
         }
 
-        [Test]
+        [Fact]
         public void TestProcessingType()
         {
             forceCapture capture = new forceCapture();
@@ -148,7 +142,7 @@ namespace Cnp.Sdk.Test.Unit
             cnp.ForceCapture(capture);
         }
 
-        [Test]
+        [Fact]
         public void TestUndefinedProcessingType()
         {
             forceCapture capture = new forceCapture();

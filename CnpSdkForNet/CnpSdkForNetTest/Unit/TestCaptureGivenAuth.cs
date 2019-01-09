@@ -1,7 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Text;
-using NUnit.Framework;
+using Xunit;
 using Cnp.Sdk;
 using Moq;
 using System.Text.RegularExpressions;
@@ -9,19 +9,14 @@ using System.Text.RegularExpressions;
 
 namespace Cnp.Sdk.Test.Unit
 {
-    [TestFixture]
-    class TestCaptureGivenAuth
+    
+    public class TestCaptureGivenAuth
     {
         
-        private CnpOnline cnp;
+        private CnpOnline cnp = new CnpOnline();
+        
 
-        [TestFixtureSetUp]
-        public void SetUpCnp()
-        {
-            cnp = new CnpOnline();
-        }
-
-        [Test]
+        [Fact]
         public void TestSecondaryAmount()
         {
             captureGivenAuth capture = new captureGivenAuth();
@@ -40,7 +35,7 @@ namespace Cnp.Sdk.Test.Unit
             cnp.CaptureGivenAuth(capture);
         }
 
-        [Test]
+        [Fact]
         public void TestSurchargeAmount()
         {
             captureGivenAuth capture = new captureGivenAuth();
@@ -59,7 +54,7 @@ namespace Cnp.Sdk.Test.Unit
             cnp.CaptureGivenAuth(capture);
         }
 
-        [Test]
+        [Fact]
         public void TestSurchargeAmount_Optional()
         {
             captureGivenAuth capture = new captureGivenAuth();
@@ -77,7 +72,7 @@ namespace Cnp.Sdk.Test.Unit
             cnp.CaptureGivenAuth(capture);
         }
 
-        [Test]
+        [Fact]
         public void TestDebtRepayment_True()
         {
             captureGivenAuth captureGivenAuth = new captureGivenAuth();
@@ -94,7 +89,7 @@ namespace Cnp.Sdk.Test.Unit
             cnp.CaptureGivenAuth(captureGivenAuth);
         }
 
-        [Test]
+        [Fact]
         public void TestDebtRepayment_False()
         {
             captureGivenAuth captureGivenAuth = new captureGivenAuth();
@@ -111,7 +106,7 @@ namespace Cnp.Sdk.Test.Unit
             cnp.CaptureGivenAuth(captureGivenAuth);
         }
 
-        [Test]
+        [Fact]
         public void TestDebtRepayment_Optional()
         {
             captureGivenAuth captureGivenAuth = new captureGivenAuth();
@@ -126,7 +121,7 @@ namespace Cnp.Sdk.Test.Unit
             cnp.SetCommunication(mockedCommunication);
             cnp.CaptureGivenAuth(captureGivenAuth);
         }
-        [Test]
+        [Fact]
         public void TestProcessingType()
         {
             captureGivenAuth capture = new captureGivenAuth();
@@ -147,7 +142,7 @@ namespace Cnp.Sdk.Test.Unit
             cnp.CaptureGivenAuth(capture);
         }
 
-        [Test]
+        [Fact]
         public void TestUndefinedProcessingType()
         {
             captureGivenAuth capture = new captureGivenAuth();

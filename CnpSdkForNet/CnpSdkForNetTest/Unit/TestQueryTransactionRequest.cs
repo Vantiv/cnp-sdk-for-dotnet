@@ -1,7 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Text;
-using NUnit.Framework;
+using Xunit;
 using Cnp.Sdk;
 using Moq;
 using System.Text.RegularExpressions;
@@ -9,19 +9,12 @@ using System.Text.RegularExpressions;
 
 namespace Cnp.Sdk.Test.Unit
 {
-    [TestFixture]
-    class TestQueryTransactionRequest
+    public class TestQueryTransactionRequest
     {
 
-        private CnpOnline cnp;
+        private CnpOnline cnp = new CnpOnline();
 
-        [TestFixtureSetUp]
-        public void SetUpCnp()
-        {
-            cnp = new CnpOnline();
-        }
-
-        [Test]
+        [Fact]
         public void TestSimple()
         {
             queryTransaction query = new queryTransaction();
@@ -32,11 +25,11 @@ namespace Cnp.Sdk.Test.Unit
             query.origCnpTxnId = 54321;
 
             string result = query.Serialize();
-            Assert.AreEqual("\r\n<queryTransaction id=\"myId\" reportGroup=\"myReportGroup\">\r\n<origId>12345</origId>\r\n<origActionType>D</origActionType>\r\n<origCnpTxnId>54321</origCnpTxnId>\r\n</queryTransaction>", result);
+            Assert.Equal("\r\n<queryTransaction id=\"myId\" reportGroup=\"myReportGroup\">\r\n<origId>12345</origId>\r\n<origActionType>D</origActionType>\r\n<origCnpTxnId>54321</origCnpTxnId>\r\n</queryTransaction>", result);
             
         }
 
-        [Test]
+        [Fact]
         public void TestQueryTransactionResponse()
         {
             queryTransaction query = new queryTransaction();
@@ -57,27 +50,27 @@ namespace Cnp.Sdk.Test.Unit
             queryTransactionResponse queryTransactionResponse = (queryTransactionResponse)response;
 
             Assert.NotNull(queryTransactionResponse);
-            Assert.AreEqual("000", queryTransactionResponse.response);
-            Assert.AreEqual(3, queryTransactionResponse.results_max10.Count);
-            Assert.AreEqual("Original transaction found", queryTransactionResponse.message);
-            Assert.AreEqual("000", ((authorizationResponse)queryTransactionResponse.results_max10[0]).response);
-            Assert.AreEqual("Approved", ((authorizationResponse)queryTransactionResponse.results_max10[0]).message);
-            Assert.AreEqual(756027696701750, ((authorizationResponse)queryTransactionResponse.results_max10[0]).cnpTxnId);
+            Assert.Equal("000", queryTransactionResponse.response);
+            Assert.Equal(3, queryTransactionResponse.results_max10.Count);
+            Assert.Equal("Original transaction found", queryTransactionResponse.message);
+            Assert.Equal("000", ((authorizationResponse)queryTransactionResponse.results_max10[0]).response);
+            Assert.Equal("Approved", ((authorizationResponse)queryTransactionResponse.results_max10[0]).message);
+            Assert.Equal(756027696701750, ((authorizationResponse)queryTransactionResponse.results_max10[0]).cnpTxnId);
 
-            Assert.AreEqual("000", ((authorizationResponse)queryTransactionResponse.results_max10[1]).response);
-            Assert.AreEqual("Approved", ((authorizationResponse)queryTransactionResponse.results_max10[1]).message);
-            Assert.AreEqual(756027696701751, ((authorizationResponse)queryTransactionResponse.results_max10[1]).cnpTxnId);
+            Assert.Equal("000", ((authorizationResponse)queryTransactionResponse.results_max10[1]).response);
+            Assert.Equal("Approved", ((authorizationResponse)queryTransactionResponse.results_max10[1]).message);
+            Assert.Equal(756027696701751, ((authorizationResponse)queryTransactionResponse.results_max10[1]).cnpTxnId);
 
-            Assert.AreEqual("000", ((authorizationResponse)queryTransactionResponse.results_max10[1]).response);
-            Assert.AreEqual("Approved", ((authorizationResponse)queryTransactionResponse.results_max10[1]).message);
-            Assert.AreEqual(756027696701751, ((authorizationResponse)queryTransactionResponse.results_max10[1]).cnpTxnId);
+            Assert.Equal("000", ((authorizationResponse)queryTransactionResponse.results_max10[1]).response);
+            Assert.Equal("Approved", ((authorizationResponse)queryTransactionResponse.results_max10[1]).message);
+            Assert.Equal(756027696701751, ((authorizationResponse)queryTransactionResponse.results_max10[1]).cnpTxnId);
 
-            Assert.AreEqual("000", ((captureResponse)queryTransactionResponse.results_max10[2]).response);
-            Assert.AreEqual("Deposit approved", ((captureResponse)queryTransactionResponse.results_max10[2]).message);
+            Assert.Equal("000", ((captureResponse)queryTransactionResponse.results_max10[2]).response);
+            Assert.Equal("Deposit approved", ((captureResponse)queryTransactionResponse.results_max10[2]).message);
 
         }
 
-        [Test]
+        [Fact]
         public void TestQueryTransactionUnavailableResponse()
         {
             queryTransaction query = new queryTransaction();
@@ -98,7 +91,7 @@ namespace Cnp.Sdk.Test.Unit
             queryTransactionUnavailableResponse queryTransactionResponse = (queryTransactionUnavailableResponse)response;
 
             Assert.NotNull(queryTransactionResponse);
-            Assert.AreEqual("152", queryTransactionResponse.response);
+            Assert.Equal("152", queryTransactionResponse.response);
         }
     }
 }

@@ -1,17 +1,16 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Text;
-using NUnit.Framework;
+using Xunit;
 using Cnp.Sdk;
 using Moq;
 using System.Text.RegularExpressions;
 
 namespace Cnp.Sdk.Test.Unit
 {
-    [TestFixture]
-    class TestRFRRequest
+    public class TestRFRRequest
     {
-        private RFRRequest rfrRequest;
+        private RFRRequest rfrRequest = new RFRRequest();
 
         private const string timeFormat = "MM-dd-yyyy_HH-mm-ss-ffff_";
         private const string timeRegex = "[0-1][0-9]-[0-3][0-9]-[0-9]{4}_[0-9]{2}-[0-9]{2}-[0-9]{2}-[0-9]{4}_";
@@ -19,26 +18,16 @@ namespace Cnp.Sdk.Test.Unit
         private const string mockFileName = "TheRainbow.xml";
         private const string mockFilePath = "C:\\Somewhere\\\\Over\\\\" + mockFileName;
 
-        private Mock<cnpFile> mockCnpFile;
-        private Mock<cnpTime> mockCnpTime;
+        private Mock<cnpFile> mockCnpFile = new Mock<cnpFile>();
+        private Mock<cnpTime> mockCnpTime = new Mock<cnpTime>();
 
-        [TestFixtureSetUp]
-        public void setUp()
+        public TestRFRRequest()
         {
-            mockCnpFile = new Mock<cnpFile>();
-            mockCnpTime = new Mock<cnpTime>();
-
             mockCnpFile.Setup(cnpFile => cnpFile.createRandomFile(It.IsAny<String>(), It.IsAny<String>(), It.IsAny<String>(), mockCnpTime.Object)).Returns(mockFilePath);
             mockCnpFile.Setup(cnpFile => cnpFile.AppendLineToFile(mockFilePath, It.IsAny<String>())).Returns(mockFilePath);
         }
 
-        [SetUp]
-        public void SetUpBeforeTest()
-        {
-            rfrRequest = new RFRRequest();
-        }
-
-        [Test]
+        [Fact]
         public void TestInitialization()
         {
             Dictionary<String, String> mockConfig = new Dictionary<string, string>();
@@ -63,14 +52,14 @@ namespace Cnp.Sdk.Test.Unit
 
             rfrRequest = new RFRRequest(mockConfig);
 
-            Assert.AreEqual("C:\\MockRequests\\Requests\\", rfrRequest.getRequestDirectory());
-            Assert.AreEqual("C:\\MockResponses\\Responses\\", rfrRequest.getResponseDirectory());
+            Assert.Equal("C:\\MockRequests\\Requests\\", rfrRequest.getRequestDirectory());
+            Assert.Equal("C:\\MockResponses\\Responses\\", rfrRequest.getResponseDirectory());
 
             Assert.NotNull(rfrRequest.getCnpTime());
             Assert.NotNull(rfrRequest.getCnpFile());
         }
 
-        [Test]
+        [Fact]
         public void TestSerialize()
         {
             cnpFile mockedCnpFile = mockCnpFile.Object;
@@ -80,14 +69,14 @@ namespace Cnp.Sdk.Test.Unit
             rfrRequest.setCnpFile(mockedCnpFile);
             rfrRequest.setCnpTime(mockedCnpTime);
 
-            Assert.AreEqual(mockFilePath, rfrRequest.Serialize());
+            Assert.Equal(mockFilePath, rfrRequest.Serialize());
 
             mockCnpFile.Verify(cnpFile => cnpFile.AppendLineToFile(mockFilePath, "\r\n<RFRRequest xmlns=\"http://www.vantivcnp.com/schema\">"));
             mockCnpFile.Verify(cnpFile => cnpFile.AppendLineToFile(mockFilePath, "\r\n<cnpSessionId>123456789</cnpSessionId>"));
             mockCnpFile.Verify(cnpFile => cnpFile.AppendLineToFile(mockFilePath, "\r\n</RFRRequest>"));
         }
 
-        [Test]
+        [Fact]
         public void TestAccountUpdateFileRequestData() 
         {
             Dictionary<String, String> mockConfig = new Dictionary<string, string>();
@@ -113,8 +102,8 @@ namespace Cnp.Sdk.Test.Unit
             accountUpdateFileRequestData accountUpdateFileRequest = new accountUpdateFileRequestData(mockConfig);
             accountUpdateFileRequestData accountUpdateFileRequestDefault = new accountUpdateFileRequestData();
 
-            Assert.AreEqual(accountUpdateFileRequestDefault.merchantId, Properties.Settings.Default.merchantId);
-            Assert.AreEqual(accountUpdateFileRequest.merchantId, mockConfig["merchantId"]);
+            Assert.Equal(accountUpdateFileRequestDefault.merchantId, Properties.Settings.Default.merchantId);
+            Assert.Equal(accountUpdateFileRequest.merchantId, mockConfig["merchantId"]);
         }
     }
 }

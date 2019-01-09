@@ -1,7 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Text;
-using NUnit.Framework;
+using Xunit;
 using Cnp.Sdk;
 using Moq;
 using System.Text.RegularExpressions;
@@ -9,19 +9,13 @@ using System.Text.RegularExpressions;
 
 namespace Cnp.Sdk.Test.Unit
 {
-    [TestFixture]
-    class TestCapture
+    public class TestCapture
     {
         
-        private CnpOnline cnp;
+        private CnpOnline cnp = new CnpOnline();
+        
 
-        [TestFixtureSetUp]
-        public void SetUpCnp()
-        {
-            cnp = new CnpOnline();
-        }
-
-        [Test]
+        [Fact]
         public void TestSimpleCapture()
         {
             capture capture = new capture();
@@ -41,7 +35,7 @@ namespace Cnp.Sdk.Test.Unit
             cnp.Capture(capture);
         }
 
-        [Test]
+        [Fact]
         public void TestSurchargeAmount()
         {
             capture capture = new capture();
@@ -61,7 +55,7 @@ namespace Cnp.Sdk.Test.Unit
             cnp.Capture(capture);
         }
 
-        [Test]
+        [Fact]
         public void TestSurchargeAmount_Optional()
         {
             capture capture = new capture();
