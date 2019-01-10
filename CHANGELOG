@@ -1,7 +1,7 @@
 
 = Worldpay CNP CHANGELOG
 
-==Version 12.7.1(Jan. 10, 2019)
+==Version 12.7.2(Jan. 10, 2019)
 * Change: Changed some of the NUnit tests to Xunit
 
 ==Version 12.7.1 (Jan. 3, 2019)
