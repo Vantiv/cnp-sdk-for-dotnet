@@ -1,14 +1,13 @@
 using System;
 using System.Collections.Generic;
 using System.Text;
-using NUnit.Framework;
+using Xunit;
 using Cnp.Sdk;
 using System.IO;
 
 namespace Cnp.Sdk.Test.Functional
 {
-    [TestFixture]
-    class TestBatchStream
+    public class TestBatchStream
     {
         //private cnpRequest cnp;
         //private Dictionary<String, String> invalidConfig;
