@@ -14,6 +14,9 @@ namespace Cnp.Sdk.Test.Functional
 
         static String merchantId = "07103229";
 
+        //Before doing any releases, run this test. it times out on jenkins, but should run locally (in several hours). 
+        //if it runs locally, you can put the ignore tag back and push it
+        [Ignore] 
         [Test]
         public void runTest()
         {
