@@ -4,7 +4,6 @@ using System.Collections.Generic;
 using System.Diagnostics;
 using System.Globalization;
 using System.Net;
-using Tamir.SharpSsh.jsch;
 using System.Net.Sockets;
 using System.Net.Security;
 using System.Security.Authentication;
@@ -12,6 +11,7 @@ using System.Security.Cryptography.X509Certificates;
 using System.Text.RegularExpressions;
 using System.Threading;
 using System.Threading.Tasks;
+using Tamir.SharpSsh.jsch;
 
 namespace Cnp.Sdk
 {
