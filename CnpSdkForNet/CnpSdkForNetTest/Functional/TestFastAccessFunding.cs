@@ -1,18 +1,16 @@
 ﻿using System;
 using System.Collections.Generic;
-using NUnit.Framework;
+using Xunit;
 
 namespace Cnp.Sdk.Test.Functional
 {
-    [TestFixture]
-    internal class TestFastAccessFunding
+    public class TestFastAccessFunding
     {
         
         private CnpOnline _cnp;
         private Dictionary<string, string> _config;
 
-        [TestFixtureSetUp]
-        public void SetUpCnp()
+        public TestFastAccessFunding()
         {
             _config = new Dictionary<string, string>
             {
@@ -34,7 +32,7 @@ namespace Cnp.Sdk.Test.Functional
         }
         
         
-        [Test]
+        [Fact]
         public void TestFastAccessFunding_token()
         {
             fastAccessFunding fastAccessFunding = new fastAccessFunding();
@@ -53,8 +51,8 @@ namespace Cnp.Sdk.Test.Functional
             };
             
             var response = _cnp.FastAccessFunding(fastAccessFunding);
-            Assert.AreEqual("000", response.response);
-            StringAssert.AreEqualIgnoringCase("Approved", response.message);
+            Assert.Equal("000", response.response);
+            Assert.True(response.message.Equals("Approved", System.StringComparison.InvariantCultureIgnoreCase));
         }
     }
 }

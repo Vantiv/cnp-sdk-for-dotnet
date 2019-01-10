@@ -1,17 +1,15 @@
 ﻿using System.Collections.Generic;
-using NUnit.Framework;
+using Xunit;
 using System;
 
 namespace Cnp.Sdk.Test.Functional
 {
-    [TestFixture]
-    internal class TestGiftCardParentReversal
+    public class TestGiftCardParentReversal
     {
         private CnpOnline _cnp;
         private Dictionary<string, string> _config;
 
-        [TestFixtureSetUp]
-        public void SetUpCnp()
+        public TestGiftCardParentReversal()
         {
             _config = new Dictionary<string, string>
             {
@@ -32,7 +30,7 @@ namespace Cnp.Sdk.Test.Functional
             _cnp = new CnpOnline(_config);
         }
 
-        [Test]
+        [Fact]
         public void DepositReversal()
         {
             var reversal = new depositReversal
@@ -57,10 +55,10 @@ namespace Cnp.Sdk.Test.Functional
             };
 
             var response = _cnp.DepositReversal(reversal);
-            Assert.AreEqual("Approved", response.message);
+            Assert.Equal("Approved", response.message);
         }
 
-        [Test]
+        [Fact]
         public void RefundReversal()
         {
             var reversal = new refundReversal
@@ -83,10 +81,10 @@ namespace Cnp.Sdk.Test.Functional
             };
 
             var response = _cnp.RefundReversal(reversal);
-            Assert.AreEqual("Approved", response.message);
+            Assert.Equal("Approved", response.message);
         }
 
-        [Test]
+        [Fact]
         public void ActivateReversal()
         {
             var reversal = new activateReversal
@@ -110,10 +108,10 @@ namespace Cnp.Sdk.Test.Functional
             };
 
             var response = _cnp.ActivateReversal(reversal);
-            Assert.AreEqual("Approved", response.message);
+            Assert.Equal("Approved", response.message);
         }
 
-        [Test]
+        [Fact]
         public void DeactivateReversal()
         {
             var reversal = new deactivateReversal
@@ -137,10 +135,10 @@ namespace Cnp.Sdk.Test.Functional
             };
 
             var response = _cnp.DeactivateReversal(reversal);
-            Assert.AreEqual("Approved", response.message);
+            Assert.Equal("Approved", response.message);
         }
 
-        [Test]
+        [Fact]
         public void LoadReversal()
         {
             var reversal = new loadReversal
@@ -165,10 +163,10 @@ namespace Cnp.Sdk.Test.Functional
             };
 
             var response = _cnp.LoadReversal(reversal);
-            Assert.AreEqual("Approved", response.message);
+            Assert.Equal("Approved", response.message);
         }
 
-        [Test]
+        [Fact]
         public void UnloadReversal()
         {
             var reversal = new unloadReversal
@@ -193,7 +191,7 @@ namespace Cnp.Sdk.Test.Functional
             };
 
             var response = _cnp.UnloadReversal(reversal);
-            Assert.AreEqual("Approved", response.message);
+            Assert.Equal("Approved", response.message);
         }
     }
 }

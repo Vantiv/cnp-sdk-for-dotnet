@@ -1,16 +1,14 @@
 ﻿using System.Collections.Generic;
-using NUnit.Framework;
+using Xunit;
 
 namespace Cnp.Sdk.Test.Functional
 {
-    [TestFixture]
-    internal class TestForceCapture
+    public class TestForceCapture
     {
         private CnpOnline _cnp;
         private Dictionary<string, string> _config;
 
-        [TestFixtureSetUp]
-        public void SetUpCnp()
+        public TestForceCapture()
         {
             _config = new Dictionary<string, string>
             {
@@ -31,7 +29,7 @@ namespace Cnp.Sdk.Test.Functional
             _cnp = new CnpOnline(_config);
         }
 
-        [Test]
+        [Fact]
         public void SimpleForceCaptureWithCard()
         {
             var forcecapture = new forceCapture
@@ -50,10 +48,10 @@ namespace Cnp.Sdk.Test.Functional
             };
 
             var response = _cnp.ForceCapture(forcecapture);
-            Assert.AreEqual("Approved", response.message);
+            Assert.Equal("Approved", response.message);
         }
         
-        [Test]
+        [Fact]
         public void SimpleForceCaptureWithProcessingTypeEnum()
         {
             var forcecapture = new forceCapture
@@ -72,10 +70,10 @@ namespace Cnp.Sdk.Test.Functional
             };
 
             var response = _cnp.ForceCapture(forcecapture);
-            Assert.AreEqual("Approved", response.message);
+            Assert.Equal("Approved", response.message);
         }
 
-        [Test]
+        [Fact]
         public void SimpleForceCaptureWithMpos()
         {
             var forcecapture = new forceCapture
@@ -95,10 +93,10 @@ namespace Cnp.Sdk.Test.Functional
             };
 
             var response = _cnp.ForceCapture(forcecapture);
-            Assert.AreEqual("Approved", response.message);
+            Assert.Equal("Approved", response.message);
         }
 
-        [Test]
+        [Fact]
         public void SimpleForceCaptureWithToken()
         {
             var forcecapture = new forceCapture
@@ -117,10 +115,10 @@ namespace Cnp.Sdk.Test.Functional
             };
 
             var response = _cnp.ForceCapture(forcecapture);
-            Assert.AreEqual("Approved", response.message); ;
+            Assert.Equal("Approved", response.message); ;
         }
 
-        [Test]
+        [Fact]
         public void simpleForceCaptureWithSecondaryAmount()
         {
             forceCapture forcecapture = new forceCapture();
@@ -135,7 +133,7 @@ namespace Cnp.Sdk.Test.Functional
             card.expDate = "1210";
             forcecapture.card = card;
             forceCaptureResponse response = _cnp.ForceCapture(forcecapture);
-            Assert.AreEqual("Approved", response.message);
+            Assert.Equal("Approved", response.message);
         }
 
     }

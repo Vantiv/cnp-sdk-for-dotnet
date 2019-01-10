@@ -1,19 +1,17 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Text;
-using NUnit.Framework;
+using Xunit;
 using Cnp.Sdk;
 
 namespace Cnp.Sdk.Test.Certification
 {
-    [TestFixture]
-    class TestCert2AuthEnhanced
+    public class TestCert2AuthEnhanced
     {
 
         private CnpOnline cnp;
 
-        [TestFixtureSetUp]
-        public void SetUp()
+        public TestCert2AuthEnhanced()
         {
             Dictionary<string, string> config = new Dictionary<string, string>();
             config.Add("url", "https://payments.vantivprelive.com/vap/communicator/online");
@@ -31,7 +29,7 @@ namespace Cnp.Sdk.Test.Certification
             cnp = new CnpOnline(config);
         }
 
-        [Test]
+        [Fact]
         public void Test14()
         {
             authorization authorization = new authorization();
@@ -46,16 +44,16 @@ namespace Cnp.Sdk.Test.Certification
             authorization.card = card;
 
             authorizationResponse response = cnp.Authorize(authorization);
-            Assert.AreEqual("000", response.response);
-            Assert.AreEqual("Approved", response.message);
+            Assert.Equal("000", response.response);
+            Assert.Equal("Approved", response.message);
            //TODO: // Need to find why enhanced auth response is not generated for this merchant. Probably config issue
-            Assert.AreEqual(fundingSourceTypeEnum.PREPAID, response.enhancedAuthResponse.fundingSource.type);
-            Assert.AreEqual("2000", response.enhancedAuthResponse.fundingSource.availableBalance);
-            Assert.AreEqual("NO", response.enhancedAuthResponse.fundingSource.reloadable);
-            Assert.AreEqual("GIFT", response.enhancedAuthResponse.fundingSource.prepaidCardType);
+            Assert.Equal(fundingSourceTypeEnum.PREPAID, response.enhancedAuthResponse.fundingSource.type);
+            Assert.Equal("2000", response.enhancedAuthResponse.fundingSource.availableBalance);
+            Assert.Equal("NO", response.enhancedAuthResponse.fundingSource.reloadable);
+            Assert.Equal("GIFT", response.enhancedAuthResponse.fundingSource.prepaidCardType);
         }
 
-        [Test]
+        [Fact]
         public void Test15()
         {
             authorization authorization = new authorization();
@@ -70,16 +68,16 @@ namespace Cnp.Sdk.Test.Certification
             authorization.card = card;
 
             authorizationResponse response = cnp.Authorize(authorization);
-            Assert.AreEqual("000", response.response);
-            Assert.AreEqual("Approved", response.message);
+            Assert.Equal("000", response.response);
+            Assert.Equal("Approved", response.message);
             //TODO: // Need to find why enhanced auth response is not generated for this merchant. Probably config issue
-            Assert.AreEqual(fundingSourceTypeEnum.PREPAID, response.enhancedAuthResponse.fundingSource.type);
-            Assert.AreEqual("2000", response.enhancedAuthResponse.fundingSource.availableBalance);
-            Assert.AreEqual("YES", response.enhancedAuthResponse.fundingSource.reloadable);
-            Assert.AreEqual("PAYROLL", response.enhancedAuthResponse.fundingSource.prepaidCardType);
+            Assert.Equal(fundingSourceTypeEnum.PREPAID, response.enhancedAuthResponse.fundingSource.type);
+            Assert.Equal("2000", response.enhancedAuthResponse.fundingSource.availableBalance);
+            Assert.Equal("YES", response.enhancedAuthResponse.fundingSource.reloadable);
+            Assert.Equal("PAYROLL", response.enhancedAuthResponse.fundingSource.prepaidCardType);
         }
 
-        [Test]
+        [Fact]
         public void Test16()
         {
             authorization authorization = new authorization();
@@ -94,16 +92,16 @@ namespace Cnp.Sdk.Test.Certification
             authorization.card = card;
 
             authorizationResponse response = cnp.Authorize(authorization);
-            Assert.AreEqual("000", response.response);
-            Assert.AreEqual("Approved", response.message);
+            Assert.Equal("000", response.response);
+            Assert.Equal("Approved", response.message);
             //TODO: // Need to find why enhanced auth response is not generated for this merchant. Probably config issue
-            Assert.AreEqual(fundingSourceTypeEnum.PREPAID, response.enhancedAuthResponse.fundingSource.type);
-            Assert.AreEqual("0", response.enhancedAuthResponse.fundingSource.availableBalance);
-            Assert.AreEqual("YES", response.enhancedAuthResponse.fundingSource.reloadable);
-            Assert.AreEqual("PAYROLL", response.enhancedAuthResponse.fundingSource.prepaidCardType);
+            Assert.Equal(fundingSourceTypeEnum.PREPAID, response.enhancedAuthResponse.fundingSource.type);
+            Assert.Equal("0", response.enhancedAuthResponse.fundingSource.availableBalance);
+            Assert.Equal("YES", response.enhancedAuthResponse.fundingSource.reloadable);
+            Assert.Equal("PAYROLL", response.enhancedAuthResponse.fundingSource.prepaidCardType);
         }
 
-        [Test]
+        [Fact]
         public void Test17()
         {
             authorization authorization = new authorization();
@@ -118,16 +116,16 @@ namespace Cnp.Sdk.Test.Certification
             authorization.card = card;
 
             authorizationResponse response = cnp.Authorize(authorization);
-            Assert.AreEqual("000", response.response);
-            Assert.AreEqual("Approved", response.message);
+            Assert.Equal("000", response.response);
+            Assert.Equal("Approved", response.message);
             //TODO: // Need to find why enhanced auth response is not generated for this merchant. Probably config issue
-            Assert.AreEqual(fundingSourceTypeEnum.PREPAID, response.enhancedAuthResponse.fundingSource.type);
-            Assert.AreEqual("6500", response.enhancedAuthResponse.fundingSource.availableBalance);
-            Assert.AreEqual("YES", response.enhancedAuthResponse.fundingSource.reloadable);
-            Assert.AreEqual("PAYROLL", response.enhancedAuthResponse.fundingSource.prepaidCardType);
+            Assert.Equal(fundingSourceTypeEnum.PREPAID, response.enhancedAuthResponse.fundingSource.type);
+            Assert.Equal("6500", response.enhancedAuthResponse.fundingSource.availableBalance);
+            Assert.Equal("YES", response.enhancedAuthResponse.fundingSource.reloadable);
+            Assert.Equal("PAYROLL", response.enhancedAuthResponse.fundingSource.prepaidCardType);
         }
 
-        [Test]
+        [Fact]
         public void Test18()
         {
             authorization authorization = new authorization();
@@ -142,16 +140,16 @@ namespace Cnp.Sdk.Test.Certification
             authorization.card = card;
 
             authorizationResponse response = cnp.Authorize(authorization);
-            Assert.AreEqual("000", response.response);
-            Assert.AreEqual("Approved", response.message);
+            Assert.Equal("000", response.response);
+            Assert.Equal("Approved", response.message);
             //TODO: // Need to find why enhanced auth response is not generated for this merchant. Probably config issue
-            Assert.AreEqual(fundingSourceTypeEnum.PREPAID, response.enhancedAuthResponse.fundingSource.type);
-            Assert.AreEqual("12200", response.enhancedAuthResponse.fundingSource.availableBalance);
-            Assert.AreEqual("YES", response.enhancedAuthResponse.fundingSource.reloadable);
-            Assert.AreEqual("PAYROLL", response.enhancedAuthResponse.fundingSource.prepaidCardType);
+            Assert.Equal(fundingSourceTypeEnum.PREPAID, response.enhancedAuthResponse.fundingSource.type);
+            Assert.Equal("12200", response.enhancedAuthResponse.fundingSource.availableBalance);
+            Assert.Equal("YES", response.enhancedAuthResponse.fundingSource.reloadable);
+            Assert.Equal("PAYROLL", response.enhancedAuthResponse.fundingSource.prepaidCardType);
         }
 
-        [Test]
+        [Fact]
         public void Test19()
         {
             authorization authorization = new authorization();
@@ -166,16 +164,16 @@ namespace Cnp.Sdk.Test.Certification
             authorization.card = card;
 
             authorizationResponse response = cnp.Authorize(authorization);
-            Assert.AreEqual("000", response.response);
-            Assert.AreEqual("Approved", response.message);
+            Assert.Equal("000", response.response);
+            Assert.Equal("Approved", response.message);
             //TODO: // Need to find why enhanced auth response is not generated for this merchant. Probably config issue
-            Assert.AreEqual(fundingSourceTypeEnum.PREPAID, response.enhancedAuthResponse.fundingSource.type);
-            Assert.AreEqual("20000", response.enhancedAuthResponse.fundingSource.availableBalance);
-            Assert.AreEqual("YES", response.enhancedAuthResponse.fundingSource.reloadable);
-            Assert.AreEqual("PAYROLL", response.enhancedAuthResponse.fundingSource.prepaidCardType);
+            Assert.Equal(fundingSourceTypeEnum.PREPAID, response.enhancedAuthResponse.fundingSource.type);
+            Assert.Equal("20000", response.enhancedAuthResponse.fundingSource.availableBalance);
+            Assert.Equal("YES", response.enhancedAuthResponse.fundingSource.reloadable);
+            Assert.Equal("PAYROLL", response.enhancedAuthResponse.fundingSource.prepaidCardType);
         }
 
-        [Test]
+        [Fact]
         public void Test20()
         {
             authorization authorization = new authorization();
@@ -190,16 +188,16 @@ namespace Cnp.Sdk.Test.Certification
             authorization.card = card;
 
             authorizationResponse response = cnp.Authorize(authorization);
-            Assert.AreEqual("000", response.response);
-            Assert.AreEqual("Approved", response.message);
+            Assert.Equal("000", response.response);
+            Assert.Equal("Approved", response.message);
             //TODO: // Need to find why enhanced auth response is not generated for this merchant. Probably config issue
-            Assert.AreEqual(fundingSourceTypeEnum.PREPAID, response.enhancedAuthResponse.fundingSource.type);
-            Assert.AreEqual("10050", response.enhancedAuthResponse.fundingSource.availableBalance);
-            Assert.AreEqual("YES", response.enhancedAuthResponse.fundingSource.reloadable);
-            Assert.AreEqual("PAYROLL", response.enhancedAuthResponse.fundingSource.prepaidCardType);
+            Assert.Equal(fundingSourceTypeEnum.PREPAID, response.enhancedAuthResponse.fundingSource.type);
+            Assert.Equal("10050", response.enhancedAuthResponse.fundingSource.availableBalance);
+            Assert.Equal("YES", response.enhancedAuthResponse.fundingSource.reloadable);
+            Assert.Equal("PAYROLL", response.enhancedAuthResponse.fundingSource.prepaidCardType);
         }
 
-        [Test]
+        [Fact]
         public void Test21()
         {
             authorization authorization = new authorization();
@@ -214,13 +212,13 @@ namespace Cnp.Sdk.Test.Certification
             authorization.card = card;
 
             authorizationResponse response = cnp.Authorize(authorization);
-            Assert.AreEqual("000", response.response);
-            Assert.AreEqual("Approved", response.message);
+            Assert.Equal("000", response.response);
+            Assert.Equal("Approved", response.message);
             //TODO: // Need to find why enhanced auth response is not generated for this merchant. Probably config issue
-            Assert.AreEqual(affluenceTypeEnum.AFFLUENT, response.enhancedAuthResponse.affluence);
+            Assert.Equal(affluenceTypeEnum.AFFLUENT, response.enhancedAuthResponse.affluence);
         }
 
-        [Test]
+        [Fact]
         public void Test22()
         {
             authorization authorization = new authorization();
@@ -235,13 +233,13 @@ namespace Cnp.Sdk.Test.Certification
             authorization.card = card;
 
             authorizationResponse response = cnp.Authorize(authorization);
-            Assert.AreEqual("000", response.response);
-            Assert.AreEqual("Approved", response.message);
+            Assert.Equal("000", response.response);
+            Assert.Equal("Approved", response.message);
             //TODO: // Need to find why enhanced auth response is not generated for this merchant. Probably config issue
-            Assert.AreEqual(affluenceTypeEnum.MASSAFFLUENT, response.enhancedAuthResponse.affluence);
+            Assert.Equal(affluenceTypeEnum.MASSAFFLUENT, response.enhancedAuthResponse.affluence);
         }
 
-        [Test]
+        [Fact]
         public void Test23()
         {
             authorization authorization = new authorization();
@@ -256,14 +254,14 @@ namespace Cnp.Sdk.Test.Certification
             authorization.card = card;
 
             authorizationResponse response = cnp.Authorize(authorization);
-            Assert.AreEqual("000", response.response);
-            Assert.AreEqual("Approved", response.message);
+            Assert.Equal("000", response.response);
+            Assert.Equal("Approved", response.message);
             //TODO: // Need to find why enhanced auth response is not generated for this merchant. Probably config issue
-            Assert.AreEqual(affluenceTypeEnum.AFFLUENT, response.enhancedAuthResponse.affluence);
+            Assert.Equal(affluenceTypeEnum.AFFLUENT, response.enhancedAuthResponse.affluence);
 
         }
 
-        [Test]
+        [Fact]
         public void Test24()
         {
             authorization authorization = new authorization();
@@ -278,14 +276,14 @@ namespace Cnp.Sdk.Test.Certification
             authorization.card = card;
 
             authorizationResponse response = cnp.Authorize(authorization);
-            Assert.AreEqual("000", response.response);
-            Assert.AreEqual("Approved", response.message);
+            Assert.Equal("000", response.response);
+            Assert.Equal("Approved", response.message);
             //TODO: // Need to find why enhanced auth response is not generated for this merchant. Probably config issue
-            Assert.AreEqual(affluenceTypeEnum.MASSAFFLUENT, response.enhancedAuthResponse.affluence);
+            Assert.Equal(affluenceTypeEnum.MASSAFFLUENT, response.enhancedAuthResponse.affluence);
 
         }
 
-        [Test]
+        [Fact]
         public void Test25()
         {
             authorization authorization = new authorization();
@@ -300,15 +298,15 @@ namespace Cnp.Sdk.Test.Certification
             authorization.card = card;
 
             authorizationResponse response = cnp.Authorize(authorization);
-            Assert.AreEqual("000", response.response);
-            Assert.AreEqual("Approved", response.message);
+            Assert.Equal("000", response.response);
+            Assert.Equal("Approved", response.message);
             //TODO: // Need to find why enhanced auth response is not generated for this merchant. Probably config issue
-            Assert.AreEqual("BRA", response.enhancedAuthResponse.issuerCountry);
+            Assert.Equal("BRA", response.enhancedAuthResponse.issuerCountry);
 
         }
 
          //Excluding health care related tests.
-        [Test]
+        [Fact]
         public void Test26()
         {
             authorization authorization = new authorization();
@@ -330,10 +328,10 @@ namespace Cnp.Sdk.Test.Certification
             authorization.healthcareIIAS = healthcareiias;
 
             authorizationResponse response = cnp.Authorize(authorization);
-            Assert.AreEqual("341", response.response);
+            Assert.Equal("341", response.response);
          }
 
-        [Test]
+        [Fact]
         public void Test27()
         {
             authorization authorization = new authorization();
@@ -356,10 +354,10 @@ namespace Cnp.Sdk.Test.Certification
             authorization.healthcareIIAS = healthcareiias;
 
             authorizationResponse response = cnp.Authorize(authorization);
-            Assert.AreEqual("341", response.response);
+            Assert.Equal("341", response.response);
         }
 
-        [Test]
+        [Fact]
         public void Test28()
         {
             authorization authorization = new authorization();
@@ -382,11 +380,11 @@ namespace Cnp.Sdk.Test.Certification
             authorization.healthcareIIAS = healthcareiias;
 
             authorizationResponse response = cnp.Authorize(authorization);
-            Assert.AreEqual("000", response.response);
-            Assert.AreEqual("Approved", response.message);
+            Assert.Equal("000", response.response);
+            Assert.Equal("Approved", response.message);
         }
 
-        [Test]
+        [Fact]
         public void Test29()
         {
             authorization authorization = new authorization();
@@ -412,10 +410,10 @@ namespace Cnp.Sdk.Test.Certification
             authorization.healthcareIIAS = healthcareiias;
 
             authorizationResponse response = cnp.Authorize(authorization);
-            Assert.AreEqual("341", response.response);
+            Assert.Equal("341", response.response);
         }
 
-//         [Test]
+//         [Fact]
 //         public void Test30()
 //         {
 //             authorization authorization = new authorization();
@@ -441,10 +439,10 @@ namespace Cnp.Sdk.Test.Certification
 //             authorization.healthcareIIAS = healthcareiias;
 
 //             authorizationResponse response = cnp.Authorize(authorization);
-//             Assert.AreEqual("341", response.response);
+//             Assert.Equal("341", response.response);
 //         }
 
-//         [Test]
+//         [Fact]
 //         public void Test31()
 //         {
 //             authorization authorization = new authorization();
@@ -468,9 +466,9 @@ namespace Cnp.Sdk.Test.Certification
 //             authorization.healthcareIIAS = healthcareiias;
 
 //             authorizationResponse response = cnp.Authorize(authorization);
-//             Assert.AreEqual("010", response.response);
-//             Assert.AreEqual("Partially Approved", response.message);
-//             Assert.AreEqual("18699", response.approvedAmount);
+//             Assert.Equal("010", response.response);
+//             Assert.Equal("Partially Approved", response.message);
+//             Assert.Equal("18699", response.approvedAmount);
 //         }
             
     }

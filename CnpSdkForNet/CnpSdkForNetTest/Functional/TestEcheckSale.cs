@@ -1,16 +1,14 @@
 ﻿using System.Collections.Generic;
-using NUnit.Framework;
+using Xunit;
 
 namespace Cnp.Sdk.Test.Functional
 {
-    [TestFixture]
-    internal class TestEcheckSale
+    public class TestEcheckSale
     {
         private CnpOnline _cnp;
         private Dictionary<string, string> _config;
 
-        [TestFixtureSetUp]
-        public void SetUpCnp()
+        public TestEcheckSale()
         {
             _config = new Dictionary<string, string>
             {
@@ -31,7 +29,7 @@ namespace Cnp.Sdk.Test.Functional
             _cnp = new CnpOnline(_config);
         }
 
-        [Test]
+        [Fact]
         public void SimpleEcheckSaleWithEcheck()
         {
             var echeckSaleObj = new echeckSale
@@ -59,10 +57,10 @@ namespace Cnp.Sdk.Test.Functional
 
 
             var response = _cnp.EcheckSale(echeckSaleObj);
-            StringAssert.AreEqualIgnoringCase("Approved", response.message);
+            Assert.True(response.message.Equals("Approved", System.StringComparison.InvariantCultureIgnoreCase));
         }
 
-        [Test]
+        [Fact]
         public void EcheckSaleWithCnpTxnId()
         {
             var echeckSaleObj = new echeckSale
@@ -81,10 +79,10 @@ namespace Cnp.Sdk.Test.Functional
             };
 
             var response = _cnp.EcheckSale(echeckSaleObj);
-            StringAssert.AreEqualIgnoringCase("Approved", response.message);
+            Assert.True(response.message.Equals("Approved", System.StringComparison.InvariantCultureIgnoreCase));
         }
 
-        [Test]
+        [Fact]
         public void EcheckSaleWithOrderId()
         {
             var echeckSaleObj = new echeckSale
@@ -134,10 +132,10 @@ namespace Cnp.Sdk.Test.Functional
             };
 
             var response = _cnp.EcheckSale(echeckSaleObj);
-            StringAssert.AreEqualIgnoringCase("Approved", response.message);
+            Assert.True(response.message.Equals("Approved", System.StringComparison.InvariantCultureIgnoreCase));
         }
 
-        [Test]
+        [Fact]
         public void NoAmount()
         {
             var echeckSaleObj = new echeckSale
@@ -158,7 +156,7 @@ namespace Cnp.Sdk.Test.Functional
             }
         }
 
-        [Test]
+        [Fact]
         public void EcheckSaleWithShipTo()
         {
             var echeckSaleObj = new echeckSale
@@ -193,10 +191,10 @@ namespace Cnp.Sdk.Test.Functional
             };
 
             var response = _cnp.EcheckSale(echeckSaleObj);
-            StringAssert.AreEqualIgnoringCase("Approved", response.message);
+            Assert.True(response.message.Equals("Approved", System.StringComparison.InvariantCultureIgnoreCase));
         }
 
-        [Test]
+        [Fact]
         public void EcheckSaleWithEcheckToken()
         {
             echeckSale echeckSaleObj = new echeckSale
@@ -229,10 +227,10 @@ namespace Cnp.Sdk.Test.Functional
             };
 
             var response = _cnp.EcheckSale(echeckSaleObj);
-            StringAssert.AreEqualIgnoringCase("Approved", response.message);
+            Assert.True(response.message.Equals("Approved", System.StringComparison.InvariantCultureIgnoreCase));
         }
 
-        [Test]
+        [Fact]
         public void EcheckSaleMissingBilling()
         {
             var echeckSaleObj = new echeckSale
@@ -263,7 +261,7 @@ namespace Cnp.Sdk.Test.Functional
             }
         }
 
-        [Test]
+        [Fact]
         public void SimpleEcheckSale()
         {
             var echeckSaleObj = new echeckSale
@@ -275,10 +273,10 @@ namespace Cnp.Sdk.Test.Functional
             };
 
             var response = _cnp.EcheckSale(echeckSaleObj);
-            StringAssert.AreEqualIgnoringCase("Approved", response.message);
+            Assert.True(response.message.Equals("Approved", System.StringComparison.InvariantCultureIgnoreCase));
         }
 
-        [Test]
+        [Fact]
         public void SimpleEcheckSaleWithSecondaryAmountWithOrderId()
         {
             var echeckSaleObj = new echeckSale
@@ -306,10 +304,10 @@ namespace Cnp.Sdk.Test.Functional
             };
 
             var response = _cnp.EcheckSale(echeckSaleObj);
-            StringAssert.AreEqualIgnoringCase("Approved", response.message);
+            Assert.True(response.message.Equals("Approved", System.StringComparison.InvariantCultureIgnoreCase));
         }
 
-        [Test]
+        [Fact]
         public void SimpleEcheckSaleWithSecondaryAmount()
         {
             var echeckSaleObj = new echeckSale

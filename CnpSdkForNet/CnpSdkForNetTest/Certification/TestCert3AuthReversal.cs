@@ -1,18 +1,16 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Text;
-using NUnit.Framework;
+using Xunit;
 using Cnp.Sdk;
 
 namespace Cnp.Sdk.Test.Certification
 {
-    [TestFixture]
-    class TestCert3AuthReversal
+    public class TestCert3AuthReversal
     {
         private CnpOnline cnp;
 
-        [TestFixtureSetUp]
-        public void SetUp()
+        public TestCert3AuthReversal()
         {
             Dictionary<string, string> config = new Dictionary<string, string>();
             config.Add("url", "https://payments.vantivprelive.com/vap/communicator/online");
@@ -30,7 +28,7 @@ namespace Cnp.Sdk.Test.Certification
             cnp = new CnpOnline(config);
         }
 
-        [Test]
+        [Fact]
         public void Test32()
         {
             authorization auth = new authorization();
@@ -54,29 +52,29 @@ namespace Cnp.Sdk.Test.Certification
             auth.card = card;
 
             authorizationResponse authorizeResponse = cnp.Authorize(auth);
-//            Assert.AreEqual("111", authorizeResponse.response);
-//            Assert.AreEqual("Authorization amount has already been depleted", authorizeResponse.message);
-            Assert.AreEqual("11111 ", authorizeResponse.authCode);
-            Assert.AreEqual("01", authorizeResponse.fraudResult.avsResult);
-            Assert.AreEqual("M", authorizeResponse.fraudResult.cardValidationResult);
+//            Assert.Equal("111", authorizeResponse.response);
+//            Assert.Equal("Authorization amount has already been depleted", authorizeResponse.message);
+            Assert.Equal("11111 ", authorizeResponse.authCode);
+            Assert.Equal("01", authorizeResponse.fraudResult.avsResult);
+            Assert.Equal("M", authorizeResponse.fraudResult.cardValidationResult);
 
             capture capture = new capture();
             capture.id = authorizeResponse.id;
             capture.cnpTxnId = authorizeResponse.cnpTxnId;
             capture.amount = 5005;
             captureResponse captureResponse = cnp.Capture(capture);
-            Assert.AreEqual("000", captureResponse.response);
-            Assert.AreEqual("Approved", captureResponse.message);
+            Assert.Equal("000", captureResponse.response);
+            Assert.Equal("Approved", captureResponse.message);
 
             authReversal reversal = new authReversal();
             reversal.id = authorizeResponse.id;
             reversal.cnpTxnId = 320000000000000000;
             authReversalResponse reversalResponse = cnp.AuthReversal(reversal);
-            Assert.AreEqual("000", reversalResponse.response);
-            Assert.AreEqual("Approved", reversalResponse.message);
+            Assert.Equal("000", reversalResponse.response);
+            Assert.Equal("Approved", reversalResponse.message);
         }
 
-        [Test]
+        [Fact]
         public void Test33()
         {
             authorization auth = new authorization();
@@ -104,21 +102,21 @@ namespace Cnp.Sdk.Test.Certification
             auth.cardholderAuthentication = fraud;
 
             authorizationResponse authorizeResponse = cnp.Authorize(auth);
-            Assert.AreEqual("000", authorizeResponse.response);
-            Assert.AreEqual("Approved", authorizeResponse.message);
-            Assert.AreEqual("22222", authorizeResponse.authCode.Trim());
-            Assert.AreEqual("10", authorizeResponse.fraudResult.avsResult);
-            Assert.AreEqual("M", authorizeResponse.fraudResult.cardValidationResult);
+            Assert.Equal("000", authorizeResponse.response);
+            Assert.Equal("Approved", authorizeResponse.message);
+            Assert.Equal("22222", authorizeResponse.authCode.Trim());
+            Assert.Equal("10", authorizeResponse.fraudResult.avsResult);
+            Assert.Equal("M", authorizeResponse.fraudResult.cardValidationResult);
 
             authReversal reversal = new authReversal();
             reversal.id = authorizeResponse.id;
             reversal.cnpTxnId = authorizeResponse.cnpTxnId;
             authReversalResponse reversalResponse = cnp.AuthReversal(reversal);
-            Assert.AreEqual("000", reversalResponse.response);
-            Assert.AreEqual("Approved", reversalResponse.message);
+            Assert.Equal("000", reversalResponse.response);
+            Assert.Equal("Approved", reversalResponse.message);
         }
 
-        [Test]
+        [Fact]
         public void Test34()
         {
             authorization auth = new authorization();
@@ -143,21 +141,21 @@ namespace Cnp.Sdk.Test.Certification
             auth.card = card;
 
             authorizationResponse authorizeResponse = cnp.Authorize(auth);
-            Assert.AreEqual("000", authorizeResponse.response);
-            Assert.AreEqual("Approved", authorizeResponse.message);
-            Assert.AreEqual("33333", authorizeResponse.authCode.Trim());
-            Assert.AreEqual("10", authorizeResponse.fraudResult.avsResult);
-            Assert.AreEqual("M", authorizeResponse.fraudResult.cardValidationResult);
+            Assert.Equal("000", authorizeResponse.response);
+            Assert.Equal("Approved", authorizeResponse.message);
+            Assert.Equal("33333", authorizeResponse.authCode.Trim());
+            Assert.Equal("10", authorizeResponse.fraudResult.avsResult);
+            Assert.Equal("M", authorizeResponse.fraudResult.cardValidationResult);
 
             authReversal reversal = new authReversal();
             reversal.id = authorizeResponse.id;
             reversal.cnpTxnId = authorizeResponse.cnpTxnId;
             authReversalResponse reversalResponse = cnp.AuthReversal(reversal);
-            Assert.AreEqual("000", reversalResponse.response);
-            Assert.AreEqual("Approved", reversalResponse.message);
+            Assert.Equal("000", reversalResponse.response);
+            Assert.Equal("Approved", reversalResponse.message);
         }
 
-        [Test]
+        [Fact]
         public void Test35()
         {
             authorization auth = new authorization();
@@ -180,29 +178,29 @@ namespace Cnp.Sdk.Test.Certification
             auth.card = card;
 
             authorizationResponse authorizeResponse = cnp.Authorize(auth);
-            Assert.AreEqual("000", authorizeResponse.response);
-            Assert.AreEqual("Approved", authorizeResponse.message);
-            Assert.AreEqual("44444", authorizeResponse.authCode.Trim());
-            Assert.AreEqual("13", authorizeResponse.fraudResult.avsResult);
+            Assert.Equal("000", authorizeResponse.response);
+            Assert.Equal("Approved", authorizeResponse.message);
+            Assert.Equal("44444", authorizeResponse.authCode.Trim());
+            Assert.Equal("13", authorizeResponse.fraudResult.avsResult);
 
             capture capture = new capture();
             capture.id = authorizeResponse.id;
             capture.cnpTxnId = authorizeResponse.cnpTxnId;
             capture.amount = 20020;
             captureResponse captureResponse = cnp.Capture(capture);
-            Assert.AreEqual("000", captureResponse.response);
-            Assert.AreEqual("Approved", captureResponse.message);
+            Assert.Equal("000", captureResponse.response);
+            Assert.Equal("Approved", captureResponse.message);
 
             authReversal reversal = new authReversal();
             reversal.id = capture.id;
             reversal.cnpTxnId = authorizeResponse.cnpTxnId;
             reversal.amount = 20020;
             authReversalResponse reversalResponse = cnp.AuthReversal(reversal);
-            Assert.AreEqual("000", reversalResponse.response);
-            Assert.AreEqual("Approved", reversalResponse.message);
+            Assert.Equal("000", reversalResponse.response);
+            Assert.Equal("Approved", reversalResponse.message);
         }
 
-        [Test]
+        [Fact]
         public void Test36()
         {
             authorization auth = new authorization();
@@ -217,16 +215,16 @@ namespace Cnp.Sdk.Test.Certification
             auth.card = card;
 
             authorizationResponse authorizeResponse = cnp.Authorize(auth);
-            Assert.AreEqual("000", authorizeResponse.response);
-            Assert.AreEqual("Approved", authorizeResponse.message);
+            Assert.Equal("000", authorizeResponse.response);
+            Assert.Equal("Approved", authorizeResponse.message);
 
             authReversal reversal = new authReversal();
             reversal.id = authorizeResponse.id;
             reversal.cnpTxnId = 360000000000000000;
             reversal.amount = 10000;
             authReversalResponse reversalResponse = cnp.AuthReversal(reversal);
-            Assert.AreEqual("000", reversalResponse.response);
-            Assert.AreEqual("Approved", reversalResponse.message);
+            Assert.Equal("000", reversalResponse.response);
+            Assert.Equal("Approved", reversalResponse.message);
         }            
     }
 }

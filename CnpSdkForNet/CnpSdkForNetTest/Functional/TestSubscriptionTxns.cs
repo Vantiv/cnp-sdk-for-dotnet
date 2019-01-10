@@ -1,18 +1,15 @@
 ﻿using System;
 using System.Collections.Generic;
-using NUnit.Core;
-using NUnit.Framework;
+using Xunit;
 
 namespace Cnp.Sdk.Test.Functional
 {
-    [TestFixture]
     public class TestSubscriptionTxns
     {
         private CnpOnline _cnp;
         private Dictionary<string, string> _config;
 
-        [TestFixtureSetUp]
-        public void SetUpCnp()
+        public TestSubscriptionTxns()
         {
             _config = new Dictionary<string, string>
             {
@@ -33,7 +30,7 @@ namespace Cnp.Sdk.Test.Functional
             _cnp = new CnpOnline(_config);
         }
 
-        [Test]
+        [Fact]
         public void TestUpdateSubscription_Basic()
         {
             var update = new updateSubscription
@@ -57,10 +54,10 @@ namespace Cnp.Sdk.Test.Functional
             };
             
             var response = _cnp.UpdateSubscription(update);
-            Assert.AreEqual("Approved", response.message);
+            Assert.Equal("Approved", response.message);
         }
 
-        [Test]
+        [Fact]
         public void TestUpdateSubscription_WithToken()
         {
             var update = new updateSubscription
@@ -86,7 +83,7 @@ namespace Cnp.Sdk.Test.Functional
             };
 
             var response = _cnp.UpdateSubscription(update);
-            Assert.AreEqual("Approved", response.message);
+            Assert.Equal("Approved", response.message);
         }
     }
 }

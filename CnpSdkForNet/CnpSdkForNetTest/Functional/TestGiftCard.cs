@@ -1,17 +1,15 @@
 ﻿using System.Collections.Generic;
-using NUnit.Framework;
+using Xunit;
 using System;
 
 namespace Cnp.Sdk.Test.Functional
 {
-    [TestFixture]
-    internal class TestGiftCard
+    public class TestGiftCard
     {
         private CnpOnline _cnp;
         private Dictionary<string, string> _config;
 
-        [TestFixtureSetUp]
-        public void SetUpCnp()
+        public TestGiftCard()
         {
             _config = new Dictionary<string, string>
             {
@@ -32,7 +30,7 @@ namespace Cnp.Sdk.Test.Functional
             _cnp = new CnpOnline(_config);
         }
 
-        [Test]
+        [Fact]
         public void TestGiftCardAuthReversal()
         {
             var giftCard = new giftCardAuthReversal
@@ -55,10 +53,10 @@ namespace Cnp.Sdk.Test.Functional
             };
 
             var response = _cnp.GiftCardAuthReversal(giftCard);
-            Assert.AreEqual("000", response.response);
+            Assert.Equal("000", response.response);
         }
 
-        [Test]
+        [Fact]
         public void TestGiftCardCapture()
         {
             var giftCardCapture = new giftCardCapture
@@ -79,10 +77,10 @@ namespace Cnp.Sdk.Test.Functional
             };
 
             var response = _cnp.GiftCardCapture(giftCardCapture);
-            Assert.AreEqual("Approved", response.message);
+            Assert.Equal("Approved", response.message);
         }
 
-        [Test]
+        [Fact]
         public void TestGiftCardCapturePartial()
         {
             var giftCardCapture = new giftCardCapture
@@ -102,10 +100,10 @@ namespace Cnp.Sdk.Test.Functional
             };
 
             var response = _cnp.GiftCardCapture(giftCardCapture);
-            Assert.AreEqual("Approved", response.message);
+            Assert.Equal("Approved", response.message);
         }
 
-        [Test]
+        [Fact]
         public void TestGiftCardCreditWithTxnId()
         {
             var creditObj = new giftCardCredit
@@ -123,10 +121,10 @@ namespace Cnp.Sdk.Test.Functional
             };
 
             var response = _cnp.GiftCardCredit(creditObj);
-            Assert.AreEqual("Approved", response.message);
+            Assert.Equal("Approved", response.message);
         }
 
-        [Test]
+        [Fact]
         public void TestGiftCardCreditWithOrderId()
         {
             var creditObj = new giftCardCredit
@@ -145,7 +143,7 @@ namespace Cnp.Sdk.Test.Functional
             };
 
             var response = _cnp.GiftCardCredit(creditObj);
-            Assert.AreEqual("Approved", response.message);
+            Assert.Equal("Approved", response.message);
         }
     }
 }

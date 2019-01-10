@@ -1,7 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Text;
-using NUnit.Framework;
+using Xunit;
 using Cnp.Sdk;
 using System.IO;
 using System.Linq;
@@ -10,7 +10,6 @@ using System.Security.Cryptography.X509Certificates;
 
 namespace Cnp.Sdk.Test.Functional
 {
-    [TestFixture]
     public class TestPgpHelper
     {
         private string _testDir;
@@ -18,8 +17,7 @@ namespace Cnp.Sdk.Test.Functional
         private string _passphrase;
         private string _vantivPublicKeyId;
 
-        [TestFixtureSetUp]
-        public void SetUp()
+        public TestPgpHelper()
         {
             _testDir = Path.Combine(Properties.Settings.Default.requestDirectory, "testPgp");
             if (!Directory.Exists(_testDir))
@@ -35,7 +33,7 @@ namespace Cnp.Sdk.Test.Functional
 
         }
 
-        [Test]
+        [Fact]
         public void TestEncryptionDecryption()
         {
             var testFilepath = Path.Combine(_testDir, "test_pgp.txt");
@@ -68,11 +66,11 @@ namespace Cnp.Sdk.Test.Functional
             // Compare decrypted file with original file
             string[] original = File.ReadAllLines(testFilepath);
             string[] decrypted = File.ReadAllLines(decryptedFilePath);
-            Assert.AreEqual(original, decrypted);
+            Assert.Equal(original, decrypted);
         }
 
 
-        [Test]
+        [Fact]
         public void TestInvalidPublicKeyId()
         {
             var testFilepath = Path.Combine(_testDir, "test_pgp.txt");
@@ -90,7 +88,7 @@ namespace Cnp.Sdk.Test.Functional
             try
             {
                 PgpHelper.EncryptFile(testFilepath, encryptedFilePath, "BadPublicKeyId");
-                Assert.Fail("CnpOnline exception expected but was not thrown");
+                Assert.True(false, "CnpOnline exception expected but was not thrown");
             }
             catch (CnpOnlineException e)
             {
@@ -98,7 +96,7 @@ namespace Cnp.Sdk.Test.Functional
             }
         }
 
-        [Test]
+        [Fact]
         public void TestNonExistantFileToEncrypt()
         {
             var testFilepath = "bad_file_path";
@@ -106,7 +104,7 @@ namespace Cnp.Sdk.Test.Functional
             try
             {
                 PgpHelper.EncryptFile(testFilepath, encryptedFilePath, _merchantPublickeyId);
-                Assert.Fail("CnpOnline exception expected but was not thrown");
+                Assert.True(false, "CnpOnline exception expected but was not thrown");
             }
             catch (CnpOnlineException e)
             {
@@ -114,7 +112,7 @@ namespace Cnp.Sdk.Test.Functional
             }
         }
 
-        [Test]
+        [Fact]
         public void TestInvalidPassphrase()
         {
             var testFilepath = Path.Combine(_testDir, "test_pgp.txt");
@@ -136,7 +134,7 @@ namespace Cnp.Sdk.Test.Functional
             try
             {
                 PgpHelper.DecryptFile(encryptedFilePath, decryptedFilePath, "bad_passphrase");
-                Assert.Fail("CnpOnline exception expected but was not thrown");
+                Assert.True(false, "CnpOnline exception expected but was not thrown");
             }
             catch (CnpOnlineException e)
             {
@@ -145,7 +143,7 @@ namespace Cnp.Sdk.Test.Functional
             }            
         }
 
-        [Test]
+        [Fact]
         public void TestNoSecretKeyToDecrypt()
         {
             var testFilepath = Path.Combine(_testDir, "test_pgp.txt");
@@ -167,7 +165,7 @@ namespace Cnp.Sdk.Test.Functional
             try
             {
                 PgpHelper.DecryptFile(encryptedFilePath, decryptedFilePath, _passphrase);
-                Assert.Fail("CnpOnline exception expected but was not thrown");
+                Assert.True(false, "CnpOnline exception expected but was not thrown");
             }
             catch (CnpOnlineException e)
             {
@@ -175,7 +173,7 @@ namespace Cnp.Sdk.Test.Functional
             }         
         }
 
-        [Test]
+        [Fact]
         public void TestNonExistantFileToDecrypt()
         {
             var encryptedFilePath = "bad_file_path";
@@ -183,7 +181,7 @@ namespace Cnp.Sdk.Test.Functional
             try
             {
                 PgpHelper.DecryptFile(encryptedFilePath, decryptedFilePath, _passphrase);
-                Assert.Fail("CnpOnline exception expected but was not thrown");
+                Assert.True(false, "CnpOnline exception expected but was not thrown");
             }
             catch (CnpOnlineException e)
             {

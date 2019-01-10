@@ -1,18 +1,16 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Text;
-using NUnit.Framework;
+using Xunit;
 using Cnp.Sdk;
 
 namespace Cnp.Sdk.Test.Certification
 {
-    [TestFixture]
-    class TestCert4Echeck
+    public class TestCert4Echeck
     {
         private CnpOnline cnp;
 
-        [TestFixtureSetUp]
-        public void SetUp()
+        public TestCert4Echeck()
         {
             Dictionary<string, string> config = new Dictionary<string, string>();
             config.Add("url", "https://payments.vantivprelive.com/vap/communicator/online");
@@ -30,7 +28,7 @@ namespace Cnp.Sdk.Test.Certification
             cnp = new CnpOnline(config);
         }
 
-        [Test]
+        [Fact]
         public void Test37()
         {
             echeckVerification verification = new echeckVerification();
@@ -49,11 +47,11 @@ namespace Cnp.Sdk.Test.Certification
             verification.echeck = echeck;
 
             echeckVerificationResponse response = cnp.EcheckVerification(verification);
-            Assert.AreEqual("301", response.response);
-            Assert.AreEqual("Invalid Account Number", response.message);
+            Assert.Equal("301", response.response);
+            Assert.Equal("Invalid Account Number", response.message);
         }
 
-        [Test]
+        [Fact]
         public void Test38()
         {
             echeckVerification verification = new echeckVerification();
@@ -73,11 +71,11 @@ namespace Cnp.Sdk.Test.Certification
             verification.echeck = echeck;
 
             echeckVerificationResponse response = cnp.EcheckVerification(verification);
-            Assert.AreEqual("000", response.response);
-            Assert.AreEqual("Approved", response.message);
+            Assert.Equal("000", response.response);
+            Assert.Equal("Approved", response.message);
         }
 
-        [Test]
+        [Fact]
         public void Test39()
         {
             echeckVerification verification = new echeckVerification();
@@ -98,10 +96,10 @@ namespace Cnp.Sdk.Test.Certification
             verification.echeck = echeck;
 
             echeckVerificationResponse response = cnp.EcheckVerification(verification);
-            Assert.AreEqual("950", response.response);
+            Assert.Equal("950", response.response);
         }
 
-        [Test]
+        [Fact]
         public void Test40()
         {
             echeckVerification verification = new echeckVerification();
@@ -122,11 +120,11 @@ namespace Cnp.Sdk.Test.Certification
             verification.echeck = echeck;
 
             echeckVerificationResponse response = cnp.EcheckVerification(verification);
-            Assert.AreEqual("951", response.response);
-            Assert.AreEqual("Absolute Decline", response.message);
+            Assert.Equal("951", response.response);
+            Assert.Equal("Absolute Decline", response.message);
         }
 
-        [Test]
+        [Fact]
         public void Test41()
         {
             echeckSale sale = new echeckSale();
@@ -146,11 +144,11 @@ namespace Cnp.Sdk.Test.Certification
             sale.echeck = echeck;
 
             echeckSalesResponse response = cnp.EcheckSale(sale);
-            Assert.AreEqual("301", response.response);
-            Assert.AreEqual("Invalid Account Number", response.message);
+            Assert.Equal("301", response.response);
+            Assert.Equal("Invalid Account Number", response.message);
         }
 
-        [Test]
+        [Fact]
         public void Test42()
         {
             echeckSale sale = new echeckSale();
@@ -169,11 +167,11 @@ namespace Cnp.Sdk.Test.Certification
             sale.echeck = echeck;
 
             echeckSalesResponse response = cnp.EcheckSale(sale);
-            Assert.AreEqual("000", response.response);
-            Assert.AreEqual("Approved", response.message);
+            Assert.Equal("000", response.response);
+            Assert.Equal("Approved", response.message);
         }
 
-        [Test]
+        [Fact]
         public void Test43()
         {
             echeckSale sale = new echeckSale();
@@ -193,11 +191,11 @@ namespace Cnp.Sdk.Test.Certification
             sale.echeck = echeck;
 
             echeckSalesResponse response = cnp.EcheckSale(sale);
-            Assert.AreEqual("000", response.response);
-            Assert.AreEqual("Approved", response.message);
+            Assert.Equal("000", response.response);
+            Assert.Equal("Approved", response.message);
         }
 
-        [Test]
+        [Fact]
         public void Test44()
         {
             echeckSale sale = new echeckSale();
@@ -217,11 +215,11 @@ namespace Cnp.Sdk.Test.Certification
             sale.echeck = echeck;
 
             echeckSalesResponse response = cnp.EcheckSale(sale);
-            Assert.AreEqual("900", response.response);
-            Assert.AreEqual("Invalid Bank Routing Number", response.message);
+            Assert.Equal("900", response.response);
+            Assert.Equal("Invalid Bank Routing Number", response.message);
         }
 
-        [Test]
+        [Fact]
         public void Test45()
         {
             echeckCredit credit = new echeckCredit();
@@ -240,10 +238,10 @@ namespace Cnp.Sdk.Test.Certification
             credit.echeck = echeck;
 
             echeckCreditResponse response = cnp.EcheckCredit(credit);
-            Assert.AreEqual("301", response.response);
+            Assert.Equal("301", response.response);
         }
 
-        [Test]
+        [Fact]
         public void Test46()
         {
             echeckCredit credit = new echeckCredit();
@@ -263,11 +261,11 @@ namespace Cnp.Sdk.Test.Certification
             credit.echeck = echeck;
 
             echeckCreditResponse response = cnp.EcheckCredit(credit);
-            Assert.AreEqual("000", response.response);
-            Assert.AreEqual("Approved", response.message);
+            Assert.Equal("000", response.response);
+            Assert.Equal("Approved", response.message);
         }
 
-        [Test]
+        [Fact]
         public void Test47()
         {
             echeckCredit credit = new echeckCredit();
@@ -287,11 +285,11 @@ namespace Cnp.Sdk.Test.Certification
             credit.echeck = echeck;
 
             echeckCreditResponse response = cnp.EcheckCredit(credit);
-            Assert.AreEqual("000", response.response);
-            Assert.AreEqual("Approved", response.message);
+            Assert.Equal("000", response.response);
+            Assert.Equal("Approved", response.message);
         }
 
-        [Test]
+        [Fact]
         public void Test48()
         {
             echeckCredit credit = new echeckCredit();
@@ -299,11 +297,11 @@ namespace Cnp.Sdk.Test.Certification
             credit.cnpTxnId = 430000000000000001L;
 
             echeckCreditResponse response = cnp.EcheckCredit(credit);
-            Assert.AreEqual("000", response.response);
-            Assert.AreEqual("Approved", response.message);
+            Assert.Equal("000", response.response);
+            Assert.Equal("Approved", response.message);
         }
 
-        [Test]
+        [Fact]
         public void Test49()
         {
             echeckCredit credit = new echeckCredit();
@@ -311,7 +309,7 @@ namespace Cnp.Sdk.Test.Certification
             credit.cnpTxnId = 2L;
 
             echeckCreditResponse response = cnp.EcheckCredit(credit);
-            Assert.AreEqual("000", response.response);
+            Assert.Equal("000", response.response);
         }
             
     }

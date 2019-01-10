@@ -1,16 +1,14 @@
 ﻿using System.Collections.Generic;
-using NUnit.Framework;
+using Xunit;
 
 namespace Cnp.Sdk.Test.Functional
 {
-    [TestFixture]
-    internal class TestEcheckCredit
+    public class TestEcheckCredit
     {
         private CnpOnline _cnp;
         private Dictionary<string, string> _config;
 
-        [TestFixtureSetUp]
-        public void SetUpCnp()
+        public TestEcheckCredit()
         {
             _config = new Dictionary<string, string>
             {
@@ -31,7 +29,7 @@ namespace Cnp.Sdk.Test.Functional
             _cnp = new CnpOnline(_config);
         }
 
-        [Test]
+        [Fact]
         public void SimpleEcheckCredit()
         {
             var echeckcredit = new echeckCredit
@@ -43,10 +41,10 @@ namespace Cnp.Sdk.Test.Functional
             };
 
             var response = _cnp.EcheckCredit(echeckcredit);
-            Assert.AreEqual("Approved", response.message);
+            Assert.Equal("Approved", response.message);
         }
 
-        [Test]
+        [Fact]
         public void NoCnpTxnId()
         {
             var echeckcredit = new echeckCredit
@@ -58,15 +56,15 @@ namespace Cnp.Sdk.Test.Functional
             try
             {
                 _cnp.EcheckCredit(echeckcredit);
-                Assert.Fail("Expected exception");
+                Assert.True(false, "Expected exception");
             }
             catch (CnpOnlineException e)
             {
-                Assert.IsTrue(e.Message.Contains("Error validating xml data against the schema"));
+                Assert.True(e.Message.Contains("Error validating xml data against the schema"));
             }
         }
 
-        [Test]
+        [Fact]
         public void EcheckCreditWithEcheck()
         {
             var echeckcredit = new echeckCredit
@@ -94,10 +92,10 @@ namespace Cnp.Sdk.Test.Functional
             };
 
             var response = _cnp.EcheckCredit(echeckcredit);
-            Assert.AreEqual("Approved", response.message);
+            Assert.Equal("Approved", response.message);
         }
 
-        [Test]
+        [Fact]
         public void EcheckCreditWithToken()
         {
             var echeckcredit = new echeckCredit
@@ -127,10 +125,10 @@ namespace Cnp.Sdk.Test.Functional
 
 
             var response = _cnp.EcheckCredit(echeckcredit);
-            Assert.AreEqual("Approved", response.message);
+            Assert.Equal("Approved", response.message);
         }
 
-        [Test]
+        [Fact]
         public void MissingBilling()
         {
             var echeckcredit = new echeckCredit
@@ -152,15 +150,15 @@ namespace Cnp.Sdk.Test.Functional
             try
             {
                 _cnp.EcheckCredit(echeckcredit);
-                Assert.Fail("Expected exception");
+                Assert.True(false, "Expected exception");
             }
             catch (CnpOnlineException e)
             {
-                Assert.IsTrue(e.Message.Contains("Error validating xml data against the schema"));
+                Assert.True(e.Message.Contains("Error validating xml data against the schema"));
             }
         }
 
-        [Test]
+        [Fact]
         public void EcheckCreditWithSecondaryAmountWithOrderIdAndCcdPaymentInfo()
         {
             var echeckcredit = new echeckCredit
@@ -190,10 +188,10 @@ namespace Cnp.Sdk.Test.Functional
             };
 
             var response = _cnp.EcheckCredit(echeckcredit);
-            Assert.AreEqual("Approved", response.message);
+            Assert.Equal("Approved", response.message);
         }
 
-        [Test]
+        [Fact]
         public void EcheckCreditWithSecondaryAmountWithCnpTxnId()
         {
             var echeckcredit = new echeckCredit
@@ -207,7 +205,7 @@ namespace Cnp.Sdk.Test.Functional
             };
             
             var response = _cnp.EcheckCredit(echeckcredit);
-            Assert.AreEqual("Approved", response.message);
+            Assert.Equal("Approved", response.message);
         }
     }
 }

@@ -1,16 +1,14 @@
 ﻿using System.Collections.Generic;
-using NUnit.Framework;
+using Xunit;
 
 namespace Cnp.Sdk.Test.Functional
 {
-    [TestFixture]
-    internal class TestEcheckVerification
+    public class TestEcheckVerification
     {
         private CnpOnline _cnp;
         private Dictionary<string, string> _config;
 
-        [TestFixtureSetUp]
-        public void SetUpCnp()
+        public TestEcheckVerification()
         {
             _config = new Dictionary<string, string>
             {
@@ -31,7 +29,7 @@ namespace Cnp.Sdk.Test.Functional
             _cnp = new CnpOnline(_config);
         }
 
-        [Test]
+        [Fact]
         public void SimpleEcheckVerification()
         {
             var echeckVerificationObject = new echeckVerification
@@ -58,10 +56,10 @@ namespace Cnp.Sdk.Test.Functional
             };
 
             var response = _cnp.EcheckVerification(echeckVerificationObject);
-            StringAssert.AreEqualIgnoringCase("Approved", response.message);
+            Assert.True(response.message.Equals("Approved", System.StringComparison.InvariantCultureIgnoreCase));
         }
 
-        [Test]
+        [Fact]
         public void EcheckVerificationWithEcheckToken()
         {
             var echeckVerificationObject = new echeckVerification
@@ -88,10 +86,10 @@ namespace Cnp.Sdk.Test.Functional
             };
 
             echeckVerificationResponse response = _cnp.EcheckVerification(echeckVerificationObject);
-            StringAssert.AreEqualIgnoringCase("Approved", response.message);
+            Assert.True(response.message.Equals("Approved", System.StringComparison.InvariantCultureIgnoreCase));
         }
 
-        [Test]
+        [Fact]
         public void TestMissingBillingField()
         {
             var echeckVerificationObject = new echeckVerification

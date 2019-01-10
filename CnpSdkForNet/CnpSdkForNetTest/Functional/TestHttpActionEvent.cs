@@ -1,15 +1,13 @@
 ﻿using System.Collections.Generic;
-using NUnit.Framework;
+using Xunit;
 
 namespace Cnp.Sdk.Test.Functional
 {
-    [TestFixture]
-    internal class TestHttpActionEvent
+    public class TestHttpActionEvent
     {
         private CnpOnline _cnp;
 
-        [TestFixtureSetUp]
-        public void SetUpCnp()
+        public TestHttpActionEvent()
         {
             var config = new Dictionary<string, string>
             {
@@ -29,7 +27,7 @@ namespace Cnp.Sdk.Test.Functional
             _cnp = new CnpOnline(config);
         }
 
-        [Test]
+        [Fact]
         public void TestHttpEvents()
         {
             var requestCount = 0;
@@ -58,9 +56,9 @@ namespace Cnp.Sdk.Test.Functional
             };
 
             _cnp.Capture(capture);
-            Assert.AreEqual(httpActionCount, 2);
-            Assert.AreEqual(requestCount, 1);
-            Assert.AreEqual(responseCount, 1);
+            Assert.Equal(httpActionCount, 2);
+            Assert.Equal(requestCount, 1);
+            Assert.Equal(responseCount, 1);
         }
     }
 }

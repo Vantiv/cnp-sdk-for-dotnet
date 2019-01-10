@@ -1,16 +1,14 @@
 ﻿using System.Collections.Generic;
-using NUnit.Framework;
+using Xunit;
 
 namespace Cnp.Sdk.Test.Functional
 {
-    [TestFixture]
-    internal class TestPayFac
+    public class TestPayFac
     {
         private CnpOnline _cnp;
         private Dictionary<string, string> _config;
 
-        [TestFixtureSetUp]
-        public void SetUpCnp()
+        public TestPayFac()
         {
             _config = new Dictionary<string, string>
             {
@@ -31,7 +29,7 @@ namespace Cnp.Sdk.Test.Functional
             _cnp = new CnpOnline(_config);
         }
 
-        [Test]
+        [Fact]
         public void PayFacCredit()
         {
             var payFacCredit = new payFacCredit
@@ -46,10 +44,10 @@ namespace Cnp.Sdk.Test.Functional
             };
 
             var response = _cnp.PayFacCredit(payFacCredit);
-            Assert.AreEqual("000", response.response);
+            Assert.Equal("000", response.response);
         }
 
-        [Test]
+        [Fact]
         public void PayFacDebit()
         {
             var payFacDebit = new payFacDebit
@@ -64,7 +62,7 @@ namespace Cnp.Sdk.Test.Functional
             };
 
             var response = _cnp.PayFacDebit(payFacDebit);
-            Assert.AreEqual("000", response.response);
+            Assert.Equal("000", response.response);
         }
     }
 }

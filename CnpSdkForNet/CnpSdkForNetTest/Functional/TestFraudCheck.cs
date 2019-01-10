@@ -1,16 +1,14 @@
 ﻿using System.Collections.Generic;
-using NUnit.Framework;
+using Xunit;
 
 namespace Cnp.Sdk.Test.Functional
 {
-    [TestFixture]
-    internal class TestFraudCheck
+    public class TestFraudCheck
     {
         private CnpOnline _cnp;
         private Dictionary<string, string> _config;
 
-        [TestFixtureSetUp]
-        public void SetUpCnp()
+        public TestFraudCheck()
         {
             _config = new Dictionary<string, string>
             {
@@ -31,7 +29,7 @@ namespace Cnp.Sdk.Test.Functional
             _cnp = new CnpOnline(_config);
         }
 
-        [Test]
+        [Fact]
         public void TestCustomAttribute7TriggeredRules()
         {
             var fraudCheck = new fraudCheck
@@ -54,18 +52,18 @@ namespace Cnp.Sdk.Test.Functional
             var fraudCheckResponse = _cnp.FraudCheck(fraudCheck);
 
             Assert.NotNull(fraudCheckResponse);
-            Assert.AreEqual(42, fraudCheckResponse.advancedFraudResults.deviceReputationScore);
-            Assert.AreEqual(7, fraudCheckResponse.advancedFraudResults.triggeredRule.Length);
-            Assert.AreEqual("triggered_rule_1", fraudCheckResponse.advancedFraudResults.triggeredRule[0]);
-            Assert.AreEqual("triggered_rule_2", fraudCheckResponse.advancedFraudResults.triggeredRule[1]);
-            Assert.AreEqual("triggered_rule_3", fraudCheckResponse.advancedFraudResults.triggeredRule[2]);
-            Assert.AreEqual("triggered_rule_4", fraudCheckResponse.advancedFraudResults.triggeredRule[3]);
-            Assert.AreEqual("triggered_rule_5", fraudCheckResponse.advancedFraudResults.triggeredRule[4]);
-            Assert.AreEqual("triggered_rule_6", fraudCheckResponse.advancedFraudResults.triggeredRule[5]);
-            Assert.AreEqual("triggered_rule_7", fraudCheckResponse.advancedFraudResults.triggeredRule[6]);
+            Assert.Equal(42, fraudCheckResponse.advancedFraudResults.deviceReputationScore);
+            Assert.Equal(7, fraudCheckResponse.advancedFraudResults.triggeredRule.Length);
+            Assert.Equal("triggered_rule_1", fraudCheckResponse.advancedFraudResults.triggeredRule[0]);
+            Assert.Equal("triggered_rule_2", fraudCheckResponse.advancedFraudResults.triggeredRule[1]);
+            Assert.Equal("triggered_rule_3", fraudCheckResponse.advancedFraudResults.triggeredRule[2]);
+            Assert.Equal("triggered_rule_4", fraudCheckResponse.advancedFraudResults.triggeredRule[3]);
+            Assert.Equal("triggered_rule_5", fraudCheckResponse.advancedFraudResults.triggeredRule[4]);
+            Assert.Equal("triggered_rule_6", fraudCheckResponse.advancedFraudResults.triggeredRule[5]);
+            Assert.Equal("triggered_rule_7", fraudCheckResponse.advancedFraudResults.triggeredRule[6]);
         }
 
-        [Test]
+        [Fact]
         public void TestFraudCheckWithAddressAndAmount()
         {
             var fraudCheck = new fraudCheck
@@ -104,8 +102,8 @@ namespace Cnp.Sdk.Test.Functional
 
             var fraudCheckResponse = _cnp.FraudCheck(fraudCheck);
             Assert.NotNull(fraudCheckResponse);
-            Assert.AreEqual("Call Discover", fraudCheckResponse.message);
-            Assert.AreEqual("fail", fraudCheckResponse.advancedFraudResults.deviceReviewStatus);
+            Assert.Equal("Call Discover", fraudCheckResponse.message);
+            Assert.Equal("fail", fraudCheckResponse.advancedFraudResults.deviceReviewStatus);
 
         }
     }

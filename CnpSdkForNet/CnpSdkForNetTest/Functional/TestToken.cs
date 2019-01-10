@@ -1,16 +1,14 @@
 ﻿using System.Collections.Generic;
-using NUnit.Framework;
+using Xunit;
 
 namespace Cnp.Sdk.Test.Functional
 {
-    [TestFixture]
-    internal class TestToken
+    public class TestToken
     {
         private CnpOnline _cnp;
         private Dictionary<string, string> _config;
 
-        [TestFixtureSetUp]
-        public void SetUpCnp()
+        public TestToken()
         {
             _config = new Dictionary<string, string>
             {
@@ -31,7 +29,7 @@ namespace Cnp.Sdk.Test.Functional
             _cnp = new CnpOnline(_config);
         }
 
-        [Test]
+        [Fact]
         public void SimpleToken()
         {
             var registerTokenRequest = new registerTokenRequestType
@@ -43,11 +41,11 @@ namespace Cnp.Sdk.Test.Functional
             };
 
             var rtokenResponse = _cnp.RegisterToken(registerTokenRequest);
-            StringAssert.AreEqualIgnoringCase("Account number was successfully registered", rtokenResponse.message);
+            Assert.True(rtokenResponse.message.Equals("Account number was successfully registered", System.StringComparison.InvariantCultureIgnoreCase));
         }
 
 
-        [Test]
+        [Fact]
         public void SimpleTokenWithPayPage()
         {
             var registerTokenRequest = new registerTokenRequestType
@@ -59,10 +57,10 @@ namespace Cnp.Sdk.Test.Functional
             };
 
             var rtokenResponse = _cnp.RegisterToken(registerTokenRequest);
-            StringAssert.AreEqualIgnoringCase("Account number was successfully registered", rtokenResponse.message);
+            Assert.True(rtokenResponse.message.Equals("Account number was successfully registered", System.StringComparison.InvariantCultureIgnoreCase));
         }
 
-        [Test]
+        [Fact]
         public void SimpleTokenWithEcheck()
         {
             var registerTokenRequest = new registerTokenRequestType
@@ -78,10 +76,10 @@ namespace Cnp.Sdk.Test.Functional
             };
 
             var rtokenResponse = _cnp.RegisterToken(registerTokenRequest);
-            StringAssert.AreEqualIgnoringCase("Account number was successfully registered", rtokenResponse.message);
+            Assert.True(rtokenResponse.message.Equals("Account number was successfully registered", System.StringComparison.InvariantCultureIgnoreCase));
         }
 
-        [Test]
+        [Fact]
         public void SimpleTokenWithApplepay()
         {
             var registerTokenRequest = new registerTokenRequestType
@@ -106,11 +104,11 @@ namespace Cnp.Sdk.Test.Functional
             };
 
             var rtokenResponse = _cnp.RegisterToken(registerTokenRequest);
-            StringAssert.AreEqualIgnoringCase("Account number was successfully registered", rtokenResponse.message);
-            Assert.AreEqual("0", rtokenResponse.applepayResponse.transactionAmount);
+            Assert.True(rtokenResponse.message.Equals("Account number was successfully registered", System.StringComparison.InvariantCultureIgnoreCase));
+            Assert.Equal("0", rtokenResponse.applepayResponse.transactionAmount);
         }
 
-        [Test]
+        [Fact]
         public void TokenEcheckMissingRequiredField()
         {
             var registerTokenRequest = new registerTokenRequestType
@@ -135,7 +133,7 @@ namespace Cnp.Sdk.Test.Functional
             }
         }
 
-        [Test]
+        [Fact]
         public void TestSimpleTokenWithNullableTypeField()
         {
             var registerTokenRequest = new registerTokenRequestType
@@ -148,8 +146,8 @@ namespace Cnp.Sdk.Test.Functional
             
 
             var rtokenResponse = _cnp.RegisterToken(registerTokenRequest);
-            StringAssert.AreEqualIgnoringCase("Account number was successfully registered", rtokenResponse.message);
-            Assert.IsNull(rtokenResponse.type);
+            Assert.True(rtokenResponse.message.Equals("Account number was successfully registered", System.StringComparison.InvariantCultureIgnoreCase));
+            Assert.Null(rtokenResponse.type);
         }
     }
 }

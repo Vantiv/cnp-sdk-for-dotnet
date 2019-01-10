@@ -1,15 +1,14 @@
 ﻿using System.Collections.Generic;
-using NUnit.Framework;
+using Xunit;
 
 namespace Cnp.Sdk.Test.Functional
 {
-    internal class TestTranslateToLowValueTokenRequest
+    public class TestTranslateToLowValueTokenRequest
     {
         private CnpOnline _cnp;
         private Dictionary<string, string> _config;
 
-        [TestFixtureSetUp]
-        public void SetUpCnp()
+        public TestTranslateToLowValueTokenRequest()
         {
             _config = new Dictionary<string, string>
             {
@@ -30,7 +29,7 @@ namespace Cnp.Sdk.Test.Functional
             _cnp = new CnpOnline(_config);
         }
 
-        [Test]
+        [Fact]
         public void SimpleTranslateToLowValueTokenRequest()
         {
 
@@ -46,12 +45,12 @@ namespace Cnp.Sdk.Test.Functional
             var queryResponse = (translateToLowValueTokenResponse)response;
 
             Assert.NotNull(queryResponse);
-            Assert.AreEqual("822", queryResponse.response);
+            Assert.Equal("822", queryResponse.response);
 
         }
 
 
-        [Test]
+        [Fact]
         public void SimpleTranslateToLowValueTokenRequestWithDiffToken()
         {
 
@@ -67,11 +66,11 @@ namespace Cnp.Sdk.Test.Functional
             var queryResponse = (translateToLowValueTokenResponse)response;
 
             Assert.NotNull(queryResponse);
-            Assert.AreEqual("821", queryResponse.response);
+            Assert.Equal("821", queryResponse.response);
 
         }
 
-        [Test]
+        [Fact]
         public void SimpleTranslateToLowValueTokenRequestWithDefaultToken()
         {
 
@@ -87,7 +86,7 @@ namespace Cnp.Sdk.Test.Functional
             var queryResponse = (translateToLowValueTokenResponse)response;
 
             Assert.NotNull(queryResponse);
-            Assert.AreEqual("803", queryResponse.response);
+            Assert.Equal("803", queryResponse.response);
 
         }
 

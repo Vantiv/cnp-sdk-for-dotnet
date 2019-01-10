@@ -1,22 +1,20 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Text;
-using NUnit.Framework;
+using Xunit;
 using Cnp.Sdk;
 using System.IO;
 using System.Linq;
 
 namespace Cnp.Sdk.Test.Functional
 {
-    [TestFixture]
-    class TestPgpBatchRequest
+    public class TestPgpBatchRequest
     {
         private cnpRequest _cnp;
         private Dictionary<string, string> _config;
         
         
-        [TestFixtureSetUp]
-        public void SetUp()
+        public TestPgpBatchRequest()
         {
             _config = new Dictionary<string, string>();
             _config["url"] = Properties.Settings.Default.url;
@@ -41,7 +39,7 @@ namespace Cnp.Sdk.Test.Functional
         
         
 
-        [Test]
+        [Fact]
         public void TestSimpleBatchPgp()
         {
             _cnp = new cnpRequest(_config);
@@ -444,8 +442,8 @@ namespace Cnp.Sdk.Test.Functional
             Assert.True(entries.Contains(targetEntry));
 
             Assert.NotNull(cnpResponse);
-            Assert.AreEqual("0", cnpResponse.response);
-            Assert.AreEqual("Valid Format", cnpResponse.message);
+            Assert.Equal("0", cnpResponse.response);
+            Assert.Equal("Valid Format", cnpResponse.message);
 
             var cnpBatchResponse = cnpResponse.nextBatchResponse();
             while (cnpBatchResponse != null)
@@ -453,7 +451,7 @@ namespace Cnp.Sdk.Test.Functional
                 var authorizationResponse = cnpBatchResponse.nextAuthorizationResponse();
                 while (authorizationResponse != null)
                 {
-                    Assert.AreEqual("000", authorizationResponse.response);
+                    Assert.Equal("000", authorizationResponse.response);
 
                     authorizationResponse = cnpBatchResponse.nextAuthorizationResponse();
                 }
@@ -461,7 +459,7 @@ namespace Cnp.Sdk.Test.Functional
                 var authReversalResponse = cnpBatchResponse.nextAuthReversalResponse();
                 while (authReversalResponse != null)
                 {
-                    Assert.AreEqual("000", authReversalResponse.response);
+                    Assert.Equal("000", authReversalResponse.response);
 
                     authReversalResponse = cnpBatchResponse.nextAuthReversalResponse();
                 }
@@ -477,7 +475,7 @@ namespace Cnp.Sdk.Test.Functional
                 var captureResponse = cnpBatchResponse.nextCaptureResponse();
                 while (captureResponse != null)
                 {
-                    Assert.AreEqual("000", captureResponse.response);
+                    Assert.Equal("000", captureResponse.response);
 
                     captureResponse = cnpBatchResponse.nextCaptureResponse();
                 }
@@ -494,7 +492,7 @@ namespace Cnp.Sdk.Test.Functional
                 var captureGivenAuthResponse = cnpBatchResponse.nextCaptureGivenAuthResponse();
                 while (captureGivenAuthResponse != null)
                 {
-                    Assert.AreEqual("000", captureGivenAuthResponse.response);
+                    Assert.Equal("000", captureGivenAuthResponse.response);
 
                     captureGivenAuthResponse = cnpBatchResponse.nextCaptureGivenAuthResponse();
                 }
@@ -502,7 +500,7 @@ namespace Cnp.Sdk.Test.Functional
                 var creditResponse = cnpBatchResponse.nextCreditResponse();
                 while (creditResponse != null)
                 {
-                    Assert.AreEqual("000", creditResponse.response);
+                    Assert.Equal("000", creditResponse.response);
 
                     creditResponse = cnpBatchResponse.nextCreditResponse();
                 }
@@ -518,7 +516,7 @@ namespace Cnp.Sdk.Test.Functional
                 var echeckCreditResponse = cnpBatchResponse.nextEcheckCreditResponse();
                 while (echeckCreditResponse != null)
                 {
-                    Assert.AreEqual("000", echeckCreditResponse.response);
+                    Assert.Equal("000", echeckCreditResponse.response);
 
                     echeckCreditResponse = cnpBatchResponse.nextEcheckCreditResponse();
                 }
@@ -526,7 +524,7 @@ namespace Cnp.Sdk.Test.Functional
                 var echeckRedepositResponse = cnpBatchResponse.nextEcheckRedepositResponse();
                 while (echeckRedepositResponse != null)
                 {
-                    Assert.AreEqual("000", echeckRedepositResponse.response);
+                    Assert.Equal("000", echeckRedepositResponse.response);
 
                     echeckRedepositResponse = cnpBatchResponse.nextEcheckRedepositResponse();
                 }
@@ -534,7 +532,7 @@ namespace Cnp.Sdk.Test.Functional
                 var echeckSalesResponse = cnpBatchResponse.nextEcheckSalesResponse();
                 while (echeckSalesResponse != null)
                 {
-                    Assert.AreEqual("000", echeckSalesResponse.response);
+                    Assert.Equal("000", echeckSalesResponse.response);
 
                     echeckSalesResponse = cnpBatchResponse.nextEcheckSalesResponse();
                 }
@@ -542,7 +540,7 @@ namespace Cnp.Sdk.Test.Functional
                 var echeckPreNoteSaleResponse = cnpBatchResponse.nextEcheckPreNoteSaleResponse();
                 while (echeckPreNoteSaleResponse != null)
                 {
-                    Assert.AreEqual("000", echeckPreNoteSaleResponse.response);
+                    Assert.Equal("000", echeckPreNoteSaleResponse.response);
 
                     echeckPreNoteSaleResponse = cnpBatchResponse.nextEcheckPreNoteSaleResponse();
                 }
@@ -550,7 +548,7 @@ namespace Cnp.Sdk.Test.Functional
                 var echeckPreNoteCreditResponse = cnpBatchResponse.nextEcheckPreNoteCreditResponse();
                 while (echeckPreNoteCreditResponse != null)
                 {
-                    Assert.AreEqual("000", echeckPreNoteCreditResponse.response);
+                    Assert.Equal("000", echeckPreNoteCreditResponse.response);
 
                     echeckPreNoteCreditResponse = cnpBatchResponse.nextEcheckPreNoteCreditResponse();
                 }
@@ -558,7 +556,7 @@ namespace Cnp.Sdk.Test.Functional
                 var echeckVerificationResponse = cnpBatchResponse.nextEcheckVerificationResponse();
                 while (echeckVerificationResponse != null)
                 {
-                    Assert.AreEqual("957", echeckVerificationResponse.response);
+                    Assert.Equal("957", echeckVerificationResponse.response);
 
                     echeckVerificationResponse = cnpBatchResponse.nextEcheckVerificationResponse();
                 }
@@ -566,7 +564,7 @@ namespace Cnp.Sdk.Test.Functional
                 var forceCaptureResponse = cnpBatchResponse.nextForceCaptureResponse();
                 while (forceCaptureResponse != null)
                 {
-                    Assert.AreEqual("000", forceCaptureResponse.response);
+                    Assert.Equal("000", forceCaptureResponse.response);
 
                     forceCaptureResponse = cnpBatchResponse.nextForceCaptureResponse();
                 }
@@ -574,7 +572,7 @@ namespace Cnp.Sdk.Test.Functional
                 var registerTokenResponse = cnpBatchResponse.nextRegisterTokenResponse();
                 while (registerTokenResponse != null)
                 {
-                    Assert.AreEqual("820", registerTokenResponse.response);
+                    Assert.Equal("820", registerTokenResponse.response);
 
                     registerTokenResponse = cnpBatchResponse.nextRegisterTokenResponse();
                 }
@@ -582,7 +580,7 @@ namespace Cnp.Sdk.Test.Functional
                 var saleResponse = cnpBatchResponse.nextSaleResponse();
                 while (saleResponse != null)
                 {
-                    Assert.AreEqual("000", saleResponse.response);
+                    Assert.Equal("000", saleResponse.response);
 
                     saleResponse = cnpBatchResponse.nextSaleResponse();
                 }

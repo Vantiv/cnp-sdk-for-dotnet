@@ -1,16 +1,14 @@
 ﻿using System.Collections.Generic;
-using NUnit.Framework;
+using Xunit;
 
 namespace Cnp.Sdk.Test.Functional
 {
-    [TestFixture]
-    internal class TestEcheckRedeposit
+    public class TestEcheckRedeposit
     {
         private CnpOnline _cnp;
         private Dictionary<string, string> _config;
 
-        [TestFixtureSetUp]
-        public void SetUpCnp()
+        public TestEcheckRedeposit()
         {
             _config = new Dictionary<string, string>
             {
@@ -32,7 +30,7 @@ namespace Cnp.Sdk.Test.Functional
         }
 
 
-        [Test]
+        [Fact]
         public void simpleEcheckRedeposit()
         {
             var echeckredeposit = new echeckRedeposit
@@ -43,10 +41,10 @@ namespace Cnp.Sdk.Test.Functional
             };
 
             var response = _cnp.EcheckRedeposit(echeckredeposit);
-            Assert.AreEqual("Approved", response.message);
+            Assert.Equal("Approved", response.message);
         }
 
-        [Test]
+        [Fact]
         public void EcheckRedepositWithEcheck()
         {
             var echeckredeposit = new echeckRedeposit
@@ -66,10 +64,10 @@ namespace Cnp.Sdk.Test.Functional
             };
             
             var response = _cnp.EcheckRedeposit(echeckredeposit);
-            Assert.AreEqual("Approved", response.message);
+            Assert.Equal("Approved", response.message);
         }
 
-        [Test]
+        [Fact]
         public void EcheckRedepositWithEcheckToken()
         {
             var echeckredeposit = new echeckRedeposit
@@ -87,7 +85,7 @@ namespace Cnp.Sdk.Test.Functional
             };
 
             var response = _cnp.EcheckRedeposit(echeckredeposit);
-            Assert.AreEqual("Approved", response.message);
+            Assert.Equal("Approved", response.message);
         }
 
     }

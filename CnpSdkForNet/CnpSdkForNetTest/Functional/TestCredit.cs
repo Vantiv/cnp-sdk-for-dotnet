@@ -1,16 +1,14 @@
 ﻿using System.Collections.Generic;
-using NUnit.Framework;
+using Xunit;
 
 namespace Cnp.Sdk.Test.Functional
 {
-    [TestFixture]
-    internal class TestCredit
+    public class TestCredit
     {
         private CnpOnline _cnp;
         private Dictionary<string, string> _config;
 
-        [TestFixtureSetUp]
-        public void SetUpCnp()
+        public TestCredit()
         {
             _config = new Dictionary<string, string>
             {
@@ -31,7 +29,7 @@ namespace Cnp.Sdk.Test.Functional
             _cnp = new CnpOnline(_config);
         }
 
-        [Test]
+        [Fact]
         public void SimpleCreditWithCard()
         {
             var creditObj = new credit
@@ -50,10 +48,10 @@ namespace Cnp.Sdk.Test.Functional
             };
 
             var response = _cnp.Credit(creditObj);
-            Assert.AreEqual("Approved", response.message);
+            Assert.Equal("Approved", response.message);
         }
 
-        [Test]
+        [Fact]
         public void SimpleCreditWithMpos()
         {
             var creditObj = new credit
@@ -74,10 +72,10 @@ namespace Cnp.Sdk.Test.Functional
             };
 
             creditResponse response = _cnp.Credit(creditObj);
-            Assert.AreEqual("Approved", response.message);
+            Assert.Equal("Approved", response.message);
         }
 
-        [Test]
+        [Fact]
         public void SimpleCreditWithPaypal()
         {
             var creditObj = new credit
@@ -91,10 +89,10 @@ namespace Cnp.Sdk.Test.Functional
             };
 
             var response = _cnp.Credit(creditObj);
-            Assert.AreEqual("Approved", response.message);
+            Assert.Equal("Approved", response.message);
         }
 
-        [Test]
+        [Fact]
         public void PaypalNotes()
         {
             var creditObj = new credit
@@ -115,10 +113,10 @@ namespace Cnp.Sdk.Test.Functional
             };
 
             var response = _cnp.Credit(creditObj);
-            Assert.AreEqual("Approved", response.message);
+            Assert.Equal("Approved", response.message);
         }
 
-        [Test]
+        [Fact]
         public void ProcessingInstructionAndAmexData()
         {
             var creditObj = new credit
@@ -138,10 +136,10 @@ namespace Cnp.Sdk.Test.Functional
             };
 
             var response = _cnp.Credit(creditObj);
-            Assert.AreEqual("Approved", response.message);
+            Assert.Equal("Approved", response.message);
         }
 
-        [Test]
+        [Fact]
         public void SimpleCreditWithCardAndSpecialCharacters()
         {
             var creditObj = new credit
@@ -160,10 +158,10 @@ namespace Cnp.Sdk.Test.Functional
             };
 
             var response = _cnp.Credit(creditObj);
-            Assert.AreEqual("Approved", response.message);
+            Assert.Equal("Approved", response.message);
         }
 
-        [Test]
+        [Fact]
         public void SimpleCreditWithPin()
         {
             var creditObj = new credit
@@ -181,7 +179,7 @@ namespace Cnp.Sdk.Test.Functional
             };
 
             var response = _cnp.Credit(creditObj);
-            Assert.AreEqual("Approved", response.message);
+            Assert.Equal("Approved", response.message);
         }
     }
 }

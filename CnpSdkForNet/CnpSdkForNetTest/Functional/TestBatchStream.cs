@@ -55,7 +55,7 @@ namespace Cnp.Sdk.Test.Functional
         //    cnp = new cnpRequest();
         //}
 
-        //[Test]
+        //[Fact]
         //public void SimpleBatch()
         //{
         //    batchRequest cnpBatchRequest = new batchRequest();
@@ -502,7 +502,7 @@ namespace Cnp.Sdk.Test.Functional
         //    }
         //}
 
-        //[Test]
+        //[Fact]
         //public void accountUpdateBatch()
         //{
         //    batchRequest cnpBatchRequest = new batchRequest();
@@ -547,7 +547,7 @@ namespace Cnp.Sdk.Test.Functional
         //    }
         //}
 
-        //[Test]
+        //[Fact]
         //public void RFRBatch()
         //{
         //    batchRequest cnpBatchRequest = new batchRequest();
@@ -619,7 +619,7 @@ namespace Cnp.Sdk.Test.Functional
         //    }
         //}
 
-        //[Test]
+        //[Fact]
         //public void nullBatchData()
         //{
         //    batchRequest cnpBatchRequest = new batchRequest();
@@ -858,7 +858,7 @@ namespace Cnp.Sdk.Test.Functional
         //    }
         //}
 
-        //[Test]
+        //[Fact]
         //public void InvalidCredientialsBatch()
         //{
         //    batchRequest cnpBatchRequest = new batchRequest();
@@ -1132,7 +1132,7 @@ namespace Cnp.Sdk.Test.Functional
         //    }
         //}
 
-        //[Test]
+        //[Fact]
         //public void EcheckPreNoteTestAll()
         //{
         //    batchRequest cnpBatchRequest = new batchRequest();
@@ -1241,7 +1241,7 @@ namespace Cnp.Sdk.Test.Functional
         //    }
         //}
 
-        //[Test]
+        //[Fact]
         //public void PFIFInstructionTxnTest()
         //{
 

@@ -1,18 +1,16 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Text;
-using NUnit.Framework;
+using Xunit;
 using Cnp.Sdk;
 
 namespace Cnp.Sdk.Test.Certification
 {
-    [TestFixture]
-    class TestCert1Base
+    public class TestCert1Base
     {
         private CnpOnline cnp;
 
-        [TestFixtureSetUp]
-        public void SetUp()
+        public TestCert1Base()
         {
             Dictionary<string, string> config = new Dictionary<string, string>();
             config.Add("url", "https://payments.vantivprelive.com/vap/communicator/online");
@@ -31,7 +29,7 @@ namespace Cnp.Sdk.Test.Certification
         }
 
 
-        [Test]
+        [Fact]
         public void Test1Auth()
         {
            
@@ -56,35 +54,35 @@ namespace Cnp.Sdk.Test.Certification
             authorization.card = card;
 
             authorizationResponse response = cnp.Authorize(authorization);
-            Assert.AreEqual("000", response.response);
-            Assert.AreEqual("Approved", response.message);
-            Assert.AreEqual("11111 ", response.authCode);
-            Assert.AreEqual("01", response.fraudResult.avsResult);
-            Assert.AreEqual("M", response.fraudResult.cardValidationResult);
+            Assert.Equal("000", response.response);
+            Assert.Equal("Approved", response.message);
+            Assert.Equal("11111 ", response.authCode);
+            Assert.Equal("01", response.fraudResult.avsResult);
+            Assert.Equal("M", response.fraudResult.cardValidationResult);
 
             capture capture = new capture();
             capture.id = response.id;
             capture.cnpTxnId = response.cnpTxnId;
             captureResponse captureResponse = cnp.Capture(capture);
-            Assert.AreEqual("000", captureResponse.response);
-            Assert.AreEqual("Approved", captureResponse.message);
+            Assert.Equal("000", captureResponse.response);
+            Assert.Equal("Approved", captureResponse.message);
 
             credit credit = new credit();
             credit.id = captureResponse.id;
             credit.cnpTxnId = captureResponse.cnpTxnId;
             creditResponse creditResponse = cnp.Credit(credit);
-            Assert.AreEqual("000", creditResponse.response);
-            Assert.AreEqual("Approved", creditResponse.message);
+            Assert.Equal("000", creditResponse.response);
+            Assert.Equal("Approved", creditResponse.message);
 
             voidTxn newvoid = new voidTxn();
             newvoid.id = creditResponse.id;
             newvoid.cnpTxnId = creditResponse.cnpTxnId;
             voidResponse voidResponse = cnp.DoVoid(newvoid);
-            Assert.AreEqual("000", voidResponse.response);
-            Assert.AreEqual("Approved", voidResponse.message);
+            Assert.Equal("000", voidResponse.response);
+            Assert.Equal("Approved", voidResponse.message);
         }
 
-        [Test]
+        [Fact]
         public void Test1AVS()
         {
             authorization authorization = new authorization();
@@ -108,14 +106,14 @@ namespace Cnp.Sdk.Test.Certification
             authorization.card = card;
 
             authorizationResponse response = cnp.Authorize(authorization);
-            Assert.AreEqual("000", response.response);
-            Assert.AreEqual("Approved", response.message);
-            Assert.AreEqual("11111 ", response.authCode);
-            Assert.AreEqual("01", response.fraudResult.avsResult);
-            Assert.AreEqual("M", response.fraudResult.cardValidationResult);
+            Assert.Equal("000", response.response);
+            Assert.Equal("Approved", response.message);
+            Assert.Equal("11111 ", response.authCode);
+            Assert.Equal("01", response.fraudResult.avsResult);
+            Assert.Equal("M", response.fraudResult.cardValidationResult);
         }
 
-        [Test]
+        [Fact]
         public void Test1Sale()
         {
             sale sale = new sale();
@@ -139,29 +137,29 @@ namespace Cnp.Sdk.Test.Certification
             sale.card = card;
 
             saleResponse response = cnp.Sale(sale);
-            Assert.AreEqual("000", response.response);
-            Assert.AreEqual("Approved", response.message);
-            Assert.AreEqual("11111 ", response.authCode);
-            Assert.AreEqual("01", response.fraudResult.avsResult);
-            Assert.AreEqual("M", response.fraudResult.cardValidationResult);
+            Assert.Equal("000", response.response);
+            Assert.Equal("Approved", response.message);
+            Assert.Equal("11111 ", response.authCode);
+            Assert.Equal("01", response.fraudResult.avsResult);
+            Assert.Equal("M", response.fraudResult.cardValidationResult);
 
             credit credit = new credit();
             credit.id = response.id;
             credit.cnpTxnId = response.cnpTxnId;
             creditResponse creditResponse = cnp.Credit(credit);
-            Assert.AreEqual("000", creditResponse.response);
-            Assert.AreEqual("Approved", creditResponse.message);
+            Assert.Equal("000", creditResponse.response);
+            Assert.Equal("Approved", creditResponse.message);
 
 
             voidTxn newvoid = new voidTxn();
             newvoid.id = creditResponse.id;
             newvoid.cnpTxnId = creditResponse.cnpTxnId;
             voidResponse voidResponse = cnp.DoVoid(newvoid);
-            Assert.AreEqual("000",voidResponse.response);
-            Assert.AreEqual("Approved", voidResponse.message);
+            Assert.Equal("000",voidResponse.response);
+            Assert.Equal("Approved", voidResponse.message);
         }
 
-        [Test]
+        [Fact]
         public void Test2Auth()
         {
             authorization authorization = new authorization();
@@ -189,35 +187,35 @@ namespace Cnp.Sdk.Test.Certification
             authorization.cardholderAuthentication = authenticationvalue;
 
             authorizationResponse response = cnp.Authorize(authorization);
-            Assert.AreEqual("000", response.response);
-            Assert.AreEqual("Approved", response.message);
-            Assert.AreEqual("22222", response.authCode.Trim());
-            Assert.AreEqual("10", response.fraudResult.avsResult);
-            Assert.AreEqual("M", response.fraudResult.cardValidationResult);
+            Assert.Equal("000", response.response);
+            Assert.Equal("Approved", response.message);
+            Assert.Equal("22222", response.authCode.Trim());
+            Assert.Equal("10", response.fraudResult.avsResult);
+            Assert.Equal("M", response.fraudResult.cardValidationResult);
 
             capture capture = new capture();
             capture.id = response.id;
             capture.cnpTxnId = response.cnpTxnId;
             captureResponse captureresponse = cnp.Capture(capture);
-            Assert.AreEqual("000", captureresponse.response);
-            Assert.AreEqual("Approved", captureresponse.message);
+            Assert.Equal("000", captureresponse.response);
+            Assert.Equal("Approved", captureresponse.message);
 
             credit credit = new credit();
             credit.id = captureresponse.id;
             credit.cnpTxnId = captureresponse.cnpTxnId;
             creditResponse creditResponse = cnp.Credit(credit);
-            Assert.AreEqual("000", creditResponse.response);
-            Assert.AreEqual("Approved", creditResponse.message);
+            Assert.Equal("000", creditResponse.response);
+            Assert.Equal("Approved", creditResponse.message);
 
             voidTxn newvoid = new voidTxn();
             newvoid.id = creditResponse.id;
             newvoid.cnpTxnId = creditResponse.cnpTxnId;
             voidResponse voidResponse = cnp.DoVoid(newvoid);
-            Assert.AreEqual("000",voidResponse.response);
-            Assert.AreEqual("Approved", voidResponse.message);
+            Assert.Equal("000",voidResponse.response);
+            Assert.Equal("Approved", voidResponse.message);
         }
 
-        [Test]
+        [Fact]
         public void Test2AVS()
         {
             authorization authorization = new authorization();
@@ -245,15 +243,15 @@ namespace Cnp.Sdk.Test.Certification
             authorization.cardholderAuthentication = authenticationvalue;
 
             authorizationResponse response = cnp.Authorize(authorization);
-            Assert.AreEqual("000", response.response);
-            Assert.AreEqual("Approved", response.message);
-            Assert.AreEqual("22222", response.authCode.Trim());
-            Assert.AreEqual("10", response.fraudResult.avsResult);
-            Assert.AreEqual("M", response.fraudResult.cardValidationResult);
+            Assert.Equal("000", response.response);
+            Assert.Equal("Approved", response.message);
+            Assert.Equal("22222", response.authCode.Trim());
+            Assert.Equal("10", response.fraudResult.avsResult);
+            Assert.Equal("M", response.fraudResult.cardValidationResult);
 
         }
 
-        [Test]
+        [Fact]
         public void Test2Sale()
         {
             sale sale = new sale();
@@ -281,28 +279,28 @@ namespace Cnp.Sdk.Test.Certification
             sale.cardholderAuthentication = authenticationvalue;
 
             saleResponse response = cnp.Sale(sale);
-            Assert.AreEqual("000", response.response);
-            Assert.AreEqual("Approved", response.message);
-            Assert.AreEqual("22222", response.authCode.Trim());
-            Assert.AreEqual("10", response.fraudResult.avsResult);
-            Assert.AreEqual("M", response.fraudResult.cardValidationResult);
+            Assert.Equal("000", response.response);
+            Assert.Equal("Approved", response.message);
+            Assert.Equal("22222", response.authCode.Trim());
+            Assert.Equal("10", response.fraudResult.avsResult);
+            Assert.Equal("M", response.fraudResult.cardValidationResult);
 
             credit credit = new credit();
             credit.id = response.id;
             credit.cnpTxnId = response.cnpTxnId;
             creditResponse creditResponse = cnp.Credit(credit);
-            Assert.AreEqual("000", creditResponse.response);
-            Assert.AreEqual("Approved", creditResponse.message);
+            Assert.Equal("000", creditResponse.response);
+            Assert.Equal("Approved", creditResponse.message);
 
             voidTxn newvoid = new voidTxn();
             newvoid.id = creditResponse.id;
             newvoid.cnpTxnId = creditResponse.cnpTxnId;
             voidResponse voidResponse = cnp.DoVoid(newvoid);
-            Assert.AreEqual("000", voidResponse.response);
-            Assert.AreEqual("Approved", voidResponse.message);
+            Assert.Equal("000", voidResponse.response);
+            Assert.Equal("Approved", voidResponse.message);
         }
 
-        [Test]
+        [Fact]
         public void Test3Auth()
         {
             authorization authorization = new authorization();
@@ -326,35 +324,35 @@ namespace Cnp.Sdk.Test.Certification
             authorization.card = card;
 
             authorizationResponse response = cnp.Authorize(authorization);
-            Assert.AreEqual("000", response.response);
-            Assert.AreEqual("Approved", response.message);
-            Assert.AreEqual("33333", response.authCode.Trim());
-            Assert.AreEqual("10", response.fraudResult.avsResult);
-            Assert.AreEqual("M", response.fraudResult.cardValidationResult);
+            Assert.Equal("000", response.response);
+            Assert.Equal("Approved", response.message);
+            Assert.Equal("33333", response.authCode.Trim());
+            Assert.Equal("10", response.fraudResult.avsResult);
+            Assert.Equal("M", response.fraudResult.cardValidationResult);
 
             capture capture = new capture();
             capture.id = response.id;
             capture.cnpTxnId = response.cnpTxnId;
             captureResponse captureResponse = cnp.Capture(capture);
-            Assert.AreEqual("000", captureResponse.response);
-            Assert.AreEqual("Approved", captureResponse.message);
+            Assert.Equal("000", captureResponse.response);
+            Assert.Equal("Approved", captureResponse.message);
 
             credit credit = new credit();
             credit.id = captureResponse.id;
             credit.cnpTxnId = captureResponse.cnpTxnId;
             creditResponse creditResponse = cnp.Credit(credit);
-            Assert.AreEqual("000", creditResponse.response);
-            Assert.AreEqual("Approved", creditResponse.message);
+            Assert.Equal("000", creditResponse.response);
+            Assert.Equal("Approved", creditResponse.message);
 
             voidTxn newvoid = new voidTxn();
             newvoid.id = creditResponse.id;
             newvoid.cnpTxnId = creditResponse.cnpTxnId;
             voidResponse voidResponse = cnp.DoVoid(newvoid);
-            Assert.AreEqual("000", voidResponse.response);
-            Assert.AreEqual("Approved", voidResponse.message);
+            Assert.Equal("000", voidResponse.response);
+            Assert.Equal("Approved", voidResponse.message);
         }
 
-        [Test]
+        [Fact]
         public void Test3AVS()
         {
             authorization authorization = new authorization();
@@ -378,15 +376,15 @@ namespace Cnp.Sdk.Test.Certification
             authorization.card = card;
 
             authorizationResponse response = cnp.Authorize(authorization);
-            Assert.AreEqual("000", response.response);
-            Assert.AreEqual("Approved", response.message);
-            Assert.AreEqual("33333", response.authCode.Trim());
-            Assert.AreEqual("10", response.fraudResult.avsResult);
-            Assert.AreEqual("M", response.fraudResult.cardValidationResult);
+            Assert.Equal("000", response.response);
+            Assert.Equal("Approved", response.message);
+            Assert.Equal("33333", response.authCode.Trim());
+            Assert.Equal("10", response.fraudResult.avsResult);
+            Assert.Equal("M", response.fraudResult.cardValidationResult);
 
         }
 
-        [Test]
+        [Fact]
         public void Test3Sale()
         {
             sale sale = new sale();
@@ -410,28 +408,28 @@ namespace Cnp.Sdk.Test.Certification
             sale.card = card;
 
             saleResponse response = cnp.Sale(sale);
-            Assert.AreEqual("000", response.response);
-            Assert.AreEqual("Approved", response.message);
-            Assert.AreEqual("33333", response.authCode.Trim());
-            Assert.AreEqual("10", response.fraudResult.avsResult);
-            Assert.AreEqual("M", response.fraudResult.cardValidationResult);
+            Assert.Equal("000", response.response);
+            Assert.Equal("Approved", response.message);
+            Assert.Equal("33333", response.authCode.Trim());
+            Assert.Equal("10", response.fraudResult.avsResult);
+            Assert.Equal("M", response.fraudResult.cardValidationResult);
 
             credit credit = new credit();
             credit.id = response.id;
             credit.cnpTxnId = response.cnpTxnId;
             creditResponse creditResponse = cnp.Credit(credit);
-            Assert.AreEqual("000", creditResponse.response);
-            Assert.AreEqual("Approved", creditResponse.message);
+            Assert.Equal("000", creditResponse.response);
+            Assert.Equal("Approved", creditResponse.message);
 
             voidTxn newvoid = new voidTxn();
             newvoid.id = creditResponse.id;
             newvoid.cnpTxnId = creditResponse.cnpTxnId;
             voidResponse voidResponse = cnp.DoVoid(newvoid);
-            Assert.AreEqual("000", voidResponse.response);
-            Assert.AreEqual("Approved", voidResponse.message);
+            Assert.Equal("000", voidResponse.response);
+            Assert.Equal("Approved", voidResponse.message);
         }
 
-        [Test]
+        [Fact]
         public void Test4Auth()
         {
             authorization authorization = new authorization();
@@ -455,34 +453,34 @@ namespace Cnp.Sdk.Test.Certification
             authorization.card = card;
 
             authorizationResponse response = cnp.Authorize(authorization);
-            Assert.AreEqual("000", response.response);
-            Assert.AreEqual("Approved", response.message);
-            Assert.AreEqual("44444", response.authCode.Trim());
-            Assert.AreEqual("13", response.fraudResult.avsResult);
+            Assert.Equal("000", response.response);
+            Assert.Equal("Approved", response.message);
+            Assert.Equal("44444", response.authCode.Trim());
+            Assert.Equal("13", response.fraudResult.avsResult);
 
             capture capture = new capture();
             capture.id = response.id;
             capture.cnpTxnId = response.cnpTxnId;
             captureResponse captureresponse = cnp.Capture(capture);
-            Assert.AreEqual("000", captureresponse.response);
-            Assert.AreEqual("Approved", captureresponse.message);
+            Assert.Equal("000", captureresponse.response);
+            Assert.Equal("Approved", captureresponse.message);
 
             credit credit = new credit();
             credit.id = captureresponse.id;
             credit.cnpTxnId = captureresponse.cnpTxnId;
             creditResponse creditResponse = cnp.Credit(credit);
-            Assert.AreEqual("000", creditResponse.response);
-            Assert.AreEqual("Approved", creditResponse.message);
+            Assert.Equal("000", creditResponse.response);
+            Assert.Equal("Approved", creditResponse.message);
 
             voidTxn newvoid = new voidTxn();
             newvoid.id = creditResponse.id;
             newvoid.cnpTxnId = creditResponse.cnpTxnId;
             voidResponse voidResponse = cnp.DoVoid(newvoid);
-            Assert.AreEqual("000", voidResponse.response);
-            Assert.AreEqual("Approved", voidResponse.message);
+            Assert.Equal("000", voidResponse.response);
+            Assert.Equal("Approved", voidResponse.message);
         }
 
-        [Test]
+        [Fact]
         public void Test4AVS()
         {
             authorization authorization = new authorization();
@@ -505,13 +503,13 @@ namespace Cnp.Sdk.Test.Certification
             authorization.card = card;
 
             authorizationResponse response = cnp.Authorize(authorization);
-            Assert.AreEqual("000", response.response);
-            Assert.AreEqual("Approved", response.message);
-            Assert.AreEqual("44444", response.authCode.Trim());
-            Assert.AreEqual("13", response.fraudResult.avsResult);
+            Assert.Equal("000", response.response);
+            Assert.Equal("Approved", response.message);
+            Assert.Equal("44444", response.authCode.Trim());
+            Assert.Equal("13", response.fraudResult.avsResult);
         }
 
-        [Test]
+        [Fact]
         public void Test4Sale()
         {
             sale sale = new sale();
@@ -535,27 +533,27 @@ namespace Cnp.Sdk.Test.Certification
             sale.card = card;
 
             saleResponse response = cnp.Sale(sale);
-            Assert.AreEqual("000", response.response);
-            Assert.AreEqual("Approved", response.message);
-            Assert.AreEqual("44444", response.authCode.Trim());
-            Assert.AreEqual("13", response.fraudResult.avsResult);
+            Assert.Equal("000", response.response);
+            Assert.Equal("Approved", response.message);
+            Assert.Equal("44444", response.authCode.Trim());
+            Assert.Equal("13", response.fraudResult.avsResult);
 
             credit credit = new credit();
             credit.id = response.id;
             credit.cnpTxnId = response.cnpTxnId;
             creditResponse creditResponse = cnp.Credit(credit);
-            Assert.AreEqual("000", creditResponse.response);
-            Assert.AreEqual("Approved", creditResponse.message);
+            Assert.Equal("000", creditResponse.response);
+            Assert.Equal("Approved", creditResponse.message);
 
             voidTxn newvoid = new voidTxn();
             newvoid.id = creditResponse.id;
             newvoid.cnpTxnId = creditResponse.cnpTxnId;
             voidResponse voidResponse = cnp.DoVoid(newvoid);
-            Assert.AreEqual("000", voidResponse.response);
-            Assert.AreEqual("Approved", voidResponse.message);
+            Assert.Equal("000", voidResponse.response);
+            Assert.Equal("Approved", voidResponse.message);
         }
 
-        [Test]
+        [Fact]
         public void Test5Auth()
         {
             authorization authorization = new authorization();
@@ -574,35 +572,35 @@ namespace Cnp.Sdk.Test.Certification
             authorization.cardholderAuthentication = authenticationvalue;
 
             authorizationResponse response = cnp.Authorize(authorization);
-            Assert.AreEqual("000", response.response);
-            Assert.AreEqual("Approved", response.message);
-            Assert.AreEqual("55555 ", response.authCode);
-            Assert.AreEqual("32", response.fraudResult.avsResult);
-            Assert.AreEqual("M", response.fraudResult.cardValidationResult);
+            Assert.Equal("000", response.response);
+            Assert.Equal("Approved", response.message);
+            Assert.Equal("55555 ", response.authCode);
+            Assert.Equal("32", response.fraudResult.avsResult);
+            Assert.Equal("M", response.fraudResult.cardValidationResult);
 
             capture capture = new capture();
             capture.id = response.id;
             capture.cnpTxnId = response.cnpTxnId;
             captureResponse captureresponse = cnp.Capture(capture);
-            Assert.AreEqual("000", captureresponse.response);
-            Assert.AreEqual("Approved", captureresponse.message);
+            Assert.Equal("000", captureresponse.response);
+            Assert.Equal("Approved", captureresponse.message);
 
             credit credit = new credit();
             credit.id = captureresponse.id;
             credit.cnpTxnId = captureresponse.cnpTxnId;
             creditResponse creditResponse = cnp.Credit(credit);
-            Assert.AreEqual("000", creditResponse.response);
-            Assert.AreEqual("Approved", creditResponse.message);
+            Assert.Equal("000", creditResponse.response);
+            Assert.Equal("Approved", creditResponse.message);
 
             voidTxn newvoid = new voidTxn();
             newvoid.id = creditResponse.id;
             newvoid.cnpTxnId = creditResponse.cnpTxnId;
             voidResponse voidResponse = cnp.DoVoid(newvoid);
-            Assert.AreEqual("000", voidResponse.response);
-            Assert.AreEqual("Approved", voidResponse.message);
+            Assert.Equal("000", voidResponse.response);
+            Assert.Equal("Approved", voidResponse.message);
         }
 
-        [Test]
+        [Fact]
         public void Test5AVS()
         {
             authorization authorization = new authorization();
@@ -621,14 +619,14 @@ namespace Cnp.Sdk.Test.Certification
             authorization.cardholderAuthentication = authenticationvalue;
 
             authorizationResponse response = cnp.Authorize(authorization);
-            Assert.AreEqual("000", response.response);
-            Assert.AreEqual("Approved", response.message);
-            Assert.AreEqual("55555 ", response.authCode);
-            Assert.AreEqual("32", response.fraudResult.avsResult);
-            Assert.AreEqual("M", response.fraudResult.cardValidationResult);
+            Assert.Equal("000", response.response);
+            Assert.Equal("Approved", response.message);
+            Assert.Equal("55555 ", response.authCode);
+            Assert.Equal("32", response.fraudResult.avsResult);
+            Assert.Equal("M", response.fraudResult.cardValidationResult);
         }
 
-        [Test]
+        [Fact]
         public void Test5Sale()
         {
             sale sale = new sale();
@@ -647,28 +645,28 @@ namespace Cnp.Sdk.Test.Certification
             sale.cardholderAuthentication = authenticationvalue;
 
             saleResponse response = cnp.Sale(sale);
-            Assert.AreEqual("000", response.response);
-            Assert.AreEqual("Approved", response.message);
-            Assert.AreEqual("55555 ", response.authCode);
-            Assert.AreEqual("32", response.fraudResult.avsResult);
-            Assert.AreEqual("M", response.fraudResult.cardValidationResult);
+            Assert.Equal("000", response.response);
+            Assert.Equal("Approved", response.message);
+            Assert.Equal("55555 ", response.authCode);
+            Assert.Equal("32", response.fraudResult.avsResult);
+            Assert.Equal("M", response.fraudResult.cardValidationResult);
 
             credit credit = new credit();
             credit.id = response.id;
             credit.cnpTxnId = response.cnpTxnId;
             creditResponse creditResponse = cnp.Credit(credit);
-            Assert.AreEqual("000", creditResponse.response);
-            Assert.AreEqual("Approved", creditResponse.message);
+            Assert.Equal("000", creditResponse.response);
+            Assert.Equal("Approved", creditResponse.message);
 
             voidTxn newvoid = new voidTxn();
             newvoid.id = creditResponse.id;
             newvoid.cnpTxnId = creditResponse.cnpTxnId;
             voidResponse voidResponse = cnp.DoVoid(newvoid);
-            Assert.AreEqual("000", voidResponse.response);
-            Assert.AreEqual("Approved", voidResponse.message);
+            Assert.Equal("000", voidResponse.response);
+            Assert.Equal("Approved", voidResponse.message);
         }
 
-        [Test]
+        [Fact]
         public void Test6Auth()
         {
             authorization authorization = new authorization();
@@ -692,13 +690,13 @@ namespace Cnp.Sdk.Test.Certification
             authorization.card = card;
 
             authorizationResponse response = cnp.Authorize(authorization);
-            Assert.AreEqual("110", response.response);
-            Assert.AreEqual("Insufficient Funds", response.message);
-            Assert.AreEqual("34", response.fraudResult.avsResult);
-            Assert.AreEqual("P", response.fraudResult.cardValidationResult);
+            Assert.Equal("110", response.response);
+            Assert.Equal("Insufficient Funds", response.message);
+            Assert.Equal("34", response.fraudResult.avsResult);
+            Assert.Equal("P", response.fraudResult.cardValidationResult);
         }
 
-        [Test]
+        [Fact]
         public void Test6Sale()
         {
             sale sale = new sale();
@@ -722,20 +720,20 @@ namespace Cnp.Sdk.Test.Certification
             sale.card = card;
 
             saleResponse response = cnp.Sale(sale);
-            Assert.AreEqual("110", response.response);
-            Assert.AreEqual("Insufficient Funds", response.message);
-            Assert.AreEqual("34", response.fraudResult.avsResult);
-            Assert.AreEqual("P", response.fraudResult.cardValidationResult);
+            Assert.Equal("110", response.response);
+            Assert.Equal("Insufficient Funds", response.message);
+            Assert.Equal("34", response.fraudResult.avsResult);
+            Assert.Equal("P", response.fraudResult.cardValidationResult);
 
             voidTxn newvoid = new voidTxn();
             newvoid.id = response.id;
             newvoid.cnpTxnId = response.cnpTxnId;
             voidResponse voidResponse = cnp.DoVoid(newvoid);
-            Assert.AreEqual("000", voidResponse.response);
-            Assert.AreEqual("Approved", voidResponse.message);
+            Assert.Equal("000", voidResponse.response);
+            Assert.Equal("Approved", voidResponse.message);
         }
 
-        [Test]
+        [Fact]
         public void Test7Auth()
         {
             authorization authorization = new authorization();
@@ -759,13 +757,13 @@ namespace Cnp.Sdk.Test.Certification
             authorization.card = card;
 
             authorizationResponse response = cnp.Authorize(authorization);
-            Assert.AreEqual("301", response.response);
-            Assert.AreEqual("Invalid Account Number", response.message);
-            Assert.AreEqual("34", response.fraudResult.avsResult);
-            Assert.AreEqual("N", response.fraudResult.cardValidationResult);
+            Assert.Equal("301", response.response);
+            Assert.Equal("Invalid Account Number", response.message);
+            Assert.Equal("34", response.fraudResult.avsResult);
+            Assert.Equal("N", response.fraudResult.cardValidationResult);
         }
 
-        [Test]
+        [Fact]
         public void Test7AVS()
         {
             authorization authorization = new authorization();
@@ -789,13 +787,13 @@ namespace Cnp.Sdk.Test.Certification
             authorization.card = card;
 
             authorizationResponse response = cnp.Authorize(authorization);
-            Assert.AreEqual("301", response.response);
-            Assert.AreEqual("Invalid Account Number", response.message);
-            Assert.AreEqual("34", response.fraudResult.avsResult);
-            Assert.AreEqual("N", response.fraudResult.cardValidationResult);
+            Assert.Equal("301", response.response);
+            Assert.Equal("Invalid Account Number", response.message);
+            Assert.Equal("34", response.fraudResult.avsResult);
+            Assert.Equal("N", response.fraudResult.cardValidationResult);
         }
 
-        [Test]
+        [Fact]
         public void Test7Sale()
         {
             sale sale = new sale();
@@ -819,13 +817,13 @@ namespace Cnp.Sdk.Test.Certification
             sale.card = card;
 
             saleResponse response = cnp.Sale(sale);
-            Assert.AreEqual("301", response.response);
-            Assert.AreEqual("Invalid Account Number", response.message);
-            Assert.AreEqual("34", response.fraudResult.avsResult);
-            Assert.AreEqual("N", response.fraudResult.cardValidationResult);
+            Assert.Equal("301", response.response);
+            Assert.Equal("Invalid Account Number", response.message);
+            Assert.Equal("34", response.fraudResult.avsResult);
+            Assert.Equal("N", response.fraudResult.cardValidationResult);
         }
 
-        [Test]
+        [Fact]
         public void Test8Auth()
         {
             authorization authorization = new authorization();
@@ -849,13 +847,13 @@ namespace Cnp.Sdk.Test.Certification
             authorization.card = card;
 
             authorizationResponse response = cnp.Authorize(authorization);
-            Assert.AreEqual("123", response.response);
-            Assert.AreEqual("Call Discover", response.message);
-            Assert.AreEqual("34", response.fraudResult.avsResult);
-            Assert.AreEqual("P", response.fraudResult.cardValidationResult);
+            Assert.Equal("123", response.response);
+            Assert.Equal("Call Discover", response.message);
+            Assert.Equal("34", response.fraudResult.avsResult);
+            Assert.Equal("P", response.fraudResult.cardValidationResult);
         }
 
-        [Test]
+        [Fact]
         public void Test8AVS()
         {
             authorization authorization = new authorization();
@@ -879,13 +877,13 @@ namespace Cnp.Sdk.Test.Certification
             authorization.card = card;
 
             authorizationResponse response = cnp.Authorize(authorization);
-            Assert.AreEqual("123", response.response);
-            Assert.AreEqual("Call Discover", response.message);
-            Assert.AreEqual("34", response.fraudResult.avsResult);
-            Assert.AreEqual("P", response.fraudResult.cardValidationResult);
+            Assert.Equal("123", response.response);
+            Assert.Equal("Call Discover", response.message);
+            Assert.Equal("34", response.fraudResult.avsResult);
+            Assert.Equal("P", response.fraudResult.cardValidationResult);
         }
 
-        [Test]
+        [Fact]
         public void Test8Sale()
         {
             sale sale = new sale();
@@ -909,13 +907,13 @@ namespace Cnp.Sdk.Test.Certification
             sale.card = card;
 
             saleResponse response = cnp.Sale(sale);
-            Assert.AreEqual("123", response.response);
-            Assert.AreEqual("Call Discover", response.message);
-            Assert.AreEqual("34", response.fraudResult.avsResult);
-            Assert.AreEqual("P", response.fraudResult.cardValidationResult);
+            Assert.Equal("123", response.response);
+            Assert.Equal("Call Discover", response.message);
+            Assert.Equal("34", response.fraudResult.avsResult);
+            Assert.Equal("P", response.fraudResult.cardValidationResult);
         }
 
-        [Test]
+        [Fact]
         public void Test9Auth()
         {
             authorization authorization = new authorization();
@@ -939,12 +937,12 @@ namespace Cnp.Sdk.Test.Certification
             authorization.card = card;
 
             authorizationResponse response = cnp.Authorize(authorization);
-            Assert.AreEqual("303", response.response);
-            Assert.AreEqual("Pick Up Card", response.message);
-            Assert.AreEqual("34", response.fraudResult.avsResult);
+            Assert.Equal("303", response.response);
+            Assert.Equal("Pick Up Card", response.message);
+            Assert.Equal("34", response.fraudResult.avsResult);
         }
 
-        [Test]
+        [Fact]
         public void Test9AVS()
         {
             authorization authorization = new authorization();
@@ -968,12 +966,12 @@ namespace Cnp.Sdk.Test.Certification
             authorization.card = card;
 
             authorizationResponse response = cnp.Authorize(authorization);
-            Assert.AreEqual("303", response.response);
-            Assert.AreEqual("Pick Up Card", response.message);
-            Assert.AreEqual("34", response.fraudResult.avsResult);
+            Assert.Equal("303", response.response);
+            Assert.Equal("Pick Up Card", response.message);
+            Assert.Equal("34", response.fraudResult.avsResult);
         }
 
-        [Test]
+        [Fact]
         public void Test9Sale()
         {
             sale sale = new sale();
@@ -997,12 +995,12 @@ namespace Cnp.Sdk.Test.Certification
             sale.card = card;
 
             saleResponse response = cnp.Sale(sale);
-            Assert.AreEqual("303", response.response);
-            Assert.AreEqual("Pick Up Card", response.message);
-            Assert.AreEqual("34", response.fraudResult.avsResult);
+            Assert.Equal("303", response.response);
+            Assert.Equal("Pick Up Card", response.message);
+            Assert.Equal("34", response.fraudResult.avsResult);
         }
 
-        [Test]
+        [Fact]
         public void Test10()
         {
             authorization authorization = new authorization();
@@ -1018,12 +1016,12 @@ namespace Cnp.Sdk.Test.Certification
             authorization.allowPartialAuth = true;
 
             authorizationResponse response = cnp.Authorize(authorization);
-            Assert.AreEqual("010", response.response);
-            Assert.AreEqual("Partially Approved", response.message);
-            Assert.AreEqual("32000", response.approvedAmount);
+            Assert.Equal("010", response.response);
+            Assert.Equal("Partially Approved", response.message);
+            Assert.Equal("32000", response.approvedAmount);
         }
 
-        [Test]
+        [Fact]
         public void Test11()
         {
             authorization authorization = new authorization();
@@ -1039,12 +1037,12 @@ namespace Cnp.Sdk.Test.Certification
             authorization.allowPartialAuth = true;
 
             authorizationResponse response = cnp.Authorize(authorization);
-            Assert.AreEqual("010", response.response);
-            Assert.AreEqual("Partially Approved", response.message);
-            Assert.AreEqual("48000", response.approvedAmount);
+            Assert.Equal("010", response.response);
+            Assert.Equal("Partially Approved", response.message);
+            Assert.Equal("48000", response.approvedAmount);
         }
 
-        [Test]
+        [Fact]
         public void Test12()
         {
             authorization authorization = new authorization();
@@ -1060,12 +1058,12 @@ namespace Cnp.Sdk.Test.Certification
             authorization.allowPartialAuth = true;
 
             authorizationResponse response = cnp.Authorize(authorization);
-            Assert.AreEqual("010", response.response);
-            Assert.AreEqual("Partially Approved", response.message);
-            Assert.AreEqual("40000", response.approvedAmount);
+            Assert.Equal("010", response.response);
+            Assert.Equal("Partially Approved", response.message);
+            Assert.Equal("40000", response.approvedAmount);
         }
 
-        [Test]
+        [Fact]
         public void Test13()
         {
             authorization authorization = new authorization();
@@ -1081,9 +1079,9 @@ namespace Cnp.Sdk.Test.Certification
             authorization.allowPartialAuth = true;
 
             authorizationResponse response = cnp.Authorize(authorization);
-            Assert.AreEqual("010", response.response);
-            Assert.AreEqual("Partially Approved", response.message);
-            Assert.AreEqual("12000", response.approvedAmount);
+            Assert.Equal("010", response.response);
+            Assert.Equal("Partially Approved", response.message);
+            Assert.Equal("12000", response.approvedAmount);
 
         }
             

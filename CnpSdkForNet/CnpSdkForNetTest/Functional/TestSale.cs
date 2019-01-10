@@ -1,17 +1,15 @@
 ﻿using System;
 using System.Collections.Generic;
-using NUnit.Framework;
+using Xunit;
 
 namespace Cnp.Sdk.Test.Functional
 {
-    [TestFixture]
-    internal class TestSale
+    public class TestSale
     {
         private CnpOnline _cnp;
         private Dictionary<string, string> _config;
 
-        [TestFixtureSetUp]
-        public void SetUpCnp()
+        public TestSale()
         {
             _config = new Dictionary<string, string>
             {
@@ -32,7 +30,7 @@ namespace Cnp.Sdk.Test.Functional
             _cnp = new CnpOnline(_config);
         }
 
-        [Test]
+        [Fact]
         public void SimpleSaleWithTaxTypeIdentifier()
         {
             var saleObj = new sale
@@ -68,10 +66,10 @@ namespace Cnp.Sdk.Test.Functional
             saleObj.enhancedData.detailTaxes.Add(myDetailTax);
 
             var responseObj = _cnp.Sale(saleObj);
-            StringAssert.AreEqualIgnoringCase("Approved", responseObj.message);
+            Assert.True(responseObj.message.Equals("Approved", System.StringComparison.InvariantCultureIgnoreCase));
         }
 
-        [Test]
+        [Fact]
         public void SimpleSaleWithCard()
         {
             var saleObj = new sale
@@ -90,10 +88,10 @@ namespace Cnp.Sdk.Test.Functional
             };
             Console.WriteLine(saleObj.Serialize());
             var responseObj = _cnp.Sale(saleObj);
-            StringAssert.AreEqualIgnoringCase("Approved", responseObj.message);
+            Assert.True(responseObj.message.Equals("Approved", System.StringComparison.InvariantCultureIgnoreCase));
         }
 
-        [Test]
+        [Fact]
         public void SimpleSaleWithMpos()
         {
             var saleObj = new sale
@@ -114,10 +112,10 @@ namespace Cnp.Sdk.Test.Functional
             };
 
             var responseObj = _cnp.Sale(saleObj);
-            StringAssert.AreEqualIgnoringCase("Approved", responseObj.message);
+            Assert.True(responseObj.message.Equals("Approved", System.StringComparison.InvariantCultureIgnoreCase));
         }
 
-        [Test]
+        [Fact]
         public void SimpleSaleWithPayPal()
         {
             var saleObj = new sale
@@ -136,10 +134,10 @@ namespace Cnp.Sdk.Test.Functional
             };
 
             var responseObj = _cnp.Sale(saleObj);
-            StringAssert.AreEqualIgnoringCase("Approved", responseObj.message);
+            Assert.True(responseObj.message.Equals("Approved", System.StringComparison.InvariantCultureIgnoreCase));
         }
 
-        [Test]
+        [Fact]
         public void SimpleSaleWithApplepayAndSecondaryAmountAndWallet()
         {
             var saleObj = new sale
@@ -171,11 +169,11 @@ namespace Cnp.Sdk.Test.Functional
             };
 
             var responseObj = _cnp.Sale(saleObj);
-            Assert.AreEqual("Insufficient Funds", responseObj.message);
-            Assert.AreEqual("110", responseObj.applepayResponse.transactionAmount);
+            Assert.Equal("Insufficient Funds", responseObj.message);
+            Assert.Equal("110", responseObj.applepayResponse.transactionAmount);
         }
 
-        [Test]
+        [Fact]
         public void SimpleSaleWithInvalidFraudCheck()
         {
             var saleObj = new sale
@@ -207,7 +205,7 @@ namespace Cnp.Sdk.Test.Functional
             }
         }
 
-        [Test]
+        [Fact]
         public void SimpleSaleWithDirectDebit()
         {
             var saleObj = new sale
@@ -227,10 +225,10 @@ namespace Cnp.Sdk.Test.Functional
             };
 
             var responseObj = _cnp.Sale(saleObj);
-            StringAssert.AreEqualIgnoringCase("Approved", responseObj.message);
+            Assert.True(responseObj.message.Equals("Approved", System.StringComparison.InvariantCultureIgnoreCase));
         }
 
-        [Test]
+        [Fact]
         public void SimpleSaleWithProcessTypeNetIdTranAmt()
         {
             var saleObj = new sale
@@ -253,10 +251,10 @@ namespace Cnp.Sdk.Test.Functional
             };
 
             var responseObj = _cnp.Sale(saleObj);
-            StringAssert.AreEqualIgnoringCase("Approved", responseObj.message);
+            Assert.True(responseObj.message.Equals("Approved", System.StringComparison.InvariantCultureIgnoreCase));
         }
 
-        [Test]
+        [Fact]
         public void SimpleSaleWithUndefinedProcessTypeNetIdTranAmt()
         {
             var saleObj = new sale
@@ -279,10 +277,10 @@ namespace Cnp.Sdk.Test.Functional
             };
 
             var responseObj = _cnp.Sale(saleObj);
-            StringAssert.AreEqualIgnoringCase("Approved", responseObj.message);
+            Assert.True(responseObj.message.Equals("Approved", System.StringComparison.InvariantCultureIgnoreCase));
         }
 
-        [Test]
+        [Fact]
         public void SimpleSaleWithIdealResponse()
         {
             var saleObj = new sale
@@ -299,10 +297,10 @@ namespace Cnp.Sdk.Test.Functional
             };
 
             var responseObj = _cnp.Sale(saleObj);
-            StringAssert.AreEqualIgnoringCase("Approved", responseObj.message);
+            Assert.True(responseObj.message.Equals("Approved", System.StringComparison.InvariantCultureIgnoreCase));
         }
 
-        [Test]
+        [Fact]
         public void SimpleSaleWithGiropayResponse()
         {
             var saleObj = new sale
@@ -319,10 +317,10 @@ namespace Cnp.Sdk.Test.Functional
             };
 
             var responseObj = _cnp.Sale(saleObj);
-            StringAssert.AreEqualIgnoringCase("Approved", responseObj.message);
+            Assert.True(responseObj.message.Equals("Approved", System.StringComparison.InvariantCultureIgnoreCase));
         }
 
-        [Test]
+        [Fact]
         public void SimpleSaleWithSofortResponse()
         {
             var saleObj = new sale
@@ -339,11 +337,11 @@ namespace Cnp.Sdk.Test.Functional
             };
 
             var responseObj = _cnp.Sale(saleObj);
-            StringAssert.AreEqualIgnoringCase("Approved", responseObj.message);
+            Assert.True(responseObj.message.Equals("Approved", System.StringComparison.InvariantCultureIgnoreCase));
         }
 
 
-        [Test]
+        [Fact]
         public void SimpleSaleWithLodginInfo()
         {
             var saleObj = new sale
@@ -368,11 +366,11 @@ namespace Cnp.Sdk.Test.Functional
             };
             saleObj.lodgingInfo.lodgingCharges.Add(new lodgingCharge() { name = lodgingExtraChargeEnum.GIFTSHOP });
             var responseObj = _cnp.Sale(saleObj);
-            StringAssert.AreEqualIgnoringCase("Approved", responseObj.message);
+            Assert.True(responseObj.message.Equals("Approved", System.StringComparison.InvariantCultureIgnoreCase));
         }
 
 
-        [Test]
+        [Fact]
         public void SimpleSaleWithPinlessDebitRequest()
         {
             var saleObj = new sale
@@ -391,7 +389,7 @@ namespace Cnp.Sdk.Test.Functional
             };
             
             var responseObj = _cnp.Sale(saleObj);
-            StringAssert.AreEqualIgnoringCase("Approved", responseObj.message);
+            Assert.True(responseObj.message.Equals("Approved", System.StringComparison.InvariantCultureIgnoreCase));
         }
     }
 }
