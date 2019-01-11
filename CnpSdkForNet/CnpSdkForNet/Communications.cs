@@ -387,6 +387,7 @@ namespace Cnp.Sdk
 
         public virtual void FtpDropOff(string fileDirectory, string fileName, Dictionary<string, string> config)
         {
+            // ChannelSftp channelSftp;
             SftpClient sftpClient;
 
             var url = config["sftpUrl"];
@@ -461,7 +462,11 @@ namespace Cnp.Sdk
                 channelSftp = (ChannelSftp)channel;
                 */
             }
-            catch (Exception e) //(SftpException e)
+            catch (SshConnectionException e) //(SftpException e)
+            {
+                throw new CnpOnlineException("Error occured while establishing an SFTP connection", e);
+            }
+            catch (SshAuthenticationException e)
             {
                 throw new CnpOnlineException("Error occured while establishing an SFTP connection", e);
             }
@@ -488,7 +493,11 @@ namespace Cnp.Sdk
                 // channelSftp.rename("inbound/" + fileName + ".prg", "inbound/" + fileName + ".asc");
                 sftpClient.RenameFile("inbound/" + fileName + ".prg", "inbound/" + fileName + ".asc");
             }
-            catch (Exception e) //(SftpException e)
+            catch (SshConnectionException e) //(SftpException e)
+            {
+                throw new CnpOnlineException("Error occured while attempting to upload and save the file to SFTP", e);
+            }
+            catch (SshException e)
             {
                 throw new CnpOnlineException("Error occured while attempting to upload and save the file to SFTP", e);
             }
