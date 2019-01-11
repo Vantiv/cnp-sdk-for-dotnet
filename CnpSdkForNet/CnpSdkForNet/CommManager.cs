@@ -187,11 +187,12 @@ namespace Cnp.Sdk
 
         public RequestTarget findUrl()
         {
-            lock (SynLock)
+
+            String url = legacyUrl;
+            if (doMultiSite)
             {
 
-                String url = legacyUrl;
-                if (doMultiSite)
+                lock (SynLock)
                 {
                     Boolean switchSite = false;
                     String switchReason = "";
@@ -228,17 +229,19 @@ namespace Cnp.Sdk
                             Console.WriteLine(DateTime.Now.ToString("yyyy-MM-dd HH:mm:ss") + "  Switched to " + url + " because " + switchReason);
                         }
                     }
+
                     else
                     {
                         url = currentUrl;
                     }
                 }
-                if (printDebug)
-                {
-                    Console.WriteLine("Selected URL: " + url);
-                }
-                return new RequestTarget(url, currentMultiSiteUrlIndex);
             }
+            if (printDebug)
+            {
+                Console.WriteLine("Selected URL: " + url);
+            }
+            return new RequestTarget(url, currentMultiSiteUrlIndex);
+            
         }
 
         public void reportResult(RequestTarget target, int result, int statusCode)
