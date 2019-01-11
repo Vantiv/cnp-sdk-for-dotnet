@@ -11,7 +11,9 @@ using System.Security.Cryptography.X509Certificates;
 using System.Text.RegularExpressions;
 using System.Threading;
 using System.Threading.Tasks;
-using Tamir.SharpSsh.jsch;
+using Renci.SshNet;
+using Renci.SshNet.Sftp;
+using Renci.SshNet.Common;
 
 namespace Cnp.Sdk
 {
@@ -385,7 +387,7 @@ namespace Cnp.Sdk
 
         public virtual void FtpDropOff(string fileDirectory, string fileName, Dictionary<string, string> config)
         {
-            ChannelSftp channelSftp;
+            SftpClient sftpClient;
 
             var url = config["sftpUrl"];
             var username = config["sftpUsername"];
@@ -402,6 +404,7 @@ namespace Cnp.Sdk
                 Console.WriteLine("Known hosts file path: " + knownHostsFile);
             }
 
+            /*
             var jsch = new JSch();
             if (printxml)
             {
@@ -431,35 +434,43 @@ namespace Cnp.Sdk
                     }
                     Console.WriteLine("");
                 }
-            }
+            } */
 
+            sftpClient = new SftpClient(url, username, password);
+
+            /*
             var session = jsch.getSession(username, url);
             session.setPassword(password);
+            */
 
             try
             {
-                session.connect();
+                sftpClient.Connect();
 
+                /*
                 // more diagnostic code for troubleshooting sFTP connection errors
                 if (printxml)
                 {
                     // Print the host key info of the connected server:
-                    hk = session.getHostKey();
+                    hk = sftpClient.;
                     Console.WriteLine("remote HostKey host: <" + hk.getHost() + "> type: <" + hk.getType() + "> fingerprint: <" + hk.getFingerPrint(jsch) + ">");
                 }
 
                 var channel = session.openChannel("sftp");
                 channel.connect();
                 channelSftp = (ChannelSftp)channel;
+                */
             }
-            catch (SftpException e)
+            catch (Exception e) //(SftpException e)
             {
                 throw new CnpOnlineException("Error occured while establishing an SFTP connection", e);
             }
+            /*
             catch (JSchException e)
             {
                 throw new CnpOnlineException("Error occured while attempting to establish an SFTP connection", e);
             }
+            */
 
             try
             {
@@ -467,21 +478,28 @@ namespace Cnp.Sdk
                 {
                     Console.WriteLine("Dropping off local file " + filePath + " to inbound/" + fileName + ".prg");
                 }
-                channelSftp.put(filePath, "inbound/" + fileName + ".prg", ChannelSftp.OVERWRITE);
+                // channelSftp.put(filePath, "inbound/" + fileName + ".prg", ChannelSftp.OVERWRITE);
+                FileStream fileStream = new FileStream(filePath, FileMode.Open, FileAccess.Read);
+                sftpClient.UploadFile(fileStream, "inbound/" + fileName + ".prg");
                 if (printxml)
                 {
                     Console.WriteLine("File copied - renaming from inbound/" + fileName + ".prg to inbound/" + fileName + ".asc");
                }
-                channelSftp.rename("inbound/" + fileName + ".prg", "inbound/" + fileName + ".asc");
+                // channelSftp.rename("inbound/" + fileName + ".prg", "inbound/" + fileName + ".asc");
+                sftpClient.RenameFile("inbound/" + fileName + ".prg", "inbound/" + fileName + ".asc");
             }
-            catch (SftpException e)
+            catch (Exception e) //(SftpException e)
             {
                 throw new CnpOnlineException("Error occured while attempting to upload and save the file to SFTP", e);
             }
 
+            sftpClient.Disconnect();
+
+            /*
             channelSftp.quit();
 
             session.disconnect();
+            */
         }
 
         public virtual void FtpPoll(string fileName, int timeout, Dictionary<string, string> config)
@@ -492,34 +510,43 @@ namespace Cnp.Sdk
             {
                 Console.WriteLine("Polling for outbound result file.  Timeout set to " + timeout + "ms. File to wait for is " + fileName);
             }
-            ChannelSftp channelSftp;
+            // ChannelSftp channelSftp;
+            SftpClient sftpClient;
 
             var url = config["sftpUrl"];
             var username = config["sftpUsername"];
             var password = config["sftpPassword"];
             var knownHostsFile = config["knownHostsFile"];
 
+            sftpClient = new SftpClient(url, username, password);
+
+            /*
             var jsch = new JSch();
             jsch.setKnownHosts(knownHostsFile);
 
             var session = jsch.getSession(username, url);
             session.setPassword(password);
+            */
 
             try
             {
-                session.connect();
+                //session.connect();
+                sftpClient.Connect();
 
+                /*
                 var channel = session.openChannel("sftp");
                 channel.connect();
                 channelSftp = (ChannelSftp)channel;
+                */
             }
-            catch (SftpException e)
+            catch (Exception e) //(SftpException e)
             {
                 throw new CnpOnlineException("Error occured while attempting to establish an SFTP connection", e);
             }
 
             //check if file exists
-            SftpATTRS sftpAttrs = null;
+            // SftpATTRS sftpAttrs = null;
+            SftpFileAttributes sftpAttrs = null;
             var stopWatch = new Stopwatch();
             stopWatch.Start();
             do
@@ -530,17 +557,26 @@ namespace Cnp.Sdk
                 }
                 try
                 {
-                    sftpAttrs = channelSftp.lstat("outbound/" + fileName);
+                    //sftpAttrs = channelSftp.lstat("outbound/" + fileName);
+                    sftpAttrs = sftpClient.Get("outbound/" + fileName).Attributes;
                     if (printxml)
                     {
                         Console.WriteLine("Attrs of file are: " + sftpAttrs);
                     }
                 }
-                catch (SftpException e)
+                catch (SshConnectionException e) //(SftpException e)
                 {
                     if (printxml)
                     {
-                        Console.WriteLine(e.message);
+                        Console.WriteLine(e.Message);
+                    }
+                    System.Threading.Thread.Sleep(30000);
+                }
+                catch (SftpPathNotFoundException e)
+                {
+                    if (printxml)
+                    {
+                        Console.WriteLine(e.Message);
                     }
                     System.Threading.Thread.Sleep(30000);
                 }
@@ -549,7 +585,8 @@ namespace Cnp.Sdk
 
         public virtual void FtpPickUp(string destinationFilePath, Dictionary<string, string> config, string fileName)
         {
-            ChannelSftp channelSftp;
+            // ChannelSftp channelSftp;
+            SftpClient sftpClient;
 
             var printxml = config["printxml"] == "true";
 
@@ -558,21 +595,29 @@ namespace Cnp.Sdk
             var password = config["sftpPassword"];
             var knownHostsFile = config["knownHostsFile"];
 
+            sftpClient = new SftpClient(url, username, password);
+
+            /*
             var jsch = new JSch();
             jsch.setKnownHosts(knownHostsFile);
 
             var session = jsch.getSession(username, url);
             session.setPassword(password);
+            */
 
             try
             {
+                /*
                 session.connect();
 
                 var channel = session.openChannel("sftp");
                 channel.connect();
                 channelSftp = (ChannelSftp)channel;
+                */
+
+                sftpClient.Connect();
             }
-            catch (SftpException e)
+            catch (SshConnectionException e) //(SftpException e)
             {
                 throw new CnpOnlineException("Error occured while attempting to establish an SFTP connection", e);
             }
@@ -584,21 +629,28 @@ namespace Cnp.Sdk
                     Console.WriteLine("Picking up remote file outbound/" + fileName + ".asc");
                     Console.WriteLine("Putting it at " + destinationFilePath);
                 }
-                channelSftp.get("outbound/" + fileName + ".asc", destinationFilePath);
+                //channelSftp.get("outbound/" + fileName + ".asc", destinationFilePath);
+                FileStream downloadStream = new FileStream(destinationFilePath, FileMode.Create, FileAccess.ReadWrite);
+                sftpClient.DownloadFile("outbound/" + fileName + ".asc", downloadStream);
                 if (printxml)
                 {
                     Console.WriteLine("Removing remote file output/" + fileName + ".asc");
                 }
-                channelSftp.rm("outbound/" + fileName + ".asc");
+                //channelSftp.rm("outbound/" + fileName + ".asc");
+                sftpClient.Delete("outbound/" + fileName + ".asc");
             }
-            catch (SftpException e)
+            catch (SshConnectionException e) //(SftpException e)
             {
                 throw new CnpOnlineException("Error occured while attempting to retrieve and save the file from SFTP", e);
             }
 
+            /*
             channelSftp.quit();
 
             session.disconnect();
+            */
+
+            sftpClient.Disconnect();
 
         }
 

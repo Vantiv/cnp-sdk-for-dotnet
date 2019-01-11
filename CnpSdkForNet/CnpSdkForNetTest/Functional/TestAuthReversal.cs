@@ -1,15 +1,18 @@
 ﻿using System.Collections.Generic;
 using Xunit;
+using Xunit.Abstractions;
 
 namespace Cnp.Sdk.Test.Functional
 {
     public class TestAuthReversal
     {
+
         private CnpOnline _cnp;
         private Dictionary<string, string> _config;
 
-        public TestAuthReversal()
+        public TestAuthReversal(ITestOutputHelper output)
         {
+
             _config = new Dictionary<string, string>
             {
                 {"url", Properties.Settings.Default.url},

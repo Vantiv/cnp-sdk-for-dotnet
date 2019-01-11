@@ -7,10 +7,11 @@ namespace Cnp.Sdk.Test
 {
     class Program
     {
+        /*
         [STAThread]
         static void Main(string[] args)
         {
 
-        }
+        } */
     }
 }

@@ -27,6 +27,7 @@ namespace Cnp.Sdk.Test.Functional
             PerformTest();
         }
 
+        [Fact]
         public void PerformTest()
         {
             foreach (Thread t in testPool)
