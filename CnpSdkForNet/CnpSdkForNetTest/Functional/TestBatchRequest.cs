@@ -4,6 +4,7 @@ using System.Text;
 using Xunit;
 using Cnp.Sdk;
 using System.IO;
+using System.Collections;
 
 namespace Cnp.Sdk.Test.Functional
 {
@@ -559,14 +560,29 @@ namespace Cnp.Sdk.Test.Functional
         [Fact]
         public void ctxAll()
         {
-            var cnpBatchRequest = new batchRequest();
-            cnpBatchRequest.config["merchantId"] = Environment.GetEnvironmentVariable("payfacMerchantId_v12_7");
-            cnpBatchRequest.config["username"] = Environment.GetEnvironmentVariable("payfacUsername_v12_7");
-            cnpBatchRequest.config["password"] = Environment.GetEnvironmentVariable("payfacPassword_v12_7");
-            cnpBatchRequest.config["sftpUsername"] = Environment.GetEnvironmentVariable("payfacSftpUsername_v12_7");
-            cnpBatchRequest.config["sftpPassword"] = Environment.GetEnvironmentVariable("payfacSftpPassword_v12_7");
+            CommManager.reset();
 
-            var cnpCtx = new cnpRequest(cnpBatchRequest.config);
+            Dictionary<string, string> _config = new Dictionary<string, string>();
+            _config["merchantId"] = Environment.GetEnvironmentVariable("payfacMerchantId_v12_7");
+            _config["username"] = Environment.GetEnvironmentVariable("payfacUsername_v12_7");
+            _config["password"] = Environment.GetEnvironmentVariable("payfacPassword_v12_7");
+            _config["sftpUsername"] = Environment.GetEnvironmentVariable("payfacSftpUsername_v12_7");
+            _config["sftpPassword"] = Environment.GetEnvironmentVariable("payfacSftpPassword_v12_7");
+            _config["url"] = Properties.Settings.Default.url;
+            _config["reportGroup"] = Properties.Settings.Default.reportGroup;
+            _config["printxml"] = Properties.Settings.Default.printxml;
+            _config["timeout"] = Properties.Settings.Default.timeout;
+            _config["proxyHost"] = Properties.Settings.Default.proxyHost;
+            _config["proxyPort"] = Properties.Settings.Default.proxyPort;
+            _config["sftpUrl"] = Properties.Settings.Default.sftpUrl;
+            _config["knownHostsFile"] = Properties.Settings.Default.knownHostsFile;
+            _config["requestDirectory"] = Properties.Settings.Default.requestDirectory;
+            _config["responseDirectory"] = Properties.Settings.Default.responseDirectory;
+            _config["useEncryption"] = "false";
+
+            var cnpBatchRequest = new batchRequest(_config);
+
+            var cnpCtx = new cnpRequest(_config);
 
             string[] ctxPaymentInformation = { "ctx1 for submerchantcredit", "ctx2 for submerchantcredit", "ctx3 for submerchantcredit", "ctx4 for submerchantcredit", "ctx5 for submerchantcredit"};
             string fundsTransferIdString = DateTime.Now.Ticks.ToString();
