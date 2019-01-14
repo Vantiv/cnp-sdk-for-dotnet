@@ -1,6 +1,11 @@
 
 = Worldpay CNP CHANGELOG
 
+==Version 12.7.3(Jan. 14, 2019)
+* Change: Moved from .NET Framework to .NET Core 2.2
+* Change: Switched from NUnit testing framework to Xunit
+* Change: Switched from SharpSSH library to SSH.NET
+
 ==Version 12.7.2(Jan. 10, 2019)
 * Change: Changed some of the NUnit tests to Xunit
 
