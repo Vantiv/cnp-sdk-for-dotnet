@@ -17,7 +17,7 @@ namespace Cnp.Sdk.Test.Functional
             CommManager.reset();
         }
 
-        [Fact(Skip = "Test takes too long to fail")]
+        [Fact]
         public void SimpleBatch()
         {
             var cnpBatchRequest = new batchRequest();

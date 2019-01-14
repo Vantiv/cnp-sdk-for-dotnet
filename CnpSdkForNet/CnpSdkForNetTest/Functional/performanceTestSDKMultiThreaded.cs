@@ -14,6 +14,11 @@ namespace Cnp.Sdk.Test.Functional
 
         static String merchantId = "07103229";
 
+        public performanceTestSDKMultiThreaded()
+        {
+            CommManager.reset();
+        }
+
         [Fact(Skip = "Multi-threaded SDK test times out")]
         public void runTest()
         {
@@ -27,7 +32,6 @@ namespace Cnp.Sdk.Test.Functional
             PerformTest();
         }
 
-        [Fact]
         public void PerformTest()
         {
             foreach (Thread t in testPool)
