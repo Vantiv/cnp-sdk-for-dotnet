@@ -9,6 +9,7 @@ namespace Cnp.Sdk.Test.Functional
 {
     public class TestBatchStream
     {
+        // TODO: Rewrite tests to utilize Xunit rather than NUnit
         //private cnpRequest cnp;
         //private Dictionary<String, String> invalidConfig;
         //private Dictionary<String, String> invalidSftpConfig;

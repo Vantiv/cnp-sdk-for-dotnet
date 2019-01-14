@@ -469,7 +469,7 @@ namespace Cnp.Sdk
             }
             catch (SshAuthenticationException e)
             {
-                throw new CnpOnlineException("Error occured while establishing an SFTP connection", e);
+                throw new CnpOnlineException("Error occured while attempting to establish an SFTP connection", e);
             }
             /*
             catch (JSchException e)
@@ -485,8 +485,9 @@ namespace Cnp.Sdk
                     Console.WriteLine("Dropping off local file " + filePath + " to inbound/" + fileName + ".prg");
                 }
                 // channelSftp.put(filePath, "inbound/" + fileName + ".prg", ChannelSftp.OVERWRITE);
-                FileStream fileStream = new FileStream(filePath, FileMode.Open, FileAccess.Read);
+                FileStream fileStream = new FileStream(filePath, FileMode.Open, FileAccess.ReadWrite);
                 sftpClient.UploadFile(fileStream, "inbound/" + fileName + ".prg");
+                fileStream.Close();
                 if (printxml)
                 {
                     Console.WriteLine("File copied - renaming from inbound/" + fileName + ".prg to inbound/" + fileName + ".asc");
@@ -642,6 +643,7 @@ namespace Cnp.Sdk
                 //channelSftp.get("outbound/" + fileName + ".asc", destinationFilePath);
                 FileStream downloadStream = new FileStream(destinationFilePath, FileMode.Create, FileAccess.ReadWrite);
                 sftpClient.DownloadFile("outbound/" + fileName + ".asc", downloadStream);
+                downloadStream.Close();
                 if (printxml)
                 {
                     Console.WriteLine("Removing remote file output/" + fileName + ".asc");
