@@ -12,6 +12,7 @@ namespace Cnp.Sdk.Test.Functional
 
         public TestFastAccessFunding()
         {
+            CommManager.reset();
             _config = new Dictionary<string, string>
             {
                 {"url", Properties.Settings.Default.url},

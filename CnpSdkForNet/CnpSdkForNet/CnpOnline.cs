@@ -723,6 +723,10 @@ namespace Cnp.Sdk
         {
             var xmlRequest = request.Serialize();
             var xmlResponse = _communication.HttpPost(xmlRequest, _config);
+            if (xmlResponse == null)
+            {
+                throw new Exception("HttpPost returns null response");
+            }
             try
             {
                 var cnpOnlineResponse = DeserializeObject(xmlResponse);

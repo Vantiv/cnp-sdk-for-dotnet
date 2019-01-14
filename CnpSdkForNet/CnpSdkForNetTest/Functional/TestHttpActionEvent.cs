@@ -9,6 +9,7 @@ namespace Cnp.Sdk.Test.Functional
 
         public TestHttpActionEvent()
         {
+            CommManager.reset();
             var config = new Dictionary<string, string>
             {
                 {"url", Properties.Settings.Default.url},

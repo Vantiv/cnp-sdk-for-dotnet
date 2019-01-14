@@ -17,6 +17,7 @@ namespace Cnp.Sdk.Test.Functional
         
         public TestBatch()
         {
+            CommManager.reset();
             _invalidConfig = new Dictionary<string, string>();
             _invalidConfig["url"] = Properties.Settings.Default.url;
             _invalidConfig["reportGroup"] = Properties.Settings.Default.reportGroup;

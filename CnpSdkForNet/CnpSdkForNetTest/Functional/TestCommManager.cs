@@ -14,6 +14,11 @@ namespace Cnp.Sdk.Test.Functional
         public const String site2Url = "https://multisite2.com";
         public const String legacyUrl = "https://legacy.com";
 
+        public TestCommManager()
+        {
+            CommManager.reset();
+        }
+
         [Fact]
         public void testInstanceLegacy()
         {

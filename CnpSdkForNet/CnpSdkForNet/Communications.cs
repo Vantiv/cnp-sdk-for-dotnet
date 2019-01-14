@@ -208,7 +208,7 @@ namespace Cnp.Sdk
                 logFile = config["logFile"];
             }
 
-            RequestTarget reqTarget = CommManager.instance().findUrl();
+            RequestTarget reqTarget = CommManager.instance(config).findUrl();
             var uri = reqTarget.getUrl();
             ServicePointManager.SecurityProtocol = SecurityProtocolType.Tls12 | SecurityProtocolType.Tls11;
             var req = (HttpWebRequest)WebRequest.Create(uri);
@@ -444,6 +444,7 @@ namespace Cnp.Sdk
             session.setPassword(password);
             */
 
+            // TODO: Add more accurate error catches
             try
             {
                 sftpClient.Connect();
@@ -649,6 +650,10 @@ namespace Cnp.Sdk
                 sftpClient.Delete("outbound/" + fileName + ".asc");
             }
             catch (SshConnectionException e) //(SftpException e)
+            {
+                throw new CnpOnlineException("Error occured while attempting to retrieve and save the file from SFTP", e);
+            }
+            catch (SftpPathNotFoundException e)
             {
                 throw new CnpOnlineException("Error occured while attempting to retrieve and save the file from SFTP", e);
             }

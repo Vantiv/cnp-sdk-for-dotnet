@@ -15,17 +15,18 @@ namespace Cnp.Sdk.Test.Functional
         int threadCount = 100;
         int cycleCount = 1000;
         Dictionary<string, string> _config;
-        public TestCommManagerMultiThreaded() {
-       
+        public TestCommManagerMultiThreaded()
+        {
+            CommManager.reset();
             _config = new Dictionary<string, string>
-                {
+            {
                     {"proxyHost","websenseproxy"},
                     {"proxyPort","8080"},
                     {"multiSite", "true"},
                     {"printxml", "true"},
                     {"printMultiSiteDebug", "false"},
                     { "url", Properties.Settings.Default.url }
-        };
+            };
         }
         
         

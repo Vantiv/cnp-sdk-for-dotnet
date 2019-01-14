@@ -19,6 +19,7 @@ namespace Cnp.Sdk.Test.Functional
 
         public TestPgpHelper()
         {
+            CommManager.reset();
             _testDir = Path.Combine(Properties.Settings.Default.requestDirectory, "testPgp");
             if (!Directory.Exists(_testDir))
             {
