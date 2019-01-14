@@ -7,8 +7,6 @@ namespace Cnp.Sdk
     {
         // Configuration object containing credentials and settings.
         private Dictionary<string, string> _config;
-        // 
-        private Communications _communication;
 
         private static readonly object SynLock = new object();
 

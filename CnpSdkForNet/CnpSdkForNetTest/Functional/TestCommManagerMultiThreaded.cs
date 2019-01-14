@@ -56,8 +56,6 @@ namespace Cnp.Sdk.Test.Functional
         {
             long threadId;
             long requestCount = 0;
-            long successCount = 0;
-            long failedCount = 0;
             int cycleCount;
             Dictionary<string, string> config;
 

@@ -1,8 +1,9 @@
 
 = Worldpay CNP CHANGELOG
 
-==Version 12.7.1 (Jan. 3, 2019)
+==Version 12.7.1 (Jan. 14, 2019)
 * Feature: Support for multi-site funcionality
+* BugFix: fixed commManager issues in test cases
 
 ==Version 12.7.0 (Dec. 31, 2018)
 * Feature: Support for CNP XML v12.7
