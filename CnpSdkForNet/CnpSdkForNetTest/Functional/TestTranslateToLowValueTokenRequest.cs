@@ -11,6 +11,7 @@ namespace Cnp.Sdk.Test.Functional
         [TestFixtureSetUp]
         public void SetUpCnp()
         {
+            CommManager.reset();
             _config = new Dictionary<string, string>
             {
                 {"url", Properties.Settings.Default.url},

@@ -15,6 +15,7 @@ namespace Cnp.Sdk.Test.Functional
         [SetUp]
         public void setUpBeforeTest()
         {
+            CommManager.reset();
             cnp = new cnpRequest();
         }
 

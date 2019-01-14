@@ -82,6 +82,7 @@ namespace Cnp.Sdk.Test.Functional
                 Dictionary<string, string> _config = new Dictionary<string, string>();
                 try
                 {
+                    CommManager.reset();
                     _config = new Dictionary<string, string>
                     {
                         {"proxyHost","websenseproxy"},

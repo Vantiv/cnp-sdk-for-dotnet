@@ -17,7 +17,7 @@ namespace Cnp.Sdk.Test.Functional
         Dictionary<string, string> _config;
         [TestFixtureSetUp]
         public void setup() {
-       
+            CommManager.reset();
             _config = new Dictionary<string, string>
                 {
                     {"proxyHost","websenseproxy"},

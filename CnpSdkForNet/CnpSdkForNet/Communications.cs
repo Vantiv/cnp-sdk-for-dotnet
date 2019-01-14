@@ -206,7 +206,7 @@ namespace Cnp.Sdk
                 logFile = config["logFile"];
             }
 
-            RequestTarget reqTarget = CommManager.instance().findUrl();
+            RequestTarget reqTarget = CommManager.instance(config).findUrl();
             var uri = reqTarget.getUrl();
             ServicePointManager.SecurityProtocol = SecurityProtocolType.Tls12 | SecurityProtocolType.Tls11;
             var req = (HttpWebRequest)WebRequest.Create(uri);

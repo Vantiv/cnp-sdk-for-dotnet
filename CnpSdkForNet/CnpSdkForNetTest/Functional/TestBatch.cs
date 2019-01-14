@@ -17,6 +17,7 @@ namespace Cnp.Sdk.Test.Functional
         [TestFixtureSetUp]
         public void SetUp()
         {
+            CommManager.reset();
             _invalidConfig = new Dictionary<string, string>();
             _invalidConfig["url"] = Properties.Settings.Default.url;
             _invalidConfig["reportGroup"] = Properties.Settings.Default.reportGroup;
@@ -58,6 +59,7 @@ namespace Cnp.Sdk.Test.Functional
         [SetUp]
         public void SetUpBeforeTest()
         {
+            CommManager.reset();
             _cnp = new cnpRequest();
         }
 

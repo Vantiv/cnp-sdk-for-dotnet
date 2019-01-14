@@ -14,6 +14,7 @@ namespace Cnp.Sdk.Test.Certification
         [TestFixtureSetUp]
         public void SetUp()
         {
+            CommManager.reset();
             Dictionary<string, string> config = new Dictionary<string, string>();
             config.Add("url", "https://payments.vantivprelive.com/vap/communicator/online");
             config.Add("reportGroup", "Default Report Group");
@@ -38,7 +39,7 @@ namespace Cnp.Sdk.Test.Certification
             authorization authorization = new authorization();
             authorization.id = "1";
             authorization.orderId = "1";
-            authorization.amount = 10010;
+            authorization.amount = 10100;
             authorization.orderSource = orderSourceType.ecommerce;
             contact contact = new contact();
             contact.name = "John & Mary Smith";
