@@ -193,7 +193,7 @@ namespace Cnp.Sdk.Properties {
         
         [global::System.Configuration.UserScopedSettingAttribute()]
         [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
-        [global::System.Configuration.DefaultSettingValueAttribute("websenseproxy")]
+        [global::System.Configuration.DefaultSettingValueAttribute("")]
         public string proxyHost {
             get {
                 return ((string)(this["proxyHost"]));
@@ -205,7 +205,7 @@ namespace Cnp.Sdk.Properties {
         
         [global::System.Configuration.UserScopedSettingAttribute()]
         [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
-        [global::System.Configuration.DefaultSettingValueAttribute("8080")]
+        [global::System.Configuration.DefaultSettingValueAttribute("")]
         public string proxyPort {
             get {
                 return ((string)(this["proxyPort"]));

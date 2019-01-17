@@ -24,7 +24,7 @@
       <Value Profile="(Default)">f4Vt2T4A</Value>
     </Setting>
     <Setting Name="onlineBatchUrl" Type="System.String" Scope="User">
-      <Value Profile="(Default)"></Value>
+      <Value Profile="(Default)" />
     </Setting>
     <Setting Name="onlineBatchPort" Type="System.String" Scope="User">
       <Value Profile="(Default)">15000</Value>
@@ -45,10 +45,10 @@
       <Value Profile="(Default)">https://www.testvantivcnp.com/sandbox/new/sandbox/communicator/online</Value>
     </Setting>
     <Setting Name="proxyHost" Type="System.String" Scope="User">
-      <Value Profile="(Default)">websenseproxy</Value>
+      <Value Profile="(Default)" />
     </Setting>
     <Setting Name="proxyPort" Type="System.String" Scope="User">
-      <Value Profile="(Default)">8080</Value>
+      <Value Profile="(Default)" />
     </Setting>
     <Setting Name="username" Type="System.String" Scope="User">
       <Value Profile="(Default)">SDKTEAM12</Value>
@@ -59,7 +59,7 @@
     <Setting Name="merchantId" Type="System.String" Scope="User">
       <Value Profile="(Default)">1288791</Value>
     </Setting>
-	<Setting Name="useEncryption" Type="System.String" Scope="User">
+    <Setting Name="useEncryption" Type="System.String" Scope="User">
       <Value Profile="(Default)">false</Value>
     </Setting>
     <Setting Name="vantivPublicKeyId" Type="System.String" Scope="User">
