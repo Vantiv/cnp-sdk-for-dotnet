@@ -983,7 +983,7 @@ namespace Cnp.Sdk
     [System.Diagnostics.DebuggerStepThroughAttribute()]
     [System.ComponentModel.DesignerCategoryAttribute("code")]
     [System.Xml.Serialization.XmlTypeAttribute(Namespace = "http://www.vantivcnp.com/schema")]
-    public partial class recyclingType
+    public partial class recyclingResponseType
     {
 
         private recycleAdviceType recycleAdviceField;
@@ -2012,7 +2012,7 @@ namespace Cnp.Sdk
 
         private enhancedAuthResponse enhancedAuthResponseField;
 
-        private recyclingType recyclingField;
+        private recyclingResponseType recyclingResponseField;
 
         private recurringResponse recurringResponseField;
 
@@ -2263,15 +2263,15 @@ namespace Cnp.Sdk
         }
 
         /// <remarks/>
-        public recyclingType recycling
+        public recyclingResponseType recyclingResponse
         {
             get
             {
-                return this.recyclingField;
+                return this.recyclingResponseField;
             }
             set
             {
-                this.recyclingField = value;
+                this.recyclingResponseField = value;
             }
         }
 
@@ -3696,7 +3696,7 @@ namespace Cnp.Sdk
 
         private accountUpdater accountUpdaterField;
 
-        private recyclingType recyclingField;
+        private recyclingResponseType recyclingResponseField;
 
         private recurringResponse recurringResponseField;
 
@@ -3963,15 +3963,15 @@ namespace Cnp.Sdk
         }
 
         /// <remarks/>
-        public recyclingType recycling
+        public recyclingResponseType recyclingResponse
         {
             get
             {
-                return this.recyclingField;
+                return this.recyclingResponseField;
             }
             set
             {
-                this.recyclingField = value;
+                this.recyclingResponseField = value;
             }
         }
 
@@ -6628,7 +6628,7 @@ namespace Cnp.Sdk
 
         private string messageField;
 
-        private voidRecyclingResponseType recyclingField;
+        private voidRecyclingResponseType recyclingResponseField;
 
         /// <remarks/>
         public long cnpTxnId
@@ -6698,15 +6698,15 @@ namespace Cnp.Sdk
 
         
         //private voidRecyclingResponseType recycling;
-        public voidRecyclingResponseType recycling
+        public voidRecyclingResponseType recyclingResponse
         {
             get
             {
-                return this.recyclingField;
+                return this.recyclingResponseField;
             }
             set
             {
-                this.recyclingField = value;
+                this.recyclingResponseField = value;
             }
         }
     }

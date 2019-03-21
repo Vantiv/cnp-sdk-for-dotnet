@@ -546,9 +546,9 @@ namespace Cnp.Sdk.Test.Unit
 <triggeredRule>rule triggered</triggeredRule>
 </advancedFraudResults>
 </fraudResult>
-<recycling>
+<recyclingResponse>
 <recycleEngineActive>1</recycleEngineActive>
-</recycling>
+</recyclingResponse>
 </authorizationResponse>
 </cnpOnlineResponse>";
 
@@ -564,7 +564,7 @@ namespace Cnp.Sdk.Test.Unit
             Assert.NotNull(authorizationResponse.fraudResult.advancedFraudResults.deviceReputationScore);
             Assert.Equal(800, authorizationResponse.fraudResult.advancedFraudResults.deviceReputationScore);
             Assert.Equal("rule triggered", authorizationResponse.fraudResult.advancedFraudResults.triggeredRule[0]);
-            Assert.Equal(true, authorizationResponse.recycling.recycleEngineActive);
+            Assert.Equal(true, authorizationResponse.recyclingResponse.recycleEngineActive);
         }
 
         [Fact]
