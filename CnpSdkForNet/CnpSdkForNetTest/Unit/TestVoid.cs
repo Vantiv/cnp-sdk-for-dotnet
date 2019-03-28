@@ -30,13 +30,13 @@ namespace Cnp.Sdk.Test.Unit
             var mock = new Mock<Communications>();
 
             mock.Setup(Communications => Communications.HttpPost(It.IsRegex(".*", RegexOptions.Singleline), It.IsAny<Dictionary<String, String>>()))
-                .Returns("<cnpOnlineResponse version='8.16' response='0' message='Valid Format' xmlns='http://www.vantivcnp.com/schema'><voidResponse><cnpTxnId>123</cnpTxnId><response>000</response><responseTime>2013-01-31T15:48:09</responseTime><postDate>2013-01-31</postDate><message>Approved</message><recycling><creditCnpTxnId>456</creditCnpTxnId></recycling></voidResponse></cnpOnlineResponse>");
+                .Returns("<cnpOnlineResponse version='8.16' response='0' message='Valid Format' xmlns='http://www.vantivcnp.com/schema'><voidResponse><cnpTxnId>123</cnpTxnId><response>000</response><responseTime>2013-01-31T15:48:09</responseTime><postDate>2013-01-31</postDate><message>Approved</message><recyclingResponse><creditCnpTxnId>456</creditCnpTxnId></recyclingResponse></voidResponse></cnpOnlineResponse>");
      
             Communications mockedCommunication = mock.Object;
             cnp.SetCommunication(mockedCommunication);
             voidResponse response = cnp.DoVoid(voidTxn);
             Assert.AreEqual(123, response.cnpTxnId);
-            Assert.AreEqual(456, response.recycling.creditCnpTxnId);
+            Assert.AreEqual(456, response.recyclingResponse.creditCnpTxnId);
         }
 
         [Test]
@@ -54,7 +54,7 @@ namespace Cnp.Sdk.Test.Unit
             cnp.SetCommunication(mockedCommunication);
             voidResponse response = cnp.DoVoid(voidTxn);
             Assert.AreEqual(123, response.cnpTxnId);
-            Assert.IsNull(response.recycling);
+            Assert.IsNull(response.recyclingResponse);
         }
 
     }
