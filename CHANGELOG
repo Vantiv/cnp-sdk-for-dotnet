@@ -1,6 +1,9 @@
 
 = Worldpay CNP CHANGELOG
 
+==Version 12.7.3 (Mar 28, 2019)
+* BugFix: Changing the recyclingType to recyclingResponseType
+
 ==Version 12.7.2 (Jan. 22, 2019)
 * BugFix: SDK should not clobber the existing settings of the application using the SDK for TLS
 
