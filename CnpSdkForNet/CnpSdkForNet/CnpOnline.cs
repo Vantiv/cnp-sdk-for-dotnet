@@ -5,6 +5,7 @@ using System.Xml.Serialization;
 using System.IO;
 using System.Threading;
 using System.Threading.Tasks;
+using System.Net;
 
 namespace Cnp.Sdk
 {
@@ -725,7 +726,7 @@ namespace Cnp.Sdk
             var xmlResponse = _communication.HttpPost(xmlRequest, _config);
             if (xmlResponse == null)
             {
-                throw new Exception("HttpPost returns null response");
+                throw new WebException("Could not retrieve response from server for given request");
             }
             try
             {
