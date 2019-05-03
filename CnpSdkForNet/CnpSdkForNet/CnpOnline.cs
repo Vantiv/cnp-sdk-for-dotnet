@@ -5,6 +5,7 @@ using System.Xml.Serialization;
 using System.IO;
 using System.Threading;
 using System.Threading.Tasks;
+using System.Net;
 
 namespace Cnp.Sdk
 {
@@ -723,6 +724,10 @@ namespace Cnp.Sdk
         {
             var xmlRequest = request.Serialize();
             var xmlResponse = _communication.HttpPost(xmlRequest, _config);
+            if (xmlResponse == null)
+            {
+                throw new WebException("Could not retrieve response from server for given request");
+            }
             try
             {
                 var cnpOnlineResponse = DeserializeObject(xmlResponse);

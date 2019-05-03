@@ -5,7 +5,7 @@ using NUnit.Framework;
 using Cnp.Sdk;
 using Moq;
 using System.Text.RegularExpressions;
-
+using System.Net;
 
 namespace Cnp.Sdk.Test.Unit
 {
@@ -284,6 +284,49 @@ namespace Cnp.Sdk.Test.Unit
             cnp.SetCommunication(mockedCommunication);
             saleResponse saleresponse = cnp.Sale(sale);
             Assert.AreEqual(123, saleresponse.cnpTxnId);
+        }
+
+        [Test]
+        public void TestSale_BadConnection()
+        {
+            sale sale = new sale
+            {
+                id = "21321415412",
+                orderId = "1556632727643",
+                amount = 5000,
+                orderSource = orderSourceType.androidpay,
+                paypage = new cardPaypageType
+                {
+                    paypageRegistrationId = "4005795464788715792"
+                }
+            };
+
+            Dictionary<string, string> config = new Dictionary<string, string>();
+            config["url"] = Properties.Settings.Default.url;
+            config["reportGroup"] = Properties.Settings.Default.reportGroup;
+            config["username"] = Properties.Settings.Default.username;
+            config["printxml"] = Properties.Settings.Default.printxml;
+            config["timeout"] = Properties.Settings.Default.timeout;
+            config["proxyHost"] = "somegarbage";
+            config["merchantId"] = Properties.Settings.Default.merchantId;
+            config["password"] = Properties.Settings.Default.password;
+            config["proxyPort"] = "123";
+            config["logFile"] = Properties.Settings.Default.logFile;
+            config["neuterAccountNums"] = Properties.Settings.Default.neuterAccountNums;
+
+            CnpOnline tempCnp = new CnpOnline(config);
+
+            Communications comms = new Communications();
+            tempCnp.SetCommunication(comms);
+            try
+            {
+                saleResponse saleresponse = tempCnp.Sale(sale);
+            }
+            catch (WebException e)
+            {
+                Assert.AreEqual("Could not retrieve response from server for given request", e.Message);
+            }
+
         }
 
         [Test]
