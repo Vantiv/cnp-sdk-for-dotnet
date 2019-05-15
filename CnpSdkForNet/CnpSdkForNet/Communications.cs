@@ -100,7 +100,7 @@ namespace Cnp.Sdk
 
             RequestTarget reqTarget = CommManager.instance().findUrl();
             var uri = reqTarget.getUrl();
-            ServicePointManager.SecurityProtocol = ServicePointManager.SecurityProtocol | SecurityProtocolType.Tls12 | SecurityProtocolType.Tls11;
+            ServicePointManager.SecurityProtocol |= SecurityProtocolType.Tls12;
             var request = (HttpWebRequest)WebRequest.Create(uri);
 
             var neuter = false;
@@ -208,7 +208,7 @@ namespace Cnp.Sdk
 
             RequestTarget reqTarget = CommManager.instance(config).findUrl();
             var uri = reqTarget.getUrl();
-            ServicePointManager.SecurityProtocol = ServicePointManager.SecurityProtocol | SecurityProtocolType.Tls12 | SecurityProtocolType.Tls11;
+            ServicePointManager.SecurityProtocol |= SecurityProtocolType.Tls12;
             var req = (HttpWebRequest)WebRequest.Create(uri);
 
             var neuter = false;
