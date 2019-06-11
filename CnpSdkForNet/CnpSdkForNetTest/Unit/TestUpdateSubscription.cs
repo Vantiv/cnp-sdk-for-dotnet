@@ -76,7 +76,7 @@ namespace Cnp.Sdk.Test.Unit
                     expDate = "0750",
                     cardValidationNum = "798",
                     type = methodOfPaymentTypeEnum.VI,
-                    checkoutIdType = "0123456789012345678"
+                    checkoutId = "0123456789012345678"
                 },
                 planCode = "abcdefg",
                 subscriptionId = 12345

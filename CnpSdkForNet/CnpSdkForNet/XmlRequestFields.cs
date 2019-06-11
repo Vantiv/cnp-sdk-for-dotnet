@@ -3350,14 +3350,14 @@ namespace Cnp.Sdk
             set { typeField = value; typeSet = true; }
         }
 
-        private string checkoutIdTypeField;
-        private bool checkoutIdTypeSet;
+        private string checkoutIdField;
+        private bool checkoutIdSet;
 
-        public string checkoutIdType
+        public string checkoutId
         {
-            get { return checkoutIdTypeField; }
-            set { checkoutIdTypeField = value;
-                checkoutIdTypeSet = true;
+            get { return checkoutIdField; }
+            set { checkoutIdField = value;
+                checkoutIdSet = true;
             }
         }    
 
@@ -3367,7 +3367,7 @@ namespace Cnp.Sdk
             if (expDate != null) xml += "\r\n<expDate>" + SecurityElement.Escape(expDate) + "</expDate>";
             if (cardValidationNum != null) xml += "\r\n<cardValidationNum>" + SecurityElement.Escape(cardValidationNum) + "</cardValidationNum>";
             if (typeSet) xml += "\r\n<type>" + methodOfPaymentSerializer.Serialize(typeField) + "</type>";
-            if (checkoutIdTypeSet) xml += "\r\n<checkoutId>" + checkoutIdType + "</checkoutId>";
+            if (checkoutIdSet) xml += "\r\n<checkoutId>" + checkoutId + "</checkoutId>";
             return xml;
         }
     }
