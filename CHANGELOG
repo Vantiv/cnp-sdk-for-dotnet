@@ -1,6 +1,9 @@
 
 = Worldpay CNP CHANGELOG
 
+==Version 12.7.4 (June 11, 2019)
+* BugFix: Changing the checkoutIdType field to checkoutId field to align with our eProtect Solution
+
 ==Version 12.7.3 (Mar 28, 2019)
 * BugFix: Changing the recyclingType to recyclingResponseType
 
