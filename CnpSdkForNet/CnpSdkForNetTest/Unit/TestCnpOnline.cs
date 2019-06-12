@@ -324,7 +324,7 @@ namespace Cnp.Sdk.Test.Unit
             }
             catch (WebException e)
             {
-                Assert.AreEqual("Could not retrieve response from server for given request", e.Message);
+                Assert.AreEqual("The remote name could not be resolved: 'somegarbage'", e.Message);
             }
 
         }
