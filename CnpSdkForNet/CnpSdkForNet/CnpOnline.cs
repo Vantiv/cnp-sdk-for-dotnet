@@ -5,6 +5,7 @@ using System.Xml.Serialization;
 using System.IO;
 using System.Threading;
 using System.Threading.Tasks;
+using System.Net;
 
 namespace Cnp.Sdk
 {
@@ -711,7 +712,7 @@ namespace Cnp.Sdk
         {
             var request = new cnpOnlineRequest();
             request.merchantId = _config["merchantId"];
-            request.merchantSdk = "DotNet;12.7.1";
+            request.merchantSdk = "DotNet;12.8.0";
             var authentication = new authentication();
             authentication.password = _config["password"];
             authentication.user = _config["username"];
@@ -723,6 +724,10 @@ namespace Cnp.Sdk
         {
             var xmlRequest = request.Serialize();
             var xmlResponse = _communication.HttpPost(xmlRequest, _config);
+            if (xmlResponse == null)
+            {
+                throw new WebException("Could not retrieve response from server for given request");
+            }
             try
             {
                 var cnpOnlineResponse = DeserializeObject(xmlResponse);

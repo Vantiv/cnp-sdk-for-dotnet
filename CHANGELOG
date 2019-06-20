@@ -1,6 +1,10 @@
 
 = Worldpay CNP CHANGELOG
 
+==Version 12.8.0 (June 10, 2019)
+* Feature: Added new tokenURL element
+* BugFix: Changing checkoutIdType to checkoutId
+
 ==Version 12.7.3 (Mar 28, 2019)
 * BugFix: Changing the recyclingType to recyclingResponseType
 

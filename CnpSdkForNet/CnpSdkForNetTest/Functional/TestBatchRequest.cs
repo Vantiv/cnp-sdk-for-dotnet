@@ -567,11 +567,11 @@ namespace Cnp.Sdk.Test.Functional
             CommManager.reset();
             
             Dictionary<string, string>  _config = new Dictionary<string, string>();
-            _config["merchantId"] = Environment.GetEnvironmentVariable("payfacMerchantId_v12_7");
-            _config["username"] = Environment.GetEnvironmentVariable("payfacUsername_v12_7");
-            _config["password"] = Environment.GetEnvironmentVariable("payfacPassword_v12_7");
-            _config["sftpUsername"] = Environment.GetEnvironmentVariable("payfacSftpUsername_v12_7");
-            _config["sftpPassword"] = Environment.GetEnvironmentVariable("payfacSftpPassword_v12_7");
+            _config["merchantId"] = Properties.Settings.Default.merchantId;//Environment.GetEnvironmentVariable("merchantId");
+            _config["username"] = Properties.Settings.Default.username;//Environment.GetEnvironmentVariable("username");
+            _config["password"] = Properties.Settings.Default.password;//Environment.GetEnvironmentVariable("password");
+            _config["sftpUsername"] = Properties.Settings.Default.sftpUsername;//Environment.GetEnvironmentVariable("sftpUsername");
+            _config["sftpPassword"] = Properties.Settings.Default.sftpPassword;//Environment.GetEnvironmentVariable("sftpPassword");
             _config["url"] = Properties.Settings.Default.url;
             _config["reportGroup"] = Properties.Settings.Default.reportGroup;
             _config["printxml"] = Properties.Settings.Default.printxml;
