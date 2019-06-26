@@ -1,5 +1,6 @@
 ﻿using System.Collections.Generic;
 using NUnit.Framework;
+using System.Threading;
 
 namespace Cnp.Sdk.Test.Functional
 {
@@ -151,6 +152,22 @@ namespace Cnp.Sdk.Test.Functional
             var rtokenResponse = _cnp.RegisterToken(registerTokenRequest);
             StringAssert.AreEqualIgnoringCase("Account number was successfully registered", rtokenResponse.message);
             Assert.IsNull(rtokenResponse.type);
+        }
+
+        [Test]
+        public void TokenAsync()
+        {
+            var registerTokenRequest = new registerTokenRequestType
+            {
+                id = "1",
+                reportGroup = "Planets",
+                orderId = "12344",
+                accountNumber = "1233456789103801",
+            };
+
+            CancellationToken cancellationToken = new CancellationToken(false);
+            var rtokenResponse = _cnp.RegisterTokenAsync(registerTokenRequest, cancellationToken);
+            StringAssert.AreEqualIgnoringCase("000", rtokenResponse.Result.response);
         }
     }
 }

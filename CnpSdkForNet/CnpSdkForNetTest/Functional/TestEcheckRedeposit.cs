@@ -1,5 +1,6 @@
 ﻿using System.Collections.Generic;
 using NUnit.Framework;
+using System.Threading;
 
 namespace Cnp.Sdk.Test.Functional
 {
@@ -89,6 +90,28 @@ namespace Cnp.Sdk.Test.Functional
 
             var response = _cnp.EcheckRedeposit(echeckredeposit);
             Assert.AreEqual("Approved", response.message);
+        }
+
+        [Test]
+        public void EcheckRedepositAsync()
+        {
+            var echeckredeposit = new echeckRedeposit
+            {
+                id = "1",
+                reportGroup = "Planets",
+                cnpTxnId = 123456,
+                token = new echeckTokenType
+                {
+                    accType = echeckAccountTypeEnum.Checking,
+                    cnpToken = "1234565789012",
+                    routingNum = "123456789",
+                    checkNum = "123455"
+                }
+            };
+
+            CancellationToken cancellationToken = new CancellationToken(false);
+            var response = _cnp.EcheckRedepositAsync(echeckredeposit, cancellationToken);
+            Assert.AreEqual("000", response.Result.response);
         }
 
     }

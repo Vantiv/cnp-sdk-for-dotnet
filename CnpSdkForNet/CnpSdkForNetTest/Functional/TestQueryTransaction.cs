@@ -1,5 +1,6 @@
 ﻿using System.Collections.Generic;
 using NUnit.Framework;
+using System.Threading;
 
 namespace Cnp.Sdk.Test.Functional
 {
@@ -144,6 +145,29 @@ namespace Cnp.Sdk.Test.Functional
             Assert.AreEqual("150", queryResponse.response);
             Assert.AreEqual("Original transaction found", queryResponse.message);
             Assert.AreEqual(1, queryResponse.results_max10.Count);
+
+        }
+
+        [Test]
+        public void QueryTransactionAsync()
+        {
+            var query = new queryTransaction
+            {
+                id = "myId",
+                reportGroup = "myReportGroup",
+                origId = "Deposit1",
+                origActionType = actionTypeEnum.D,
+                origCnpTxnId = 54321
+            };
+
+            CancellationToken cancellationToken = new CancellationToken(false);
+            var response = _cnp.QueryTransactionAsync(query, cancellationToken);
+            var queryResponse = (queryTransactionResponse)response.Result;
+
+            Assert.NotNull(queryResponse);
+            Assert.AreEqual("150", queryResponse.response);
+            Assert.AreEqual("Original transaction found", queryResponse.message);
+            Assert.AreEqual("000", ((captureResponse)queryResponse.results_max10[0]).response);
 
         }
     }

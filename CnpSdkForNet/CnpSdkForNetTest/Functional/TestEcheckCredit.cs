@@ -1,5 +1,6 @@
 ﻿using System.Collections.Generic;
 using NUnit.Framework;
+using System.Threading;
 
 namespace Cnp.Sdk.Test.Functional
 {
@@ -209,6 +210,22 @@ namespace Cnp.Sdk.Test.Functional
             
             var response = _cnp.EcheckCredit(echeckcredit);
             Assert.AreEqual("Approved", response.message);
+        }
+
+        [Test]
+        public void EcheckCreditAsync()
+        {
+            var echeckcredit = new echeckCredit
+            {
+                id = "1",
+                reportGroup = "Planets",
+                amount = 12L,
+                cnpTxnId = 123456789101112L,
+            };
+
+            CancellationToken cancellationToken = new CancellationToken(false);
+            var response = _cnp.EcheckCreditAsync(echeckcredit, cancellationToken);
+            Assert.AreEqual("000", response.Result.response);
         }
     }
 }

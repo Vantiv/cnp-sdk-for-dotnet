@@ -12,7 +12,7 @@ namespace Cnp.Sdk.Properties {
     
     
     [global::System.Runtime.CompilerServices.CompilerGeneratedAttribute()]
-    [global::System.CodeDom.Compiler.GeneratedCodeAttribute("Microsoft.VisualStudio.Editors.SettingsDesigner.SettingsSingleFileGenerator", "15.9.0.0")]
+    [global::System.CodeDom.Compiler.GeneratedCodeAttribute("Microsoft.VisualStudio.Editors.SettingsDesigner.SettingsSingleFileGenerator", "11.0.0.0")]
     public sealed partial class Settings : global::System.Configuration.ApplicationSettingsBase {
         
         private static Settings defaultInstance = ((Settings)(global::System.Configuration.ApplicationSettingsBase.Synchronized(new Settings())));
@@ -121,7 +121,7 @@ namespace Cnp.Sdk.Properties {
         
         [global::System.Configuration.UserScopedSettingAttribute()]
         [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
-        [global::System.Configuration.DefaultSettingValueAttribute("")]
+        [global::System.Configuration.DefaultSettingValueAttribute("unetproxy")]
         public string proxyHost {
             get {
                 return ((string)(this["proxyHost"]));
@@ -133,7 +133,7 @@ namespace Cnp.Sdk.Properties {
         
         [global::System.Configuration.UserScopedSettingAttribute()]
         [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
-        [global::System.Configuration.DefaultSettingValueAttribute("")]
+        [global::System.Configuration.DefaultSettingValueAttribute("8080")]
         public string proxyPort {
             get {
                 return ((string)(this["proxyPort"]));
@@ -145,7 +145,7 @@ namespace Cnp.Sdk.Properties {
         
         [global::System.Configuration.UserScopedSettingAttribute()]
         [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
-        [global::System.Configuration.DefaultSettingValueAttribute("")]
+        [global::System.Configuration.DefaultSettingValueAttribute("SDKV12PGP")]
         public string username {
             get {
                 return ((string)(this["username"]));
@@ -157,7 +157,7 @@ namespace Cnp.Sdk.Properties {
         
         [global::System.Configuration.UserScopedSettingAttribute()]
         [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
-        [global::System.Configuration.DefaultSettingValueAttribute("")]
+        [global::System.Configuration.DefaultSettingValueAttribute("cert234%%%")]
         public string password {
             get {
                 return ((string)(this["password"]));
@@ -205,7 +205,8 @@ namespace Cnp.Sdk.Properties {
         
         [global::System.Configuration.UserScopedSettingAttribute()]
         [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
-        [global::System.Configuration.DefaultSettingValueAttribute("C:\\\\Vantiv\\\\dll\\\\knownhosts")]
+        [global::System.Configuration.DefaultSettingValueAttribute("C:\\Users\\benjamin.spetter5561\\Git\\cnp-sdk-for-dotnet\\CnpSdkForNet\\CnpSdkForNet\\kn" +
+            "ownhosts")]
         public string knownHostsFile {
             get {
                 return ((string)(this["knownHostsFile"]));
@@ -217,7 +218,7 @@ namespace Cnp.Sdk.Properties {
         
         [global::System.Configuration.UserScopedSettingAttribute()]
         [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
-        [global::System.Configuration.DefaultSettingValueAttribute("101")]
+        [global::System.Configuration.DefaultSettingValueAttribute("1288791")]
         public string merchantId {
             get {
                 return ((string)(this["merchantId"]));
@@ -241,7 +242,7 @@ namespace Cnp.Sdk.Properties {
         
         [global::System.Configuration.UserScopedSettingAttribute()]
         [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
-        [global::System.Configuration.DefaultSettingValueAttribute("DOTNET")]
+        [global::System.Configuration.DefaultSettingValueAttribute("sdk12pgp")]
         public string sftpUsername {
             get {
                 return ((string)(this["sftpUsername"]));
@@ -253,7 +254,7 @@ namespace Cnp.Sdk.Properties {
         
         [global::System.Configuration.UserScopedSettingAttribute()]
         [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
-        [global::System.Configuration.DefaultSettingValueAttribute("DOTNET")]
+        [global::System.Configuration.DefaultSettingValueAttribute("Cr8N7Ur2")]
         public string sftpPassword {
             get {
                 return ((string)(this["sftpPassword"]));
@@ -277,7 +278,7 @@ namespace Cnp.Sdk.Properties {
         
         [global::System.Configuration.UserScopedSettingAttribute()]
         [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
-        [global::System.Configuration.DefaultSettingValueAttribute("")]
+        [global::System.Configuration.DefaultSettingValueAttribute("94276408")]
         public string vantivPublicKeyId {
             get {
                 return ((string)(this["vantivPublicKeyId"]));
@@ -289,7 +290,7 @@ namespace Cnp.Sdk.Properties {
         
         [global::System.Configuration.UserScopedSettingAttribute()]
         [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
-        [global::System.Configuration.DefaultSettingValueAttribute("")]
+        [global::System.Configuration.DefaultSettingValueAttribute("sdksupport2018")]
         public string pgpPassphrase {
             get {
                 return ((string)(this["pgpPassphrase"]));

@@ -1,5 +1,6 @@
 ﻿using System.Collections.Generic;
 using NUnit.Framework;
+using System.Threading;
 
 namespace Cnp.Sdk.Test.Functional
 {
@@ -59,6 +60,33 @@ namespace Cnp.Sdk.Test.Functional
         }
 
         [Test]
+        public void SubmerchantCreditAsync()
+        {
+            var submerchantCredit = new submerchantCredit
+            {
+                // attributes.
+                id = "1",
+                reportGroup = "Default Report Group",
+                // required child elements.
+                accountInfo = new echeckType()
+                {
+                    accType = echeckAccountTypeEnum.Savings,
+                    accNum = "1234",
+                    routingNum = "12345678"
+                },
+                amount = 1500,
+                fundingSubmerchantId = "value for fundingSubmerchantId",
+                fundsTransferId = "value for fundsTransferId",
+                submerchantName = "Vantiv",
+                customIdentifier = "WorldPay"
+            };
+
+            CancellationToken cancellationToken = new CancellationToken(false);
+            var response = _cnp.SubmerchantCreditAsync(submerchantCredit, cancellationToken);
+            Assert.AreEqual("000", response.Result.response);
+        }
+
+        [Test]
         public void SubmerchantDebit()
         {
             var submerchantDebit = new submerchantDebit
@@ -82,6 +110,33 @@ namespace Cnp.Sdk.Test.Functional
 
             var response = _cnp.SubmerchantDebit(submerchantDebit);
             Assert.AreEqual("000", response.response);
+        }
+
+        [Test]
+        public void SubmerchantDebitAsync()
+        {
+            var submerchantDebit = new submerchantDebit
+            {
+                // attributes.
+                id = "1",
+                reportGroup = "Default Report Group",
+                // required child elements.
+                accountInfo = new echeckType()
+                {
+                    accType = echeckAccountTypeEnum.Savings,
+                    accNum = "1234",
+                    routingNum = "12345678"
+                },
+                amount = 1500,
+                fundingSubmerchantId = "value for fundingSubmerchantId",
+                fundsTransferId = "value for fundsTransferId",
+                submerchantName = "Vantiv",
+                customIdentifier = "WorldPay"
+            };
+
+            CancellationToken cancellationToken = new CancellationToken(false);
+            var response = _cnp.SubmerchantDebitAsync(submerchantDebit, cancellationToken);
+            Assert.AreEqual("000", response.Result.response);
         }
     }
 }

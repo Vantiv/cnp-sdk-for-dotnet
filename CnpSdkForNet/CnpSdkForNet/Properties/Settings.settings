@@ -27,16 +27,16 @@
       <Value Profile="(Default)">https://www.testvantivcnp.com/sandbox/communicator/online</Value>
     </Setting>
     <Setting Name="proxyHost" Type="System.String" Scope="User">
-      <Value Profile="(Default)" />
+      <Value Profile="(Default)">unetproxy</Value>
     </Setting>
     <Setting Name="proxyPort" Type="System.String" Scope="User">
-      <Value Profile="(Default)" />
+      <Value Profile="(Default)">8080</Value>
     </Setting>
     <Setting Name="username" Type="System.String" Scope="User">
-      <Value Profile="(Default)" />
+      <Value Profile="(Default)">SDKV12PGP</Value>
     </Setting>
     <Setting Name="password" Type="System.String" Scope="User">
-      <Value Profile="(Default)" />
+      <Value Profile="(Default)">cert234%%%</Value>
     </Setting>
     <Setting Name="keepAlive" Type="System.String" Scope="User">
       <Value Profile="(Default)">true</Value>
@@ -48,28 +48,28 @@
       <Value Profile="(Default)">5000</Value>
     </Setting>
     <Setting Name="knownHostsFile" Type="System.String" Scope="User">
-      <Value Profile="(Default)">C:\\Vantiv\\dll\\knownhosts</Value>
+      <Value Profile="(Default)">C:\Users\benjamin.spetter5561\Git\cnp-sdk-for-dotnet\CnpSdkForNet\CnpSdkForNet\knownhosts</Value>
     </Setting>
     <Setting Name="merchantId" Type="System.String" Scope="User">
-      <Value Profile="(Default)">101</Value>
+      <Value Profile="(Default)">1288791</Value>
     </Setting>
     <Setting Name="sftpUrl" Type="System.String" Scope="User">
       <Value Profile="(Default)">prelive.litle.com</Value>
     </Setting>
     <Setting Name="sftpUsername" Type="System.String" Scope="User">
-      <Value Profile="(Default)">DOTNET</Value>
+      <Value Profile="(Default)">sdk12pgp</Value>
     </Setting>
     <Setting Name="sftpPassword" Type="System.String" Scope="User">
-      <Value Profile="(Default)">DOTNET</Value>
+      <Value Profile="(Default)">Cr8N7Ur2</Value>
     </Setting>
     <Setting Name="useEncryption" Type="System.String" Scope="User">
       <Value Profile="(Default)">false</Value>
     </Setting>
     <Setting Name="vantivPublicKeyId" Type="System.String" Scope="User">
-      <Value Profile="(Default)" />
+      <Value Profile="(Default)">94276408</Value>
     </Setting>
     <Setting Name="pgpPassphrase" Type="System.String" Scope="User">
-      <Value Profile="(Default)" />
+      <Value Profile="(Default)">sdksupport2018</Value>
     </Setting>
     <Setting Name="gnuPgDir" Type="System.String" Scope="User">
       <Value Profile="(Default)" />

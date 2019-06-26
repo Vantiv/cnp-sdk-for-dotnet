@@ -107,6 +107,7 @@
     <Compile Include="Certification\TestCert4Echeck.cs" />
     <Compile Include="Certification\TestCert5Token.cs" />
     <Compile Include="Certification\TestCert1Base.cs" />
+    <Compile Include="Functional\TestAsync.cs" />
     <Compile Include="Functional\TestCommManager.cs" />
     <Compile Include="Functional\performanceTestSDKMultiThreaded.cs" />
     <Compile Include="Functional\TestCommManagerMultiThreaded.cs" />

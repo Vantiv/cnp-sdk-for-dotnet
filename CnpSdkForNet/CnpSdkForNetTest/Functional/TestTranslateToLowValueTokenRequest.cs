@@ -1,5 +1,6 @@
 ﻿using System.Collections.Generic;
 using NUnit.Framework;
+using System.Threading;
 
 namespace Cnp.Sdk.Test.Functional
 {
@@ -89,6 +90,27 @@ namespace Cnp.Sdk.Test.Functional
 
             Assert.NotNull(queryResponse);
             Assert.AreEqual("803", queryResponse.response);
+
+        }
+
+        [Test]
+        public void TranslateToLowValueTokenRequestAsync()
+        {
+
+            var query = new translateToLowValueTokenRequest
+            {
+                id = "1",
+                reportGroup = "Planets",
+                orderId = "2121",
+                token = "822",
+            };
+
+            CancellationToken cancellationToken = new CancellationToken(false);
+            var response = _cnp.TranslateToLowValueTokenRequestAsync(query, cancellationToken);
+            var queryResponse = (translateToLowValueTokenResponse)response.Result;
+
+            Assert.NotNull(queryResponse);
+            Assert.AreEqual("822", queryResponse.response);
 
         }
 

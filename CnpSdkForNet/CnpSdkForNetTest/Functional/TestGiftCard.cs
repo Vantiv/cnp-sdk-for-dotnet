@@ -1,6 +1,7 @@
 ﻿using System.Collections.Generic;
 using NUnit.Framework;
 using System;
+using System.Threading;
 
 namespace Cnp.Sdk.Test.Functional
 {
@@ -59,6 +60,32 @@ namespace Cnp.Sdk.Test.Functional
             Assert.AreEqual("000", response.response);
         }
 
+        public void TestGiftCardAuthReversalAsync()
+        {
+            var giftCard = new giftCardAuthReversal
+            {
+                id = "1",
+                reportGroup = "Planets",
+                cnpTxnId = 123,
+                card = new giftCardCardType
+                {
+                    type = methodOfPaymentTypeEnum.GC,
+                    number = "414100000000000000",
+                    expDate = "1210"
+                },
+
+                originalRefCode = "abc123",
+                originalAmount = 500,
+                originalTxnTime = DateTime.Now,
+                originalSystemTraceId = 123,
+                originalSequenceNumber = "123456"
+            };
+
+            CancellationToken cancellationToken = new CancellationToken(false);
+            var response = _cnp.GiftCardAuthReversalAsync(giftCard, cancellationToken);
+            Assert.AreEqual("000", response.Result.response);
+        }
+
         [Test]
         public void TestGiftCardCapture()
         {
@@ -81,6 +108,31 @@ namespace Cnp.Sdk.Test.Functional
 
             var response = _cnp.GiftCardCapture(giftCardCapture);
             Assert.AreEqual("Approved", response.message);
+        }
+
+        [Test]
+        public void TestGiftCardCaptureAsync()
+        {
+            var giftCardCapture = new giftCardCapture
+            {
+                id = "1",
+                reportGroup = "Planets",
+                cnpTxnId = 123456000,
+                captureAmount = 106,
+                card = new giftCardCardType
+                {
+                    type = methodOfPaymentTypeEnum.GC,
+                    number = "414100000000000000",
+                    expDate = "1210"
+                },
+                originalRefCode = "abc123",
+                originalAmount = 43534345,
+                originalTxnTime = DateTime.Now
+            };
+
+            CancellationToken cancellationToken = new CancellationToken(false);
+            var response = _cnp.GiftCardCaptureAsync(giftCardCapture, cancellationToken);
+            Assert.AreEqual("000", response.Result.response);
         }
 
         [Test]
@@ -147,6 +199,27 @@ namespace Cnp.Sdk.Test.Functional
 
             var response = _cnp.GiftCardCredit(creditObj);
             Assert.AreEqual("Approved", response.message);
+        }
+
+        [Test]
+        public void TestGiftCardCreditAsync()
+        {
+            var creditObj = new giftCardCredit
+            {
+                id = "1",
+                reportGroup = "planets",
+                creditAmount = 106,
+                card = new giftCardCardType
+                {
+                    type = methodOfPaymentTypeEnum.GC,
+                    number = "4100000000000000",
+                    expDate = "1210"
+                }
+            };
+
+            CancellationToken cancellationToken = new CancellationToken(false);
+            var response = _cnp.GiftCardCreditAsync(creditObj, cancellationToken);
+            Assert.AreEqual("000", response.Result.response);
         }
     }
 }

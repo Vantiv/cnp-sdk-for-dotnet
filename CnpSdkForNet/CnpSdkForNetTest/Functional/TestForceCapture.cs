@@ -1,5 +1,6 @@
 ﻿using System.Collections.Generic;
 using NUnit.Framework;
+using System.Threading;
 
 namespace Cnp.Sdk.Test.Functional
 {
@@ -137,6 +138,29 @@ namespace Cnp.Sdk.Test.Functional
             forcecapture.card = card;
             forceCaptureResponse response = _cnp.ForceCapture(forcecapture);
             Assert.AreEqual("Approved", response.message);
+        }
+
+        [Test]
+        public void ForceCaptureWithCardAsync()
+        {
+            var forcecapture = new forceCapture
+            {
+                id = "1",
+                amount = 106,
+                orderId = "12344",
+                orderSource = orderSourceType.ecommerce,
+                processingType = processingTypeEnum.accountFunding,
+                card = new cardType
+                {
+                    type = methodOfPaymentTypeEnum.VI,
+                    number = "4100000000000001",
+                    expDate = "1210"
+                }
+            };
+
+            CancellationToken cancellationToken = new CancellationToken(false);
+            var response = _cnp.ForceCaptureAsync(forcecapture, cancellationToken);
+            Assert.AreEqual("000", response.Result.response);
         }
 
     }

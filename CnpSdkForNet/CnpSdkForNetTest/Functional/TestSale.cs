@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using NUnit.Framework;
+using System.Threading;
 
 namespace Cnp.Sdk.Test.Functional
 {
@@ -393,6 +394,29 @@ namespace Cnp.Sdk.Test.Functional
             
             var responseObj = _cnp.Sale(saleObj);
             StringAssert.AreEqualIgnoringCase("Approved", responseObj.message);
+        }
+
+        [Test]
+        public void SaleWithCardAsync()
+        {
+            var saleObj = new sale
+            {
+                id = "1",
+                amount = 106,
+                cnpTxnId = 123456,
+                orderId = "12344",
+                orderSource = orderSourceType.ecommerce,
+                card = new cardType
+                {
+                    type = methodOfPaymentTypeEnum.VI,
+                    number = "4100000000000000",
+                    expDate = "1210"
+                }
+            };
+            Console.WriteLine(saleObj.Serialize());
+            CancellationToken cancellationToken = new CancellationToken(false);
+            var responseObj = _cnp.SaleAsync(saleObj, cancellationToken);
+            StringAssert.AreEqualIgnoringCase("000", responseObj.Result.response);
         }
     }
 }

@@ -1,5 +1,6 @@
 ﻿using System.Collections.Generic;
 using NUnit.Framework;
+using System.Threading;
 
 namespace Cnp.Sdk.Test.Functional
 {
@@ -121,6 +122,37 @@ namespace Cnp.Sdk.Test.Functional
             {
                 Assert.True(e.Message.StartsWith("Error validating xml data against the schema"));
             }
+        }
+
+        [Test]
+        public void EcheckVerificationAsync()
+        {
+            var echeckVerificationObject = new echeckVerification
+            {
+                id = "1",
+                reportGroup = "Planets",
+                amount = 123456,
+                orderId = "12345",
+                orderSource = orderSourceType.ecommerce,
+                echeck = new echeckType
+                {
+                    accType = echeckAccountTypeEnum.Checking,
+                    accNum = "12345657890",
+                    routingNum = "123456789",
+                    checkNum = "123455"
+                },
+                billToAddress = new contact
+                {
+                    name = "Bob",
+                    city = "lowell",
+                    state = "MA",
+                    email = "cnp.com"
+                }
+            };
+
+            CancellationToken cancellationToken = new CancellationToken(false);
+            var response = _cnp.EcheckVerificationAsync(echeckVerificationObject, cancellationToken);
+            StringAssert.AreEqualIgnoringCase("000", response.Result.response);
         }
     }
 }
