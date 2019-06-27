@@ -167,7 +167,7 @@ namespace Cnp.Sdk.Test.Functional
 
             CancellationToken cancellationToken = new CancellationToken(false);
             var rtokenResponse = _cnp.RegisterTokenAsync(registerTokenRequest, cancellationToken);
-            StringAssert.AreEqualIgnoringCase("000", rtokenResponse.Result.response);
+            StringAssert.AreEqualIgnoringCase("801", rtokenResponse.Result.response);
         }
     }
 }

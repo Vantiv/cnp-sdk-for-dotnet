@@ -633,7 +633,7 @@ namespace Cnp.Sdk.Test.Functional
 
             authorization.lodgingInfo.lodgingCharges.Add(new lodgingCharge() { name = lodgingExtraChargeEnum.GIFTSHOP});
             var response = _cnp.Authorize(authorization);
-            Assert.AreEqual("000", response.message);
+            Assert.AreEqual("Approved", response.message);
 
         }
 

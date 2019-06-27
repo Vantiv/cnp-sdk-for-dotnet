@@ -202,13 +202,15 @@ namespace Cnp.Sdk.Test.Functional
         }
 
         [Test]
-        public void TestGiftCardCreditAsync()
+        public void TestGiftCardCreditWithOrderIdAsync()
         {
             var creditObj = new giftCardCredit
             {
                 id = "1",
                 reportGroup = "planets",
                 creditAmount = 106,
+                orderId = "2111",
+                orderSource = orderSourceType.echeckppd,
                 card = new giftCardCardType
                 {
                     type = methodOfPaymentTypeEnum.GC,
@@ -217,8 +219,12 @@ namespace Cnp.Sdk.Test.Functional
                 }
             };
 
-            CancellationToken cancellationToken = new CancellationToken(false);
-            var response = _cnp.GiftCardCreditAsync(creditObj, cancellationToken);
+            CancellationTokenSource source = new CancellationTokenSource();
+            CancellationToken token = source.Token;
+            // set the calcellation timeout high so we should never tiemout 
+            source.CancelAfter(1000);
+
+            var response = _cnp.GiftCardCreditAsync(creditObj, token);
             Assert.AreEqual("000", response.Result.response);
         }
     }
