@@ -249,7 +249,7 @@ namespace Cnp.Sdk.Test.Functional
                     expDate = "1210"
                 },
 
-                processingType = processingTypeEnum.initialRecurring,
+                processingType = processingType.initialRecurring,
                 originalNetworkTransactionId = "123456789123456789123456789",
                 originalTransactionAmount = 12
             };
@@ -275,7 +275,7 @@ namespace Cnp.Sdk.Test.Functional
                     expDate = "1210"
                 },
 
-                processingType = processingTypeEnum.undefined,
+                processingType = processingType.undefined,
                 originalNetworkTransactionId = "123456789123456789123456789",
                 originalTransactionAmount = 12
             };

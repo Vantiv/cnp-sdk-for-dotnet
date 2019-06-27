@@ -42,7 +42,7 @@ namespace Cnp.Sdk.Test.Functional
                 amount = 106,
                 orderId = "12344",
                 orderSource = orderSourceType.ecommerce,
-                processingType = processingTypeEnum.accountFunding,
+                processingType = processingType.accountFunding,
                 card = new cardType
                 {
                     type = methodOfPaymentTypeEnum.VI,
@@ -56,7 +56,7 @@ namespace Cnp.Sdk.Test.Functional
         }
         
         [Test]
-        public void SimpleForceCaptureWithProcessingTypeEnum()
+        public void SimpleForceCaptureWithprocessingType()
         {
             var forcecapture = new forceCapture
             {
@@ -64,7 +64,7 @@ namespace Cnp.Sdk.Test.Functional
                 amount = 106,
                 orderId = "12344",
                 orderSource = orderSourceType.ecommerce,
-                processingType = processingTypeEnum.initialCOF,
+                processingType = processingType.initialCOF,
                 card = new cardType
                 {
                     type = methodOfPaymentTypeEnum.VI,
@@ -149,7 +149,7 @@ namespace Cnp.Sdk.Test.Functional
                 amount = 106,
                 orderId = "12344",
                 orderSource = orderSourceType.ecommerce,
-                processingType = processingTypeEnum.accountFunding,
+                processingType = processingType.accountFunding,
                 card = new cardType
                 {
                     type = methodOfPaymentTypeEnum.VI,

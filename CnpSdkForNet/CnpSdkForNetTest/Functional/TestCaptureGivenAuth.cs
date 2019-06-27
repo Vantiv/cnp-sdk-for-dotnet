@@ -55,7 +55,7 @@ namespace Cnp.Sdk.Test.Functional
                     number = "4100000000000000",
                     expDate = "1210",
                 },
-                processingType = processingTypeEnum.accountFunding,
+                processingType = processingType.accountFunding,
                 originalNetworkTransactionId = "abc123",
                 originalTransactionAmount = 123456789
             };
@@ -155,7 +155,7 @@ namespace Cnp.Sdk.Test.Functional
                     number = "4100000000000000",
                     expDate = "1210"
                 },
-                processingType = processingTypeEnum.initialInstallment,
+                processingType = processingType.initialInstallment,
                 originalNetworkTransactionId = "abc123",
                 originalTransactionAmount = 123456789
             };
@@ -194,7 +194,7 @@ namespace Cnp.Sdk.Test.Functional
                     number = "4100000000000000",
                     expDate = "1210"
                 },
-                processingType = processingTypeEnum.initialRecurring,
+                processingType = processingType.initialRecurring,
                 originalNetworkTransactionId = "abc123",
                 originalTransactionAmount = 123456789,
             };
@@ -255,7 +255,7 @@ namespace Cnp.Sdk.Test.Functional
                     expDate = "1210",
                 },
 
-                processingType = processingTypeEnum.accountFunding,
+                processingType = processingType.accountFunding,
                 originalNetworkTransactionId = "abc123",
                 originalTransactionAmount = 123456789
             };
@@ -285,7 +285,7 @@ namespace Cnp.Sdk.Test.Functional
                     number = "4100000000000000",
                     expDate = "1210",
                 },
-                processingType = processingTypeEnum.accountFunding,
+                processingType = processingType.accountFunding,
                 originalNetworkTransactionId = "abc123",
                 originalTransactionAmount = 123456789
             };
