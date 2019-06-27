@@ -397,7 +397,7 @@ namespace Cnp.Sdk.Test.Functional
         }
 
         [Test]
-        public void SaleWithCardAsync()
+        public void TestSaleWithCardAsync()
         {
             var saleObj = new sale
             {

@@ -135,7 +135,7 @@ namespace Cnp.Sdk.Test.Functional
         }
 
         [Test]
-        public void AsyncCapture()
+        public void TestCaptureAsync()
         {
             var capture = new capture
             {

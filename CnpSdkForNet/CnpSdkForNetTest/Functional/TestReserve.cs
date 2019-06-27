@@ -52,7 +52,7 @@ namespace Cnp.Sdk.Test.Functional
         }
 
         [Test]
-        public void ReserveCreditAsync()
+        public void TestReserveCreditAsync()
         {
             var reserveCredit = new reserveCredit
             {
@@ -89,7 +89,7 @@ namespace Cnp.Sdk.Test.Functional
         }
 
         [Test]
-        public void ReserveDebitAsync()
+        public void TestReserveDebitAsync()
         {
             var reserveDebit = new reserveDebit
             {

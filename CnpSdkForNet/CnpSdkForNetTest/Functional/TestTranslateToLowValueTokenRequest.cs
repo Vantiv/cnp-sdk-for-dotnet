@@ -94,7 +94,7 @@ namespace Cnp.Sdk.Test.Functional
         }
 
         [Test]
-        public void TranslateToLowValueTokenRequestAsync()
+        public void TestTranslateToLowValueTokenRequestAsync()
         {
 
             var query = new translateToLowValueTokenRequest

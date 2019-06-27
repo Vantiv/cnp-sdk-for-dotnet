@@ -93,7 +93,7 @@ namespace Cnp.Sdk.Test.Functional
         }
 
         [Test]
-        public void EcheckRedepositAsync()
+        public void TestEcheckRedepositAsync()
         {
             var echeckredeposit = new echeckRedeposit
             {

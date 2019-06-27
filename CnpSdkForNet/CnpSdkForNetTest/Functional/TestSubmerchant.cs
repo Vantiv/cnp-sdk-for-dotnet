@@ -60,7 +60,7 @@ namespace Cnp.Sdk.Test.Functional
         }
 
         [Test]
-        public void SubmerchantCreditAsync()
+        public void TestSubmerchantCreditAsync()
         {
             var submerchantCredit = new submerchantCredit
             {
@@ -113,7 +113,7 @@ namespace Cnp.Sdk.Test.Functional
         }
 
         [Test]
-        public void SubmerchantDebitAsync()
+        public void TestSubmerchantDebitAsync()
         {
             var submerchantDebit = new submerchantDebit
             {

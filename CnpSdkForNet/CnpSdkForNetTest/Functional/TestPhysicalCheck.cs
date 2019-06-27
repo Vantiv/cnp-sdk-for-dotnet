@@ -52,7 +52,7 @@ namespace Cnp.Sdk.Test.Functional
         }
 
         [Test]
-        public void PhysicalCheckCreditAsync()
+        public void TestPhysicalCheckCreditAsync()
         {
             var physicalCheckCredit = new physicalCheckCredit
             {
@@ -89,7 +89,7 @@ namespace Cnp.Sdk.Test.Functional
         }
 
         [Test]
-        public void PhysicalCheckDebitAsync()
+        public void TestPhysicalCheckDebitAsync()
         {
             var physicalCheckDebit = new physicalCheckDebit
             {

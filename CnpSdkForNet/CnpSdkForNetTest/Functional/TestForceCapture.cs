@@ -141,7 +141,7 @@ namespace Cnp.Sdk.Test.Functional
         }
 
         [Test]
-        public void ForceCaptureWithCardAsync()
+        public void TestForceCaptureWithCardAsync()
         {
             var forcecapture = new forceCapture
             {

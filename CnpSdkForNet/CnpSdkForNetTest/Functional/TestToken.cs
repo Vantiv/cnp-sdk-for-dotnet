@@ -155,7 +155,7 @@ namespace Cnp.Sdk.Test.Functional
         }
 
         [Test]
-        public void TokenAsync()
+        public void TestTokenAsync()
         {
             var registerTokenRequest = new registerTokenRequestType
             {

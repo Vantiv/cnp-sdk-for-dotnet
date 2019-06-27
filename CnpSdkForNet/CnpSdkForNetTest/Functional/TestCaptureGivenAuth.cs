@@ -265,7 +265,7 @@ namespace Cnp.Sdk.Test.Functional
         }
 
         [Test]
-        public void AsyncCaptureGivenAuth()
+        public void TestCaptureGivenAuthAsync()
         {
             var capturegivenauth = new captureGivenAuth
             {

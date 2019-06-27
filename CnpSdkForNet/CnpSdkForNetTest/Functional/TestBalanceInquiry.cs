@@ -56,7 +56,7 @@ namespace Cnp.Sdk.Test.Functional
         }
 
         [Test]
-        public void BalanceInquiryAsync()
+        public void TestBalanceInquiryAsync()
         {
             var balanceInquiry = new balanceInquiry
             {

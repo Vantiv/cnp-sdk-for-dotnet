@@ -637,8 +637,6 @@ namespace Cnp.Sdk.Test.Functional
 
         }
 
-        //for Little Caesars debugging
-
         [Test]
         public void TestAuthAsync()
         {

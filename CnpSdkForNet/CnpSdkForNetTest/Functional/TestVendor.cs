@@ -59,7 +59,7 @@ namespace Cnp.Sdk.Test.Functional
         }
 
         [Test]
-        public void VendorCreditAsync()
+        public void TestVendorCreditAsync()
         {
             var vendorCredit = new vendorCredit
             {
@@ -110,7 +110,7 @@ namespace Cnp.Sdk.Test.Functional
         }
 
         [Test]
-        public void ReserveDebitAsync()
+        public void TestReserveDebitAsync()
         {
             var vendorDebit = new vendorDebit
             {

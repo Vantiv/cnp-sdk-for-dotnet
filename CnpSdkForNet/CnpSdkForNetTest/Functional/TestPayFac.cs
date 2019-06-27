@@ -52,7 +52,7 @@ namespace Cnp.Sdk.Test.Functional
         }
 
         [Test]
-        public void PayFacCreditAsync()
+        public void TestPayFacCreditAsync()
         {
             var payFacCredit = new payFacCredit
             {
@@ -89,7 +89,7 @@ namespace Cnp.Sdk.Test.Functional
         }
 
         [Test]
-        public void PayFacDebitAsync()
+        public void TestPayFacDebitAsync()
         {
             var payFacDebit = new payFacDebit
             {

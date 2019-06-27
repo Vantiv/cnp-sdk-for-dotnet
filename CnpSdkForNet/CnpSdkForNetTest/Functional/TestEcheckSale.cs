@@ -335,7 +335,7 @@ namespace Cnp.Sdk.Test.Functional
         }
 
         [Test]
-        public void EcheckSaleAsync()
+        public void TestEcheckSaleAsync()
         {
             var echeckSaleObj = new echeckSale
             {

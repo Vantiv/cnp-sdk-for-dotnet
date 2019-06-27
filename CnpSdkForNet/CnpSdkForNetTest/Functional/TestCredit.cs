@@ -187,7 +187,7 @@ namespace Cnp.Sdk.Test.Functional
         }
 
         [Test]
-        public void AsyncCreditWithCard()
+        public void TestCreditWithCardAsync()
         {
             var creditObj = new credit
             {

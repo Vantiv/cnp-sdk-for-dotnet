@@ -149,7 +149,7 @@ namespace Cnp.Sdk.Test.Functional
         }
 
         [Test]
-        public void QueryTransactionAsync()
+        public void TestQueryTransactionAsync()
         {
             var query = new queryTransaction
             {

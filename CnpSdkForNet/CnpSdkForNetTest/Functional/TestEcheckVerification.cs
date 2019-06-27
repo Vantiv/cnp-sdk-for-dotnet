@@ -125,7 +125,7 @@ namespace Cnp.Sdk.Test.Functional
         }
 
         [Test]
-        public void EcheckVerificationAsync()
+        public void TestEcheckVerificationAsync()
         {
             var echeckVerificationObject = new echeckVerification
             {

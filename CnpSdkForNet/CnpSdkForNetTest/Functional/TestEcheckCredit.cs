@@ -213,7 +213,7 @@ namespace Cnp.Sdk.Test.Functional
         }
 
         [Test]
-        public void EcheckCreditAsync()
+        public void TestEcheckCreditAsync()
         {
             var echeckcredit = new echeckCredit
             {

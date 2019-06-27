@@ -66,8 +66,6 @@ namespace Cnp.Sdk.Test.Functional
             Assert.AreEqual("Approved", response.message);
         }
 
-        //for Little Caesars debugging
-
         [Test]
         public void TestAuthReversalAsync()
         {
