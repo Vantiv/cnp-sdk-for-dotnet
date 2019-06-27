@@ -337,7 +337,7 @@ namespace Cnp.Sdk.Test.Unit
             sale.cnpTxnId = 123456;
             sale.orderId = "12344";
             sale.orderSource = orderSourceType.ecommerce;
-            sale.processingType = processingTypeEnum.accountFunding;
+            sale.processingType = processingType.accountFunding;
             sale.originalNetworkTransactionId = "Test";
             sale.originalTransactionAmount = 123;
 

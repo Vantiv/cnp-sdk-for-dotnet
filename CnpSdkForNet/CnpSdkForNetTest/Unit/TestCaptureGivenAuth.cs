@@ -133,7 +133,7 @@ namespace Cnp.Sdk.Test.Unit
             capture.amount = 2;
             capture.orderSource = orderSourceType.ecommerce;
             capture.reportGroup = "Planets";
-            capture.processingType = processingTypeEnum.initialRecurring;
+            capture.processingType = processingType.initialRecurring;
             capture.originalNetworkTransactionId = "abc123";
             capture.originalTransactionAmount = 1234;
 
@@ -154,7 +154,7 @@ namespace Cnp.Sdk.Test.Unit
             capture.amount = 2;
             capture.orderSource = orderSourceType.ecommerce;
             capture.reportGroup = "Planets";
-            capture.processingType = processingTypeEnum.undefined;
+            capture.processingType = processingType.undefined;
             capture.originalNetworkTransactionId = "abc123";
             capture.originalTransactionAmount = 1234;
 

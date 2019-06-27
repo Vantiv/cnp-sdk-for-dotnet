@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using NUnit.Framework;
+using System.Threading;
 
 namespace Cnp.Sdk.Test.Functional
 {
@@ -90,7 +91,7 @@ namespace Cnp.Sdk.Test.Functional
                 orderId = "3",
                 amount = 106,
                 orderSource = orderSourceType.ecommerce,
-                processingType = processingTypeEnum.accountFunding,
+                processingType = processingType.accountFunding,
                 card = new cardType
                 {
                     type = methodOfPaymentTypeEnum.VI,
@@ -118,7 +119,7 @@ namespace Cnp.Sdk.Test.Functional
                 orderId = "4",
                 amount = 106,
                 orderSource = orderSourceType.ecommerce,
-                processingType = processingTypeEnum.accountFunding,
+                processingType = processingType.accountFunding,
                 card = new cardType
                 {
                     type = methodOfPaymentTypeEnum.VI,
@@ -507,7 +508,7 @@ namespace Cnp.Sdk.Test.Functional
                 },
                 originalNetworkTransactionId = "123456789123456789123456789",
                 originalTransactionAmount = 12,
-                processingType = processingTypeEnum.initialRecurring,
+                processingType = processingType.initialRecurring,
             };
 
             var response = _cnp.Authorize(authorization);
@@ -535,7 +536,7 @@ namespace Cnp.Sdk.Test.Functional
                 },
                 originalNetworkTransactionId = "123456789123456789123456789",
                 originalTransactionAmount = 12,
-                processingType = processingTypeEnum.initialInstallment,
+                processingType = processingType.initialInstallment,
             };
             var response = _cnp.Authorize(authorization);
             Assert.AreEqual("000", response.response);
@@ -632,8 +633,33 @@ namespace Cnp.Sdk.Test.Functional
 
             authorization.lodgingInfo.lodgingCharges.Add(new lodgingCharge() { name = lodgingExtraChargeEnum.GIFTSHOP});
             var response = _cnp.Authorize(authorization);
-            Assert.AreEqual("000", response.response);
+            Assert.AreEqual("Approved", response.message);
 
+        }
+
+        [Test]
+        public void TestAuthAsync()
+        {
+            var authorization = new authorization
+            {
+                id = "1",
+                reportGroup = "Planets",
+                orderId = "12344",
+                amount = 106,
+                orderSource = orderSourceType.ecommerce,
+                card = new cardType
+                {
+                    type = methodOfPaymentTypeEnum.VI,
+                    number = "414100000000000000",
+                    expDate = "1210"
+                },
+                customBilling = new customBilling { phone = "1112223333" }
+            };
+
+            CancellationToken cancellationToken = new CancellationToken(false);
+            var response = _cnp.AuthorizeAsync(authorization, cancellationToken);
+
+            Assert.AreEqual("000", response.Result.response);
         }
 
     }

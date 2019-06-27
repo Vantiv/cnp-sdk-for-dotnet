@@ -1,6 +1,7 @@
 ﻿using System.Collections.Generic;
 using NUnit.Framework;
 using System;
+using System.Threading;
 
 namespace Cnp.Sdk.Test.Functional
 {
@@ -54,7 +55,7 @@ namespace Cnp.Sdk.Test.Functional
                     number = "4100000000000000",
                     expDate = "1210",
                 },
-                processingType = processingTypeEnum.accountFunding,
+                processingType = processingType.accountFunding,
                 originalNetworkTransactionId = "abc123",
                 originalTransactionAmount = 123456789
             };
@@ -154,7 +155,7 @@ namespace Cnp.Sdk.Test.Functional
                     number = "4100000000000000",
                     expDate = "1210"
                 },
-                processingType = processingTypeEnum.initialInstallment,
+                processingType = processingType.initialInstallment,
                 originalNetworkTransactionId = "abc123",
                 originalTransactionAmount = 123456789
             };
@@ -193,7 +194,7 @@ namespace Cnp.Sdk.Test.Functional
                     number = "4100000000000000",
                     expDate = "1210"
                 },
-                processingType = processingTypeEnum.initialRecurring,
+                processingType = processingType.initialRecurring,
                 originalNetworkTransactionId = "abc123",
                 originalTransactionAmount = 123456789,
             };
@@ -254,13 +255,43 @@ namespace Cnp.Sdk.Test.Functional
                     expDate = "1210",
                 },
 
-                processingType = processingTypeEnum.accountFunding,
+                processingType = processingType.accountFunding,
                 originalNetworkTransactionId = "abc123",
                 originalTransactionAmount = 123456789
             };
 
             var response = _cnp.CaptureGivenAuth(capturegivenauth);
             Assert.AreEqual("Approved", response.message);
+        }
+
+        [Test]
+        public void TestCaptureGivenAuthAsync()
+        {
+            var capturegivenauth = new captureGivenAuth
+            {
+                id = "1",
+                amount = 106,
+                orderId = "12344",
+                authInformation = new authInformation
+                {
+                    authDate = new DateTime(2002, 10, 9),
+                    authCode = "543216",
+                    authAmount = 12345,
+                },
+                orderSource = orderSourceType.ecommerce,
+                card = new cardType
+                {
+                    type = methodOfPaymentTypeEnum.VI,
+                    number = "4100000000000000",
+                    expDate = "1210",
+                },
+                processingType = processingType.accountFunding,
+                originalNetworkTransactionId = "abc123",
+                originalTransactionAmount = 123456789
+            };
+            CancellationToken cancellationToken = new CancellationToken(false);
+            var response = _cnp.CaptureGivenAuthAsync(capturegivenauth, cancellationToken);
+            Assert.AreEqual("000", response.Result.response);
         }
     }
 }

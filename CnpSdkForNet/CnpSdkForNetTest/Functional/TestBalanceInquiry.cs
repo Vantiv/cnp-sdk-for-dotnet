@@ -1,5 +1,6 @@
 ﻿using System.Collections.Generic;
 using NUnit.Framework;
+using System.Threading;
 
 namespace Cnp.Sdk.Test.Functional
 {
@@ -52,6 +53,29 @@ namespace Cnp.Sdk.Test.Functional
         
         var response = _cnp.BalanceInquiry(balanceInquiry);
         Assert.AreEqual("000", response.response);
+        }
+
+        [Test]
+        public void TestBalanceInquiryAsync()
+        {
+            var balanceInquiry = new balanceInquiry
+            {
+                id = "1",
+                reportGroup = "Planets",
+                orderId = "12344",
+                orderSource = orderSourceType.ecommerce,
+                card = new giftCardCardType
+                {
+                    type = methodOfPaymentTypeEnum.GC,
+                    number = "414100000000000000",
+                    cardValidationNum = "123",
+                    expDate = "1215",
+                }
+            };
+
+            CancellationToken cancellationToken = new CancellationToken(false);
+            var response = _cnp.BalanceInquiryAsync(balanceInquiry, cancellationToken);
+            Assert.AreEqual("000", response.Result.response);
         }
 
 }

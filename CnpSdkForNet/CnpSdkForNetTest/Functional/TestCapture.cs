@@ -1,5 +1,6 @@
 ﻿using System.Collections.Generic;
 using NUnit.Framework;
+using System.Threading;
 
 namespace Cnp.Sdk.Test.Functional
 {
@@ -131,6 +132,30 @@ namespace Cnp.Sdk.Test.Functional
             capture.lodgingInfo.lodgingCharges.Add(new lodgingCharge() { name = lodgingExtraChargeEnum.GIFTSHOP });
             var response = _cnp.Capture(capture);
             Assert.AreEqual("Approved", response.message);
+        }
+
+        [Test]
+        public void TestCaptureAsync()
+        {
+            var capture = new capture
+            {
+                id = "1",
+                cnpTxnId = 123456000,
+                amount = 106,
+                payPalNotes = "<'&\">",
+                lodgingInfo = new lodgingInfo
+                {
+                    hotelFolioNumber = "12345",
+                    checkInDate = new System.DateTime(2017, 1, 18),
+                    customerServicePhone = "854213",
+                    lodgingCharges = new List<lodgingCharge>(),
+
+                }
+            };
+            capture.lodgingInfo.lodgingCharges.Add(new lodgingCharge() { name = lodgingExtraChargeEnum.GIFTSHOP });
+            CancellationToken cancellationToken = new CancellationToken(false);
+            var response = _cnp.CaptureAsync(capture, cancellationToken);
+            Assert.AreEqual("000", response.Result.response);
         }
     }
 }
