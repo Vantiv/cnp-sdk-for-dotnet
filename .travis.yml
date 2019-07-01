@@ -8,5 +8,5 @@ install:
   - nuget restore CnpSdkForNet/CnpSdkForNet.sln
   - nuget install NUnit.Runners -Version 2.6.4 -OutputDirectory testrunner
 script:
-  - xbuild /p:Configuration=Release CnpSdkForNet.sln
+  - xbuild /p:Configuration=Release CnpSdkForNet/CnpSdkForNet.sln
   - mono ./testrunner/NUnit.Runners.2.6.4/tools/nunit-console.exe  CnpSdkForNetTest/bin/Debug/CnpSdkForNetTest.exe
