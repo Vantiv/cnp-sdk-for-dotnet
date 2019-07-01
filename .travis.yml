@@ -1,0 +1,12 @@
+language: csharp
+solution: ChargebackSdkForNet.sln
+notifications:
+  email:
+    - sdksupport@vantiv.com
+dotnet: 2.1
+install:
+  - nuget restore ChargebackSdkForNet.sln
+  - nuget install NUnit.Runners -Version 2.6.4 -OutputDirectory testrunner
+script:
+  - xbuild /p:Configuration=Release ChargebackSdkForNet.sln
+  - mono ./testrunner/NUnit.Runners.2.6.4/tools/nunit-console.exe  ChargebackSdkForNetTest/bin/Debug/ChargebackSdkForNetTest.exe
