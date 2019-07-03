@@ -9,6 +9,7 @@ install:
   - nuget install NUnit.Runners -Version 2.6.4 -OutputDirectory testrunner
 script:
   - xbuild /p:Configuration=Release CnpSdkForNet/CnpSdkForNet.sln
+  - go test -race -coverprofile=coverage.txt -covermode=atomic
 after_success:
  - bash <(curl -s https://codecov.io/bash)
   
