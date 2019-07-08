@@ -8,7 +8,8 @@ install:
   - nuget restore CnpSdkForNet/CnpSdkForNet.sln
   - nuget install NUnit.Runners -Version 2.6.4 -OutputDirectory testrunner
 script:
-  - xbuild /p:Configuration=Release CnpSdkForNet/CnpSdkForNet.sln
+  - msbuild /p:Configuration=Release solution-name.sln
+  - mono ./testrunner/NUnit.ConsoleRunner.3.9.0/tools/nunit3-console.exe ./MyProject.Tests/bin/Release/MyProject.Tests.dll
 after_success:
  - bash <(curl -s https://codecov.io/bash)
   
