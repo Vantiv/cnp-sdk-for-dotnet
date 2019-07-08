@@ -9,7 +9,7 @@ install:
   - nuget install NUnit.Runners -Version 2.6.4 -OutputDirectory testrunner
 script:
   - xbuild /p:Configuration=Release CnpSdkForNet/CnpSdkForNet.sln
-  - mono ./testrunner/NUnit.Runners.2.6.4/tools/nunit-console.exe  CnpSdkForNet/CnpSdkForNetTest/bin/Release/CnpSdkForNetTest.exe
+  - mono ./testrunner/NUnit.Runners.2.6.4/tools/nunit-console.exe  CnpSdkForNetTest/bin/Debug/CnpSdkForNetTest.exe
 after_success:
  - bash <(curl -s https://codecov.io/bash)
   
