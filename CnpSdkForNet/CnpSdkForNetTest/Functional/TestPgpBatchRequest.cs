@@ -19,22 +19,24 @@ namespace Cnp.Sdk.Test.Functional
         public void SetUp()
         {
             CommManager.reset();
-            _config = new Dictionary<string, string>();
-            _config["url"] = Properties.Settings.Default.url;
-            _config["reportGroup"] = Properties.Settings.Default.reportGroup;
+            ConfigManager configManager = new ConfigManager();
+            _config = configManager.getConfig();
+            //_config = new Dictionary<string, string>();
+            //_config["url"] = Properties.Settings.Default.url;
+            //_config["reportGroup"] = Properties.Settings.Default.reportGroup;
             _config["username"] = Environment.GetEnvironmentVariable("encUsername");
-            _config["printxml"] = Properties.Settings.Default.printxml;
-            _config["timeout"] = Properties.Settings.Default.timeout;
-            _config["proxyHost"] = Properties.Settings.Default.proxyHost;
+            //_config["printxml"] = Properties.Settings.Default.printxml;
+            //_config["timeout"] = Properties.Settings.Default.timeout;
+            //_config["proxyHost"] = Properties.Settings.Default.proxyHost;
             _config["merchantId"] = Environment.GetEnvironmentVariable("encMerchantId");
             _config["password"] = Environment.GetEnvironmentVariable("encPassword").Replace("\"","");
-            _config["proxyPort"] = Properties.Settings.Default.proxyPort;
-            _config["sftpUrl"] = Properties.Settings.Default.sftpUrl;
+            //_config["proxyPort"] = Properties.Settings.Default.proxyPort;
+            //_config["sftpUrl"] = Properties.Settings.Default.sftpUrl;
             _config["sftpUsername"] = Environment.GetEnvironmentVariable("encSftpUsername");
             _config["sftpPassword"] = Environment.GetEnvironmentVariable("encSftpPassword");
-            _config["knownHostsFile"] = Properties.Settings.Default.knownHostsFile;
-            _config["requestDirectory"] = Properties.Settings.Default.requestDirectory;
-            _config["responseDirectory"] = Properties.Settings.Default.responseDirectory;
+            //_config["knownHostsFile"] = Properties.Settings.Default.knownHostsFile;
+            //_config["requestDirectory"] = Properties.Settings.Default.requestDirectory;
+            //_config["responseDirectory"] = Properties.Settings.Default.responseDirectory;
             _config["useEncryption"] = "true";
             _config["vantivPublicKeyId"] = Environment.GetEnvironmentVariable("vantivPublicKeyId");
             _config["pgpPassphrase"] = Environment.GetEnvironmentVariable("pgpPassphrase");

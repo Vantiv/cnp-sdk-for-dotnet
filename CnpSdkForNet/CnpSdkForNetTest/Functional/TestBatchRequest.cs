@@ -568,22 +568,24 @@ namespace Cnp.Sdk.Test.Functional
             CommManager.reset();
             
             Dictionary<string, string>  _config = new Dictionary<string, string>();
-            _config["merchantId"] = Environment.GetEnvironmentVariable("payfacMerchantId_v12_7");
-            _config["username"] = Environment.GetEnvironmentVariable("payfacUsername_v12_7");
-            _config["password"] = Environment.GetEnvironmentVariable("payfacPassword_v12_7");
-            _config["sftpUsername"] = Environment.GetEnvironmentVariable("payfacSftpUsername_v12_7");
-            _config["sftpPassword"] = Environment.GetEnvironmentVariable("payfacSftpPassword_v12_7");
-            _config["url"] = Properties.Settings.Default.url;
-            _config["reportGroup"] = Properties.Settings.Default.reportGroup;
-            _config["printxml"] = Properties.Settings.Default.printxml;
-            _config["timeout"] = Properties.Settings.Default.timeout;
-            _config["proxyHost"] = Properties.Settings.Default.proxyHost;
-            _config["proxyPort"] = Properties.Settings.Default.proxyPort;
-            _config["sftpUrl"] = Properties.Settings.Default.sftpUrl;
-            _config["knownHostsFile"] = Properties.Settings.Default.knownHostsFile;
-            _config["requestDirectory"] = Properties.Settings.Default.requestDirectory;
-            _config["responseDirectory"] = Properties.Settings.Default.responseDirectory;
-            _config["useEncryption"] = "false";
+            ConfigManager configManager = new ConfigManager();
+            _config = configManager.getConfig();
+            //_config["merchantId"] = Environment.GetEnvironmentVariable("payfacMerchantId_v12_7");
+            //_config["username"] = Environment.GetEnvironmentVariable("payfacUsername_v12_7");
+            //_config["password"] = Environment.GetEnvironmentVariable("payfacPassword_v12_7");
+            //_config["sftpUsername"] = Environment.GetEnvironmentVariable("payfacSftpUsername_v12_7");
+            //_config["sftpPassword"] = Environment.GetEnvironmentVariable("payfacSftpPassword_v12_7");
+            //_config["url"] = Properties.Settings.Default.url;
+            //_config["reportGroup"] = Properties.Settings.Default.reportGroup;
+            //_config["printxml"] = Properties.Settings.Default.printxml;
+            //_config["timeout"] = Properties.Settings.Default.timeout;
+            //_config["proxyHost"] = Properties.Settings.Default.proxyHost;
+            //_config["proxyPort"] = Properties.Settings.Default.proxyPort;
+            //_config["sftpUrl"] = Properties.Settings.Default.sftpUrl;
+            //_config["knownHostsFile"] = Properties.Settings.Default.knownHostsFile;
+            //_config["requestDirectory"] = Properties.Settings.Default.requestDirectory;
+            //_config["responseDirectory"] = Properties.Settings.Default.responseDirectory;
+            //_config["useEncryption"] = "false";
 
             var cnpBatchRequest = new batchRequest(_config);
 

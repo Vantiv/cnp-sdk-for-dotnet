@@ -23,18 +23,20 @@ namespace Cnp.Sdk
          */
         public CnpOnline()
         {
-            _config = new Dictionary<string, string>();
-            _config["url"] = Properties.Settings.Default.url;
-            _config["reportGroup"] = Properties.Settings.Default.reportGroup;
-            _config["username"] = Properties.Settings.Default.username;
-            _config["printxml"] = Properties.Settings.Default.printxml;
-            _config["timeout"] = Properties.Settings.Default.timeout;
-            _config["proxyHost"] = Properties.Settings.Default.proxyHost;
-            _config["merchantId"] = Properties.Settings.Default.merchantId;
-            _config["password"] = Properties.Settings.Default.password;
-            _config["proxyPort"] = Properties.Settings.Default.proxyPort;
-            _config["logFile"] = Properties.Settings.Default.logFile;
-            _config["neuterAccountNums"] = Properties.Settings.Default.neuterAccountNums;
+            ConfigManager configManager = new ConfigManager();
+            _config = configManager.getConfig();
+            
+            //_config["url"] = Properties.Settings.Default.url;
+            //_config["reportGroup"] = Properties.Settings.Default.reportGroup;
+            //_config["username"] = Properties.Settings.Default.username;
+            //_config["printxml"] = Properties.Settings.Default.printxml;
+            //_config["timeout"] = Properties.Settings.Default.timeout;
+            //_config["proxyHost"] = Properties.Settings.Default.proxyHost;
+            //_config["merchantId"] = Properties.Settings.Default.merchantId;
+            //_config["password"] = Properties.Settings.Default.password;
+            //_config["proxyPort"] = Properties.Settings.Default.proxyPort;
+            //_config["logFile"] = Properties.Settings.Default.logFile;
+            //_config["neuterAccountNums"] = Properties.Settings.Default.neuterAccountNums;
             _communication = new Communications();
 
         }

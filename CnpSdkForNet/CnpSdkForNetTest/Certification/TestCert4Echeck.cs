@@ -16,18 +16,21 @@ namespace Cnp.Sdk.Test.Certification
         {
             CommManager.reset();
             Dictionary<string, string> config = new Dictionary<string, string>();
-            config.Add("url", "https://payments.vantivprelive.com/vap/communicator/online");
-            config.Add("reportGroup", "Default Report Group");
-            config.Add("username", Properties.Settings.Default.username);
-            config.Add("timeout", "500");
-            config.Add("merchantId", Properties.Settings.Default.merchantId);
-            config.Add("password", Properties.Settings.Default.password);
-            config.Add("printxml", "true");
-            config.Add("logFile", null);
-            config.Add("neuterAccountNums", null);
-            config.Add("proxyHost", Properties.Settings.Default.proxyHost);
-            config.Add("proxyPort", Properties.Settings.Default.proxyPort);
-            config.Add("multiSite", "false");
+            ConfigManager configManager = new ConfigManager();
+            config = configManager.getConfig();
+
+            //config.Add("url", "https://payments.vantivprelive.com/vap/communicator/online");
+            //config.Add("reportGroup", "Default Report Group");
+            //config.Add("username", Properties.Settings.Default.username);
+            //config.Add("timeout", "500");
+            //config.Add("merchantId", Properties.Settings.Default.merchantId);
+            //config.Add("password", Properties.Settings.Default.password);
+            //config.Add("printxml", "true");
+            //config.Add("logFile", null);
+            //config.Add("neuterAccountNums", null);
+            //config.Add("proxyHost", Properties.Settings.Default.proxyHost);
+            //config.Add("proxyPort", Properties.Settings.Default.proxyPort);
+            //config.Add("multiSite", "false");
             cnp = new CnpOnline(config);
         }
 
