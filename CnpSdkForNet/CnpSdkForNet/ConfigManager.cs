@@ -43,5 +43,41 @@ namespace Cnp.Sdk
             _config = config;
         }
 
+        //public void configureConfig()
+        //{
+        //    Console.Write("Please input the URL for online transactions (ex: https://www.testantivcnp.com/sandbox/communicator/online):");
+        //    string url = Console.ReadLine();
+        //    setProperty("url", url);
+        //    Console.Write("reportGroup: ");
+        //    string reportGroup = Console.ReadLine();
+        //    setProperty("reportGroup", reportGroup);
+        //    Console.Write("Please input your presenter user name: ");
+        //    string username = Console.ReadLine();
+        //    setProperty("username", username);
+        //    Console.Write("printxml: ");
+        //    string printxml = Console.ReadLine();
+        //    setProperty("printxml", printxml);
+        //    Console.Write("timeout: ");
+        //    string timeout = Console.ReadLine();
+        //    setProperty("timeout", timeout);
+        //    Console.Write("
+        //}
+
+        //private void setProperty(string property, string val)
+        //{
+        //    if (val.ToLower() == "t" || val.ToLower() == "true")
+        //    {
+        //        _config[property] = "true";
+        //    }
+        //    else if (val.ToLower() == "f" || val.ToLower() == "false")
+        //    {
+        //        _config[property] = "false";
+        //    }
+        //    else if (val != "")
+        //    {
+        //        _config[property] = val;
+        //    }
+        //}
+
     }
 }
