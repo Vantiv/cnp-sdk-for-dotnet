@@ -114,8 +114,6 @@ namespace Cnp.Sdk
 
             setupMultiSite();
 
-       
-            
         }
 
         private CommManager(Dictionary<string, string> config)

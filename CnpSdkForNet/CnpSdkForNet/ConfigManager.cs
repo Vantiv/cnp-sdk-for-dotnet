@@ -15,7 +15,7 @@ namespace Cnp.Sdk
 
         public ConfigManager()
         {
-
+            _config = new Dictionary<string, string>();
             _config["url"] = Properties.Settings.Default.url;
             _config["reportGroup"] = Properties.Settings.Default.reportGroup;
             _config["username"] = Properties.Settings.Default.username;
