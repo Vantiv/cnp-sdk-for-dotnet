@@ -44,17 +44,17 @@ namespace Cnp.Sdk
             //config["merchantId"] = Properties.Settings.Default.merchantId;
             //config["password"] = Properties.Settings.Default.password;
             //config["proxyPort"] = Properties.Settings.Default.proxyPort;
-            config["sftpUrl"] =  Properties.Settings.Default.sftpUrl;
-            config["sftpUsername"] = Properties.Settings.Default.sftpUsername;
-            config["sftpPassword"] = Properties.Settings.Default.sftpPassword;
-            config["knownHostsFile"] = Properties.Settings.Default.knownHostsFile;
-            config["onlineBatchUrl"] = Properties.Settings.Default.onlineBatchUrl;
-            config["onlineBatchPort"] = Properties.Settings.Default.onlineBatchPort;
-            config["requestDirectory"] = Properties.Settings.Default.requestDirectory;
-            config["responseDirectory"] = Properties.Settings.Default.responseDirectory;
-            config["useEncryption"] = Properties.Settings.Default.useEncryption;
-            config["vantivPublicKeyId"] = Properties.Settings.Default.vantivPublicKeyId;
-            config["pgpPassphrase"] = Properties.Settings.Default.pgpPassphrase;
+            //config["sftpUrl"] =  Properties.Settings.Default.sftpUrl;
+            //config["sftpUsername"] = Properties.Settings.Default.sftpUsername;
+            //config["sftpPassword"] = Properties.Settings.Default.sftpPassword;
+            //config["knownHostsFile"] = Properties.Settings.Default.knownHostsFile;
+            //config["onlineBatchUrl"] = Properties.Settings.Default.onlineBatchUrl;
+            //config["onlineBatchPort"] = Properties.Settings.Default.onlineBatchPort;
+            //config["requestDirectory"] = Properties.Settings.Default.requestDirectory;
+            //config["responseDirectory"] = Properties.Settings.Default.responseDirectory;
+            //config["useEncryption"] = Properties.Settings.Default.useEncryption;
+            //config["vantivPublicKeyId"] = Properties.Settings.Default.vantivPublicKeyId;
+            //config["pgpPassphrase"] = Properties.Settings.Default.pgpPassphrase;
 
             initializeRequest();
         }

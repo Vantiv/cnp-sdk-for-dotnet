@@ -33,6 +33,17 @@ namespace Cnp.Sdk
             _config["multiSiteUrl2"] = Properties.Settings.Default.multiSiteUrl2;
             _config["multiSiteErrorThreshold"] = Properties.Settings.Default.multiSiteErrorThreshold;
             _config["maxHoursWithoutSwitch"] = Properties.Settings.Default.maxHoursWithoutSwitch;
+            config["sftpUrl"] = Properties.Settings.Default.sftpUrl;
+            config["sftpUsername"] = Properties.Settings.Default.sftpUsername;
+            config["sftpPassword"] = Properties.Settings.Default.sftpPassword;
+            config["knownHostsFile"] = Properties.Settings.Default.knownHostsFile;
+            config["onlineBatchUrl"] = Properties.Settings.Default.onlineBatchUrl;
+            config["onlineBatchPort"] = Properties.Settings.Default.onlineBatchPort;
+            config["requestDirectory"] = Properties.Settings.Default.requestDirectory;
+            config["responseDirectory"] = Properties.Settings.Default.responseDirectory;
+            config["useEncryption"] = Properties.Settings.Default.useEncryption;
+            config["vantivPublicKeyId"] = Properties.Settings.Default.vantivPublicKeyId;
+            config["pgpPassphrase"] = Properties.Settings.Default.pgpPassphrase;
 
 
 
