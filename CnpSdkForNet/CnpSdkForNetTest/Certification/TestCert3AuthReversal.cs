@@ -18,6 +18,14 @@ namespace Cnp.Sdk.Test.Certification
             Dictionary<string, string> config = new Dictionary<string, string>();
             ConfigManager configManager = new ConfigManager();
             config = configManager.getConfig();
+
+            config["url"] = "https://payments.vantivprelive.com/vap/communicator/online";
+            config["timeout"] = "500";
+            config["printxml"] = "true";
+            config["logFile"] = null;
+            config["neuterAccountNums"] = null;
+            config["multiSite"] = "false";
+            
             //config.Add("url", "https://payments.vantivprelive.com/vap/communicator/online");
             //config.Add("reportGroup", "Default Report Group");
             //config.Add("username", Properties.Settings.Default.username);
