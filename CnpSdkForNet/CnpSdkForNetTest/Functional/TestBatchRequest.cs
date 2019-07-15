@@ -12,17 +12,24 @@ namespace Cnp.Sdk.Test.Functional
     class TestBatchRequest
     {
         private cnpRequest cnp;
+        private string preliveStatus;
 
         [SetUp]
         public void setUpBeforeTest()
         {
             CommManager.reset();
             cnp = new cnpRequest();
+            this.preliveStatus = Environment.GetEnvironmentVariable("preliveStatus");
         }
 
         [Test]
         public void SimpleBatch()
         {
+            if (this.preliveStatus.Equals("down"))
+            {
+                Assert.Ignore();
+            }
+
             var cnpBatchRequest = new batchRequest();
 
             var authorization = new authorization
@@ -564,7 +571,12 @@ namespace Cnp.Sdk.Test.Functional
         [Ignore("ctxAll returns bad response code")]
         public void ctxAll()
         {
-            
+
+            if (this.preliveStatus.Equals("down"))
+            {
+                Assert.Ignore();
+            }
+
             CommManager.reset();
             
             Dictionary<string, string>  _config = new Dictionary<string, string>();
@@ -716,6 +728,11 @@ namespace Cnp.Sdk.Test.Functional
         [Ignore("Fast access funding not setup for test merchant")]
         public void simpleBatchWithJustFastAccessFunding()
         {
+            if (this.preliveStatus.Equals("down"))
+            {
+                Assert.Ignore();
+            }
+
             var cnpBatchRequest = new batchRequest();
             var fastAccessFunding = new fastAccessFunding();
             fastAccessFunding.id = "id";

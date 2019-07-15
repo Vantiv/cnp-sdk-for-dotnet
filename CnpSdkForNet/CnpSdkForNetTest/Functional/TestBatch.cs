@@ -13,6 +13,7 @@ namespace Cnp.Sdk.Test.Functional
         private cnpRequest _cnp;
         private Dictionary<string, string> _invalidConfig;
         private Dictionary<string, string> _invalidSftpConfig;
+        private string preliveStatus;
 
         [TestFixtureSetUp]
         public void SetUp()
@@ -63,11 +64,17 @@ namespace Cnp.Sdk.Test.Functional
         {
             CommManager.reset();
             _cnp = new cnpRequest();
+            this.preliveStatus = Environment.GetEnvironmentVariable("preliveStatus");
         }
 
         [Test]
         public void SimpleBatch()
         {
+            if (this.preliveStatus.Equals("down"))
+            {
+                Assert.Ignore();
+            }
+
             var cnpBatchRequest = new batchRequest();
 
             var authorization = new authorization
@@ -610,6 +617,11 @@ namespace Cnp.Sdk.Test.Functional
         [Test]
         public void AccountUpdateBatch()
         {
+            if (this.preliveStatus.Equals("down"))
+            {
+                Assert.Ignore();
+            }
+
             var cnpBatchRequest = new batchRequest();
 
             var accountUpdate1 = new accountUpdate();
@@ -658,6 +670,11 @@ namespace Cnp.Sdk.Test.Functional
         [Test]
         public void RFRBatch()
         {
+            if (this.preliveStatus.Equals("down"))
+            {
+                Assert.Ignore();
+            }
+
             var cnpBatchRequest = new batchRequest();
             cnpBatchRequest.id = "1234567A";
 
@@ -735,6 +752,11 @@ namespace Cnp.Sdk.Test.Functional
         [Test]
         public void NullBatchData()
         {
+            if (this.preliveStatus.Equals("down"))
+            {
+                Assert.Ignore();
+            }
+
             var cnpBatchRequest = new batchRequest();
 
             var authorization = new authorization();
@@ -962,6 +984,11 @@ namespace Cnp.Sdk.Test.Functional
         [Test]
         public void InvalidCredientialsBatch()
         {
+            if (this.preliveStatus.Equals("down"))
+            {
+                Assert.Ignore();
+            }
+
             var cnpIC = new cnpRequest(_invalidConfig);
 
             var cnpBatchRequest = new batchRequest();
@@ -1256,6 +1283,11 @@ namespace Cnp.Sdk.Test.Functional
         [Test]
         public void InvalidSftpCredientialsBatch()
         {
+            if (this.preliveStatus.Equals("down"))
+            {
+                Assert.Ignore();
+            }
+
             var cnpIsc = new cnpRequest(_invalidSftpConfig);
 
             var cnpBatchRequest = new batchRequest();
@@ -1508,6 +1540,11 @@ namespace Cnp.Sdk.Test.Functional
         [Test]
         public void SimpleBatchWithSpecialCharacters()
         {
+            if (this.preliveStatus.Equals("down"))
+            {
+                Assert.Ignore();
+            }
+
             var cnpBatchRequest = new batchRequest();
 
             var authorization = new authorization();
