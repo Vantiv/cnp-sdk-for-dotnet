@@ -13,46 +13,49 @@ namespace Cnp.Sdk.Test.Functional
         private cnpRequest _cnp;
         private Dictionary<string, string> _invalidConfig;
         private Dictionary<string, string> _invalidSftpConfig;
+        private string preliveStatus;
 
         [TestFixtureSetUp]
         public void SetUp()
         {
             CommManager.reset();
-            _invalidConfig = new Dictionary<string, string>();
-            _invalidConfig["url"] = Properties.Settings.Default.url;
-            _invalidConfig["reportGroup"] = Properties.Settings.Default.reportGroup;
+            ConfigManager invalidConfigManager = new ConfigManager();
+            _invalidConfig = invalidConfigManager.getConfig();
+            //_invalidConfig = new Dictionary<string, string>();
+            //_invalidConfig["url"] = Properties.Settings.Default.url;
+            //_invalidConfig["reportGroup"] = Properties.Settings.Default.reportGroup;
             _invalidConfig["username"] = "badUsername";
-            _invalidConfig["printxml"] = Properties.Settings.Default.printxml;
-            _invalidConfig["timeout"] = Properties.Settings.Default.timeout;
-            _invalidConfig["proxyHost"] = Properties.Settings.Default.proxyHost;
-            _invalidConfig["merchantId"] = Properties.Settings.Default.merchantId;
+            //_invalidConfig["printxml"] = Properties.Settings.Default.printxml;
+            //_invalidConfig["timeout"] = Properties.Settings.Default.timeout;
+            //_invalidConfig["proxyHost"] = Properties.Settings.Default.proxyHost;
+            //_invalidConfig["merchantId"] = Properties.Settings.Default.merchantId;
             _invalidConfig["password"] = "badPassword";
-            _invalidConfig["proxyPort"] = Properties.Settings.Default.proxyPort;
-            _invalidConfig["sftpUrl"] = Properties.Settings.Default.sftpUrl;
-            _invalidConfig["sftpUsername"] = Properties.Settings.Default.sftpUsername;
-            _invalidConfig["sftpPassword"] = Properties.Settings.Default.sftpPassword;
-            _invalidConfig["knownHostsFile"] = Properties.Settings.Default.knownHostsFile;
-            _invalidConfig["requestDirectory"] = Properties.Settings.Default.requestDirectory;
-            _invalidConfig["responseDirectory"] = Properties.Settings.Default.responseDirectory;
+            //_invalidConfig["proxyPort"] = Properties.Settings.Default.proxyPort;
+            //_invalidConfig["sftpUrl"] = Properties.Settings.Default.sftpUrl;
+            //_invalidConfig["sftpUsername"] = Properties.Settings.Default.sftpUsername;
+            //_invalidConfig["sftpPassword"] = Properties.Settings.Default.sftpPassword;
+            //_invalidConfig["knownHostsFile"] = Properties.Settings.Default.knownHostsFile;
+            //_invalidConfig["requestDirectory"] = Properties.Settings.Default.requestDirectory;
+            //_invalidConfig["responseDirectory"] = Properties.Settings.Default.responseDirectory;
             _invalidConfig["useEncryption"] = "false";
-           
 
-            _invalidSftpConfig = new Dictionary<string, string>();
-            _invalidSftpConfig["url"] = Properties.Settings.Default.url;
-            _invalidSftpConfig["reportGroup"] = Properties.Settings.Default.reportGroup;
-            _invalidSftpConfig["username"] = Properties.Settings.Default.username;
-            _invalidSftpConfig["printxml"] = Properties.Settings.Default.printxml;
-            _invalidSftpConfig["timeout"] = Properties.Settings.Default.timeout;
-            _invalidSftpConfig["proxyHost"] = Properties.Settings.Default.proxyHost;
-            _invalidSftpConfig["merchantId"] = Properties.Settings.Default.merchantId;
-            _invalidSftpConfig["password"] = Properties.Settings.Default.password;
-            _invalidSftpConfig["proxyPort"] = Properties.Settings.Default.proxyPort;
-            _invalidSftpConfig["sftpUrl"] = Properties.Settings.Default.sftpUrl;
+            _invalidSftpConfig = invalidConfigManager.getConfig();
+            //_invalidSftpConfig = new Dictionary<string, string>();
+            //_invalidSftpConfig["url"] = Properties.Settings.Default.url;
+            //_invalidSftpConfig["reportGroup"] = Properties.Settings.Default.reportGroup;
+            //_invalidSftpConfig["username"] = Properties.Settings.Default.username;
+            //_invalidSftpConfig["printxml"] = Properties.Settings.Default.printxml;
+            //_invalidSftpConfig["timeout"] = Properties.Settings.Default.timeout;
+            //_invalidSftpConfig["proxyHost"] = Properties.Settings.Default.proxyHost;
+            //_invalidSftpConfig["merchantId"] = Properties.Settings.Default.merchantId;
+            //_invalidSftpConfig["password"] = Properties.Settings.Default.password;
+            //_invalidSftpConfig["proxyPort"] = Properties.Settings.Default.proxyPort;
+            //_invalidSftpConfig["sftpUrl"] = Properties.Settings.Default.sftpUrl;
             _invalidSftpConfig["sftpUsername"] = "badSftpUsername";
             _invalidSftpConfig["sftpPassword"] = "badSftpPassword";
-            _invalidSftpConfig["knownHostsFile"] = Properties.Settings.Default.knownHostsFile;
-            _invalidSftpConfig["requestDirectory"] = Properties.Settings.Default.requestDirectory;
-            _invalidSftpConfig["responseDirectory"] = Properties.Settings.Default.responseDirectory;
+            //_invalidSftpConfig["knownHostsFile"] = Properties.Settings.Default.knownHostsFile;
+            //_invalidSftpConfig["requestDirectory"] = Properties.Settings.Default.requestDirectory;
+            //_invalidSftpConfig["responseDirectory"] = Properties.Settings.Default.responseDirectory;
             _invalidSftpConfig["useEncryption"] = "false";
         }
 
@@ -61,11 +64,17 @@ namespace Cnp.Sdk.Test.Functional
         {
             CommManager.reset();
             _cnp = new cnpRequest();
+            this.preliveStatus = Environment.GetEnvironmentVariable("preliveStatus");
         }
 
         [Test]
         public void SimpleBatch()
         {
+            if (this.preliveStatus.Equals("down"))
+            {
+                Assert.Ignore();
+            }
+
             var cnpBatchRequest = new batchRequest();
 
             var authorization = new authorization
@@ -608,6 +617,11 @@ namespace Cnp.Sdk.Test.Functional
         [Test]
         public void AccountUpdateBatch()
         {
+            if (this.preliveStatus.Equals("down"))
+            {
+                Assert.Ignore();
+            }
+
             var cnpBatchRequest = new batchRequest();
 
             var accountUpdate1 = new accountUpdate();
@@ -656,6 +670,11 @@ namespace Cnp.Sdk.Test.Functional
         [Test]
         public void RFRBatch()
         {
+            if (this.preliveStatus.Equals("down"))
+            {
+                Assert.Ignore();
+            }
+
             var cnpBatchRequest = new batchRequest();
             cnpBatchRequest.id = "1234567A";
 
@@ -733,6 +752,11 @@ namespace Cnp.Sdk.Test.Functional
         [Test]
         public void NullBatchData()
         {
+            if (this.preliveStatus.Equals("down"))
+            {
+                Assert.Ignore();
+            }
+
             var cnpBatchRequest = new batchRequest();
 
             var authorization = new authorization();
@@ -960,6 +984,11 @@ namespace Cnp.Sdk.Test.Functional
         [Test]
         public void InvalidCredientialsBatch()
         {
+            if (this.preliveStatus.Equals("down"))
+            {
+                Assert.Ignore();
+            }
+
             var cnpIC = new cnpRequest(_invalidConfig);
 
             var cnpBatchRequest = new batchRequest();
@@ -1254,6 +1283,11 @@ namespace Cnp.Sdk.Test.Functional
         [Test]
         public void InvalidSftpCredientialsBatch()
         {
+            if (this.preliveStatus.Equals("down"))
+            {
+                Assert.Ignore();
+            }
+
             var cnpIsc = new cnpRequest(_invalidSftpConfig);
 
             var cnpBatchRequest = new batchRequest();
@@ -1506,6 +1540,11 @@ namespace Cnp.Sdk.Test.Functional
         [Test]
         public void SimpleBatchWithSpecialCharacters()
         {
+            if (this.preliveStatus.Equals("down"))
+            {
+                Assert.Ignore();
+            }
+
             var cnpBatchRequest = new batchRequest();
 
             var authorization = new authorization();

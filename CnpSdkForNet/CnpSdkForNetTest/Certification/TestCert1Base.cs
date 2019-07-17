@@ -27,8 +27,9 @@ namespace Cnp.Sdk.Test.Certification
             config.Add("neuterAccountNums", null);
             config.Add("proxyHost", Properties.Settings.Default.proxyHost);
             config.Add("proxyPort", Properties.Settings.Default.proxyPort);
-            config.Add("multiSite", "true");
-            cnp = new CnpOnline(config);
+            config.Add("multiSite", "true");     
+            ConfigManager configManager = new ConfigManager(config);
+            cnp = new CnpOnline(configManager.getConfig());
         }
 
 

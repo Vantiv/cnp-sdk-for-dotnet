@@ -301,18 +301,20 @@ namespace Cnp.Sdk.Test.Unit
                 }
             };
 
-            Dictionary<string, string> config = new Dictionary<string, string>();
-            config["url"] = Properties.Settings.Default.url;
-            config["reportGroup"] = Properties.Settings.Default.reportGroup;
-            config["username"] = Properties.Settings.Default.username;
-            config["printxml"] = Properties.Settings.Default.printxml;
-            config["timeout"] = Properties.Settings.Default.timeout;
+            ConfigManager configManager = new ConfigManager();
+            //Dictionary<string, string> config = new Dictionary<string, string>();
+            Dictionary<string, string> config = configManager.getConfig();
+            //config["url"] = Properties.Settings.Default.url;
+            //config["reportGroup"] = Properties.Settings.Default.reportGroup;
+            //config["username"] = Properties.Settings.Default.username;
+            //config["printxml"] = Properties.Settings.Default.printxml;
+            //config["timeout"] = Properties.Settings.Default.timeout;
             config["proxyHost"] = "somegarbage";
-            config["merchantId"] = Properties.Settings.Default.merchantId;
-            config["password"] = Properties.Settings.Default.password;
+            //config["merchantId"] = Properties.Settings.Default.merchantId;
+            //config["password"] = Properties.Settings.Default.password;
             config["proxyPort"] = "123";
-            config["logFile"] = Properties.Settings.Default.logFile;
-            config["neuterAccountNums"] = Properties.Settings.Default.neuterAccountNums;
+            //config["logFile"] = Properties.Settings.Default.logFile;
+            //config["neuterAccountNums"] = Properties.Settings.Default.neuterAccountNums;
 
             CnpOnline tempCnp = new CnpOnline(config);
 

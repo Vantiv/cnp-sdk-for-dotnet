@@ -54,7 +54,10 @@ namespace Cnp.Sdk.Test.Functional
             };
             var response = _cnp.Authorize(authorization);
 
+            DateTime checkDate = new DateTime(0001, 1, 1, 00, 00, 00);
+
             Assert.AreEqual("000", response.response);
+            Assert.AreEqual(checkDate, response.postDate);
         }
 
         [Test]
