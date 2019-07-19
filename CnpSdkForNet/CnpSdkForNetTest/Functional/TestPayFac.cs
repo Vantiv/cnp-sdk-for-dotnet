@@ -1,5 +1,6 @@
 ﻿using System.Collections.Generic;
 using NUnit.Framework;
+using System.Threading;
 
 namespace Cnp.Sdk.Test.Functional
 {
@@ -51,6 +52,25 @@ namespace Cnp.Sdk.Test.Functional
         }
 
         [Test]
+        public void TestPayFacCreditAsync()
+        {
+            var payFacCredit = new payFacCredit
+            {
+                // attributes.
+                id = "1",
+                reportGroup = "Default Report Group",
+                // required child elements.
+                amount = 1500,
+                fundingSubmerchantId = "value for fundingSubmerchantId",
+                fundsTransferId = "value for fundsTransferId"
+            };
+
+            CancellationToken cancellationToken = new CancellationToken(false);
+            var response = _cnp.PayFacCreditAsync(payFacCredit, cancellationToken);
+            Assert.AreEqual("000", response.Result.response);
+        }
+
+        [Test]
         public void PayFacDebit()
         {
             var payFacDebit = new payFacDebit
@@ -66,6 +86,25 @@ namespace Cnp.Sdk.Test.Functional
 
             var response = _cnp.PayFacDebit(payFacDebit);
             Assert.AreEqual("000", response.response);
+        }
+
+        [Test]
+        public void TestPayFacDebitAsync()
+        {
+            var payFacDebit = new payFacDebit
+            {
+                // attributes.
+                id = "1",
+                reportGroup = "Planets",
+                // required child elements.
+                amount = 1500,
+                fundingSubmerchantId = "value for fundingSubmerchantId",
+                fundsTransferId = "value for fundsTransferId"
+            };
+
+            CancellationToken cancellationToken = new CancellationToken(false);
+            var response = _cnp.PayFacDebitAsync(payFacDebit, cancellationToken);
+            Assert.AreEqual("000", response.Result.response);
         }
     }
 }

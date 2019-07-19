@@ -289,9 +289,9 @@ namespace Cnp.Sdk
             get { return taxTypeField; }
             set { taxTypeField = value; taxTypeSet = true; }
         }
-        private processingTypeEnum processingTypeField;
+        private processingType processingTypeField;
         private bool processingTypeSet;
-        public processingTypeEnum processingType
+        public processingType processingType
         {
             get { return processingTypeField; }
             set { processingTypeField = value; processingTypeSet = true; }
@@ -504,7 +504,7 @@ namespace Cnp.Sdk
                 {
                     xml += "\r\n<wallet>" + wallet.Serialize() + "\r\n</wallet>";
                 }
-                if (processingTypeSet && processingType != processingTypeEnum.undefined)
+                if (processingTypeSet && processingType != processingType.undefined)
                 {
                     xml += "\r\n<processingType>" + processingTypeField + "</processingType>";
                 }
@@ -746,9 +746,9 @@ namespace Cnp.Sdk
                 debtRepaymentSet = true;
             }
         }
-        private processingTypeEnum processingTypeField;
+        private processingType processingTypeField;
         private bool processingTypeSet;
-        public processingTypeEnum processingType
+        public processingType processingType
         {
             get { return processingTypeField; }
             set { processingTypeField = value; processingTypeSet = true; }
@@ -861,7 +861,7 @@ namespace Cnp.Sdk
             {
                 xml += "\r\n<debtRepayment>" + debtRepayment.ToString().ToLower() + "</debtRepayment>";
             }
-            if (processingTypeSet && processingType != processingTypeEnum.undefined)
+            if (processingTypeSet && processingType != processingType.undefined)
             {
                 xml += "\r\n<processingType>" + processingType + "</processingType>";
             }
@@ -1490,9 +1490,9 @@ namespace Cnp.Sdk
                 debtRepaymentSet = true;
             }
         }
-        private processingTypeEnum processingTypeField;
+        private processingType processingTypeField;
         private bool processingTypeSet;
-        public processingTypeEnum processingType
+        public processingType processingType
         {
             get { return processingTypeField; }
             set { processingTypeField = value; processingTypeSet = true; }
@@ -1568,7 +1568,7 @@ namespace Cnp.Sdk
             {
                 xml += "\r\n<debtRepayment>" + debtRepayment.ToString().ToLower() + "</debtRepayment>";
             }
-            if (processingTypeSet && processingType != processingTypeEnum.undefined)
+            if (processingTypeSet && processingType != processingType.undefined)
             {
                 xml += "\r\n<processingType>" + processingType + "</processingType>";
             }
@@ -2072,9 +2072,9 @@ namespace Cnp.Sdk
         }
         public advancedFraudChecksType advancedFraudChecks;
         public wallet wallet;
-        private processingTypeEnum processingTypeField;
+        private processingType processingTypeField;
         private bool processingTypeSet;
-        public processingTypeEnum processingType
+        public processingType processingType
         {
             get { return processingTypeField; }
             set { processingTypeField = value; processingTypeSet = true; }
@@ -2263,7 +2263,7 @@ namespace Cnp.Sdk
             {
                 xml += "\r\n<wallet>" + wallet.Serialize() + "\r\n</wallet>";
             }
-            if (processingTypeSet && processingType != processingTypeEnum.undefined)
+            if (processingTypeSet && processingType != processingType.undefined)
             {
                 xml += "\r\n<processingType>" + processingType + "</processingType>";
             }
@@ -3357,8 +3357,10 @@ namespace Cnp.Sdk
         public string checkoutId
         {
             get { return checkoutIdField; }
-            set {checkoutIdField = value; checkoutIdSet = true; }
-        }
+            set { checkoutIdField = value;
+                checkoutIdSet = true;
+            }
+        } 
 
         public string Serialize()
         {
@@ -4929,7 +4931,7 @@ namespace Cnp.Sdk
         details_change
     }
 
-    public enum processingTypeEnum
+    public enum processingType
     {
         undefined,
         accountFunding,

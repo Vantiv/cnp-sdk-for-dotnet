@@ -98,22 +98,23 @@ namespace Cnp.Sdk
         public batchRequest()
         {
             config = new Dictionary<string, string>();
-
-            config["url"] = Properties.Settings.Default.url;
-            config["reportGroup"] = Properties.Settings.Default.reportGroup;
-            config["username"] = Properties.Settings.Default.username;
-            config["printxml"] = Properties.Settings.Default.printxml;
-            config["timeout"] = Properties.Settings.Default.timeout;
-            config["proxyHost"] = Properties.Settings.Default.proxyHost;
-            config["merchantId"] = Properties.Settings.Default.merchantId;
-            config["password"] = Properties.Settings.Default.password;
-            config["proxyPort"] = Properties.Settings.Default.proxyPort;
-            config["sftpUrl"] = Properties.Settings.Default.sftpUrl;
-            config["sftpUsername"] = Properties.Settings.Default.sftpUsername;
-            config["sftpPassword"] = Properties.Settings.Default.sftpPassword;
-            config["knownHostsFile"] = Properties.Settings.Default.knownHostsFile;
-            config["requestDirectory"] = Properties.Settings.Default.requestDirectory;
-            config["responseDirectory"] = Properties.Settings.Default.responseDirectory;
+            ConfigManager configManager = new ConfigManager();
+            config = configManager.getConfig();
+            //config["url"] = Properties.Settings.Default.url;
+            //config["reportGroup"] = Properties.Settings.Default.reportGroup;
+            //config["username"] = Properties.Settings.Default.username;
+            //config["printxml"] = Properties.Settings.Default.printxml;
+            //config["timeout"] = Properties.Settings.Default.timeout;
+            //config["proxyHost"] = Properties.Settings.Default.proxyHost;
+            //config["merchantId"] = Properties.Settings.Default.merchantId;
+            //config["password"] = Properties.Settings.Default.password;
+            //config["proxyPort"] = Properties.Settings.Default.proxyPort;
+            //config["sftpUrl"] = Properties.Settings.Default.sftpUrl;
+            //config["sftpUsername"] = Properties.Settings.Default.sftpUsername;
+            //config["sftpPassword"] = Properties.Settings.Default.sftpPassword;
+            //config["knownHostsFile"] = Properties.Settings.Default.knownHostsFile;
+            //config["requestDirectory"] = Properties.Settings.Default.requestDirectory;
+            //config["responseDirectory"] = Properties.Settings.Default.responseDirectory;
 
             initializeRequest();
         }
@@ -1595,22 +1596,23 @@ namespace Cnp.Sdk
         public RFRRequest()
         {
             config = new Dictionary<string, string>();
-
-            config["url"] = Properties.Settings.Default.url;
-            config["reportGroup"] = Properties.Settings.Default.reportGroup;
-            config["username"] = Properties.Settings.Default.username;
-            config["printxml"] = Properties.Settings.Default.printxml;
-            config["timeout"] = Properties.Settings.Default.timeout;
-            config["proxyHost"] = Properties.Settings.Default.proxyHost;
-            config["merchantId"] = Properties.Settings.Default.merchantId;
-            config["password"] = Properties.Settings.Default.password;
-            config["proxyPort"] = Properties.Settings.Default.proxyPort;
-            config["sftpUrl"] = Properties.Settings.Default.sftpUrl;
-            config["sftpUsername"] = Properties.Settings.Default.sftpUsername;
-            config["sftpPassword"] = Properties.Settings.Default.sftpPassword;
-            config["knownHostsFile"] = Properties.Settings.Default.knownHostsFile;
-            config["requestDirectory"] = Properties.Settings.Default.requestDirectory;
-            config["responseDirectory"] = Properties.Settings.Default.responseDirectory;
+            ConfigManager configManager = new ConfigManager();
+            config = configManager.getConfig();
+            //config["url"] = Properties.Settings.Default.url;
+            //config["reportGroup"] = Properties.Settings.Default.reportGroup;
+            //config["username"] = Properties.Settings.Default.username;
+            //config["printxml"] = Properties.Settings.Default.printxml;
+            //config["timeout"] = Properties.Settings.Default.timeout;
+            //config["proxyHost"] = Properties.Settings.Default.proxyHost;
+            //config["merchantId"] = Properties.Settings.Default.merchantId;
+            //config["password"] = Properties.Settings.Default.password;
+            //config["proxyPort"] = Properties.Settings.Default.proxyPort;
+            //config["sftpUrl"] = Properties.Settings.Default.sftpUrl;
+            //config["sftpUsername"] = Properties.Settings.Default.sftpUsername;
+            //config["sftpPassword"] = Properties.Settings.Default.sftpPassword;
+            //config["knownHostsFile"] = Properties.Settings.Default.knownHostsFile;
+            //config["requestDirectory"] = Properties.Settings.Default.requestDirectory;
+            //config["responseDirectory"] = Properties.Settings.Default.responseDirectory;
 
             cnpTime = new cnpTime();
             cnpFile = new cnpFile();

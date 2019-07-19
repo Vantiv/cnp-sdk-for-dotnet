@@ -135,7 +135,7 @@ namespace Cnp.Sdk.Test.Unit
             capture.amount = 2;
             capture.orderSource = orderSourceType.ecommerce;
             capture.reportGroup = "Planets";
-            capture.processingType = processingTypeEnum.initialRecurring;
+            capture.processingType = processingType.initialRecurring;
             
 
             var mock = new Mock<Communications>();
@@ -155,7 +155,7 @@ namespace Cnp.Sdk.Test.Unit
             capture.amount = 2;
             capture.orderSource = orderSourceType.ecommerce;
             capture.reportGroup = "Planets";
-            capture.processingType = processingTypeEnum.undefined;
+            capture.processingType = processingType.undefined;
 
 
             var mock = new Mock<Communications>();

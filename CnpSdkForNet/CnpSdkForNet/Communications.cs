@@ -98,7 +98,7 @@ namespace Cnp.Sdk
                 logFile = config["logFile"];
             }
 
-            RequestTarget reqTarget = CommManager.instance().findUrl();
+            RequestTarget reqTarget = CommManager.instance(config).findUrl();
             var uri = reqTarget.getUrl();
             ServicePointManager.SecurityProtocol = ServicePointManager.SecurityProtocol | SecurityProtocolType.Tls12 | SecurityProtocolType.Tls11;
             var request = (HttpWebRequest)WebRequest.Create(uri);
@@ -156,7 +156,7 @@ namespace Cnp.Sdk
             string xmlResponse = null;
             var response = await request.GetResponseAsync().ConfigureAwait(false);
             HttpWebResponse httpResp = (HttpWebResponse)response;
-            CommManager.instance().reportResult(reqTarget, CommManager.REQUEST_RESULT_RESPONSE_RECEIVED, Int32.Parse(httpResp.StatusCode.ToString()));
+            CommManager.instance().reportResult(reqTarget, CommManager.REQUEST_RESULT_RESPONSE_RECEIVED, ((int)(httpResp.StatusCode)));
             try
             {
                 using (var reader = new StreamReader(response.GetResponseStream()))

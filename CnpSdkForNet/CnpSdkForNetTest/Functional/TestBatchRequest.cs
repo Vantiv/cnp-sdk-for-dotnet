@@ -12,17 +12,24 @@ namespace Cnp.Sdk.Test.Functional
     class TestBatchRequest
     {
         private cnpRequest cnp;
+        private string preliveStatus;
 
         [SetUp]
         public void setUpBeforeTest()
         {
             CommManager.reset();
             cnp = new cnpRequest();
+            this.preliveStatus = Environment.GetEnvironmentVariable("preliveStatus");
         }
 
         [Test]
         public void SimpleBatch()
         {
+            if (this.preliveStatus.Equals("down"))
+            {
+                Assert.Ignore();
+            }
+
             var cnpBatchRequest = new batchRequest();
 
             var authorization = new authorization
@@ -564,26 +571,33 @@ namespace Cnp.Sdk.Test.Functional
         [Ignore("ctxAll returns bad response code")]
         public void ctxAll()
         {
-            
+
+            if (this.preliveStatus.Equals("down"))
+            {
+                Assert.Ignore();
+            }
+
             CommManager.reset();
             
             Dictionary<string, string>  _config = new Dictionary<string, string>();
-            _config["merchantId"] = Environment.GetEnvironmentVariable("payfacMerchantId_v12_7");
-            _config["username"] = Environment.GetEnvironmentVariable("payfacUsername_v12_7");
-            _config["password"] = Environment.GetEnvironmentVariable("payfacPassword_v12_7");
-            _config["sftpUsername"] = Environment.GetEnvironmentVariable("payfacSftpUsername_v12_7");
-            _config["sftpPassword"] = Environment.GetEnvironmentVariable("payfacSftpPassword_v12_7");
-            _config["url"] = Properties.Settings.Default.url;
-            _config["reportGroup"] = Properties.Settings.Default.reportGroup;
-            _config["printxml"] = Properties.Settings.Default.printxml;
-            _config["timeout"] = Properties.Settings.Default.timeout;
-            _config["proxyHost"] = Properties.Settings.Default.proxyHost;
-            _config["proxyPort"] = Properties.Settings.Default.proxyPort;
-            _config["sftpUrl"] = Properties.Settings.Default.sftpUrl;
-            _config["knownHostsFile"] = Properties.Settings.Default.knownHostsFile;
-            _config["requestDirectory"] = Properties.Settings.Default.requestDirectory;
-            _config["responseDirectory"] = Properties.Settings.Default.responseDirectory;
-            _config["useEncryption"] = "false";
+            ConfigManager configManager = new ConfigManager();
+            _config = configManager.getConfig();
+            //_config["merchantId"] = Environment.GetEnvironmentVariable("payfacMerchantId_v12_7");
+            //_config["username"] = Environment.GetEnvironmentVariable("payfacUsername_v12_7");
+            //_config["password"] = Environment.GetEnvironmentVariable("payfacPassword_v12_7");
+            //_config["sftpUsername"] = Environment.GetEnvironmentVariable("payfacSftpUsername_v12_7");
+            //_config["sftpPassword"] = Environment.GetEnvironmentVariable("payfacSftpPassword_v12_7");
+            //_config["url"] = Properties.Settings.Default.url;
+            //_config["reportGroup"] = Properties.Settings.Default.reportGroup;
+            //_config["printxml"] = Properties.Settings.Default.printxml;
+            //_config["timeout"] = Properties.Settings.Default.timeout;
+            //_config["proxyHost"] = Properties.Settings.Default.proxyHost;
+            //_config["proxyPort"] = Properties.Settings.Default.proxyPort;
+            //_config["sftpUrl"] = Properties.Settings.Default.sftpUrl;
+            //_config["knownHostsFile"] = Properties.Settings.Default.knownHostsFile;
+            //_config["requestDirectory"] = Properties.Settings.Default.requestDirectory;
+            //_config["responseDirectory"] = Properties.Settings.Default.responseDirectory;
+            //_config["useEncryption"] = "false";
 
             var cnpBatchRequest = new batchRequest(_config);
 
@@ -714,6 +728,11 @@ namespace Cnp.Sdk.Test.Functional
         [Ignore("Fast access funding not setup for test merchant")]
         public void simpleBatchWithJustFastAccessFunding()
         {
+            if (this.preliveStatus.Equals("down"))
+            {
+                Assert.Ignore();
+            }
+
             var cnpBatchRequest = new batchRequest();
             var fastAccessFunding = new fastAccessFunding();
             fastAccessFunding.id = "id";

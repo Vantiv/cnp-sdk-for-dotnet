@@ -4,8 +4,13 @@
 ==Version 12.8.0 (June 20, 2019)
 * Feature: Added new tokenURL element
 
-==Version 12.7.4 (June 11, 2019)
+==Version 12.7.5 (July 17, 2019)
+* BugFix: Refactor config code to limit direct property usage
+
+==Version 12.7.4 (June 27, 2019)
 * BugFix: Changing the checkoutIdType field to checkoutId field to align with our eProtect Solution
+* BugFix: Changed the processing of async functions to properly cast enum response to an integer
+* Feature: Renamed processingTypeEnum field to processingType
 
 ==Version 12.7.3 (Mar 28, 2019)
 * BugFix: Changing the recyclingType to recyclingResponseType
