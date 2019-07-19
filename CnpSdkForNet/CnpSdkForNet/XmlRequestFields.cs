@@ -68,9 +68,9 @@ namespace Cnp.Sdk
         {
             // Create header for the cnpOnlineRequest with user credential.
             var xml = "<?xml version='1.0' encoding='utf-8'?>\r\n<cnpOnlineRequest merchantId=\"" + merchantId
-                + "\" version=\"12.7\" merchantSdk=\"" + merchantSdk + "\" xmlns=\"http://www.vantivcnp.com/schema\">"
+                + "\" version=\"12.8\" merchantSdk=\"" + merchantSdk + "\" xmlns=\"http://www.vantivcnp.com/schema\">"
                 + authentication.Serialize();
-            
+
             // Because an online request can contain only one transaction, it assumes that only one instance variable of 
             // this cnpOnlineRequest is not null, and the rest are null.
             if (authorization != null) xml += authorization.Serialize();
@@ -119,7 +119,7 @@ namespace Cnp.Sdk
             else if (submerchantDebit != null) xml += submerchantDebit.Serialize();
             else if (vendorCredit != null) xml += vendorCredit.Serialize();
             else if (vendorDebit != null) xml += vendorDebit.Serialize();
-            else if(translateToLowValueTokenRequest != null) xml += translateToLowValueTokenRequest.Serialize();
+            else if (translateToLowValueTokenRequest != null) xml += translateToLowValueTokenRequest.Serialize();
             xml += "\r\n</cnpOnlineRequest>";
 
             return xml;
@@ -136,9 +136,9 @@ namespace Cnp.Sdk
             return "\r\n<authentication>\r\n<user>" + SecurityElement.Escape(user) + "</user>\r\n<password>" + SecurityElement.Escape(password) + "</password>\r\n</authentication>";
         }
     }
-    
+
     #region Supported Transactions.
-    
+
     // Activate Transaction.
     public partial class activate : transactionTypeWithReportGroup
     {
@@ -166,7 +166,7 @@ namespace Cnp.Sdk
             return xml;
         }
     }
-    
+
     // Activate Reversal Transaction.
     public partial class activateReversal : transactionTypeWithReportGroup
     {
@@ -232,7 +232,7 @@ namespace Cnp.Sdk
             return xml;
         }
     }
-    
+
     // Authorization Transaction.
     public partial class authorization : transactionTypeWithReportGroup
     {
@@ -294,7 +294,7 @@ namespace Cnp.Sdk
         public processingType processingType
         {
             get { return processingTypeField; }
-            set { processingTypeField = value;  processingTypeSet = true; }
+            set { processingTypeField = value; processingTypeSet = true; }
         }
         public enhancedData enhancedData;
         public amexAggregatorData amexAggregatorData;
@@ -518,12 +518,12 @@ namespace Cnp.Sdk
                 }
 
             }
-            
+
             xml += "\r\n</authorization>";
             return xml;
         }
     }
-    
+
     // Authorization Reversal Transaction.
     public partial class authReversal : transactionTypeWithReportGroup
     {
@@ -573,7 +573,7 @@ namespace Cnp.Sdk
         }
 
     }
-    
+
     // Balance Inquiry Transaction.
     public partial class balanceInquiry : transactionTypeWithReportGroup
     {
@@ -597,7 +597,7 @@ namespace Cnp.Sdk
             return xml;
         }
     }
-    
+
     // Cancel Subscription Transaction.
     public partial class cancelSubscription : recurringTransactionType
     {
@@ -624,7 +624,7 @@ namespace Cnp.Sdk
             return xml;
         }
     }
-    
+
     // Capture Transaction.
     public partial class capture : transactionTypeWithReportGroupAndPartial
     {
@@ -689,7 +689,7 @@ namespace Cnp.Sdk
             return xml;
         }
     }
-    
+
     // Capture Given Auth Transaction.
     public partial class captureGivenAuth : transactionTypeWithReportGroup
     {
@@ -877,7 +877,7 @@ namespace Cnp.Sdk
             return xml;
         }
     }
-    
+
     // Create Plan Transaction.
     public partial class createPlan : recurringTransactionType
     {
@@ -913,7 +913,7 @@ namespace Cnp.Sdk
 
         private trialIntervalType trialIntervalTypeField;
         private bool trialIntervalTypeSet;
-        public trialIntervalType trialIntervalType 
+        public trialIntervalType trialIntervalType
         {
             get { return trialIntervalTypeField; }
             set { trialIntervalTypeField = value; trialIntervalTypeSet = true; }
@@ -943,7 +943,7 @@ namespace Cnp.Sdk
             return xml;
         }
     }
-    
+
     // Credit Transaction.
     public partial class credit : transactionTypeWithReportGroup
     {
@@ -1067,7 +1067,7 @@ namespace Cnp.Sdk
             return xml;
         }
     }
-    
+
     // Deactivate Transaction.
     public partial class deactivate : transactionTypeWithReportGroup
     {
@@ -1091,7 +1091,7 @@ namespace Cnp.Sdk
             return xml;
         }
     }
-    
+
     // Deactivate Reversal Transaction.
     public partial class deactivateReversal : transactionTypeWithReportGroup
     {
@@ -1138,7 +1138,7 @@ namespace Cnp.Sdk
             return xml;
         }
     }
-    
+
     // Deposit Reservsal Transaction.
     public partial class depositReversal : transactionTypeWithReportGroup
     {
@@ -1187,7 +1187,7 @@ namespace Cnp.Sdk
             return xml;
         }
     }
-    
+
     // eCheck Credit Transaction.
     public partial class echeckCredit : transactionTypeWithReportGroup
     {
@@ -1266,7 +1266,7 @@ namespace Cnp.Sdk
             return xml;
         }
     }
-    
+
     // eCheck Redeposit Transaction.
     public partial class echeckRedeposit : baseRequestTransactionEcheckRedeposit
     {
@@ -1294,7 +1294,7 @@ namespace Cnp.Sdk
             return xml;
         }
     }
-    
+
     // eCheck Sale Transaction.
     public partial class echeckSale : transactionTypeWithReportGroup
     {
@@ -1415,7 +1415,7 @@ namespace Cnp.Sdk
             return xml;
         }
     }
-    
+
     // eCheck Void Transaction.
     public partial class echeckVoid : transactionTypeWithReportGroup
     {
@@ -1436,7 +1436,7 @@ namespace Cnp.Sdk
         }
 
     }
-    
+
     // Force Capture Transaction.
     public partial class forceCapture : transactionTypeWithReportGroup
     {
@@ -1576,7 +1576,7 @@ namespace Cnp.Sdk
             return xml;
         }
     }
-    
+
     // Fraud Check Transaction. [Online]
     public partial class fraudCheckType
     {
@@ -1601,7 +1601,7 @@ namespace Cnp.Sdk
             return xml;
         }
     }
-    
+
     // Gift Card Auth Reversal Transaction.
     public partial class giftCardAuthReversal : transactionTypeWithReportGroup
     {
@@ -1680,7 +1680,7 @@ namespace Cnp.Sdk
             return xml;
         }
     }
-    
+
     // Gift Card Capture Transaction.
     public partial class giftCardCapture : transactionTypeWithReportGroupAndPartial
     {
@@ -1724,7 +1724,7 @@ namespace Cnp.Sdk
             }
 
             xml += "\r\n<captureAmount>" + captureAmount + "</captureAmount>";
-            
+
             if (card != null)
             {
                 xml += "\r\n<card>" + card.Serialize() + "\r\n</card>";
@@ -1744,7 +1744,7 @@ namespace Cnp.Sdk
             return xml;
         }
     }
-    
+
     // Gift Card Credit Transaction.
     public partial class giftCardCredit : transactionTypeWithReportGroup
     {
@@ -1787,7 +1787,7 @@ namespace Cnp.Sdk
             return xml;
         }
     }
-    
+
     // Load Transaction.
     public partial class load : transactionTypeWithReportGroup
     {
@@ -1813,7 +1813,7 @@ namespace Cnp.Sdk
             return xml;
         }
     }
-    
+
     // Load Reversal Transaction.
     public partial class loadReversal : transactionTypeWithReportGroup
     {
@@ -1862,7 +1862,7 @@ namespace Cnp.Sdk
             return xml;
         }
     }
-    
+
     // Register Token Transaction.
     public partial class registerTokenRequestType : transactionTypeWithReportGroup
     {
@@ -1889,19 +1889,19 @@ namespace Cnp.Sdk
             xml += ">";
             xml += "\r\n<encryptionKeyId>" + encryptionKeyId + "</encryptionKeyId>";
             xml += "\r\n<orderId>" + orderId + "</orderId>";
-            if(mpos != null) xml += "\r\n<mpos>" + mpos.Serialize() + "</mpos>";
+            if (mpos != null) xml += "\r\n<mpos>" + mpos.Serialize() + "</mpos>";
             else if (accountNumber != null) xml += "\r\n<accountNumber>" + accountNumber + "</accountNumber>";
-            else if(encryptedAccountNumber != null) xml += "\r\n<encryptedAccountNumber>" + encryptedAccountNumber + "</encryptedAccountNumber>";
+            else if (encryptedAccountNumber != null) xml += "\r\n<encryptedAccountNumber>" + encryptedAccountNumber + "</encryptedAccountNumber>";
             else if (echeckForToken != null) xml += "\r\n<echeckForToken>" + echeckForToken.Serialize() + "</echeckForToken>";
             else if (paypageRegistrationId != null) xml += "\r\n<paypageRegistrationId>" + paypageRegistrationId + "</paypageRegistrationId>";
             else if (applepay != null) xml += "\r\n<applepay>" + applepay.Serialize() + "\r\n</applepay>";
             if (cardValidationNum != null) xml += "\r\n<cardValidationNum>" + cardValidationNum + "</cardValidationNum>";
-            else if(encryptedCardValidationNum != null) xml += "\r\n<encryptedCardValidationNum>" + encryptedCardValidationNum + "</encryptedCardValidationNum>";
+            else if (encryptedCardValidationNum != null) xml += "\r\n<encryptedCardValidationNum>" + encryptedCardValidationNum + "</encryptedCardValidationNum>";
             xml += "\r\n</registerTokenRequest>";
             return xml;
         }
     }
-    
+
     // Refund Reversal Transaction.
     public partial class refundReversal : transactionTypeWithReportGroup
     {
@@ -1950,7 +1950,7 @@ namespace Cnp.Sdk
             return xml;
         }
     }
-    
+
     // Sale Transaction.
     public partial class sale : transactionTypeWithReportGroup
     {
@@ -2275,7 +2275,7 @@ namespace Cnp.Sdk
             {
                 xml += "\r\n<originalTransactionAmount>" + originalTransactionAmount + "</originalTransactionAmount>";
             }
-            if(pinlessDebitRequest != null)
+            if (pinlessDebitRequest != null)
             {
                 xml += "\r\n<pinlessDebitRequest>" + pinlessDebitRequest.Serialize() + "</pinlessDebitRequest>";
             }
@@ -2293,7 +2293,7 @@ namespace Cnp.Sdk
             return xml;
         }
     }
-    
+
     // Unload Transaction.
     public partial class unload : transactionTypeWithReportGroup
     {
@@ -2319,7 +2319,7 @@ namespace Cnp.Sdk
             return xml;
         }
     }
-    
+
     // Update Card Validation Number Transaction.
     public partial class updateCardValidationNumOnToken : transactionTypeWithReportGroup
     {
@@ -2345,7 +2345,7 @@ namespace Cnp.Sdk
             return xml;
         }
     }
-    
+
     // Update Plan Transaction.
     public partial class updatePlan : recurringTransactionType
     {
@@ -2368,7 +2368,7 @@ namespace Cnp.Sdk
             return xml;
         }
     }
-    
+
     // Update Subscription Transaction.
     public partial class updateSubscription : recurringTransactionType
     {
@@ -2434,7 +2434,7 @@ namespace Cnp.Sdk
             else if (token != null) xml += "\r\n<token>" + token.Serialize() + "\r\n</token>";
             else if (paypage != null) xml += "\r\n<paypage>" + paypage.Serialize() + "\r\n</paypage>";
             if (billingDateSet) xml += "\r\n<billingDate>" + XmlUtil.toXsdDate(billingDateField) + "</billingDate>";
-            foreach (var createDiscount in createDiscounts) 
+            foreach (var createDiscount in createDiscounts)
             {
                 xml += "\r\n<createDiscount>" + createDiscount.Serialize() + "\r\n</createDiscount>";
             }
@@ -2462,7 +2462,7 @@ namespace Cnp.Sdk
             return xml;
         }
     }
-    
+
     // Unload Reversal Transaction.
     public partial class unloadReversal : transactionTypeWithReportGroup
     {
@@ -2511,7 +2511,7 @@ namespace Cnp.Sdk
             return xml;
         }
     }
-    
+
     // Void Transaction.
     public partial class voidTxn : transactionTypeWithReportGroup
     {
@@ -2572,7 +2572,7 @@ namespace Cnp.Sdk
                 xml += " customerId=\"" + SecurityElement.Escape(customerId) + "\"";
             }
             xml += " reportGroup=\"" + SecurityElement.Escape(reportGroup) + "\">";
-            
+
             // The first element of a sequence xml element  represent the sequence element
             if (fundingSubmerchantId != null)
             {
@@ -2590,7 +2590,7 @@ namespace Cnp.Sdk
             return xml;
         }
     }
-    
+
     public enum disbursementTypeEnum
     {
         VAA,
@@ -2706,13 +2706,13 @@ namespace Cnp.Sdk
 
             xml += " reportGroup=\"" + SecurityElement.Escape(reportGroup) + "\">";
 
-            if(origId != null) xml += "\r\n<origId>" + SecurityElement.Escape(origId) + "</origId>";
+            if (origId != null) xml += "\r\n<origId>" + SecurityElement.Escape(origId) + "</origId>";
 
-            if(origActionTypeSet) xml += "\r\n<origActionType>" + origActionTypeField + "</origActionType>";
+            if (origActionTypeSet) xml += "\r\n<origActionType>" + origActionTypeField + "</origActionType>";
 
             if (origCnpTxnId != 0) xml += "\r\n<origCnpTxnId>" + origCnpTxnId + "</origCnpTxnId>";
 
-            if(showStatusOnlySet) xml += "\r\n<showStatusOnly>" + showStatusOnlyField + "</showStatusOnly>";
+            if (showStatusOnlySet) xml += "\r\n<showStatusOnly>" + showStatusOnlyField + "</showStatusOnly>";
 
             xml += "\r\n</queryTransaction>";
 
@@ -3217,7 +3217,7 @@ namespace Cnp.Sdk
         {
             var xml = "";
             var accTypeName = accTypeField.ToString();
-            var attributes = 
+            var attributes =
                 (XmlEnumAttribute[])typeof(echeckAccountTypeEnum).GetMember(accTypeField.ToString())[0].GetCustomAttributes(typeof(XmlEnumAttribute), false);
             if (attributes.Length > 0) accTypeName = attributes[0].Name;
             if (accTypeSet) xml += "\r\n<accType>" + accTypeName + "</accType>";
@@ -3296,7 +3296,7 @@ namespace Cnp.Sdk
             if (entryModeSet) xml += "\r\n<entryMode>" + entryModeField + "</entryMode>";
             if (cardholderIdSet) xml += "\r\n<cardholderId>" + cardholderIdField + "</cardholderId>";
             if (terminalId != null) xml += "\r\n<terminalId>" + SecurityElement.Escape(terminalId) + "</terminalId>";
-            if (catLevelSet) xml += "\r\n<catLevel>" + catLevelField.Serialize() +"</catLevel>";
+            if (catLevelSet) xml += "\r\n<catLevel>" + catLevelField.Serialize() + "</catLevel>";
             return xml;
         }
 
@@ -3304,7 +3304,7 @@ namespace Cnp.Sdk
 
     public partial class payPal
     {
-   
+
         public string payerId;
         public string payerEmail;
         public string token;
@@ -3340,6 +3340,7 @@ namespace Cnp.Sdk
     public partial class cardTokenType
     {
         public string cnpToken;
+        public string tokenUrl;
         public string expDate;
         public string cardValidationNum;
         private methodOfPaymentTypeEnum typeField;
@@ -3359,11 +3360,13 @@ namespace Cnp.Sdk
             set { checkoutIdField = value;
                 checkoutIdSet = true;
             }
-        }    
+        } 
 
         public string Serialize()
         {
-            var xml = "\r\n<cnpToken>" + SecurityElement.Escape(cnpToken) + "</cnpToken>";
+            var xml = "";
+            if (cnpToken != null) xml += "\r\n<cnpToken>" + SecurityElement.Escape(cnpToken) + "</cnpToken>";
+            else if (tokenUrl != null) xml += "\r\n<tokenUrl>" + SecurityElement.Escape(tokenUrl) + "</tokenUrl>";
             if (expDate != null) xml += "\r\n<expDate>" + SecurityElement.Escape(expDate) + "</expDate>";
             if (cardValidationNum != null) xml += "\r\n<cardValidationNum>" + SecurityElement.Escape(cardValidationNum) + "</cardValidationNum>";
             if (typeSet) xml += "\r\n<type>" + methodOfPaymentSerializer.Serialize(typeField) + "</type>";
@@ -3596,7 +3599,7 @@ namespace Cnp.Sdk
             var xml = "";
             if (subscriptionId != null) xml += "\r\n<subscriptionId>" + SecurityElement.Escape(subscriptionId) + "</subscriptionId>";
             if (recurringTxnId != null) xml += "\r\n<recurringTxnId>" + SecurityElement.Escape(recurringTxnId) + "</recurringTxnId>";
-            if(finalPaymentSet) xml += "\r\n<finalPayment>" + finalPaymentField.ToString().ToLower() + "</finalPayment>";
+            if (finalPaymentSet) xml += "\r\n<finalPayment>" + finalPaymentField.ToString().ToLower() + "</finalPayment>";
             return xml;
         }
     }
@@ -3800,10 +3803,10 @@ namespace Cnp.Sdk
         {
             var xml = "";
             xml += "\r\n<planCode>" + planCode + "</planCode>";
-            if(numberOfPaymentsSet) xml += "\r\n<numberOfPayments>" + numberOfPayments + "</numberOfPayments>";
+            if (numberOfPaymentsSet) xml += "\r\n<numberOfPayments>" + numberOfPayments + "</numberOfPayments>";
             if (startDateSet) xml += "\r\n<startDate>" + XmlUtil.toXsdDate(startDateField) + "</startDate>";
-            if(amountSet) xml += "\r\n<amount>" + amountField + "</amount>";
-            foreach(var createDiscount in createDiscounts) 
+            if (amountSet) xml += "\r\n<amount>" + amountField + "</amount>";
+            foreach (var createDiscount in createDiscounts)
             {
                 xml += "\r\n<createDiscount>" + createDiscount.Serialize() + "\r\n</createDiscount>";
             }
@@ -3815,7 +3818,7 @@ namespace Cnp.Sdk
             return xml;
         }
     }
-    
+
     public partial class filteringType
     {
         private bool prepaidField;
@@ -3999,19 +4002,19 @@ namespace Cnp.Sdk
         public string Serialize()
         {
             var xml = "";
-            if(hotelFolioNumber != null) xml +=  "\r\n<hotelFolioNumber>" + SecurityElement.Escape(hotelFolioNumber) + "</hotelFolioNumber>";
+            if (hotelFolioNumber != null) xml += "\r\n<hotelFolioNumber>" + SecurityElement.Escape(hotelFolioNumber) + "</hotelFolioNumber>";
             if (checkInDateSet) xml += "\r\n<checkInDate>" + checkInDate.ToString("yyyy-MM-dd") + "</checkInDate>";
             if (checkOutDateSet) xml += "\r\n<checkOutDate>" + checkOutDate.ToString("yyyy-MM-dd") + "</checkOutDate>";
-            if(durationSet) xml += "\r\n<duration>" + durationField + "</duration>";
+            if (durationSet) xml += "\r\n<duration>" + durationField + "</duration>";
             if (customerServicePhone != null) xml += "\r\n<customerServicePhone>" + SecurityElement.Escape(customerServicePhone) + "</customerServicePhone>";
             xml += "\r\n<programCode>" + programCode + "</programCode>";
             if (roomRateSet) xml += "\r\n<roomRate>" + roomRateField + "</roomRate>";
             if (roomTaxSet) xml += "\r\n<roomTax>" + roomTaxField + "</roomTax>";
             if (numAdultsSet) xml += "\r\n<numAdults>" + numAdultsField + "</numAdults>";
-            if(propertyLocalPhone != null) xml += "\r\n<propertyLocalPhone>" + propertyLocalPhone + "</propertyLocalPhone>";
-            if(fireSafetyIndicatorSet) xml += "\r\n<fireSafetyIndicator>" + fireSafetyIndicatorField + "</fireSafetyIndicator>";
+            if (propertyLocalPhone != null) xml += "\r\n<propertyLocalPhone>" + propertyLocalPhone + "</propertyLocalPhone>";
+            if (fireSafetyIndicatorSet) xml += "\r\n<fireSafetyIndicator>" + fireSafetyIndicatorField + "</fireSafetyIndicator>";
 
-            foreach(var lodgingCharge in lodgingCharges)
+            foreach (var lodgingCharge in lodgingCharges)
             {
                 xml += "\r\n<lodgingCharge>" + lodgingCharge.Serialize() + "</lodgingCharge>";
             }
@@ -4042,7 +4045,7 @@ namespace Cnp.Sdk
         {
             var xml = "";
 
-            if(nameSet) xml += "\r\n<name>" + nameField + "</name>";
+            if (nameSet) xml += "\r\n<name>" + nameField + "</name>";
             return xml;
 
         }
@@ -4454,9 +4457,10 @@ namespace Cnp.Sdk
         public string threatMetrixSessionId;
         private string customAttribute1Field;
         private bool customAttribute1Set;
-        public string customAttribute1 { 
-            get { return customAttribute1Field; } 
-            set { customAttribute1Field = value; customAttribute1Set = true; } 
+        public string customAttribute1
+        {
+            get { return customAttribute1Field; }
+            set { customAttribute1Field = value; customAttribute1Set = true; }
         }
         private string customAttribute2Field;
         private bool customAttribute2Set;
@@ -4500,7 +4504,8 @@ namespace Cnp.Sdk
         }
     }
 
-    public partial class mposType {
+    public partial class mposType
+    {
         public string ksn;
         public string formatId;
         public string encryptedTrack;
@@ -4522,7 +4527,7 @@ namespace Cnp.Sdk
             {
                 xml += "\r\n<encryptedTrack>" + SecurityElement.Escape(encryptedTrack) + "</encryptedTrack>";
             }
-            if (track1Status == 0 || track1Status == 1 )
+            if (track1Status == 0 || track1Status == 1)
             {
                 xml += "\r\n<track1Status>" + track1Status + "</track1Status>";
             }
@@ -4636,7 +4641,7 @@ namespace Cnp.Sdk
         }
 
     }
-    
+
     public class accountUpdate : transactionTypeWithReportGroup
     {
         public string orderId;
@@ -4685,7 +4690,7 @@ namespace Cnp.Sdk
         {
             merchantId = Properties.Settings.Default.merchantId;
         }
-        public accountUpdateFileRequestData(Dictionary<string,string> config) 
+        public accountUpdateFileRequestData(Dictionary<string, string> config)
         {
             merchantId = config["merchantId"];
         }
@@ -4780,7 +4785,7 @@ namespace Cnp.Sdk
         {
             var xml = "";
             if (routingPreferenceSet) xml += "\r\n<routingPreference>" + routingPreferenceField + "</routingPreference>";
-            if(preferredDebitNetworks != null) xml += "\r\n<preferredDebitNetworks>" + preferredDebitNetworks.Serialize() + "</preferredDebitNetworks>";
+            if (preferredDebitNetworks != null) xml += "\r\n<preferredDebitNetworks>" + preferredDebitNetworks.Serialize() + "</preferredDebitNetworks>";
 
             return xml;
 
@@ -4900,16 +4905,16 @@ namespace Cnp.Sdk
         {
             var xml = "\r\n<fraudCheck";
             xml += " id=\"" + SecurityElement.Escape(id) + "\"";
-                if (customerId != null)
-                {
-                    xml += " customerId=\"" + SecurityElement.Escape(customerId) + "\"";
-                }
+            if (customerId != null)
+            {
+                xml += " customerId=\"" + SecurityElement.Escape(customerId) + "\"";
+            }
             xml += " reportGroup=\"" + SecurityElement.Escape(reportGroup) + "\">";
             if (advancedFraudChecks != null) xml += "\r\n<advancedFraudChecks>" + advancedFraudChecks.Serialize() + "\r\n</advancedFraudChecks>";
             if (billToAddressSet) xml += "\r\n<billToAddress>" + billToAddressField.Serialize() + "</billToAddress>";
             if (shipToAddressSet) xml += "\r\n<shipToAddress>" + shipToAddressField.Serialize() + "</shipToAddress>";
             if (amountSet) xml += "\r\n<amount>" + amountField.ToString() + "</amount>";
-            if(eventTypeSet) xml += "\r\n<eventType>" + eventTypeField + "</eventType>";
+            if (eventTypeSet) xml += "\r\n<eventType>" + eventTypeField + "</eventType>";
             if (accountLogin != null) xml += "\r\n<accountLogin>" + SecurityElement.Escape(accountLogin) + "</accountLogin>";
             if (accountPasshash != null) xml += "\r\n<accountPasshash>" + SecurityElement.Escape(accountPasshash) + "</accountPasshash>";
 
@@ -4934,7 +4939,7 @@ namespace Cnp.Sdk
         initialInstallment,
         initialCOF,
         merchantInitiatedCOF,
-        cardholderInitiatedCOF   
+        cardholderInitiatedCOF
     }
 
     public enum mandateProviderType
@@ -4945,11 +4950,11 @@ namespace Cnp.Sdk
 
     public enum sequenceTypeType
     {
-            OneTime,
-            FirstRecurring,
-            SubsequentRecurring,
-            FinalRecurring
-     }
+        OneTime,
+        FirstRecurring,
+        SubsequentRecurring,
+        FinalRecurring
+    }
 
     public partial class sepaDirectDebitType
     {
@@ -5129,7 +5134,7 @@ namespace Cnp.Sdk
             return xml;
         }
     }
-    
+
     #endregion
 
     public class XmlUtil

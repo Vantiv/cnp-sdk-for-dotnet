@@ -1,6 +1,9 @@
 
 = Worldpay CNP CHANGELOG
 
+==Version 12.8.0 (June 20, 2019)
+* Feature: Added new tokenURL element
+
 ==Version 12.7.5 (July 17, 2019)
 * BugFix: Refactor config code to limit direct property usage
 
