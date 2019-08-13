@@ -23,13 +23,18 @@ namespace Cnp.Sdk
         public event EventHandler HttpAction;
 
 
-        private void OnHttpAction(RequestType requestType, string xmlPayload, bool neuter)
+        private void OnHttpAction(RequestType requestType, string xmlPayload, bool neuterAccNums, bool neuterCreds)
         {
             if (HttpAction != null)
             {
-                if (neuter)
+                if (neuterAccNums)
                 {
                     NeuterXml(ref xmlPayload);
+                }
+
+                if (neuterCreds != null)
+                {
+                    NeuterUserCredentials(ref xmlPayload);
                 }
 
                 HttpAction(this, new HttpActionEventArgs(requestType, xmlPayload));
@@ -58,22 +63,41 @@ namespace Cnp.Sdk
             const string pattern1 = "(?i)<number>.*?</number>";
             const string pattern2 = "(?i)<accNum>.*?</accNum>";
             const string pattern3 = "(?i)<track>.*?</track>";
+            const string pattern4 = "(?i)<accountNumer>.*?</accountNumber>";
 
             var rgx1 = new Regex(pattern1);
             var rgx2 = new Regex(pattern2);
             var rgx3 = new Regex(pattern3);
+            var rgx4 = new Regex(pattern4);
             inputXml = rgx1.Replace(inputXml, "<number>xxxxxxxxxxxxxxxx</number>");
             inputXml = rgx2.Replace(inputXml, "<accNum>xxxxxxxxxx</accNum>");
             inputXml = rgx3.Replace(inputXml, "<track>xxxxxxxxxxxxxxxxxxxxxxxxxxxxxx</track>");
+            inputXml = rgx4.Replace(inputXml, "<accountNumber>xxxxxxxxxxxxxxxx</accountNumber>";
         }
 
-        public void Log(string logMessage, string logFile, bool neuter)
+        public void NeuterUserCredentials(ref string inputXml)
+        {
+
+            const string pattern1 = "(?i)<user>.*?</user>";
+            const string pattern2 = "(?i)<password>.*></password>";
+
+            var rgx1 = new Regex(pattern1);
+            var rgx2 = new Regex(pattern2);
+            inputXml = rgx1.Replace(inputXml, "<user>xxxxxx</user>");
+            inputXml = rgx2.Replace(inputXml, "<password>xxxxxxxx</password>");
+        }
+
+        public void Log(string logMessage, string logFile, bool neuterAccNums, bool neuterCreds)
         {
             lock (SynLock)
             {
-                if (neuter)
+                if (neuterAccNums)
                 {
                     NeuterXml(ref logMessage);
+                }
+                if (neuterCreds)
+                {
+                    NeuterUserCredentials(ref logMessage);
                 }
                 using (var logWriter = new StreamWriter(logFile, true))
                 {
@@ -103,10 +127,16 @@ namespace Cnp.Sdk
             ServicePointManager.SecurityProtocol = ServicePointManager.SecurityProtocol | SecurityProtocolType.Tls12 | SecurityProtocolType.Tls11;
             var request = (HttpWebRequest)WebRequest.Create(uri);
 
-            var neuter = false;
+            var neuterAccNums = false;
             if (config.ContainsKey("neuterAccountNums"))
             {
-                neuter = ("true".Equals(config["neuterAccountNums"]));
+                neuterAccNums = ("true".Equals(config["neuterAccountNums"]));
+            }
+
+            var neuterCreds = false;
+            if (config.ContainsKey("neuterUserCredentials"))
+            {
+                neuterCreds = ("true".Equals(config["neuterUserCredentials"]));
             }
 
             var printxml = false;
@@ -127,7 +157,7 @@ namespace Cnp.Sdk
             //log request
             if (logFile != null)
             {
-                Log(xmlRequest, logFile, neuter);
+                Log(xmlRequest, logFile, neuterAccNums, neuterCreds);
             }
 
             request.ContentType = ContentTypeTextXmlUTF8;
@@ -168,12 +198,12 @@ namespace Cnp.Sdk
                     Console.WriteLine(xmlResponse);
                 }
 
-                OnHttpAction(RequestType.Response, xmlResponse, neuter);
+                OnHttpAction(RequestType.Response, xmlResponse, neuterAccNums, neuterCreds);
 
                 //log response
                 if (logFile != null)
                 {
-                    Log(xmlResponse, logFile, neuter);
+                    Log(xmlResponse, logFile, neuterAccNums, neuterCreds);
                 }
             }catch (WebException we)
             {

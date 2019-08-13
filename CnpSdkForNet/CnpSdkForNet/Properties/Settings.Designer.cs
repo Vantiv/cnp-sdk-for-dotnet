@@ -134,6 +134,21 @@ namespace Cnp.Sdk.Properties
 
         [global::System.Configuration.UserScopedSettingAttribute()]
         [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.Configuration.DefaultSettingValueAttribute("true")]
+        public string neuterUserCredentials
+        {
+            get
+            {
+                return ((string)(this["neuterUserCredentials"]));
+            }
+            set
+            {
+                this["neuterUserCredentials"] = value;
+            }
+        }
+
+        [global::System.Configuration.UserScopedSettingAttribute()]
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
         [global::System.Configuration.DefaultSettingValueAttribute("https://www.testvantivcnp.com/sandbox/communicator/online")]
         public string url
         {
