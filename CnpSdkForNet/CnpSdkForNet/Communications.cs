@@ -32,7 +32,7 @@ namespace Cnp.Sdk
                     NeuterXml(ref xmlPayload);
                 }
 
-                if (neuterCreds != null)
+                if (neuterCreds)
                 {
                     NeuterUserCredentials(ref xmlPayload);
                 }
