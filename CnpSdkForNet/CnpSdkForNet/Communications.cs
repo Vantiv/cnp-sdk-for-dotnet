@@ -72,7 +72,7 @@ namespace Cnp.Sdk
             inputXml = rgx1.Replace(inputXml, "<number>xxxxxxxxxxxxxxxx</number>");
             inputXml = rgx2.Replace(inputXml, "<accNum>xxxxxxxxxx</accNum>");
             inputXml = rgx3.Replace(inputXml, "<track>xxxxxxxxxxxxxxxxxxxxxxxxxxxxxx</track>");
-            inputXml = rgx4.Replace(inputXml, "<accountNumber>xxxxxxxxxxxxxxxx</accountNumber>";
+            inputXml = rgx4.Replace(inputXml, "<accountNumber>xxxxxxxxxxxxxxxx</accountNumber>");
         }
 
         public void NeuterUserCredentials(ref string inputXml)
@@ -174,7 +174,7 @@ namespace Cnp.Sdk
                 request.Proxy = myproxy;
             }
 
-            OnHttpAction(RequestType.Request, xmlRequest, neuter);
+            OnHttpAction(RequestType.Request, xmlRequest, neuterAccNums, neuterCreds);
 
             // submit http request
             using (var writer = new StreamWriter(await request.GetRequestStreamAsync().ConfigureAwait(false)))
@@ -241,10 +241,16 @@ namespace Cnp.Sdk
             ServicePointManager.SecurityProtocol = ServicePointManager.SecurityProtocol | SecurityProtocolType.Tls12 | SecurityProtocolType.Tls11;
             var req = (HttpWebRequest)WebRequest.Create(uri);
 
-            var neuter = false;
+            var neuterAccNums = false;
             if (config.ContainsKey("neuterAccountNums"))
             {
-                neuter = ("true".Equals(config["neuterAccountNums"]));
+                neuterAccNums = ("true".Equals(config["neuterAccountNums"]));
+            }
+
+            var neuterCreds = false;
+            if (config.ContainsKey("neuterUserCredentials"))
+            {
+                neuterCreds = ("true".Equals(config["neuterUserCredentials"]));
             }
 
             var printxml = false;
@@ -265,7 +271,7 @@ namespace Cnp.Sdk
             //log request
             if (logFile != null)
             {
-                Log(xmlRequest, logFile, neuter);
+                Log(xmlRequest, logFile, neuterAccNums, neuterCreds);
             }
 
             req.ContentType = "text/xml";
@@ -283,7 +289,7 @@ namespace Cnp.Sdk
                 req.Proxy = myproxy;
             }
 
-            OnHttpAction(RequestType.Request, xmlRequest, neuter);
+            OnHttpAction(RequestType.Request, xmlRequest, neuterAccNums, neuterCreds);
 
             // submit http request
             using (var writer = new StreamWriter(req.GetRequestStream()))
@@ -314,12 +320,12 @@ namespace Cnp.Sdk
                     Console.WriteLine(xmlResponse);
                 }
 
-                OnHttpAction(RequestType.Response, xmlResponse, neuter);
+                OnHttpAction(RequestType.Response, xmlResponse, neuterAccNums, neuterCreds);
 
                 //log response
                 if (logFile != null)
                 {
-                    Log(xmlResponse, logFile, neuter);
+                    Log(xmlResponse, logFile, neuterAccNums, neuterCreds);
                 }
             } catch (WebException we)
             {
