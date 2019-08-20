@@ -1,6 +1,10 @@
 
 = Worldpay CNP CHANGELOG
 
+==Version 12.8.1 (August 19, 2019)
+* BugFix: Fixed the masking of accountNumber
+* Feature: Added neuterUserCredentials to mask the User credentials in logged XML
+
 ==Version 12.8.0 (June 20, 2019)
 * Feature: Added new tokenURL element
 
