@@ -59,6 +59,31 @@ namespace Cnp.Sdk.Test.Functional
         }
 
         [Test]
+        public void VendorCreditWithFundingCustomerId()
+        {
+            var vendorCredit = new vendorCredit
+            {
+                // attributes.
+                id = "1",
+                reportGroup = "Default Report Group",
+                // required child elements.
+                accountInfo = new echeckType()
+                {
+                    accType = echeckAccountTypeEnum.Savings,
+                    accNum = "1234",
+                    routingNum = "12345678"
+                },
+                amount = 1500,
+                fundingCustomerId = "value for fundingCustomerId",
+                fundsTransferId = "value for fundsTransferId",
+                vendorName = "Vantiv"
+            };
+
+            var response = _cnp.VendorCredit(vendorCredit);
+            Assert.AreEqual("000", response.response);
+        }
+
+        [Test]
         public void TestVendorCreditAsync()
         {
             var vendorCredit = new vendorCredit

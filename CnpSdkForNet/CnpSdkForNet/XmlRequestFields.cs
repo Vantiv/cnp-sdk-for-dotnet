@@ -42,10 +42,14 @@ namespace Cnp.Sdk
         public payFacDebit payFacDebit;
         public physicalCheckCredit physicalCheckCredit;
         public physicalCheckDebit physicalCheckDebit;
+        public payoutOrgCredit payoutOrgCredit;
+        public payoutOrgDebit payoutOrgDebit;
         public reserveCredit reserveCredit;
         public reserveDebit reserveDebit;
         public vendorCredit vendorCredit;
         public vendorDebit vendorDebit;
+        public customerCredit customerCredit;
+        public customerDebit customerDebit;
         public submerchantCredit submerchantCredit;
         public submerchantDebit submerchantDebit;
         public queryTransaction queryTransaction;
@@ -68,7 +72,7 @@ namespace Cnp.Sdk
         {
             // Create header for the cnpOnlineRequest with user credential.
             var xml = "<?xml version='1.0' encoding='utf-8'?>\r\n<cnpOnlineRequest merchantId=\"" + merchantId
-                + "\" version=\"12.8\" merchantSdk=\"" + merchantSdk + "\" xmlns=\"http://www.vantivcnp.com/schema\">"
+                + "\" version=\"12.9\" merchantSdk=\"" + merchantSdk + "\" xmlns=\"http://www.vantivcnp.com/schema\">"
                 + authentication.Serialize();
 
             // Because an online request can contain only one transaction, it assumes that only one instance variable of 
@@ -119,6 +123,10 @@ namespace Cnp.Sdk
             else if (submerchantDebit != null) xml += submerchantDebit.Serialize();
             else if (vendorCredit != null) xml += vendorCredit.Serialize();
             else if (vendorDebit != null) xml += vendorDebit.Serialize();
+            else if (customerCredit != null) xml += customerCredit.Serialize();
+            else if (customerDebit != null) xml += customerDebit.Serialize();
+            else if (payoutOrgCredit != null) xml += customerCredit.Serialize();
+            else if (payoutOrgDebit != null) xml += customerDebit.Serialize();
             else if (translateToLowValueTokenRequest != null) xml += translateToLowValueTokenRequest.Serialize();
             xml += "\r\n</cnpOnlineRequest>";
 
@@ -2544,7 +2552,9 @@ namespace Cnp.Sdk
     public partial class fastAccessFunding : transactionTypeWithReportGroup
     {
         public string fundingSubmerchantId;
+        public string fundingCustomerId;
         public string submerchantName;
+        public string customerName;
         public string fundsTransferId;
         public int amount;
         private disbursementTypeEnum disbursementTypeField;
@@ -2574,10 +2584,16 @@ namespace Cnp.Sdk
             xml += " reportGroup=\"" + SecurityElement.Escape(reportGroup) + "\">";
 
             // The first element of a sequence xml element  represent the sequence element
-            if (fundingSubmerchantId != null)
+            if (fundingSubmerchantId != null || fundingCustomerId != null)
             {
-                xml += "\r\n<fundingSubmerchantId>" + fundingSubmerchantId + "</fundingSubmerchantId>";
-                xml += "\r\n<submerchantName>" + submerchantName + "</submerchantName>";
+                if (fundingSubmerchantId != null) 
+                    xml += "\r\n<fundingSubmerchantId>" + fundingSubmerchantId + "</fundingSubmerchantId>";
+                else if (fundingCustomerId != null)
+                    xml += "\r\n<fundingCustomerId>" + fundingCustomerId + "</fundingCustomerId>";
+                if (submerchantName != null)
+                    xml += "\r\n<submerchantName>" + submerchantName + "</submerchantName>";
+                else if (customerName != null)
+                    xml += "\r\n<customerName>" + customerName + "</customerName>";
                 xml += "\r\n<fundsTransferId>" + fundsTransferId + "</fundsTransferId>";
                 xml += "\r\n<amount>" + amount + "</amount>";
                 if (disbursementTypeSet)

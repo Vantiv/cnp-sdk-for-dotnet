@@ -55,7 +55,7 @@ namespace Cnp.Sdk.Test.Unit
             var actual = batchRequest.generateXmlHeader();
             var expected = @"
 <batchRequest id=""""
-merchantSdk=""DotNet;12.8.0""
+merchantSdk=""DotNet;12.9.0""
 merchantId=""01234"">
 ";
             
