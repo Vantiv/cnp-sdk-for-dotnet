@@ -714,7 +714,7 @@ namespace Cnp.Sdk
         {
             var request = new cnpOnlineRequest();
             request.merchantId = _config["merchantId"];
-            request.merchantSdk = "DotNet;" + Version.CurrentCNPSDKVersion;
+            request.merchantSdk = "DotNet;12.8.3";
             var authentication = new authentication();
             authentication.password = _config["password"];
             authentication.user = _config["username"];
