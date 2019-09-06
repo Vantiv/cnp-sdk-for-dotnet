@@ -1,7 +1,7 @@
 
 = Worldpay CNP CHANGELOG
 
-==Version 12.8.3 (August 30, 2019)
+==Version 12.8.3 (September 06, 2019)
 * BugFix: closing ftp sessions in Communications.cs
 * Change: SDK and CNP version info is now stored in Version.cs
 
