@@ -1501,8 +1501,8 @@ namespace Cnp.Sdk
             {
                 xmlHeader += "sameDayFunding=\"" + sameDayFunding.ToString().ToLower() + "\"\r\n";
             }
-
-            xmlHeader += "merchantSdk=\"DotNet;12.8.3\"\r\n";
+            
+            xmlHeader += "merchantSdk=\"DotNet;" + CnpVersion.CurrentCNPSDKVersion + "\"\r\n";  
 
             xmlHeader += "merchantId=\"" + config["merchantId"] + "\">\r\n";
             return xmlHeader;

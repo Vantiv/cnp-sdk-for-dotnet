@@ -1,6 +1,10 @@
 
 = Worldpay CNP CHANGELOG
 
+==Version 12.8.3 (August 30, 2019)
+* BugFix: closing ftp sessions in Communications.cs
+* Change: SDK and CNP version info is now stored in Version.cs
+
 ==Version 12.8.2 (August 22, 2019)
 * BugFix: merchantSdk field in generated xml request is synced. 
 
@@ -42,7 +46,7 @@
 * Feature: Full functions for XML v12.5
 
 == Version 12.4.1
-*BugFix: Fixed networkTransactionId Unmarshalling to null in saleResponse bug.
+* BugFix: Fixed networkTransactionId Unmarshalling to null in saleResponse bug.
 
 == Version 12.4.0
 * Feature: Support for CNP XML v12.4

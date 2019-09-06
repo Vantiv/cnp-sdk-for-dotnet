@@ -581,6 +581,10 @@ namespace Cnp.Sdk
                     System.Threading.Thread.Sleep(30000);
                 }
             } while (sftpAttrs == null && stopWatch.Elapsed.TotalMilliseconds <= timeout);
+            
+            // Close the connections.
+            channelSftp.quit();
+            session.disconnect();
         }
 
         public virtual void FtpPickUp(string destinationFilePath, Dictionary<string, string> config, string fileName)
@@ -630,11 +634,12 @@ namespace Cnp.Sdk
             catch (SftpException e)
             {
                 throw new CnpOnlineException("Error occured while attempting to retrieve and save the file from SFTP", e);
+            } finally {
+
+                channelSftp.quit();
+
+                session.disconnect();
             }
-
-            channelSftp.quit();
-
-            session.disconnect();
 
         }
 
