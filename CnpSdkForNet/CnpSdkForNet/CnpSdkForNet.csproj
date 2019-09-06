@@ -56,7 +56,7 @@
     <Compile Include="CnpObjectionableContentException.cs" />
     <Compile Include="CommManager.cs" />
     <Compile Include="PgpHelper.cs" />
-    <Compile Include="Version.cs" />
+    <Compile Include="CnpVersion.cs" />
     <Compile Include="XmlSerializer.cs" />
     <Compile Include="Communications.cs" />
     <Compile Include="CnpBatchRequest.cs" />
