@@ -72,7 +72,7 @@ namespace Cnp.Sdk
         {
             // Create header for the cnpOnlineRequest with user credential.
             var xml = "<?xml version='1.0' encoding='utf-8'?>\r\n<cnpOnlineRequest merchantId=\"" + merchantId
-                + "\" version=\"12.9\" merchantSdk=\"" + merchantSdk + "\" xmlns=\"http://www.vantivcnp.com/schema\">"
+                + "\" version=\"" + CnpVersion.CurrentCNPXMLVersion + "\" merchantSdk=\"" + merchantSdk + "\" xmlns=\"http://www.vantivcnp.com/schema\">"
                 + authentication.Serialize();
 
             // Because an online request can contain only one transaction, it assumes that only one instance variable of 
