@@ -51,7 +51,7 @@
       <Value Profile="(Default)">5000</Value>
     </Setting>
     <Setting Name="knownHostsFile" Type="System.String" Scope="User">
-      <Value Profile="(Default)">C:\Users\Wendy.Wu\Downloads\git\cnp-sdk-for-dotnet\CnpSdkForNet\CnpSdkForNet\knownhosts</Value>
+      <Value Profile="(Default)">C:\\Vantiv\\dll\\knownhosts</Value>
     </Setting>
     <Setting Name="merchantId" Type="System.String" Scope="User">
       <Value Profile="(Default)">101</Value>
