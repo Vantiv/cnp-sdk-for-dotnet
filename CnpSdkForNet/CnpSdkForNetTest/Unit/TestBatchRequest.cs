@@ -910,5 +910,159 @@ merchantId=""01234"">
             mockCnpFile.Verify(cnpFile => cnpFile.createRandomFile(It.IsAny<string>(), It.IsAny<string>(), It.IsAny<string>(), mockCnpTime.Object));
             mockCnpFile.Verify(cnpFile => cnpFile.AppendLineToFile(mockFilePath, physicalCheckDebit.Serialize()));
         }
+
+        [Test]
+        public void TestAddCustomerCredit() {
+            var customerCredit = new customerCredit();
+            customerCredit.fundingCustomerId = "123456";
+            customerCredit.customerName = "John Doe";
+            customerCredit.fundsTransferId = "123467";
+            customerCredit.amount = 107L;
+            customerCredit.customIdentifier = "12345678";
+            
+            var echeck = new echeckType();
+            echeck.accType = echeckAccountTypeEnum.Checking;
+            echeck.accNum = "12345657890";
+            echeck.routingNum = "123456789";
+            echeck.checkNum = "123455";
+            customerCredit.accountInfo = echeck;
+            
+            batchRequest.addCustomerCredit(customerCredit);
+            
+            Assert.AreEqual(1,batchRequest.getNumCustomerCredit());
+            Assert.AreEqual(107L,batchRequest.getCustomerCreditAmount());
+            Assert.AreEqual("\r\n<customerCredit reportGroup=\"Default Report Group\">\r\n<fundingCustomerId>123456</fundingCustomerId>\r\n<customerName>John Doe</customerName>\r\n<fundsTransferId>123467</fundsTransferId>\r\n<amount>107</amount>\r\n<accountInfo>\r\n<accType>Checking</accType>\r\n<accNum>12345657890</accNum>\r\n<routingNum>123456789</routingNum>\r\n<checkNum>123455</checkNum></accountInfo>\r\n<customIdentifier>12345678</customIdentifier>\r\n</customerCredit>",
+                customerCredit.Serialize());
+            
+            mockCnpFile.Verify(cnpFile => cnpFile.createRandomFile(It.IsAny<string>(), It.IsAny<string>(), It.IsAny<string>(), mockCnpTime.Object));
+            mockCnpFile.Verify(cnpFile => cnpFile.AppendLineToFile(mockFilePath, customerCredit.Serialize()));
+        }
+        
+        [Test]
+        public void TestAddCustomerCreditCtx()
+        {
+            var customerCreditCtx = new customerCreditCtx();
+            customerCreditCtx.fundingCustomerId = "123456";
+            customerCreditCtx.customerName = "John Doe";
+            customerCreditCtx.fundsTransferId = "123467";
+            customerCreditCtx.amount = 107L;
+            customerCreditCtx.customIdentifier = "12345678";
+            
+            var echeck = new echeckTypeCtx();
+            echeck.accType = echeckAccountTypeEnum.Checking;
+            echeck.accNum = "12345657890";
+            echeck.routingNum = "123456789";
+            echeck.checkNum = "123455";
+            customerCreditCtx.accountInfo = echeck;
+            
+            batchRequest.addCustomerCreditCtx(customerCreditCtx);
+            
+            Assert.AreEqual(1,batchRequest.getNumCustomerCredit());
+            Assert.AreEqual(107L,batchRequest.getCustomerCreditAmount());
+            Assert.AreEqual("\r\n<customerCredit reportGroup=\"Default Report Group\">\r\n<fundingCustomerId>123456</fundingCustomerId>\r\n<customerName>John Doe</customerName>\r\n<fundsTransferId>123467</fundsTransferId>\r\n<amount>107</amount>\r\n<accountInfo>\r\n<accType>Checking</accType>\r\n<accNum>12345657890</accNum>\r\n<routingNum>123456789</routingNum>\r\n<checkNum>123455</checkNum></accountInfo>\r\n<customIdentifier>12345678</customIdentifier>\r\n</customerCredit>",
+                customerCreditCtx.Serialize());
+            
+            mockCnpFile.Verify(cnpFile => cnpFile.createRandomFile(It.IsAny<string>(), It.IsAny<string>(), It.IsAny<string>(), mockCnpTime.Object));
+            mockCnpFile.Verify(cnpFile => cnpFile.AppendLineToFile(mockFilePath, customerCreditCtx.Serialize()));
+        }
+        
+        [Test]
+        public void TestAddPayoutOrgDebit()
+        {
+            var payoutOrgDebit = new payoutOrgDebit();
+            payoutOrgDebit.fundingCustomerId = "123456";
+            payoutOrgDebit.fundsTransferId = "123467";
+            payoutOrgDebit.amount = 107L;
+            
+            batchRequest.addPayoutOrgDebit(payoutOrgDebit);
+            
+            Assert.AreEqual(1,batchRequest.getNumPayoutOrgDebit());
+            Assert.AreEqual(107L,batchRequest.getPayoutOrgDebitAmount());
+            Assert.AreEqual(
+                "\r\n<payoutOrgDebit reportGroup=\"Default Report Group\">\r\n<fundingCustomerId>123456</fundingCustomerId>\r\n<fundsTransferId>123467</fundsTransferId>\r\n<amount>107</amount>\r\n</payoutOrgDebit>",
+                payoutOrgDebit.Serialize());
+
+            mockCnpFile.Verify(cnpFile => cnpFile.createRandomFile(It.IsAny<string>(), It.IsAny<string>(), It.IsAny<string>(), mockCnpTime.Object)); 
+            mockCnpFile.Verify(cnpFile => cnpFile.AppendLineToFile(mockFilePath, payoutOrgDebit.Serialize()));
+        }
+
+        [Test]
+        public void TestAddPayoutOrgCredit()
+        {
+            var payoutOrgCredit = new payoutOrgCredit();
+            payoutOrgCredit.fundingCustomerId = "123456";
+            payoutOrgCredit.fundsTransferId = "123467";
+            payoutOrgCredit.amount = 107L;
+            
+            batchRequest.addPayoutOrgCredit(payoutOrgCredit);
+            
+            Assert.AreEqual(1,batchRequest.getNumPayoutOrgCredit());
+            Assert.AreEqual(107L,batchRequest.getPayoutOrgCreditAmount());
+            Assert.AreEqual(
+                "\r\n<payoutOrgCredit reportGroup=\"Default Report Group\">\r\n<fundingCustomerId>123456</fundingCustomerId>\r\n<fundsTransferId>123467</fundsTransferId>\r\n<amount>107</amount>\r\n</payoutOrgCredit>",
+                payoutOrgCredit.Serialize());
+
+            mockCnpFile.Verify(cnpFile => cnpFile.createRandomFile(It.IsAny<string>(), It.IsAny<string>(), It.IsAny<string>(), mockCnpTime.Object)); 
+            mockCnpFile.Verify(cnpFile => cnpFile.AppendLineToFile(mockFilePath, payoutOrgCredit.Serialize()));
+        }
+        
+        [Test]
+        public void TestAddCustomerDebit()
+        {
+            var customerDebit = new customerDebit();
+            customerDebit.fundingCustomerId = "123456";
+            customerDebit.customerName = "John Doe";
+            customerDebit.fundsTransferId = "123467";
+            customerDebit.amount = 107L;
+            customerDebit.customIdentifier = "12345678";
+            
+            var echeck = new echeckType();
+            echeck.accType = echeckAccountTypeEnum.Checking;
+            echeck.accNum = "12345657890";
+            echeck.routingNum = "123456789";
+            echeck.checkNum = "123455";
+            customerDebit.accountInfo = echeck;
+            
+            batchRequest.addCustomerDebit(customerDebit);
+            
+            Assert.AreEqual(1,batchRequest.getNumCustomerDebit());
+            Assert.AreEqual(107L,batchRequest.getCustomerDebitAmount());
+            Assert.AreEqual("\r\n<customerDebit reportGroup=\"Default Report Group\">\r\n<fundingCustomerId>123456</fundingCustomerId>\r\n<customerName>John Doe</customerName>\r\n<fundsTransferId>123467</fundsTransferId>\r\n<amount>107</amount>\r\n<accountInfo>\r\n<accType>Checking</accType>\r\n<accNum>12345657890</accNum>\r\n<routingNum>123456789</routingNum>\r\n<checkNum>123455</checkNum></accountInfo>\r\n<customIdentifier>12345678</customIdentifier>\r\n</customerDebit>",
+                customerDebit.Serialize());
+            
+            mockCnpFile.Verify(cnpFile => cnpFile.createRandomFile(It.IsAny<string>(), It.IsAny<string>(), It.IsAny<string>(), mockCnpTime.Object));
+            mockCnpFile.Verify(cnpFile => cnpFile.AppendLineToFile(mockFilePath, customerDebit.Serialize()));
+        }
+
+        [Test]
+        public void TestAddCustomerDebitCtx()
+        {
+            var customerDebitCtx = new customerDebitCtx();
+            customerDebitCtx.fundingCustomerId = "123456";
+            customerDebitCtx.customerName = "John Doe";
+            customerDebitCtx.fundsTransferId = "123467";
+            customerDebitCtx.amount = 107L;
+            customerDebitCtx.customIdentifier = "12345678";
+            
+            var echeck = new echeckTypeCtx();
+            echeck.accType = echeckAccountTypeEnum.Checking;
+            echeck.accNum = "12345657890";
+            echeck.routingNum = "123456789";
+            echeck.checkNum = "123455";
+            customerDebitCtx.accountInfo = echeck;
+            
+            batchRequest.addCustomerDebitCtx(customerDebitCtx);
+            
+            Assert.AreEqual(1,batchRequest.getNumCustomerDebit());
+            Assert.AreEqual(107L,batchRequest.getCustomerDebitAmount());
+            Assert.AreEqual("\r\n<customerDebit reportGroup=\"Default Report Group\">\r\n<fundingCustomerId>123456</fundingCustomerId>\r\n<customerName>John Doe</customerName>\r\n<fundsTransferId>123467</fundsTransferId>\r\n<amount>107</amount>\r\n<accountInfo>\r\n<accType>Checking</accType>\r\n<accNum>12345657890</accNum>\r\n<routingNum>123456789</routingNum>\r\n<checkNum>123455</checkNum></accountInfo>\r\n<customIdentifier>12345678</customIdentifier>\r\n</customerDebit>",
+                customerDebitCtx.Serialize());
+            
+            mockCnpFile.Verify(cnpFile => cnpFile.createRandomFile(It.IsAny<string>(), It.IsAny<string>(), It.IsAny<string>(), mockCnpTime.Object));
+            mockCnpFile.Verify(cnpFile => cnpFile.AppendLineToFile(mockFilePath, customerDebitCtx.Serialize()));
+
+        }
+        
+        
     }
 }

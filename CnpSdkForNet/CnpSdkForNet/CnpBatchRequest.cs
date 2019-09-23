@@ -2310,7 +2310,7 @@ namespace Cnp.Sdk
 
         public override string Serialize()
         {
-            var xml = "\r\n<customerCredit";
+            var xml = "\r\n<customerCredit ";
 
             if (id != null)
                 xml += "id=\"" + SecurityElement.Escape(id) + "\" ";
@@ -3029,7 +3029,7 @@ namespace Cnp.Sdk
 
         public override string Serialize()
         {
-            var xml = "\r\n<customerCredit";
+            var xml = "\r\n<customerCredit ";
 
             if (id != null)
                 xml += "id=\"" + SecurityElement.Escape(id) + "\" ";
@@ -3154,7 +3154,7 @@ namespace Cnp.Sdk
 
         public override string Serialize()
         {
-            var xml = "\r\n<customerDebit";
+            var xml = "\r\n<customerDebit ";
 
             if (id != null)
                 xml += "id=\"" + SecurityElement.Escape(id) + "\" ";
