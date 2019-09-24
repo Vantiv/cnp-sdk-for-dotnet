@@ -217,8 +217,7 @@ namespace Cnp.Sdk.Properties {
         
         [global::System.Configuration.UserScopedSettingAttribute()]
         [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
-        [global::System.Configuration.DefaultSettingValueAttribute("C:\\Users\\Wendy.Wu\\Downloads\\git\\cnp-sdk-for-dotnet\\CnpSdkForNet\\CnpSdkForNet\\know" +
-            "nhosts")]
+        [global::System.Configuration.DefaultSettingValueAttribute("C:\\Vantiv\\dll\\knownhosts")]
         public string knownHostsFile {
             get {
                 return ((string)(this["knownHostsFile"]));
