@@ -674,6 +674,31 @@ namespace Cnp.Sdk.Test.Functional
             };
             cnpBatchRequest.addVendorDebitCtx(vendorDebitCtx);
 
+            var customerCreditCtx = new customerCreditCtx {
+                id = "11",
+                reportGroup = "CTX Report Group",
+
+                fundingCustomerId = "value for fundingCustomerId",
+                customerName = "WorldPay",
+                fundsTransferId = fundsTransferIdString,
+                amount = 500,
+                customIdentifier = "WorldPay",
+                accountInfo = accountInfoCtx,
+            };
+            cnpBatchRequest.addCustomerCreditCtx(customerCreditCtx);
+
+            var customerDebitCtx = new customerDebitCtx {
+                id = "11",
+                reportGroup = "CTX Report Group",
+
+                fundingCustomerId = "value for fundingCustomerId",
+                customerName = "WorldPay",
+                fundsTransferId = fundsTransferIdString,
+                amount = 500,
+                customIdentifier = "WorldPay",
+                accountInfo = accountInfoCtx,
+            };
+            cnpBatchRequest.addCustomerDebitCtx(customerDebitCtx);
 
             cnpCtx.addBatch(cnpBatchRequest);
             var batchName = cnpCtx.sendToCnp();
@@ -718,6 +743,21 @@ namespace Cnp.Sdk.Test.Functional
 
                     vendorDebitResponse = cnpBatchResponse.nextVendorDebitResponse();
                 }
+
+                var customCreditResponse = cnpBatchResponse.nextCustomerCreditResponse();
+                while (customCreditResponse != null) {
+                    Assert.AreEqual("000",customCreditResponse.response);
+
+                    customCreditResponse = cnpBatchResponse.nextCustomerCreditResponse();
+                }
+                
+                var customDebitResponse = cnpBatchResponse.nextCustomerDebitResponse();
+                while (customDebitResponse != null) {
+                    Assert.AreEqual("000",customDebitResponse.response);
+
+                    customDebitResponse = cnpBatchResponse.nextCustomerDebitResponse();
+                }
+                
                 cnpBatchResponse = cnpResponse.nextBatchResponse();
             }
             

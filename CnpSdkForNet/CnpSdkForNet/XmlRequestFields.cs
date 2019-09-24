@@ -125,8 +125,8 @@ namespace Cnp.Sdk
             else if (vendorDebit != null) xml += vendorDebit.Serialize();
             else if (customerCredit != null) xml += customerCredit.Serialize();
             else if (customerDebit != null) xml += customerDebit.Serialize();
-            else if (payoutOrgCredit != null) xml += customerCredit.Serialize();
-            else if (payoutOrgDebit != null) xml += customerDebit.Serialize();
+            else if (payoutOrgCredit != null) xml += payoutOrgCredit.Serialize();
+            else if (payoutOrgDebit != null) xml += payoutOrgDebit.Serialize();
             else if (translateToLowValueTokenRequest != null) xml += translateToLowValueTokenRequest.Serialize();
             xml += "\r\n</cnpOnlineRequest>";
 
