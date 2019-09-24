@@ -1,6 +1,11 @@
 
 = Worldpay CNP CHANGELOG
 
+==Version 12.9.0 (September 24, 2019)
+* Feature: Support for CNP XML v12.9
+* Change: NUnit packages changed to work in VS2017 and newer
+* Change: Tests that check for preliveStatus now throw an more helpful exception if it is null
+
 ==Version 12.8.3 (September 06, 2019)
 * BugFix: closing ftp sessions in Communications.cs
 * Change: SDK and CNP version info is now stored in Version.cs
