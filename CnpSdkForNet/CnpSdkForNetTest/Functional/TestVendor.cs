@@ -108,7 +108,7 @@ namespace Cnp.Sdk.Test.Functional
             var response = _cnp.VendorCreditAsync(vendorCredit, cancellationToken);
             Assert.AreEqual("000", response.Result.response);
         }
-
+        
         [Test]
         public void ReserveDebit()
         {
@@ -127,6 +127,32 @@ namespace Cnp.Sdk.Test.Functional
                 amount = 1500,
                 fundingSubmerchantId = "value for fundingSubmerchantId",
                 fundsTransferId = "value for fundsTransferId",
+                vendorName = "WorldPay"
+            };
+
+            var response = _cnp.VendorDebit(vendorDebit);
+            Assert.AreEqual("000", response.response);
+        }
+
+        [Test]
+        public void ReserveDebitWithFundingCustomerId()
+        {
+            var vendorDebit = new vendorDebit
+            {
+                // attributes.
+                id = "1",
+                reportGroup = "Default Report Group",
+                // required child elements.
+                accountInfo = new echeckType()
+                {
+                    accType = echeckAccountTypeEnum.Savings,
+                    accNum = "1234",
+                    routingNum = "12345678"
+                },
+                amount = 1500,
+                fundingSubmerchantId = "value for fundingSubmerchantId",
+                fundsTransferId = "value for fundsTransferId",
+                fundingCustomerId = "value for fundingCustomerId",
                 vendorName = "WorldPay"
             };
 
