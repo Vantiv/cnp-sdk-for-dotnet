@@ -5,6 +5,7 @@
 * Feature: Support for CNP XML v12.9
 * Change: NUnit packages changed to work in VS2017 and newer
 * Change: Tests that check for preliveStatus now throw an more helpful exception if it is null
+* BugFix: Fixed custom timeout not being used
 
 ==Version 12.8.3 (September 06, 2019)
 * BugFix: closing ftp sessions in Communications.cs
