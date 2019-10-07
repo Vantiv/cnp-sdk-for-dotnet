@@ -1595,7 +1595,8 @@ namespace Cnp.Sdk.Test.Functional
         
         private bool preliveIsDown() {
             if (this.preliveStatus == null) {
-                throw new ArgumentNullException("preliveStatus","preliveStatus environment variable is not set");
+                Console.WriteLine("preliveStatus environment variable is not defined. Defaulting to down.");
+                return false;
             }
 
             return this.preliveStatus.ToLower().Equals("down");
