@@ -279,7 +279,19 @@ namespace Cnp.Sdk
             req.ServicePoint.MaxIdleTime = 8000;
             req.ServicePoint.Expect100Continue = false;
             req.KeepAlive = true;
-            //req.Timeout = 500000;
+            
+            if (config.ContainsKey("timeout")) {
+                try {
+                    req.Timeout = Convert.ToInt32(config["timeout"]);
+                }
+                catch (FormatException e) {
+                    // If timeout setting contains non-numeric
+                    // characters, we will fall back to 1 minute
+                    // default timeout.
+                    req.Timeout = 60000;
+                }
+            }
+            
             if (IsProxyOn(config))
             {
                 var myproxy = new WebProxy(config["proxyHost"], int.Parse(config["proxyPort"]))

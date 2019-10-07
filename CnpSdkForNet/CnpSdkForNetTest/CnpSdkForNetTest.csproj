@@ -104,6 +104,7 @@
     <Compile Include="Functional\TestCommManagerMultiThreaded.cs" />
     <Compile Include="Functional\TestCustomer.cs" />
     <Compile Include="Functional\TestPayoutOrg.cs" />
+    <Compile Include="Functional\TestTimeout.cs" />
     <Compile Include="Functional\TestTranslateToLowValueTokenRequest.cs" />
     <Compile Include="Functional\TestBalanceInquiry.cs" />
     <Compile Include="Functional\TestFastAccessFunding.cs" />
