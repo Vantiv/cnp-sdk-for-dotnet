@@ -3228,6 +3228,7 @@ namespace Cnp.Sdk
         public string routingNum;
         public string checkNum;
         public string ccdPaymentInformation;
+        public string[] ctxPaymentInformation;
 
         public string Serialize()
         {
@@ -3241,6 +3242,12 @@ namespace Cnp.Sdk
             if (routingNum != null) xml += "\r\n<routingNum>" + SecurityElement.Escape(routingNum) + "</routingNum>";
             if (checkNum != null) xml += "\r\n<checkNum>" + SecurityElement.Escape(checkNum) + "</checkNum>";
             if (ccdPaymentInformation != null) xml += "\r\n<ccdPaymentInformation>" + SecurityElement.Escape(ccdPaymentInformation) + "</ccdPaymentInformation>";
+            if (ctxPaymentInformation != null)
+            {
+                xml += "\r\n<ctxPaymentInformation>";
+                for (int i = 0; i < ctxPaymentInformation.Length; i++) xml += "\r\n<ctxPaymentDetail>" + SecurityElement.Escape(ctxPaymentInformation[i]) + "</ctxPaymentDetail>";
+                xml += "\r\n</ctxPaymentInformation>";
+            }
             return xml;
         }
     }
