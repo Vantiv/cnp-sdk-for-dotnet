@@ -1,8 +1,11 @@
 
 = Worldpay CNP CHANGELOG
 
-==Version 12.9.0 (October 9, 2019)
-* Feature: Support for CNP XML v12.9
+==Version 12.9.0 (October 25, 2019)
+* Feature: Added support for customerCredit, customerDebit
+* Feature: Added support for payoutOrgCredit, payoutOrgDebit
+* Feature: Added fundingCustomerID support
+* Feature: Enhancements to fastAccessFunding
 * Change: NUnit packages changed to work in VS2017 and newer
 * Change: Tests that check for preliveStatus default to down if the environment variable is not defined
 * Change: Removed ctx requests (obsolete)
