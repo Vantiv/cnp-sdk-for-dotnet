@@ -42,10 +42,14 @@ namespace Cnp.Sdk
         public payFacDebit payFacDebit;
         public physicalCheckCredit physicalCheckCredit;
         public physicalCheckDebit physicalCheckDebit;
+        public payoutOrgCredit payoutOrgCredit;
+        public payoutOrgDebit payoutOrgDebit;
         public reserveCredit reserveCredit;
         public reserveDebit reserveDebit;
         public vendorCredit vendorCredit;
         public vendorDebit vendorDebit;
+        public customerCredit customerCredit;
+        public customerDebit customerDebit;
         public submerchantCredit submerchantCredit;
         public submerchantDebit submerchantDebit;
         public queryTransaction queryTransaction;
@@ -119,6 +123,10 @@ namespace Cnp.Sdk
             else if (submerchantDebit != null) xml += submerchantDebit.Serialize();
             else if (vendorCredit != null) xml += vendorCredit.Serialize();
             else if (vendorDebit != null) xml += vendorDebit.Serialize();
+            else if (customerCredit != null) xml += customerCredit.Serialize();
+            else if (customerDebit != null) xml += customerDebit.Serialize();
+            else if (payoutOrgCredit != null) xml += payoutOrgCredit.Serialize();
+            else if (payoutOrgDebit != null) xml += payoutOrgDebit.Serialize();
             else if (translateToLowValueTokenRequest != null) xml += translateToLowValueTokenRequest.Serialize();
             xml += "\r\n</cnpOnlineRequest>";
 
@@ -2544,7 +2552,9 @@ namespace Cnp.Sdk
     public partial class fastAccessFunding : transactionTypeWithReportGroup
     {
         public string fundingSubmerchantId;
+        public string fundingCustomerId;
         public string submerchantName;
+        public string customerName;
         public string fundsTransferId;
         public int amount;
         private disbursementTypeEnum disbursementTypeField;
@@ -2574,10 +2584,16 @@ namespace Cnp.Sdk
             xml += " reportGroup=\"" + SecurityElement.Escape(reportGroup) + "\">";
 
             // The first element of a sequence xml element  represent the sequence element
-            if (fundingSubmerchantId != null)
+            if (fundingSubmerchantId != null || fundingCustomerId != null)
             {
-                xml += "\r\n<fundingSubmerchantId>" + fundingSubmerchantId + "</fundingSubmerchantId>";
-                xml += "\r\n<submerchantName>" + submerchantName + "</submerchantName>";
+                if (fundingSubmerchantId != null) 
+                    xml += "\r\n<fundingSubmerchantId>" + fundingSubmerchantId + "</fundingSubmerchantId>";
+                else if (fundingCustomerId != null)
+                    xml += "\r\n<fundingCustomerId>" + fundingCustomerId + "</fundingCustomerId>";
+                if (submerchantName != null)
+                    xml += "\r\n<submerchantName>" + submerchantName + "</submerchantName>";
+                else if (customerName != null)
+                    xml += "\r\n<customerName>" + customerName + "</customerName>";
                 xml += "\r\n<fundsTransferId>" + fundsTransferId + "</fundsTransferId>";
                 xml += "\r\n<amount>" + amount + "</amount>";
                 if (disbursementTypeSet)
@@ -3212,6 +3228,7 @@ namespace Cnp.Sdk
         public string routingNum;
         public string checkNum;
         public string ccdPaymentInformation;
+        public string[] ctxPaymentInformation;
 
         public string Serialize()
         {
@@ -3225,6 +3242,12 @@ namespace Cnp.Sdk
             if (routingNum != null) xml += "\r\n<routingNum>" + SecurityElement.Escape(routingNum) + "</routingNum>";
             if (checkNum != null) xml += "\r\n<checkNum>" + SecurityElement.Escape(checkNum) + "</checkNum>";
             if (ccdPaymentInformation != null) xml += "\r\n<ccdPaymentInformation>" + SecurityElement.Escape(ccdPaymentInformation) + "</ccdPaymentInformation>";
+            if (ctxPaymentInformation != null)
+            {
+                xml += "\r\n<ctxPaymentInformation>";
+                for (int i = 0; i < ctxPaymentInformation.Length; i++) xml += "\r\n<ctxPaymentDetail>" + SecurityElement.Escape(ctxPaymentInformation[i]) + "</ctxPaymentDetail>";
+                xml += "\r\n</ctxPaymentInformation>";
+            }
             return xml;
         }
     }

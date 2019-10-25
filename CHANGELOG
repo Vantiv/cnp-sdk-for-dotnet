@@ -1,6 +1,16 @@
 
 = Worldpay CNP CHANGELOG
 
+==Version 12.9.0 (October 25, 2019)
+* Feature: Added support for customerCredit, customerDebit
+* Feature: Added support for payoutOrgCredit, payoutOrgDebit
+* Feature: Added fundingCustomerID support
+* Feature: Enhancements to fastAccessFunding
+* Change: NUnit packages changed to work in VS2017 and newer
+* Change: Tests that check for preliveStatus default to down if the environment variable is not defined
+* Change: Removed ctx requests (obsolete)
+* BugFix: Fixed custom timeout not being used
+
 ==Version 12.8.3 (September 06, 2019)
 * BugFix: closing ftp sessions in Communications.cs
 * Change: SDK and CNP version info is now stored in Version.cs

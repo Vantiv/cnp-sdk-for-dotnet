@@ -69,6 +69,24 @@ namespace Cnp.Sdk.Test.Functional
             var response = _cnp.ReserveCreditAsync(reserveCredit, cancellationToken);
             Assert.AreEqual("000", response.Result.response);
         }
+        
+        [Test]
+        public void ReserveCreditFundingCustomerId()
+        {
+            var reserveCredit = new reserveCredit
+            {
+                // attributes.
+                id = "1",
+                reportGroup = "Default Report Group",
+                // required child elements.
+                amount = 1500,
+                fundingCustomerId = "value for fundingCustomerId",
+                fundsTransferId = "value for fundsTransferId"
+            };
+
+            var response = _cnp.ReserveCredit(reserveCredit);
+            Assert.AreEqual("000", response.response);
+        }
 
         [Test]
         public void ReserveDebit()
@@ -105,6 +123,42 @@ namespace Cnp.Sdk.Test.Functional
             CancellationToken cancellationToken = new CancellationToken(false);
             var response = _cnp.ReserveDebitAsync(reserveDebit, cancellationToken);
             Assert.AreEqual("000", response.Result.response);
+        }
+        
+        [Test]
+        public void ReserveDebitFundingCustomerId()
+        {
+            var reserveDebit = new reserveDebit
+            {
+                // attributes.
+                id = "1",
+                reportGroup = "Default Report Group",
+                // required child elements.
+                amount = 1500,
+                fundingCustomerId = "value for fundingCustomerId",
+                fundsTransferId = "value for fundsTransferId"
+            };
+
+            var response = _cnp.ReserveDebit(reserveDebit);
+            Assert.AreEqual("000", response.response);
+        }
+        
+        [Test]
+        public void ReserveDebitXMLCharacters()
+        {
+            var reserveDebit = new reserveDebit
+            {
+                // attributes.
+                id = "1",
+                reportGroup = "Default Report Group",
+                // required child elements.
+                amount = 1500,
+                fundingCustomerId = "value <for> fundingCustomerId",
+                fundsTransferId = "value for fundsTransferId"
+            };
+
+            var response = _cnp.ReserveDebit(reserveDebit);
+            Assert.AreEqual("000", response.response);
         }
     }
 }

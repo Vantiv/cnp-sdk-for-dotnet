@@ -25,7 +25,7 @@ namespace Cnp.Sdk.Test.Functional
         [Test]
         public void SimpleBatch()
         {
-            if (this.preliveStatus.Equals("down"))
+            if (this.preliveIsDown())
             {
                 Assert.Ignore();
             }
@@ -568,167 +568,10 @@ namespace Cnp.Sdk.Test.Functional
         }
         
         [Test]
-        [Ignore("ctxAll returns bad response code")]
-        public void ctxAll()
-        {
-
-            if (this.preliveStatus.Equals("down"))
-            {
-                Assert.Ignore();
-            }
-
-            CommManager.reset();
-            
-            Dictionary<string, string>  _config = new Dictionary<string, string>();
-            ConfigManager configManager = new ConfigManager();
-            _config = configManager.getConfig();
-            //_config["merchantId"] = Environment.GetEnvironmentVariable("payfacMerchantId_v12_7");
-            //_config["username"] = Environment.GetEnvironmentVariable("payfacUsername_v12_7");
-            //_config["password"] = Environment.GetEnvironmentVariable("payfacPassword_v12_7");
-            //_config["sftpUsername"] = Environment.GetEnvironmentVariable("payfacSftpUsername_v12_7");
-            //_config["sftpPassword"] = Environment.GetEnvironmentVariable("payfacSftpPassword_v12_7");
-            //_config["url"] = Properties.Settings.Default.url;
-            //_config["reportGroup"] = Properties.Settings.Default.reportGroup;
-            //_config["printxml"] = Properties.Settings.Default.printxml;
-            //_config["timeout"] = Properties.Settings.Default.timeout;
-            //_config["proxyHost"] = Properties.Settings.Default.proxyHost;
-            //_config["proxyPort"] = Properties.Settings.Default.proxyPort;
-            //_config["sftpUrl"] = Properties.Settings.Default.sftpUrl;
-            //_config["knownHostsFile"] = Properties.Settings.Default.knownHostsFile;
-            //_config["requestDirectory"] = Properties.Settings.Default.requestDirectory;
-            //_config["responseDirectory"] = Properties.Settings.Default.responseDirectory;
-            //_config["useEncryption"] = "false";
-
-            var cnpBatchRequest = new batchRequest(_config);
-
-
-            var cnpCtx = new cnpRequest(_config);
-
-            string[] ctxPaymentInformation = { "ctx1 for submerchantcredit", "ctx2 for submerchantcredit", "ctx3 for submerchantcredit", "ctx4 for submerchantcredit", "ctx5 for submerchantcredit"};
-            string fundsTransferIdString = DateTime.Now.Ticks.ToString();
-            var accountInfoCtx = new echeckTypeCtx()
-            {
-                accType = echeckAccountTypeEnum.Checking,
-                accNum = "1092969901",
-                routingNum = "011075150",
-                checkNum = "123455",
-                ctxPaymentInformation = ctxPaymentInformation
-            };
-            
-            var submerchantCreditCtx = new submerchantCreditCtx
-            {
-                // attributes.
-                id = "111",
-                reportGroup = "submerchantCredit",
-                // required child elements.
-                accountInfo = accountInfoCtx,
-                amount = 500,
-                fundingSubmerchantId = "submerchantCredit",
-                fundsTransferId = fundsTransferIdString,
-                submerchantName = "Vantiv",
-                customIdentifier = "WorldPay"
-            };
-            cnpBatchRequest.addSubmerchantCreditCtx(submerchantCreditCtx);
-
-            var req = submerchantCreditCtx.Serialize();
-            var submerchantDebitCtx = new submerchantDebitCtx
-            {
-                // attributes.
-                id = "11",
-                reportGroup = "CTX Report Group",
-                // required child elements.
-                accountInfo = accountInfoCtx,
-                amount = 500,
-                fundingSubmerchantId = "value for fundingSubmerchantId",
-                fundsTransferId = fundsTransferIdString,
-                submerchantName = "Vantiv",
-                customIdentifier = "WorldPay"
-            };
-            cnpBatchRequest.addSubmerchantDebitCtx(submerchantDebitCtx);
-
-            var vendorCreditCtx = new vendorCreditCtx
-            {
-                // attributes.
-                id = "11",
-                reportGroup = "CTX Report Group",
-                // required child elements.
-                accountInfo = accountInfoCtx,
-                amount = 500,
-                fundingSubmerchantId = "value for fundingSubmerchantId",
-                fundsTransferId = fundsTransferIdString,
-                vendorName = "Vantiv"
-            };
-            cnpBatchRequest.addVendorCreditCtx(vendorCreditCtx);
-
-            var vendorDebitCtx = new vendorDebitCtx
-            {
-                // attributes.
-                id = "11",
-                reportGroup = "CTX Report Group",
-                // required child elements.
-                accountInfo = accountInfoCtx,
-                amount = 500,
-                fundingSubmerchantId = "value for fundingSubmerchantId",
-                fundsTransferId = fundsTransferIdString,
-                vendorName = "Vantiv"
-            };
-            cnpBatchRequest.addVendorDebitCtx(vendorDebitCtx);
-
-
-            cnpCtx.addBatch(cnpBatchRequest);
-            var batchName = cnpCtx.sendToCnp();
-            cnpCtx.blockAndWaitForResponse(batchName, estimatedResponseTime(0, 1));
-            var cnpResponse = cnpCtx.receiveFromCnp(batchName);
-
-            Assert.NotNull(cnpResponse);
-            Assert.AreEqual("0", cnpResponse.response);
-            Assert.AreEqual("Valid Format", cnpResponse.message);
-            
-            var cnpBatchResponse = cnpResponse.nextBatchResponse();
-            while (cnpBatchResponse != null)
-            {
-                var submerchantCreditResponse = cnpBatchResponse.nextSubmerchantCreditResponse();
-                while (submerchantCreditResponse != null)
-                {
-                    Assert.AreEqual("000", submerchantCreditResponse.response);
-
-                    submerchantCreditResponse = cnpBatchResponse.nextSubmerchantCreditResponse();
-                }
-
-                var submerchantDebitResponse = cnpBatchResponse.nextSubmerchantDebitResponse();
-                while (submerchantDebitResponse != null)
-                {
-                    Assert.AreEqual("000", submerchantDebitResponse.response);
-
-                    submerchantDebitResponse = cnpBatchResponse.nextSubmerchantDebitResponse();
-                }
-
-                var vendorCreditResponse = cnpBatchResponse.nextVendorCreditResponse();
-                while (vendorCreditResponse != null)
-                {
-                    Assert.AreEqual("000", vendorCreditResponse.response);
-
-                    vendorCreditResponse = cnpBatchResponse.nextVendorCreditResponse();
-                }
-
-                var vendorDebitResponse = cnpBatchResponse.nextVendorDebitResponse();
-                while (vendorDebitResponse != null)
-                {
-                    Assert.AreEqual("000", vendorDebitResponse.response);
-
-                    vendorDebitResponse = cnpBatchResponse.nextVendorDebitResponse();
-                }
-                cnpBatchResponse = cnpResponse.nextBatchResponse();
-            }
-            
-        }
-
-        
-        [Test]
         [Ignore("Fast access funding not setup for test merchant")]
         public void simpleBatchWithJustFastAccessFunding()
         {
-            if (this.preliveStatus.Equals("down"))
+            if (this.preliveIsDown())
             {
                 Assert.Ignore();
             }
@@ -768,6 +611,15 @@ namespace Cnp.Sdk.Test.Functional
         private int estimatedResponseTime(int numAuthsAndSales, int numRest)
         {
             return (int)(5 * 60 * 1000 + 2.5 * 1000 + numAuthsAndSales * (1 / 5) * 1000 + numRest * (1 / 50) * 1000) * 5;
+        }
+
+        private bool preliveIsDown() {
+            if (this.preliveStatus == null) {
+                Console.WriteLine("preliveStatus environment variable is not defined. Defaulting to down.");
+                return true;
+            }
+
+            return this.preliveStatus.ToLower().Equals("down");
         }
     }
 }

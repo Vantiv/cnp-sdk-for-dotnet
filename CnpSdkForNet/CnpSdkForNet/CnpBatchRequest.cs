@@ -63,6 +63,11 @@ namespace Cnp.Sdk
         private int numFundingInstructionVoid;
         private int numFastAccessFunding;
         private int numTranslateToLowValueTokenRequests;
+        private int numPayoutOrgCredit;
+        private int numPayoutOrgDebit; 
+        private int numCustomerCredit;
+        private int numCustomerDebit;
+
         private long sumOfAuthorization;
         private long sumOfAuthReversal;
         private long sumOfGiftCardAuthReversal;
@@ -90,6 +95,10 @@ namespace Cnp.Sdk
         private long vendorDebitAmount;
         private long physicalCheckDebitAmount;
         private long fastAccessFundingAmount;
+        private long payoutOrgCreditAmount;
+        private long payoutOrgDebitAmount;
+        private long customerCreditAmount;
+        private long customerDebitAmount;
 
         private bool sameDayFunding;
 
@@ -158,15 +167,23 @@ namespace Cnp.Sdk
             numSubmerchantCredit = 0;
             numReserveCredit = 0;
             numVendorCredit = 0;
+            numCustomerCredit = 0;
+            numPayoutOrgCredit = 0;
             numPhysicalCheckCredit = 0;
             numPayFacDebit = 0;
             numSubmerchantDebit = 0;
             numReserveDebit = 0;
             numVendorDebit = 0;
+            numCustomerDebit = 0;
+            numPayoutOrgDebit = 0;
             numPhysicalCheckDebit = 0;
             numFundingInstructionVoid = 0;
             numFastAccessFunding = 0;
             numTranslateToLowValueTokenRequests = 0;
+            numPayoutOrgCredit = 0;
+            numPayoutOrgDebit = 0;
+            numCustomerCredit = 0;
+            numCustomerDebit = 0;
             sumOfAuthorization = 0;
             sumOfAuthReversal = 0;
             sumOfGiftCardAuthReversal = 0;
@@ -184,11 +201,15 @@ namespace Cnp.Sdk
             submerchantCreditAmount = 0;
             reserveCreditAmount = 0;
             vendorCreditAmount = 0;
+            customerCreditAmount = 0;
+            payoutOrgCreditAmount = 0;
             physicalCheckCreditAmount = 0;
             payFacDebitAmount = 0;
             submerchantDebitAmount = 0;
             reserveDebitAmount = 0;
             vendorDebitAmount = 0;
+            customerDebitAmount = 0;
+            payoutOrgDebitAmount = 0;
             physicalCheckDebitAmount = 0;
             fastAccessFundingAmount = 0;
             sameDayFunding = false;
@@ -385,6 +406,16 @@ namespace Cnp.Sdk
             return numVendorCredit;
         }
 
+        public int getNumCustomerCredit()
+        {
+            return numCustomerCredit;
+        }
+
+        public int getNumPayoutOrgCredit()
+        {
+            return numPayoutOrgCredit;
+        }
+
         public int getNumPhysicalCheckCredit()
         {
             return numPhysicalCheckCredit;
@@ -408,6 +439,16 @@ namespace Cnp.Sdk
         public int getNumVendorDebit()
         {
             return numVendorDebit;
+        }
+
+        public int getNumCustomerDebit()
+        {
+            return numCustomerDebit;
+        }
+
+        public int getNumPayoutOrgDebit()
+        {
+            return numPayoutOrgDebit;
         }
 
         public int getNumPhysicalCheckDebit()
@@ -530,6 +571,16 @@ namespace Cnp.Sdk
             return vendorCreditAmount;
         }
 
+        public long getCustomerCreditAmount()
+        {
+            return customerCreditAmount;
+        }
+
+        public long getPayoutOrgCreditAmount()
+        {
+            return payoutOrgCreditAmount;
+        }
+
         public long getPhysicalCheckCreditAmount()
         {
             return physicalCheckCreditAmount;
@@ -555,6 +606,16 @@ namespace Cnp.Sdk
             return vendorDebitAmount;
         }
 
+        public long getCustomerDebitAmount()
+        {
+            return customerDebitAmount;
+        }
+
+        public long getPayoutOrgDebitAmount()
+        {
+            return payoutOrgDebitAmount;
+        }
+
         public long getPhysicalCheckDebitAmount()
         {
             return physicalCheckDebitAmount;
@@ -564,9 +625,7 @@ namespace Cnp.Sdk
         {
             return fastAccessFundingAmount;
         }
-
-
-
+ 
         public void addAuthorization(authorization authorization)
         {
             if (numAccountUpdates == 0)
@@ -982,21 +1041,6 @@ namespace Cnp.Sdk
             }
         }
 
-        public void addSubmerchantCreditCtx(submerchantCreditCtx submerchantCreditCtx)
-        {
-            if (numAccountUpdates == 0)
-            {
-                numSubmerchantCredit++;
-                submerchantCreditAmount += (long)submerchantCreditCtx.amount;
-                fillInReportGroup(submerchantCreditCtx);
-                tempBatchFilePath = saveElement(cnpFile, cnpTime, tempBatchFilePath, submerchantCreditCtx);
-            }
-            else
-            {
-                throw new CnpOnlineException(accountUpdateErrorMessage);
-            }
-        }
-
         public void addPayFacCredit(payFacCredit payFacCredit)
         {
             if (numAccountUpdates == 0)
@@ -1042,14 +1086,29 @@ namespace Cnp.Sdk
             }
         }
 
-        public void addVendorCreditCtx(vendorCreditCtx vendorCreditCtx)
+        public void addCustomerCredit(customerCredit customerCredit)
         {
             if (numAccountUpdates == 0)
             {
-                numVendorCredit++;
-                vendorCreditAmount += (long)vendorCreditCtx.amount;
-                fillInReportGroup(vendorCreditCtx);
-                tempBatchFilePath = saveElement(cnpFile, cnpTime, tempBatchFilePath, vendorCreditCtx);
+                numCustomerCredit++;
+                customerCreditAmount += (long)customerCredit.amount;
+                fillInReportGroup(customerCredit);
+                tempBatchFilePath = saveElement(cnpFile, cnpTime, tempBatchFilePath, customerCredit);
+            }
+            else
+            {
+                throw new CnpOnlineException(accountUpdateErrorMessage);
+            }
+        }
+
+        public void addPayoutOrgCredit(payoutOrgCredit payoutOrgCredit)
+        {
+            if (numAccountUpdates == 0)
+            {
+                numPayoutOrgCredit++;
+                payoutOrgCreditAmount += (long)payoutOrgCredit.amount;
+                fillInReportGroup(payoutOrgCredit);
+                tempBatchFilePath = saveElement(cnpFile, cnpTime, tempBatchFilePath, payoutOrgCredit);
             }
             else
             {
@@ -1080,21 +1139,6 @@ namespace Cnp.Sdk
                 submerchantDebitAmount += (long)submerchantDebit.amount;
                 fillInReportGroup(submerchantDebit);
                 tempBatchFilePath = saveElement(cnpFile, cnpTime, tempBatchFilePath, submerchantDebit);
-            }
-            else
-            {
-                throw new CnpOnlineException(accountUpdateErrorMessage);
-            }
-        }
-
-        public void addSubmerchantDebitCtx(submerchantDebitCtx submerchantDebitCtx)
-        {
-            if (numAccountUpdates == 0)
-            {
-                numSubmerchantDebit++;
-                submerchantDebitAmount += (long)submerchantDebitCtx.amount;
-                fillInReportGroup(submerchantDebitCtx);
-                tempBatchFilePath = saveElement(cnpFile, cnpTime, tempBatchFilePath, submerchantDebitCtx);
             }
             else
             {
@@ -1147,14 +1191,29 @@ namespace Cnp.Sdk
             }
         }
 
-        public void addVendorDebitCtx(vendorDebitCtx vendorDebitCtx)
+        public void addCustomerDebit(customerDebit customerDebit)
         {
             if (numAccountUpdates == 0)
             {
-                numVendorDebit++;
-                vendorDebitAmount += (long)vendorDebitCtx.amount;
-                fillInReportGroup(vendorDebitCtx);
-                tempBatchFilePath = saveElement(cnpFile, cnpTime, tempBatchFilePath, vendorDebitCtx);
+                numCustomerDebit++;
+                customerDebitAmount += (long)customerDebit.amount;
+                fillInReportGroup(customerDebit);
+                tempBatchFilePath = saveElement(cnpFile, cnpTime, tempBatchFilePath, customerDebit);
+            }
+            else
+            {
+                throw new CnpOnlineException(accountUpdateErrorMessage);
+            }
+        }
+        
+        public void addPayoutOrgDebit(payoutOrgDebit payoutOrgDebit)
+        {
+            if (numAccountUpdates == 0)
+            {
+                numPayoutOrgDebit++;
+                payoutOrgDebitAmount += (long)payoutOrgDebit.amount;
+                fillInReportGroup(payoutOrgDebit);
+                tempBatchFilePath = saveElement(cnpFile, cnpTime, tempBatchFilePath, payoutOrgDebit);
             }
             else
             {
@@ -1440,11 +1499,24 @@ namespace Cnp.Sdk
                 xmlHeader += "vendorCreditAmount=\"" + vendorCreditAmount + "\"\r\n";
             }
 
+            if (numCustomerCredit != 0)
+            {
+
+                xmlHeader += "numCustomerCredit=\"" + numCustomerCredit + "\"\r\n";
+                xmlHeader += "customerCreditAmount=\"" + customerCreditAmount + "\"\r\n";
+            }
+
             if (numPhysicalCheckCredit != 0)
             {
 
                 xmlHeader += "numPhysicalCheckCredit=\"" + numPhysicalCheckCredit + "\"\r\n";
                 xmlHeader += "physicalCheckCreditAmount=\"" + physicalCheckCreditAmount + "\"\r\n";
+            }
+            if (numPayoutOrgCredit != 0)
+            {
+
+                xmlHeader += "numPayoutOrgCredit=\"" + numPayoutOrgCredit + "\"\r\n";
+                xmlHeader += "numPayoutOrgCreditAmount=\"" + payoutOrgCreditAmount + "\"\r\n";
             }
 
             if (numFundingInstructionVoid != 0)
@@ -1491,18 +1563,33 @@ namespace Cnp.Sdk
                 xmlHeader += "vendorDebitAmount=\"" + vendorDebitAmount + "\"\r\n";
             }
 
+            if (numCustomerDebit != 0)
+            {
+
+                xmlHeader += "numCustomerDebit=\"" + numCustomerDebit + "\"\r\n";
+                xmlHeader += "customerDebitAmount=\"" + customerDebitAmount + "\"\r\n";
+            }
+
             if (numPhysicalCheckDebit != 0)
             {
 
                 xmlHeader += "numPhysicalCheckDebit=\"" + numPhysicalCheckDebit + "\"\r\n";
                 xmlHeader += "physicalCheckDebitAmount=\"" + physicalCheckDebitAmount + "\"\r\n";
             }
+
+            if (numPayoutOrgDebit != 0)
+            {
+
+                xmlHeader += "numPayoutOrgDebit=\"" + numPayoutOrgDebit + "\"\r\n";
+                xmlHeader += "numPayoutOrgDebitAmount=\"" + payoutOrgDebitAmount + "\"\r\n";
+            }
+
             if (sameDayFunding)
             {
                 xmlHeader += "sameDayFunding=\"" + sameDayFunding.ToString().ToLower() + "\"\r\n";
             }
-            
-            xmlHeader += "merchantSdk=\"DotNet;" + CnpVersion.CurrentCNPSDKVersion + "\"\r\n";  
+
+            xmlHeader += "merchantSdk=\"DotNet;" + CnpVersion.CurrentCNPSDKVersion + "\"\r\n";
 
             xmlHeader += "merchantId=\"" + config["merchantId"] + "\">\r\n";
             return xmlHeader;
@@ -1564,6 +1651,8 @@ namespace Cnp.Sdk
                 && numSubmerchantCredit == 0
                 && numReserveCredit == 0
                 && numVendorCredit == 0
+                && numCustomerCredit == 0
+                && numPayoutOrgCredit == 0
                 && numPhysicalCheckCredit == 0
                 && numFundingInstructionVoid == 0
                 && numFastAccessFunding == 0
@@ -1572,6 +1661,8 @@ namespace Cnp.Sdk
                 && numSubmerchantDebit == 0
                 && numReserveDebit == 0
                 && numVendorDebit == 0
+                && numCustomerDebit == 0
+                && numPayoutOrgDebit == 0
                 && numPhysicalCheckDebit == 0
                 && numGiftCardAuthReversal == 0
                 && numGiftCardCapture == 0
@@ -2036,6 +2127,8 @@ namespace Cnp.Sdk
 
         public string fundingSubmerchantId { get; set; }
 
+        public string fundingCustomerId { get; set; }
+
         public string fundsTransferId { get; set; }
 
         public long? amount { get; set; }
@@ -2051,6 +2144,8 @@ namespace Cnp.Sdk
             xml += "reportGroup=\"" + SecurityElement.Escape(reportGroup) + "\">";
             if (fundingSubmerchantId != null)
                 xml += "\r\n<fundingSubmerchantId>" + SecurityElement.Escape(fundingSubmerchantId) + "</fundingSubmerchantId>";
+            else if (fundingCustomerId != null)
+                xml += "\r\n<fundingCustomerId>" + SecurityElement.Escape(fundingCustomerId) + "</fundingCustomerId>";
             if (fundsTransferId != null)
                 xml += "\r\n<fundsTransferId>" + SecurityElement.Escape(fundsTransferId) + "</fundsTransferId>";
             if (amount != null)
@@ -2066,6 +2161,8 @@ namespace Cnp.Sdk
     {
 
         public string fundingSubmerchantId { get; set; }
+
+        public string fundingCustomerId { get; set; }
 
         public string vendorName { get; set; }
 
@@ -2086,6 +2183,8 @@ namespace Cnp.Sdk
             xml += "reportGroup=\"" + SecurityElement.Escape(reportGroup) + "\">";
             if (fundingSubmerchantId != null)
                 xml += "\r\n<fundingSubmerchantId>" + SecurityElement.Escape(fundingSubmerchantId) + "</fundingSubmerchantId>";
+            else if (fundingCustomerId != null)
+                xml += "\r\n<fundingCustomerId>" + SecurityElement.Escape(fundingCustomerId) + "</fundingCustomerId>";
             if (vendorName != null)
                 xml += "\r\n<vendorName>" + SecurityElement.Escape(vendorName) + "</vendorName>";
             if (fundsTransferId != null)
@@ -2105,10 +2204,89 @@ namespace Cnp.Sdk
         }
     }
 
+    public partial class customerCredit : transactionTypeWithReportGroup
+    {
+        public string fundingCustomerId { get; set; }
+
+        public string customerName { get; set; }
+
+        public string fundsTransferId { get; set; }
+
+        public long? amount { get; set; }
+
+        public echeckType accountInfo { get; set; }
+
+        public string customIdentifier { get; set; }
+
+        public override string Serialize()
+        {
+            var xml = "\r\n<customerCredit ";
+
+            if (id != null)
+                xml += "id=\"" + SecurityElement.Escape(id) + "\" ";
+            if (customerId != null)
+                xml += "customerId=\"" + SecurityElement.Escape(customerId) + "\" ";
+            xml += "reportGroup=\"" + SecurityElement.Escape(reportGroup) + "\">";
+            if (fundingCustomerId != null)
+                xml += "\r\n<fundingCustomerId>" + SecurityElement.Escape(fundingCustomerId) + "</fundingCustomerId>";
+            if (customerName != null)
+                xml += "\r\n<customerName>" + SecurityElement.Escape(customerName) + "</customerName>";
+            if (fundsTransferId != null)
+                xml += "\r\n<fundsTransferId>" + SecurityElement.Escape(fundsTransferId) + "</fundsTransferId>";
+            if (amount != null)
+                xml += "\r\n<amount>" + amount + "</amount>";
+            if (accountInfo != null)
+            {
+                xml += "\r\n<accountInfo>";
+                xml += accountInfo.Serialize();
+                xml += "</accountInfo>";
+            }
+            if (customIdentifier != null)
+                xml += "\r\n<customIdentifier>" + SecurityElement.Escape(customIdentifier) + "</customIdentifier>";
+
+            xml += "\r\n</customerCredit>";
+
+            return xml;
+        }
+    }
+
+    public partial class payoutOrgCredit : transactionTypeWithReportGroup
+    {
+
+        public string fundingCustomerId { get; set; }
+
+        public string fundsTransferId { get; set; }
+
+        public long? amount { get; set; }
+
+        public override string Serialize()
+        {
+            var xml = "\r\n<payoutOrgCredit ";
+
+            if (id != null)
+                xml += "id=\"" + SecurityElement.Escape(id) + "\" ";
+            if (customerId != null)
+                xml += "customerId=\"" + SecurityElement.Escape(customerId) + "\" ";
+            xml += "reportGroup=\"" + SecurityElement.Escape(reportGroup) + "\">";
+            if (fundingCustomerId != null)
+                xml += "\r\n<fundingCustomerId>" + SecurityElement.Escape(fundingCustomerId) + "</fundingCustomerId>";
+            if (fundsTransferId != null)
+                xml += "\r\n<fundsTransferId>" + SecurityElement.Escape(fundsTransferId) + "</fundsTransferId>";
+            if (amount != null)
+                xml += "\r\n<amount>" + amount + "</amount>";
+
+            xml += "\r\n</payoutOrgCredit>";
+
+            return xml;
+        }
+    }
+
     public partial class physicalCheckCredit : transactionTypeWithReportGroup
     {
 
         public string fundingSubmerchantId { get; set; }
+
+        public string fundingCustomerId { get; set; }
 
         public string fundsTransferId { get; set; }
 
@@ -2125,6 +2303,8 @@ namespace Cnp.Sdk
             xml += "reportGroup=\"" + SecurityElement.Escape(reportGroup) + "\">";
             if (fundingSubmerchantId != null)
                 xml += "\r\n<fundingSubmerchantId>" + SecurityElement.Escape(fundingSubmerchantId) + "</fundingSubmerchantId>";
+            else if (fundingCustomerId != null)
+                xml += "\r\n<fundingCustomerId>" + SecurityElement.Escape(fundingCustomerId) + "</fundingCustomerId>";
             if (fundsTransferId != null)
                 xml += "\r\n<fundsTransferId>" + SecurityElement.Escape(fundsTransferId) + "</fundsTransferId>";
             if (amount != null)
@@ -2140,6 +2320,8 @@ namespace Cnp.Sdk
     {
 
         public string fundingSubmerchantId { get; set; }
+
+        public string fundingCustomerId { get; set; }
 
         public string submerchantName { get; set; }
 
@@ -2162,6 +2344,8 @@ namespace Cnp.Sdk
             xml += "reportGroup=\"" + SecurityElement.Escape(reportGroup) + "\">";
             if (fundingSubmerchantId != null)
                 xml += "\r\n<fundingSubmerchantId>" + SecurityElement.Escape(fundingSubmerchantId) + "</fundingSubmerchantId>";
+            else if (fundingCustomerId != null)
+                xml += "\r\n<fundingCustomerId>" + SecurityElement.Escape(fundingCustomerId) + "</fundingCustomerId>";
             if (submerchantName != null)
                 xml += "\r\n<submerchantName>" + SecurityElement.Escape(submerchantName) + "</submerchantName>";
             if (fundsTransferId != null)
@@ -2219,6 +2403,8 @@ namespace Cnp.Sdk
 
         public string fundingSubmerchantId { get; set; }
 
+        public string fundingCustomerId { get; set; }
+
         public string fundsTransferId { get; set; }
 
         public long? amount { get; set; }
@@ -2234,6 +2420,8 @@ namespace Cnp.Sdk
             xml += "reportGroup=\"" + SecurityElement.Escape(reportGroup) + "\">";
             if (fundingSubmerchantId != null)
                 xml += "\r\n<fundingSubmerchantId>" + SecurityElement.Escape(fundingSubmerchantId) + "</fundingSubmerchantId>";
+            else if (fundingCustomerId != null)
+                xml += "\r\n<fundingCustomerId>" + SecurityElement.Escape(fundingCustomerId) + "</fundingCustomerId>";
             if (fundsTransferId != null)
                 xml += "\r\n<fundsTransferId>" + SecurityElement.Escape(fundsTransferId) + "</fundsTransferId>";
             if (amount != null)
@@ -2249,6 +2437,8 @@ namespace Cnp.Sdk
     {
 
         public string fundingSubmerchantId { get; set; }
+
+        public string fundingCustomerId { get; set; }
 
         public string vendorName { get; set; }
 
@@ -2269,6 +2459,8 @@ namespace Cnp.Sdk
             xml += "reportGroup=\"" + SecurityElement.Escape(reportGroup) + "\">";
             if (fundingSubmerchantId != null)
                 xml += "\r\n<fundingSubmerchantId>" + SecurityElement.Escape(fundingSubmerchantId) + "</fundingSubmerchantId>";
+            else if (fundingCustomerId != null)
+                xml += "\r\n<fundingCustomerId>" + SecurityElement.Escape(fundingCustomerId) + "</fundingCustomerId>";
             if (vendorName != null)
                 xml += "\r\n<vendorName>" + SecurityElement.Escape(vendorName) + "</vendorName>";
             if (fundsTransferId != null)
@@ -2288,10 +2480,89 @@ namespace Cnp.Sdk
         }
     }
 
+    public partial class customerDebit : transactionTypeWithReportGroup
+    {
+        public string fundingCustomerId { get; set; }
+
+        public string customerName { get; set; }
+
+        public string fundsTransferId { get; set; }
+
+        public long? amount { get; set; }
+
+        public echeckType accountInfo { get; set; }
+
+        public string customIdentifier { get; set; }
+
+        public override string Serialize()
+        {
+            var xml = "\r\n<customerDebit ";
+
+            if (id != null)
+                xml += "id=\"" + SecurityElement.Escape(id) + "\" ";
+            if (customerId != null)
+                xml += "customerId=\"" + SecurityElement.Escape(customerId) + "\" ";
+            xml += "reportGroup=\"" + SecurityElement.Escape(reportGroup) + "\">";
+            if (fundingCustomerId != null)
+                xml += "\r\n<fundingCustomerId>" + SecurityElement.Escape(fundingCustomerId) + "</fundingCustomerId>";
+            if (customerName != null)
+                xml += "\r\n<customerName>" + SecurityElement.Escape(customerName) + "</customerName>";
+            if (fundsTransferId != null)
+                xml += "\r\n<fundsTransferId>" + SecurityElement.Escape(fundsTransferId) + "</fundsTransferId>";
+            if (amount != null)
+                xml += "\r\n<amount>" + amount + "</amount>";
+            if (accountInfo != null)
+            {
+                xml += "\r\n<accountInfo>";
+                xml += accountInfo.Serialize();
+                xml += "</accountInfo>";
+            }
+            if (customIdentifier != null)
+                xml += "\r\n<customIdentifier>" + SecurityElement.Escape(customIdentifier) + "</customIdentifier>";
+
+            xml += "\r\n</customerDebit>";
+
+            return xml;
+        }
+    }
+
+    public partial class payoutOrgDebit : transactionTypeWithReportGroup
+    {
+
+        public string fundingCustomerId { get; set; }
+
+        public string fundsTransferId { get; set; }
+
+        public long? amount { get; set; }
+
+        public override string Serialize()
+        {
+            var xml = "\r\n<payoutOrgDebit ";
+
+            if (id != null)
+                xml += "id=\"" + SecurityElement.Escape(id) + "\" ";
+            if (customerId != null)
+                xml += "customerId=\"" + SecurityElement.Escape(customerId) + "\" ";
+            xml += "reportGroup=\"" + SecurityElement.Escape(reportGroup) + "\">";
+            if (fundingCustomerId != null)
+                xml += "\r\n<fundingCustomerId>" + SecurityElement.Escape(fundingCustomerId) + "</fundingCustomerId>";
+            if (fundsTransferId != null)
+                xml += "\r\n<fundsTransferId>" + SecurityElement.Escape(fundsTransferId) + "</fundsTransferId>";
+            if (amount != null)
+                xml += "\r\n<amount>" + amount + "</amount>";
+
+            xml += "\r\n</payoutOrgDebit>";
+
+            return xml;
+        }
+    }
+
     public partial class physicalCheckDebit : transactionTypeWithReportGroup
     {
 
         public string fundingSubmerchantId { get; set; }
+
+        public string fundingCustomerId { get; set; }
 
         public string fundsTransferId { get; set; }
 
@@ -2308,6 +2579,8 @@ namespace Cnp.Sdk
             xml += "reportGroup=\"" + SecurityElement.Escape(reportGroup) + "\">";
             if (fundingSubmerchantId != null)
                 xml += "\r\n<fundingSubmerchantId>" + SecurityElement.Escape(fundingSubmerchantId) + "</fundingSubmerchantId>";
+            else if (fundingCustomerId != null)
+                xml += "\r\n<fundingCustomerId>" + SecurityElement.Escape(fundingCustomerId) + "</fundingCustomerId>";
             if (fundsTransferId != null)
                 xml += "\r\n<fundsTransferId>" + SecurityElement.Escape(fundsTransferId) + "</fundsTransferId>";
             if (amount != null)
@@ -2339,355 +2612,4 @@ namespace Cnp.Sdk
             return xml;
         }
     }
-
-    /// <remarks/>
-    [System.CodeDom.Compiler.GeneratedCodeAttribute("xsd", "4.6.1055.0")]
-    [System.SerializableAttribute()]
-    [System.Diagnostics.DebuggerStepThroughAttribute()]
-    [System.ComponentModel.DesignerCategoryAttribute("code")]
-    [System.Xml.Serialization.XmlTypeAttribute(Namespace = "http://www.vantivcnp.com/schema")]
-    public partial class echeckTypeCtx
-    {
-        private bool accTypeSet;
-        private echeckAccountTypeEnum accTypeField;
-        private string accNumField;
-        private string routingNumField;
-        private string checkNumField;
-        private string ccdPaymentInformationField;
-        private string[] ctxPaymentInformationField;
-        public echeckAccountTypeEnum accType
-        {
-            get
-            {
-                return this.accTypeField;
-            }
-            set
-            {
-                this.accTypeField = value;
-                this.accTypeSet = true;
-            }
-        }
-        
-        public string accNum
-        {
-            get
-            {
-                return this.accNumField;
-            }
-            set
-            {
-                this.accNumField = value;
-            }
-        }
-        
-        public string routingNum
-        {
-            get
-            {
-                return this.routingNumField;
-            }
-            set
-            {
-                this.routingNumField = value;
-            }
-        }
-        
-        public string checkNum
-        {
-            get
-            {
-                return this.checkNumField;
-            }
-            set
-            {
-                this.checkNumField = value;
-            }
-        }
-        
-        public string ccdPaymentInformation
-        {
-            get
-            {
-                return this.ccdPaymentInformationField;
-            }
-            set
-            {
-                this.ccdPaymentInformationField = value;
-            }
-        }
-
-        /// <remarks/>
-        [System.Xml.Serialization.XmlArrayItemAttribute("ctxPaymentDetail", IsNullable = false)]
-        public string[] ctxPaymentInformation
-        {
-            get
-            {
-                return this.ctxPaymentInformationField;
-            }
-            set
-            {
-                this.ctxPaymentInformationField = value;
-            }
-        }
-
-        public string Serialize()
-        {
-            var xml = "";
-            var accTypeName = accTypeField.ToString();
-            var attributes =
-                (XmlEnumAttribute[])typeof(echeckAccountTypeEnum).GetMember(accTypeField.ToString())[0].GetCustomAttributes(typeof(XmlEnumAttribute), false);
-            if (attributes.Length > 0) accTypeName = attributes[0].Name;
-            if (accTypeSet) xml += "\r\n<accType>" + accTypeName + "</accType>";
-            if (accNum != null) xml += "\r\n<accNum>" + SecurityElement.Escape(accNum) + "</accNum>";
-            if (routingNum != null) xml += "\r\n<routingNum>" + SecurityElement.Escape(routingNum) + "</routingNum>";
-            if (checkNum != null) xml += "\r\n<checkNum>" + SecurityElement.Escape(checkNum) + "</checkNum>";
-            if (ccdPaymentInformation != null) xml += "\r\n<ccdPaymentInformation>" + SecurityElement.Escape(ccdPaymentInformation) + "</ccdPaymentInformation>";
-            if (ctxPaymentInformation != null)
-            {
-                xml += "\r\n<ctxPaymentInformation>";
-                for (int i = 0; i < ctxPaymentInformation.Length; i++) xml += "\r\n<ctxPaymentDetail>" + SecurityElement.Escape(ctxPaymentInformation[i]) + "</ctxPaymentDetail>";
-                xml += "\r\n</ctxPaymentInformation>";
-            }
-            return xml;
-        }
-    }
-
-    /// <remarks/>
-    [System.CodeDom.Compiler.GeneratedCodeAttribute("xsd", "4.6.1055.0")]
-    [System.SerializableAttribute()]
-    [System.Diagnostics.DebuggerStepThroughAttribute()]
-    [System.ComponentModel.DesignerCategoryAttribute("code")]
-    [System.Xml.Serialization.XmlTypeAttribute(AnonymousType = true, Namespace = "http://www.vantivcnp.com/schema")]
-    [System.Xml.Serialization.XmlRootAttribute("submerchantCredit", Namespace = "http://www.vantivcnp.com/schema", IsNullable = false)]
-    public partial class submerchantCreditCtx : transactionTypeWithReportGroup
-    {
-        /// <remarks/>
-        [System.Xml.Serialization.XmlElementAttribute("accountInfo", typeof(echeckTypeCtx))]
-        [System.Xml.Serialization.XmlElementAttribute("amount", typeof(string), DataType = "integer")]
-        [System.Xml.Serialization.XmlElementAttribute("customIdentifier", typeof(string))]
-        [System.Xml.Serialization.XmlElementAttribute("fundingSubmerchantId", typeof(string))]
-        [System.Xml.Serialization.XmlElementAttribute("fundsTransferId", typeof(string))]
-        [System.Xml.Serialization.XmlElementAttribute("submerchantName", typeof(string))]
-        
-        public string fundingSubmerchantId { get; set; }
-
-        public string submerchantName { get; set; }
-
-        public string fundsTransferId { get; set; }
-
-        public long? amount { get; set; }
-
-        public echeckTypeCtx accountInfo { get; set; }
-
-        public string customIdentifier { get; set; }
-
-        public override string Serialize()
-        {
-            var xml = "\r\n<submerchantCredit ";
-
-            if (id != null)
-                xml += "id=\"" + SecurityElement.Escape(id) + "\" ";
-            if (customerId != null)
-                xml += "customerId=\"" + SecurityElement.Escape(customerId) + "\" ";
-            xml += "reportGroup=\"" + SecurityElement.Escape(reportGroup) + "\">";
-            if (fundingSubmerchantId != null)
-                xml += "\r\n<fundingSubmerchantId>" + SecurityElement.Escape(fundingSubmerchantId) + "</fundingSubmerchantId>";
-            if (submerchantName != null)
-                xml += "\r\n<submerchantName>" + SecurityElement.Escape(submerchantName) + "</submerchantName>";
-            if (fundsTransferId != null)
-                xml += "\r\n<fundsTransferId>" + SecurityElement.Escape(fundsTransferId) + "</fundsTransferId>";
-            if (amount != null)
-                xml += "\r\n<amount>" + amount + "</amount>";
-            if (accountInfo != null)
-            {
-                xml += "\r\n<accountInfo>";
-                xml += accountInfo.Serialize();
-                xml += "</accountInfo>";
-            }
-            if (customIdentifier != null)
-                xml += "\r\n<customIdentifier>" + customIdentifier + "</customIdentifier>";
-
-            xml += "\r\n</submerchantCredit>";
-
-            return xml;
-        }
-    }
-
-    /// <remarks/>
-    [System.CodeDom.Compiler.GeneratedCodeAttribute("xsd", "4.6.1055.0")]
-    [System.SerializableAttribute()]
-    [System.Diagnostics.DebuggerStepThroughAttribute()]
-    [System.ComponentModel.DesignerCategoryAttribute("code")]
-    [System.Xml.Serialization.XmlTypeAttribute(AnonymousType = true, Namespace = "http://www.vantivcnp.com/schema")]
-    [System.Xml.Serialization.XmlRootAttribute("submerchantCredit", Namespace = "http://www.vantivcnp.com/schema", IsNullable = false)]
-    public partial class submerchantDebitCtx : transactionTypeWithReportGroup
-    {
-        /// <remarks/>
-        [System.Xml.Serialization.XmlElementAttribute("accountInfo", typeof(echeckTypeCtx))]
-        [System.Xml.Serialization.XmlElementAttribute("amount", typeof(string), DataType = "integer")]
-        [System.Xml.Serialization.XmlElementAttribute("customIdentifier", typeof(string))]
-        [System.Xml.Serialization.XmlElementAttribute("fundingSubmerchantId", typeof(string))]
-        [System.Xml.Serialization.XmlElementAttribute("fundsTransferId", typeof(string))]
-        [System.Xml.Serialization.XmlElementAttribute("submerchantName", typeof(string))]
-
-        public string fundingSubmerchantId { get; set; }
-
-        public string submerchantName { get; set; }
-
-        public string fundsTransferId { get; set; }
-
-        public long? amount { get; set; }
-
-        public echeckTypeCtx accountInfo { get; set; }
-
-        public string customIdentifier { get; set; }
-
-        public override string Serialize()
-        {
-            var xml = "\r\n<submerchantDebit ";
-
-            if (id != null)
-                xml += "id=\"" + SecurityElement.Escape(id) + "\" ";
-            if (customerId != null)
-                xml += "customerId=\"" + SecurityElement.Escape(customerId) + "\" ";
-            xml += "reportGroup=\"" + SecurityElement.Escape(reportGroup) + "\">";
-            if (fundingSubmerchantId != null)
-                xml += "\r\n<fundingSubmerchantId>" + SecurityElement.Escape(fundingSubmerchantId) + "</fundingSubmerchantId>";
-            if (submerchantName != null)
-                xml += "\r\n<submerchantName>" + SecurityElement.Escape(submerchantName) + "</submerchantName>";
-            if (fundsTransferId != null)
-                xml += "\r\n<fundsTransferId>" + SecurityElement.Escape(fundsTransferId) + "</fundsTransferId>";
-            if (amount != null)
-                xml += "\r\n<amount>" + amount + "</amount>";
-            if (accountInfo != null)
-            {
-                xml += "\r\n<accountInfo>";
-                xml += accountInfo.Serialize();
-                xml += "</accountInfo>";
-            }
-            if (customIdentifier != null)
-                xml += "\r\n<customIdentifier>" + customIdentifier + "</customIdentifier>";
-
-            xml += "\r\n</submerchantDebit>";
-
-            return xml;
-        }
-    }
-
-    /// <remarks/>
-    [System.CodeDom.Compiler.GeneratedCodeAttribute("xsd", "4.6.1055.0")]
-    [System.SerializableAttribute()]
-    [System.Diagnostics.DebuggerStepThroughAttribute()]
-    [System.ComponentModel.DesignerCategoryAttribute("code")]
-    [System.Xml.Serialization.XmlTypeAttribute(AnonymousType = true, Namespace = "http://www.vantivcnp.com/schema")]
-    [System.Xml.Serialization.XmlRootAttribute("vendorCredit", Namespace = "http://www.vantivcnp.com/schema", IsNullable = false)]
-    public partial class vendorCreditCtx : transactionTypeWithReportGroup
-    {
-        /// <remarks/>
-        [System.Xml.Serialization.XmlElementAttribute("accountInfo", typeof(echeckTypeCtx))]
-        [System.Xml.Serialization.XmlElementAttribute("amount", typeof(string), DataType = "integer")]
-        [System.Xml.Serialization.XmlElementAttribute("fundingSubmerchantId", typeof(string))]
-        [System.Xml.Serialization.XmlElementAttribute("fundsTransferId", typeof(string))]
-        [System.Xml.Serialization.XmlElementAttribute("vendorName", typeof(string))]
-
-        public string fundingSubmerchantId { get; set; }
-
-        public string vendorName { get; set; }
-
-        public string fundsTransferId { get; set; }
-
-        public long? amount { get; set; }
-
-        public echeckTypeCtx accountInfo { get; set; }
-
-        public override string Serialize()
-        {
-            var xml = "\r\n<vendorCredit ";
-
-            if (id != null)
-                xml += "id=\"" + SecurityElement.Escape(id) + "\" ";
-            if (customerId != null)
-                xml += "customerId=\"" + SecurityElement.Escape(customerId) + "\" ";
-            xml += "reportGroup=\"" + SecurityElement.Escape(reportGroup) + "\">";
-            if (fundingSubmerchantId != null)
-                xml += "\r\n<fundingSubmerchantId>" + SecurityElement.Escape(fundingSubmerchantId) + "</fundingSubmerchantId>";
-            if (vendorName != null)
-                xml += "\r\n<vendorName>" + SecurityElement.Escape(vendorName) + "</vendorName>";
-            if (fundsTransferId != null)
-                xml += "\r\n<fundsTransferId>" + SecurityElement.Escape(fundsTransferId) + "</fundsTransferId>";
-            if (amount != null)
-                xml += "\r\n<amount>" + amount + "</amount>";
-            if (accountInfo != null)
-            {
-                xml += "\r\n<accountInfo>";
-                xml += accountInfo.Serialize();
-                xml += "</accountInfo>";
-            }
-
-            xml += "\r\n</vendorCredit>";
-
-            return xml;
-        }
-
-    }
-
-    /// <remarks/>
-    [System.CodeDom.Compiler.GeneratedCodeAttribute("xsd", "4.6.1055.0")]
-    [System.SerializableAttribute()]
-    [System.Diagnostics.DebuggerStepThroughAttribute()]
-    [System.ComponentModel.DesignerCategoryAttribute("code")]
-    [System.Xml.Serialization.XmlTypeAttribute(AnonymousType = true, Namespace = "http://www.vantivcnp.com/schema")]
-    [System.Xml.Serialization.XmlRootAttribute("vendorCredit", Namespace = "http://www.vantivcnp.com/schema", IsNullable = false)]
-    public partial class vendorDebitCtx : transactionTypeWithReportGroup
-    {
-        /// <remarks/>
-        [System.Xml.Serialization.XmlElementAttribute("accountInfo", typeof(echeckTypeCtx))]
-        [System.Xml.Serialization.XmlElementAttribute("amount", typeof(string), DataType = "integer")]
-        [System.Xml.Serialization.XmlElementAttribute("fundingSubmerchantId", typeof(string))]
-        [System.Xml.Serialization.XmlElementAttribute("fundsTransferId", typeof(string))]
-        [System.Xml.Serialization.XmlElementAttribute("vendorName", typeof(string))]
-
-        public string fundingSubmerchantId { get; set; }
-
-        public string vendorName { get; set; }
-
-        public string fundsTransferId { get; set; }
-
-        public long? amount { get; set; }
-
-        public echeckTypeCtx accountInfo { get; set; }
-
-        public override string Serialize()
-        {
-            var xml = "\r\n<vendorDebit ";
-
-            if (id != null)
-                xml += "id=\"" + SecurityElement.Escape(id) + "\" ";
-            if (customerId != null)
-                xml += "customerId=\"" + SecurityElement.Escape(customerId) + "\" ";
-            xml += "reportGroup=\"" + SecurityElement.Escape(reportGroup) + "\">";
-            if (fundingSubmerchantId != null)
-                xml += "\r\n<fundingSubmerchantId>" + SecurityElement.Escape(fundingSubmerchantId) + "</fundingSubmerchantId>";
-            if (vendorName != null)
-                xml += "\r\n<vendorName>" + SecurityElement.Escape(vendorName) + "</vendorName>";
-            if (fundsTransferId != null)
-                xml += "\r\n<fundsTransferId>" + SecurityElement.Escape(fundsTransferId) + "</fundsTransferId>";
-            if (amount != null)
-                xml += "\r\n<amount>" + amount + "</amount>";
-            if (accountInfo != null)
-            {
-                xml += "\r\n<accountInfo>";
-                xml += accountInfo.Serialize();
-                xml += "</accountInfo>";
-            }
-
-            xml += "\r\n</vendorDebit>";
-
-            return xml;
-        }
-
-    }
-
-
-
 }
