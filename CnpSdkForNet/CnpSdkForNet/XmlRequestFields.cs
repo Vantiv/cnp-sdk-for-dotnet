@@ -526,7 +526,7 @@ namespace Cnp.Sdk
                     xml += "\r\n<originalTransactionAmount>" + originalTransactionAmount + "</originalTransactionAmount>";
                 }
                 if (skipRealtimeAU != null) {
-                    xml += "\r\n<skipRealtimeAU>" + skipRealtimeAU + "</skipRealtimeAU>";
+                    xml += "\r\n<skipRealtimeAU>" + skipRealtimeAU.ToString().ToLower() + "</skipRealtimeAU>";
                 }
             }
 
@@ -2291,7 +2291,7 @@ namespace Cnp.Sdk
                 xml += "\r\n<pinlessDebitRequest>" + pinlessDebitRequest.Serialize() + "</pinlessDebitRequest>";
             }
             if (skipRealtimeAU != null) {
-                xml += "\r\n<skipRealtimeAU>" + skipRealtimeAU + "</skipRealtimeAU>";
+                xml += "\r\n<skipRealtimeAU>" + skipRealtimeAU.ToString().ToLower() + "</skipRealtimeAU>";
             }
 
             //if (routingPreferenceSet)
