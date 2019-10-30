@@ -2505,7 +2505,7 @@ namespace Cnp.Sdk
         public cardAccountInfoType originalCardInfo;
         public cardTokenInfoType originalCardTokenInfo;
         public echeckTokenInfoType originalTokenInfo;
-        public accountUpdateSourceType accountUpdateSource;
+        public accountUpdateSourceType? accountUpdateSource;
     }
 
     /// <remarks/>
@@ -5157,7 +5157,7 @@ namespace Cnp.Sdk
         public string id;
         public long cnpBatchId;
         public string merchantId;
-        public long numAccountUpdates;
+        public long? numAccountUpdates;
 
         private XmlReader originalXmlReader;
         private XmlReader accountUpdateResponseReader;

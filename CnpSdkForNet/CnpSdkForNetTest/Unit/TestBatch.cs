@@ -2168,7 +2168,7 @@ namespace Cnp.Sdk.Test.Unit
             Assert.AreEqual(cnpBatchResponse.id, "1");
             Assert.AreEqual(cnpBatchResponse.cnpBatchId, 2);
             Assert.AreEqual(cnpBatchResponse.merchantId, "3");
-            Assert.AreEqual(cnpBatchResponse.numAccountUpdates, 0);
+            Assert.AreEqual(cnpBatchResponse.numAccountUpdates, null);
         }
         
         [Test]
@@ -2313,7 +2313,7 @@ namespace Cnp.Sdk.Test.Unit
             
             Assert.AreEqual(123,saleResponse.cnpTxnId);
             Assert.AreEqual("000", saleResponse.response);
-            Assert.NotNull(saleResponse.accountUpdater);
+            Assert.AreEqual(null, saleResponse.accountUpdater.accountUpdateSource);
         }
     }
 }

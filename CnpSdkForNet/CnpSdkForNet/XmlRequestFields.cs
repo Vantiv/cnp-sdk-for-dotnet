@@ -384,7 +384,7 @@ namespace Cnp.Sdk
                 originalTransactionAmountSet = true;
             }
         }
-        public bool skipRealtimeAU;
+        public bool? skipRealtimeAU;
 
         public override string Serialize()
         {
@@ -2120,7 +2120,7 @@ namespace Cnp.Sdk
         }
 
         public pinlessDebitRequestType pinlessDebitRequest;
-        public bool skipRealtimeAU;
+        public bool? skipRealtimeAU;
 
         //private routingPreferenceEnum routingPreferenceField;
         //private bool routingPreferenceSet;
