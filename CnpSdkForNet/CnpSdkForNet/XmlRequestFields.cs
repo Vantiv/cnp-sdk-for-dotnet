@@ -384,6 +384,7 @@ namespace Cnp.Sdk
                 originalTransactionAmountSet = true;
             }
         }
+        public bool skipRealtimeAU;
 
         public override string Serialize()
         {
@@ -524,7 +525,9 @@ namespace Cnp.Sdk
                 {
                     xml += "\r\n<originalTransactionAmount>" + originalTransactionAmount + "</originalTransactionAmount>";
                 }
-
+                if (skipRealtimeAU != null) {
+                    xml += "\r\n<skipRealtimeAU>" + skipRealtimeAU + "</skipRealtimeAU>";
+                }
             }
 
             xml += "\r\n</authorization>";
@@ -2117,6 +2120,7 @@ namespace Cnp.Sdk
         }
 
         public pinlessDebitRequestType pinlessDebitRequest;
+        public bool skipRealtimeAU;
 
         //private routingPreferenceEnum routingPreferenceField;
         //private bool routingPreferenceSet;
@@ -2283,9 +2287,11 @@ namespace Cnp.Sdk
             {
                 xml += "\r\n<originalTransactionAmount>" + originalTransactionAmount + "</originalTransactionAmount>";
             }
-            if (pinlessDebitRequest != null)
-            {
+            if (pinlessDebitRequest != null) {
                 xml += "\r\n<pinlessDebitRequest>" + pinlessDebitRequest.Serialize() + "</pinlessDebitRequest>";
+            }
+            if (skipRealtimeAU != null) {
+                xml += "\r\n<skipRealtimeAU>" + skipRealtimeAU + "</skipRealtimeAU>";
             }
 
             //if (routingPreferenceSet)
