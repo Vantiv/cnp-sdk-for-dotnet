@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.IO;
 using System.Text;
 using NUnit.Framework;
 using Cnp.Sdk;
@@ -2152,6 +2153,44 @@ namespace Cnp.Sdk.Test.Unit
 
             mockCommunications.Verify(Communications => Communications.FtpDropOff(It.IsAny<String>(), mockFileName, It.IsAny<Dictionary<String, String>>()));
             mockCommunications.Verify(Communications => Communications.FtpPickUp(It.IsAny<String>(), It.IsAny<Dictionary<String, String>>(), mockFileName));
+        }
+
+        [Test]
+        public void TestNullNumAccountUpdates() {
+            var xmlReader = XmlReader.Create(new StringReader("<batchResponse id=\"1\" cnpBatchId=\"2\" merchantId=\"3\"></batchResponse>"));
+            xmlReader.Read();
+               
+            batchResponse cnpBatchResponse = new batchResponse();
+            try {
+                cnpBatchResponse.readXml(xmlReader, "nullFile");
+            }
+            catch (FileNotFoundException e) {
+                // Other XMLReaders can't generate since the file doesn't exist. Everything else should be initialized though.
+            }
+
+            Assert.AreEqual(cnpBatchResponse.id, "1");
+            Assert.AreEqual(cnpBatchResponse.cnpBatchId, 2);
+            Assert.AreEqual(cnpBatchResponse.merchantId, "3");
+            Assert.AreEqual(cnpBatchResponse.numAccountUpdates, 0);
+        }
+        
+        [Test]
+        public void TestNumAccountUpdates() {
+            var xmlReader = XmlReader.Create(new StringReader("<batchResponse id=\"1\" cnpBatchId=\"2\" merchantId=\"3\" numAccountUpdates=\"4\"></batchResponse>"));
+            xmlReader.Read();
+               
+            batchResponse cnpBatchResponse = new batchResponse();
+            try {
+                cnpBatchResponse.readXml(xmlReader, "nullFile");
+            }
+            catch (FileNotFoundException e) {
+                // Other XMLReaders can't generate since the file doesn't exist. Everything else should be initialized though.
+            }
+
+            Assert.AreEqual(cnpBatchResponse.id, "1");
+            Assert.AreEqual(cnpBatchResponse.cnpBatchId, 2);
+            Assert.AreEqual(cnpBatchResponse.merchantId, "3");
+            Assert.AreEqual(cnpBatchResponse.numAccountUpdates, 4);
         }
     }
 }
