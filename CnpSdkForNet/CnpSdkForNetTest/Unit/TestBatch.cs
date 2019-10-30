@@ -1,12 +1,9 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.IO;
-using System.Text;
 using NUnit.Framework;
-using Cnp.Sdk;
 using Moq;
 using System.Text.RegularExpressions;
-using Moq.Language.Flow;
 using System.Xml;
 
 
@@ -2191,6 +2188,132 @@ namespace Cnp.Sdk.Test.Unit
             Assert.AreEqual(cnpBatchResponse.cnpBatchId, 2);
             Assert.AreEqual(cnpBatchResponse.merchantId, "3");
             Assert.AreEqual(cnpBatchResponse.numAccountUpdates, 4);
+        }
+        
+        [Test]
+        public void TestAccountUpdateSourceRealtime() {
+            var xmlReader = XmlReader.Create(new StringReader("<saleResponse reportGroup=\"Merch01ReportGrp\" xmlns=\"http://www.vantivcnp.com/schema\"><cnpTxnId>123</cnpTxnId><orderId>MERCH01-0002</orderId><response>000</response><responseTime>2010-04-11T15:44:26</responseTime><message>Approved</message><accountUpdater><accountUpdateSource>R</accountUpdateSource></accountUpdater></saleResponse>"));
+            xmlReader.Read();
+               
+            batchResponse mockCnpBatchResponse = new batchResponse();
+            mockCnpBatchResponse.setSaleResponseReader(xmlReader);
+            
+            var mockCnpResponse = new Mock<cnpResponse>();
+            var mockCnpXmlSerializer = new Mock<cnpXmlSerializer>();
+            
+            mockCnpResponse.Setup(cnpResponse => cnpResponse.nextBatchResponse()).Returns(mockCnpBatchResponse);
+            cnpResponse mockedCnpResponse = mockCnpResponse.Object;
+
+            mockCnpXmlSerializer.Setup(cnpXmlSerializer => cnpXmlSerializer.DeserializeObjectFromFile(It.IsAny<String>())).Returns(mockedCnpResponse);
+
+            Communications mockedCommunication = mockCommunications.Object;
+            cnp.setCommunication(mockedCommunication);
+
+            cnpXmlSerializer mockedCnpXmlSerializer = mockCnpXmlSerializer.Object;
+            cnp.setCnpXmlSerializer(mockedCnpXmlSerializer);
+
+            cnpFile mockedCnpFile = mockCnpFile.Object;
+            cnp.setCnpFile(mockedCnpFile);
+            cnp.setCnpTime(mockCnpTime.Object);
+            
+            batchRequest cnpBatchRequest = new batchRequest();
+            cnpBatchRequest.setCnpFile(mockedCnpFile);
+            cnpBatchRequest.setCnpTime(mockCnpTime.Object);
+            cnp.addBatch(cnpBatchRequest);
+            
+            string batchFileName = cnp.sendToCnp();
+            cnpResponse actualCnpResponse = cnp.receiveFromCnp(batchFileName);
+            batchResponse actualCnpBatchResponse = actualCnpResponse.nextBatchResponse();
+            saleResponse saleResponse = actualCnpBatchResponse.nextSaleResponse();
+            
+            Assert.AreEqual(123,saleResponse.cnpTxnId);
+            Assert.AreEqual("000", saleResponse.response);
+            Assert.AreEqual(accountUpdateSourceType.R, saleResponse.accountUpdater.accountUpdateSource);
+        }
+
+        [Test]
+        public void TestAccountUpdateSourceNotRealtime() {
+            var xmlReader = XmlReader.Create(new StringReader(
+                "<saleResponse reportGroup=\"Merch01ReportGrp\" xmlns=\"http://www.vantivcnp.com/schema\"><cnpTxnId>123</cnpTxnId><orderId>MERCH01-0002</orderId><response>000</response><responseTime>2010-04-11T15:44:26</responseTime><message>Approved</message><accountUpdater><accountUpdateSource>N</accountUpdateSource></accountUpdater></saleResponse>"));
+            xmlReader.Read();
+
+            batchResponse mockCnpBatchResponse = new batchResponse();
+            mockCnpBatchResponse.setSaleResponseReader(xmlReader);
+
+            var mockCnpResponse = new Mock<cnpResponse>();
+            var mockCnpXmlSerializer = new Mock<cnpXmlSerializer>();
+
+            mockCnpResponse.Setup(cnpResponse => cnpResponse.nextBatchResponse()).Returns(mockCnpBatchResponse);
+            cnpResponse mockedCnpResponse = mockCnpResponse.Object;
+
+            mockCnpXmlSerializer
+                .Setup(cnpXmlSerializer => cnpXmlSerializer.DeserializeObjectFromFile(It.IsAny<String>()))
+                .Returns(mockedCnpResponse);
+
+            Communications mockedCommunication = mockCommunications.Object;
+            cnp.setCommunication(mockedCommunication);
+
+            cnpXmlSerializer mockedCnpXmlSerializer = mockCnpXmlSerializer.Object;
+            cnp.setCnpXmlSerializer(mockedCnpXmlSerializer);
+
+            cnpFile mockedCnpFile = mockCnpFile.Object;
+            cnp.setCnpFile(mockedCnpFile);
+            cnp.setCnpTime(mockCnpTime.Object);
+
+            batchRequest cnpBatchRequest = new batchRequest();
+            cnpBatchRequest.setCnpFile(mockedCnpFile);
+            cnpBatchRequest.setCnpTime(mockCnpTime.Object);
+            cnp.addBatch(cnpBatchRequest);
+
+            string batchFileName = cnp.sendToCnp();
+            cnpResponse actualCnpResponse = cnp.receiveFromCnp(batchFileName);
+            batchResponse actualCnpBatchResponse = actualCnpResponse.nextBatchResponse();
+            saleResponse saleResponse = actualCnpBatchResponse.nextSaleResponse();
+
+            Assert.AreEqual(123, saleResponse.cnpTxnId);
+            Assert.AreEqual("000", saleResponse.response);
+            Assert.AreEqual(accountUpdateSourceType.N, saleResponse.accountUpdater.accountUpdateSource);
+        }
+
+        [Test]
+        public void TestAccountUpdateSourceNull() {
+            var xmlReader = XmlReader.Create(new StringReader("<saleResponse reportGroup=\"Merch01ReportGrp\" xmlns=\"http://www.vantivcnp.com/schema\"><cnpTxnId>123</cnpTxnId><orderId>MERCH01-0002</orderId><response>000</response><responseTime>2010-04-11T15:44:26</responseTime><message>Approved</message><accountUpdater></accountUpdater></saleResponse>"));
+            xmlReader.Read();
+               
+            batchResponse mockCnpBatchResponse = new batchResponse();
+            mockCnpBatchResponse.setSaleResponseReader(xmlReader);
+            
+            var mockCnpResponse = new Mock<cnpResponse>();
+            var mockCnpXmlSerializer = new Mock<cnpXmlSerializer>();
+            
+            mockCnpResponse.Setup(cnpResponse => cnpResponse.nextBatchResponse()).Returns(mockCnpBatchResponse);
+            cnpResponse mockedCnpResponse = mockCnpResponse.Object;
+
+            mockCnpXmlSerializer.Setup(cnpXmlSerializer => cnpXmlSerializer.DeserializeObjectFromFile(It.IsAny<String>())).Returns(mockedCnpResponse);
+
+            Communications mockedCommunication = mockCommunications.Object;
+            cnp.setCommunication(mockedCommunication);
+
+            cnpXmlSerializer mockedCnpXmlSerializer = mockCnpXmlSerializer.Object;
+            cnp.setCnpXmlSerializer(mockedCnpXmlSerializer);
+
+            cnpFile mockedCnpFile = mockCnpFile.Object;
+            cnp.setCnpFile(mockedCnpFile);
+            cnp.setCnpTime(mockCnpTime.Object);
+            
+            batchRequest cnpBatchRequest = new batchRequest();
+            cnpBatchRequest.setCnpFile(mockedCnpFile);
+            cnpBatchRequest.setCnpTime(mockCnpTime.Object);
+            cnp.addBatch(cnpBatchRequest);
+            
+            string batchFileName = cnp.sendToCnp();
+            cnpResponse actualCnpResponse = cnp.receiveFromCnp(batchFileName);
+            batchResponse actualCnpBatchResponse = actualCnpResponse.nextBatchResponse();
+            saleResponse saleResponse = actualCnpBatchResponse.nextSaleResponse();
+            
+            Assert.AreEqual(123,saleResponse.cnpTxnId);
+            Assert.AreEqual("000", saleResponse.response);
+            Assert.NotNull(saleResponse.accountUpdater);
         }
     }
 }

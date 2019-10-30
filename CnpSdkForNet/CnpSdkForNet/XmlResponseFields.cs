@@ -2505,7 +2505,7 @@ namespace Cnp.Sdk
         public cardAccountInfoType originalCardInfo;
         public cardTokenInfoType originalCardTokenInfo;
         public echeckTokenInfoType originalTokenInfo;
-        public accountUpdateSourceType accountUpdaterSource;
+        public accountUpdateSourceType accountUpdateSource;
     }
 
     /// <remarks/>
