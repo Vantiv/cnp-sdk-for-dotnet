@@ -1,6 +1,9 @@
 
 = Worldpay CNP CHANGELOG
 
+==Version 12.9.1 (November 06, 2019)
+* BugFix: Fixed typo in regex leading to card numbers not being neutered
+
 ==Version 12.9.0 (October 25, 2019)
 * Feature: Added support for customerCredit, customerDebit
 * Feature: Added support for payoutOrgCredit, payoutOrgDebit
