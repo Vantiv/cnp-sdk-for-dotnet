@@ -63,7 +63,7 @@ namespace Cnp.Sdk
             const string pattern1 = "(?i)<number>.*?</number>";
             const string pattern2 = "(?i)<accNum>.*?</accNum>";
             const string pattern3 = "(?i)<track>.*?</track>";
-            const string pattern4 = "(?i)<accountNumer>.*?</accountNumber>";
+            const string pattern4 = "(?i)<accountNumber>.*?</accountNumber>";
 
             var rgx1 = new Regex(pattern1);
             var rgx2 = new Regex(pattern2);
