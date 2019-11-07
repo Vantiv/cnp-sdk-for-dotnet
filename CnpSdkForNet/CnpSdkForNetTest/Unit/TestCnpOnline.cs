@@ -318,15 +318,16 @@ namespace Cnp.Sdk.Test.Unit
 
             Communications comms = new Communications();
             tempCnp.SetCommunication(comms);
+            bool exceptionRasied = false;
             try
             {
                 saleResponse saleresponse = tempCnp.Sale(sale);
             }
-            catch (WebException e)
-            {
-                Assert.AreEqual("The remote name could not be resolved: 'somegarbage'", e.Message);
+            catch (WebException e) {
+                exceptionRasied = true;
             }
 
+            Assert.IsTrue(exceptionRasied,"Web exception not raised.");
         }
 
         [Test]
