@@ -1,12 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Configuration;
-using System.Text;
-using System.Xml;
-using System.Xml.Serialization;
 using System.IO;
 using System.Security.Cryptography;
-using Tamir.SharpSsh.jsch.examples;
 
 namespace Cnp.Sdk
 {

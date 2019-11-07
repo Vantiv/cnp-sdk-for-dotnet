@@ -1,9 +1,6 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Text;
+﻿using System.Collections.Generic;
 using System.IO;
 using System.Security;
-using System.Xml.Serialization;
 
 namespace Cnp.Sdk
 {
