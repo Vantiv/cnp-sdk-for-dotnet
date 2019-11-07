@@ -84,7 +84,7 @@ namespace Cnp.Sdk.Test.Functional {
                 {"reportGroup", "Default Report Group"},
                 {"username", "DOTNET"},
                 {"version", "11.0"},
-                {"timeout", "0"},
+                {"timeout", "1"},
                 {"merchantId", "101"},
                 {"password", "TESTCASE"},
                 {"printxml", "true"},
