@@ -10,7 +10,7 @@ namespace Cnp.Sdk.Test.Functional
         private CnpOnline _cnp;
         private Dictionary<string, string> _config;
 
-        [TestFixtureSetUp]
+        [OneTimeSetUp]
         public void SetUpCnp()
         {
             CommManager.reset();

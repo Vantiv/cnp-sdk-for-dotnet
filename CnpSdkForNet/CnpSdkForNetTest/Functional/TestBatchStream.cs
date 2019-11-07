@@ -1,9 +1,4 @@
-using System;
-using System.Collections.Generic;
-using System.Text;
 using NUnit.Framework;
-using Cnp.Sdk;
-using System.IO;
 
 namespace Cnp.Sdk.Test.Functional
 {
@@ -14,7 +9,7 @@ namespace Cnp.Sdk.Test.Functional
         //private Dictionary<String, String> invalidConfig;
         //private Dictionary<String, String> invalidSftpConfig;
 
-        //[TestFixtureSetUp]
+        //[OneTimeSetUp]
         //public void setUp()
         //{
         //    invalidConfig = new Dictionary<String, String>();

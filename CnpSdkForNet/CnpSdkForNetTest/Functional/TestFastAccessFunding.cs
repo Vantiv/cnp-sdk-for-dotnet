@@ -1,5 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using NUnit.Framework;
 
 namespace Cnp.Sdk.Test.Functional
@@ -11,7 +10,7 @@ namespace Cnp.Sdk.Test.Functional
         private CnpOnline _cnp;
         private Dictionary<string, string> _config;
 
-        [TestFixtureSetUp]
+        [OneTimeSetUp]
         public void SetUpCnp()
         {
             CommManager.reset();

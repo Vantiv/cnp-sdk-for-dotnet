@@ -1,9 +1,5 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Text;
 using NUnit.Framework;
-using Cnp.Sdk;
-using Moq;
 using System.Text.RegularExpressions;
 
 
@@ -13,7 +9,7 @@ namespace Cnp.Sdk.Test.Unit
     class TestXmlFieldsSerializer
     {
 
-        [TestFixtureSetUp]
+        [OneTimeSetUp]
         public void SetUpCnp()
         {
         }

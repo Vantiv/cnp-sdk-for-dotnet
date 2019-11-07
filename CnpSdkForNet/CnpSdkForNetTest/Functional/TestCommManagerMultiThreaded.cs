@@ -1,9 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Text;
 using System.Threading;
-using System.Threading.Tasks;
 using NUnit.Framework;
 
 namespace Cnp.Sdk.Test.Functional
@@ -15,7 +13,7 @@ namespace Cnp.Sdk.Test.Functional
         int threadCount = 100;
         int cycleCount = 1000;
         Dictionary<string, string> _config;
-        [TestFixtureSetUp]
+        [OneTimeSetUp]
         public void setup() {
             CommManager.reset();
             _config = new Dictionary<string, string>

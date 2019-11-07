@@ -1,8 +1,5 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Text;
+﻿using System.Collections.Generic;
 using NUnit.Framework;
-using Cnp.Sdk;
 
 namespace Cnp.Sdk.Test.Certification
 {
@@ -11,7 +8,7 @@ namespace Cnp.Sdk.Test.Certification
     {
         private CnpOnline cnp;
 
-        [TestFixtureSetUp]
+        [OneTimeSetUp]
         public void SetUp()
         {
             CommManager.reset();

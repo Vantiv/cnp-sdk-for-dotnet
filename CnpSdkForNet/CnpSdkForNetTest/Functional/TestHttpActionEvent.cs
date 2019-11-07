@@ -8,7 +8,7 @@ namespace Cnp.Sdk.Test.Functional
     {
         private CnpOnline _cnp;
 
-        [TestFixtureSetUp]
+        [OneTimeSetUp]
         public void SetUpCnp()
         {
             CommManager.reset();

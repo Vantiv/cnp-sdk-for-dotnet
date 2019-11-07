@@ -24,7 +24,7 @@ namespace Cnp.Sdk.Test.Unit
         private Mock<Communications> mockCommunications;
         private Mock<XmlReader> mockXmlReader;
 
-        [TestFixtureSetUp]
+        [OneTimeSetUp]
         public void SetUp()
         {
             mockCnpTime = new Mock<cnpTime>();

@@ -1,10 +1,5 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Text;
 using NUnit.Framework;
-using Cnp.Sdk;
-using System.IO;
-using System.Collections;
 
 namespace Cnp.Sdk.Test.Functional
 {

@@ -1,12 +1,7 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Text;
 using NUnit.Framework;
-using Cnp.Sdk;
 using System.IO;
 using System.Linq;
-using System.Runtime.InteropServices;
-using System.Security.Cryptography.X509Certificates;
 
 namespace Cnp.Sdk.Test.Functional
 {
@@ -18,7 +13,7 @@ namespace Cnp.Sdk.Test.Functional
         private string _passphrase;
         private string _vantivPublicKeyId;
 
-        [TestFixtureSetUp]
+        [OneTimeSetUp]
         public void SetUp()
         {
             _testDir = Path.Combine(Properties.Settings.Default.requestDirectory, "testPgp");

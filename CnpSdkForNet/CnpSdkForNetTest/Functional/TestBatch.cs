@@ -1,9 +1,6 @@
 using System;
 using System.Collections.Generic;
-using System.Text;
 using NUnit.Framework;
-using Cnp.Sdk;
-using System.IO;
 
 namespace Cnp.Sdk.Test.Functional
 {
@@ -15,7 +12,7 @@ namespace Cnp.Sdk.Test.Functional
         private Dictionary<string, string> _invalidSftpConfig;
         private string preliveStatus;
 
-        [TestFixtureSetUp]
+        [OneTimeSetUp]
         public void SetUp()
         {
             CommManager.reset();

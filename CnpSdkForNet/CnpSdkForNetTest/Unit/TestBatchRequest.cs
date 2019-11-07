@@ -1,11 +1,8 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Text;
 using NUnit.Framework;
-using Cnp.Sdk;
 using Moq;
 using System.Text.RegularExpressions;
-using Moq.Language.Flow;
 
 
 namespace Cnp.Sdk.Test.Unit
@@ -23,7 +20,7 @@ namespace Cnp.Sdk.Test.Unit
         private Mock<cnpFile> mockCnpFile;
         private Mock<cnpTime> mockCnpTime;
 
-        [TestFixtureSetUp]
+        [OneTimeSetUp]
         public void setUp()
         {
             mockCnpFile = new Mock<cnpFile>();

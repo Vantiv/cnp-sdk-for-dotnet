@@ -11,7 +11,7 @@ namespace Cnp.Sdk.Test.Certification
     {
         private CnpOnline cnp;
 
-        [TestFixtureSetUp]
+        [OneTimeSetUp]
         public void SetUp()
         {
             CommManager.reset();
