@@ -9,7 +9,7 @@ install:
   - nuget install NUnit.Console -Version 3.9.0 -OutputDirectory testrunner
 script:
   - xbuild /p:Configuration=Release CnpSdkForNet/CnpSdkForNet.sln
-  - mono ./testrunner/NUnit.ConsoleRunner.3.9.0/tools/nunit3-console.exe CnpSdkForNetTest/bin/Release/netcoreapp2.1/CnpSdkForNetTest.dll
+  - mono ./testrunner/NUnit.ConsoleRunner.3.9.0/tools/nunit3-console.exe CnpSdkForNet/CnpSdkForNetTest/bin/Release/netcoreapp2.1/CnpSdkForNetTest.dll
 after_success:
  - bash <(curl -s https://codecov.io/bash)
   
