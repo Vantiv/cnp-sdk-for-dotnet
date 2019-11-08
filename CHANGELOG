@@ -1,7 +1,10 @@
 
 = Worldpay CNP CHANGELOG
 
-==Version 12.10.0 (November 1, 2019)
+==Version 12.10.1 (November 06, 2019)
+* BugFix: Fixed typo in regex leading to card numbers not being neutered
+
+==Version 12.10.0 (November 01, 2019)
 * Feature: Added skipRealtimeAU support to authorization and sale
 * Feature: Added support for accountUpdateSource and numAccountUpdates in responses
 
