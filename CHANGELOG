@@ -1,6 +1,10 @@
 
 = Worldpay CNP CHANGELOG
 
+==Version 12.10.0 (November 1, 2019)
+* Feature: Added skipRealtimeAU support to authorization and sale
+* Feature: Added support for accountUpdateSource and numAccountUpdates in responses
+
 ==Version 12.9.1 (November 06, 2019)
 * BugFix: Fixed typo in regex leading to card numbers not being neutered
 
@@ -13,6 +17,9 @@
 * Change: Tests that check for preliveStatus default to down if the environment variable is not defined
 * Change: Removed ctx requests (obsolete)
 * BugFix: Fixed custom timeout not being used
+
+==Version 12.8.4 (November 06, 2019)
+* BugFix: Fixed typo in regex leading to card numbers not being neutered
 
 ==Version 12.8.3 (September 06, 2019)
 * BugFix: closing ftp sessions in Communications.cs

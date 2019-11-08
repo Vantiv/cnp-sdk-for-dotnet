@@ -373,7 +373,6 @@ namespace Cnp.Sdk.Test.Functional
             StringAssert.AreEqualIgnoringCase("Approved", responseObj.message);
         }
 
-
         [Test]
         public void SimpleSaleWithPinlessDebitRequest()
         {
@@ -417,6 +416,88 @@ namespace Cnp.Sdk.Test.Functional
             CancellationToken cancellationToken = new CancellationToken(false);
             var responseObj = _cnp.SaleAsync(saleObj, cancellationToken);
             StringAssert.AreEqualIgnoringCase("000", responseObj.Result.response);
+        }
+
+        [Test]
+        public void SimpleSaleWithSkipRealtimeAUTrue() {
+            var saleObj = new sale {
+                id = "1",
+                amount = 106,
+                cnpTxnId = 123456,
+                orderId = "12344",
+                orderSource = orderSourceType.ecommerce,
+                skipRealtimeAU = true,
+                card = new cardType {
+                    type = methodOfPaymentTypeEnum.VI,
+                    number = "4100000000000000",
+                    expDate = "1210"
+                }
+            };
+            Console.WriteLine(saleObj.Serialize());
+            var responseObj = _cnp.Sale(saleObj);
+            StringAssert.AreEqualIgnoringCase("Approved", responseObj.message);
+        }
+
+        [Test]
+        public void SimpleSaleWithSkipRealtimeAUTrueAsync() {
+            var saleObj = new sale {
+                id = "1",
+                amount = 106,
+                cnpTxnId = 123456,
+                orderId = "12344",
+                orderSource = orderSourceType.ecommerce,
+                skipRealtimeAU = true,
+                card = new cardType {
+                    type = methodOfPaymentTypeEnum.VI,
+                    number = "4100000000000000",
+                    expDate = "1210"
+                }
+            };
+            Console.WriteLine(saleObj.Serialize());
+            CancellationToken cancellationToken = new CancellationToken(false);
+            var responseObj = _cnp.SaleAsync(saleObj,cancellationToken).Result;
+            StringAssert.AreEqualIgnoringCase("Approved", responseObj.message);
+        }
+
+        [Test]
+        public void SimpleSaleWithSkipRealtimeAUFalse() {
+            var saleObj = new sale {
+                id = "1",
+                amount = 106,
+                cnpTxnId = 123456,
+                orderId = "12344",
+                orderSource = orderSourceType.ecommerce,
+                skipRealtimeAU = false,
+                card = new cardType {
+                    type = methodOfPaymentTypeEnum.VI,
+                    number = "4100000000000000",
+                    expDate = "1210"
+                }
+            };
+            Console.WriteLine(saleObj.Serialize());
+            var responseObj = _cnp.Sale(saleObj);
+            StringAssert.AreEqualIgnoringCase("Approved", responseObj.message);
+        }
+
+        [Test]
+        public void SimpleSaleWithSkipRealtimeAUFalseAsync() {
+            var saleObj = new sale {
+                id = "1",
+                amount = 106,
+                cnpTxnId = 123456,
+                orderId = "12344",
+                orderSource = orderSourceType.ecommerce,
+                skipRealtimeAU = false,
+                card = new cardType {
+                    type = methodOfPaymentTypeEnum.VI,
+                    number = "4100000000000000",
+                    expDate = "1210"
+                }
+            };
+            Console.WriteLine(saleObj.Serialize());
+            CancellationToken cancellationToken = new CancellationToken(false);
+            var responseObj = _cnp.SaleAsync(saleObj,cancellationToken).Result;
+            StringAssert.AreEqualIgnoringCase("Approved", responseObj.message);
         }
     }
 }

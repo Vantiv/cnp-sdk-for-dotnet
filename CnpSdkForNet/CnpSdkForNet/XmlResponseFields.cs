@@ -2438,85 +2438,55 @@ namespace Cnp.Sdk
     [System.ComponentModel.DesignerCategoryAttribute("code")]
     [System.Xml.Serialization.XmlTypeAttribute(AnonymousType = true, Namespace = "http://www.vantivcnp.com/schema")]
     [System.Xml.Serialization.XmlRootAttribute(Namespace = "http://www.vantivcnp.com/schema", IsNullable = false)]
-    public partial class updateSubscriptionResponse
-    {
+    public partial class updateSubscriptionResponse {
         private string subscriptionIdField;
 
         /// <remarks/>
-        public string subscriptionId
-        {
-            get
-            {
-                return this.subscriptionIdField;
-            }
-            set
-            {
-                this.subscriptionIdField = value;
-            }
+        public string subscriptionId {
+            get { return this.subscriptionIdField; }
+            set { this.subscriptionIdField = value; }
         }
+
         private string cnpTxnIdField;
 
         /// <remarks/>
-        public string cnpTxnId
-        {
-            get
-            {
-                return this.cnpTxnIdField;
-            }
-            set
-            {
-                this.cnpTxnIdField = value;
-            }
+        public string cnpTxnId {
+            get { return this.cnpTxnIdField; }
+            set { this.cnpTxnIdField = value; }
         }
 
         private string responseField;
 
         /// <remarks/>
-        public string response
-        {
-            get
-            {
-                return this.responseField;
-            }
-            set
-            {
-                this.responseField = value;
-            }
+        public string response {
+            get { return this.responseField; }
+            set { this.responseField = value; }
         }
 
         private string messageField;
 
         /// <remarks/>
-        public string message
-        {
-            get
-            {
-                return this.messageField;
-            }
-            set
-            {
-                this.messageField = value;
-            }
+        public string message {
+            get { return this.messageField; }
+            set { this.messageField = value; }
         }
 
         private System.DateTime responseTimeField;
 
         /// <remarks/>
-        public System.DateTime responseTime
-        {
-            get
-            {
-                return this.responseTimeField;
-            }
-            set
-            {
-                this.responseTimeField = value;
-            }
+        public System.DateTime responseTime {
+            get { return this.responseTimeField; }
+            set { this.responseTimeField = value; }
         }
 
         public tokenResponseType tokenResponse;
     }
 
+    public enum accountUpdateSourceType {
+        R,
+        N,
+    }
+    
     /// <remarks/>
     [System.CodeDom.Compiler.GeneratedCodeAttribute("xsd", "2.0.50727.42")]
     [System.SerializableAttribute()]
@@ -2535,6 +2505,7 @@ namespace Cnp.Sdk
         public cardAccountInfoType originalCardInfo;
         public cardTokenInfoType originalCardTokenInfo;
         public echeckTokenInfoType originalTokenInfo;
+        public accountUpdateSourceType? accountUpdateSource;
     }
 
     /// <remarks/>
@@ -5186,6 +5157,7 @@ namespace Cnp.Sdk
         public string id;
         public long cnpBatchId;
         public string merchantId;
+        public long? numAccountUpdates;
 
         private XmlReader originalXmlReader;
         private XmlReader accountUpdateResponseReader;
@@ -5474,6 +5446,9 @@ namespace Cnp.Sdk
             id = reader.GetAttribute("id");
             cnpBatchId = Int64.Parse(reader.GetAttribute("cnpBatchId"));
             merchantId = reader.GetAttribute("merchantId");
+            if (reader.GetAttribute("numAccountUpdates") != null) {
+                numAccountUpdates = Int64.Parse(reader.GetAttribute("numAccountUpdates"));
+            }
 
             originalXmlReader = reader;
             accountUpdateResponseReader = new XmlTextReader(filePath);
