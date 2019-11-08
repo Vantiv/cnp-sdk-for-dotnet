@@ -6,10 +6,10 @@ notifications:
 dotnet: 2.1
 install:
   - nuget restore CnpSdkForNet/CnpSdkForNet.sln
-  - nuget install NUnit.Runners -Version 2.6.4 -OutputDirectory testrunner
+  - nuget install NUnit.Console -Version 3.9.0 -OutputDirectory testrunner
 script:
   - xbuild /p:Configuration=Release CnpSdkForNet/CnpSdkForNet.sln
-  - mono ./testrunner/NUnit.Runners.2.6.4/tools/nunit-console.exe  CnpSdkForNetTest/bin/Debug/CnpSdkForNetTest.exe
+  - mono ./testrunner/NUnit.ConsoleRunner.3.9.0/tools/nunit3-console.exe CnpSdkForNetTest/bin/Release/netcoreapp2.1/CnpSdkForNetTest.dll
 after_success:
  - bash <(curl -s https://codecov.io/bash)
   
