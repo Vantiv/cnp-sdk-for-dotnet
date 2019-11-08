@@ -118,7 +118,6 @@ namespace Cnp.Sdk
             //config["sftpUrl"] = Properties.Settings.Default.sftpUrl;
             //config["sftpUsername"] = Properties.Settings.Default.sftpUsername;
             //config["sftpPassword"] = Properties.Settings.Default.sftpPassword;
-            //config["knownHostsFile"] = Properties.Settings.Default.knownHostsFile;
             //config["requestDirectory"] = Properties.Settings.Default.requestDirectory;
             //config["responseDirectory"] = Properties.Settings.Default.responseDirectory;
 
@@ -1698,7 +1697,6 @@ namespace Cnp.Sdk
             //config["sftpUrl"] = Properties.Settings.Default.sftpUrl;
             //config["sftpUsername"] = Properties.Settings.Default.sftpUsername;
             //config["sftpPassword"] = Properties.Settings.Default.sftpPassword;
-            //config["knownHostsFile"] = Properties.Settings.Default.knownHostsFile;
             //config["requestDirectory"] = Properties.Settings.Default.requestDirectory;
             //config["responseDirectory"] = Properties.Settings.Default.responseDirectory;
 

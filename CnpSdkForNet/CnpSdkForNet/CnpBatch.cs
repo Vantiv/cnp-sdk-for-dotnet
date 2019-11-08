@@ -42,7 +42,6 @@ namespace Cnp.Sdk
             //config["sftpUrl"] =  Properties.Settings.Default.sftpUrl;
             //config["sftpUsername"] = Properties.Settings.Default.sftpUsername;
             //config["sftpPassword"] = Properties.Settings.Default.sftpPassword;
-            //config["knownHostsFile"] = Properties.Settings.Default.knownHostsFile;
             //config["onlineBatchUrl"] = Properties.Settings.Default.onlineBatchUrl;
             //config["onlineBatchPort"] = Properties.Settings.Default.onlineBatchPort;
             //config["requestDirectory"] = Properties.Settings.Default.requestDirectory;
@@ -72,7 +71,6 @@ namespace Cnp.Sdk
          * sftpUrl
          * sftpUsername
          * sftpPassword
-         * knownHostsFile
          * onlineBatchUrl
          * onlineBatchPort
          * requestDirectory

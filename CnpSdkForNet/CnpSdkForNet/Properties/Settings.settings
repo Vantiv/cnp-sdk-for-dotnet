@@ -50,9 +50,6 @@
     <Setting Name="timeout" Type="System.String" Scope="User">
       <Value Profile="(Default)">5000</Value>
     </Setting>
-    <Setting Name="knownHostsFile" Type="System.String" Scope="User">
-      <Value Profile="(Default)">C:\\Vantiv\\dll\\knownhosts</Value>
-    </Setting>
     <Setting Name="merchantId" Type="System.String" Scope="User">
       <Value Profile="(Default)">101</Value>
     </Setting>

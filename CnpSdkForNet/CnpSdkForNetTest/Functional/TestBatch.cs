@@ -31,7 +31,6 @@ namespace Cnp.Sdk.Test.Functional
             //_invalidConfig["sftpUrl"] = Properties.Settings.Default.sftpUrl;
             //_invalidConfig["sftpUsername"] = Properties.Settings.Default.sftpUsername;
             //_invalidConfig["sftpPassword"] = Properties.Settings.Default.sftpPassword;
-            //_invalidConfig["knownHostsFile"] = Properties.Settings.Default.knownHostsFile;
             //_invalidConfig["requestDirectory"] = Properties.Settings.Default.requestDirectory;
             //_invalidConfig["responseDirectory"] = Properties.Settings.Default.responseDirectory;
             _invalidConfig["useEncryption"] = "false";
@@ -50,7 +49,6 @@ namespace Cnp.Sdk.Test.Functional
             //_invalidSftpConfig["sftpUrl"] = Properties.Settings.Default.sftpUrl;
             _invalidSftpConfig["sftpUsername"] = "badSftpUsername";
             _invalidSftpConfig["sftpPassword"] = "badSftpPassword";
-            //_invalidSftpConfig["knownHostsFile"] = Properties.Settings.Default.knownHostsFile;
             //_invalidSftpConfig["requestDirectory"] = Properties.Settings.Default.requestDirectory;
             //_invalidSftpConfig["responseDirectory"] = Properties.Settings.Default.responseDirectory;
             _invalidSftpConfig["useEncryption"] = "false";

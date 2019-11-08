@@ -25,7 +25,6 @@ namespace Cnp.Sdk.Test.Functional
         //    invalidConfig["sftpUrl"] = Properties.Settings.Default.sftpUrl;
         //    invalidConfig["sftpUsername"] = Properties.Settings.Default.sftpUrl;
         //    invalidConfig["sftpPassword"] = Properties.Settings.Default.sftpPassword;
-        //    invalidConfig["knownHostsFile"] = Properties.Settings.Default.knownHostsFile;
             
 
         //    invalidSftpConfig = new Dictionary<String, String>();
@@ -41,7 +40,6 @@ namespace Cnp.Sdk.Test.Functional
         //    invalidSftpConfig["sftpUrl"] = Properties.Settings.Default.sftpUrl;
         //    invalidSftpConfig["sftpUsername"] = "badSftpUsername";
         //    invalidSftpConfig["sftpPassword"] = "badSftpPassword";
-        //    invalidSftpConfig["knownHostsFile"] = Properties.Settings.Default.knownHostsFile;
             
         //}
 
@@ -1254,7 +1252,6 @@ namespace Cnp.Sdk.Test.Functional
         //    configOverride["sftpUrl"] = Properties.Settings.Default.sftpUrl;
         //    configOverride["sftpUsername"] = Properties.Settings.Default.sftpUsername;
         //    configOverride["sftpPassword"] = Properties.Settings.Default.sftpPassword;
-        //    configOverride["knownHostsFile"] = Properties.Settings.Default.knownHostsFile;
         //    configOverride["onlineBatchUrl"] = Properties.Settings.Default.onlineBatchUrl;
         //    configOverride["onlineBatchPort"] = Properties.Settings.Default.onlineBatchPort;
         //    configOverride["requestDirectory"] = Properties.Settings.Default.requestDirectory;

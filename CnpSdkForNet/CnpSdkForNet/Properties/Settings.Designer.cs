@@ -217,18 +217,6 @@ namespace Cnp.Sdk.Properties {
         
         [global::System.Configuration.UserScopedSettingAttribute()]
         [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
-        [global::System.Configuration.DefaultSettingValueAttribute("C:\\Vantiv\\dll\\knownhosts")]
-        public string knownHostsFile {
-            get {
-                return ((string)(this["knownHostsFile"]));
-            }
-            set {
-                this["knownHostsFile"] = value;
-            }
-        }
-        
-        [global::System.Configuration.UserScopedSettingAttribute()]
-        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
         [global::System.Configuration.DefaultSettingValueAttribute("101")]
         public string merchantId {
             get {

@@ -438,7 +438,6 @@ namespace Cnp.Sdk
             var url = config["sftpUrl"];
             var username = config["sftpUsername"];
             var password = config["sftpPassword"];
-            var knownHostsFile = config["knownHostsFile"];
             var filePath = Path.Combine(fileDirectory, fileName);
 
             var printxml = config["printxml"] == "true";
@@ -447,7 +446,6 @@ namespace Cnp.Sdk
                 Console.WriteLine("Sftp Url: " + url);
                 Console.WriteLine("Username: " + username);
                 // Console.WriteLine("Password: " + password);
-                Console.WriteLine("Known hosts file path: " + knownHostsFile);
             }
 
             sftpClient = new SftpClient(url, username, password);
@@ -505,7 +503,6 @@ namespace Cnp.Sdk
             var url = config["sftpUrl"];
             var username = config["sftpUsername"];
             var password = config["sftpPassword"];
-            var knownHostsFile = config["knownHostsFile"];
 
             sftpClient = new SftpClient(url, username, password);
 
@@ -572,7 +569,6 @@ namespace Cnp.Sdk
             var url = config["sftpUrl"];
             var username = config["sftpUsername"];
             var password = config["sftpPassword"];
-            var knownHostsFile = config["knownHostsFile"];
 
             sftpClient = new SftpClient(url, username, password);
 

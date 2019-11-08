@@ -52,7 +52,6 @@ namespace Cnp.Sdk.Test.Unit
             mockConfig["sftpUrl"] = "www.mockftp.com";
             mockConfig["sftpUsername"] = "mockFtpUser";
             mockConfig["sftpPassword"] = "mockFtpPassword";
-            mockConfig["knownHostsFile"] = "C:\\MockKnownHostsFile";
             mockConfig["onlineBatchUrl"] = "www.mockbatch.com";
             mockConfig["onlineBatchPort"] = "4000";
             mockConfig["requestDirectory"] = "C:\\MockRequests";
@@ -101,7 +100,6 @@ namespace Cnp.Sdk.Test.Unit
             mockConfig["sftpUrl"] = "www.mockftp.com";
             mockConfig["sftpUsername"] = "mockFtpUser";
             mockConfig["sftpPassword"] = "mockFtpPassword";
-            mockConfig["knownHostsFile"] = "C:\\MockKnownHostsFile";
             mockConfig["onlineBatchUrl"] = "www.mockbatch.com";
             mockConfig["onlineBatchPort"] = "4000";
             mockConfig["requestDirectory"] = "C:\\MockRequests";

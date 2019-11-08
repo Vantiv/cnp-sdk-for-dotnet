@@ -32,7 +32,6 @@ namespace Cnp.Sdk.Test.Functional
             //_config["sftpUrl"] = Properties.Settings.Default.sftpUrl;
             _config["sftpUsername"] = Environment.GetEnvironmentVariable("encSftpUsername");
             _config["sftpPassword"] = Environment.GetEnvironmentVariable("encSftpPassword");
-            //_config["knownHostsFile"] = Properties.Settings.Default.knownHostsFile;
             //_config["requestDirectory"] = Properties.Settings.Default.requestDirectory;
             //_config["responseDirectory"] = Properties.Settings.Default.responseDirectory;
             _config["useEncryption"] = "true";
