@@ -1,6 +1,21 @@
 
 = Worldpay CNP CHANGELOG
 
+
+==Version 12.10.0 (November 1, 2019)
+* Feature: Added skipRealtimeAU support to authorization and sale
+* Feature: Added support for accountUpdateSource and numAccountUpdates in responses
+
+==Version 12.9.0 (October 25, 2019)
+* Feature: Added support for customerCredit, customerDebit
+* Feature: Added support for payoutOrgCredit, payoutOrgDebit
+* Feature: Added fundingCustomerID support
+* Feature: Enhancements to fastAccessFunding
+* Change: NUnit packages changed to work in VS2017 and newer
+* Change: Tests that check for preliveStatus default to down if the environment variable is not defined
+* Change: Removed ctx requests (obsolete)
+* BugFix: Fixed custom timeout not being used
+
 ==Version 12.8.4 (November 06, 2019)
 * BugFix: Fixed typo in regex leading to card numbers not being neutered
 

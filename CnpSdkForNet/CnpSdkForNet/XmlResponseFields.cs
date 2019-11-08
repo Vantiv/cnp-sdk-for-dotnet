@@ -2438,85 +2438,55 @@ namespace Cnp.Sdk
     [System.ComponentModel.DesignerCategoryAttribute("code")]
     [System.Xml.Serialization.XmlTypeAttribute(AnonymousType = true, Namespace = "http://www.vantivcnp.com/schema")]
     [System.Xml.Serialization.XmlRootAttribute(Namespace = "http://www.vantivcnp.com/schema", IsNullable = false)]
-    public partial class updateSubscriptionResponse
-    {
+    public partial class updateSubscriptionResponse {
         private string subscriptionIdField;
 
         /// <remarks/>
-        public string subscriptionId
-        {
-            get
-            {
-                return this.subscriptionIdField;
-            }
-            set
-            {
-                this.subscriptionIdField = value;
-            }
+        public string subscriptionId {
+            get { return this.subscriptionIdField; }
+            set { this.subscriptionIdField = value; }
         }
+
         private string cnpTxnIdField;
 
         /// <remarks/>
-        public string cnpTxnId
-        {
-            get
-            {
-                return this.cnpTxnIdField;
-            }
-            set
-            {
-                this.cnpTxnIdField = value;
-            }
+        public string cnpTxnId {
+            get { return this.cnpTxnIdField; }
+            set { this.cnpTxnIdField = value; }
         }
 
         private string responseField;
 
         /// <remarks/>
-        public string response
-        {
-            get
-            {
-                return this.responseField;
-            }
-            set
-            {
-                this.responseField = value;
-            }
+        public string response {
+            get { return this.responseField; }
+            set { this.responseField = value; }
         }
 
         private string messageField;
 
         /// <remarks/>
-        public string message
-        {
-            get
-            {
-                return this.messageField;
-            }
-            set
-            {
-                this.messageField = value;
-            }
+        public string message {
+            get { return this.messageField; }
+            set { this.messageField = value; }
         }
 
         private System.DateTime responseTimeField;
 
         /// <remarks/>
-        public System.DateTime responseTime
-        {
-            get
-            {
-                return this.responseTimeField;
-            }
-            set
-            {
-                this.responseTimeField = value;
-            }
+        public System.DateTime responseTime {
+            get { return this.responseTimeField; }
+            set { this.responseTimeField = value; }
         }
 
         public tokenResponseType tokenResponse;
     }
 
+    public enum accountUpdateSourceType {
+        R,
+        N,
+    }
+    
     /// <remarks/>
     [System.CodeDom.Compiler.GeneratedCodeAttribute("xsd", "2.0.50727.42")]
     [System.SerializableAttribute()]
@@ -2535,6 +2505,7 @@ namespace Cnp.Sdk
         public cardAccountInfoType originalCardInfo;
         public cardTokenInfoType originalCardTokenInfo;
         public echeckTokenInfoType originalTokenInfo;
+        public accountUpdateSourceType? accountUpdateSource;
     }
 
     /// <remarks/>
@@ -5006,12 +4977,16 @@ namespace Cnp.Sdk
         public payFacDebitResponse payFacDebitResponse;
         public physicalCheckCreditResponse physicalCheckCreditResponse;
         public physicalCheckDebitResponse physicalCheckDebitResponse;
+        public payoutOrgDebitResponse payoutOrgDebitResponse;
+        public payoutOrgCreditResponse payoutOrgCreditResponse;
         public reserveCreditResponse reserveCreditResponse;
         public reserveDebitResponse reserveDebitResponse;
         public submerchantCreditResponse submerchantCreditResponse;
         public submerchantDebitResponse submerchantDebitResponse;
         public vendorCreditResponse vendorCreditResponse;
         public vendorDebitResponse vendorDebitResponse;
+        public customerCreditResponse customerCreditResponse;
+        public customerDebitResponse customerDebitResponse;
         public translateToLowValueTokenResponse translateToLowValueTokenResponse;
 
         /// <remarks/>
@@ -5182,6 +5157,7 @@ namespace Cnp.Sdk
         public string id;
         public long cnpBatchId;
         public string merchantId;
+        public long? numAccountUpdates;
 
         private XmlReader originalXmlReader;
         private XmlReader accountUpdateResponseReader;
@@ -5216,12 +5192,16 @@ namespace Cnp.Sdk
         private XmlReader submerchantCreditResponseReader;
         private XmlReader payFacCreditResponseReader;
         private XmlReader vendorCreditResponseReader;
+        private XmlReader customerCreditResponseReader;
         private XmlReader reserveCreditResponseReader;
+        private XmlReader payoutOrgCreditResponseReader;
         private XmlReader physicalCheckCreditResponseReader;
         private XmlReader submerchantDebitResponseReader;
         private XmlReader payFacDebitResponseReader;
         private XmlReader vendorDebitResponseReader;
+        private XmlReader customerDebitResponseReader;
         private XmlReader reserveDebitResponseReader;
+        private XmlReader payoutOrgDebitResponseReader;
         private XmlReader physicalCheckDebitResponseReader;
         private XmlReader fundingInstructionVoidResponseReader;
         private XmlReader fastAccessFundingResponseReader;
@@ -5400,6 +5380,16 @@ namespace Cnp.Sdk
             this.vendorCreditResponseReader = xmlReader;
         }
 
+        public void setCustomerCreditResponseReader(XmlReader xmlReader)
+        {
+            this.customerCreditResponseReader = xmlReader;
+        }
+
+        public void setPayoutOrgCreditResponseReader(XmlReader xmlReader)
+        {
+            this.payoutOrgCreditResponseReader = xmlReader;
+        }
+
         public void setPhysicalCheckCreditResponseReader(XmlReader xmlReader)
         {
             this.physicalCheckCreditResponseReader = xmlReader;
@@ -5425,6 +5415,16 @@ namespace Cnp.Sdk
             this.vendorDebitResponseReader = xmlReader;
         }
 
+        public void setCustomerDebitResponseReader(XmlReader xmlReader)
+        {
+            this.customerDebitResponseReader = xmlReader;
+        }
+
+        public void setPayoutOrgDebitResponseReader(XmlReader xmlReader)
+        {
+            this.payoutOrgDebitResponseReader = xmlReader;
+        }        
+
         public void setPhysicalCheckDebitResponseReader(XmlReader xmlReader)
         {
             this.physicalCheckDebitResponseReader = xmlReader;
@@ -5446,6 +5446,9 @@ namespace Cnp.Sdk
             id = reader.GetAttribute("id");
             cnpBatchId = Int64.Parse(reader.GetAttribute("cnpBatchId"));
             merchantId = reader.GetAttribute("merchantId");
+            if (reader.GetAttribute("numAccountUpdates") != null) {
+                numAccountUpdates = Int64.Parse(reader.GetAttribute("numAccountUpdates"));
+            }
 
             originalXmlReader = reader;
             accountUpdateResponseReader = new XmlTextReader(filePath);
@@ -5481,11 +5484,15 @@ namespace Cnp.Sdk
             payFacCreditResponseReader = new XmlTextReader(filePath);
             reserveCreditResponseReader = new XmlTextReader(filePath);
             vendorCreditResponseReader = new XmlTextReader(filePath);
+            customerCreditResponseReader = new XmlTextReader(filePath);
+            payoutOrgDebitResponseReader = new XmlTextReader(filePath);
             physicalCheckCreditResponseReader = new XmlTextReader(filePath);
             submerchantDebitResponseReader = new XmlTextReader(filePath);
             payFacDebitResponseReader = new XmlTextReader(filePath);
             reserveDebitResponseReader = new XmlTextReader(filePath);
             vendorDebitResponseReader = new XmlTextReader(filePath);
+            customerDebitResponseReader = new XmlTextReader(filePath);
+            payoutOrgCreditResponseReader = new XmlTextReader(filePath);
             physicalCheckDebitResponseReader = new XmlTextReader(filePath);
             fundingInstructionVoidResponseReader = new XmlTextReader(filePath);
             fastAccessFundingResponseReader = new XmlTextReader(filePath);
@@ -5617,6 +5624,10 @@ namespace Cnp.Sdk
             {
                 vendorCreditResponseReader.Close();
             }
+            if (!customerCreditResponseReader.ReadToFollowing("customerCreditResponse"))
+            {
+                customerCreditResponseReader.Close();
+            }
             if (!reserveCreditResponseReader.ReadToFollowing("reserveCreditResponse"))
             {
                 reserveCreditResponseReader.Close();
@@ -5636,6 +5647,10 @@ namespace Cnp.Sdk
             if (!vendorDebitResponseReader.ReadToFollowing("vendorDebitResponse"))
             {
                 vendorDebitResponseReader.Close();
+            }
+            if (!customerDebitResponseReader.ReadToFollowing("customerDebitResponse"))
+            {
+                customerDebitResponseReader.Close();
             }
             if (!reserveDebitResponseReader.ReadToFollowing("reserveDebitResponse"))
             {
@@ -6295,6 +6310,26 @@ namespace Cnp.Sdk
             return null;
         }
 
+        virtual public customerCreditResponse nextCustomerCreditResponse()
+        {
+            if (customerCreditResponseReader.ReadState != ReadState.Closed)
+            {
+                string response = customerCreditResponseReader.ReadOuterXml();
+                XmlSerializer serializer = new XmlSerializer(typeof(customerCreditResponse));
+                StringReader reader = new StringReader(response);
+                customerCreditResponse i = (customerCreditResponse)serializer.Deserialize(reader);
+
+                if (!customerCreditResponseReader.ReadToFollowing("customerCreditResponse"))
+                {
+                    customerCreditResponseReader.Close();
+                }
+
+                return i;
+            }
+
+            return null;
+        }
+
         virtual public reserveCreditResponse nextReserveCreditResponse()
         {
             if (reserveCreditResponseReader.ReadState != ReadState.Closed)
@@ -6307,6 +6342,26 @@ namespace Cnp.Sdk
                 if (!reserveCreditResponseReader.ReadToFollowing("reserveCreditResponse"))
                 {
                     reserveCreditResponseReader.Close();
+                }
+
+                return i;
+            }
+
+            return null;
+        }
+
+        virtual public payoutOrgCreditResponse nextPayoutOrgCreditResponse()
+        {
+            if (payoutOrgCreditResponseReader.ReadState != ReadState.Closed)
+            {
+                string response = payoutOrgCreditResponseReader.ReadOuterXml();
+                XmlSerializer serializer = new XmlSerializer(typeof(payoutOrgCreditResponse));
+                StringReader reader = new StringReader(response);
+                payoutOrgCreditResponse i = (payoutOrgCreditResponse)serializer.Deserialize(reader);
+
+                if (!payoutOrgCreditResponseReader.ReadToFollowing("payoutOrgCreditResponse"))
+                {
+                    payoutOrgCreditResponseReader.Close();
                 }
 
                 return i;
@@ -6395,6 +6450,26 @@ namespace Cnp.Sdk
             return null;
         }
 
+        virtual public customerDebitResponse nextCustomerDebitResponse()
+        {
+            if (customerDebitResponseReader.ReadState != ReadState.Closed)
+            {
+                string response = customerDebitResponseReader.ReadOuterXml();
+                XmlSerializer serializer = new XmlSerializer(typeof(customerDebitResponse));
+                StringReader reader = new StringReader(response);
+                customerDebitResponse i = (customerDebitResponse)serializer.Deserialize(reader);
+
+                if (!customerDebitResponseReader.ReadToFollowing("customerDebitResponse"))
+                {
+                    customerDebitResponseReader.Close();
+                }
+
+                return i;
+            }
+
+            return null;
+        }
+
         virtual public reserveDebitResponse nextReserveDebitResponse()
         {
             if (reserveDebitResponseReader.ReadState != ReadState.Closed)
@@ -6407,6 +6482,26 @@ namespace Cnp.Sdk
                 if (!reserveDebitResponseReader.ReadToFollowing("reserveDebitResponse"))
                 {
                     reserveDebitResponseReader.Close();
+                }
+
+                return i;
+            }
+
+            return null;
+        }
+
+        virtual public payoutOrgDebitResponse nextPayoutOrgDebitResponse()
+        {
+            if (payoutOrgDebitResponseReader.ReadState != ReadState.Closed)
+            {
+                string response = payoutOrgDebitResponseReader.ReadOuterXml();
+                XmlSerializer serializer = new XmlSerializer(typeof(payoutOrgDebitResponse));
+                StringReader reader = new StringReader(response);
+                payoutOrgDebitResponse i = (payoutOrgDebitResponse)serializer.Deserialize(reader);
+
+                if (!payoutOrgDebitResponseReader.ReadToFollowing("payoutOrgDebitResponse"))
+                {
+                    payoutOrgDebitResponseReader.Close();
                 }
 
                 return i;
@@ -8054,6 +8149,156 @@ namespace Cnp.Sdk
     }
 
     /// <remarks/>
+    [System.CodeDom.Compiler.GeneratedCodeAttribute("xsd", "4.6.1055.0")]
+    [System.SerializableAttribute()]
+    [System.Diagnostics.DebuggerStepThroughAttribute()]
+    [System.ComponentModel.DesignerCategoryAttribute("code")]
+    [System.Xml.Serialization.XmlTypeAttribute(AnonymousType = true, Namespace = "http://www.vantivcnp.com/schema")]
+    [System.Xml.Serialization.XmlRootAttribute(Namespace = "http://www.vantivcnp.com/schema", IsNullable = false)]
+    public partial class customerCreditResponse : transactionTypeWithReportGroup
+    {
+
+        private long cnpTxnIdField;
+
+        private string fundsTransferIdField;
+
+        private string responseField;
+
+        private System.DateTime responseTimeField;
+
+        private System.DateTime postDateField;
+
+        private bool postDateFieldSpecified;
+
+        private string messageField;
+
+        private bool duplicateField;
+
+        private bool duplicateFieldSpecified;
+
+        /// <remarks/>
+        public long cnpTxnId
+        {
+            get
+            {
+                return this.cnpTxnIdField;
+            }
+            set
+            {
+                this.cnpTxnIdField = value;
+            }
+        }
+
+        /// <remarks/>
+        public string fundsTransferId
+        {
+            get
+            {
+                return this.fundsTransferIdField;
+            }
+            set
+            {
+                this.fundsTransferIdField = value;
+            }
+        }
+
+        /// <remarks/>
+        public string response
+        {
+            get
+            {
+                return this.responseField;
+            }
+            set
+            {
+                this.responseField = value;
+            }
+        }
+
+        /// <remarks/>
+        public System.DateTime responseTime
+        {
+            get
+            {
+                return this.responseTimeField;
+            }
+            set
+            {
+                this.responseTimeField = value;
+            }
+        }
+
+        /// <remarks/>
+        [System.Xml.Serialization.XmlElementAttribute(DataType = "date")]
+        public System.DateTime postDate
+        {
+            get
+            {
+                return this.postDateField;
+            }
+            set
+            {
+                this.postDateField = value;
+            }
+        }
+
+        /// <remarks/>
+        [System.Xml.Serialization.XmlIgnoreAttribute()]
+        public bool postDateSpecified
+        {
+            get
+            {
+                return this.postDateFieldSpecified;
+            }
+            set
+            {
+                this.postDateFieldSpecified = value;
+            }
+        }
+
+        /// <remarks/>
+        public string message
+        {
+            get
+            {
+                return this.messageField;
+            }
+            set
+            {
+                this.messageField = value;
+            }
+        }
+
+        /// <remarks/>
+        [System.Xml.Serialization.XmlAttributeAttribute()]
+        public bool duplicate
+        {
+            get
+            {
+                return this.duplicateField;
+            }
+            set
+            {
+                this.duplicateField = value;
+            }
+        }
+
+        /// <remarks/>
+        [System.Xml.Serialization.XmlIgnoreAttribute()]
+        public bool duplicateSpecified
+        {
+            get
+            {
+                return this.duplicateFieldSpecified;
+            }
+            set
+            {
+                this.duplicateFieldSpecified = value;
+            }
+        }
+    }
+
+    /// <remarks/>
     [System.CodeDom.Compiler.GeneratedCodeAttribute("xsd", "2.0.50727.3038")]
     [System.SerializableAttribute()]
     [System.Diagnostics.DebuggerStepThroughAttribute()]
@@ -8122,6 +8367,119 @@ namespace Cnp.Sdk
         }
     }
 }
+    /// <remarks/>
+    [System.CodeDom.Compiler.GeneratedCodeAttribute("xsd", "2.0.50727.3038")]
+    [System.SerializableAttribute()]
+    [System.Diagnostics.DebuggerStepThroughAttribute()]
+    [System.ComponentModel.DesignerCategoryAttribute("code")]
+    [System.Xml.Serialization.XmlTypeAttribute(AnonymousType = true, Namespace = "http://www.vantivcnp.com/schema")]
+    [System.Xml.Serialization.XmlRootAttribute(Namespace = "http://www.vantivcnp.com/schema", IsNullable = false)]
+    public partial class payoutOrgCreditResponse : transactionTypeWithReportGroup
+    {
+
+        private long cnpTxnIdField;
+
+        private string fundsTransferIdField;
+
+        private string responseField;
+
+        private System.DateTime responseTimeField;
+
+        private string messageField;
+
+        private bool duplicateField;
+
+        private bool duplicateFieldSpecified;
+
+        /// <remarks/>
+        public long cnpTxnId
+        {
+            get
+            {
+                return this.cnpTxnIdField;
+            }
+            set
+            {
+                this.cnpTxnIdField = value;
+            }
+        }
+
+        /// <remarks/>
+        public string fundsTransferId
+        {
+            get
+            {
+                return this.fundsTransferIdField;
+            }
+            set
+            {
+                this.fundsTransferIdField = value;
+            }
+        }
+
+        /// <remarks/>
+        public string response
+        {
+            get
+            {
+                return this.responseField;
+            }
+            set
+            {
+                this.responseField = value;
+            }
+        }
+
+        /// <remarks/>
+        public System.DateTime responseTime
+        {
+            get
+            {
+                return this.responseTimeField;
+            }
+            set
+            {
+                this.responseTimeField = value;
+            }
+        }
+
+        /// <remarks/>
+        public string message
+        {
+            get
+            {
+                return this.messageField;
+            }
+            set
+            {
+                this.messageField = value;
+            }
+        }
+
+        public bool duplicate
+        {
+            get
+            {
+                return this.duplicateField;
+            }
+            set
+            {
+                this.duplicateField = value;
+            }
+        }
+
+        public bool duplicateSpecified
+        {
+            get
+            {
+                return this.duplicateFieldSpecified;
+            }
+            set
+            {
+                this.duplicateFieldSpecified = value;
+            }
+        }
+    }
 
     /// <remarks/>
     [System.CodeDom.Compiler.GeneratedCodeAttribute("xsd", "2.0.50727.3038")]
@@ -8596,6 +8954,156 @@ namespace Cnp.Sdk
     }
 
     /// <remarks/>
+    [System.CodeDom.Compiler.GeneratedCodeAttribute("xsd", "4.6.1055.0")]
+    [System.SerializableAttribute()]
+    [System.Diagnostics.DebuggerStepThroughAttribute()]
+    [System.ComponentModel.DesignerCategoryAttribute("code")]
+    [System.Xml.Serialization.XmlTypeAttribute(AnonymousType = true, Namespace = "http://www.vantivcnp.com/schema")]
+    [System.Xml.Serialization.XmlRootAttribute(Namespace = "http://www.vantivcnp.com/schema", IsNullable = false)]
+    public partial class customerDebitResponse : transactionTypeWithReportGroup
+    {
+
+        private long cnpTxnIdField;
+
+        private string fundsTransferIdField;
+
+        private string responseField;
+
+        private System.DateTime responseTimeField;
+
+        private System.DateTime postDateField;
+
+        private bool postDateFieldSpecified;
+
+        private string messageField;
+
+        private bool duplicateField;
+
+        private bool duplicateFieldSpecified;
+
+        /// <remarks/>
+        public long cnpTxnId
+        {
+            get
+            {
+                return this.cnpTxnIdField;
+            }
+            set
+            {
+                this.cnpTxnIdField = value;
+            }
+        }
+
+        /// <remarks/>
+        public string fundsTransferId
+        {
+            get
+            {
+                return this.fundsTransferIdField;
+            }
+            set
+            {
+                this.fundsTransferIdField = value;
+            }
+        }
+
+        /// <remarks/>
+        public string response
+        {
+            get
+            {
+                return this.responseField;
+            }
+            set
+            {
+                this.responseField = value;
+            }
+        }
+
+        /// <remarks/>
+        public System.DateTime responseTime
+        {
+            get
+            {
+                return this.responseTimeField;
+            }
+            set
+            {
+                this.responseTimeField = value;
+            }
+        }
+
+        /// <remarks/>
+        [System.Xml.Serialization.XmlElementAttribute(DataType = "date")]
+        public System.DateTime postDate
+        {
+            get
+            {
+                return this.postDateField;
+            }
+            set
+            {
+                this.postDateField = value;
+            }
+        }
+
+        /// <remarks/>
+        [System.Xml.Serialization.XmlIgnoreAttribute()]
+        public bool postDateSpecified
+        {
+            get
+            {
+                return this.postDateFieldSpecified;
+            }
+            set
+            {
+                this.postDateFieldSpecified = value;
+            }
+        }
+
+        /// <remarks/>
+        public string message
+        {
+            get
+            {
+                return this.messageField;
+            }
+            set
+            {
+                this.messageField = value;
+            }
+        }
+
+        /// <remarks/>
+        [System.Xml.Serialization.XmlAttributeAttribute()]
+        public bool duplicate
+        {
+            get
+            {
+                return this.duplicateField;
+            }
+            set
+            {
+                this.duplicateField = value;
+            }
+        }
+
+        /// <remarks/>
+        [System.Xml.Serialization.XmlIgnoreAttribute()]
+        public bool duplicateSpecified
+        {
+            get
+            {
+                return this.duplicateFieldSpecified;
+            }
+            set
+            {
+                this.duplicateFieldSpecified = value;
+            }
+        }
+    }
+
+    /// <remarks/>
     [System.CodeDom.Compiler.GeneratedCodeAttribute("xsd", "2.0.50727.3038")]
     [System.SerializableAttribute()]
     [System.Diagnostics.DebuggerStepThroughAttribute()]
@@ -8677,6 +9185,120 @@ namespace Cnp.Sdk
             set
             {
                 this.messageField = value;
+            }
+        }
+    }
+
+    /// <remarks/>
+    [System.CodeDom.Compiler.GeneratedCodeAttribute("xsd", "2.0.50727.3038")]
+    [System.SerializableAttribute()]
+    [System.Diagnostics.DebuggerStepThroughAttribute()]
+    [System.ComponentModel.DesignerCategoryAttribute("code")]
+    [System.Xml.Serialization.XmlTypeAttribute(AnonymousType = true, Namespace = "http://www.vantivcnp.com/schema")]
+    [System.Xml.Serialization.XmlRootAttribute(Namespace = "http://www.vantivcnp.com/schema", IsNullable = false)]
+    public partial class payoutOrgDebitResponse : transactionTypeWithReportGroup
+    {
+
+        private long cnpTxnIdField;
+
+        private string fundsTransferIdField;
+
+        private string responseField;
+
+        private System.DateTime responseTimeField;
+
+        private string messageField;
+
+        private bool duplicateField;
+
+        private bool duplicateFieldSpecified;
+
+        /// <remarks/>
+        public long cnpTxnId
+        {
+            get
+            {
+                return this.cnpTxnIdField;
+            }
+            set
+            {
+                this.cnpTxnIdField = value;
+            }
+        }
+
+        /// <remarks/>
+        public string fundsTransferId
+        {
+            get
+            {
+                return this.fundsTransferIdField;
+            }
+            set
+            {
+                this.fundsTransferIdField = value;
+            }
+        }
+
+        /// <remarks/>
+        public string response
+        {
+            get
+            {
+                return this.responseField;
+            }
+            set
+            {
+                this.responseField = value;
+            }
+        }
+
+        /// <remarks/>
+        public System.DateTime responseTime
+        {
+            get
+            {
+                return this.responseTimeField;
+            }
+            set
+            {
+                this.responseTimeField = value;
+            }
+        }
+
+        /// <remarks/>
+        public string message
+        {
+            get
+            {
+                return this.messageField;
+            }
+            set
+            {
+                this.messageField = value;
+            }
+        }
+
+        public bool duplicate
+        {
+            get
+            {
+                return this.duplicateField;
+            }
+            set
+            {
+                this.duplicateField = value;
+            }
+        }
+
+        public bool duplicateSpecified
+        {
+            get
+            {
+                return this.duplicateFieldSpecified;
+            }
+            set
+            {
+                this.duplicateFieldSpecified = value;
             }
         }
     }

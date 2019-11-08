@@ -70,7 +70,7 @@ namespace Cnp.Sdk.Test.Functional
         [Test]
         public void SimpleBatch()
         {
-            if (this.preliveStatus.Equals("down"))
+            if (this.preliveIsDown())
             {
                 Assert.Ignore();
             }
@@ -617,7 +617,7 @@ namespace Cnp.Sdk.Test.Functional
         [Test]
         public void AccountUpdateBatch()
         {
-            if (this.preliveStatus.Equals("down"))
+            if (this.preliveIsDown())
             {
                 Assert.Ignore();
             }
@@ -670,7 +670,7 @@ namespace Cnp.Sdk.Test.Functional
         [Test]
         public void RFRBatch()
         {
-            if (this.preliveStatus.Equals("down"))
+            if (this.preliveIsDown())
             {
                 Assert.Ignore();
             }
@@ -752,7 +752,7 @@ namespace Cnp.Sdk.Test.Functional
         [Test]
         public void NullBatchData()
         {
-            if (this.preliveStatus.Equals("down"))
+            if (this.preliveIsDown())
             {
                 Assert.Ignore();
             }
@@ -984,7 +984,7 @@ namespace Cnp.Sdk.Test.Functional
         [Test]
         public void InvalidCredientialsBatch()
         {
-            if (this.preliveStatus.Equals("down"))
+            if (this.preliveIsDown())
             {
                 Assert.Ignore();
             }
@@ -1283,7 +1283,7 @@ namespace Cnp.Sdk.Test.Functional
         [Test]
         public void InvalidSftpCredientialsBatch()
         {
-            if (this.preliveStatus.Equals("down"))
+            if (this.preliveIsDown())
             {
                 Assert.Ignore();
             }
@@ -1540,7 +1540,7 @@ namespace Cnp.Sdk.Test.Functional
         [Test]
         public void SimpleBatchWithSpecialCharacters()
         {
-            if (this.preliveStatus.Equals("down"))
+            if (this.preliveIsDown())
             {
                 Assert.Ignore();
             }
@@ -1591,6 +1591,15 @@ namespace Cnp.Sdk.Test.Functional
         private int estimatedResponseTime(int numAuthsAndSales, int numRest)
         {
             return (int)(5 * 60 * 1000 + 2.5 * 1000 + numAuthsAndSales * (1 / 5) * 1000 + numRest * (1 / 50) * 1000) * 5;
+        }
+        
+        private bool preliveIsDown() {
+            if (this.preliveStatus == null) {
+                Console.WriteLine("preliveStatus environment variable is not defined. Defaulting to down.");
+                return true;
+            }
+
+            return this.preliveStatus.ToLower().Equals("down");
         }
     }
 }

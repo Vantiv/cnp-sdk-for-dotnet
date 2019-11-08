@@ -27,7 +27,7 @@
       <Value Profile="(Default)">true</Value>
     </Setting>
     <Setting Name="url" Type="System.String" Scope="User">
-      <Value Profile="(Default)">https://www.testvantivcnp.com/sandbox/communicator/online</Value>
+      <Value Profile="(Default)">https://www.testvantivcnp.com/sandbox/new/sandbox/communicator/online</Value>
     </Setting>
     <Setting Name="proxyHost" Type="System.String" Scope="User">
       <Value Profile="(Default)" />
@@ -36,10 +36,10 @@
       <Value Profile="(Default)" />
     </Setting>
     <Setting Name="username" Type="System.String" Scope="User">
-      <Value Profile="(Default)" />
+      <Value Profile="(Default)">SDKTEAM12</Value>
     </Setting>
     <Setting Name="password" Type="System.String" Scope="User">
-      <Value Profile="(Default)" />
+      <Value Profile="(Default)">V2b9F4k7</Value>
     </Setting>
     <Setting Name="keepAlive" Type="System.String" Scope="User">
       <Value Profile="(Default)">true</Value>
@@ -60,19 +60,19 @@
       <Value Profile="(Default)">prelive.litle.com</Value>
     </Setting>
     <Setting Name="sftpUsername" Type="System.String" Scope="User">
-      <Value Profile="(Default)">DOTNET</Value>
+      <Value Profile="(Default)">sdkv12txn</Value>
     </Setting>
     <Setting Name="sftpPassword" Type="System.String" Scope="User">
-      <Value Profile="(Default)">DOTNET</Value>
+      <Value Profile="(Default)">f4Vt2T4A</Value>
     </Setting>
     <Setting Name="useEncryption" Type="System.String" Scope="User">
       <Value Profile="(Default)">false</Value>
     </Setting>
     <Setting Name="vantivPublicKeyId" Type="System.String" Scope="User">
-      <Value Profile="(Default)" />
+      <Value Profile="(Default)">94276408</Value>
     </Setting>
     <Setting Name="pgpPassphrase" Type="System.String" Scope="User">
-      <Value Profile="(Default)" />
+      <Value Profile="(Default)">sdksupport2018</Value>
     </Setting>
     <Setting Name="gnuPgDir" Type="System.String" Scope="User">
       <Value Profile="(Default)" />
@@ -90,10 +90,10 @@
       <Value Profile="(Default)">false</Value>
     </Setting>
     <Setting Name="multiSiteUrl1" Type="System.String" Scope="User">
-      <Value Profile="(Default)">https://multisite1.com</Value>
+      <Value Profile="(Default)">https://www.testvantivcnp.com/sandbox/new/sandbox/communicator/online</Value>
     </Setting>
     <Setting Name="multiSiteUrl2" Type="System.String" Scope="User">
-      <Value Profile="(Default)">https://multisite2.com</Value>
+      <Value Profile="(Default)">https://www.testvantivcnp.com/sandbox/new/sandbox/communicator/online</Value>
     </Setting>
   </Settings>
 </SettingsFile>
