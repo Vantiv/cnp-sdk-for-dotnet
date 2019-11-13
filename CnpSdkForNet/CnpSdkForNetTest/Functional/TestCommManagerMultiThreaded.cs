@@ -30,6 +30,7 @@ namespace Cnp.Sdk.Test.Functional
         
 
         [Test]
+        [Ignore("Disabled for testing")]
         public void testMultiThreaded()
         {
 
