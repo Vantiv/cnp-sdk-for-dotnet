@@ -59,7 +59,7 @@ namespace Cnp.Sdk
 
         public static void DecryptFile(string inputFileName, string outputFileName, string passphrase)
         {
-            string commandFormat = string.Format(@"--batch --yes --output {0} --decrypt {1}",outputFileName,inputFileName);
+            string commandFormat = string.Format(@"--passphrase-fd 0 --batch --yes --output {0} --decrypt {1}",outputFileName,inputFileName);
             if (File.Exists(outputFileName))
             {
                 File.Delete(outputFileName);
