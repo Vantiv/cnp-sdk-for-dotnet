@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Diagnostics;
 using System.IO;
+using System.Text.RegularExpressions;
 
 
 namespace Cnp.Sdk
@@ -42,7 +43,7 @@ namespace Cnp.Sdk
                     throw new CnpOnlineException("Please make sure that the recipient Key ID is correct and is added to your gpg keyring.\n" + procResult.error);
                 }
                 
-                else if (procResult.error.Contains(string.Format("can't open '{0}'", inputFileName)))
+                else if (Regex.IsMatch(procResult.error,string.Format("can't open .{0}", inputFileName)))
                 {
                     throw new CnpOnlineException("Please make sure the input file exists and has read permission.\n" + procResult.error);
                 }
@@ -58,18 +59,12 @@ namespace Cnp.Sdk
 
         public static void DecryptFile(string inputFileName, string outputFileName, string passphrase)
         {
-            string commandFormat = @"--kill gpg-agent";
-            var result = ExecuteCommandSync(commandFormat, GpgConfExecutable);
-            Console.WriteLine("Status: " + result.status);
-            Console.WriteLine("Output: " + result.output);
-            Console.WriteLine("Error: " + result.error);
-            
-            commandFormat = @"--passphrase-fd 0 --batch --trust-model always --pinentry-mode loopback --output {0} --decrypt {1}";
+            string commandFormat = string.Format(@"--batch --yes --no-secmem-warning --no-mdc-warning --output {0} --passphrase {1} --decrypt {2}",outputFileName,passphrase,inputFileName);
             if (File.Exists(outputFileName))
             {
                 File.Delete(outputFileName);
             }
-            var procResult = ExecuteCommandSyncWithPassphrase(string.Format(commandFormat, outputFileName, inputFileName), passphrase);
+            var procResult = ExecuteCommandSync(string.Format(commandFormat, outputFileName, inputFileName), GpgExecutable);
             if (procResult.status != Success)
             {
                 if (procResult.error.ToLower().Contains("gpg: public key decryption failed: bad passphrase"))
@@ -82,7 +77,7 @@ namespace Cnp.Sdk
                     throw new CnpOnlineException("Please make sure that your merchant secret key is added to your gpg keyring.\n" + procResult.error);
                 }
                 
-                else if (procResult.error.Contains(string.Format("can't open '{0}'", inputFileName)))
+                else if (Regex.IsMatch(procResult.error,string.Format("can't open .{0}", inputFileName)))
                 {
                     throw new CnpOnlineException("Please make sure the input file exists and has read permission.\n" + procResult.error);
                 }
@@ -98,7 +93,7 @@ namespace Cnp.Sdk
         {
             const string commandFormat = @"--import --passphrase-fd 0 --pinentry-mode loopback {0}";
             
-            var procResult = ExecuteCommandSyncWithPassphrase(string.Format(commandFormat, keyFilePath), passphrase);
+            var procResult = ExecuteCommandSync(string.Format(commandFormat, keyFilePath), passphrase);
             if (procResult.status != Success)
             {
                 throw new CnpOnlineException(procResult.error);
