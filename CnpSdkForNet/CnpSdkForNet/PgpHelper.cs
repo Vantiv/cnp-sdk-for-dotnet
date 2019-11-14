@@ -59,12 +59,12 @@ namespace Cnp.Sdk
 
         public static void DecryptFile(string inputFileName, string outputFileName, string passphrase)
         {
-            string commandFormat = string.Format(@"--batch --yes --no-secmem-warning --no-mdc-warning --output {0} --passphrase {1} --decrypt {2}",outputFileName,passphrase,inputFileName);
+            string commandFormat = string.Format(@"--batch --yes --no-secmem-warning --no-mdc-warning --output {0} --decrypt {1}",outputFileName,inputFileName);
             if (File.Exists(outputFileName))
             {
                 File.Delete(outputFileName);
             }
-            var procResult = ExecuteCommandSync(string.Format(commandFormat, outputFileName, inputFileName), GpgExecutable);
+            var procResult = ExecuteCommandSyncWithPassphrase(string.Format(commandFormat, outputFileName, inputFileName),passphrase);
             if (procResult.status != Success)
             {
                 if (procResult.error.ToLower().Contains("gpg: public key decryption failed: bad passphrase"))
