@@ -33,7 +33,7 @@ namespace Cnp.Sdk
         
         public static void EncryptFile(string inputFileName, string outputFileName, string recipientKeyId)
         {
-            const string commandFormat = @"--yes --batch --encrypt --trust-model always --output {0}  --armour --recipient {1} {2}";
+            const string commandFormat = @"--batch --yes --encrypt --armor --trust-model always --output {0} --recipient {1} --encrypt {2}";
 
             var procResult = ExecuteCommandSync(string.Format(commandFormat, outputFileName, recipientKeyId, inputFileName), GpgExecutable);
             if (procResult.status != Success)
