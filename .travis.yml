@@ -3,7 +3,7 @@ solution: CnpSdkForNet.sln
 notifications:
   email:
     - sdksupport@vantiv.com
-dotnet: 2.1
+dotnet: 3.0
 install:
   - nuget restore CnpSdkForNet/CnpSdkForNet.sln
   - nuget install NUnit.Console -Version 3.9.0 -OutputDirectory testrunner
