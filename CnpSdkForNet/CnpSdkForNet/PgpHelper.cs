@@ -70,6 +70,13 @@ namespace Cnp.Sdk
             {
                 procResult = ExecuteCommandSync(string.Format(commandFormat, outputFileName, passphrase, inputFileName),GpgExecutable);
             }
+            else
+            {
+                var result = ExecuteCommandSync(@"--kill gpg-agent", GpgConfExecutable);
+                Console.WriteLine("Status: " + result.status);
+                Console.WriteLine("Output: " + result.output);
+                Console.WriteLine("Error: " + result.error);
+            }
 
             if (procResult.status != Success)
             {
