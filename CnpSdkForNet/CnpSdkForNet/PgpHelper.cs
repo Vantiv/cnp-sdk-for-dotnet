@@ -17,8 +17,18 @@ namespace Cnp.Sdk
     {
         private const int Success = 0;
         private static string GpgPath = Properties.Settings.Default.gnuPgDir;
-        private const string GpgExecutable = "gpg.exe";
-        private const string GpgConfExecutable = "gpgconf.exe";
+        private const string GpgExecutable = "gpg";
+        private const string GpgConfExecutable = "gpgconf";
+
+        public static string GetExecutablePath(string path)
+        {
+            if (!File.Exists(path) && File.Exists(path + ".exe"))
+            {
+                return path + ".exe";
+            }
+
+            return path;
+        }
         
         public static void EncryptFile(string inputFileName, string outputFileName, string recipientKeyId)
         {
@@ -113,7 +123,7 @@ namespace Cnp.Sdk
 
         private static ProcResult ExecuteCommandSyncWithPassphrase(string command, string passphrase)
         {
-            string path = string.Format(@"{0}\" + GpgExecutable, GpgPath);
+            string path = GetExecutablePath(Path.Combine(GpgPath, GpgExecutable));
 
             var procStartInfo = new ProcessStartInfo(path, command)
             {
@@ -128,6 +138,7 @@ namespace Cnp.Sdk
             proc.Start();
             proc.StandardInput.WriteLine(passphrase);
             proc.StandardInput.Flush();
+            proc.WaitForExit();
 
             return new ProcResult
             {
@@ -138,11 +149,11 @@ namespace Cnp.Sdk
         }
 
 
-        private static ProcResult ExecuteCommandSync(string command, string executable) 
+        private static ProcResult ExecuteCommandSync(string command, string executable)
         {
-            string path = string.Format(@"{0}\" + executable, GpgPath);
+            string path = GetExecutablePath(Path.Combine(GpgPath, executable));
             
-            var procStartInfo = new ProcessStartInfo(path, command)
+            var procStartInfo = new ProcessStartInfo(path, executable)
             {
                 CreateNoWindow = true,
                 UseShellExecute = false,
@@ -154,6 +165,7 @@ namespace Cnp.Sdk
             var proc = new Process { StartInfo = procStartInfo };
             proc.Start();
             proc.StandardInput.Flush();
+            proc.WaitForExit();
             
             return new ProcResult
             {
