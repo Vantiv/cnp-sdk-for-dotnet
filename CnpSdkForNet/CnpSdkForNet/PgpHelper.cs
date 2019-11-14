@@ -153,7 +153,7 @@ namespace Cnp.Sdk
         {
             string path = GetExecutablePath(Path.Combine(GpgPath, executable));
             
-            var procStartInfo = new ProcessStartInfo(path, executable)
+            var procStartInfo = new ProcessStartInfo(path, command)
             {
                 CreateNoWindow = true,
                 UseShellExecute = false,
