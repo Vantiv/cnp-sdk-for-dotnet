@@ -89,7 +89,7 @@ namespace Cnp.Sdk.Test.Functional
             }
             catch (CnpOnlineException e)
             {
-                Assert.True(e.Message.Contains("Please make sure that the recipient Key ID is correct and is added to your gpg keyring"));
+                Assert.True(e.Message.Contains("Please make sure that the recipient Key ID is correct and is added to your gpg keyring"),"Actual error message: " + e.Message);
             }
         }
 
@@ -105,7 +105,7 @@ namespace Cnp.Sdk.Test.Functional
             }
             catch (CnpOnlineException e)
             {
-                Assert.True(e.Message.Contains("Please make sure the input file exists and has read permission."));
+                Assert.True(e.Message.Contains("Please make sure the input file exists and has read permission."),"Actual error message: " + e.Message);
             }
         }
 
@@ -136,7 +136,7 @@ namespace Cnp.Sdk.Test.Functional
             catch (CnpOnlineException e)
             {
                 Console.WriteLine(e.Message);
-                Assert.True(e.Message.Contains("Please make sure that the passphrase is correct."));
+                Assert.True(e.Message.Contains("Please make sure that the passphrase is correct."),"Actual error message: " + e.Message);
             }            
         }
 
@@ -166,7 +166,7 @@ namespace Cnp.Sdk.Test.Functional
             }
             catch (CnpOnlineException e)
             {
-                Assert.True(e.Message.Contains("Please make sure that your merchant secret key is added to your gpg keyring."));
+                Assert.True(e.Message.Contains("Please make sure that your merchant secret key is added to your gpg keyring."),"Actual error message: " + e.Message);
             }         
         }
 
@@ -182,7 +182,7 @@ namespace Cnp.Sdk.Test.Functional
             }
             catch (CnpOnlineException e)
             {
-                Assert.True(e.Message.Contains("Please make sure the input file exists and has read permission."));
+                Assert.True(e.Message.Contains("Please make sure the input file exists and has read permission."),"Actual error message: " + e.Message);
             }
         }
 
