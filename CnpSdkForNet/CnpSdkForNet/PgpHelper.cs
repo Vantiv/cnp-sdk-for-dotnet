@@ -59,12 +59,18 @@ namespace Cnp.Sdk
 
         public static void DecryptFile(string inputFileName, string outputFileName, string passphrase)
         {
-            string commandFormat = @"--batch --yes --output {0} --passphrase {1} --decrypt {2}";
+            string commandFormat = @"--batch --trust-model always --output {0} --passphrase {1} --decrypt {2}";
+            string commandFormatPinentryLoop = @"--batch --trust-model always --pinentry-mode loopback --output {0} --passphrase {1} --decrypt {2}";
             if (File.Exists(outputFileName))
             {
                 File.Delete(outputFileName);
             }
-            var procResult = ExecuteCommandSync(string.Format(commandFormat, outputFileName, passphrase, inputFileName),GpgExecutable);
+            var procResult = ExecuteCommandSync(string.Format(commandFormatPinentryLoop, outputFileName, passphrase, inputFileName),GpgExecutable);
+            if (procResult.status != Success && procResult.error.ToLower().Contains("gpg: invalid option \"--pinentry-mode\""))
+            {
+                procResult = ExecuteCommandSync(string.Format(commandFormat, outputFileName, passphrase, inputFileName),GpgExecutable);
+            }
+
             if (procResult.status != Success)
             {
                 if (procResult.error.ToLower().Contains("gpg: public key decryption failed: bad passphrase"))
