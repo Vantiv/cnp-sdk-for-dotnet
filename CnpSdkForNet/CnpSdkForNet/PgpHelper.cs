@@ -43,7 +43,7 @@ namespace Cnp.Sdk
                     throw new CnpOnlineException("Please make sure that the recipient Key ID is correct and is added to your gpg keyring.\n" + procResult.error);
                 }
                 
-                else if (Regex.IsMatch(procResult.error,string.Format("can't open .{0}", inputFileName)))
+                else if (Regex.IsMatch(procResult.error,string.Format("can't open .{0}", Regex.Escape(inputFileName))))
                 {
                     throw new CnpOnlineException("Please make sure the input file exists and has read permission.\n" + procResult.error);
                 }
@@ -77,7 +77,7 @@ namespace Cnp.Sdk
                     throw new CnpOnlineException("Please make sure that your merchant secret key is added to your gpg keyring.\n" + procResult.error);
                 }
                 
-                else if (Regex.IsMatch(procResult.error,string.Format("can't open .{0}", inputFileName)))
+                else if (Regex.IsMatch(procResult.error,string.Format("can't open .{0}", Regex.Escape(inputFileName))))
                 {
                     throw new CnpOnlineException("Please make sure the input file exists and has read permission.\n" + procResult.error);
                 }
