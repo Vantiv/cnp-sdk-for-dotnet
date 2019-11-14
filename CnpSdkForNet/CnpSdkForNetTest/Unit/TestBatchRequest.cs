@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.IO;
 using NUnit.Framework;
 using Moq;
 using System.Text.RegularExpressions;
@@ -78,13 +79,12 @@ merchantId=""01234"">
             mockConfig["sftpPassword"] = "mockFtpPassword";
             mockConfig["onlineBatchUrl"] = "www.mockbatch.com";
             mockConfig["onlineBatchPort"] = "4000";
-            mockConfig["requestDirectory"] = "C:\\MockRequests";
-            mockConfig["responseDirectory"] = "C:\\MockResponses";
+            mockConfig["requestDirectory"] = Path.Combine(Path.GetTempPath(),"MockRequests");
+            mockConfig["responseDirectory"] = Path.Combine(Path.GetTempPath(),"MockResponses");
 
             batchRequest = new batchRequest(mockConfig);
-
-            Assert.AreEqual("C:\\MockRequests\\Requests\\", batchRequest.getRequestDirectory());
-            Assert.AreEqual("C:\\MockResponses\\Responses\\", batchRequest.getResponseDirectory());
+            Assert.AreEqual(Path.Combine(Path.GetTempPath(),"MockRequests","Requests") + Path.DirectorySeparatorChar, batchRequest.getRequestDirectory());
+            Assert.AreEqual(Path.Combine(Path.GetTempPath(),"MockResponses","Responses") + Path.DirectorySeparatorChar, batchRequest.getResponseDirectory());
 
             Assert.NotNull(batchRequest.getCnpTime());
             Assert.NotNull(batchRequest.getCnpFile());

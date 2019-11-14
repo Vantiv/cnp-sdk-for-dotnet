@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.IO;
 using NUnit.Framework;
 using Moq;
 
@@ -54,13 +55,13 @@ namespace Cnp.Sdk.Test.Unit
             mockConfig["sftpPassword"] = "mockFtpPassword";
             mockConfig["onlineBatchUrl"] = "www.mockbatch.com";
             mockConfig["onlineBatchPort"] = "4000";
-            mockConfig["requestDirectory"] = "C:\\MockRequests";
-            mockConfig["responseDirectory"] = "C:\\MockResponses";
+            mockConfig["requestDirectory"] = Path.Combine(Path.GetTempPath(),"MockRequests");;
+            mockConfig["responseDirectory"] = Path.Combine(Path.GetTempPath(),"MockResponses");;
 
             rfrRequest = new RFRRequest(mockConfig);
 
-            Assert.AreEqual("C:\\MockRequests\\Requests\\", rfrRequest.getRequestDirectory());
-            Assert.AreEqual("C:\\MockResponses\\Responses\\", rfrRequest.getResponseDirectory());
+            Assert.AreEqual(Path.Combine(Path.GetTempPath(),"MockRequests","Requests") + Path.DirectorySeparatorChar, rfrRequest.getRequestDirectory());
+            Assert.AreEqual(Path.Combine(Path.GetTempPath(),"MockResponses","Responses") + Path.DirectorySeparatorChar, rfrRequest.getResponseDirectory());
 
             Assert.NotNull(rfrRequest.getCnpTime());
             Assert.NotNull(rfrRequest.getCnpFile());

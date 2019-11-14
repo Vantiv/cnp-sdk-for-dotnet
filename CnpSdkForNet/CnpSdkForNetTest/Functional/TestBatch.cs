@@ -1,5 +1,6 @@
 using System;
 using System.Collections.Generic;
+using System.IO;
 using NUnit.Framework;
 
 namespace Cnp.Sdk.Test.Functional
@@ -11,6 +12,7 @@ namespace Cnp.Sdk.Test.Functional
         private Dictionary<string, string> _invalidConfig;
         private Dictionary<string, string> _invalidSftpConfig;
         private string preliveStatus;
+        private static readonly string tempDirectroyPath = Path.Combine(Path.GetTempPath(),"NET" + CnpVersion.CurrentCNPXMLVersion) + Path.DirectorySeparatorChar;
 
         [OneTimeSetUp]
         public void SetUp()
@@ -31,8 +33,8 @@ namespace Cnp.Sdk.Test.Functional
             //_invalidConfig["sftpUrl"] = Properties.Settings.Default.sftpUrl;
             //_invalidConfig["sftpUsername"] = Properties.Settings.Default.sftpUsername;
             //_invalidConfig["sftpPassword"] = Properties.Settings.Default.sftpPassword;
-            //_invalidConfig["requestDirectory"] = Properties.Settings.Default.requestDirectory;
-            //_invalidConfig["responseDirectory"] = Properties.Settings.Default.responseDirectory;
+            _invalidConfig["requestDirectory"] = tempDirectroyPath + "BatchRequests";
+            _invalidConfig["responseDirectory"] = tempDirectroyPath + "BatchResponses";
             _invalidConfig["useEncryption"] = "false";
 
             _invalidSftpConfig = invalidConfigManager.getConfig();
@@ -49,8 +51,8 @@ namespace Cnp.Sdk.Test.Functional
             //_invalidSftpConfig["sftpUrl"] = Properties.Settings.Default.sftpUrl;
             _invalidSftpConfig["sftpUsername"] = "badSftpUsername";
             _invalidSftpConfig["sftpPassword"] = "badSftpPassword";
-            //_invalidSftpConfig["requestDirectory"] = Properties.Settings.Default.requestDirectory;
-            //_invalidSftpConfig["responseDirectory"] = Properties.Settings.Default.responseDirectory;
+            _invalidSftpConfig["requestDirectory"] = tempDirectroyPath + "BatchRequests";
+            _invalidSftpConfig["responseDirectory"] = tempDirectroyPath + "BatchResponses";
             _invalidSftpConfig["useEncryption"] = "false";
         }
 
@@ -58,7 +60,26 @@ namespace Cnp.Sdk.Test.Functional
         public void SetUpBeforeTest()
         {
             CommManager.reset();
-            _cnp = new cnpRequest();
+            
+            Dictionary<String,String> config = new Dictionary<string, string>();
+            config["url"] = Properties.Settings.Default.url;
+            config["reportGroup"] = Properties.Settings.Default.reportGroup;
+            config["username"] = Properties.Settings.Default.username;
+            config["printxml"] = Properties.Settings.Default.printxml;
+            config["timeout"] = Properties.Settings.Default.timeout;
+            config["proxyHost"] = Properties.Settings.Default.proxyHost;
+            config["merchantId"] = Properties.Settings.Default.merchantId;
+            config["password"] = Properties.Settings.Default.password;
+            config["proxyPort"] = Properties.Settings.Default.proxyPort;
+            config["sftpUrl"] = Properties.Settings.Default.sftpUrl;
+            config["sftpUsername"] = Properties.Settings.Default.sftpUsername;
+            config["sftpPassword"] = Properties.Settings.Default.sftpPassword;
+            config["onlineBatchUrl"] = Properties.Settings.Default.onlineBatchUrl;
+            config["onlineBatchPort"] = Properties.Settings.Default.onlineBatchPort;
+            config["requestDirectory"] = tempDirectroyPath + "BatchRequests";
+            config["responseDirectory"] = tempDirectroyPath + "BatchResponses";
+            _cnp = new cnpRequest(config);
+            
             this.preliveStatus = Environment.GetEnvironmentVariable("preliveStatus");
         }
 

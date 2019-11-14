@@ -91,8 +91,8 @@ namespace Cnp.Sdk
             authentication.user = config["username"];
             authentication.password = config["password"];
 
-            requestDirectory = config["requestDirectory"] + "\\Requests\\";
-            responseDirectory = config["responseDirectory"] + "\\Responses\\";
+            requestDirectory = Path.Combine(config["requestDirectory"],"Requests") + Path.DirectorySeparatorChar;
+            responseDirectory = Path.Combine(config["responseDirectory"],"Responses") + Path.DirectorySeparatorChar;
 
             cnpXmlSerializer = new cnpXmlSerializer();
             cnpTime = new cnpTime();

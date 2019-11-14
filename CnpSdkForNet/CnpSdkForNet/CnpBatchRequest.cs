@@ -1,4 +1,5 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using System.IO;
 using System.Security;
 
@@ -133,8 +134,8 @@ namespace Cnp.Sdk
 
         private void initializeRequest()
         {
-            requestDirectory = config["requestDirectory"] + "\\Requests\\";
-            responseDirectory = config["responseDirectory"] + "\\Responses\\";
+            requestDirectory = Path.Combine(config["requestDirectory"],"Requests") + Path.DirectorySeparatorChar;
+            responseDirectory = Path.Combine(config["responseDirectory"],"Responses") + Path.DirectorySeparatorChar;
 
             cnpFile = new cnpFile();
             cnpTime = new cnpTime();
@@ -1703,8 +1704,8 @@ namespace Cnp.Sdk
             cnpTime = new cnpTime();
             cnpFile = new cnpFile();
 
-            requestDirectory = config["requestDirectory"] + "\\Requests\\";
-            responseDirectory = config["responseDirectory"] + "\\Responses\\";
+            requestDirectory = Path.Combine(config["requestDirectory"],"Requests") + Path.DirectorySeparatorChar;
+            responseDirectory = Path.Combine(config["responseDirectory"],"Responses") + Path.DirectorySeparatorChar;
         }
 
         public RFRRequest(Dictionary<string, string> config)
@@ -1716,8 +1717,8 @@ namespace Cnp.Sdk
 
         private void initializeRequest()
         {
-            requestDirectory = config["requestDirectory"] + "\\Requests\\";
-            responseDirectory = config["responseDirectory"] + "\\Responses\\";
+            requestDirectory = Path.Combine(config["requestDirectory"],"Requests") + Path.DirectorySeparatorChar;
+            responseDirectory = Path.Combine(config["responseDirectory"],"Responses") + Path.DirectorySeparatorChar;
 
             cnpFile = new cnpFile();
             cnpTime = new cnpTime();
