@@ -59,12 +59,16 @@ namespace Cnp.Sdk
 
         public static void DecryptFile(string inputFileName, string outputFileName, string passphrase)
         {
+            // Set up the commands for GPG >=2.1 and <2.1
             string commandFormat = @"--batch --trust-model always --output {0} --passphrase {1} --decrypt {2}";
             string commandFormatPinentryLoop = @"--batch --trust-model always --pinentry-mode loopback --output {0} --passphrase {1} --decrypt {2}";
             if (File.Exists(outputFileName))
             {
                 File.Delete(outputFileName);
             }
+            
+            // Run the command for GPG >=2.1. If it doesn't work (<2.1), then use 2.0 and earlier.
+            // If it works, reset the passphrase so it isn't saved (GPG >=2.1).
             var procResult = ExecuteCommandSync(string.Format(commandFormatPinentryLoop, outputFileName, passphrase, inputFileName),GpgExecutable);
             if (procResult.status != Success && procResult.error.ToLower().Contains("gpg: invalid option \"--pinentry-mode\""))
             {
