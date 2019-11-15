@@ -5,6 +5,17 @@ namespace Cnp.Sdk.Test
 {
     public class EnvironmentVariableTestFlags
     {
+        public static bool ArePGPFunctionalTestsEnabled()
+        {
+            var pgpFunctionalTestsEnabled = Environment.GetEnvironmentVariable("pgpFunctionalTestsEnabled");
+            if (pgpFunctionalTestsEnabled == null) {
+                Console.WriteLine("pgpFunctionalTestsEnabled environment variable is not defined. Defaulting to true.");
+                return true;
+            }
+
+            return !pgpFunctionalTestsEnabled.ToLower().Equals("false");
+        }
+        
         public static bool ArePreliveBatchTestsEnabled()
         {
             var preliveBatchTestsEnabled = Environment.GetEnvironmentVariable("preliveBatchTestsEnabled");
@@ -25,6 +36,14 @@ namespace Cnp.Sdk.Test
             }
 
             return !preliveOnlineTestsEnabled.ToLower().Equals("false");
+        }
+        
+        public static void RequirePGPFunctionalTestsEnabled()
+        {
+            if (!ArePGPFunctionalTestsEnabled())
+            {
+                Assert.Ignore("PGP functional tests are disabled.");
+            }
         }
         
         public static void RequirePreliveBatchTestsEnabled()
