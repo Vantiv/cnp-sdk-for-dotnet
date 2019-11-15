@@ -9,6 +9,9 @@ install:
   - nuget install NUnit.Console -Version 3.9.0 -OutputDirectory testrunner
 script:
   - dotnet build CnpSdkForNet/
+  - export pgpFunctionalTestsEnabled=false
+  - export preliveBatchTestsEnabled=false
+  - export preliveOnlineTestsEnabled=false
   - dotnet test -v n CnpSdkForNet/
 after_success:
  - bash <(curl -s https://codecov.io/bash)
