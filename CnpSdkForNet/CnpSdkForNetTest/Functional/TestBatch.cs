@@ -11,12 +11,13 @@ namespace Cnp.Sdk.Test.Functional
         private cnpRequest _cnp;
         private Dictionary<string, string> _invalidConfig;
         private Dictionary<string, string> _invalidSftpConfig;
-        private string preliveStatus;
         private static readonly string tempDirectroyPath = Path.Combine(Path.GetTempPath(),"NET" + CnpVersion.CurrentCNPXMLVersion) + Path.DirectorySeparatorChar;
 
         [OneTimeSetUp]
         public void SetUp()
         {
+            EnvironmentVariableTestFlags.RequirePreliveBatchTestsEnabled();
+            
             CommManager.reset();
             ConfigManager invalidConfigManager = new ConfigManager();
             _invalidConfig = invalidConfigManager.getConfig();
@@ -79,18 +80,11 @@ namespace Cnp.Sdk.Test.Functional
             config["requestDirectory"] = tempDirectroyPath + "BatchRequests";
             config["responseDirectory"] = tempDirectroyPath + "BatchResponses";
             _cnp = new cnpRequest(config);
-            
-            this.preliveStatus = Environment.GetEnvironmentVariable("preliveStatus");
         }
 
         [Test]
         public void SimpleBatch()
         {
-            if (this.preliveIsDown())
-            {
-                Assert.Ignore();
-            }
-
             var cnpBatchRequest = new batchRequest();
 
             var authorization = new authorization
@@ -633,11 +627,6 @@ namespace Cnp.Sdk.Test.Functional
         [Test]
         public void AccountUpdateBatch()
         {
-            if (this.preliveIsDown())
-            {
-                Assert.Ignore();
-            }
-
             var cnpBatchRequest = new batchRequest();
 
             var accountUpdate1 = new accountUpdate();
@@ -686,11 +675,6 @@ namespace Cnp.Sdk.Test.Functional
         [Test]
         public void RFRBatch()
         {
-            if (this.preliveIsDown())
-            {
-                Assert.Ignore();
-            }
-
             var cnpBatchRequest = new batchRequest();
             cnpBatchRequest.id = "1234567A";
 
@@ -768,11 +752,6 @@ namespace Cnp.Sdk.Test.Functional
         [Test]
         public void NullBatchData()
         {
-            if (this.preliveIsDown())
-            {
-                Assert.Ignore();
-            }
-
             var cnpBatchRequest = new batchRequest();
 
             var authorization = new authorization();
@@ -1000,11 +979,6 @@ namespace Cnp.Sdk.Test.Functional
         [Test]
         public void InvalidCredientialsBatch()
         {
-            if (this.preliveIsDown())
-            {
-                Assert.Ignore();
-            }
-
             var cnpIC = new cnpRequest(_invalidConfig);
 
             var cnpBatchRequest = new batchRequest();
@@ -1299,11 +1273,6 @@ namespace Cnp.Sdk.Test.Functional
         [Test]
         public void InvalidSftpCredientialsBatch()
         {
-            if (this.preliveIsDown())
-            {
-                Assert.Ignore();
-            }
-
             var cnpIsc = new cnpRequest(_invalidSftpConfig);
 
             var cnpBatchRequest = new batchRequest();
@@ -1556,11 +1525,6 @@ namespace Cnp.Sdk.Test.Functional
         [Test]
         public void SimpleBatchWithSpecialCharacters()
         {
-            if (this.preliveIsDown())
-            {
-                Assert.Ignore();
-            }
-
             var cnpBatchRequest = new batchRequest();
 
             var authorization = new authorization();
@@ -1607,15 +1571,6 @@ namespace Cnp.Sdk.Test.Functional
         private int estimatedResponseTime(int numAuthsAndSales, int numRest)
         {
             return (int)(5 * 60 * 1000 + 2.5 * 1000 + numAuthsAndSales * (1 / 5) * 1000 + numRest * (1 / 50) * 1000) * 5;
-        }
-        
-        private bool preliveIsDown() {
-            if (this.preliveStatus == null) {
-                Console.WriteLine("preliveStatus environment variable is not defined. Defaulting to down.");
-                return true;
-            }
-
-            return this.preliveStatus.ToLower().Equals("down");
         }
     }
 }

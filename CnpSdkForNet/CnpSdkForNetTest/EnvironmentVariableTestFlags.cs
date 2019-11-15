@@ -9,7 +9,7 @@ namespace Cnp.Sdk.Test
         {
             var preliveBatchTestsEnabled = Environment.GetEnvironmentVariable("preliveBatchTestsEnabled");
             if (preliveBatchTestsEnabled == null) {
-                Console.WriteLine("preliveBatchTestsEnabled environment variable is not defined. Defaulting to true.");
+                Console.WriteLine("preliveBatchTestsEnabled environment variable is not defined. Defaulting to false.");
                 return false;
             }
 
@@ -21,7 +21,7 @@ namespace Cnp.Sdk.Test
             var preliveOnlineTestsEnabled = Environment.GetEnvironmentVariable("preliveOnlineTestsEnabled");
             if (preliveOnlineTestsEnabled == null) {
                 Console.WriteLine("preliveOnlineTestsEnabled environment variable is not defined. Defaulting to true.");
-                return false;
+                return true;
             }
 
             return !preliveOnlineTestsEnabled.ToLower().Equals("false");

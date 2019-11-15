@@ -7,24 +7,19 @@ namespace Cnp.Sdk.Test.Functional
     class TestBatchRequest
     {
         private cnpRequest cnp;
-        private string preliveStatus;
 
         [SetUp]
         public void setUpBeforeTest()
         {
+            EnvironmentVariableTestFlags.RequirePreliveBatchTestsEnabled();
+            
             CommManager.reset();
             cnp = new cnpRequest();
-            this.preliveStatus = Environment.GetEnvironmentVariable("preliveStatus");
         }
 
         [Test]
         public void SimpleBatch()
         {
-            if (this.preliveIsDown())
-            {
-                Assert.Ignore();
-            }
-
             var cnpBatchRequest = new batchRequest();
 
             var authorization = new authorization
@@ -566,11 +561,6 @@ namespace Cnp.Sdk.Test.Functional
         [Ignore("Fast access funding not setup for test merchant")]
         public void simpleBatchWithJustFastAccessFunding()
         {
-            if (this.preliveIsDown())
-            {
-                Assert.Ignore();
-            }
-
             var cnpBatchRequest = new batchRequest();
             var fastAccessFunding = new fastAccessFunding();
             fastAccessFunding.id = "id";
@@ -606,15 +596,6 @@ namespace Cnp.Sdk.Test.Functional
         private int estimatedResponseTime(int numAuthsAndSales, int numRest)
         {
             return (int)(5 * 60 * 1000 + 2.5 * 1000 + numAuthsAndSales * (1 / 5) * 1000 + numRest * (1 / 50) * 1000) * 5;
-        }
-
-        private bool preliveIsDown() {
-            if (this.preliveStatus == null) {
-                Console.WriteLine("preliveStatus environment variable is not defined. Defaulting to down.");
-                return true;
-            }
-
-            return this.preliveStatus.ToLower().Equals("down");
         }
     }
 }
