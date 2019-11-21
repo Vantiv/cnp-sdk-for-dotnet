@@ -1,7 +1,7 @@
 ﻿<Project Sdk="Microsoft.NET.Sdk">
 
     <PropertyGroup>
-        <RootNamespace>Cn.Sdk.Test</RootNamespace>
+        <RootNamespace>Cnp.Sdk.Test</RootNamespace>
         <TargetFramework>netcoreapp3.0</TargetFramework>
         <OutputType>Exe</OutputType>
         <IsTestProject>true</IsTestProject>
