@@ -18,4 +18,7 @@
       <ProjectReference Include="..\CnpSdkForNet\CnpSdkForNet.csproj" />
     </ItemGroup>
 
+    <Target Name="CopyCustomContent" AfterTargets="AfterBuild">
+        <Copy SourceFiles="app.config" DestinationFiles="$(OutDir)\testhost.dll.config" />
+    </Target>
 </Project>
