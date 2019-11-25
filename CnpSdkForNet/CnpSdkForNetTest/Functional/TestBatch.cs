@@ -21,35 +21,13 @@ namespace Cnp.Sdk.Test.Functional
             CommManager.reset();
             ConfigManager invalidConfigManager = new ConfigManager();
             _invalidConfig = invalidConfigManager.getConfig();
-            //_invalidConfig = new Dictionary<string, string>();
-            //_invalidConfig["url"] = Properties.Settings.Default.url;
-            //_invalidConfig["reportGroup"] = Properties.Settings.Default.reportGroup;
             _invalidConfig["username"] = "badUsername";
-            //_invalidConfig["printxml"] = Properties.Settings.Default.printxml;
-            //_invalidConfig["timeout"] = Properties.Settings.Default.timeout;
-            //_invalidConfig["proxyHost"] = Properties.Settings.Default.proxyHost;
-            //_invalidConfig["merchantId"] = Properties.Settings.Default.merchantId;
             _invalidConfig["password"] = "badPassword";
-            //_invalidConfig["proxyPort"] = Properties.Settings.Default.proxyPort;
-            //_invalidConfig["sftpUrl"] = Properties.Settings.Default.sftpUrl;
-            //_invalidConfig["sftpUsername"] = Properties.Settings.Default.sftpUsername;
-            //_invalidConfig["sftpPassword"] = Properties.Settings.Default.sftpPassword;
             _invalidConfig["requestDirectory"] = tempDirectroyPath + "BatchRequests";
             _invalidConfig["responseDirectory"] = tempDirectroyPath + "BatchResponses";
             _invalidConfig["useEncryption"] = "false";
 
             _invalidSftpConfig = invalidConfigManager.getConfig();
-            //_invalidSftpConfig = new Dictionary<string, string>();
-            //_invalidSftpConfig["url"] = Properties.Settings.Default.url;
-            //_invalidSftpConfig["reportGroup"] = Properties.Settings.Default.reportGroup;
-            //_invalidSftpConfig["username"] = Properties.Settings.Default.username;
-            //_invalidSftpConfig["printxml"] = Properties.Settings.Default.printxml;
-            //_invalidSftpConfig["timeout"] = Properties.Settings.Default.timeout;
-            //_invalidSftpConfig["proxyHost"] = Properties.Settings.Default.proxyHost;
-            //_invalidSftpConfig["merchantId"] = Properties.Settings.Default.merchantId;
-            //_invalidSftpConfig["password"] = Properties.Settings.Default.password;
-            //_invalidSftpConfig["proxyPort"] = Properties.Settings.Default.proxyPort;
-            //_invalidSftpConfig["sftpUrl"] = Properties.Settings.Default.sftpUrl;
             _invalidSftpConfig["sftpUsername"] = "badSftpUsername";
             _invalidSftpConfig["sftpPassword"] = "badSftpPassword";
             _invalidSftpConfig["requestDirectory"] = tempDirectroyPath + "BatchRequests";
@@ -62,21 +40,7 @@ namespace Cnp.Sdk.Test.Functional
         {
             CommManager.reset();
             
-            Dictionary<String,String> config = new Dictionary<string, string>();
-            config["url"] = Properties.Settings.Default.url;
-            config["reportGroup"] = Properties.Settings.Default.reportGroup;
-            config["username"] = Properties.Settings.Default.username;
-            config["printxml"] = Properties.Settings.Default.printxml;
-            config["timeout"] = Properties.Settings.Default.timeout;
-            config["proxyHost"] = Properties.Settings.Default.proxyHost;
-            config["merchantId"] = Properties.Settings.Default.merchantId;
-            config["password"] = Properties.Settings.Default.password;
-            config["proxyPort"] = Properties.Settings.Default.proxyPort;
-            config["sftpUrl"] = Properties.Settings.Default.sftpUrl;
-            config["sftpUsername"] = Properties.Settings.Default.sftpUsername;
-            config["sftpPassword"] = Properties.Settings.Default.sftpPassword;
-            config["onlineBatchUrl"] = Properties.Settings.Default.onlineBatchUrl;
-            config["onlineBatchPort"] = Properties.Settings.Default.onlineBatchPort;
+            Dictionary<String,String> config = new ConfigManager().getConfig();
             config["requestDirectory"] = tempDirectroyPath + "BatchRequests";
             config["responseDirectory"] = tempDirectroyPath + "BatchResponses";
             _cnp = new cnpRequest(config);

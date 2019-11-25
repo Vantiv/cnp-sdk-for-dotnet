@@ -9,7 +9,6 @@ namespace Cnp.Sdk.Test.Functional
     internal class TestSale
     {
         private CnpOnline _cnp;
-        private Dictionary<string, string> _config;
 
         [OneTimeSetUp]
         public void SetUpCnp()

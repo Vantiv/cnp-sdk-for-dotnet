@@ -7,7 +7,6 @@ namespace Cnp.Sdk.Test.Functional
     internal class TestUnload
     {
         private CnpOnline _cnp;
-        private Dictionary<string, string> _config;
 
         [OneTimeSetUp]
         public void SetUpCnp()
