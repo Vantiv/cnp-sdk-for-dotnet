@@ -14,13 +14,20 @@ namespace Cnp.Sdk.Test.Certification
             EnvironmentVariableTestFlags.RequirePreliveOnlineTestsEnabled();
             
             CommManager.reset();
+            var existingConfig = new ConfigManager().getConfig();
             Dictionary<string, string> config = new Dictionary<string, string>();
             config.Add("url", "https://payments.vantivprelive.com/vap/communicator/online");
+            config.Add("reportGroup", "Default Report Group");
+            config.Add("username", existingConfig["username"]);
+            config.Add("timeout", "20000");
+            config.Add("merchantId", existingConfig["merchantId"]);
+            config.Add("password",existingConfig["password"]);
+            config.Add("printxml", "true");
             config.Add("logFile", null);
             config.Add("neuterAccountNums", null);
             config.Add("proxyHost", "");
             config.Add("proxyPort", "");
-            config.Add("multiSite", "true");    
+            config.Add("multiSite", "false");
             
             ConfigManager configManager = new ConfigManager(config);
             cnp = new CnpOnline(configManager.getConfig());
