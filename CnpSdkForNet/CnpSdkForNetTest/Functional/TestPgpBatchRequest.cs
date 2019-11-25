@@ -16,6 +16,8 @@ namespace Cnp.Sdk.Test.Functional
         [OneTimeSetUp]
         public void SetUp()
         {
+            EnvironmentVariableTestFlags.RequirePGPFunctionalTestsEnabled();
+            
             CommManager.reset();
             ConfigManager configManager = new ConfigManager();
             _config = configManager.getConfig();

@@ -14,7 +14,9 @@ namespace Cnp.Sdk.Test.Functional
         int cycleCount = 1000;
         Dictionary<string, string> _config;
         [OneTimeSetUp]
-        public void setup() {
+        public void setup()
+        {
+            EnvironmentVariableTestFlags.RequirePerformanceTestsEnabled();
             CommManager.reset();
             _config = new Dictionary<string, string>
                 {

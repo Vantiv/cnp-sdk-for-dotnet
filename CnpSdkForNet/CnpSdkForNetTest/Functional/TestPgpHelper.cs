@@ -16,6 +16,8 @@ namespace Cnp.Sdk.Test.Functional
         [OneTimeSetUp]
         public void SetUp()
         {
+            EnvironmentVariableTestFlags.RequirePGPFunctionalTestsEnabled();
+            
             _testDir = Path.Combine(Path.GetTempPath(),"NET" + CnpVersion.CurrentCNPXMLVersion,"testPgp");
             if (!Directory.Exists(_testDir))
             {

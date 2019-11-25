@@ -1,8 +1,5 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Text;
+﻿using System.Collections.Generic;
 using NUnit.Framework;
-using Cnp.Sdk;
 
 namespace Cnp.Sdk.Test.Certification
 {
@@ -14,6 +11,8 @@ namespace Cnp.Sdk.Test.Certification
         [OneTimeSetUp]
         public void SetUp()
         {
+            EnvironmentVariableTestFlags.RequirePreliveOnlineTestsEnabled();
+            
             CommManager.reset();
             Dictionary<string, string> config = new Dictionary<string, string>();
             config.Add("url", "https://payments.vantivprelive.com/vap/communicator/online");
@@ -1088,6 +1087,5 @@ namespace Cnp.Sdk.Test.Certification
             Assert.AreEqual("12000", response.approvedAmount);
 
         }
-            
     }
 }
