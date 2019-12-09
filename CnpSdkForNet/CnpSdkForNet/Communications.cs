@@ -274,7 +274,7 @@ namespace Cnp.Sdk
                 Log(xmlRequest, logFile, neuterAccNums, neuterCreds);
             }
 
-            req.ContentType = "text/xml";
+            req.ContentType = ContentTypeTextXmlUTF8;
             req.Method = "POST";
             req.ServicePoint.MaxIdleTime = 8000;
             req.ServicePoint.Expect100Continue = false;
