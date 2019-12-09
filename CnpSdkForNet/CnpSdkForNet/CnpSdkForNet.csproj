@@ -4,10 +4,15 @@
         <SignAssembly>true</SignAssembly>
         <AssemblyOriginatorKeyFile>dotNetSDKKey.snk</AssemblyOriginatorKeyFile>
         <PackageVersion>12.10.2</PackageVersion>
-        <Title>CnpSdkForNet</Title>
+        <Title>Vantiv.CnpSdkForNet</Title>
         <Authors>Worldpay</Authors>
         <Copyright>Copyright © Worldpay 2019</Copyright>
         <GeneratePackageOnBuild>true</GeneratePackageOnBuild>
+        <PackageId>Vantiv.CnpSdkForNet</PackageId>
+        <Description>.NET implementation of Worldpay eCommerce XML spec</Description>
+        <PackageProjectUrl>https://github.com/Vantiv/cnp-sdk-for-dotnet</PackageProjectUrl>
+        <PackageLicenseUrl>https://github.com/Vantiv/cnp-sdk-for-dotnet/blob/12.x/LICENSE</PackageLicenseUrl>
+        <PackageTags>Vantiv eCommerce Payments</PackageTags>
     </PropertyGroup>
 
     <ItemGroup>
