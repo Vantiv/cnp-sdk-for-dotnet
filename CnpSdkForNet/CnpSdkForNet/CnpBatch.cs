@@ -1,12 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Configuration;
-using System.Text;
-using System.Xml;
-using System.Xml.Serialization;
 using System.IO;
 using System.Security.Cryptography;
-using Tamir.SharpSsh.jsch.examples;
 
 namespace Cnp.Sdk
 {
@@ -47,7 +42,6 @@ namespace Cnp.Sdk
             //config["sftpUrl"] =  Properties.Settings.Default.sftpUrl;
             //config["sftpUsername"] = Properties.Settings.Default.sftpUsername;
             //config["sftpPassword"] = Properties.Settings.Default.sftpPassword;
-            //config["knownHostsFile"] = Properties.Settings.Default.knownHostsFile;
             //config["onlineBatchUrl"] = Properties.Settings.Default.onlineBatchUrl;
             //config["onlineBatchPort"] = Properties.Settings.Default.onlineBatchPort;
             //config["requestDirectory"] = Properties.Settings.Default.requestDirectory;
@@ -77,7 +71,6 @@ namespace Cnp.Sdk
          * sftpUrl
          * sftpUsername
          * sftpPassword
-         * knownHostsFile
          * onlineBatchUrl
          * onlineBatchPort
          * requestDirectory
@@ -98,8 +91,8 @@ namespace Cnp.Sdk
             authentication.user = config["username"];
             authentication.password = config["password"];
 
-            requestDirectory = config["requestDirectory"] + "\\Requests\\";
-            responseDirectory = config["responseDirectory"] + "\\Responses\\";
+            requestDirectory = Path.Combine(config["requestDirectory"],"Requests") + Path.DirectorySeparatorChar;
+            responseDirectory = Path.Combine(config["responseDirectory"],"Responses") + Path.DirectorySeparatorChar;
 
             cnpXmlSerializer = new cnpXmlSerializer();
             cnpTime = new cnpTime();

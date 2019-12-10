@@ -13,21 +13,9 @@ namespace Cnp.Sdk.Test.Functional {
         public void TestTimeoutNotDefined()
         {
             CommManager.reset();
-            _config = new Dictionary<string, string>
-            {
-                {"url", Properties.Settings.Default.url},
-                {"reportGroup", "Default Report Group"},
-                {"username", "DOTNET"},
-                {"version", "11.0"},
-                {"merchantId", "101"},
-                {"password", "TESTCASE"},
-                {"printxml", "true"},
-                {"proxyHost", Properties.Settings.Default.proxyHost},
-                {"proxyPort", Properties.Settings.Default.proxyPort},
-                {"logFile", Properties.Settings.Default.logFile},
-                {"neuterAccountNums", "true"}
-            };
-
+            _config = new ConfigManager().getConfig();
+            _config.Remove("timeout");
+            
             _cnp = new CnpOnline(_config);
             
             var registerTokenRequest = new registerTokenRequestType
@@ -46,21 +34,8 @@ namespace Cnp.Sdk.Test.Functional {
         public void TestTimeoutNotParsable()
         {
             CommManager.reset();
-            _config = new Dictionary<string, string>
-            {
-                {"url", Properties.Settings.Default.url},
-                {"reportGroup", "Default Report Group"},
-                {"username", "DOTNET"},
-                {"version", "11.0"},
-                {"timeout", "notparsableasint"},
-                {"merchantId", "101"},
-                {"password", "TESTCASE"},
-                {"printxml", "true"},
-                {"proxyHost", Properties.Settings.Default.proxyHost},
-                {"proxyPort", Properties.Settings.Default.proxyPort},
-                {"logFile", Properties.Settings.Default.logFile},
-                {"neuterAccountNums", "true"}
-            };
+            _config = new ConfigManager().getConfig();
+            _config["timeout"] = "notparsableasint";
 
             _cnp = new CnpOnline(_config);
             
@@ -79,20 +54,8 @@ namespace Cnp.Sdk.Test.Functional {
         [Test]
         public void TestTimeoutReached() {
             CommManager.reset();
-            _config = new Dictionary<string, string> {
-                {"url", Properties.Settings.Default.url},
-                {"reportGroup", "Default Report Group"},
-                {"username", "DOTNET"},
-                {"version", "11.0"},
-                {"timeout", "0"},
-                {"merchantId", "101"},
-                {"password", "TESTCASE"},
-                {"printxml", "true"},
-                {"proxyHost", Properties.Settings.Default.proxyHost},
-                {"proxyPort", Properties.Settings.Default.proxyPort},
-                {"logFile", Properties.Settings.Default.logFile},
-                {"neuterAccountNums", "true"}
-            };
+            _config = new ConfigManager().getConfig();
+            _config["timeout"] = "1";
 
             _cnp = new CnpOnline(_config);
 

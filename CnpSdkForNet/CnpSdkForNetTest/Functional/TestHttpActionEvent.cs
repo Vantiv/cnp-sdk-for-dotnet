@@ -8,26 +8,11 @@ namespace Cnp.Sdk.Test.Functional
     {
         private CnpOnline _cnp;
 
-        [TestFixtureSetUp]
+        [OneTimeSetUp]
         public void SetUpCnp()
         {
             CommManager.reset();
-            var config = new Dictionary<string, string>
-            {
-                {"url", Properties.Settings.Default.url},
-                {"reportGroup", "Default Report Group"},
-                {"username", "DOTNET"},
-                {"version", "11.0"},
-                {"timeout", "5000"},
-                {"merchantId", "101"},
-                {"password", "TESTCASE"},
-                {"printxml", "true"},
-                {"proxyHost", Properties.Settings.Default.proxyHost},
-                {"proxyPort", Properties.Settings.Default.proxyPort},
-                {"logFile", Properties.Settings.Default.logFile},
-                {"neuterAccountNums", "true"}
-            };
-            _cnp = new CnpOnline(config);
+            _cnp = new CnpOnline();
         }
 
         [Test]

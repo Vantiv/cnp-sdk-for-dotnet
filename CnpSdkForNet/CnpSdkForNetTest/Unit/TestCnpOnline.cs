@@ -1,8 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Text;
 using NUnit.Framework;
-using Cnp.Sdk;
 using Moq;
 using System.Text.RegularExpressions;
 using System.Net;
@@ -15,7 +13,7 @@ namespace Cnp.Sdk.Test.Unit
         
         private CnpOnline cnp;
 
-        [TestFixtureSetUp]
+        [OneTimeSetUp]
         public void SetUpCnp()
         {
             cnp = new CnpOnline();
@@ -320,15 +318,16 @@ namespace Cnp.Sdk.Test.Unit
 
             Communications comms = new Communications();
             tempCnp.SetCommunication(comms);
+            bool exceptionRasied = false;
             try
             {
                 saleResponse saleresponse = tempCnp.Sale(sale);
             }
-            catch (WebException e)
-            {
-                Assert.AreEqual("The remote name could not be resolved: 'somegarbage'", e.Message);
+            catch (WebException e) {
+                exceptionRasied = true;
             }
 
+            Assert.IsTrue(exceptionRasied,"Web exception not raised.");
         }
 
         [Test]

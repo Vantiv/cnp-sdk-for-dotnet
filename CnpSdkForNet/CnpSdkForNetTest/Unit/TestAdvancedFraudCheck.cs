@@ -1,9 +1,6 @@
 ﻿using NUnit.Framework;
 using System;
 using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using Moq;
 using System.Text.RegularExpressions;
 
@@ -15,7 +12,7 @@ namespace Cnp.Sdk.Test.Unit
 
         private CnpOnline cnp;
 
-        [TestFixtureSetUp]
+        [OneTimeSetUp]
         public void SetUpCnp()
         {
             cnp = new CnpOnline();

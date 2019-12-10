@@ -17,14 +17,15 @@ namespace Cnp.Sdk.Test.Unit
         private const string timeRegex = "[0-1][0-9]-[0-3][0-9]-[0-9]{4}_[0-9]{2}-[0-9]{2}-[0-9]{2}-[0-9]{4}_";
         private const string batchNameRegex = timeRegex + "[A-Z]{8}";
         private const string mockFileName = "TheRainbow.xml";
-        private const string mockFilePath = "C:\\Somewhere\\Over\\" + mockFileName;
+        private static readonly string tempDirectroyPath = (Path.GetTempPath() + "NET" + CnpVersion.CurrentCNPXMLVersion + "/").Replace("\\","/");
+        private static readonly string mockFilePath = tempDirectroyPath + mockFileName;
 
         private Mock<cnpTime> mockCnpTime;
         private Mock<cnpFile> mockCnpFile;
         private Mock<Communications> mockCommunications;
         private Mock<XmlReader> mockXmlReader;
 
-        [TestFixtureSetUp]
+        [OneTimeSetUp]
         public void SetUp()
         {
             mockCnpTime = new Mock<cnpTime>();
@@ -42,7 +43,10 @@ namespace Cnp.Sdk.Test.Unit
         [SetUp]
         public void SetUpBeforeEachTest()
         {
-            cnp = new cnpRequest();
+            Dictionary<String,String> config = new ConfigManager().getConfig();
+            config["requestDirectory"] = tempDirectroyPath + "MockRequests";
+            config["responseDirectory"] = tempDirectroyPath + "MockResponses";
+            cnp = new cnpRequest(config);
 
             mockXmlReader = new Mock<XmlReader>();
             mockXmlReader.SetupSequence(XmlReader => XmlReader.ReadToFollowing(It.IsAny<String>())).Returns(true).Returns(true).Returns(false);
@@ -66,16 +70,15 @@ namespace Cnp.Sdk.Test.Unit
             mockConfig["sftpUrl"] = "www.mockftp.com";
             mockConfig["sftpUsername"] = "mockFtpUser";
             mockConfig["sftpPassword"] = "mockFtpPassword";
-            mockConfig["knownHostsFile"] = "C:\\MockKnownHostsFile";
             mockConfig["onlineBatchUrl"] = "www.mockbatch.com";
             mockConfig["onlineBatchPort"] = "4000";
-            mockConfig["requestDirectory"] = "C:\\MockRequests";
-            mockConfig["responseDirectory"] = "C:\\MockResponses";
+            mockConfig["requestDirectory"] = tempDirectroyPath + "MockRequests";
+            mockConfig["responseDirectory"] = tempDirectroyPath + "MockResponses";
 
             cnp = new cnpRequest(mockConfig);
 
-            Assert.AreEqual("C:\\MockRequests\\Requests\\", cnp.getRequestDirectory());
-            Assert.AreEqual("C:\\MockResponses\\Responses\\", cnp.getResponseDirectory());
+            Assert.AreEqual(Path.Combine(tempDirectroyPath,"MockRequests","Requests") + Path.DirectorySeparatorChar, cnp.getRequestDirectory());
+            Assert.AreEqual(Path.Combine(tempDirectroyPath,"MockResponses","Responses") + Path.DirectorySeparatorChar, cnp.getResponseDirectory());
 
             Assert.NotNull(cnp.getCommunication());
             Assert.NotNull(cnp.getCnpTime());

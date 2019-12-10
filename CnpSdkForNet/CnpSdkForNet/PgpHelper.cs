@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Diagnostics;
 using System.IO;
+using System.Text.RegularExpressions;
 
 
 namespace Cnp.Sdk
@@ -17,12 +18,22 @@ namespace Cnp.Sdk
     {
         private const int Success = 0;
         private static string GpgPath = Properties.Settings.Default.gnuPgDir;
-        private const string GpgExecutable = "gpg.exe";
-        private const string GpgConfExecutable = "gpgconf.exe";
+        private const string GpgExecutable = "gpg";
+        private const string GpgConfExecutable = "gpgconf";
+
+        public static string GetExecutablePath(string path)
+        {
+            if (!File.Exists(path) && File.Exists(path + ".exe"))
+            {
+                return path + ".exe";
+            }
+
+            return path;
+        }
         
         public static void EncryptFile(string inputFileName, string outputFileName, string recipientKeyId)
         {
-            const string commandFormat = @"--yes --batch --encrypt --trust-model always --output {0}  --armour --recipient {1} {2}";
+            const string commandFormat = @"--batch --yes --armor --trust-model always --output {0} --recipient {1} --encrypt {2}";
 
             var procResult = ExecuteCommandSync(string.Format(commandFormat, outputFileName, recipientKeyId, inputFileName), GpgExecutable);
             if (procResult.status != Success)
@@ -32,7 +43,7 @@ namespace Cnp.Sdk
                     throw new CnpOnlineException("Please make sure that the recipient Key ID is correct and is added to your gpg keyring.\n" + procResult.error);
                 }
                 
-                else if (procResult.error.Contains(string.Format("can't open '{0}'", inputFileName)))
+                else if (Regex.IsMatch(procResult.error,string.Format("can't open .{0}", Regex.Escape(inputFileName))))
                 {
                     throw new CnpOnlineException("Please make sure the input file exists and has read permission.\n" + procResult.error);
                 }
@@ -48,18 +59,29 @@ namespace Cnp.Sdk
 
         public static void DecryptFile(string inputFileName, string outputFileName, string passphrase)
         {
-            string commandFormat = @"--kill gpg-agent";
-            var result = ExecuteCommandSync(commandFormat, GpgConfExecutable);
-            Console.WriteLine("Status: " + result.status);
-            Console.WriteLine("Output: " + result.output);
-            Console.WriteLine("Error: " + result.error);
-            
-            commandFormat = @"--passphrase-fd 0 --batch --trust-model always --pinentry-mode loopback --output {0} --decrypt {1}";
+            // Set up the commands for GPG >=2.1 and <2.1
+            string commandFormat = @"--batch --trust-model always --output {0} --passphrase {1} --decrypt {2}";
+            string commandFormatPinentryLoop = @"--batch --trust-model always --pinentry-mode loopback --output {0} --passphrase {1} --decrypt {2}";
             if (File.Exists(outputFileName))
             {
                 File.Delete(outputFileName);
             }
-            var procResult = ExecuteCommandSyncWithPassphrase(string.Format(commandFormat, outputFileName, inputFileName), passphrase);
+            
+            // Run the command for GPG >=2.1. If it doesn't work (<2.1), then use 2.0 and earlier.
+            // If it works, reset the passphrase so it isn't saved (GPG >=2.1).
+            var procResult = ExecuteCommandSync(string.Format(commandFormatPinentryLoop, outputFileName, passphrase, inputFileName),GpgExecutable);
+            if (procResult.status != Success && procResult.error.ToLower().Contains("gpg: invalid option \"--pinentry-mode\""))
+            {
+                procResult = ExecuteCommandSync(string.Format(commandFormat, outputFileName, passphrase, inputFileName),GpgExecutable);
+            }
+            else
+            {
+                var result = ExecuteCommandSync(@"--kill gpg-agent", GpgConfExecutable);
+                Console.WriteLine("Status: " + result.status);
+                Console.WriteLine("Output: " + result.output);
+                Console.WriteLine("Error: " + result.error);
+            }
+
             if (procResult.status != Success)
             {
                 if (procResult.error.ToLower().Contains("gpg: public key decryption failed: bad passphrase"))
@@ -72,7 +94,7 @@ namespace Cnp.Sdk
                     throw new CnpOnlineException("Please make sure that your merchant secret key is added to your gpg keyring.\n" + procResult.error);
                 }
                 
-                else if (procResult.error.Contains(string.Format("can't open '{0}'", inputFileName)))
+                else if (Regex.IsMatch(procResult.error,string.Format("can't open .{0}", Regex.Escape(inputFileName))))
                 {
                     throw new CnpOnlineException("Please make sure the input file exists and has read permission.\n" + procResult.error);
                 }
@@ -88,7 +110,7 @@ namespace Cnp.Sdk
         {
             const string commandFormat = @"--import --passphrase-fd 0 --pinentry-mode loopback {0}";
             
-            var procResult = ExecuteCommandSyncWithPassphrase(string.Format(commandFormat, keyFilePath), passphrase);
+            var procResult = ExecuteCommandSync(string.Format(commandFormat, keyFilePath), passphrase);
             if (procResult.status != Success)
             {
                 throw new CnpOnlineException(procResult.error);
@@ -113,7 +135,7 @@ namespace Cnp.Sdk
 
         private static ProcResult ExecuteCommandSyncWithPassphrase(string command, string passphrase)
         {
-            string path = string.Format(@"{0}\" + GpgExecutable, GpgPath);
+            string path = GetExecutablePath(Path.Combine(GpgPath, GpgExecutable));
 
             var procStartInfo = new ProcessStartInfo(path, command)
             {
@@ -128,6 +150,7 @@ namespace Cnp.Sdk
             proc.Start();
             proc.StandardInput.WriteLine(passphrase);
             proc.StandardInput.Flush();
+            proc.WaitForExit();
 
             return new ProcResult
             {
@@ -138,9 +161,9 @@ namespace Cnp.Sdk
         }
 
 
-        private static ProcResult ExecuteCommandSync(string command, string executable) 
+        private static ProcResult ExecuteCommandSync(string command, string executable)
         {
-            string path = string.Format(@"{0}\" + executable, GpgPath);
+            string path = GetExecutablePath(Path.Combine(GpgPath, executable));
             
             var procStartInfo = new ProcessStartInfo(path, command)
             {
@@ -154,6 +177,7 @@ namespace Cnp.Sdk
             var proc = new Process { StartInfo = procStartInfo };
             proc.Start();
             proc.StandardInput.Flush();
+            proc.WaitForExit();
             
             return new ProcResult
             {

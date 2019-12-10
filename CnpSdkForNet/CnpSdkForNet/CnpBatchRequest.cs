@@ -1,9 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Text;
 using System.IO;
 using System.Security;
-using System.Xml.Serialization;
 
 namespace Cnp.Sdk
 {
@@ -121,7 +119,6 @@ namespace Cnp.Sdk
             //config["sftpUrl"] = Properties.Settings.Default.sftpUrl;
             //config["sftpUsername"] = Properties.Settings.Default.sftpUsername;
             //config["sftpPassword"] = Properties.Settings.Default.sftpPassword;
-            //config["knownHostsFile"] = Properties.Settings.Default.knownHostsFile;
             //config["requestDirectory"] = Properties.Settings.Default.requestDirectory;
             //config["responseDirectory"] = Properties.Settings.Default.responseDirectory;
 
@@ -137,8 +134,8 @@ namespace Cnp.Sdk
 
         private void initializeRequest()
         {
-            requestDirectory = config["requestDirectory"] + "\\Requests\\";
-            responseDirectory = config["responseDirectory"] + "\\Responses\\";
+            requestDirectory = Path.Combine(config["requestDirectory"],"Requests") + Path.DirectorySeparatorChar;
+            responseDirectory = Path.Combine(config["responseDirectory"],"Responses") + Path.DirectorySeparatorChar;
 
             cnpFile = new cnpFile();
             cnpTime = new cnpTime();
@@ -1701,15 +1698,14 @@ namespace Cnp.Sdk
             //config["sftpUrl"] = Properties.Settings.Default.sftpUrl;
             //config["sftpUsername"] = Properties.Settings.Default.sftpUsername;
             //config["sftpPassword"] = Properties.Settings.Default.sftpPassword;
-            //config["knownHostsFile"] = Properties.Settings.Default.knownHostsFile;
             //config["requestDirectory"] = Properties.Settings.Default.requestDirectory;
             //config["responseDirectory"] = Properties.Settings.Default.responseDirectory;
 
             cnpTime = new cnpTime();
             cnpFile = new cnpFile();
 
-            requestDirectory = config["requestDirectory"] + "\\Requests\\";
-            responseDirectory = config["responseDirectory"] + "\\Responses\\";
+            requestDirectory = Path.Combine(config["requestDirectory"],"Requests") + Path.DirectorySeparatorChar;
+            responseDirectory = Path.Combine(config["responseDirectory"],"Responses") + Path.DirectorySeparatorChar;
         }
 
         public RFRRequest(Dictionary<string, string> config)
@@ -1721,8 +1717,8 @@ namespace Cnp.Sdk
 
         private void initializeRequest()
         {
-            requestDirectory = config["requestDirectory"] + "\\Requests\\";
-            responseDirectory = config["responseDirectory"] + "\\Responses\\";
+            requestDirectory = Path.Combine(config["requestDirectory"],"Requests") + Path.DirectorySeparatorChar;
+            responseDirectory = Path.Combine(config["responseDirectory"],"Responses") + Path.DirectorySeparatorChar;
 
             cnpFile = new cnpFile();
             cnpTime = new cnpTime();

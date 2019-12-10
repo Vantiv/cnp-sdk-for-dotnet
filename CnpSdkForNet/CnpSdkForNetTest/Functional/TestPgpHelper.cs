@@ -1,12 +1,7 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Text;
 using NUnit.Framework;
-using Cnp.Sdk;
 using System.IO;
 using System.Linq;
-using System.Runtime.InteropServices;
-using System.Security.Cryptography.X509Certificates;
 
 namespace Cnp.Sdk.Test.Functional
 {
@@ -18,10 +13,12 @@ namespace Cnp.Sdk.Test.Functional
         private string _passphrase;
         private string _vantivPublicKeyId;
 
-        [TestFixtureSetUp]
+        [OneTimeSetUp]
         public void SetUp()
         {
-            _testDir = Path.Combine(Properties.Settings.Default.requestDirectory, "testPgp");
+            EnvironmentVariableTestFlags.RequirePGPFunctionalTestsEnabled();
+            
+            _testDir = Path.Combine(Path.GetTempPath(),"NET" + CnpVersion.CurrentCNPXMLVersion,"testPgp");
             if (!Directory.Exists(_testDir))
             {
                 Directory.CreateDirectory(_testDir);
@@ -94,7 +91,7 @@ namespace Cnp.Sdk.Test.Functional
             }
             catch (CnpOnlineException e)
             {
-                Assert.True(e.Message.Contains("Please make sure that the recipient Key ID is correct and is added to your gpg keyring"));
+                Assert.True(e.Message.Contains("Please make sure that the recipient Key ID is correct and is added to your gpg keyring"),"Actual error message: " + e.Message);
             }
         }
 
@@ -110,7 +107,7 @@ namespace Cnp.Sdk.Test.Functional
             }
             catch (CnpOnlineException e)
             {
-                Assert.True(e.Message.Contains("Please make sure the input file exists and has read permission."));
+                Assert.True(e.Message.Contains("Please make sure the input file exists and has read permission."),"Actual error message: " + e.Message);
             }
         }
 
@@ -141,7 +138,7 @@ namespace Cnp.Sdk.Test.Functional
             catch (CnpOnlineException e)
             {
                 Console.WriteLine(e.Message);
-                Assert.True(e.Message.Contains("Please make sure that the passphrase is correct."));
+                Assert.True(e.Message.Contains("Please make sure that the passphrase is correct."),"Actual error message: " + e.Message);
             }            
         }
 
@@ -171,7 +168,7 @@ namespace Cnp.Sdk.Test.Functional
             }
             catch (CnpOnlineException e)
             {
-                Assert.True(e.Message.Contains("Please make sure that your merchant secret key is added to your gpg keyring."));
+                Assert.True(e.Message.Contains("Please make sure that your merchant secret key is added to your gpg keyring."),"Actual error message: " + e.Message);
             }         
         }
 
@@ -187,7 +184,7 @@ namespace Cnp.Sdk.Test.Functional
             }
             catch (CnpOnlineException e)
             {
-                Assert.True(e.Message.Contains("Please make sure the input file exists and has read permission."));
+                Assert.True(e.Message.Contains("Please make sure the input file exists and has read permission."),"Actual error message: " + e.Message);
             }
         }
 

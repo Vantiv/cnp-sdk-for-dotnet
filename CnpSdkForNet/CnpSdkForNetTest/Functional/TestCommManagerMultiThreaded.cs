@@ -1,9 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Text;
 using System.Threading;
-using System.Threading.Tasks;
 using NUnit.Framework;
 
 namespace Cnp.Sdk.Test.Functional
@@ -14,19 +12,11 @@ namespace Cnp.Sdk.Test.Functional
 
         int threadCount = 100;
         int cycleCount = 1000;
-        Dictionary<string, string> _config;
-        [TestFixtureSetUp]
-        public void setup() {
+        [OneTimeSetUp]
+        public void setup()
+        {
+            EnvironmentVariableTestFlags.RequirePerformanceTestsEnabled();
             CommManager.reset();
-            _config = new Dictionary<string, string>
-                {
-                    {"proxyHost","websenseproxy"},
-                    {"proxyPort","8080"},
-                    {"multiSite", "true"},
-                    {"printxml", "true"},
-                    {"printMultiSiteDebug", "false"},
-                    { "url", Properties.Settings.Default.url }
-        };
         }
         
         
@@ -39,7 +29,7 @@ namespace Cnp.Sdk.Test.Functional
                 
                 for (int x = 0; x < threadCount; x++)
                 {
-                    performanceTest pt = new performanceTest(1000 + x, cycleCount, _config);
+                    performanceTest pt = new performanceTest(1000 + x, cycleCount);
                     ThreadStart threadDelegate = new ThreadStart(pt.runPerformanceTest);
                     Thread t = new Thread(threadDelegate);
                     testPool.Add(t);
@@ -57,12 +47,10 @@ namespace Cnp.Sdk.Test.Functional
             long threadId;
             long requestCount = 0;
             int cycleCount;
-            Dictionary<string, string> config;
 
-            public performanceTest(long idNumber, int numCycles, Dictionary<string,string> props)
+            public performanceTest(long idNumber, int numCycles)
             {
                 threadId = idNumber;
-                config = props;
                 cycleCount = numCycles;
             }
 
@@ -75,7 +63,7 @@ namespace Cnp.Sdk.Test.Functional
                 for (int n = 0; n < cycleCount; n++)
                 {
                     requestCount++;
-                    RequestTarget target = CommManager.instance(config).findUrl();
+                    RequestTarget target = CommManager.instance().findUrl();
                     try
                     {
                         int sleepTime = 100 + rand.Next(500);
@@ -86,7 +74,7 @@ namespace Cnp.Sdk.Test.Functional
                     {
                         Console.WriteLine(e.ToString());
                     }
-                    CommManager.instance(config).reportResult(target, CommManager.REQUEST_RESULT_RESPONSE_RECEIVED, 200);
+                    CommManager.instance().reportResult(target, CommManager.REQUEST_RESULT_RESPONSE_RECEIVED, 200);
                 }
                 long duration = DateTime.Now.Ticks / TimeSpan.TicksPerMillisecond - startTime;
                 Console.WriteLine("Thread " + threadId + " completed. Total Requests:" + requestCount + "  Elapsed Time:" + (duration / 1000) + " secs    Average Txn Time:" + (totalTransactionTime / requestCount) + " ms");

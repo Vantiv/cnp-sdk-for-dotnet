@@ -1,8 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Text;
 using NUnit.Framework;
-using Cnp.Sdk;
 using System.IO;
 using System.Linq;
 
@@ -15,9 +13,11 @@ namespace Cnp.Sdk.Test.Functional
         private Dictionary<string, string> _config;
         
         
-        [TestFixtureSetUp]
+        [OneTimeSetUp]
         public void SetUp()
         {
+            EnvironmentVariableTestFlags.RequirePGPFunctionalTestsEnabled();
+            
             CommManager.reset();
             ConfigManager configManager = new ConfigManager();
             _config = configManager.getConfig();
@@ -34,7 +34,6 @@ namespace Cnp.Sdk.Test.Functional
             //_config["sftpUrl"] = Properties.Settings.Default.sftpUrl;
             _config["sftpUsername"] = Environment.GetEnvironmentVariable("encSftpUsername");
             _config["sftpPassword"] = Environment.GetEnvironmentVariable("encSftpPassword");
-            //_config["knownHostsFile"] = Properties.Settings.Default.knownHostsFile;
             //_config["requestDirectory"] = Properties.Settings.Default.requestDirectory;
             //_config["responseDirectory"] = Properties.Settings.Default.responseDirectory;
             _config["useEncryption"] = "true";

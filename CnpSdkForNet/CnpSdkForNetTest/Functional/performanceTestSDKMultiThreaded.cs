@@ -1,9 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Text;
 using System.Threading;
-using System.Threading.Tasks;
 using NUnit.Framework;
 
 namespace Cnp.Sdk.Test.Functional
@@ -14,7 +12,7 @@ namespace Cnp.Sdk.Test.Functional
 
         //Before doing any releases, run this test. it times out on jenkins, but should run locally (in several hours). 
         //if it runs locally, you can put the ignore tag back and push it
-        [Ignore] 
+        [Ignore("Causes timeout in Jenkins")] 
         [Test]
         public void runTest()
         {

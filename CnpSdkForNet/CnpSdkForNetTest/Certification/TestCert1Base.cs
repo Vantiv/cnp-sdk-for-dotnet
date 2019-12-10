@@ -1,8 +1,5 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Text;
+﻿using System.Collections.Generic;
 using NUnit.Framework;
-using Cnp.Sdk;
 
 namespace Cnp.Sdk.Test.Certification
 {
@@ -11,23 +8,27 @@ namespace Cnp.Sdk.Test.Certification
     {
         private CnpOnline cnp;
 
-        [TestFixtureSetUp]
+        [OneTimeSetUp]
         public void SetUp()
         {
+            EnvironmentVariableTestFlags.RequirePreliveOnlineTestsEnabled();
+            
             CommManager.reset();
+            var existingConfig = new ConfigManager().getConfig();
             Dictionary<string, string> config = new Dictionary<string, string>();
             config.Add("url", "https://payments.vantivprelive.com/vap/communicator/online");
             config.Add("reportGroup", "Default Report Group");
-            config.Add("username", Properties.Settings.Default.username);
+            config.Add("username", existingConfig["username"]);
             config.Add("timeout", "20000");
-            config.Add("merchantId", Properties.Settings.Default.merchantId);
-            config.Add("password", Properties.Settings.Default.password);
+            config.Add("merchantId", existingConfig["merchantId"]);
+            config.Add("password",existingConfig["password"]);
             config.Add("printxml", "true");
             config.Add("logFile", null);
             config.Add("neuterAccountNums", null);
-            config.Add("proxyHost", Properties.Settings.Default.proxyHost);
-            config.Add("proxyPort", Properties.Settings.Default.proxyPort);
-            config.Add("multiSite", "true");     
+            config.Add("proxyHost", "");
+            config.Add("proxyPort", "");
+            config.Add("multiSite", "false");
+            
             ConfigManager configManager = new ConfigManager(config);
             cnp = new CnpOnline(configManager.getConfig());
         }
@@ -1088,6 +1089,5 @@ namespace Cnp.Sdk.Test.Certification
             Assert.AreEqual("12000", response.approvedAmount);
 
         }
-            
     }
 }

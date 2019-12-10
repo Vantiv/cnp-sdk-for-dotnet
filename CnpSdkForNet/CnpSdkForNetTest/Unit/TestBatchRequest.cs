@@ -1,11 +1,9 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Text;
+using System.IO;
 using NUnit.Framework;
-using Cnp.Sdk;
 using Moq;
 using System.Text.RegularExpressions;
-using Moq.Language.Flow;
 
 
 namespace Cnp.Sdk.Test.Unit
@@ -23,7 +21,7 @@ namespace Cnp.Sdk.Test.Unit
         private Mock<cnpFile> mockCnpFile;
         private Mock<cnpTime> mockCnpTime;
 
-        [TestFixtureSetUp]
+        [OneTimeSetUp]
         public void setUp()
         {
             mockCnpFile = new Mock<cnpFile>();
@@ -79,16 +77,14 @@ merchantId=""01234"">
             mockConfig["sftpUrl"] = "www.mockftp.com";
             mockConfig["sftpUsername"] = "mockFtpUser";
             mockConfig["sftpPassword"] = "mockFtpPassword";
-            mockConfig["knownHostsFile"] = "C:\\MockKnownHostsFile";
             mockConfig["onlineBatchUrl"] = "www.mockbatch.com";
             mockConfig["onlineBatchPort"] = "4000";
-            mockConfig["requestDirectory"] = "C:\\MockRequests";
-            mockConfig["responseDirectory"] = "C:\\MockResponses";
+            mockConfig["requestDirectory"] = Path.Combine(Path.GetTempPath(),"MockRequests");
+            mockConfig["responseDirectory"] = Path.Combine(Path.GetTempPath(),"MockResponses");
 
             batchRequest = new batchRequest(mockConfig);
-
-            Assert.AreEqual("C:\\MockRequests\\Requests\\", batchRequest.getRequestDirectory());
-            Assert.AreEqual("C:\\MockResponses\\Responses\\", batchRequest.getResponseDirectory());
+            Assert.AreEqual(Path.Combine(Path.GetTempPath(),"MockRequests","Requests") + Path.DirectorySeparatorChar, batchRequest.getRequestDirectory());
+            Assert.AreEqual(Path.Combine(Path.GetTempPath(),"MockResponses","Responses") + Path.DirectorySeparatorChar, batchRequest.getResponseDirectory());
 
             Assert.NotNull(batchRequest.getCnpTime());
             Assert.NotNull(batchRequest.getCnpFile());

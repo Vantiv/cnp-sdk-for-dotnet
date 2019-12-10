@@ -10,7 +10,7 @@ namespace Cnp.Sdk.Test.Unit
     {
         private Communications _objectUnderTest;
 
-        [TestFixtureSetUp]
+        [OneTimeSetUp]
         public void SetUpCnp()
         {
             _objectUnderTest = new Communications();

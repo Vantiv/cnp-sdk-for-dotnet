@@ -1,6 +1,14 @@
 
 = Worldpay CNP CHANGELOG
 
+==Version 12.10.2 (December 09, 2019)
+* Feature: Changed from .NET Framework 4.5 to .NET Standard 2.0 (.NET Framework builds will now need to be 4.6.1 or greater)
+* Change: Removed known host file
+* Change: Changed GPG commands to be compatible with versions before 2.1
+* BugFix: Fixed file paths only working with "\" instead of both "\" and "/"
+* BugFix: Fixed requirement of "gpg.exe" (can now be either gpg or gpg.exe)
+* BugFix: Fixed synchronous HTTP POST requests not including UTF-8 in content type
+
 ==Version 12.10.1 (November 06, 2019)
 * BugFix: Fixed typo in regex leading to card numbers not being neutered
 
@@ -37,7 +45,7 @@
 
 ==Version 12.8.0 (June 20, 2019)
 * Feature: Added new tokenURL element
-
+ 
 ==Version 12.7.5 (July 17, 2019)
 * BugFix: Refactor config code to limit direct property usage
 
