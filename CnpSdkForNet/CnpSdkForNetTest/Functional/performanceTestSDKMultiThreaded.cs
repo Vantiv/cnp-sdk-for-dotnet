@@ -82,9 +82,7 @@ namespace Cnp.Sdk.Test.Functional
                     {
                         {"proxyHost","websenseproxy"},
                         {"proxyPort","8080"},
-                        {"multiSite", "true"},
                         {"printxml", "false"},
-                        {"printMultiSiteDebug", "false"},
                         {"merchantId", "101" },
                         {"username", "DOTNET"},
                         {"password", "TESTCASE"}
