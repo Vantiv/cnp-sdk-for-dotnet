@@ -18,7 +18,6 @@ namespace Cnp.Sdk.Test.Functional
         {
             EnvironmentVariableTestFlags.RequirePreliveBatchTestsEnabled();
             
-            CommManager.reset();
             ConfigManager invalidConfigManager = new ConfigManager();
             _invalidConfig = invalidConfigManager.getConfig();
             _invalidConfig["username"] = "badUsername";
@@ -38,8 +37,6 @@ namespace Cnp.Sdk.Test.Functional
         [SetUp]
         public void SetUpBeforeTest()
         {
-            CommManager.reset();
-            
             Dictionary<String,String> config = new ConfigManager().getConfig();
             config["requestDirectory"] = tempDirectroyPath + "BatchRequests";
             config["responseDirectory"] = tempDirectroyPath + "BatchResponses";

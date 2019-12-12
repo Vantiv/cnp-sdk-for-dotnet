@@ -13,7 +13,6 @@ namespace Cnp.Sdk.Test.Certification
         {
             EnvironmentVariableTestFlags.RequirePreliveOnlineTestsEnabled();
             
-            CommManager.reset();
             var existingConfig = new ConfigManager().getConfig();
             Dictionary<string, string> config = new Dictionary<string, string>();
             config.Add("url", "https://payments.vantivprelive.com/vap/communicator/online");
