@@ -2,7 +2,7 @@
 = Worldpay CNP CHANGELOG
 
 ==Versopm 12.10.3 (December 12, 2019)
-* Changed: Removed Multisite support at SDK-level (use Global Load Balancer instead)
+* Changed: Removed Multisite support at SDK-level in favor Global Load Balancer (GLB)
 
 ==Version 12.10.2 (December 09, 2019)
 * Feature: Changed from .NET Framework 4.5 to .NET Standard 2.0 (.NET Framework builds will now need to be 4.6.1 or greater)

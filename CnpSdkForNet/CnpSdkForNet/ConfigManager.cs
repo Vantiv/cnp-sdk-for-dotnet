@@ -26,12 +26,6 @@ namespace Cnp.Sdk
             _config["proxyPort"] = Properties.Settings.Default.proxyPort;
             _config["logFile"] = Properties.Settings.Default.logFile;
             _config["neuterAccountNums"] = Properties.Settings.Default.neuterAccountNums;
-            _config["multiSite"] = Properties.Settings.Default.multiSite;
-            _config["printMultiSiteDebug"] = Properties.Settings.Default.printMultiSiteDebug;
-            _config["multiSiteUrl1"] = Properties.Settings.Default.multiSiteUrl1;
-            _config["multiSiteUrl2"] = Properties.Settings.Default.multiSiteUrl2;
-            _config["multiSiteErrorThreshold"] = Properties.Settings.Default.multiSiteErrorThreshold;
-            _config["maxHoursWithoutSwitch"] = Properties.Settings.Default.maxHoursWithoutSwitch;
             _config["sftpUrl"] = Properties.Settings.Default.sftpUrl;
             _config["sftpUsername"] = Properties.Settings.Default.sftpUsername;
             _config["sftpPassword"] = Properties.Settings.Default.sftpPassword;
