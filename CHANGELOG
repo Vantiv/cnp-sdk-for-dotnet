@@ -1,7 +1,7 @@
 
 = Worldpay CNP CHANGELOG
 
-==Versopm 12.10.3 (December 12, 2019)
+==Version 12.10.3 (December 16, 2019)
 * Changed: Removed Multisite support at SDK-level in favor Global Load Balancer (GLB)
 
 ==Version 12.10.2 (December 09, 2019)
