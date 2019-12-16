@@ -5,17 +5,6 @@ namespace Cnp.Sdk.Test
 {
     public class EnvironmentVariableTestFlags
     {
-        public static bool ArePerformanceTestsEnabled()
-        {
-            var performanceTestsEnabled = Environment.GetEnvironmentVariable("performanceTestsEnabled");
-            if (performanceTestsEnabled == null) {
-                Console.WriteLine("performanceTestsEnabled environment variable is not defined. Defaulting to true.");
-                return true;
-            }
-
-            return !performanceTestsEnabled.ToLower().Equals("false");
-        }
-        
         public static bool ArePGPFunctionalTestsEnabled()
         {
             var pgpFunctionalTestsEnabled = Environment.GetEnvironmentVariable("pgpFunctionalTestsEnabled");
@@ -47,14 +36,6 @@ namespace Cnp.Sdk.Test
             }
 
             return !preliveOnlineTestsEnabled.ToLower().Equals("false");
-        }
-        
-        public static void RequirePerformanceTestsEnabled()
-        {
-            if (!ArePerformanceTestsEnabled())
-            {
-                Assert.Ignore("Performance tests are disabled.");
-            }
         }
         
         public static void RequirePGPFunctionalTestsEnabled()

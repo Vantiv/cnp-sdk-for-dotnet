@@ -12,7 +12,6 @@ namespace Cnp.Sdk.Test.Functional {
         [Test]
         public void TestTimeoutNotDefined()
         {
-            CommManager.reset();
             _config = new ConfigManager().getConfig();
             _config.Remove("timeout");
             
@@ -33,7 +32,6 @@ namespace Cnp.Sdk.Test.Functional {
         [Test]
         public void TestTimeoutNotParsable()
         {
-            CommManager.reset();
             _config = new ConfigManager().getConfig();
             _config["timeout"] = "notparsableasint";
 
@@ -53,7 +51,6 @@ namespace Cnp.Sdk.Test.Functional {
 
         [Test]
         public void TestTimeoutReached() {
-            CommManager.reset();
             _config = new ConfigManager().getConfig();
             _config["timeout"] = "1";
 

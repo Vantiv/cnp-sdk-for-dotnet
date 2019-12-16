@@ -13,7 +13,6 @@ namespace Cnp.Sdk.Test.Functional
         {
             EnvironmentVariableTestFlags.RequirePreliveBatchTestsEnabled();
             
-            CommManager.reset();
             cnp = new cnpRequest();
         }
 

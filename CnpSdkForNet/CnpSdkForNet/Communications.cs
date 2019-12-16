@@ -107,8 +107,86 @@ namespace Cnp.Sdk
                 }
             }
         }
-
         
+        public HttpWebRequest CreateWebRequest(string xmlRequest,Dictionary<string, string> config)
+        { 
+            // Get the log file.
+            string logFile = null;
+            if (IsValidConfigValueSet(config, "logFile"))
+            {
+                logFile = config["logFile"];
+            }
+            
+            // Get the rest of the configuration values.
+            var requestUrl = config["url"];
+            var printXml = false;
+            var neuterAccountNumbers = false;
+            var neuterUserCredentials = false;
+            if (config.ContainsKey("neuterAccountNums"))
+            {
+                neuterAccountNumbers = ("true".Equals(config["neuterAccountNums"]));
+            }
+            if (config.ContainsKey("neuterUserCredentials"))
+            {
+                neuterUserCredentials = ("true".Equals(config["neuterUserCredentials"]));
+            }
+            if (config.ContainsKey("printxml"))
+            {
+                printXml = ("true".Equals(config["printxml"]));
+            }
+            
+            // Get the request target information.
+            ServicePointManager.SecurityProtocol = ServicePointManager.SecurityProtocol | SecurityProtocolType.Tls12 | SecurityProtocolType.Tls11;
+            var request = (HttpWebRequest)WebRequest.Create(requestUrl);
+
+            // Output the request and log file.
+            if (printXml)
+            {
+                Console.WriteLine(xmlRequest);
+                Console.WriteLine(logFile);
+            }
+
+            // Log the request.
+            if (logFile != null)
+            {
+                this.Log(xmlRequest,logFile, neuterAccountNumbers,neuterUserCredentials);
+            }
+
+            // Set up the request.
+            request.ContentType = ContentTypeTextXmlUTF8;
+            request.Method = "POST";
+            request.ServicePoint.MaxIdleTime = 8000;
+            request.ServicePoint.Expect100Continue = false;
+            request.KeepAlive = true;
+            if (IsProxyOn(config))
+            {
+                var proxy = new WebProxy(config["proxyHost"], int.Parse(config["proxyPort"]))
+                {
+                    BypassProxyOnLocal = true
+                };
+                request.Proxy = proxy;
+            }
+
+            // Set the timeout (only effective for non-async requests.
+            if (config.ContainsKey("timeout")) {
+                try {
+                    request.Timeout = Convert.ToInt32(config["timeout"]);
+                }
+                catch (FormatException e) {
+                    // If timeout setting contains non-numeric
+                    // characters, we will fall back to 1 minute
+                    // default timeout.
+                    request.Timeout = 60000;
+                }
+            }
+
+            // Invoke the event.
+            this.OnHttpAction(Communications.RequestType.Request,xmlRequest,neuterAccountNumbers,neuterUserCredentials);
+            
+            // Return the request.
+            return request;
+        }
+
         public virtual Task<string> HttpPostAsync(string xmlRequest, Dictionary<string, string> config, CancellationToken cancellationToken)
         {
             return HttpPostCoreAsync(xmlRequest, config, cancellationToken);
@@ -117,66 +195,28 @@ namespace Cnp.Sdk
         private async Task<string> HttpPostCoreAsync(string xmlRequest, Dictionary<string, string> config, CancellationToken cancellationToken)
         {
             string logFile = null;
+            var printXml = false;
+            var neuterAccountNumbers = false;
+            var neuterUserCredentials = false;
             if (IsValidConfigValueSet(config, "logFile"))
             {
                 logFile = config["logFile"];
             }
-
-            RequestTarget reqTarget = CommManager.instance(config).findUrl();
-            var uri = reqTarget.getUrl();
-            ServicePointManager.SecurityProtocol = ServicePointManager.SecurityProtocol | SecurityProtocolType.Tls12 | SecurityProtocolType.Tls11;
-            var request = (HttpWebRequest)WebRequest.Create(uri);
-
-            var neuterAccNums = false;
             if (config.ContainsKey("neuterAccountNums"))
             {
-                neuterAccNums = ("true".Equals(config["neuterAccountNums"]));
+                neuterAccountNumbers = ("true".Equals(config["neuterAccountNums"]));
             }
-
-            var neuterCreds = false;
             if (config.ContainsKey("neuterUserCredentials"))
             {
-                neuterCreds = ("true".Equals(config["neuterUserCredentials"]));
+                neuterUserCredentials = ("true".Equals(config["neuterUserCredentials"]));
             }
-
-            var printxml = false;
             if (config.ContainsKey("printxml"))
             {
-                if ("true".Equals(config["printxml"]))
-                {
-                    printxml = true;
-                }
+                printXml = ("true".Equals(config["printxml"]));
             }
-
-            if (printxml)
-            {
-                Console.WriteLine(xmlRequest);
-                Console.WriteLine(logFile);
-            }
-
-            //log request
-            if (logFile != null)
-            {
-                Log(xmlRequest, logFile, neuterAccNums, neuterCreds);
-            }
-
-            request.ContentType = ContentTypeTextXmlUTF8;
-            request.Method = "POST";
-            request.ServicePoint.MaxIdleTime = 8000;
-            request.ServicePoint.Expect100Continue = false;
-            request.KeepAlive = false;
-            if (IsProxyOn(config))
-            {
-                var myproxy = new WebProxy(config["proxyHost"], int.Parse(config["proxyPort"]))
-                {
-                    BypassProxyOnLocal = true
-                };
-                request.Proxy = myproxy;
-            }
-
-            OnHttpAction(RequestType.Request, xmlRequest, neuterAccNums, neuterCreds);
-
+            
             // submit http request
+            var request = this.CreateWebRequest(xmlRequest, config);
             using (var writer = new StreamWriter(await request.GetRequestStreamAsync().ConfigureAwait(false)))
             {
                 writer.Write(xmlRequest);
@@ -185,34 +225,27 @@ namespace Cnp.Sdk
             // read response
             string xmlResponse = null;
             var response = await request.GetResponseAsync().ConfigureAwait(false);
-            HttpWebResponse httpResp = (HttpWebResponse)response;
-            CommManager.instance().reportResult(reqTarget, CommManager.REQUEST_RESULT_RESPONSE_RECEIVED, ((int)(httpResp.StatusCode)));
             try
             {
                 using (var reader = new StreamReader(response.GetResponseStream()))
                 {
                     xmlResponse = (await reader.ReadToEndAsync().ConfigureAwait(false)).Trim();
                 }
-                if (printxml)
+                if (printXml)
                 {
                     Console.WriteLine(xmlResponse);
                 }
 
-                OnHttpAction(RequestType.Response, xmlResponse, neuterAccNums, neuterCreds);
+                OnHttpAction(RequestType.Response, xmlResponse, neuterAccountNumbers, neuterUserCredentials);
 
                 //log response
                 if (logFile != null)
                 {
-                    Log(xmlResponse, logFile, neuterAccNums, neuterCreds);
+                    Log(xmlResponse, logFile, neuterAccountNumbers, neuterUserCredentials);
                 }
             }catch (WebException we)
             {
-                int result = CommManager.REQUEST_RESULT_CONNECTION_FAILED;
-                if (we.Status == WebExceptionStatus.Timeout)
-                {
-                    result = CommManager.REQUEST_RESULT_RESPONSE_TIMEOUT;
-                }
-                CommManager.instance().reportResult(reqTarget, result, 0);
+                
             }
 
             return xmlResponse;
@@ -231,126 +264,69 @@ namespace Cnp.Sdk
         public virtual string HttpPost(string xmlRequest, Dictionary<string, string> config)
         {
             string logFile = null;
+            var printXml = false;
+            var neuterAccountNumbers = false;
+            var neuterUserCredentials = false;
             if (IsValidConfigValueSet(config, "logFile"))
             {
                 logFile = config["logFile"];
             }
-
-            RequestTarget reqTarget = CommManager.instance(config).findUrl();
-            var uri = reqTarget.getUrl();
-            ServicePointManager.SecurityProtocol = ServicePointManager.SecurityProtocol | SecurityProtocolType.Tls12 | SecurityProtocolType.Tls11;
-            var req = (HttpWebRequest)WebRequest.Create(uri);
-
-            var neuterAccNums = false;
             if (config.ContainsKey("neuterAccountNums"))
             {
-                neuterAccNums = ("true".Equals(config["neuterAccountNums"]));
+                neuterAccountNumbers = ("true".Equals(config["neuterAccountNums"]));
             }
-
-            var neuterCreds = false;
             if (config.ContainsKey("neuterUserCredentials"))
             {
-                neuterCreds = ("true".Equals(config["neuterUserCredentials"]));
+                neuterUserCredentials = ("true".Equals(config["neuterUserCredentials"]));
             }
-
-            var printxml = false;
             if (config.ContainsKey("printxml"))
             {
-                if ("true".Equals(config["printxml"]))
-                {
-                    printxml = true;
-                }
-            }
-
-            if (printxml)
-            {
-                Console.WriteLine(xmlRequest);
-                Console.WriteLine(logFile);
-            }
-
-            //log request
-            if (logFile != null)
-            {
-                Log(xmlRequest, logFile, neuterAccNums, neuterCreds);
-            }
-
-            req.ContentType = ContentTypeTextXmlUTF8;
-            req.Method = "POST";
-            req.ServicePoint.MaxIdleTime = 8000;
-            req.ServicePoint.Expect100Continue = false;
-            req.KeepAlive = true;
-            
-            if (config.ContainsKey("timeout")) {
-                try {
-                    req.Timeout = Convert.ToInt32(config["timeout"]);
-                }
-                catch (FormatException e) {
-                    // If timeout setting contains non-numeric
-                    // characters, we will fall back to 1 minute
-                    // default timeout.
-                    req.Timeout = 60000;
-                }
+                printXml = ("true".Equals(config["printxml"]));
             }
             
-            if (IsProxyOn(config))
-            {
-                var myproxy = new WebProxy(config["proxyHost"], int.Parse(config["proxyPort"]))
-                {
-                    BypassProxyOnLocal = true
-                };
-                req.Proxy = myproxy;
-            }
-
-            OnHttpAction(RequestType.Request, xmlRequest, neuterAccNums, neuterCreds);
+            // submit http request
+            var request = this.CreateWebRequest(xmlRequest, config);
 
             // submit http request
-            using (var writer = new StreamWriter(req.GetRequestStream()))
+            using (var writer = new StreamWriter(request.GetRequestStream()))
             {
                 writer.Write(xmlRequest);
             }
 
-
-            string xmlResponse = null;
             // read response
+            string xmlResponse = null;
             try
             {
-                var resp = req.GetResponse();
+                var resp = request.GetResponse();
                 if (resp == null)
                 {
                     return null;
                 }
                 HttpWebResponse httpResp = (HttpWebResponse)resp;
 
-                CommManager.instance().reportResult(reqTarget, CommManager.REQUEST_RESULT_RESPONSE_RECEIVED, (int)httpResp.StatusCode);
-
                 using (var reader = new StreamReader(resp.GetResponseStream()))
                 {
                     xmlResponse = reader.ReadToEnd().Trim();
                 }
-                if (printxml)
+                if (printXml)
                 {
                     Console.WriteLine(xmlResponse);
                 }
 
-                OnHttpAction(RequestType.Response, xmlResponse, neuterAccNums, neuterCreds);
+                OnHttpAction(RequestType.Response, xmlResponse, neuterAccountNumbers, neuterUserCredentials);
 
                 //log response
                 if (logFile != null)
                 {
-                    Log(xmlResponse, logFile, neuterAccNums, neuterCreds);
+                    Log(xmlResponse, logFile, neuterAccountNumbers, neuterUserCredentials);
                 }
             } catch (WebException we)
             {
-                int result = CommManager.REQUEST_RESULT_CONNECTION_FAILED;
-                if (we.Status == WebExceptionStatus.Timeout)
-                {
-                    result = CommManager.REQUEST_RESULT_RESPONSE_TIMEOUT;
-                }
-               
-                CommManager.instance().reportResult(reqTarget, result, 0);
+                
             }
+            
             return xmlResponse;
-            }
+        }
 
 
 

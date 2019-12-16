@@ -14,7 +14,6 @@ namespace Cnp.Sdk.Test.Functional
         [OneTimeSetUp]
         public void SetUpCnp()
         {
-            CommManager.reset();
             _config = new ConfigManager().getConfig();
             _cnp = new CnpOnline(_config);
         }

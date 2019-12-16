@@ -10,7 +10,6 @@ namespace Cnp.Sdk.Test.Functional {
 
         [OneTimeSetUp]
         public void SetUpCnp() {
-            CommManager.reset();
             _cnp = new CnpOnline();
         }
 
