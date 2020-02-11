@@ -242,6 +242,26 @@ namespace Cnp.Sdk.Test.Unit
             cnp.Credit(credit);
         }
 
+        [Test]
+        public void TestCreditWithMCC()
+        {
+            credit credit = new credit();
+            credit.amount = 2;
+            credit.merchantCategoryCode = "0111";
+            credit.orderId = "3";
+            credit.orderSource = orderSourceType.ecommerce;
+            credit.reportGroup = "Planets";
+
+            var mock = new Mock<Communications>();
+
+            mock.Setup(Communications => Communications.HttpPost(It.IsRegex(".*<orderId>3</orderId>\r\n<amount>2</amount>\r\n<orderSource>ecommerce</orderSource>\r\n<merchantCategoryCode>0111</merchantCategoryCode>.*", RegexOptions.Singleline), It.IsAny<Dictionary<String, String>>()))
+                .Returns("<cnpOnlineResponse version='8.14' response='0' message='Valid Format' xmlns='http://www.vantivcnp.com/schema'><creditResponse><cnpTxnId>123</cnpTxnId></creditResponse></cnpOnlineResponse>");
+
+            Communications mockedCommunication = mock.Object;
+            cnp.SetCommunication(mockedCommunication);
+            cnp.Credit(credit);
+        }
+
 
     }
 }

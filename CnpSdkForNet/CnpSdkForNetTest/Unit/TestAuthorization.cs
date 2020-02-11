@@ -610,5 +610,28 @@ namespace Cnp.Sdk.Test.Unit
             var authorizationResponse = cnp.Authorize(auth);
             Assert.AreEqual(123, authorizationResponse.cnpTxnId);
         }
+
+        [Test]
+        public void TestAuthWithMCC()
+        {
+            var auth = new authorization();
+            auth.orderId = "12344";
+            auth.amount = 2;
+            auth.merchantCategoryCode = "0111";
+            auth.orderSource = orderSourceType.ecommerce;
+            auth.reportGroup = "Planets";
+
+            var mock = new Mock<Communications>();
+
+            mock.Setup(Communications => Communications.HttpPost(It.IsRegex(".*<amount>2</amount>\r\n<orderSource>ecommerce</orderSource>\r\n<merchantCategoryCode>0111</merchantCategoryCode>.*", RegexOptions.Singleline), It.IsAny<Dictionary<string, string>>()))
+                .Returns("<cnpOnlineResponse version='8.14' response='0' message='Valid Format' xmlns='http://www.vantivcnp.com/schema'><authorizationResponse><cnpTxnId>123</cnpTxnId></authorizationResponse></cnpOnlineResponse>");
+
+            var mockedCommunication = mock.Object;
+            cnp.SetCommunication(mockedCommunication);
+            var authorizationResponse = cnp.Authorize(auth);
+
+            Assert.NotNull(authorizationResponse);
+            Assert.AreEqual(123, authorizationResponse.cnpTxnId);
+        }
     }
 }

@@ -417,5 +417,24 @@ namespace Cnp.Sdk.Test.Unit
             cnp.SetCommunication(mockedCommunication);
             cnp.Sale(sale);
         }
+
+        [Test]
+        public void TestSaleWithMCC()
+        {
+            sale sale = new sale();
+            sale.amount = 2;
+            sale.merchantCategoryCode = "0111";
+            sale.orderSource = orderSourceType.ecommerce;
+            sale.reportGroup = "Planets";
+
+            var mock = new Mock<Communications>();
+
+            mock.Setup(Communications => Communications.HttpPost(It.IsRegex(".*<amount>2</amount>\r\n<orderSource>ecommerce</orderSource>\r\n<merchantCategoryCode>0111</merchantCategoryCode>.*", RegexOptions.Singleline), It.IsAny<Dictionary<String, String>>()))
+                .Returns("<cnpOnlineResponse version='8.14' response='0' message='Valid Format' xmlns='http://www.vantivcnp.com/schema'><saleResponse><cnpTxnId>123</cnpTxnId></saleResponse></cnpOnlineResponse>");
+
+            Communications mockedCommunication = mock.Object;
+            cnp.SetCommunication(mockedCommunication);
+            cnp.Sale(sale);
+        }
     }
 }
