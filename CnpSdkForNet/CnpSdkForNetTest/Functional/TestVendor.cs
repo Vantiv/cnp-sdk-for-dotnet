@@ -30,7 +30,7 @@ namespace Cnp.Sdk.Test.Functional
                     accNum = "1234",
                     routingNum = "12345678"
                 },
-                amount = 1500,
+                amount = 1512l,
                 fundingSubmerchantId = "value for fundingSubmerchantId",
                 fundsTransferId = "value for fundsTransferId",
                 vendorName = "Vantiv"
@@ -55,7 +55,7 @@ namespace Cnp.Sdk.Test.Functional
                     accNum = "1234",
                     routingNum = "12345678"
                 },
-                amount = 1500,
+                amount = 1512l,
                 fundingCustomerId = "value for fundingCustomerId",
                 fundsTransferId = "value for fundsTransferId",
                 vendorName = "Vantiv"
@@ -80,7 +80,7 @@ namespace Cnp.Sdk.Test.Functional
                     accNum = "1234",
                     routingNum = "12345678"
                 },
-                amount = 1500,
+                amount = 1512l,
                 fundingSubmerchantId = "value for fundingSubmerchantId",
                 fundsTransferId = "value for fundsTransferId",
                 vendorName = "Vantiv"
@@ -106,7 +106,7 @@ namespace Cnp.Sdk.Test.Functional
                     accNum = "1234",
                     routingNum = "12345678"
                 },
-                amount = 1500,
+                amount = 1512l,
                 fundingSubmerchantId = "value for fundingSubmerchantId",
                 fundsTransferId = "value for fundsTransferId",
                 vendorName = "WorldPay"
@@ -131,7 +131,7 @@ namespace Cnp.Sdk.Test.Functional
                     accNum = "1234",
                     routingNum = "12345678"
                 },
-                amount = 1500,
+                amount = 1512l,
                 fundingSubmerchantId = "value for fundingSubmerchantId",
                 fundsTransferId = "value for fundsTransferId",
                 fundingCustomerId = "value for fundingCustomerId",
@@ -157,7 +157,7 @@ namespace Cnp.Sdk.Test.Functional
                     accNum = "1234",
                     routingNum = "12345678"
                 },
-                amount = 1500,
+                amount = 1512l,
                 fundingSubmerchantId = "value for fundingSubmerchantId",
                 fundsTransferId = "value for fundsTransferId",
                 vendorName = "WorldPay"

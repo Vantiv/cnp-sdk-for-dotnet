@@ -1,4 +1,5 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using NUnit.Framework;
 using System.Threading;
 
@@ -30,8 +31,10 @@ namespace Cnp.Sdk.Test.Functional
                     type = methodOfPaymentTypeEnum.VI,
                     number = "4100000000000001",
                     expDate = "1210"
-                }
+                },
+                merchantCategoryCode = "1111"
             };
+            
 
             var response = _cnp.ForceCapture(forcecapture);
             Assert.AreEqual("Approved", response.message);
