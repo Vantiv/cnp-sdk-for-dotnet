@@ -347,7 +347,9 @@ namespace Cnp.Sdk.Test.Unit
             auth.orderId = "12344";
             auth.amount = 2;
             auth.orderSource = orderSourceType.ecommerce;
-            auth.cardholderAuthentication = new fraudCheckType();
+            fraudCheckType checkType = new fraudCheckType();
+            checkType.authenticationProtocolVersionType = "PAP";
+            auth.cardholderAuthentication = checkType;
             auth.cardholderAuthentication.customerIpAddress = "192.168.1.1";
 
             var expectedResult = @"
@@ -362,13 +364,14 @@ namespace Cnp.Sdk.Test.Unit
 </card>
 <cardholderAuthentication>
 <customerIpAddress>192.168.1.1</customerIpAddress>
+<authenticationProtocolVersionType>PAP</authenticationProtocolVersionType>
 </cardholderAuthentication>
 </authorization>";
 
             Assert.AreEqual(Regex.Replace(expectedResult, @"\s+", string.Empty), Regex.Replace(auth.Serialize(), @"\s+", string.Empty));
 
             var mock = new Mock<Communications>();
-            mock.Setup(Communications => Communications.HttpPost(It.IsRegex(".*<authorization id=\".*>.*<customerIpAddress>192.168.1.1</customerIpAddress>.*</authorization>.*", RegexOptions.Singleline), It.IsAny<Dictionary<string, string>>()))
+            mock.Setup(Communications => Communications.HttpPost(It.IsRegex(".*<authorization id=\".*>.*<customerIpAddress>192.168.1.1</customerIpAddress>.*<authenticationProtocolVersionType>PAP</authenticationProtocolVersionType>.*</authorization>.*", RegexOptions.Singleline), It.IsAny<Dictionary<string, string>>()))
                 .Returns("<cnpOnlineResponse version='8.14' response='0' message='Valid Format' xmlns='http://www.vantivcnp.com/schema'><authorizationResponse><cnpTxnId>123</cnpTxnId></authorizationResponse></cnpOnlineResponse>");
 
             var mockedCommunication = mock.Object;
