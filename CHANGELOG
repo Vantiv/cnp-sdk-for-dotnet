@@ -1,6 +1,10 @@
 
 = Worldpay CNP CHANGELOG
 
+==Version 12.11.0 (February 17, 2020)
+* Feature: Added MCC (merchantCategoryCode) in request
+* Feature: Added authenticationProtocolVersionType in request
+
 ==Version 12.10.3 (December 16, 2019)
 * Changed: Removed Multisite support at SDK-level in favor Global Load Balancer (GLB)
 

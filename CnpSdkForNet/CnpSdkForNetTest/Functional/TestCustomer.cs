@@ -22,7 +22,7 @@ namespace Cnp.Sdk.Test.Functional {
                 fundingCustomerId = "value for fundingCustomerId",
                 customerName = "value for customerName",
                 fundsTransferId = "value for fundsTransferId",
-                amount = 500,
+                amount = 1512l,
                 customIdentifier = "WorldPay",
                 accountInfo = new echeckType() {
                     accType = echeckAccountTypeEnum.Checking,
@@ -45,7 +45,7 @@ namespace Cnp.Sdk.Test.Functional {
                 fundingCustomerId = "value for fundingCustomerId",
                 customerName = "value for customerName",
                 fundsTransferId = "value for fundsTransferId",
-                amount = 500,
+                amount = 1512l,
                 customIdentifier = "WorldPay",
                 accountInfo = new echeckType() {
                     accType = echeckAccountTypeEnum.Checking,
@@ -68,7 +68,7 @@ namespace Cnp.Sdk.Test.Functional {
 
                 fundingCustomerId = "value for fundingCustomerId",
                 fundsTransferId = "value for fundsTransferId",
-                amount = 500,
+                amount = 1512l,
                 customIdentifier = "WorldPay",
                 accountInfo = new echeckType() {
                     accType = echeckAccountTypeEnum.Checking,
@@ -89,7 +89,7 @@ namespace Cnp.Sdk.Test.Functional {
 
                 fundingCustomerId = "value for fundingCustomerId",
                 fundsTransferId = "value for fundsTransferId",
-                amount = 500,
+                amount = 1512l,
                 customIdentifier = "WorldPay",
                 accountInfo = new echeckType() {
                     accType = echeckAccountTypeEnum.Checking,
@@ -112,7 +112,7 @@ namespace Cnp.Sdk.Test.Functional {
                 fundingCustomerId = "value for fundingCustomerId",
                 customerName = "value for customerName",
                 fundsTransferId = "value for fundsTransferId",
-                amount = 500,
+                amount = 1512l,
                 customIdentifier = "WorldPay",
                 accountInfo = new echeckType() {
                     accType = echeckAccountTypeEnum.Checking,
@@ -135,7 +135,7 @@ namespace Cnp.Sdk.Test.Functional {
                 fundingCustomerId = "value for fundingCustomerId",
                 customerName = "value for customerName",
                 fundsTransferId = "value for fundsTransferId",
-                amount = 500,
+                amount = 1512l,
                 customIdentifier = "WorldPay",
                 accountInfo = new echeckType() {
                     accType = echeckAccountTypeEnum.Checking,
@@ -158,7 +158,7 @@ namespace Cnp.Sdk.Test.Functional {
 
                 fundingCustomerId = "value for fundingCustomerId",
                 fundsTransferId = "value for fundsTransferId",
-                amount = 500,
+                amount = 1512l,
                 customIdentifier = "WorldPay",
                 accountInfo = new echeckType() {
                     accType = echeckAccountTypeEnum.Checking,
@@ -179,7 +179,7 @@ namespace Cnp.Sdk.Test.Functional {
 
                 fundingCustomerId = "value for fundingCustomerId",
                 fundsTransferId = "value for fundsTransferId",
-                amount = 500,
+                amount = 1512l,
                 customIdentifier = "WorldPay",
                 accountInfo = new echeckType() {
                     accType = echeckAccountTypeEnum.Checking,
@@ -203,7 +203,7 @@ namespace Cnp.Sdk.Test.Functional {
                 fundingCustomerId = "value for fundingCustomerId",
                 customerName = "value for customerName",
                 fundsTransferId = "value for fundsTransferId",
-                amount = -500,
+                amount = -1512l,
                 customIdentifier = "WorldPay",
                 accountInfo = new echeckType() {
                     accType = echeckAccountTypeEnum.Checking,
@@ -226,7 +226,7 @@ namespace Cnp.Sdk.Test.Functional {
                 fundingCustomerId = "123456789012345678901234567890123456789012345678901234567890",
                 customerName = "value for customerName",
                 fundsTransferId = "value for fundsTransferId",
-                amount = 500,
+                amount = 1512l,
                 customIdentifier = "WorldPay",
                 accountInfo = new echeckType() {
                     accType = echeckAccountTypeEnum.Checking,
@@ -248,7 +248,7 @@ namespace Cnp.Sdk.Test.Functional {
                 fundingCustomerId = "123456789012345678901234567890123456789012345678901234567890",
                 customerName = "value for customerName",
                 fundsTransferId = "value for fundsTransferId",
-                amount = 500,
+                amount = 1512l,
                 customIdentifier = "WorldPay",
                 accountInfo = new echeckType() {
                     accType = echeckAccountTypeEnum.Checking,

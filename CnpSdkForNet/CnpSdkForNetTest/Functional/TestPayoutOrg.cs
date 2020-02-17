@@ -22,7 +22,7 @@ namespace Cnp.Sdk.Test.Functional {
             {
                 id = "1",
                 reportGroup = "Default Report Group",
-                amount = 1500,
+                amount = 1512l,
                 fundingCustomerId = "value for fundingCustomerId",
                 fundsTransferId = "value for fundsTransferId",
             };
@@ -38,7 +38,7 @@ namespace Cnp.Sdk.Test.Functional {
             {
                 id = "1",
                 reportGroup = "Default Report Group",
-                amount = 1500,
+                amount = 1512l,
                 fundingCustomerId = "value for fundingCustomerId",
                 fundsTransferId = "value for fundsTransferId",
             };
@@ -85,7 +85,7 @@ namespace Cnp.Sdk.Test.Functional {
             {
                 id = "1",
                 reportGroup = "Default Report Group",
-                amount = 1500,
+                amount = 1512l,
                 fundingCustomerId = "value for fundingCustomerId",
                 fundsTransferId = "value for fundsTransferId",
             };
@@ -101,7 +101,7 @@ namespace Cnp.Sdk.Test.Functional {
             {
                 id = "1",
                 reportGroup = "Default Report Group",
-                amount = 1500,
+                amount = 1512l,
                 fundingCustomerId = "value for fundingCustomerId",
                 fundsTransferId = "value for fundsTransferId",
             };

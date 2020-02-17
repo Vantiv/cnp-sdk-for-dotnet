@@ -386,6 +386,8 @@ namespace Cnp.Sdk
         }
         public bool? skipRealtimeAU;
 
+        public string merchantCategoryCode;
+
         public override string Serialize()
         {
             var xml = "\r\n<authorization";
@@ -527,6 +529,11 @@ namespace Cnp.Sdk
                 }
                 if (skipRealtimeAU != null) {
                     xml += "\r\n<skipRealtimeAU>" + skipRealtimeAU.ToString().ToLower() + "</skipRealtimeAU>";
+                }
+
+                if (merchantCategoryCode != null)
+                {
+                    xml += "\r\n<merchantCategoryCode>" + merchantCategoryCode + "</merchantCategoryCode>";
                 }
             }
 
@@ -793,6 +800,8 @@ namespace Cnp.Sdk
             }
         }
 
+        public string merchantCategoryCode;
+
         public override string Serialize()
         {
             var xml = "\r\n<captureGivenAuth";
@@ -883,6 +892,10 @@ namespace Cnp.Sdk
             if (originalTransactionAmountSet)
             {
                 xml += "\r\n<originalTransactionAmount>" + originalTransactionAmount + "</originalTransactionAmount>";
+            }
+            if (merchantCategoryCode != null)
+            {
+                xml += "\r\n<merchantCategoryCode>" + merchantCategoryCode + "</merchantCategoryCode>";
             }
             xml += "\r\n</captureGivenAuth>";
             return xml;
@@ -1016,6 +1029,7 @@ namespace Cnp.Sdk
         }
         public amexAggregatorData amexAggregatorData;
         public merchantDataType merchantData;
+        public string merchantCategoryCode;
         public string payPalNotes;
         public string actionReason;
 
@@ -1071,6 +1085,10 @@ namespace Cnp.Sdk
                 if (pos != null) xml += "\r\n<pos>" + pos.Serialize() + "</pos>";
                 if (amexAggregatorData != null) xml += "\r\n<amexAggregatorData>" + amexAggregatorData.Serialize() + "</amexAggregatorData>";
                 if (merchantData != null) xml += "\r\n<merchantData>" + merchantData.Serialize() + "</merchantData>";
+                if (merchantCategoryCode != null)
+                {
+                    xml += "\r\n<merchantCategoryCode>" + merchantCategoryCode + "</merchantCategoryCode>";
+                }
             }
             if (payPalNotes != null) xml += "\r\n<payPalNotes>" + SecurityElement.Escape(payPalNotes) + "</payPalNotes>";
             if (actionReason != null) xml += "\r\n<actionReason>" + SecurityElement.Escape(actionReason) + "</actionReason>";
@@ -1509,6 +1527,8 @@ namespace Cnp.Sdk
             set { processingTypeField = value; processingTypeSet = true; }
         }
 
+        public string merchantCategoryCode;
+
         public override string Serialize()
         {
             var xml = "\r\n<forceCapture";
@@ -1583,6 +1603,12 @@ namespace Cnp.Sdk
             {
                 xml += "\r\n<processingType>" + processingType + "</processingType>";
             }
+
+            if (merchantCategoryCode != null)
+            {
+                xml += "\r\n<merchantCategoryCode>" + merchantCategoryCode + "</merchantCategoryCode>";
+            }
+            
             xml += "\r\n</forceCapture>";
             return xml;
         }
@@ -1594,6 +1620,7 @@ namespace Cnp.Sdk
         public string authenticationValue;
         public string authenticationTransactionId;
         public string customerIpAddress;
+        public string authenticationProtocolVersionType;
         private bool authenticatedByMerchantField;
         private bool authenticatedByMerchantSet;
         public bool authenticatedByMerchant
@@ -1609,6 +1636,7 @@ namespace Cnp.Sdk
             if (authenticationTransactionId != null) xml += "\r\n<authenticationTransactionId>" + SecurityElement.Escape(authenticationTransactionId) + "</authenticationTransactionId>";
             if (customerIpAddress != null) xml += "\r\n<customerIpAddress>" + SecurityElement.Escape(customerIpAddress) + "</customerIpAddress>";
             if (authenticatedByMerchantSet) xml += "\r\n<authenticatedByMerchant>" + authenticatedByMerchantField + "</authenticatedByMerchant>";
+            if(authenticationProtocolVersionType != null) xml += "\r\n<authenticationProtocolVersionType>" + authenticationProtocolVersionType + "</authenticationProtocolVersionType>";
             return xml;
         }
     }
@@ -2121,6 +2149,7 @@ namespace Cnp.Sdk
 
         public pinlessDebitRequestType pinlessDebitRequest;
         public bool? skipRealtimeAU;
+        public string merchantCategoryCode;
 
         //private routingPreferenceEnum routingPreferenceField;
         //private bool routingPreferenceSet;
@@ -2292,6 +2321,10 @@ namespace Cnp.Sdk
             }
             if (skipRealtimeAU != null) {
                 xml += "\r\n<skipRealtimeAU>" + skipRealtimeAU.ToString().ToLower() + "</skipRealtimeAU>";
+            }
+            if (merchantCategoryCode != null)
+            {
+                xml += "\r\n<merchantCategoryCode>" + merchantCategoryCode + "</merchantCategoryCode>";
             }
 
             //if (routingPreferenceSet)

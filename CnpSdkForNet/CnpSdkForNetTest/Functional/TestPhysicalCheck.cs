@@ -24,7 +24,7 @@ namespace Cnp.Sdk.Test.Functional
                 id = "1",
                 reportGroup = "Default Report Group",
                 // required child elements.
-                amount = 1500,
+                amount = 1512l,
                 fundingSubmerchantId = "value for fundingSubmerchantId",
                 fundsTransferId = "value for fundsTransferId"
             };
@@ -42,7 +42,7 @@ namespace Cnp.Sdk.Test.Functional
                 id = "1",
                 reportGroup = "Default Report Group",
                 // required child elements.
-                amount = 1500,
+                amount = 1512l,
                 fundingSubmerchantId = "value for fundingSubmerchantId",
                 fundsTransferId = "value for fundsTransferId",
                 fundingCustomerId = "value for fundingCustomerId",
@@ -61,7 +61,7 @@ namespace Cnp.Sdk.Test.Functional
                 id = "1",
                 reportGroup = "Default Report Group",
                 // required child elements.
-                amount = 1500,
+                amount = 1512l,
                 fundingSubmerchantId = "value for fundingSubmerchantId",
                 fundsTransferId = "value for fundsTransferId"
             };
@@ -80,7 +80,7 @@ namespace Cnp.Sdk.Test.Functional
                 id = "1",
                 reportGroup = "Planets",
                 // required child elements.
-                amount = 1500,
+                amount = 1512l,
                 fundingSubmerchantId = "value for fundingSubmerchantId",
                 fundsTransferId = "value for fundsTransferId"
             };
@@ -98,7 +98,7 @@ namespace Cnp.Sdk.Test.Functional
                 id = "1",
                 reportGroup = "Planets",
                 // required child elements.
-                amount = 1500,
+                amount = 1512l,
                 fundingSubmerchantId = "value for fundingSubmerchantId",
                 fundsTransferId = "value for fundsTransferId",
                 fundingCustomerId = "value for fundingCustomerId",
@@ -117,7 +117,7 @@ namespace Cnp.Sdk.Test.Functional
                 id = "1",
                 reportGroup = "Planets",
                 // required child elements.
-                amount = 1500,
+                amount = 1512l,
                 fundingSubmerchantId = "value for fundingSubmerchantId",
                 fundsTransferId = "value for fundsTransferId"
             };
