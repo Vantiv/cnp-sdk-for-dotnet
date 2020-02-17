@@ -4936,6 +4936,8 @@ namespace Cnp.Sdk
 
         private string versionField;
 
+        private string locationField;
+
         public authReversalResponse authReversalResponse;
         public giftCardAuthReversalResponse giftCardAuthReversalResponse;
         public authorizationResponse authorizationResponse;
@@ -5028,6 +5030,20 @@ namespace Cnp.Sdk
             set
             {
                 this.versionField = value;
+            }
+        }
+
+        /// <remarks/>
+        [System.Xml.Serialization.XmlAttributeAttribute()]
+        public string location
+        {
+            get
+            {
+                return this.locationField;
+            }
+            set
+            {
+                this.locationField = value;
             }
         }
     }
