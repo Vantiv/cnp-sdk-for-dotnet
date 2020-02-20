@@ -29,6 +29,21 @@ namespace Cnp.Sdk.Test.Functional
             var response = _cnp.EcheckRedeposit(echeckredeposit);
             Assert.AreEqual("Approved", response.message);
         }
+        
+        [Test]
+        public void simpleEcheckRedepositWithLocation()
+        {
+            var echeckredeposit = new echeckRedeposit
+            {
+                id = "1",
+                reportGroup = "Planets",
+                cnpTxnId = 123456
+            };
+
+            var response = _cnp.EcheckRedeposit(echeckredeposit);
+            Assert.AreEqual("sandbox", response.location);
+            Assert.AreEqual("Approved", response.message);
+        }
 
         [Test]
         public void EcheckRedepositWithEcheck()

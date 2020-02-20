@@ -136,8 +136,26 @@ namespace Cnp.Sdk.Test.Functional
             };
             capture.lodgingInfo.lodgingCharges.Add(new lodgingCharge() { name = lodgingExtraChargeEnum.GIFTSHOP });
             CancellationToken cancellationToken = new CancellationToken(false);
+            
             var response = _cnp.CaptureAsync(capture, cancellationToken);
             Assert.AreEqual("000", response.Result.response);
+        }
+        
+        [Test]
+        public void SimpleCaptureWithLocation()
+        {
+            var capture = new capture
+            {
+                id = "1",
+                cnpTxnId = 123456000,
+                amount = 106,
+                payPalNotes = "Notes",
+                pin = "1234"
+            };
+
+            var response = _cnp.Capture(capture);
+            Assert.AreEqual("sandbox", response.location);
+            Assert.AreEqual("Approved", response.message);
         }
     }
 }

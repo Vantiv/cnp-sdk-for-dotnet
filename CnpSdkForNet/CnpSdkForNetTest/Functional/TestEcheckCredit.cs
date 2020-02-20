@@ -29,6 +29,22 @@ namespace Cnp.Sdk.Test.Functional
             var response = _cnp.EcheckCredit(echeckcredit);
             Assert.AreEqual("Approved", response.message);
         }
+        
+        [Test]
+        public void SimpleEcheckCreditWithLocation()
+        {
+            var echeckcredit = new echeckCredit
+            {
+                id = "1",
+                reportGroup = "Planets",
+                amount = 12L,
+                cnpTxnId = 123456789101112L,
+            };
+
+            var response = _cnp.EcheckCredit(echeckcredit);
+            Assert.AreEqual("sandbox", response.location);
+            Assert.AreEqual("Approved", response.message);
+        }
 
         [Test]
         public void NoCnpTxnId()

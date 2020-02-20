@@ -41,6 +41,31 @@ namespace Cnp.Sdk.Test.Functional
         }
         
         [Test]
+        public void SimpleForceCaptureWithCardWithLocation()
+        {
+            var forcecapture = new forceCapture
+            {
+                id = "1",
+                amount = 106,
+                orderId = "12344",
+                orderSource = orderSourceType.ecommerce,
+                processingType = processingType.accountFunding,
+                card = new cardType
+                {
+                    type = methodOfPaymentTypeEnum.VI,
+                    number = "4100000000000001",
+                    expDate = "1210"
+                },
+                merchantCategoryCode = "1111"
+            };
+            
+
+            var response = _cnp.ForceCapture(forcecapture);
+            Assert.AreEqual("sandbox", response.location);
+            Assert.AreEqual("Approved", response.message);
+        }
+        
+        [Test]
         public void SimpleForceCaptureWithprocessingType()
         {
             var forcecapture = new forceCapture

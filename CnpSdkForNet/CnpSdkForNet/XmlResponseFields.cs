@@ -1711,6 +1711,8 @@ namespace Cnp.Sdk
         private string responseField;
 
         private string messageField;
+        
+        private string locationField;
 
         private System.DateTime responseTimeField;
 
@@ -1827,6 +1829,18 @@ namespace Cnp.Sdk
                 this.messageField = value;
             }
         }
+        
+        public string location
+        {
+            get
+            {
+                return this.locationField;
+            }
+            set
+            {
+                this.locationField = value;
+            }
+        }
 
         /// <remarks/>
         public System.DateTime responseTime
@@ -1910,6 +1924,8 @@ namespace Cnp.Sdk
         private string responseField;
 
         private string messageField;
+        
+        private string locationField;
 
         private System.DateTime responseTimeField;
 
@@ -1949,6 +1965,18 @@ namespace Cnp.Sdk
             set
             {
                 this.messageField = value;
+            }
+        }
+        
+        public string location
+        {
+            get
+            {
+                return this.locationField;
+            }
+            set
+            {
+                this.locationField = value;
             }
         }
 
@@ -2023,6 +2051,8 @@ namespace Cnp.Sdk
         private androidpayResponse androidpayResponseField;
 
         private string networkTransactionIdField;
+
+        private string locationField;
 
         private string paymentAccountReferenceNumberField;
 
@@ -2339,6 +2369,18 @@ namespace Cnp.Sdk
             }
         }
 
+        public string location
+        {
+            get
+            {
+                return locationField;
+            }
+            set
+            {
+                this.locationField = value;
+            }
+        }
+
         public string paymentAccountReferenceNumber
         {
             get { return paymentAccountReferenceNumberField; }
@@ -2415,6 +2457,20 @@ namespace Cnp.Sdk
             }
         }
 
+        private string locationField;
+        
+        public string location
+        {
+            get
+            {
+                return this.locationField;
+            }
+            set
+            {
+                this.locationField = value;
+            }
+        }
+
         private System.DateTime responseTimeField;
 
         /// <remarks/>
@@ -2469,6 +2525,20 @@ namespace Cnp.Sdk
         public string message {
             get { return this.messageField; }
             set { this.messageField = value; }
+        }
+        
+        private string locationField;
+        
+        public string location
+        {
+            get
+            {
+                return this.locationField;
+            }
+            set
+            {
+                this.locationField = value;
+            }
         }
 
         private System.DateTime responseTimeField;
@@ -2878,6 +2948,8 @@ namespace Cnp.Sdk
 
         private string messageField;
 
+        private string locationField;
+
         /// <remarks/>
         public long cnpTxnId
         {
@@ -2958,6 +3030,14 @@ namespace Cnp.Sdk
             }
         }
 
+        public string location
+        {
+            get
+            {
+                return this.locationField;
+            }
+            set { this.locationField = value; }
+        }
     }
 
     /// <remarks/>
@@ -2983,6 +3063,8 @@ namespace Cnp.Sdk
         private string messageField;
 
         private giftCardResponse giftCardResponseField;
+
+        private string locationField;
 
 
         /// <remarks/>
@@ -3077,6 +3159,12 @@ namespace Cnp.Sdk
             }
         }
 
+        public string location
+        {
+            get { return this.locationField; }
+            set { this.locationField = value; }
+        }
+
 
     }
 
@@ -3105,6 +3193,8 @@ namespace Cnp.Sdk
         private bool postDateFieldSpecified;
 
         private string messageField;
+
+        private string locationField;
 
         private accountUpdater accountUpdaterField;
 
@@ -3190,6 +3280,18 @@ namespace Cnp.Sdk
             }
         }
 
+        public string location
+        {
+            get
+            {
+                return this.locationField;
+            }
+            set
+            {
+                this.locationField = value;
+            }
+        }
+
         /// <remarks/>
         public accountUpdater accountUpdater
         {
@@ -3239,6 +3341,8 @@ namespace Cnp.Sdk
         private bool postDateFieldSpecified;
 
         private string messageField;
+
+        private string locationField;
 
         private accountUpdater accountUpdaterField;
 
@@ -3326,6 +3430,15 @@ namespace Cnp.Sdk
             }
         }
 
+        public string location
+        {
+            get { return this.locationField; }
+            set
+            {
+                this.locationField = value;
+            }
+        }
+
         /// <remarks/>
         public accountUpdater accountUpdater
         {
@@ -3390,6 +3503,8 @@ namespace Cnp.Sdk
         private bool postDateFieldSpecified;
 
         private string messageField;
+        
+        private string locationField;
 
         private tokenResponseType tokenResponseField;
 
@@ -3474,6 +3589,18 @@ namespace Cnp.Sdk
                 this.messageField = value;
             }
         }
+        
+        public string location
+        {
+            get
+            {
+                return this.locationField;
+            }
+            set
+            {
+                this.locationField = value;
+            }
+        }
 
         /// <remarks/>
         public tokenResponseType tokenResponse
@@ -3526,6 +3653,8 @@ namespace Cnp.Sdk
         private string messageField;
 
         private tokenResponseType tokenResponseField;
+
+        private string locationField;
 
         /// <remarks/>
         public long cnpTxnId
@@ -3619,6 +3748,18 @@ namespace Cnp.Sdk
                 this.tokenResponseField = value;
             }
         }
+
+        public string location
+        {
+            get
+            {
+                return this.locationField;
+            }
+            set
+            {
+                this.locationField = value;
+            }
+        }
     }
 
     /// <remarks/>
@@ -3646,6 +3787,8 @@ namespace Cnp.Sdk
         private bool postDateFieldSpecified;
 
         private string messageField;
+
+        private string locationField;
 
         private String cardSuffixField;
 
@@ -3798,6 +3941,18 @@ namespace Cnp.Sdk
             set
             {
                 this.messageField = value;
+            }
+        }
+        
+        public string location
+        {
+            get
+            {
+                return this.locationField;
+            }
+            set
+            {
+                this.locationField = value;
             }
         }
 
@@ -4129,6 +4284,8 @@ namespace Cnp.Sdk
 
         private string messageField;
 
+        private string locationField;
+
         private tokenResponseType tokenResponseField;
 
         private fraudResult fraudResultField;
@@ -4214,6 +4371,18 @@ namespace Cnp.Sdk
             }
         }
 
+        public string location
+        {
+            get
+            {
+                return this.locationField;
+            }
+            set
+            {
+                this.locationField = value;
+            }
+        }
+
         /// <remarks/>
         public tokenResponseType tokenResponse
         {
@@ -4261,6 +4430,8 @@ namespace Cnp.Sdk
         private bool postDateFieldSpecified;
 
         private string messageField;
+        
+        private string locationField;
 
         private tokenResponseType tokenResponseField;
 
@@ -4348,6 +4519,18 @@ namespace Cnp.Sdk
                 this.messageField = value;
             }
         }
+        
+        public string location
+        {
+            get
+            {
+                return this.locationField;
+            }
+            set
+            {
+                this.locationField = value;
+            }
+        }
 
         /// <remarks/>
         public tokenResponseType tokenResponse
@@ -4405,6 +4588,8 @@ namespace Cnp.Sdk
         private System.DateTime responseTimeField;
 
         private string messageField;
+        
+        private string locationField;
 
         private string verificationCodeField;
 
@@ -4465,6 +4650,18 @@ namespace Cnp.Sdk
             set
             {
                 this.messageField = value;
+            }
+        }
+        
+        public string location
+        {
+            get
+            {
+                return this.locationField;
+            }
+            set
+            {
+                this.locationField = value;
             }
         }
 
@@ -4554,6 +4751,8 @@ namespace Cnp.Sdk
 
         private string messageField;
 
+        private string locationField;
+
         private System.DateTime postDateField;
 
         private bool postDateFieldSpecified;
@@ -4611,6 +4810,18 @@ namespace Cnp.Sdk
             set
             {
                 this.messageField = value;
+            }
+        }
+        
+        public string location
+        {
+            get
+            {
+                return this.locationField;
+            }
+            set
+            {
+                this.locationField = value;
             }
         }
 
@@ -4687,6 +4898,8 @@ namespace Cnp.Sdk
 
         private string messageField;
 
+        private string locationField;
+
         private System.DateTime postDateField;
 
         private bool postDateFieldSpecified;
@@ -4742,6 +4955,18 @@ namespace Cnp.Sdk
             set
             {
                 this.messageField = value;
+            }
+        }
+        
+        public string location
+        {
+            get
+            {
+                return this.locationField;
+            }
+            set
+            {
+                this.locationField = value;
             }
         }
 
@@ -4804,6 +5029,8 @@ namespace Cnp.Sdk
         private System.DateTime responseTimeField;
 
         private string messageField;
+        
+        private string locationField;
 
         private System.DateTime postDateField;
 
@@ -4862,6 +5089,18 @@ namespace Cnp.Sdk
             set
             {
                 this.messageField = value;
+            }
+        }
+        
+        public string location
+        {
+            get
+            {
+                return this.locationField;
+            }
+            set
+            {
+                this.locationField = value;
             }
         }
 
@@ -4935,9 +5174,9 @@ namespace Cnp.Sdk
         private string messageField;
 
         private string versionField;
-
+        
         private string locationField;
-
+        
         public authReversalResponse authReversalResponse;
         public giftCardAuthReversalResponse giftCardAuthReversalResponse;
         public authorizationResponse authorizationResponse;
@@ -5037,14 +5276,8 @@ namespace Cnp.Sdk
         [System.Xml.Serialization.XmlAttributeAttribute()]
         public string location
         {
-            get
-            {
-                return this.locationField;
-            }
-            set
-            {
-                this.locationField = value;
-            }
+            get { return this.locationField; }
+            set { this.locationField = value;  }
         }
     }
 
@@ -6651,6 +6884,8 @@ namespace Cnp.Sdk
 
         private string messageField;
 
+        private string locationField;
+        
         /// <remarks/>
         public long cnpTxnId
         {
@@ -6716,6 +6951,18 @@ namespace Cnp.Sdk
                 this.messageField = value;
             }
         }
+        
+        public string location
+        {
+            get
+            {
+                return this.locationField;
+            }
+            set
+            {
+                this.locationField = value;
+            }
+        }
 
     }
 
@@ -6738,6 +6985,8 @@ namespace Cnp.Sdk
         private System.DateTime postDateField;
 
         private string messageField;
+
+        private string locationField;
 
         private voidRecyclingResponseType recyclingResponseField;
 
@@ -6766,6 +7015,8 @@ namespace Cnp.Sdk
                 this.responseField = value;
             }
         }
+        
+        
 
         /// <remarks/>
         public System.DateTime responseTime
@@ -6804,6 +7055,18 @@ namespace Cnp.Sdk
             set
             {
                 this.messageField = value;
+            }
+        }
+        
+        public string location
+        {
+            get
+            {
+                return this.locationField;
+            }
+            set
+            {
+                this.locationField = value;
             }
         }
 
@@ -6868,6 +7131,19 @@ namespace Cnp.Sdk
         public fraudResult fraudResult;
         public giftCardResponse giftCardResponse;
         public virtualGiftCardResponseType virtualGiftCardResponse;
+        private string locationField;
+        
+        public string location
+        {
+            get
+            {
+                return this.locationField;
+            }
+            set
+            {
+                this.locationField = value;
+            }
+        }
 
         /// <remarks/>
         public long cnpTxnId
