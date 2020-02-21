@@ -76,7 +76,15 @@ namespace Cnp.Sdk
 
         public Task<authorizationResponse> AuthorizeAsync(authorization auth, CancellationToken cancellationToken)
         {
-            return SendRequestAsync(response => response.authorizationResponse, auth, cancellationToken);
+            return SendRequestAsync(response =>
+            {
+                var authResponse = response.authorizationResponse;
+                if (authResponse != null)
+                {
+                    authResponse.location = response.location;
+                }
+                return authResponse;
+            }, auth, cancellationToken);
         }
 
         private T SendRequest<T>(Func<cnpOnlineResponse, T> getResponse, transactionRequest transaction)
