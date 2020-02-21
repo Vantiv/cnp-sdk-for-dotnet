@@ -360,7 +360,11 @@ namespace Cnp.Sdk
 
         public Task<authReversalResponse> AuthReversalAsync(authReversal reversal, CancellationToken cancellationToken)
         {
-            return SendRequestAsync(response => response.authReversalResponse, reversal, cancellationToken);
+            return SendRequestAsync(response =>
+            {
+                response.authReversalResponse.location = response.location;
+                return response.authReversalResponse;
+            }, reversal, cancellationToken);
         }
 
         public giftCardAuthReversalResponse GiftCardAuthReversal(giftCardAuthReversal giftCard)
@@ -373,12 +377,20 @@ namespace Cnp.Sdk
 
         public Task<giftCardAuthReversalResponse> GiftCardAuthReversalAsync(giftCardAuthReversal giftCard, CancellationToken cancellationToken)
         {
-            return SendRequestAsync(response => response.giftCardAuthReversalResponse, giftCard, cancellationToken);
+            return SendRequestAsync(response =>
+            {
+                response.giftCardAuthReversalResponse.location = response.location;
+                return response.giftCardAuthReversalResponse;
+            }, giftCard, cancellationToken);
         }
 
         public Task<captureResponse> CaptureAsync(capture capture, CancellationToken cancellationToken)
         {
-            return SendRequestAsync(response => response.captureResponse, capture, cancellationToken);
+            return SendRequestAsync(response =>
+            {
+                response.captureResponse.location = response.location;
+                return response.captureResponse;
+            }, capture, cancellationToken);
         }
 
         public captureResponse Capture(capture capture)
@@ -399,12 +411,21 @@ namespace Cnp.Sdk
 
         public Task<giftCardCaptureResponse> GiftCardCaptureAsync(giftCardCapture giftCardCapture, CancellationToken cancellationToken)
         {
-            return SendRequestAsync(response => response.giftCardCaptureResponse, giftCardCapture, cancellationToken);
+            
+            return SendRequestAsync(response =>
+            {
+                response.giftCardCaptureResponse.location = response.location;
+                return response.giftCardCaptureResponse;
+            }, giftCardCapture, cancellationToken);
         }
 
         public Task<captureGivenAuthResponse> CaptureGivenAuthAsync(captureGivenAuth captureGivenAuth, CancellationToken cancellationToken)
         {
-            return SendRequestAsync(response => response.captureGivenAuthResponse, captureGivenAuth, cancellationToken);
+            return SendRequestAsync(response =>
+            {
+                response.captureGivenAuthResponse.location = response.location;
+                return response.captureGivenAuthResponse;
+            }, captureGivenAuth, cancellationToken);
         }
 
         public captureGivenAuthResponse CaptureGivenAuth(captureGivenAuth captureGivenAuth)
@@ -425,7 +446,11 @@ namespace Cnp.Sdk
 
         public Task<creditResponse> CreditAsync(credit credit, CancellationToken cancellationToken)
         {
-            return SendRequestAsync(response => response.creditResponse, credit, cancellationToken);
+            return SendRequestAsync(response =>
+            {
+                response.creditResponse.location = response.location;
+                return response.creditResponse;
+            }, credit, cancellationToken);
         }
 
         public giftCardCreditResponse GiftCardCredit(giftCardCredit giftCardCredit)
@@ -438,12 +463,20 @@ namespace Cnp.Sdk
 
         public Task<giftCardCreditResponse> GiftCardCreditAsync(giftCardCredit giftCardCredit, CancellationToken cancellationToken)
         {
-            return SendRequestAsync(response => response.giftCardCreditResponse, giftCardCredit, cancellationToken);
+            return SendRequestAsync(response =>
+            {
+                response.giftCardCreditResponse.location = response.location;
+                return response.giftCardCreditResponse;
+            }, giftCardCredit, cancellationToken);
         }
 
         public Task<echeckCreditResponse> EcheckCreditAsync(echeckCredit echeckCredit, CancellationToken cancellationToken)
         {
-            return SendRequestAsync(response => response.echeckCreditResponse, echeckCredit, cancellationToken);
+            return SendRequestAsync(response =>
+            {
+                response.echeckCreditResponse.location = response.location;
+                return response.echeckCreditResponse;
+            }, echeckCredit, cancellationToken);
         }
 
         public echeckCreditResponse EcheckCredit(echeckCredit echeckCredit)
@@ -456,7 +489,11 @@ namespace Cnp.Sdk
 
         public Task<echeckRedepositResponse> EcheckRedepositAsync(echeckRedeposit echeckRedeposit, CancellationToken cancellationToken)
         {
-            return SendRequestAsync(response => response.echeckRedepositResponse, echeckRedeposit, cancellationToken);
+            return SendRequestAsync(response =>
+            {
+                response.echeckRedepositResponse.location = response.location;
+                return response.echeckRedepositResponse;
+            }, echeckRedeposit, cancellationToken);
         }
 
         public echeckRedepositResponse EcheckRedeposit(echeckRedeposit echeckRedeposit)
@@ -469,7 +506,12 @@ namespace Cnp.Sdk
 
         public Task<echeckSalesResponse> EcheckSaleAsync(echeckSale echeckSale, CancellationToken cancellationToken)
         {
-            return SendRequestAsync(response => response.echeckSalesResponse, echeckSale, cancellationToken);
+            
+            return SendRequestAsync(response =>
+            {
+                response.echeckSalesResponse.location = response.location;
+                return response.echeckSalesResponse;
+            }, echeckSale, cancellationToken);
         }
 
         public echeckSalesResponse EcheckSale(echeckSale echeckSale)
@@ -490,7 +532,11 @@ namespace Cnp.Sdk
 
         public Task<echeckVerificationResponse> EcheckVerificationAsync(echeckVerification echeckVerification, CancellationToken cancellationToken)
         {
-            return SendRequestAsync(response => response.echeckVerificationResponse, echeckVerification, cancellationToken);
+            return SendRequestAsync(response =>
+            {
+                response.echeckVerificationResponse.location = response.location;
+                return response.echeckVerificationResponse;
+            }, echeckVerification, cancellationToken);
         }
 
         public forceCaptureResponse ForceCapture(forceCapture forceCapture)
@@ -503,7 +549,11 @@ namespace Cnp.Sdk
 
         public Task<forceCaptureResponse> ForceCaptureAsync(forceCapture forceCapture, CancellationToken cancellationToken)
         {
-            return SendRequestAsync(response => response.forceCaptureResponse, forceCapture, cancellationToken);
+            return SendRequestAsync(response =>
+            {
+                response.forceCaptureResponse.location = response.location;
+                return response.forceCaptureResponse;
+            }, forceCapture, cancellationToken);
         }
 
         public saleResponse Sale(sale sale)
@@ -516,12 +566,20 @@ namespace Cnp.Sdk
 
         public Task<saleResponse> SaleAsync(sale sale, CancellationToken cancellationToken)
         {
-            return SendRequestAsync(response => response.saleResponse, sale, cancellationToken);
+            return SendRequestAsync(response =>
+            {
+                response.saleResponse.location = response.location;
+                return response.saleResponse;
+            }, sale, cancellationToken);
         }
 
         public Task<registerTokenResponse> RegisterTokenAsync(registerTokenRequestType tokenRequest, CancellationToken cancellationToken)
         {
-            return SendRequestAsync(response => response.registerTokenResponse, tokenRequest, cancellationToken);
+            return SendRequestAsync(response =>
+            {
+                response.registerTokenResponse.location = response.location;
+                return response.registerTokenResponse;
+            }, tokenRequest, cancellationToken);
         }
 
         public registerTokenResponse RegisterToken(registerTokenRequestType tokenRequest)
@@ -542,7 +600,11 @@ namespace Cnp.Sdk
 
         public Task<voidResponse> DoVoidAsync(voidTxn v, CancellationToken cancellationToken)
         {
-            return SendRequestAsync(response => response.voidResponse, v, cancellationToken);
+            return SendRequestAsync(response =>
+            {
+                response.voidResponse.location = response.location;
+                return response.voidResponse;
+            }, v, cancellationToken);
         }
 
         public echeckVoidResponse EcheckVoid(echeckVoid v)
@@ -555,17 +617,29 @@ namespace Cnp.Sdk
 
         public Task<echeckVoidResponse> EcheckVoidAsync(echeckVoid v, CancellationToken cancellationToken)
         {
-            return SendRequestAsync(response => response.echeckVoidResponse, v, cancellationToken);
+            return SendRequestAsync(response =>
+            {
+                response.echeckVoidResponse.location = response.location;
+                return response.echeckVoidResponse;
+            }, v, cancellationToken);
         }
 
         public updateCardValidationNumOnTokenResponse UpdateCardValidationNumOnToken(updateCardValidationNumOnToken updateCardValidationNumOnToken)
         {
-            return SendRequest(response => response.updateCardValidationNumOnTokenResponse, updateCardValidationNumOnToken);
+            return SendRequest(response =>
+            {
+                response.updateCardValidationNumOnTokenResponse.location = response.location;
+                return response.updateCardValidationNumOnTokenResponse;
+            }, updateCardValidationNumOnToken);
         }
 
         public Task<updateCardValidationNumOnTokenResponse> UpdateCardValidationNumOnTokenAsync(updateCardValidationNumOnToken update, CancellationToken cancellationToken)
         {
-            return SendRequestAsync(response => response.updateCardValidationNumOnTokenResponse, update, cancellationToken);
+            return SendRequestAsync(response =>
+            {
+                response.updateCardValidationNumOnTokenResponse.location = response.location;
+                return response.updateCardValidationNumOnTokenResponse;
+            }, update, cancellationToken);
         }
 
         public cancelSubscriptionResponse CancelSubscription(cancelSubscription cancelSubscription)
@@ -626,7 +700,11 @@ namespace Cnp.Sdk
 
         public Task<balanceInquiryResponse> BalanceInquiryAsync(balanceInquiry balanceInquiry, CancellationToken cancellationToken)
         {
-            return SendRequestAsync(response => response.balanceInquiryResponse, balanceInquiry, cancellationToken);
+            return SendRequestAsync(response =>
+            {
+                response.balanceInquiryResponse.location = response.location;
+                return response.balanceInquiryResponse;
+            }, balanceInquiry, cancellationToken);
         }
 
         public createPlanResponse CreatePlan(createPlan createPlan)
@@ -695,7 +773,13 @@ namespace Cnp.Sdk
 
         public Task<transactionTypeWithReportGroup> QueryTransactionAsync(queryTransaction queryTransaction, CancellationToken cancellationToken)
         {
-            return SendRequestAsync(response => (response.queryTransactionResponse ?? (transactionTypeWithReportGroup)response.queryTransactionUnavailableResponse), queryTransaction, cancellationToken);
+            return SendRequestAsync(response =>
+            {
+                var res = response.queryTransactionResponse ??
+                        (transactionTypeWithReportGroup) response.queryTransactionUnavailableResponse;
+                res.location = response.location;
+                return res;
+            }, queryTransaction, cancellationToken);
         }
 
         public transactionTypeWithReportGroup QueryTransaction(queryTransaction queryTransaction)
@@ -733,7 +817,11 @@ namespace Cnp.Sdk
 
         public Task<payFacCreditResponse> PayFacCreditAsync(payFacCredit payFacCredit, CancellationToken cancellationToken)
         {
-            return SendRequestAsync(response => response.payFacCreditResponse, payFacCredit, cancellationToken);
+            return SendRequestAsync(response =>
+            {
+                response.payFacCreditResponse.location = response.location;
+                return response.payFacCreditResponse;
+            }, payFacCredit, cancellationToken);
         }
 
         public payFacDebitResponse PayFacDebit(payFacDebit payFacDebit)
@@ -746,7 +834,11 @@ namespace Cnp.Sdk
 
         public Task<payFacDebitResponse> PayFacDebitAsync(payFacDebit payFacDebit, CancellationToken cancellationToken)
         {
-            return SendRequestAsync(response => response.payFacDebitResponse, payFacDebit, cancellationToken);
+            return SendRequestAsync(response =>
+            {
+                response.payFacDebitResponse.location = response.location;
+                return response.payFacDebitResponse;
+            }, payFacDebit, cancellationToken);
         }
 
         public physicalCheckCreditResponse PhysicalCheckCredit(physicalCheckCredit physicalCheckCredit)
@@ -759,7 +851,11 @@ namespace Cnp.Sdk
 
         public Task<physicalCheckCreditResponse> PhysicalCheckCreditAsync(physicalCheckCredit physicalCheckCredit, CancellationToken cancellationToken)
         {
-            return SendRequestAsync(response => response.physicalCheckCreditResponse, physicalCheckCredit, cancellationToken);
+            return SendRequestAsync(response =>
+            {
+                response.physicalCheckCreditResponse.location = response.location;
+                return response.physicalCheckCreditResponse;
+            }, physicalCheckCredit, cancellationToken);
         }
 
         public physicalCheckDebitResponse PhysicalCheckDebit(physicalCheckDebit physicalCheckDebit)
@@ -772,7 +868,11 @@ namespace Cnp.Sdk
 
         public Task<physicalCheckDebitResponse> PhysicalCheckDebitAsync(physicalCheckDebit physicalCheckDebit, CancellationToken cancellationToken)
         {
-            return SendRequestAsync(response => response.physicalCheckDebitResponse, physicalCheckDebit, cancellationToken);
+            return SendRequestAsync(response =>
+            {
+                response.physicalCheckDebitResponse.location = response.location;
+                return response.physicalCheckDebitResponse;
+            }, physicalCheckDebit, cancellationToken);
         }
 
         public payoutOrgCreditResponse PayoutOrgCredit(payoutOrgCredit payoutOrgCredit)
@@ -785,7 +885,11 @@ namespace Cnp.Sdk
 
         public Task<payoutOrgCreditResponse> PayoutOrgCreditAsync(payoutOrgCredit payoutOrgCredit, CancellationToken cancellationToken)
         {
-            return SendRequestAsync(response => response.payoutOrgCreditResponse, payoutOrgCredit, cancellationToken);
+            return SendRequestAsync(response =>
+            {
+                response.payoutOrgCreditResponse.location = response.location;
+                return response.payoutOrgCreditResponse;
+            }, payoutOrgCredit, cancellationToken);
         }
 
         public payoutOrgDebitResponse PayoutOrgDebit(payoutOrgDebit payoutOrgDebit)
@@ -798,7 +902,11 @@ namespace Cnp.Sdk
 
         public Task<payoutOrgDebitResponse> PayoutOrgDebitAsync(payoutOrgDebit payoutOrgDebit, CancellationToken cancellationToken)
         {
-            return SendRequestAsync(response => response.payoutOrgDebitResponse, payoutOrgDebit, cancellationToken);
+            return SendRequestAsync(response =>
+            {
+                response.payFacDebitResponse.location = response.location;
+                return response.payoutOrgDebitResponse;
+            }, payoutOrgDebit, cancellationToken);
         }
 
         public reserveCreditResponse ReserveCredit(reserveCredit reserveCredit)
@@ -811,7 +919,11 @@ namespace Cnp.Sdk
 
         public Task<reserveCreditResponse> ReserveCreditAsync(reserveCredit reserveCredit, CancellationToken cancellationToken)
         {
-            return SendRequestAsync(response => response.reserveCreditResponse, reserveCredit, cancellationToken);
+            return SendRequestAsync(response =>
+            {
+                response.reserveCreditResponse.location = response.location;
+                return response.reserveCreditResponse;
+            }, reserveCredit, cancellationToken);
         }
 
         public reserveDebitResponse ReserveDebit(reserveDebit reserveDebit)
@@ -824,7 +936,11 @@ namespace Cnp.Sdk
 
         public Task<reserveDebitResponse> ReserveDebitAsync(reserveDebit reserveDebit, CancellationToken cancellationToken)
         {
-            return SendRequestAsync(response => response.reserveDebitResponse, reserveDebit, cancellationToken);
+            return SendRequestAsync(response =>
+            {
+                response.reserveDebitResponse.location = response.location;
+                return response.reserveDebitResponse;
+            }, reserveDebit, cancellationToken);
         }
 
         public submerchantCreditResponse SubmerchantCredit(submerchantCredit submerchantCredit)
@@ -837,7 +953,11 @@ namespace Cnp.Sdk
 
         public Task<submerchantCreditResponse> SubmerchantCreditAsync(submerchantCredit submerchantCredit, CancellationToken cancellationToken)
         {
-            return SendRequestAsync(response => response.submerchantCreditResponse, submerchantCredit, cancellationToken);
+            return SendRequestAsync(response =>
+            {
+                response.submerchantCreditResponse.location = response.location;
+                return response.submerchantCreditResponse;
+            }, submerchantCredit, cancellationToken);
         }
 
         public submerchantDebitResponse SubmerchantDebit(submerchantDebit submerchantDebit)
@@ -850,7 +970,11 @@ namespace Cnp.Sdk
 
         public Task<submerchantDebitResponse> SubmerchantDebitAsync(submerchantDebit submerchantDebit, CancellationToken cancellationToken)
         {
-            return SendRequestAsync(response => response.submerchantDebitResponse, submerchantDebit, cancellationToken);
+            return SendRequestAsync(response =>
+            {
+                response.submerchantDebitResponse.location = response.location;
+                return response.submerchantDebitResponse;
+            }, submerchantDebit, cancellationToken);
         }
 
         public vendorCreditResponse VendorCredit(vendorCredit vendorCredit)
@@ -863,7 +987,11 @@ namespace Cnp.Sdk
 
         public Task<vendorCreditResponse> VendorCreditAsync(vendorCredit vendorCredit, CancellationToken cancellationToken)
         {
-            return SendRequestAsync(response => response.vendorCreditResponse, vendorCredit, cancellationToken);
+            return SendRequestAsync(response =>
+            {
+                response.vendorCreditResponse.location = response.location;
+                return response.vendorCreditResponse;
+            }, vendorCredit, cancellationToken);
         }
 
         public customerCreditResponse CustomerCredit(customerCredit customerCredit)
@@ -876,7 +1004,11 @@ namespace Cnp.Sdk
 
         public Task<customerCreditResponse> CustomerCreditAsync(customerCredit customerCredit, CancellationToken cancellationToken)
         {
-            return SendRequestAsync(response => response.customerCreditResponse, customerCredit, cancellationToken);
+            return SendRequestAsync(response =>
+            {
+                response.customerCreditResponse.location = response.location;
+                return response.customerCreditResponse;
+            }, customerCredit, cancellationToken);
         }
 
         public translateToLowValueTokenResponse TranslateToLowValueTokenRequest(translateToLowValueTokenRequest translateToLowValueTokenRequest)
@@ -889,7 +1021,11 @@ namespace Cnp.Sdk
 
         public Task<translateToLowValueTokenResponse> TranslateToLowValueTokenRequestAsync(translateToLowValueTokenRequest translateToLowValueTokenRequest, CancellationToken cancellationToken)
         {
-            return SendRequestAsync(response => response.translateToLowValueTokenResponse, translateToLowValueTokenRequest, cancellationToken);
+            return SendRequestAsync(response =>
+            {
+                response.translateToLowValueTokenResponse.location = response.location;
+                return response.translateToLowValueTokenResponse;
+            }, translateToLowValueTokenRequest, cancellationToken);
         }
 
         public vendorDebitResponse VendorDebit(vendorDebit vendorDebit)
@@ -902,7 +1038,11 @@ namespace Cnp.Sdk
 
         public Task<vendorDebitResponse> VendorDebitAsync(vendorDebit vendorDebit, CancellationToken cancellationToken)
         {
-            return SendRequestAsync(response => response.vendorDebitResponse, vendorDebit, cancellationToken);
+            return SendRequestAsync(response =>
+            {
+                response.vendorDebitResponse.location = response.location;
+                return response.vendorDebitResponse;
+            }, vendorDebit, cancellationToken);
         }
 
         public customerDebitResponse CustomerDebit(customerDebit customerDebit)
@@ -915,7 +1055,11 @@ namespace Cnp.Sdk
 
         public Task<customerDebitResponse> CustomerDebitAsync(customerDebit customerDebit, CancellationToken cancellationToken)
         {
-            return SendRequestAsync(response => response.customerDebitResponse, customerDebit, cancellationToken);
+            return SendRequestAsync(response =>
+            {
+                response.customerDebitResponse.location = response.location;
+                return response.customerDebitResponse;
+            }, customerDebit, cancellationToken);
         }
 
 
