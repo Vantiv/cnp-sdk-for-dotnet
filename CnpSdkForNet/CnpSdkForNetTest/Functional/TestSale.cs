@@ -52,7 +52,6 @@ namespace Cnp.Sdk.Test.Functional
             saleObj.enhancedData.detailTaxes.Add(myDetailTax);
 
             var responseObj = _cnp.Sale(saleObj);
-            Assert.AreEqual("sandbox", saleObj.location);
             StringAssert.AreEqualIgnoringCase("Approved", responseObj.message);
         }
         
