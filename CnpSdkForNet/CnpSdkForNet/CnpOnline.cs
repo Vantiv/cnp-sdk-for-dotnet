@@ -594,22 +594,34 @@ namespace Cnp.Sdk
 
         public deactivateResponse Deactivate(deactivate deactivate)
         {
-            return SendRequest(response => response.deactivateResponse, deactivate);
+            var cnpResponse = SendRequest(response => response, deactivate);
+            var deactivationResponse = cnpResponse.deactivateResponse;
+            deactivationResponse.location = cnpResponse.location;
+            return deactivationResponse;
         }
 
         public loadResponse Load(load load)
         {
-            return SendRequest(response => response.loadResponse, load);
+            var cnpResponse = SendRequest(response => response, load);
+            var loadResponse = cnpResponse.loadResponse;
+            loadResponse.location = cnpResponse.location;
+            return loadResponse;
         }
 
         public unloadResponse Unload(unload unload)
         {
-            return SendRequest(response => response.unloadResponse, unload);
+            var cnpResponse = SendRequest(response => response, unload);
+            var unloadResponse = cnpResponse.unloadResponse;
+            unloadResponse.location = cnpResponse.location;
+            return unloadResponse;
         }
 
         public balanceInquiryResponse BalanceInquiry(balanceInquiry balanceInquiry)
         {
-            return SendRequest(response => response.balanceInquiryResponse, balanceInquiry);
+            var cnpResponse = SendRequest(response => response, balanceInquiry);
+            var balanceInquiryResponse = cnpResponse.balanceInquiryResponse;
+            balanceInquiryResponse.location = cnpResponse.location;
+            return balanceInquiryResponse;
         }
 
         public Task<balanceInquiryResponse> BalanceInquiryAsync(balanceInquiry balanceInquiry, CancellationToken cancellationToken)
@@ -619,42 +631,66 @@ namespace Cnp.Sdk
 
         public createPlanResponse CreatePlan(createPlan createPlan)
         {
-            return SendRequest(response => response.createPlanResponse, createPlan);
+            var cnpResponse = SendRequest(response => response, createPlan);
+            var createPlanResponse = cnpResponse.createPlanResponse;
+            createPlanResponse.location = cnpResponse.location;
+            return createPlanResponse;
         }
 
         public updatePlanResponse UpdatePlan(updatePlan updatePlan)
         {
-            return SendRequest(response => response.updatePlanResponse, updatePlan);
+            var cnpResponse = SendRequest(response => response, updatePlan);
+            var updatePlanResponse = cnpResponse.updatePlanResponse;
+            updatePlanResponse.location = cnpResponse.location;
+            return updatePlanResponse;
         }
 
         public refundReversalResponse RefundReversal(refundReversal refundReversal)
         {
-            return SendRequest(response => response.refundReversalResponse, refundReversal);
+            var cnpResponse = SendRequest(response => response, refundReversal);
+            var refundReversalResponse = cnpResponse.refundReversalResponse;
+            refundReversalResponse.location = cnpResponse.location;
+            return refundReversalResponse;
         }
 
         public depositReversalResponse DepositReversal(depositReversal depositReversal)
         {
-            return SendRequest(response => response.depositReversalResponse, depositReversal);
+            var cnpResponse = SendRequest(response => response, depositReversal);
+            var depositReversalResponse = cnpResponse.depositReversalResponse;
+            depositReversalResponse.location = cnpResponse.location;
+            return depositReversalResponse;
         }
 
         public activateReversalResponse ActivateReversal(activateReversal activateReversal)
         {
-            return SendRequest(response => response.activateReversalResponse, activateReversal);
+            var cnpResponse = SendRequest(response => response, activateReversal);
+            var activateReversalResponse = cnpResponse.activateReversalResponse;
+            activateReversalResponse.location = cnpResponse.location;
+            return activateReversalResponse;
         }
 
         public deactivateReversalResponse DeactivateReversal(deactivateReversal deactivateReversal)
         {
-            return SendRequest(response => response.deactivateReversalResponse, deactivateReversal);
+            var cnpResponse = SendRequest(response => response, deactivateReversal);
+            var deactivateReversalResponse = cnpResponse.deactivateReversalResponse;
+            deactivateReversalResponse.location = cnpResponse.location;
+            return deactivateReversalResponse;
         }
 
         public loadReversalResponse LoadReversal(loadReversal loadReversal)
         {
-            return SendRequest(response => response.loadReversalResponse, loadReversal);
+            var cnpResponse = SendRequest(response => response, loadReversal);
+            var loadReversalResponse = cnpResponse.loadReversalResponse;
+            loadReversalResponse.location = cnpResponse.location;
+            return loadReversalResponse;
         }
 
         public unloadReversalResponse UnloadReversal(unloadReversal unloadReversal)
         {
-            return SendRequest(response => response.unloadReversalResponse, unloadReversal);
+            var cnpResponse = SendRequest(response => response, unloadReversal);
+            var unloadReversalResponse = cnpResponse.unloadReversalResponse;
+            unloadReversalResponse.location = cnpResponse.location;
+            return unloadReversalResponse;
         }
 
         public Task<transactionTypeWithReportGroup> QueryTransactionAsync(queryTransaction queryTransaction, CancellationToken cancellationToken)
@@ -664,22 +700,35 @@ namespace Cnp.Sdk
 
         public transactionTypeWithReportGroup QueryTransaction(queryTransaction queryTransaction)
         {
-            return SendRequest(response =>(response.queryTransactionResponse ?? (transactionTypeWithReportGroup)response.queryTransactionUnavailableResponse), queryTransaction);
+            var cnpResponse = SendRequest(response => response, queryTransaction);
+            var transactionResponse = cnpResponse.queryTransactionResponse ??
+                                      (transactionTypeWithReportGroup) cnpResponse.queryTransactionUnavailableResponse;
+            transactionResponse.location = cnpResponse.location;
+            return transactionResponse;
         }
 
         public fraudCheckResponse FraudCheck(fraudCheck fraudCheck)
         {
-            return SendRequest(response => response.fraudCheckResponse, fraudCheck);
+            var cnpResponse = SendRequest(response => response, fraudCheck);
+            var fraudCheckResponse = cnpResponse.fraudCheckResponse;
+            fraudCheckResponse.location = cnpResponse.location;
+            return fraudCheckResponse;
         }
 
         public fastAccessFundingResponse FastAccessFunding(fastAccessFunding fastAccessFunding)
         {
-            return SendRequest(response => response.fastAccessFundingResponse, fastAccessFunding);
+            var cnpResponse = SendRequest(response => response, fastAccessFunding);
+            var fastAccessFundingResponse = cnpResponse.fastAccessFundingResponse;
+            fastAccessFundingResponse.location = cnpResponse.location;
+            return fastAccessFundingResponse;
         }
         
         public payFacCreditResponse PayFacCredit(payFacCredit payFacCredit)
         {
-            return SendRequest(response => response.payFacCreditResponse, payFacCredit);
+            var cnpResponse = SendRequest(response => response, payFacCredit);
+            var payFacCreditResponse = cnpResponse.payFacCreditResponse;
+            payFacCreditResponse.location = cnpResponse.location;
+            return payFacCreditResponse;
         }
 
         public Task<payFacCreditResponse> PayFacCreditAsync(payFacCredit payFacCredit, CancellationToken cancellationToken)
@@ -689,7 +738,10 @@ namespace Cnp.Sdk
 
         public payFacDebitResponse PayFacDebit(payFacDebit payFacDebit)
         {
-            return SendRequest(response => response.payFacDebitResponse, payFacDebit);
+            var cnpResponse = SendRequest(response => response, payFacDebit);
+            var payfacDebitResponse = cnpResponse.payFacDebitResponse;
+            payfacDebitResponse.location = cnpResponse.location;
+            return payfacDebitResponse;
         }
 
         public Task<payFacDebitResponse> PayFacDebitAsync(payFacDebit payFacDebit, CancellationToken cancellationToken)
@@ -699,7 +751,10 @@ namespace Cnp.Sdk
 
         public physicalCheckCreditResponse PhysicalCheckCredit(physicalCheckCredit physicalCheckCredit)
         {
-            return SendRequest(response => response.physicalCheckCreditResponse, physicalCheckCredit);
+            var cnpResponse = SendRequest(response => response, physicalCheckCredit);
+            var physicalCheckCreditResponse = cnpResponse.physicalCheckCreditResponse;
+            physicalCheckCreditResponse.location = cnpResponse.location;
+            return physicalCheckCreditResponse;
         }
 
         public Task<physicalCheckCreditResponse> PhysicalCheckCreditAsync(physicalCheckCredit physicalCheckCredit, CancellationToken cancellationToken)
@@ -709,7 +764,10 @@ namespace Cnp.Sdk
 
         public physicalCheckDebitResponse PhysicalCheckDebit(physicalCheckDebit physicalCheckDebit)
         {
-            return SendRequest(response => response.physicalCheckDebitResponse, physicalCheckDebit);
+            var cnpResponse = SendRequest(response => response, physicalCheckDebit);
+            var physicalCheckDebitResponse = cnpResponse.physicalCheckDebitResponse;
+            physicalCheckDebitResponse.location = cnpResponse.location;
+            return physicalCheckDebitResponse;
         }
 
         public Task<physicalCheckDebitResponse> PhysicalCheckDebitAsync(physicalCheckDebit physicalCheckDebit, CancellationToken cancellationToken)
@@ -719,7 +777,10 @@ namespace Cnp.Sdk
 
         public payoutOrgCreditResponse PayoutOrgCredit(payoutOrgCredit payoutOrgCredit)
         {
-            return SendRequest(response => response.payoutOrgCreditResponse, payoutOrgCredit);
+            var cnpResponse = SendRequest(response => response, payoutOrgCredit);
+            var payoutOrgCreditResponse = cnpResponse.payoutOrgCreditResponse;
+            payoutOrgCreditResponse.location = cnpResponse.location;
+            return payoutOrgCreditResponse;
         }
 
         public Task<payoutOrgCreditResponse> PayoutOrgCreditAsync(payoutOrgCredit payoutOrgCredit, CancellationToken cancellationToken)
@@ -729,7 +790,10 @@ namespace Cnp.Sdk
 
         public payoutOrgDebitResponse PayoutOrgDebit(payoutOrgDebit payoutOrgDebit)
         {
-            return SendRequest(response => response.payoutOrgDebitResponse, payoutOrgDebit);
+            var cnpResponse = SendRequest(response => response, payoutOrgDebit);
+            var payoutOrgDebitResponse = cnpResponse.payoutOrgDebitResponse;
+            payoutOrgDebitResponse.location = cnpResponse.location;
+            return payoutOrgDebitResponse;
         }
 
         public Task<payoutOrgDebitResponse> PayoutOrgDebitAsync(payoutOrgDebit payoutOrgDebit, CancellationToken cancellationToken)
@@ -739,7 +803,10 @@ namespace Cnp.Sdk
 
         public reserveCreditResponse ReserveCredit(reserveCredit reserveCredit)
         {
-            return SendRequest(response => response.reserveCreditResponse, reserveCredit);
+            var cnpResponse = SendRequest(response => response, reserveCredit);
+            var reserveCreditResponse = cnpResponse.reserveCreditResponse;
+            reserveCreditResponse.location = cnpResponse.location;
+            return reserveCreditResponse;
         }
 
         public Task<reserveCreditResponse> ReserveCreditAsync(reserveCredit reserveCredit, CancellationToken cancellationToken)
@@ -749,7 +816,10 @@ namespace Cnp.Sdk
 
         public reserveDebitResponse ReserveDebit(reserveDebit reserveDebit)
         {
-            return SendRequest(response => response.reserveDebitResponse, reserveDebit);
+            var cnpResponse = SendRequest(response => response, reserveDebit);
+            var reserveDebitResponse = cnpResponse.reserveDebitResponse;
+            reserveDebitResponse.location = cnpResponse.location;
+            return reserveDebitResponse;
         }
 
         public Task<reserveDebitResponse> ReserveDebitAsync(reserveDebit reserveDebit, CancellationToken cancellationToken)
@@ -759,7 +829,10 @@ namespace Cnp.Sdk
 
         public submerchantCreditResponse SubmerchantCredit(submerchantCredit submerchantCredit)
         {
-            return SendRequest(response => response.submerchantCreditResponse, submerchantCredit);
+            var cnpResponse = SendRequest(response => response, submerchantCredit);
+            var submerchantCreditResponse = cnpResponse.submerchantCreditResponse;
+            submerchantCreditResponse.location = cnpResponse.location;
+            return submerchantCreditResponse;
         }
 
         public Task<submerchantCreditResponse> SubmerchantCreditAsync(submerchantCredit submerchantCredit, CancellationToken cancellationToken)
@@ -769,7 +842,10 @@ namespace Cnp.Sdk
 
         public submerchantDebitResponse SubmerchantDebit(submerchantDebit submerchantDebit)
         {
-            return SendRequest(response => response.submerchantDebitResponse, submerchantDebit);
+            var cnpResponse = SendRequest(response => response, submerchantDebit);
+            var submerchantDebitResponse = cnpResponse.submerchantDebitResponse;
+            submerchantDebitResponse.location = cnpResponse.location;
+            return submerchantDebitResponse;
         }
 
         public Task<submerchantDebitResponse> SubmerchantDebitAsync(submerchantDebit submerchantDebit, CancellationToken cancellationToken)
@@ -779,7 +855,10 @@ namespace Cnp.Sdk
 
         public vendorCreditResponse VendorCredit(vendorCredit vendorCredit)
         {
-            return SendRequest(response => response.vendorCreditResponse, vendorCredit);
+            var cnpResponse = SendRequest(response => response, vendorCredit);
+            var vendorCreditResponse = cnpResponse.vendorCreditResponse;
+            vendorCreditResponse.location = cnpResponse.location;
+            return vendorCreditResponse;
         }
 
         public Task<vendorCreditResponse> VendorCreditAsync(vendorCredit vendorCredit, CancellationToken cancellationToken)
@@ -789,7 +868,10 @@ namespace Cnp.Sdk
 
         public customerCreditResponse CustomerCredit(customerCredit customerCredit)
         {
-            return SendRequest(response => response.customerCreditResponse, customerCredit);
+            var cnpResponse = SendRequest(response => response, customerCredit);
+            var customerCreditResponse = cnpResponse.customerCreditResponse;
+            customerCreditResponse.location = cnpResponse.location;
+            return customerCreditResponse;
         }
 
         public Task<customerCreditResponse> CustomerCreditAsync(customerCredit customerCredit, CancellationToken cancellationToken)
@@ -799,7 +881,10 @@ namespace Cnp.Sdk
 
         public translateToLowValueTokenResponse TranslateToLowValueTokenRequest(translateToLowValueTokenRequest translateToLowValueTokenRequest)
         {
-            return SendRequest(response => response.translateToLowValueTokenResponse, translateToLowValueTokenRequest);
+            var cnpResponse = SendRequest(response => response, translateToLowValueTokenRequest);
+            var translateToLowValueTokenResponse = cnpResponse.translateToLowValueTokenResponse;
+            translateToLowValueTokenResponse.location = cnpResponse.location;
+            return translateToLowValueTokenResponse;
         }
 
         public Task<translateToLowValueTokenResponse> TranslateToLowValueTokenRequestAsync(translateToLowValueTokenRequest translateToLowValueTokenRequest, CancellationToken cancellationToken)
@@ -809,7 +894,10 @@ namespace Cnp.Sdk
 
         public vendorDebitResponse VendorDebit(vendorDebit vendorDebit)
         {
-            return SendRequest(response => response.vendorDebitResponse, vendorDebit);
+            var cnpResponse = SendRequest(response => response, vendorDebit);
+            var vendorDebitResponse = cnpResponse.vendorDebitResponse;
+            vendorDebitResponse.location = cnpResponse.location;
+            return vendorDebitResponse;
         }
 
         public Task<vendorDebitResponse> VendorDebitAsync(vendorDebit vendorDebit, CancellationToken cancellationToken)
@@ -819,7 +907,10 @@ namespace Cnp.Sdk
 
         public customerDebitResponse CustomerDebit(customerDebit customerDebit)
         {
-            return SendRequest(response => response.customerDebitResponse, customerDebit);
+            var cnpResponse = SendRequest(response => response, customerDebit);
+            var customerDebitResponse = cnpResponse.customerDebitResponse;
+            customerDebitResponse.location = cnpResponse.location;
+            return customerDebitResponse;
         }
 
         public Task<customerDebitResponse> CustomerDebitAsync(customerDebit customerDebit, CancellationToken cancellationToken)
