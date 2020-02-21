@@ -32,11 +32,14 @@ namespace Cnp.Sdk.Test.Unit
             var mock = new Mock<Communications>();
 
             mock.Setup(Communications => Communications.HttpPost(It.IsRegex(".*<updateCardValidationNumOnToken id=\"123\" reportGroup=\"Default Report Group\".*<orderId>12344</orderId>.*<cnpToken>1111222233334444</cnpToken>.*<cardValidationNum>321</cardValidationNum>.*</updateCardValidationNumOnToken>.*", RegexOptions.Singleline), It.IsAny<Dictionary<String, String>>()))
-                .Returns("<cnpOnlineResponse version='8.14' response='0' message='Valid Format' xmlns='http://www.vantivcnp.com/schema'><updateCardValidationNumOnTokenResponse><cnpTxnId>4</cnpTxnId><orderId>12344</orderId><response>801</response><message>Token Successfully Registered</message><responseTime>2012-10-10T10:17:03</responseTime></updateCardValidationNumOnTokenResponse></cnpOnlineResponse>");
+                .Returns("<cnpOnlineResponse version='8.14' response='0' message='Valid Format' location='sandbox' xmlns='http://www.vantivcnp.com/schema'><updateCardValidationNumOnTokenResponse><cnpTxnId>4</cnpTxnId><orderId>12344</orderId><response>801</response><message>Token Successfully Registered</message><responseTime>2012-10-10T10:17:03</responseTime></updateCardValidationNumOnTokenResponse></cnpOnlineResponse>");
 
             Communications mockedCommunication = mock.Object;
             cnp.SetCommunication(mockedCommunication);
-            cnp.UpdateCardValidationNumOnToken(update);
+            var response = cnp.UpdateCardValidationNumOnToken(update);
+            
+            Assert.NotNull(response);
+            Assert.AreEqual("sandbox", response.location);
         }
 
         [Test]

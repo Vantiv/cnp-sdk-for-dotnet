@@ -28,13 +28,14 @@ namespace Cnp.Sdk.Test.Unit
             var mock = new Mock<Communications>();
 
             mock.Setup(Communications => Communications.HttpPost(It.IsRegex(".*", RegexOptions.Singleline), It.IsAny<Dictionary<String, String>>()))
-                .Returns("<cnpOnlineResponse version='8.16' response='0' message='Valid Format' xmlns='http://www.vantivcnp.com/schema'><voidResponse><cnpTxnId>123</cnpTxnId><response>000</response><responseTime>2013-01-31T15:48:09</responseTime><postDate>2013-01-31</postDate><message>Approved</message><recyclingResponse><creditCnpTxnId>456</creditCnpTxnId></recyclingResponse></voidResponse></cnpOnlineResponse>");
+                .Returns("<cnpOnlineResponse version='8.16' response='0' message='Valid Format' location='sandbox' xmlns='http://www.vantivcnp.com/schema'><voidResponse><cnpTxnId>123</cnpTxnId><response>000</response><responseTime>2013-01-31T15:48:09</responseTime><postDate>2013-01-31</postDate><message>Approved</message><recyclingResponse><creditCnpTxnId>456</creditCnpTxnId></recyclingResponse></voidResponse></cnpOnlineResponse>");
      
             Communications mockedCommunication = mock.Object;
             cnp.SetCommunication(mockedCommunication);
             voidResponse response = cnp.DoVoid(voidTxn);
             Assert.AreEqual(123, response.cnpTxnId);
             Assert.AreEqual(456, response.recyclingResponse.creditCnpTxnId);
+            Assert.AreEqual("sandbox", response.location);
         }
 
         [Test]
