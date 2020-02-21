@@ -30,6 +30,7 @@ namespace Cnp.Sdk.Test.Functional
             var queryResponse = (translateToLowValueTokenResponse)response;
 
             Assert.NotNull(queryResponse);
+            Assert.AreEqual("sandbox", queryResponse.location);
             Assert.AreEqual("822", queryResponse.response);
 
         }

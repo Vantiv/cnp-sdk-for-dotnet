@@ -41,6 +41,7 @@ namespace Cnp.Sdk.Test.Functional
 
             var response = _cnp.DepositReversal(reversal);
             Assert.AreEqual("Approved", response.message);
+            Assert.AreEqual("sandbox", response.location);
         }
 
         [Test]
@@ -67,6 +68,7 @@ namespace Cnp.Sdk.Test.Functional
 
             var response = _cnp.RefundReversal(reversal);
             Assert.AreEqual("Approved", response.message);
+            Assert.AreEqual("sandbox", response.location);
         }
 
         [Test]
@@ -94,6 +96,7 @@ namespace Cnp.Sdk.Test.Functional
 
             var response = _cnp.ActivateReversal(reversal);
             Assert.AreEqual("Approved", response.message);
+            Assert.AreEqual("sandbox", response.location);
         }
 
         [Test]
@@ -121,6 +124,7 @@ namespace Cnp.Sdk.Test.Functional
 
             var response = _cnp.DeactivateReversal(reversal);
             Assert.AreEqual("Approved", response.message);
+            Assert.AreEqual("sandbox", response.location);
         }
 
         [Test]
@@ -149,6 +153,7 @@ namespace Cnp.Sdk.Test.Functional
 
             var response = _cnp.LoadReversal(reversal);
             Assert.AreEqual("Approved", response.message);
+            Assert.AreEqual("sandbox", response.location);
         }
 
         [Test]
@@ -177,6 +182,7 @@ namespace Cnp.Sdk.Test.Functional
 
             var response = _cnp.UnloadReversal(reversal);
             Assert.AreEqual("Approved", response.message);
+            Assert.AreEqual("sandbox", response.location);
         }
     }
 }

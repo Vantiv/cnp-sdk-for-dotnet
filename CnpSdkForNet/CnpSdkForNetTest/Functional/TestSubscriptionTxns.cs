@@ -39,6 +39,7 @@ namespace Cnp.Sdk.Test.Functional
             };
             
             var response = _cnp.UpdateSubscription(update);
+            Assert.AreEqual("sandbox", response.location);
             Assert.AreEqual("Approved", response.message);
         }
 

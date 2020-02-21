@@ -29,6 +29,7 @@ namespace Cnp.Sdk.Test.Functional {
 
             var response = _cnp.PayoutOrgCredit(payoutOrgCredit);
             Assert.AreEqual("000", response.response);
+            Assert.AreEqual("sandbox", response.location);
         }
         
         [Test]
@@ -46,6 +47,7 @@ namespace Cnp.Sdk.Test.Functional {
             CancellationToken cancellationToken = new CancellationToken(false);
             var response = _cnp.PayoutOrgCreditAsync(payoutOrgCredit,cancellationToken);
             Assert.AreEqual("000", response.Result.response);
+            Assert.AreEqual("sandbox", response.Result.location);
         }
         
         [Test]
@@ -92,6 +94,7 @@ namespace Cnp.Sdk.Test.Functional {
 
             var response = _cnp.PayoutOrgDebit(payoutOrgDebit);
             Assert.AreEqual("000", response.response);
+            Assert.AreEqual("sandbox", response.location);
         }
         
         [Test]

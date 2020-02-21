@@ -31,6 +31,7 @@ namespace Cnp.Sdk.Test.Functional
 
             var response = _cnp.PhysicalCheckCredit(physicalCheckCredit);
             Assert.AreEqual("000", response.response);
+            Assert.AreEqual("sandbox", response.location);
         }
         
         [Test]
@@ -69,6 +70,7 @@ namespace Cnp.Sdk.Test.Functional
             CancellationToken cancellationToken = new CancellationToken(false);
             var response = _cnp.PhysicalCheckCreditAsync(physicalCheckCredit, cancellationToken);
             Assert.AreEqual("000", response.Result.response);
+            Assert.AreEqual("sandbox", response.Result.location);
         }
         
         [Test]
@@ -87,6 +89,7 @@ namespace Cnp.Sdk.Test.Functional
 
             var response = _cnp.PhysicalCheckDebit(physicalCheckDebit);
             Assert.AreEqual("000", response.response);
+            Assert.AreEqual("sandbox", response.location);
         }
 
         [Test]
@@ -125,6 +128,7 @@ namespace Cnp.Sdk.Test.Functional
             CancellationToken cancellationToken = new CancellationToken(false);
             var response = _cnp.PhysicalCheckDebitAsync(physicalCheckDebit, cancellationToken);
             Assert.AreEqual("000", response.Result.response);
+            Assert.AreEqual("sandbox", response.Result.location);
         }
     }
 }

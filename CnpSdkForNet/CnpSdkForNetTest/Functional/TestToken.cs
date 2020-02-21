@@ -27,6 +27,7 @@ namespace Cnp.Sdk.Test.Functional
             };
 
             var rtokenResponse = _cnp.RegisterToken(registerTokenRequest);
+            Assert.AreEqual("sandbox", rtokenResponse.location);
             StringAssert.AreEqualIgnoringCase("Account number was successfully registered", rtokenResponse.message);
         }
 

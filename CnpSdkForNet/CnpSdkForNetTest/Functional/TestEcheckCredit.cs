@@ -28,6 +28,7 @@ namespace Cnp.Sdk.Test.Functional
 
             var response = _cnp.EcheckCredit(echeckcredit);
             Assert.AreEqual("Approved", response.message);
+            Assert.AreEqual("sandbox", response.location);
         }
         
         [Test]

@@ -31,6 +31,7 @@ namespace Cnp.Sdk.Test.Functional
             var queryResponse = (queryTransactionResponse)response;
 
             Assert.NotNull(queryResponse);
+            Assert.AreEqual("sandbox", response.location);
             Assert.AreEqual("150", queryResponse.response);
             Assert.AreEqual("Original transaction found", queryResponse.message);
             Assert.AreEqual("000", ((captureResponse)queryResponse.results_max10[0]).response);
