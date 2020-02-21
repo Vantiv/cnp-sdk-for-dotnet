@@ -9,6 +9,8 @@ using System.Net;
 
 namespace Cnp.Sdk
 {
+    
+
     // Represent an online request.
     // Defining all transactions supported for online processing.
     public class CnpOnline : ICnpOnline
@@ -73,6 +75,11 @@ namespace Cnp.Sdk
         {
             this._communication = communication;
         }
+        
+        //NOTE: in this and other methods location is being set manually due to an issue in the schema, where
+        //CnpOnlineResponse contains location but the inner response does not. For now we're manually setting location
+        //manually within these CnpOnline methods,
+        //but in the future we will remove this code so that location is deserialized automatically
 
         public Task<authorizationResponse> AuthorizeAsync(authorization auth, CancellationToken cancellationToken)
         {
@@ -418,7 +425,6 @@ namespace Cnp.Sdk
                 {
                     captureResponse.location = response.location;
                 }
-
                 return captureResponse;
             }, capture, cancellationToken);
         }

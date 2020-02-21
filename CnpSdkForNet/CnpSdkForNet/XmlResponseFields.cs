@@ -55,6 +55,7 @@ namespace Cnp.Sdk
             }
         }
         
+        //TODO: make deserializable
         public string location
         {
             get
@@ -236,6 +237,7 @@ namespace Cnp.Sdk
 
         private string locationField;
         
+        //TODO: make deserializable
         public string location
         {
             get
@@ -1858,6 +1860,7 @@ namespace Cnp.Sdk
             }
         }
         
+        //TODO: make deserializable
         public string location
         {
             get
@@ -1996,6 +1999,7 @@ namespace Cnp.Sdk
             }
         }
         
+        //TODO: make deserializable
         public string location
         {
             get
@@ -2397,6 +2401,7 @@ namespace Cnp.Sdk
             }
         }
 
+        //TODO: make deserializable
         public string location
         {
             get
@@ -2487,6 +2492,7 @@ namespace Cnp.Sdk
 
         private string locationField;
         
+        //TODO: make deserializable
         public string location
         {
             get
@@ -2557,6 +2563,7 @@ namespace Cnp.Sdk
         
         private string locationField;
         
+        //TODO: make deserializable
         public string location
         {
             get
@@ -3058,6 +3065,7 @@ namespace Cnp.Sdk
             }
         }
 
+        //TODO: make deserializable
         public string location
         {
             get
@@ -3187,6 +3195,7 @@ namespace Cnp.Sdk
             }
         }
 
+        //TODO: make deserializable
         public string location
         {
             get { return this.locationField; }
@@ -3308,6 +3317,7 @@ namespace Cnp.Sdk
             }
         }
 
+        //TODO: make deserializable
         public string location
         {
             get
@@ -3458,9 +3468,13 @@ namespace Cnp.Sdk
             }
         }
 
+        //TODO: make deserializable
         public string location
         {
-            get { return this.locationField; }
+            get
+            {
+                return this.locationField;
+            }
             set
             {
                 this.locationField = value;
@@ -3618,6 +3632,7 @@ namespace Cnp.Sdk
             }
         }
         
+        //TODO: make deserializable
         public string location
         {
             get
@@ -3777,6 +3792,7 @@ namespace Cnp.Sdk
             }
         }
 
+        //TODO: make deserializable
         public string location
         {
             get
@@ -3972,6 +3988,7 @@ namespace Cnp.Sdk
             }
         }
         
+        //TODO: make deserializable
         public string location
         {
             get
@@ -4399,6 +4416,7 @@ namespace Cnp.Sdk
             }
         }
 
+        //TODO: make deserializable
         public string location
         {
             get
@@ -4548,6 +4566,7 @@ namespace Cnp.Sdk
             }
         }
         
+        //TODO: make deserializable
         public string location
         {
             get
@@ -4681,6 +4700,7 @@ namespace Cnp.Sdk
             }
         }
         
+        //TODO: make deserializable
         public string location
         {
             get
@@ -4841,6 +4861,7 @@ namespace Cnp.Sdk
             }
         }
         
+        //TODO: make deserializable
         public string location
         {
             get
@@ -4986,6 +5007,7 @@ namespace Cnp.Sdk
             }
         }
         
+        //TODO: make deserializable
         public string location
         {
             get
@@ -5120,6 +5142,7 @@ namespace Cnp.Sdk
             }
         }
         
+        //TODO: make deserializable
         public string location
         {
             get
@@ -6980,6 +7003,7 @@ namespace Cnp.Sdk
             }
         }
         
+        //TODO: make deserializable
         public string location
         {
             get
@@ -7086,6 +7110,7 @@ namespace Cnp.Sdk
             }
         }
         
+        //TODO: make deserializable
         public string location
         {
             get
@@ -7161,6 +7186,7 @@ namespace Cnp.Sdk
         public virtualGiftCardResponseType virtualGiftCardResponse;
         private string locationField;
         
+        //TODO: make deserializable
         public string location
         {
             get
@@ -7221,6 +7247,7 @@ namespace Cnp.Sdk
             }
         }
         
+        //TODO: make deserializable
         public string location
         {
             get
@@ -7265,6 +7292,7 @@ namespace Cnp.Sdk
             }
         }
 
+        //TODO: make deserializable
         public string location
         {
             get
@@ -7308,6 +7336,7 @@ namespace Cnp.Sdk
             }
         }
         
+        //TODO: make deserializable
         public string location
         {
             get
@@ -7351,6 +7380,7 @@ namespace Cnp.Sdk
             }
         }
 
+        //TODO: make deserializable
         public string location
         {
             get
@@ -7483,6 +7513,7 @@ namespace Cnp.Sdk
             }
         }
         
+        //TODO: make deserializable
         public string location
         {
             get
@@ -7527,6 +7558,7 @@ namespace Cnp.Sdk
             }
         }
         
+        //TODO: make deserializable
         public string location
         {
             get
@@ -7570,6 +7602,7 @@ namespace Cnp.Sdk
             }
         }
         
+        //TODO: make deserializable
         public string location
         {
             get
@@ -7613,6 +7646,7 @@ namespace Cnp.Sdk
             }
         }
         
+        //TODO: make deserializable
         public string location
         {
             get
@@ -7656,6 +7690,7 @@ namespace Cnp.Sdk
             }
         }
         
+        //TODO: make deserializable
         public string location
         {
             get
@@ -7699,6 +7734,7 @@ namespace Cnp.Sdk
             }
         }
         
+        //TODO: make deserializable
         public string location
         {
             get
@@ -8214,6 +8250,7 @@ namespace Cnp.Sdk
             }
         }
         
+        //TODO: make deserializable
         public string location
         {
             get
@@ -8350,6 +8387,7 @@ namespace Cnp.Sdk
             }
         }
         
+        //TODO: make deserializable
         public string location
         {
             get
@@ -8478,6 +8516,7 @@ namespace Cnp.Sdk
             }
         }
         
+        //TODO: make deserializable
         public string location
         {
             get
@@ -8614,6 +8653,7 @@ namespace Cnp.Sdk
             }
         }
         
+        //TODO: make deserializable
         public string location
         {
             get
@@ -8778,6 +8818,7 @@ namespace Cnp.Sdk
             }
         }
         
+        //TODO: make deserializable
         public string location
         {
             get
@@ -8890,6 +8931,7 @@ namespace Cnp.Sdk
         }
     }
     
+    //TODO: make deserializable
     public string location
     {
         get
@@ -8993,6 +9035,7 @@ namespace Cnp.Sdk
             }
         }
         
+        //TODO: make deserializable
         public string location
         {
             get
@@ -9117,6 +9160,7 @@ namespace Cnp.Sdk
             }
         }
         
+        //TODO: make deserializable
         public string location
         {
             get
@@ -9253,6 +9297,7 @@ namespace Cnp.Sdk
             }
         }
         
+        //TODO: make deserializable
         public string location
         {
             get
@@ -9381,6 +9426,7 @@ namespace Cnp.Sdk
             }
         }
         
+        //TODO: make deserializable
         public string location
         {
             get
@@ -9517,6 +9563,7 @@ namespace Cnp.Sdk
             }
         }
         
+        //TODO: make deserializable
         public string location
         {
             get
@@ -9681,6 +9728,7 @@ namespace Cnp.Sdk
             }
         }
         
+        //TODO: make deserializable
         public string location
         {
             get
@@ -9809,6 +9857,7 @@ namespace Cnp.Sdk
             }
         }
         
+        //TODO: make deserializable
         public string location
         {
             get
@@ -9913,6 +9962,7 @@ namespace Cnp.Sdk
             }
         }
         
+        //TODO: make deserializable
         public string location
         {
             get
@@ -10037,6 +10087,7 @@ namespace Cnp.Sdk
             }
         }
         
+        //TODO: make deserializable
         public string location
         {
             get
@@ -10357,6 +10408,7 @@ namespace Cnp.Sdk
             }
         }
         
+        //TODO: make deserializable
         public string location
         {
             get
@@ -10848,6 +10900,7 @@ namespace Cnp.Sdk
             }
         }
         
+        //TODO: make deserializable
         public string location
         {
             get
