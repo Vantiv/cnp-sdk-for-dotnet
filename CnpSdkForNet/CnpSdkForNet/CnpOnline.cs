@@ -345,7 +345,10 @@ namespace Cnp.Sdk
         {
             var cnpResponse =  SendRequest(response => response, auth);
             var authResponse = cnpResponse.authorizationResponse;
-            authResponse.location = cnpResponse.location;
+            if (authResponse != null)
+            {
+                authResponse.location = cnpResponse.location;
+            }
             return authResponse;
         }
 
@@ -354,7 +357,10 @@ namespace Cnp.Sdk
             
             var cnpResponse =  SendRequest(response => response, reversal);
             var reversalResponse = cnpResponse.authReversalResponse;
-            reversalResponse.location = cnpResponse.location;
+            if (reversalResponse != null)
+            {
+                reversalResponse.location = cnpResponse.location;
+            }
             return reversalResponse;
         }
 
@@ -362,8 +368,12 @@ namespace Cnp.Sdk
         {
             return SendRequestAsync(response =>
             {
-                response.authReversalResponse.location = response.location;
-                return response.authReversalResponse;
+                var authReversalResponse = response.authReversalResponse;
+                if (authReversalResponse != null)
+                {
+                    response.authReversalResponse.location = response.location;
+                }
+                return authReversalResponse;
             }, reversal, cancellationToken);
         }
 
@@ -371,7 +381,10 @@ namespace Cnp.Sdk
         {
             var cnpResponse =  SendRequest(response => response, giftCard);
             var giftCardReversalResponse = cnpResponse.giftCardAuthReversalResponse;
-            giftCardReversalResponse.location = cnpResponse.location;
+            if (giftCardReversalResponse != null)
+            {
+                giftCardReversalResponse.location = cnpResponse.location;
+            }
             return giftCardReversalResponse;
         }
 
@@ -379,8 +392,12 @@ namespace Cnp.Sdk
         {
             return SendRequestAsync(response =>
             {
-                response.giftCardAuthReversalResponse.location = response.location;
-                return response.giftCardAuthReversalResponse;
+                var giftCardAuthReversalResponse = response.giftCardAuthReversalResponse;
+                if (giftCardAuthReversalResponse != null)
+                {
+                    giftCardAuthReversalResponse.location = response.location;
+                }
+                return giftCardAuthReversalResponse;
             }, giftCard, cancellationToken);
         }
 
@@ -388,8 +405,13 @@ namespace Cnp.Sdk
         {
             return SendRequestAsync(response =>
             {
-                response.captureResponse.location = response.location;
-                return response.captureResponse;
+                var captureResponse = response.captureResponse;
+                if (captureResponse != null)
+                {
+                    captureResponse.location = response.location;
+                }
+
+                return captureResponse;
             }, capture, cancellationToken);
         }
 
@@ -397,7 +419,10 @@ namespace Cnp.Sdk
         {
             var cnpResponse =  SendRequest(response => response, capture);
             var captureResponse = cnpResponse.captureResponse;
-            captureResponse.location = cnpResponse.location;
+            if (captureResponse != null)
+            {
+                captureResponse.location = cnpResponse.location;
+            }
             return captureResponse;
         }
 
@@ -405,7 +430,10 @@ namespace Cnp.Sdk
         {
             var cnpResponse =  SendRequest(response => response, giftCardCapture);
             var giftCaptureResponse = cnpResponse.giftCardCaptureResponse;
-            giftCaptureResponse.location = cnpResponse.location;
+            if (giftCaptureResponse != null)
+            {
+                giftCaptureResponse.location = cnpResponse.location;
+            }
             return giftCaptureResponse;
         }
 
@@ -414,8 +442,12 @@ namespace Cnp.Sdk
             
             return SendRequestAsync(response =>
             {
-                response.giftCardCaptureResponse.location = response.location;
-                return response.giftCardCaptureResponse;
+                var giftCardCaptureResponse = response.giftCardCaptureResponse;
+                if (giftCardCaptureResponse != null)
+                {
+                    giftCardCaptureResponse.location = response.location;
+                }
+                return giftCardCaptureResponse;
             }, giftCardCapture, cancellationToken);
         }
 
@@ -423,7 +455,11 @@ namespace Cnp.Sdk
         {
             return SendRequestAsync(response =>
             {
-                response.captureGivenAuthResponse.location = response.location;
+                var captureGivenAuthResponse = response.captureGivenAuthResponse;
+                if (captureGivenAuthResponse != null)
+                {
+                    captureGivenAuthResponse.location = response.location;
+                }
                 return response.captureGivenAuthResponse;
             }, captureGivenAuth, cancellationToken);
         }
@@ -432,7 +468,10 @@ namespace Cnp.Sdk
         {
             var cnpResponse = SendRequest(response => response, captureGivenAuth);
             var captureAuthResponse = cnpResponse.captureGivenAuthResponse;
-            captureAuthResponse.location = cnpResponse.location;
+            if (captureAuthResponse != null)
+            {
+                captureAuthResponse.location = cnpResponse.location;
+            }
             return captureAuthResponse;
         }
 
@@ -440,7 +479,10 @@ namespace Cnp.Sdk
         {
             var cnpResponse = SendRequest(response => response, credit);
             var creditResponse = cnpResponse.creditResponse;
-            creditResponse.location = cnpResponse.location;
+            if (creditResponse != null)
+            {
+                creditResponse.location = cnpResponse.location;
+            }
             return creditResponse;
         }
 
@@ -448,8 +490,12 @@ namespace Cnp.Sdk
         {
             return SendRequestAsync(response =>
             {
-                response.creditResponse.location = response.location;
-                return response.creditResponse;
+                var creditResponse= response.creditResponse;
+                if (creditResponse != null)
+                {
+                    creditResponse.location = response.location;
+                }
+                return creditResponse;
             }, credit, cancellationToken);
         }
 
@@ -457,7 +503,10 @@ namespace Cnp.Sdk
         {
             var cnpResponse = SendRequest(response => response, giftCardCredit);
             var giftCreditResponse = cnpResponse.giftCardCreditResponse;
-            giftCreditResponse.location = cnpResponse.location;
+            if (giftCreditResponse != null)
+            {
+                giftCreditResponse.location = cnpResponse.location;
+            }
             return giftCreditResponse;
         }
 
@@ -465,7 +514,11 @@ namespace Cnp.Sdk
         {
             return SendRequestAsync(response =>
             {
-                response.giftCardCreditResponse.location = response.location;
+                var giftCardCreditResponse = response.giftCardCreditResponse;
+                if (giftCardCreditResponse != null)
+                {
+                    giftCardCreditResponse.location = response.location;
+                }
                 return response.giftCardCreditResponse;
             }, giftCardCredit, cancellationToken);
         }
@@ -474,7 +527,11 @@ namespace Cnp.Sdk
         {
             return SendRequestAsync(response =>
             {
-                response.echeckCreditResponse.location = response.location;
+                var echeckCreditResponse = response.echeckCreditResponse;
+                if (echeckCreditResponse != null)
+                {
+                    echeckCreditResponse.location = response.location;
+                }
                 return response.echeckCreditResponse;
             }, echeckCredit, cancellationToken);
         }
@@ -483,7 +540,10 @@ namespace Cnp.Sdk
         {
             var cnpResponse = SendRequest(response => response, echeckCredit);
             var eCheckCreditResponse = cnpResponse.echeckCreditResponse;
-            eCheckCreditResponse.location = cnpResponse.location;
+            if (eCheckCreditResponse != null)
+            {
+                eCheckCreditResponse.location = cnpResponse.location;
+            }
             return eCheckCreditResponse;
         }
 
@@ -491,8 +551,13 @@ namespace Cnp.Sdk
         {
             return SendRequestAsync(response =>
             {
-                response.echeckRedepositResponse.location = response.location;
-                return response.echeckRedepositResponse;
+                var echeckRedepositResponse = response.echeckRedepositResponse;
+                if (echeckRedepositResponse != null)
+                {
+                    echeckRedepositResponse.location = response.location;
+                }
+
+                return echeckRedepositResponse;
             }, echeckRedeposit, cancellationToken);
         }
 
@@ -500,7 +565,10 @@ namespace Cnp.Sdk
         {
             var cnpResponse = SendRequest(response => response, echeckRedeposit);
             var eCheckRedepositResponse = cnpResponse.echeckRedepositResponse;
-            eCheckRedepositResponse.location = cnpResponse.location;
+            if (eCheckRedepositResponse != null)
+            {
+                eCheckRedepositResponse.location = cnpResponse.location;
+            }
             return eCheckRedepositResponse;
         }
 
@@ -509,8 +577,12 @@ namespace Cnp.Sdk
             
             return SendRequestAsync(response =>
             {
-                response.echeckSalesResponse.location = response.location;
-                return response.echeckSalesResponse;
+                var echeckSalesResponse = response.echeckSalesResponse;
+                if (echeckSalesResponse != null)
+                {
+                    echeckSalesResponse.location = response.location;
+                }
+                return echeckSalesResponse;
             }, echeckSale, cancellationToken);
         }
 
@@ -518,7 +590,10 @@ namespace Cnp.Sdk
         {
             var cnpResponse = SendRequest(response => response, echeckSale);
             var eCheckSaleResponse = cnpResponse.echeckSalesResponse;
-            eCheckSaleResponse.location = cnpResponse.location;
+            if (eCheckSaleResponse != null)
+            {
+                eCheckSaleResponse.location = cnpResponse.location;
+            }
             return eCheckSaleResponse;
         }
 
@@ -526,7 +601,10 @@ namespace Cnp.Sdk
         {
             var cnpResponse = SendRequest(response => response, echeckVerification);
             var eCheckVerificationResponse = cnpResponse.echeckVerificationResponse;
-            eCheckVerificationResponse.location = cnpResponse.location;
+            if (eCheckVerificationResponse != null)
+            {
+                eCheckVerificationResponse.location = cnpResponse.location;
+            }
             return eCheckVerificationResponse;
         }
 
@@ -534,8 +612,12 @@ namespace Cnp.Sdk
         {
             return SendRequestAsync(response =>
             {
-                response.echeckVerificationResponse.location = response.location;
-                return response.echeckVerificationResponse;
+                var echeckVerificationResponse = response.echeckVerificationResponse;
+                if (echeckVerificationResponse != null)
+                {
+                    echeckVerificationResponse.location = response.location;
+                }
+                return echeckVerificationResponse;
             }, echeckVerification, cancellationToken);
         }
 
@@ -543,7 +625,10 @@ namespace Cnp.Sdk
         {
             var cnpResponse = SendRequest(response => response, forceCapture);
             var forceCaptureResponse = cnpResponse.forceCaptureResponse;
-            forceCaptureResponse.location = cnpResponse.location;
+            if (forceCaptureResponse != null)
+            {
+                forceCaptureResponse.location = cnpResponse.location;
+            }
             return forceCaptureResponse;
         }
 
@@ -551,8 +636,12 @@ namespace Cnp.Sdk
         {
             return SendRequestAsync(response =>
             {
-                response.forceCaptureResponse.location = response.location;
-                return response.forceCaptureResponse;
+                var forceCaptureResponse = response.forceCaptureResponse;
+                if (forceCaptureResponse != null)
+                {
+                    forceCaptureResponse.location = response.location;
+                }
+                return forceCaptureResponse;
             }, forceCapture, cancellationToken);
         }
 
@@ -560,7 +649,10 @@ namespace Cnp.Sdk
         {
             var cnpResponse = SendRequest(response => response, sale);
             var saleResponse = cnpResponse.saleResponse;
-            saleResponse.location = cnpResponse.location;
+            if (saleResponse != null)
+            {
+                saleResponse.location = cnpResponse.location;
+            }
             return saleResponse;
         }
 
@@ -568,8 +660,12 @@ namespace Cnp.Sdk
         {
             return SendRequestAsync(response =>
             {
-                response.saleResponse.location = response.location;
-                return response.saleResponse;
+                var saleResponse = response.saleResponse;
+                if (saleResponse != null)
+                {
+                    saleResponse.location = response.location;
+                }
+                return saleResponse;
             }, sale, cancellationToken);
         }
 
@@ -577,7 +673,11 @@ namespace Cnp.Sdk
         {
             return SendRequestAsync(response =>
             {
-                response.registerTokenResponse.location = response.location;
+                var registerTokenResponse = response.registerTokenResponse;
+                if (registerTokenResponse != null)
+                {
+                    registerTokenResponse.location = response.location;
+                }
                 return response.registerTokenResponse;
             }, tokenRequest, cancellationToken);
         }
@@ -586,7 +686,10 @@ namespace Cnp.Sdk
         {
             var cnpResponse = SendRequest(response => response, tokenRequest);
             var tokenResponse = cnpResponse.registerTokenResponse;
-            tokenResponse.location = cnpResponse.location;
+            if (tokenResponse != null)
+            {
+                tokenResponse.location = cnpResponse.location;
+            }
             return tokenResponse;
         }
 
@@ -594,16 +697,23 @@ namespace Cnp.Sdk
         {
             var cnpResponse = SendRequest(response => response, v);
             var voidResponse = cnpResponse.voidResponse;
-            voidResponse.location = cnpResponse.location;
+            if (voidResponse != null)
+            {
+                voidResponse.location = cnpResponse.location;
+            }
             return voidResponse;
         }
 
         public Task<voidResponse> DoVoidAsync(voidTxn v, CancellationToken cancellationToken)
         {
             return SendRequestAsync(response =>
-            {
-                response.voidResponse.location = response.location;
-                return response.voidResponse;
+            { 
+                var voidResponse = response.voidResponse;
+                if (voidResponse != null)
+                {
+                    voidResponse.location = response.location;
+                }
+                return voidResponse;
             }, v, cancellationToken);
         }
 
@@ -611,7 +721,10 @@ namespace Cnp.Sdk
         {
             var cnpResponse = SendRequest(response => response, v);
             var eCheckVoidResponse = cnpResponse.echeckVoidResponse;
-            eCheckVoidResponse.location = cnpResponse.location;
+            if (eCheckVoidResponse != null)
+            {
+                eCheckVoidResponse.location = cnpResponse.location;
+            }
             return eCheckVoidResponse;
         }
 
@@ -619,8 +732,12 @@ namespace Cnp.Sdk
         {
             return SendRequestAsync(response =>
             {
-                response.echeckVoidResponse.location = response.location;
-                return response.echeckVoidResponse;
+                var echeckVoidResponse = response.echeckVoidResponse;
+                if (echeckVoidResponse != null)
+                {
+                    echeckVoidResponse.location = response.location;
+                }
+                return echeckVoidResponse;
             }, v, cancellationToken);
         }
 
@@ -628,8 +745,12 @@ namespace Cnp.Sdk
         {
             return SendRequest(response =>
             {
-                response.updateCardValidationNumOnTokenResponse.location = response.location;
-                return response.updateCardValidationNumOnTokenResponse;
+                var updateCardValidationNumOnTokenResponse = response.updateCardValidationNumOnTokenResponse;
+                if (updateCardValidationNumOnTokenResponse != null)
+                {
+                    updateCardValidationNumOnTokenResponse.location = response.location;
+                }
+                return updateCardValidationNumOnTokenResponse;
             }, updateCardValidationNumOnToken);
         }
 
@@ -637,8 +758,12 @@ namespace Cnp.Sdk
         {
             return SendRequestAsync(response =>
             {
-                response.updateCardValidationNumOnTokenResponse.location = response.location;
-                return response.updateCardValidationNumOnTokenResponse;
+                var updateCardValidationNumOnTokenResponse = response.updateCardValidationNumOnTokenResponse;
+                if (updateCardValidationNumOnTokenResponse != null)
+                {
+                    updateCardValidationNumOnTokenResponse.location = response.location;
+                }
+                return updateCardValidationNumOnTokenResponse;
             }, update, cancellationToken);
         }
 
@@ -646,7 +771,10 @@ namespace Cnp.Sdk
         {
             var cnpResponse = SendRequest(response => response, cancelSubscription);
             var cancelSubscriptionResponse = cnpResponse.cancelSubscriptionResponse;
-            cancelSubscriptionResponse.location = cnpResponse.location;
+            if (cancelSubscriptionResponse != null)
+            {
+                cancelSubscriptionResponse.location = cnpResponse.location;
+            }
             return cancelSubscriptionResponse;
         }
 
@@ -654,7 +782,10 @@ namespace Cnp.Sdk
         {
             var cnpResponse = SendRequest(response => response, updateSubscription);
             var updateSubscriptionResponse = cnpResponse.updateSubscriptionResponse;
-            updateSubscriptionResponse.location = cnpResponse.location;
+            if (updateSubscriptionResponse != null)
+            {
+                updateSubscriptionResponse.location = cnpResponse.location;
+            }
             return updateSubscriptionResponse;
         }
 
@@ -662,7 +793,10 @@ namespace Cnp.Sdk
         {
             var cnpResponse = SendRequest(response => response, activate);
             var activatationResponse = cnpResponse.activateResponse;
-            activatationResponse.location = cnpResponse.location;
+            if (activatationResponse != null)
+            {
+                activatationResponse.location = cnpResponse.location;
+            }
             return activatationResponse;
         }
 
@@ -670,7 +804,10 @@ namespace Cnp.Sdk
         {
             var cnpResponse = SendRequest(response => response, deactivate);
             var deactivationResponse = cnpResponse.deactivateResponse;
-            deactivationResponse.location = cnpResponse.location;
+            if (deactivationResponse != null)
+            {
+                deactivationResponse.location = cnpResponse.location;
+            }
             return deactivationResponse;
         }
 
@@ -678,7 +815,10 @@ namespace Cnp.Sdk
         {
             var cnpResponse = SendRequest(response => response, load);
             var loadResponse = cnpResponse.loadResponse;
-            loadResponse.location = cnpResponse.location;
+            if (loadResponse != null)
+            {
+                loadResponse.location = cnpResponse.location;
+            }
             return loadResponse;
         }
 
@@ -686,7 +826,10 @@ namespace Cnp.Sdk
         {
             var cnpResponse = SendRequest(response => response, unload);
             var unloadResponse = cnpResponse.unloadResponse;
-            unloadResponse.location = cnpResponse.location;
+            if (unloadResponse != null)
+            {
+                unloadResponse.location = cnpResponse.location;
+            }
             return unloadResponse;
         }
 
@@ -694,7 +837,10 @@ namespace Cnp.Sdk
         {
             var cnpResponse = SendRequest(response => response, balanceInquiry);
             var balanceInquiryResponse = cnpResponse.balanceInquiryResponse;
-            balanceInquiryResponse.location = cnpResponse.location;
+            if (balanceInquiryResponse != null)
+            {
+                balanceInquiryResponse.location = cnpResponse.location;
+            }
             return balanceInquiryResponse;
         }
 
@@ -702,8 +848,12 @@ namespace Cnp.Sdk
         {
             return SendRequestAsync(response =>
             {
-                response.balanceInquiryResponse.location = response.location;
-                return response.balanceInquiryResponse;
+                var balanceInquiryResponse = response.balanceInquiryResponse;
+                if (balanceInquiryResponse != null)
+                {
+                    balanceInquiryResponse.location = response.location;
+                }
+                return balanceInquiryResponse;
             }, balanceInquiry, cancellationToken);
         }
 
@@ -711,7 +861,10 @@ namespace Cnp.Sdk
         {
             var cnpResponse = SendRequest(response => response, createPlan);
             var createPlanResponse = cnpResponse.createPlanResponse;
-            createPlanResponse.location = cnpResponse.location;
+            if (createPlanResponse != null)
+            {
+                createPlanResponse.location = cnpResponse.location;
+            }
             return createPlanResponse;
         }
 
@@ -719,7 +872,10 @@ namespace Cnp.Sdk
         {
             var cnpResponse = SendRequest(response => response, updatePlan);
             var updatePlanResponse = cnpResponse.updatePlanResponse;
-            updatePlanResponse.location = cnpResponse.location;
+            if (updatePlanResponse != null)
+            {
+                updatePlanResponse.location = cnpResponse.location;
+            }
             return updatePlanResponse;
         }
 
@@ -727,7 +883,10 @@ namespace Cnp.Sdk
         {
             var cnpResponse = SendRequest(response => response, refundReversal);
             var refundReversalResponse = cnpResponse.refundReversalResponse;
-            refundReversalResponse.location = cnpResponse.location;
+            if (refundReversalResponse != null)
+            {
+                refundReversalResponse.location = cnpResponse.location;
+            }
             return refundReversalResponse;
         }
 
@@ -735,7 +894,10 @@ namespace Cnp.Sdk
         {
             var cnpResponse = SendRequest(response => response, depositReversal);
             var depositReversalResponse = cnpResponse.depositReversalResponse;
-            depositReversalResponse.location = cnpResponse.location;
+            if (depositReversalResponse != null)
+            {
+                depositReversalResponse.location = cnpResponse.location;
+            }
             return depositReversalResponse;
         }
 
@@ -743,7 +905,10 @@ namespace Cnp.Sdk
         {
             var cnpResponse = SendRequest(response => response, activateReversal);
             var activateReversalResponse = cnpResponse.activateReversalResponse;
-            activateReversalResponse.location = cnpResponse.location;
+            if (activateReversalResponse != null)
+            {
+                activateReversalResponse.location = cnpResponse.location;
+            }
             return activateReversalResponse;
         }
 
@@ -751,7 +916,10 @@ namespace Cnp.Sdk
         {
             var cnpResponse = SendRequest(response => response, deactivateReversal);
             var deactivateReversalResponse = cnpResponse.deactivateReversalResponse;
-            deactivateReversalResponse.location = cnpResponse.location;
+            if (deactivateReversalResponse != null)
+            {
+                deactivateReversalResponse.location = cnpResponse.location;
+            }
             return deactivateReversalResponse;
         }
 
@@ -759,7 +927,10 @@ namespace Cnp.Sdk
         {
             var cnpResponse = SendRequest(response => response, loadReversal);
             var loadReversalResponse = cnpResponse.loadReversalResponse;
-            loadReversalResponse.location = cnpResponse.location;
+            if (loadReversalResponse != null)
+            {
+                loadReversalResponse.location = cnpResponse.location;
+            }
             return loadReversalResponse;
         }
 
@@ -767,7 +938,10 @@ namespace Cnp.Sdk
         {
             var cnpResponse = SendRequest(response => response, unloadReversal);
             var unloadReversalResponse = cnpResponse.unloadReversalResponse;
-            unloadReversalResponse.location = cnpResponse.location;
+            if (unloadReversalResponse != null)
+            {
+                unloadReversalResponse.location = cnpResponse.location;
+            }
             return unloadReversalResponse;
         }
 
@@ -777,7 +951,10 @@ namespace Cnp.Sdk
             {
                 var res = response.queryTransactionResponse ??
                         (transactionTypeWithReportGroup) response.queryTransactionUnavailableResponse;
-                res.location = response.location;
+                if (res != null)
+                {
+                    res.location = response.location;
+                }
                 return res;
             }, queryTransaction, cancellationToken);
         }
@@ -787,7 +964,10 @@ namespace Cnp.Sdk
             var cnpResponse = SendRequest(response => response, queryTransaction);
             var transactionResponse = cnpResponse.queryTransactionResponse ??
                                       (transactionTypeWithReportGroup) cnpResponse.queryTransactionUnavailableResponse;
-            transactionResponse.location = cnpResponse.location;
+            if (transactionResponse != null)
+            {
+                transactionResponse.location = cnpResponse.location;
+            }
             return transactionResponse;
         }
 
@@ -795,7 +975,10 @@ namespace Cnp.Sdk
         {
             var cnpResponse = SendRequest(response => response, fraudCheck);
             var fraudCheckResponse = cnpResponse.fraudCheckResponse;
-            fraudCheckResponse.location = cnpResponse.location;
+            if (fraudCheckResponse != null)
+            {
+                fraudCheckResponse.location = cnpResponse.location;
+            }
             return fraudCheckResponse;
         }
 
@@ -803,7 +986,10 @@ namespace Cnp.Sdk
         {
             var cnpResponse = SendRequest(response => response, fastAccessFunding);
             var fastAccessFundingResponse = cnpResponse.fastAccessFundingResponse;
-            fastAccessFundingResponse.location = cnpResponse.location;
+            if (fastAccessFundingResponse != null)
+            {
+                fastAccessFundingResponse.location = cnpResponse.location;
+            }
             return fastAccessFundingResponse;
         }
         
@@ -811,7 +997,10 @@ namespace Cnp.Sdk
         {
             var cnpResponse = SendRequest(response => response, payFacCredit);
             var payFacCreditResponse = cnpResponse.payFacCreditResponse;
-            payFacCreditResponse.location = cnpResponse.location;
+            if (payFacCreditResponse != null)
+            {
+                payFacCreditResponse.location = cnpResponse.location;
+            }
             return payFacCreditResponse;
         }
 
@@ -819,8 +1008,12 @@ namespace Cnp.Sdk
         {
             return SendRequestAsync(response =>
             {
-                response.payFacCreditResponse.location = response.location;
-                return response.payFacCreditResponse;
+                var payFacCreditResponse = response.payFacCreditResponse;
+                if (payFacCreditResponse != null)
+                {
+                    payFacCreditResponse.location = response.location;
+                }
+                return payFacCreditResponse;
             }, payFacCredit, cancellationToken);
         }
 
@@ -828,7 +1021,10 @@ namespace Cnp.Sdk
         {
             var cnpResponse = SendRequest(response => response, payFacDebit);
             var payfacDebitResponse = cnpResponse.payFacDebitResponse;
-            payfacDebitResponse.location = cnpResponse.location;
+            if (payfacDebitResponse != null)
+            {
+                payfacDebitResponse.location = cnpResponse.location;
+            }
             return payfacDebitResponse;
         }
 
@@ -836,8 +1032,12 @@ namespace Cnp.Sdk
         {
             return SendRequestAsync(response =>
             {
-                response.payFacDebitResponse.location = response.location;
-                return response.payFacDebitResponse;
+                var payFacDebitResponse  = response.payFacDebitResponse;
+                if (payFacDebitResponse != null)
+                {
+                    payFacDebitResponse.location = response.location;
+                }
+                return payFacDebitResponse;
             }, payFacDebit, cancellationToken);
         }
 
@@ -845,7 +1045,10 @@ namespace Cnp.Sdk
         {
             var cnpResponse = SendRequest(response => response, physicalCheckCredit);
             var physicalCheckCreditResponse = cnpResponse.physicalCheckCreditResponse;
-            physicalCheckCreditResponse.location = cnpResponse.location;
+            if (physicalCheckCreditResponse != null)
+            {
+                physicalCheckCreditResponse.location = cnpResponse.location;
+            }
             return physicalCheckCreditResponse;
         }
 
@@ -853,8 +1056,12 @@ namespace Cnp.Sdk
         {
             return SendRequestAsync(response =>
             {
-                response.physicalCheckCreditResponse.location = response.location;
-                return response.physicalCheckCreditResponse;
+                var physicalCheckCreditResponse = response.physicalCheckCreditResponse;
+                if (physicalCheckCreditResponse != null)
+                {
+                    physicalCheckCreditResponse.location = response.location;
+                }
+                return physicalCheckCreditResponse;
             }, physicalCheckCredit, cancellationToken);
         }
 
@@ -862,7 +1069,10 @@ namespace Cnp.Sdk
         {
             var cnpResponse = SendRequest(response => response, physicalCheckDebit);
             var physicalCheckDebitResponse = cnpResponse.physicalCheckDebitResponse;
-            physicalCheckDebitResponse.location = cnpResponse.location;
+            if (physicalCheckDebitResponse != null)
+            {
+                physicalCheckDebitResponse.location = cnpResponse.location;
+            }
             return physicalCheckDebitResponse;
         }
 
@@ -870,8 +1080,12 @@ namespace Cnp.Sdk
         {
             return SendRequestAsync(response =>
             {
-                response.physicalCheckDebitResponse.location = response.location;
-                return response.physicalCheckDebitResponse;
+                var physicalCheckDebitResponse = response.physicalCheckDebitResponse;
+                if (physicalCheckDebitResponse != null)
+                {
+                    physicalCheckDebitResponse.location = response.location;
+                }
+                return physicalCheckDebitResponse;
             }, physicalCheckDebit, cancellationToken);
         }
 
@@ -879,7 +1093,10 @@ namespace Cnp.Sdk
         {
             var cnpResponse = SendRequest(response => response, payoutOrgCredit);
             var payoutOrgCreditResponse = cnpResponse.payoutOrgCreditResponse;
-            payoutOrgCreditResponse.location = cnpResponse.location;
+            if (payoutOrgCreditResponse != null)
+            {
+                payoutOrgCreditResponse.location = cnpResponse.location;
+            }
             return payoutOrgCreditResponse;
         }
 
@@ -887,8 +1104,12 @@ namespace Cnp.Sdk
         {
             return SendRequestAsync(response =>
             {
-                response.payoutOrgCreditResponse.location = response.location;
-                return response.payoutOrgCreditResponse;
+                var payoutOrgCreditResponse = response.payoutOrgCreditResponse;
+                if (payoutOrgCreditResponse != null)
+                {
+                    payoutOrgCreditResponse.location = response.location;
+                }
+                return payoutOrgCreditResponse;
             }, payoutOrgCredit, cancellationToken);
         }
 
@@ -896,7 +1117,10 @@ namespace Cnp.Sdk
         {
             var cnpResponse = SendRequest(response => response, payoutOrgDebit);
             var payoutOrgDebitResponse = cnpResponse.payoutOrgDebitResponse;
-            payoutOrgDebitResponse.location = cnpResponse.location;
+            if (payoutOrgDebitResponse != null)
+            {
+                payoutOrgDebitResponse.location = cnpResponse.location;
+            }
             return payoutOrgDebitResponse;
         }
 
@@ -904,8 +1128,12 @@ namespace Cnp.Sdk
         {
             return SendRequestAsync(response =>
             {
-                response.payoutOrgDebitResponse.location = response.location;
-                return response.payoutOrgDebitResponse;
+                var payoutOrgDebitResponse = response.payoutOrgDebitResponse;
+                if (payoutOrgDebitResponse != null)
+                {
+                    payoutOrgDebitResponse.location = response.location;
+                }
+                return payoutOrgDebitResponse;
             }, payoutOrgDebit, cancellationToken);
         }
 
@@ -913,7 +1141,10 @@ namespace Cnp.Sdk
         {
             var cnpResponse = SendRequest(response => response, reserveCredit);
             var reserveCreditResponse = cnpResponse.reserveCreditResponse;
-            reserveCreditResponse.location = cnpResponse.location;
+            if (reserveCreditResponse != null)
+            {
+                reserveCreditResponse.location = cnpResponse.location;
+            }
             return reserveCreditResponse;
         }
 
@@ -921,7 +1152,11 @@ namespace Cnp.Sdk
         {
             return SendRequestAsync(response =>
             {
-                response.reserveCreditResponse.location = response.location;
+                var reserveCreditResponse = response.reserveCreditResponse;
+                if (reserveCreditResponse != null)
+                {
+                    reserveCreditResponse.location = response.location;
+                }
                 return response.reserveCreditResponse;
             }, reserveCredit, cancellationToken);
         }
@@ -930,7 +1165,10 @@ namespace Cnp.Sdk
         {
             var cnpResponse = SendRequest(response => response, reserveDebit);
             var reserveDebitResponse = cnpResponse.reserveDebitResponse;
-            reserveDebitResponse.location = cnpResponse.location;
+            if (reserveDebitResponse != null)
+            {
+                reserveDebitResponse.location = cnpResponse.location;
+            }
             return reserveDebitResponse;
         }
 
@@ -938,8 +1176,12 @@ namespace Cnp.Sdk
         {
             return SendRequestAsync(response =>
             {
-                response.reserveDebitResponse.location = response.location;
-                return response.reserveDebitResponse;
+                var reserveDebitResponse = response.reserveDebitResponse;
+                if (reserveDebitResponse != null)
+                {
+                    reserveDebitResponse.location = response.location;
+                }
+                return reserveDebitResponse;
             }, reserveDebit, cancellationToken);
         }
 
@@ -947,7 +1189,10 @@ namespace Cnp.Sdk
         {
             var cnpResponse = SendRequest(response => response, submerchantCredit);
             var submerchantCreditResponse = cnpResponse.submerchantCreditResponse;
-            submerchantCreditResponse.location = cnpResponse.location;
+            if (submerchantCreditResponse != null)
+            {
+                submerchantCreditResponse.location = cnpResponse.location;
+            }
             return submerchantCreditResponse;
         }
 
@@ -955,8 +1200,12 @@ namespace Cnp.Sdk
         {
             return SendRequestAsync(response =>
             {
-                response.submerchantCreditResponse.location = response.location;
-                return response.submerchantCreditResponse;
+                var submerchantCreditResponse = response.submerchantCreditResponse;
+                if (submerchantCreditResponse != null)
+                {
+                    submerchantCreditResponse.location = response.location;
+                }
+                return submerchantCreditResponse;
             }, submerchantCredit, cancellationToken);
         }
 
@@ -964,7 +1213,10 @@ namespace Cnp.Sdk
         {
             var cnpResponse = SendRequest(response => response, submerchantDebit);
             var submerchantDebitResponse = cnpResponse.submerchantDebitResponse;
-            submerchantDebitResponse.location = cnpResponse.location;
+            if (submerchantDebitResponse != null)
+            {
+                submerchantDebitResponse.location = cnpResponse.location;
+            }
             return submerchantDebitResponse;
         }
 
@@ -972,8 +1224,12 @@ namespace Cnp.Sdk
         {
             return SendRequestAsync(response =>
             {
-                response.submerchantDebitResponse.location = response.location;
-                return response.submerchantDebitResponse;
+                var submerchantDebitResponse = response.submerchantDebitResponse;
+                if (submerchantDebitResponse != null)
+                {
+                    submerchantDebitResponse.location = response.location;
+                }
+                return submerchantDebitResponse;
             }, submerchantDebit, cancellationToken);
         }
 
@@ -981,7 +1237,10 @@ namespace Cnp.Sdk
         {
             var cnpResponse = SendRequest(response => response, vendorCredit);
             var vendorCreditResponse = cnpResponse.vendorCreditResponse;
-            vendorCreditResponse.location = cnpResponse.location;
+            if (vendorCreditResponse != null)
+            {
+                vendorCreditResponse.location = cnpResponse.location;
+            }
             return vendorCreditResponse;
         }
 
@@ -989,8 +1248,12 @@ namespace Cnp.Sdk
         {
             return SendRequestAsync(response =>
             {
-                response.vendorCreditResponse.location = response.location;
-                return response.vendorCreditResponse;
+                var vendorCreditResponse = response.vendorCreditResponse;
+                if (vendorCreditResponse != null)
+                {
+                    vendorCreditResponse.location = response.location;
+                }
+                return vendorCreditResponse;
             }, vendorCredit, cancellationToken);
         }
 
@@ -998,7 +1261,10 @@ namespace Cnp.Sdk
         {
             var cnpResponse = SendRequest(response => response, customerCredit);
             var customerCreditResponse = cnpResponse.customerCreditResponse;
-            customerCreditResponse.location = cnpResponse.location;
+            if (customerCreditResponse != null)
+            {
+                customerCreditResponse.location = cnpResponse.location;
+            }
             return customerCreditResponse;
         }
 
@@ -1006,8 +1272,12 @@ namespace Cnp.Sdk
         {
             return SendRequestAsync(response =>
             {
-                response.customerCreditResponse.location = response.location;
-                return response.customerCreditResponse;
+                var customerCreditResponse = response.customerCreditResponse;
+                if (customerCreditResponse != null)
+                {
+                    customerCreditResponse.location = response.location;
+                }
+                return customerCreditResponse;
             }, customerCredit, cancellationToken);
         }
 
@@ -1015,7 +1285,10 @@ namespace Cnp.Sdk
         {
             var cnpResponse = SendRequest(response => response, translateToLowValueTokenRequest);
             var translateToLowValueTokenResponse = cnpResponse.translateToLowValueTokenResponse;
-            translateToLowValueTokenResponse.location = cnpResponse.location;
+            if (translateToLowValueTokenResponse != null)
+            {
+                translateToLowValueTokenResponse.location = cnpResponse.location;
+            }
             return translateToLowValueTokenResponse;
         }
 
@@ -1023,8 +1296,12 @@ namespace Cnp.Sdk
         {
             return SendRequestAsync(response =>
             {
-                response.translateToLowValueTokenResponse.location = response.location;
-                return response.translateToLowValueTokenResponse;
+                var translateToLowValueTokenResponse = response.translateToLowValueTokenResponse;
+                if (translateToLowValueTokenResponse != null)
+                {
+                    translateToLowValueTokenResponse.location = response.location;
+                }
+                return translateToLowValueTokenResponse;
             }, translateToLowValueTokenRequest, cancellationToken);
         }
 
@@ -1032,7 +1309,10 @@ namespace Cnp.Sdk
         {
             var cnpResponse = SendRequest(response => response, vendorDebit);
             var vendorDebitResponse = cnpResponse.vendorDebitResponse;
-            vendorDebitResponse.location = cnpResponse.location;
+            if (vendorDebitResponse != null)
+            {
+                vendorDebitResponse.location = cnpResponse.location;
+            }
             return vendorDebitResponse;
         }
 
@@ -1040,8 +1320,12 @@ namespace Cnp.Sdk
         {
             return SendRequestAsync(response =>
             {
-                response.vendorDebitResponse.location = response.location;
-                return response.vendorDebitResponse;
+                var vendorDebitResponse = response.vendorDebitResponse;
+                if (vendorDebitResponse != null)
+                {
+                    vendorDebitResponse.location = response.location;
+                }
+                return vendorDebitResponse;
             }, vendorDebit, cancellationToken);
         }
 
@@ -1049,7 +1333,10 @@ namespace Cnp.Sdk
         {
             var cnpResponse = SendRequest(response => response, customerDebit);
             var customerDebitResponse = cnpResponse.customerDebitResponse;
-            customerDebitResponse.location = cnpResponse.location;
+            if (customerDebitResponse != null)
+            {
+                customerDebitResponse.location = cnpResponse.location;
+            }
             return customerDebitResponse;
         }
 
@@ -1057,8 +1344,12 @@ namespace Cnp.Sdk
         {
             return SendRequestAsync(response =>
             {
-                response.customerDebitResponse.location = response.location;
-                return response.customerDebitResponse;
+                var customerDebitResponse = response.customerDebitResponse;
+                if (customerDebitResponse != null)
+                {
+                    customerDebitResponse.location = response.location;
+                }
+                return customerDebitResponse;
             }, customerDebit, cancellationToken);
         }
 
