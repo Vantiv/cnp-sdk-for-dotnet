@@ -904,7 +904,7 @@ namespace Cnp.Sdk
         {
             return SendRequestAsync(response =>
             {
-                response.payFacDebitResponse.location = response.location;
+                response.payoutOrgDebitResponse.location = response.location;
                 return response.payoutOrgDebitResponse;
             }, payoutOrgDebit, cancellationToken);
         }
