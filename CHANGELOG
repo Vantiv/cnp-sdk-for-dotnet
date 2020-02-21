@@ -1,8 +1,8 @@
 
 = Worldpay CNP CHANGELOG
 
-==Version 12.12.0 (February 18, 2020)
-* Feature: Added location element to cnpOnlineResponse
+==Version 12.12.0 (February 21, 2020)
+* Feature: Added location in responses for CnpOnline
 
 ==Version 12.11.0 (February 17, 2020)
 * Feature: Added MCC (merchantCategoryCode) in request
