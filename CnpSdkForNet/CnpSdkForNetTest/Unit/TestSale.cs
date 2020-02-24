@@ -436,5 +436,28 @@ namespace Cnp.Sdk.Test.Unit
             cnp.SetCommunication(mockedCommunication);
             cnp.Sale(sale);
         }
+        
+        [Test]
+        public void TestSaleWithLocation()
+        {
+            sale sale = new sale();
+            sale.orderId = "12344";
+            sale.amount = 2;
+            sale.orderSource = orderSourceType.ecommerce;
+            sale.reportGroup = "Planets";
+            sale.fraudFilterOverride = false;
+           
+            var mock = new Mock<Communications>();
+
+            mock.Setup(Communications => Communications.HttpPost(It.IsRegex(".*<fraudFilterOverride>false</fraudFilterOverride>.*", RegexOptions.Singleline), It.IsAny<Dictionary<String, String>>()))
+                .Returns("<cnpOnlineResponse version='8.10' response='0' message='Valid Format' location='sandbox' xmlns='http://www.vantivcnp.com/schema'><saleResponse><cnpTxnId>123</cnpTxnId></saleResponse></cnpOnlineResponse>");
+     
+            Communications mockedCommunication = mock.Object;
+            cnp.SetCommunication(mockedCommunication);
+            var response = cnp.Sale(sale);
+            
+            Assert.NotNull(response);
+            Assert.AreEqual("sandbox", response.location);
+        }
     }
 }

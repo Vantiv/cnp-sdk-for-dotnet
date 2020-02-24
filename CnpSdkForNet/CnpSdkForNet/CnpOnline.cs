@@ -9,6 +9,8 @@ using System.Net;
 
 namespace Cnp.Sdk
 {
+    
+
     // Represent an online request.
     // Defining all transactions supported for online processing.
     public class CnpOnline : ICnpOnline
@@ -73,10 +75,23 @@ namespace Cnp.Sdk
         {
             this._communication = communication;
         }
+        
+        //NOTE: in this and other methods location is being set manually due to an issue in the schema, where
+        //CnpOnlineResponse contains location but the inner response does not. For now we're manually setting location
+        //manually within these CnpOnline methods,
+        //but in the future we will remove this code so that location is deserialized automatically
 
         public Task<authorizationResponse> AuthorizeAsync(authorization auth, CancellationToken cancellationToken)
         {
-            return SendRequestAsync(response => response.authorizationResponse, auth, cancellationToken);
+            return SendRequestAsync(response =>
+            {
+                var authResponse = response.authorizationResponse;
+                if (authResponse != null)
+                {
+                    authResponse.location = response.location;
+                }
+                return authResponse;
+            }, auth, cancellationToken);
         }
 
         private T SendRequest<T>(Func<cnpOnlineResponse, T> getResponse, transactionRequest transaction)
@@ -343,427 +358,1013 @@ namespace Cnp.Sdk
 
         public authorizationResponse Authorize(authorization auth)
         {
-            return SendRequest(response => response.authorizationResponse, auth);
+            var cnpResponse =  SendRequest(response => response, auth);
+            var authResponse = cnpResponse.authorizationResponse;
+            if (authResponse != null)
+            {
+                authResponse.location = cnpResponse.location;
+            }
+            return authResponse;
         }
 
         public authReversalResponse AuthReversal(authReversal reversal)
         {
-            return SendRequest(response => response.authReversalResponse, reversal);
+            
+            var cnpResponse =  SendRequest(response => response, reversal);
+            var reversalResponse = cnpResponse.authReversalResponse;
+            if (reversalResponse != null)
+            {
+                reversalResponse.location = cnpResponse.location;
+            }
+            return reversalResponse;
         }
 
         public Task<authReversalResponse> AuthReversalAsync(authReversal reversal, CancellationToken cancellationToken)
         {
-            return SendRequestAsync(response => response.authReversalResponse, reversal, cancellationToken);
+            return SendRequestAsync(response =>
+            {
+                var authReversalResponse = response.authReversalResponse;
+                if (authReversalResponse != null)
+                {
+                    response.authReversalResponse.location = response.location;
+                }
+                return authReversalResponse;
+            }, reversal, cancellationToken);
         }
 
         public giftCardAuthReversalResponse GiftCardAuthReversal(giftCardAuthReversal giftCard)
         {
-            return SendRequest(response => response.giftCardAuthReversalResponse, giftCard);
+            var cnpResponse =  SendRequest(response => response, giftCard);
+            var giftCardReversalResponse = cnpResponse.giftCardAuthReversalResponse;
+            if (giftCardReversalResponse != null)
+            {
+                giftCardReversalResponse.location = cnpResponse.location;
+            }
+            return giftCardReversalResponse;
         }
 
         public Task<giftCardAuthReversalResponse> GiftCardAuthReversalAsync(giftCardAuthReversal giftCard, CancellationToken cancellationToken)
         {
-            return SendRequestAsync(response => response.giftCardAuthReversalResponse, giftCard, cancellationToken);
+            return SendRequestAsync(response =>
+            {
+                var giftCardAuthReversalResponse = response.giftCardAuthReversalResponse;
+                if (giftCardAuthReversalResponse != null)
+                {
+                    giftCardAuthReversalResponse.location = response.location;
+                }
+                return giftCardAuthReversalResponse;
+            }, giftCard, cancellationToken);
         }
 
         public Task<captureResponse> CaptureAsync(capture capture, CancellationToken cancellationToken)
         {
-            return SendRequestAsync(response => response.captureResponse, capture, cancellationToken);
+            return SendRequestAsync(response =>
+            {
+                var captureResponse = response.captureResponse;
+                if (captureResponse != null)
+                {
+                    captureResponse.location = response.location;
+                }
+                return captureResponse;
+            }, capture, cancellationToken);
         }
 
         public captureResponse Capture(capture capture)
         {
-            return SendRequest(response => response.captureResponse, capture);
+            var cnpResponse =  SendRequest(response => response, capture);
+            var captureResponse = cnpResponse.captureResponse;
+            if (captureResponse != null)
+            {
+                captureResponse.location = cnpResponse.location;
+            }
+            return captureResponse;
         }
 
         public giftCardCaptureResponse GiftCardCapture(giftCardCapture giftCardCapture)
         {
-            return SendRequest(response => response.giftCardCaptureResponse, giftCardCapture);
+            var cnpResponse =  SendRequest(response => response, giftCardCapture);
+            var giftCaptureResponse = cnpResponse.giftCardCaptureResponse;
+            if (giftCaptureResponse != null)
+            {
+                giftCaptureResponse.location = cnpResponse.location;
+            }
+            return giftCaptureResponse;
         }
 
         public Task<giftCardCaptureResponse> GiftCardCaptureAsync(giftCardCapture giftCardCapture, CancellationToken cancellationToken)
         {
-            return SendRequestAsync(response => response.giftCardCaptureResponse, giftCardCapture, cancellationToken);
+            
+            return SendRequestAsync(response =>
+            {
+                var giftCardCaptureResponse = response.giftCardCaptureResponse;
+                if (giftCardCaptureResponse != null)
+                {
+                    giftCardCaptureResponse.location = response.location;
+                }
+                return giftCardCaptureResponse;
+            }, giftCardCapture, cancellationToken);
         }
 
         public Task<captureGivenAuthResponse> CaptureGivenAuthAsync(captureGivenAuth captureGivenAuth, CancellationToken cancellationToken)
         {
-            return SendRequestAsync(response => response.captureGivenAuthResponse, captureGivenAuth, cancellationToken);
+            return SendRequestAsync(response =>
+            {
+                var captureGivenAuthResponse = response.captureGivenAuthResponse;
+                if (captureGivenAuthResponse != null)
+                {
+                    captureGivenAuthResponse.location = response.location;
+                }
+                return response.captureGivenAuthResponse;
+            }, captureGivenAuth, cancellationToken);
         }
 
         public captureGivenAuthResponse CaptureGivenAuth(captureGivenAuth captureGivenAuth)
         {
-            return SendRequest(response => response.captureGivenAuthResponse, captureGivenAuth);
+            var cnpResponse = SendRequest(response => response, captureGivenAuth);
+            var captureAuthResponse = cnpResponse.captureGivenAuthResponse;
+            if (captureAuthResponse != null)
+            {
+                captureAuthResponse.location = cnpResponse.location;
+            }
+            return captureAuthResponse;
         }
 
         public creditResponse Credit(credit credit)
         {
-            return SendRequest(response => response.creditResponse, credit);
+            var cnpResponse = SendRequest(response => response, credit);
+            var creditResponse = cnpResponse.creditResponse;
+            if (creditResponse != null)
+            {
+                creditResponse.location = cnpResponse.location;
+            }
+            return creditResponse;
         }
 
         public Task<creditResponse> CreditAsync(credit credit, CancellationToken cancellationToken)
         {
-            return SendRequestAsync(response => response.creditResponse, credit, cancellationToken);
+            return SendRequestAsync(response =>
+            {
+                var creditResponse= response.creditResponse;
+                if (creditResponse != null)
+                {
+                    creditResponse.location = response.location;
+                }
+                return creditResponse;
+            }, credit, cancellationToken);
         }
 
         public giftCardCreditResponse GiftCardCredit(giftCardCredit giftCardCredit)
         {
-            return SendRequest(response => response.giftCardCreditResponse, giftCardCredit);
+            var cnpResponse = SendRequest(response => response, giftCardCredit);
+            var giftCreditResponse = cnpResponse.giftCardCreditResponse;
+            if (giftCreditResponse != null)
+            {
+                giftCreditResponse.location = cnpResponse.location;
+            }
+            return giftCreditResponse;
         }
 
         public Task<giftCardCreditResponse> GiftCardCreditAsync(giftCardCredit giftCardCredit, CancellationToken cancellationToken)
         {
-            return SendRequestAsync(response => response.giftCardCreditResponse, giftCardCredit, cancellationToken);
+            return SendRequestAsync(response =>
+            {
+                var giftCardCreditResponse = response.giftCardCreditResponse;
+                if (giftCardCreditResponse != null)
+                {
+                    giftCardCreditResponse.location = response.location;
+                }
+                return response.giftCardCreditResponse;
+            }, giftCardCredit, cancellationToken);
         }
 
         public Task<echeckCreditResponse> EcheckCreditAsync(echeckCredit echeckCredit, CancellationToken cancellationToken)
         {
-            return SendRequestAsync(response => response.echeckCreditResponse, echeckCredit, cancellationToken);
+            return SendRequestAsync(response =>
+            {
+                var echeckCreditResponse = response.echeckCreditResponse;
+                if (echeckCreditResponse != null)
+                {
+                    echeckCreditResponse.location = response.location;
+                }
+                return response.echeckCreditResponse;
+            }, echeckCredit, cancellationToken);
         }
 
         public echeckCreditResponse EcheckCredit(echeckCredit echeckCredit)
         {
-            return SendRequest(response => response.echeckCreditResponse, echeckCredit);
+            var cnpResponse = SendRequest(response => response, echeckCredit);
+            var eCheckCreditResponse = cnpResponse.echeckCreditResponse;
+            if (eCheckCreditResponse != null)
+            {
+                eCheckCreditResponse.location = cnpResponse.location;
+            }
+            return eCheckCreditResponse;
         }
 
         public Task<echeckRedepositResponse> EcheckRedepositAsync(echeckRedeposit echeckRedeposit, CancellationToken cancellationToken)
         {
-            return SendRequestAsync(response => response.echeckRedepositResponse, echeckRedeposit, cancellationToken);
+            return SendRequestAsync(response =>
+            {
+                var echeckRedepositResponse = response.echeckRedepositResponse;
+                if (echeckRedepositResponse != null)
+                {
+                    echeckRedepositResponse.location = response.location;
+                }
+
+                return echeckRedepositResponse;
+            }, echeckRedeposit, cancellationToken);
         }
 
         public echeckRedepositResponse EcheckRedeposit(echeckRedeposit echeckRedeposit)
         {
-            return SendRequest(response => response.echeckRedepositResponse, echeckRedeposit);
+            var cnpResponse = SendRequest(response => response, echeckRedeposit);
+            var eCheckRedepositResponse = cnpResponse.echeckRedepositResponse;
+            if (eCheckRedepositResponse != null)
+            {
+                eCheckRedepositResponse.location = cnpResponse.location;
+            }
+            return eCheckRedepositResponse;
         }
 
         public Task<echeckSalesResponse> EcheckSaleAsync(echeckSale echeckSale, CancellationToken cancellationToken)
         {
-            return SendRequestAsync(response => response.echeckSalesResponse, echeckSale, cancellationToken);
+            
+            return SendRequestAsync(response =>
+            {
+                var echeckSalesResponse = response.echeckSalesResponse;
+                if (echeckSalesResponse != null)
+                {
+                    echeckSalesResponse.location = response.location;
+                }
+                return echeckSalesResponse;
+            }, echeckSale, cancellationToken);
         }
 
         public echeckSalesResponse EcheckSale(echeckSale echeckSale)
         {
-            return SendRequest(response => response.echeckSalesResponse, echeckSale);
+            var cnpResponse = SendRequest(response => response, echeckSale);
+            var eCheckSaleResponse = cnpResponse.echeckSalesResponse;
+            if (eCheckSaleResponse != null)
+            {
+                eCheckSaleResponse.location = cnpResponse.location;
+            }
+            return eCheckSaleResponse;
         }
 
         public echeckVerificationResponse EcheckVerification(echeckVerification echeckVerification)
         {
-            return SendRequest(response => response.echeckVerificationResponse, echeckVerification);
+            var cnpResponse = SendRequest(response => response, echeckVerification);
+            var eCheckVerificationResponse = cnpResponse.echeckVerificationResponse;
+            if (eCheckVerificationResponse != null)
+            {
+                eCheckVerificationResponse.location = cnpResponse.location;
+            }
+            return eCheckVerificationResponse;
         }
 
         public Task<echeckVerificationResponse> EcheckVerificationAsync(echeckVerification echeckVerification, CancellationToken cancellationToken)
         {
-            return SendRequestAsync(response => response.echeckVerificationResponse, echeckVerification, cancellationToken);
+            return SendRequestAsync(response =>
+            {
+                var echeckVerificationResponse = response.echeckVerificationResponse;
+                if (echeckVerificationResponse != null)
+                {
+                    echeckVerificationResponse.location = response.location;
+                }
+                return echeckVerificationResponse;
+            }, echeckVerification, cancellationToken);
         }
 
         public forceCaptureResponse ForceCapture(forceCapture forceCapture)
         {
-            return SendRequest(response => response.forceCaptureResponse, forceCapture);
+            var cnpResponse = SendRequest(response => response, forceCapture);
+            var forceCaptureResponse = cnpResponse.forceCaptureResponse;
+            if (forceCaptureResponse != null)
+            {
+                forceCaptureResponse.location = cnpResponse.location;
+            }
+            return forceCaptureResponse;
         }
 
         public Task<forceCaptureResponse> ForceCaptureAsync(forceCapture forceCapture, CancellationToken cancellationToken)
         {
-            return SendRequestAsync(response => response.forceCaptureResponse, forceCapture, cancellationToken);
+            return SendRequestAsync(response =>
+            {
+                var forceCaptureResponse = response.forceCaptureResponse;
+                if (forceCaptureResponse != null)
+                {
+                    forceCaptureResponse.location = response.location;
+                }
+                return forceCaptureResponse;
+            }, forceCapture, cancellationToken);
         }
 
         public saleResponse Sale(sale sale)
         {
-            return SendRequest(response => response.saleResponse, sale);
+            var cnpResponse = SendRequest(response => response, sale);
+            var saleResponse = cnpResponse.saleResponse;
+            if (saleResponse != null)
+            {
+                saleResponse.location = cnpResponse.location;
+            }
+            return saleResponse;
         }
 
         public Task<saleResponse> SaleAsync(sale sale, CancellationToken cancellationToken)
         {
-            return SendRequestAsync(response => response.saleResponse, sale, cancellationToken);
+            return SendRequestAsync(response =>
+            {
+                var saleResponse = response.saleResponse;
+                if (saleResponse != null)
+                {
+                    saleResponse.location = response.location;
+                }
+                return saleResponse;
+            }, sale, cancellationToken);
         }
 
         public Task<registerTokenResponse> RegisterTokenAsync(registerTokenRequestType tokenRequest, CancellationToken cancellationToken)
         {
-            return SendRequestAsync(response => response.registerTokenResponse, tokenRequest, cancellationToken);
+            return SendRequestAsync(response =>
+            {
+                var registerTokenResponse = response.registerTokenResponse;
+                if (registerTokenResponse != null)
+                {
+                    registerTokenResponse.location = response.location;
+                }
+                return response.registerTokenResponse;
+            }, tokenRequest, cancellationToken);
         }
 
         public registerTokenResponse RegisterToken(registerTokenRequestType tokenRequest)
         {
-            return SendRequest(response => response.registerTokenResponse, tokenRequest);
+            var cnpResponse = SendRequest(response => response, tokenRequest);
+            var tokenResponse = cnpResponse.registerTokenResponse;
+            if (tokenResponse != null)
+            {
+                tokenResponse.location = cnpResponse.location;
+            }
+            return tokenResponse;
         }
 
         public voidResponse DoVoid(voidTxn v)
         {
-            return SendRequest(response => response.voidResponse, v);
+            var cnpResponse = SendRequest(response => response, v);
+            var voidResponse = cnpResponse.voidResponse;
+            if (voidResponse != null)
+            {
+                voidResponse.location = cnpResponse.location;
+            }
+            return voidResponse;
         }
 
         public Task<voidResponse> DoVoidAsync(voidTxn v, CancellationToken cancellationToken)
         {
-            return SendRequestAsync(response => response.voidResponse, v, cancellationToken);
+            return SendRequestAsync(response =>
+            { 
+                var voidResponse = response.voidResponse;
+                if (voidResponse != null)
+                {
+                    voidResponse.location = response.location;
+                }
+                return voidResponse;
+            }, v, cancellationToken);
         }
 
         public echeckVoidResponse EcheckVoid(echeckVoid v)
         {
-            return SendRequest(response => response.echeckVoidResponse, v);
+            var cnpResponse = SendRequest(response => response, v);
+            var eCheckVoidResponse = cnpResponse.echeckVoidResponse;
+            if (eCheckVoidResponse != null)
+            {
+                eCheckVoidResponse.location = cnpResponse.location;
+            }
+            return eCheckVoidResponse;
         }
 
         public Task<echeckVoidResponse> EcheckVoidAsync(echeckVoid v, CancellationToken cancellationToken)
         {
-            return SendRequestAsync(response => response.echeckVoidResponse, v, cancellationToken);
+            return SendRequestAsync(response =>
+            {
+                var echeckVoidResponse = response.echeckVoidResponse;
+                if (echeckVoidResponse != null)
+                {
+                    echeckVoidResponse.location = response.location;
+                }
+                return echeckVoidResponse;
+            }, v, cancellationToken);
         }
 
         public updateCardValidationNumOnTokenResponse UpdateCardValidationNumOnToken(updateCardValidationNumOnToken updateCardValidationNumOnToken)
         {
-            return SendRequest(response => response.updateCardValidationNumOnTokenResponse, updateCardValidationNumOnToken);
+            return SendRequest(response =>
+            {
+                var updateCardValidationNumOnTokenResponse = response.updateCardValidationNumOnTokenResponse;
+                if (updateCardValidationNumOnTokenResponse != null)
+                {
+                    updateCardValidationNumOnTokenResponse.location = response.location;
+                }
+                return updateCardValidationNumOnTokenResponse;
+            }, updateCardValidationNumOnToken);
         }
 
         public Task<updateCardValidationNumOnTokenResponse> UpdateCardValidationNumOnTokenAsync(updateCardValidationNumOnToken update, CancellationToken cancellationToken)
         {
-            return SendRequestAsync(response => response.updateCardValidationNumOnTokenResponse, update, cancellationToken);
+            return SendRequestAsync(response =>
+            {
+                var updateCardValidationNumOnTokenResponse = response.updateCardValidationNumOnTokenResponse;
+                if (updateCardValidationNumOnTokenResponse != null)
+                {
+                    updateCardValidationNumOnTokenResponse.location = response.location;
+                }
+                return updateCardValidationNumOnTokenResponse;
+            }, update, cancellationToken);
         }
 
         public cancelSubscriptionResponse CancelSubscription(cancelSubscription cancelSubscription)
         {
-            return SendRequest(response => response.cancelSubscriptionResponse, cancelSubscription);
+            var cnpResponse = SendRequest(response => response, cancelSubscription);
+            var cancelSubscriptionResponse = cnpResponse.cancelSubscriptionResponse;
+            if (cancelSubscriptionResponse != null)
+            {
+                cancelSubscriptionResponse.location = cnpResponse.location;
+            }
+            return cancelSubscriptionResponse;
         }
 
         public updateSubscriptionResponse UpdateSubscription(updateSubscription updateSubscription)
         {
-            return SendRequest(response => response.updateSubscriptionResponse, updateSubscription);
+            var cnpResponse = SendRequest(response => response, updateSubscription);
+            var updateSubscriptionResponse = cnpResponse.updateSubscriptionResponse;
+            if (updateSubscriptionResponse != null)
+            {
+                updateSubscriptionResponse.location = cnpResponse.location;
+            }
+            return updateSubscriptionResponse;
         }
 
         public activateResponse Activate(activate activate)
         {
-            return SendRequest(response => response.activateResponse, activate);
+            var cnpResponse = SendRequest(response => response, activate);
+            var activatationResponse = cnpResponse.activateResponse;
+            if (activatationResponse != null)
+            {
+                activatationResponse.location = cnpResponse.location;
+            }
+            return activatationResponse;
         }
 
         public deactivateResponse Deactivate(deactivate deactivate)
         {
-            return SendRequest(response => response.deactivateResponse, deactivate);
+            var cnpResponse = SendRequest(response => response, deactivate);
+            var deactivationResponse = cnpResponse.deactivateResponse;
+            if (deactivationResponse != null)
+            {
+                deactivationResponse.location = cnpResponse.location;
+            }
+            return deactivationResponse;
         }
 
         public loadResponse Load(load load)
         {
-            return SendRequest(response => response.loadResponse, load);
+            var cnpResponse = SendRequest(response => response, load);
+            var loadResponse = cnpResponse.loadResponse;
+            if (loadResponse != null)
+            {
+                loadResponse.location = cnpResponse.location;
+            }
+            return loadResponse;
         }
 
         public unloadResponse Unload(unload unload)
         {
-            return SendRequest(response => response.unloadResponse, unload);
+            var cnpResponse = SendRequest(response => response, unload);
+            var unloadResponse = cnpResponse.unloadResponse;
+            if (unloadResponse != null)
+            {
+                unloadResponse.location = cnpResponse.location;
+            }
+            return unloadResponse;
         }
 
         public balanceInquiryResponse BalanceInquiry(balanceInquiry balanceInquiry)
         {
-            return SendRequest(response => response.balanceInquiryResponse, balanceInquiry);
+            var cnpResponse = SendRequest(response => response, balanceInquiry);
+            var balanceInquiryResponse = cnpResponse.balanceInquiryResponse;
+            if (balanceInquiryResponse != null)
+            {
+                balanceInquiryResponse.location = cnpResponse.location;
+            }
+            return balanceInquiryResponse;
         }
 
         public Task<balanceInquiryResponse> BalanceInquiryAsync(balanceInquiry balanceInquiry, CancellationToken cancellationToken)
         {
-            return SendRequestAsync(response => response.balanceInquiryResponse, balanceInquiry, cancellationToken);
+            return SendRequestAsync(response =>
+            {
+                var balanceInquiryResponse = response.balanceInquiryResponse;
+                if (balanceInquiryResponse != null)
+                {
+                    balanceInquiryResponse.location = response.location;
+                }
+                return balanceInquiryResponse;
+            }, balanceInquiry, cancellationToken);
         }
 
         public createPlanResponse CreatePlan(createPlan createPlan)
         {
-            return SendRequest(response => response.createPlanResponse, createPlan);
+            var cnpResponse = SendRequest(response => response, createPlan);
+            var createPlanResponse = cnpResponse.createPlanResponse;
+            if (createPlanResponse != null)
+            {
+                createPlanResponse.location = cnpResponse.location;
+            }
+            return createPlanResponse;
         }
 
         public updatePlanResponse UpdatePlan(updatePlan updatePlan)
         {
-            return SendRequest(response => response.updatePlanResponse, updatePlan);
+            var cnpResponse = SendRequest(response => response, updatePlan);
+            var updatePlanResponse = cnpResponse.updatePlanResponse;
+            if (updatePlanResponse != null)
+            {
+                updatePlanResponse.location = cnpResponse.location;
+            }
+            return updatePlanResponse;
         }
 
         public refundReversalResponse RefundReversal(refundReversal refundReversal)
         {
-            return SendRequest(response => response.refundReversalResponse, refundReversal);
+            var cnpResponse = SendRequest(response => response, refundReversal);
+            var refundReversalResponse = cnpResponse.refundReversalResponse;
+            if (refundReversalResponse != null)
+            {
+                refundReversalResponse.location = cnpResponse.location;
+            }
+            return refundReversalResponse;
         }
 
         public depositReversalResponse DepositReversal(depositReversal depositReversal)
         {
-            return SendRequest(response => response.depositReversalResponse, depositReversal);
+            var cnpResponse = SendRequest(response => response, depositReversal);
+            var depositReversalResponse = cnpResponse.depositReversalResponse;
+            if (depositReversalResponse != null)
+            {
+                depositReversalResponse.location = cnpResponse.location;
+            }
+            return depositReversalResponse;
         }
 
         public activateReversalResponse ActivateReversal(activateReversal activateReversal)
         {
-            return SendRequest(response => response.activateReversalResponse, activateReversal);
+            var cnpResponse = SendRequest(response => response, activateReversal);
+            var activateReversalResponse = cnpResponse.activateReversalResponse;
+            if (activateReversalResponse != null)
+            {
+                activateReversalResponse.location = cnpResponse.location;
+            }
+            return activateReversalResponse;
         }
 
         public deactivateReversalResponse DeactivateReversal(deactivateReversal deactivateReversal)
         {
-            return SendRequest(response => response.deactivateReversalResponse, deactivateReversal);
+            var cnpResponse = SendRequest(response => response, deactivateReversal);
+            var deactivateReversalResponse = cnpResponse.deactivateReversalResponse;
+            if (deactivateReversalResponse != null)
+            {
+                deactivateReversalResponse.location = cnpResponse.location;
+            }
+            return deactivateReversalResponse;
         }
 
         public loadReversalResponse LoadReversal(loadReversal loadReversal)
         {
-            return SendRequest(response => response.loadReversalResponse, loadReversal);
+            var cnpResponse = SendRequest(response => response, loadReversal);
+            var loadReversalResponse = cnpResponse.loadReversalResponse;
+            if (loadReversalResponse != null)
+            {
+                loadReversalResponse.location = cnpResponse.location;
+            }
+            return loadReversalResponse;
         }
 
         public unloadReversalResponse UnloadReversal(unloadReversal unloadReversal)
         {
-            return SendRequest(response => response.unloadReversalResponse, unloadReversal);
+            var cnpResponse = SendRequest(response => response, unloadReversal);
+            var unloadReversalResponse = cnpResponse.unloadReversalResponse;
+            if (unloadReversalResponse != null)
+            {
+                unloadReversalResponse.location = cnpResponse.location;
+            }
+            return unloadReversalResponse;
         }
 
         public Task<transactionTypeWithReportGroup> QueryTransactionAsync(queryTransaction queryTransaction, CancellationToken cancellationToken)
         {
-            return SendRequestAsync(response => (response.queryTransactionResponse ?? (transactionTypeWithReportGroup)response.queryTransactionUnavailableResponse), queryTransaction, cancellationToken);
+            return SendRequestAsync(response =>
+            {
+                var res = response.queryTransactionResponse ??
+                        (transactionTypeWithReportGroup) response.queryTransactionUnavailableResponse;
+                if (res != null)
+                {
+                    res.location = response.location;
+                }
+                return res;
+            }, queryTransaction, cancellationToken);
         }
 
         public transactionTypeWithReportGroup QueryTransaction(queryTransaction queryTransaction)
         {
-            return SendRequest(response =>(response.queryTransactionResponse ?? (transactionTypeWithReportGroup)response.queryTransactionUnavailableResponse), queryTransaction);
+            var cnpResponse = SendRequest(response => response, queryTransaction);
+            var transactionResponse = cnpResponse.queryTransactionResponse ??
+                                      (transactionTypeWithReportGroup) cnpResponse.queryTransactionUnavailableResponse;
+            if (transactionResponse != null)
+            {
+                transactionResponse.location = cnpResponse.location;
+            }
+            return transactionResponse;
         }
 
         public fraudCheckResponse FraudCheck(fraudCheck fraudCheck)
         {
-            return SendRequest(response => response.fraudCheckResponse, fraudCheck);
+            var cnpResponse = SendRequest(response => response, fraudCheck);
+            var fraudCheckResponse = cnpResponse.fraudCheckResponse;
+            if (fraudCheckResponse != null)
+            {
+                fraudCheckResponse.location = cnpResponse.location;
+            }
+            return fraudCheckResponse;
         }
 
         public fastAccessFundingResponse FastAccessFunding(fastAccessFunding fastAccessFunding)
         {
-            return SendRequest(response => response.fastAccessFundingResponse, fastAccessFunding);
+            var cnpResponse = SendRequest(response => response, fastAccessFunding);
+            var fastAccessFundingResponse = cnpResponse.fastAccessFundingResponse;
+            if (fastAccessFundingResponse != null)
+            {
+                fastAccessFundingResponse.location = cnpResponse.location;
+            }
+            return fastAccessFundingResponse;
         }
         
         public payFacCreditResponse PayFacCredit(payFacCredit payFacCredit)
         {
-            return SendRequest(response => response.payFacCreditResponse, payFacCredit);
+            var cnpResponse = SendRequest(response => response, payFacCredit);
+            var payFacCreditResponse = cnpResponse.payFacCreditResponse;
+            if (payFacCreditResponse != null)
+            {
+                payFacCreditResponse.location = cnpResponse.location;
+            }
+            return payFacCreditResponse;
         }
 
         public Task<payFacCreditResponse> PayFacCreditAsync(payFacCredit payFacCredit, CancellationToken cancellationToken)
         {
-            return SendRequestAsync(response => response.payFacCreditResponse, payFacCredit, cancellationToken);
+            return SendRequestAsync(response =>
+            {
+                var payFacCreditResponse = response.payFacCreditResponse;
+                if (payFacCreditResponse != null)
+                {
+                    payFacCreditResponse.location = response.location;
+                }
+                return payFacCreditResponse;
+            }, payFacCredit, cancellationToken);
         }
 
         public payFacDebitResponse PayFacDebit(payFacDebit payFacDebit)
         {
-            return SendRequest(response => response.payFacDebitResponse, payFacDebit);
+            var cnpResponse = SendRequest(response => response, payFacDebit);
+            var payfacDebitResponse = cnpResponse.payFacDebitResponse;
+            if (payfacDebitResponse != null)
+            {
+                payfacDebitResponse.location = cnpResponse.location;
+            }
+            return payfacDebitResponse;
         }
 
         public Task<payFacDebitResponse> PayFacDebitAsync(payFacDebit payFacDebit, CancellationToken cancellationToken)
         {
-            return SendRequestAsync(response => response.payFacDebitResponse, payFacDebit, cancellationToken);
+            return SendRequestAsync(response =>
+            {
+                var payFacDebitResponse  = response.payFacDebitResponse;
+                if (payFacDebitResponse != null)
+                {
+                    payFacDebitResponse.location = response.location;
+                }
+                return payFacDebitResponse;
+            }, payFacDebit, cancellationToken);
         }
 
         public physicalCheckCreditResponse PhysicalCheckCredit(physicalCheckCredit physicalCheckCredit)
         {
-            return SendRequest(response => response.physicalCheckCreditResponse, physicalCheckCredit);
+            var cnpResponse = SendRequest(response => response, physicalCheckCredit);
+            var physicalCheckCreditResponse = cnpResponse.physicalCheckCreditResponse;
+            if (physicalCheckCreditResponse != null)
+            {
+                physicalCheckCreditResponse.location = cnpResponse.location;
+            }
+            return physicalCheckCreditResponse;
         }
 
         public Task<physicalCheckCreditResponse> PhysicalCheckCreditAsync(physicalCheckCredit physicalCheckCredit, CancellationToken cancellationToken)
         {
-            return SendRequestAsync(response => response.physicalCheckCreditResponse, physicalCheckCredit, cancellationToken);
+            return SendRequestAsync(response =>
+            {
+                var physicalCheckCreditResponse = response.physicalCheckCreditResponse;
+                if (physicalCheckCreditResponse != null)
+                {
+                    physicalCheckCreditResponse.location = response.location;
+                }
+                return physicalCheckCreditResponse;
+            }, physicalCheckCredit, cancellationToken);
         }
 
         public physicalCheckDebitResponse PhysicalCheckDebit(physicalCheckDebit physicalCheckDebit)
         {
-            return SendRequest(response => response.physicalCheckDebitResponse, physicalCheckDebit);
+            var cnpResponse = SendRequest(response => response, physicalCheckDebit);
+            var physicalCheckDebitResponse = cnpResponse.physicalCheckDebitResponse;
+            if (physicalCheckDebitResponse != null)
+            {
+                physicalCheckDebitResponse.location = cnpResponse.location;
+            }
+            return physicalCheckDebitResponse;
         }
 
         public Task<physicalCheckDebitResponse> PhysicalCheckDebitAsync(physicalCheckDebit physicalCheckDebit, CancellationToken cancellationToken)
         {
-            return SendRequestAsync(response => response.physicalCheckDebitResponse, physicalCheckDebit, cancellationToken);
+            return SendRequestAsync(response =>
+            {
+                var physicalCheckDebitResponse = response.physicalCheckDebitResponse;
+                if (physicalCheckDebitResponse != null)
+                {
+                    physicalCheckDebitResponse.location = response.location;
+                }
+                return physicalCheckDebitResponse;
+            }, physicalCheckDebit, cancellationToken);
         }
 
         public payoutOrgCreditResponse PayoutOrgCredit(payoutOrgCredit payoutOrgCredit)
         {
-            return SendRequest(response => response.payoutOrgCreditResponse, payoutOrgCredit);
+            var cnpResponse = SendRequest(response => response, payoutOrgCredit);
+            var payoutOrgCreditResponse = cnpResponse.payoutOrgCreditResponse;
+            if (payoutOrgCreditResponse != null)
+            {
+                payoutOrgCreditResponse.location = cnpResponse.location;
+            }
+            return payoutOrgCreditResponse;
         }
 
         public Task<payoutOrgCreditResponse> PayoutOrgCreditAsync(payoutOrgCredit payoutOrgCredit, CancellationToken cancellationToken)
         {
-            return SendRequestAsync(response => response.payoutOrgCreditResponse, payoutOrgCredit, cancellationToken);
+            return SendRequestAsync(response =>
+            {
+                var payoutOrgCreditResponse = response.payoutOrgCreditResponse;
+                if (payoutOrgCreditResponse != null)
+                {
+                    payoutOrgCreditResponse.location = response.location;
+                }
+                return payoutOrgCreditResponse;
+            }, payoutOrgCredit, cancellationToken);
         }
 
         public payoutOrgDebitResponse PayoutOrgDebit(payoutOrgDebit payoutOrgDebit)
         {
-            return SendRequest(response => response.payoutOrgDebitResponse, payoutOrgDebit);
+            var cnpResponse = SendRequest(response => response, payoutOrgDebit);
+            var payoutOrgDebitResponse = cnpResponse.payoutOrgDebitResponse;
+            if (payoutOrgDebitResponse != null)
+            {
+                payoutOrgDebitResponse.location = cnpResponse.location;
+            }
+            return payoutOrgDebitResponse;
         }
 
         public Task<payoutOrgDebitResponse> PayoutOrgDebitAsync(payoutOrgDebit payoutOrgDebit, CancellationToken cancellationToken)
         {
-            return SendRequestAsync(response => response.payoutOrgDebitResponse, payoutOrgDebit, cancellationToken);
+            return SendRequestAsync(response =>
+            {
+                var payoutOrgDebitResponse = response.payoutOrgDebitResponse;
+                if (payoutOrgDebitResponse != null)
+                {
+                    payoutOrgDebitResponse.location = response.location;
+                }
+                return payoutOrgDebitResponse;
+            }, payoutOrgDebit, cancellationToken);
         }
 
         public reserveCreditResponse ReserveCredit(reserveCredit reserveCredit)
         {
-            return SendRequest(response => response.reserveCreditResponse, reserveCredit);
+            var cnpResponse = SendRequest(response => response, reserveCredit);
+            var reserveCreditResponse = cnpResponse.reserveCreditResponse;
+            if (reserveCreditResponse != null)
+            {
+                reserveCreditResponse.location = cnpResponse.location;
+            }
+            return reserveCreditResponse;
         }
 
         public Task<reserveCreditResponse> ReserveCreditAsync(reserveCredit reserveCredit, CancellationToken cancellationToken)
         {
-            return SendRequestAsync(response => response.reserveCreditResponse, reserveCredit, cancellationToken);
+            return SendRequestAsync(response =>
+            {
+                var reserveCreditResponse = response.reserveCreditResponse;
+                if (reserveCreditResponse != null)
+                {
+                    reserveCreditResponse.location = response.location;
+                }
+                return response.reserveCreditResponse;
+            }, reserveCredit, cancellationToken);
         }
 
         public reserveDebitResponse ReserveDebit(reserveDebit reserveDebit)
         {
-            return SendRequest(response => response.reserveDebitResponse, reserveDebit);
+            var cnpResponse = SendRequest(response => response, reserveDebit);
+            var reserveDebitResponse = cnpResponse.reserveDebitResponse;
+            if (reserveDebitResponse != null)
+            {
+                reserveDebitResponse.location = cnpResponse.location;
+            }
+            return reserveDebitResponse;
         }
 
         public Task<reserveDebitResponse> ReserveDebitAsync(reserveDebit reserveDebit, CancellationToken cancellationToken)
         {
-            return SendRequestAsync(response => response.reserveDebitResponse, reserveDebit, cancellationToken);
+            return SendRequestAsync(response =>
+            {
+                var reserveDebitResponse = response.reserveDebitResponse;
+                if (reserveDebitResponse != null)
+                {
+                    reserveDebitResponse.location = response.location;
+                }
+                return reserveDebitResponse;
+            }, reserveDebit, cancellationToken);
         }
 
         public submerchantCreditResponse SubmerchantCredit(submerchantCredit submerchantCredit)
         {
-            return SendRequest(response => response.submerchantCreditResponse, submerchantCredit);
+            var cnpResponse = SendRequest(response => response, submerchantCredit);
+            var submerchantCreditResponse = cnpResponse.submerchantCreditResponse;
+            if (submerchantCreditResponse != null)
+            {
+                submerchantCreditResponse.location = cnpResponse.location;
+            }
+            return submerchantCreditResponse;
         }
 
         public Task<submerchantCreditResponse> SubmerchantCreditAsync(submerchantCredit submerchantCredit, CancellationToken cancellationToken)
         {
-            return SendRequestAsync(response => response.submerchantCreditResponse, submerchantCredit, cancellationToken);
+            return SendRequestAsync(response =>
+            {
+                var submerchantCreditResponse = response.submerchantCreditResponse;
+                if (submerchantCreditResponse != null)
+                {
+                    submerchantCreditResponse.location = response.location;
+                }
+                return submerchantCreditResponse;
+            }, submerchantCredit, cancellationToken);
         }
 
         public submerchantDebitResponse SubmerchantDebit(submerchantDebit submerchantDebit)
         {
-            return SendRequest(response => response.submerchantDebitResponse, submerchantDebit);
+            var cnpResponse = SendRequest(response => response, submerchantDebit);
+            var submerchantDebitResponse = cnpResponse.submerchantDebitResponse;
+            if (submerchantDebitResponse != null)
+            {
+                submerchantDebitResponse.location = cnpResponse.location;
+            }
+            return submerchantDebitResponse;
         }
 
         public Task<submerchantDebitResponse> SubmerchantDebitAsync(submerchantDebit submerchantDebit, CancellationToken cancellationToken)
         {
-            return SendRequestAsync(response => response.submerchantDebitResponse, submerchantDebit, cancellationToken);
+            return SendRequestAsync(response =>
+            {
+                var submerchantDebitResponse = response.submerchantDebitResponse;
+                if (submerchantDebitResponse != null)
+                {
+                    submerchantDebitResponse.location = response.location;
+                }
+                return submerchantDebitResponse;
+            }, submerchantDebit, cancellationToken);
         }
 
         public vendorCreditResponse VendorCredit(vendorCredit vendorCredit)
         {
-            return SendRequest(response => response.vendorCreditResponse, vendorCredit);
+            var cnpResponse = SendRequest(response => response, vendorCredit);
+            var vendorCreditResponse = cnpResponse.vendorCreditResponse;
+            if (vendorCreditResponse != null)
+            {
+                vendorCreditResponse.location = cnpResponse.location;
+            }
+            return vendorCreditResponse;
         }
 
         public Task<vendorCreditResponse> VendorCreditAsync(vendorCredit vendorCredit, CancellationToken cancellationToken)
         {
-            return SendRequestAsync(response => response.vendorCreditResponse, vendorCredit, cancellationToken);
+            return SendRequestAsync(response =>
+            {
+                var vendorCreditResponse = response.vendorCreditResponse;
+                if (vendorCreditResponse != null)
+                {
+                    vendorCreditResponse.location = response.location;
+                }
+                return vendorCreditResponse;
+            }, vendorCredit, cancellationToken);
         }
 
         public customerCreditResponse CustomerCredit(customerCredit customerCredit)
         {
-            return SendRequest(response => response.customerCreditResponse, customerCredit);
+            var cnpResponse = SendRequest(response => response, customerCredit);
+            var customerCreditResponse = cnpResponse.customerCreditResponse;
+            if (customerCreditResponse != null)
+            {
+                customerCreditResponse.location = cnpResponse.location;
+            }
+            return customerCreditResponse;
         }
 
         public Task<customerCreditResponse> CustomerCreditAsync(customerCredit customerCredit, CancellationToken cancellationToken)
         {
-            return SendRequestAsync(response => response.customerCreditResponse, customerCredit, cancellationToken);
+            return SendRequestAsync(response =>
+            {
+                var customerCreditResponse = response.customerCreditResponse;
+                if (customerCreditResponse != null)
+                {
+                    customerCreditResponse.location = response.location;
+                }
+                return customerCreditResponse;
+            }, customerCredit, cancellationToken);
         }
 
         public translateToLowValueTokenResponse TranslateToLowValueTokenRequest(translateToLowValueTokenRequest translateToLowValueTokenRequest)
         {
-            return SendRequest(response => response.translateToLowValueTokenResponse, translateToLowValueTokenRequest);
+            var cnpResponse = SendRequest(response => response, translateToLowValueTokenRequest);
+            var translateToLowValueTokenResponse = cnpResponse.translateToLowValueTokenResponse;
+            if (translateToLowValueTokenResponse != null)
+            {
+                translateToLowValueTokenResponse.location = cnpResponse.location;
+            }
+            return translateToLowValueTokenResponse;
         }
 
         public Task<translateToLowValueTokenResponse> TranslateToLowValueTokenRequestAsync(translateToLowValueTokenRequest translateToLowValueTokenRequest, CancellationToken cancellationToken)
         {
-            return SendRequestAsync(response => response.translateToLowValueTokenResponse, translateToLowValueTokenRequest, cancellationToken);
+            return SendRequestAsync(response =>
+            {
+                var translateToLowValueTokenResponse = response.translateToLowValueTokenResponse;
+                if (translateToLowValueTokenResponse != null)
+                {
+                    translateToLowValueTokenResponse.location = response.location;
+                }
+                return translateToLowValueTokenResponse;
+            }, translateToLowValueTokenRequest, cancellationToken);
         }
 
         public vendorDebitResponse VendorDebit(vendorDebit vendorDebit)
         {
-            return SendRequest(response => response.vendorDebitResponse, vendorDebit);
+            var cnpResponse = SendRequest(response => response, vendorDebit);
+            var vendorDebitResponse = cnpResponse.vendorDebitResponse;
+            if (vendorDebitResponse != null)
+            {
+                vendorDebitResponse.location = cnpResponse.location;
+            }
+            return vendorDebitResponse;
         }
 
         public Task<vendorDebitResponse> VendorDebitAsync(vendorDebit vendorDebit, CancellationToken cancellationToken)
         {
-            return SendRequestAsync(response => response.vendorDebitResponse, vendorDebit, cancellationToken);
+            return SendRequestAsync(response =>
+            {
+                var vendorDebitResponse = response.vendorDebitResponse;
+                if (vendorDebitResponse != null)
+                {
+                    vendorDebitResponse.location = response.location;
+                }
+                return vendorDebitResponse;
+            }, vendorDebit, cancellationToken);
         }
 
         public customerDebitResponse CustomerDebit(customerDebit customerDebit)
         {
-            return SendRequest(response => response.customerDebitResponse, customerDebit);
+            var cnpResponse = SendRequest(response => response, customerDebit);
+            var customerDebitResponse = cnpResponse.customerDebitResponse;
+            if (customerDebitResponse != null)
+            {
+                customerDebitResponse.location = cnpResponse.location;
+            }
+            return customerDebitResponse;
         }
 
         public Task<customerDebitResponse> CustomerDebitAsync(customerDebit customerDebit, CancellationToken cancellationToken)
         {
-            return SendRequestAsync(response => response.customerDebitResponse, customerDebit, cancellationToken);
+            return SendRequestAsync(response =>
+            {
+                var customerDebitResponse = response.customerDebitResponse;
+                if (customerDebitResponse != null)
+                {
+                    customerDebitResponse.location = response.location;
+                }
+                return customerDebitResponse;
+            }, customerDebit, cancellationToken);
         }
 
 

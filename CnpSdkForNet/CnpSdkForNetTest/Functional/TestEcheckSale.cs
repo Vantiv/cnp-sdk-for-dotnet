@@ -45,6 +45,38 @@ namespace Cnp.Sdk.Test.Functional
             var response = _cnp.EcheckSale(echeckSaleObj);
             StringAssert.AreEqualIgnoringCase("Approved", response.message);
         }
+        
+        [Test]
+        public void SimpleEcheckSaleWithEcheckWithLocation()
+        {
+            var echeckSaleObj = new echeckSale
+            {
+                id = "1",
+                reportGroup = "Planets",
+                amount = 123456,
+                orderId = "12345",
+                orderSource = orderSourceType.ecommerce,
+                echeck = new echeckType
+                {
+                    accType = echeckAccountTypeEnum.Checking,
+                    accNum = "12345657890",
+                    routingNum = "123456789",
+                    checkNum = "123455"
+                },
+                billToAddress = new contact
+                {
+                    name = "Bob",
+                    city = "lowell",
+                    state = "MA",
+                    email = "cnp.com"
+                }
+            };
+
+
+            var response = _cnp.EcheckSale(echeckSaleObj);
+            Assert.AreEqual("sandbox", response.location);
+            StringAssert.AreEqualIgnoringCase("Approved", response.message);
+        }
 
         [Test]
         public void EcheckSaleWithCnpTxnId()
@@ -345,6 +377,38 @@ namespace Cnp.Sdk.Test.Functional
             CancellationToken cancellationToken = new CancellationToken(false);
             var response = _cnp.EcheckSaleAsync(echeckSaleObj, cancellationToken);
             StringAssert.AreEqualIgnoringCase("000", response.Result.response);
+        }
+        
+        [Test]
+        public void TestEcheckSaleWithLocation()
+        {
+            var echeckSaleObj = new echeckSale
+            {
+                id = "1",
+                reportGroup = "Planets",
+                amount = 123456,
+                orderId = "12345",
+                orderSource = orderSourceType.ecommerce,
+                echeck = new echeckType
+                {
+                    accType = echeckAccountTypeEnum.Checking,
+                    accNum = "12345657890",
+                    routingNum = "123456789",
+                    checkNum = "123455"
+                },
+                billToAddress = new contact
+                {
+                    name = "Bob",
+                    city = "lowell",
+                    state = "MA",
+                    email = "cnp.com"
+                }
+            };
+
+
+            var response = _cnp.EcheckSale(echeckSaleObj);
+            StringAssert.AreEqualIgnoringCase("Approved", response.message);
+            Assert.AreEqual("sandbox", response.location);
         }
     }
 }

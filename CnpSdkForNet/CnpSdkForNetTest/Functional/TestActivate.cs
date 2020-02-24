@@ -34,6 +34,7 @@ namespace Cnp.Sdk.Test.Functional
             };
             var response = _cnp.Activate(activate);
             Assert.AreEqual("000", response.response);
+            Assert.AreEqual("sandbox", response.location);
         }
 
         [Test]

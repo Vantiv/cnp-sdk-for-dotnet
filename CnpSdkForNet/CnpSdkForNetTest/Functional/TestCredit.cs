@@ -190,6 +190,29 @@ namespace Cnp.Sdk.Test.Functional
             var response = _cnp.CreditAsync(creditObj, cancellationToken);
             Assert.AreEqual("000", response.Result.response);
         }
+        
+        [Test]
+        public void SimpleCreditWithCardWithLocation()
+        {
+            var creditObj = new credit
+            {
+                id = "1",
+                reportGroup = "planets",
+                amount = 106,
+                orderId = "2111",
+                orderSource = orderSourceType.ecommerce,
+                card = new cardType
+                {
+                    type = methodOfPaymentTypeEnum.VI,
+                    number = "4100000000000001",
+                    expDate = "1210"
+                }
+            };
+
+            var response = _cnp.Credit(creditObj);
+            Assert.AreEqual("sandbox", response.location);
+            Assert.AreEqual("Approved", response.message);
+        }
 
     }
 }

@@ -38,6 +38,7 @@ namespace Cnp.Sdk.Test.Functional
             };
 
             var response = _cnp.SubmerchantCredit(submerchantCredit);
+            Assert.AreEqual("sandbox", response.location);
             Assert.AreEqual("000", response.response);
         }
 

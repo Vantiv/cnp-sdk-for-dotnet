@@ -87,6 +87,7 @@ namespace Cnp.Sdk.Test.Functional
 
             var fraudCheckResponse = _cnp.FraudCheck(fraudCheck);
             Assert.NotNull(fraudCheckResponse);
+            Assert.AreEqual("sandbox", fraudCheckResponse.location);
             Assert.AreEqual("Call Discover", fraudCheckResponse.message);
             Assert.AreEqual("fail", fraudCheckResponse.advancedFraudResults.deviceReviewStatus);
 

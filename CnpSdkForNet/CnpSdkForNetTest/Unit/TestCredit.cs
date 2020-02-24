@@ -261,6 +261,29 @@ namespace Cnp.Sdk.Test.Unit
             cnp.SetCommunication(mockedCommunication);
             cnp.Credit(credit);
         }
+        
+        [Test]
+        public void TestCreditWithLocation()
+        {
+            credit credit = new credit();
+            credit.orderId = "12344";
+            credit.amount = 2;
+            credit.orderSource = orderSourceType.ecommerce;
+            credit.reportGroup = "Planets";
+            credit.actionReason = "SUSPECT_FRAUD";
+           
+            var mock = new Mock<Communications>();
+
+            mock.Setup(Communications => Communications.HttpPost(It.IsRegex(".*<actionReason>SUSPECT_FRAUD</actionReason>.*", RegexOptions.Singleline), It.IsAny<Dictionary<String, String>>()))
+                .Returns("<cnpOnlineResponse version='8.10' response='0' message='Valid Format' location='sandbox' xmlns='http://www.vantivcnp.com/schema'><creditResponse><cnpTxnId>123</cnpTxnId></creditResponse></cnpOnlineResponse>");
+     
+            Communications mockedCommunication = mock.Object;
+            cnp.SetCommunication(mockedCommunication);
+            var response = cnp.Credit(credit);
+            
+            Assert.NotNull(response);
+            Assert.AreEqual("sandbox", response.location);
+        }
 
 
     }

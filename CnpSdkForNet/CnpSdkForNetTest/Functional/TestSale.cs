@@ -54,6 +54,46 @@ namespace Cnp.Sdk.Test.Functional
             var responseObj = _cnp.Sale(saleObj);
             StringAssert.AreEqualIgnoringCase("Approved", responseObj.message);
         }
+        
+        [Test]
+        public void SimpleSaleWithTaxTypeIdentifierWithLocation()
+        {
+            var saleObj = new sale
+            {
+                amount = 106,
+                cnpTxnId = 123456,
+                id = "1",
+                orderId = "12344",
+                orderSource = orderSourceType.ecommerce,
+                card = new cardType
+                {
+                    type = methodOfPaymentTypeEnum.VI,
+                    number = "4100000000000000",
+                    expDate = "1210"
+                },
+                enhancedData = new enhancedData
+                {
+                    customerReference = "000000008110801",
+                    salesTax = 23,
+                    deliveryType = enhancedDataDeliveryType.DIG,
+                    taxExempt = false,
+                    detailTaxes = new List<detailTax>()
+
+
+                }
+            };
+
+            var myDetailTax = new detailTax();
+            myDetailTax.taxIncludedInTotal = true;
+            myDetailTax.taxAmount = 23;
+            myDetailTax.taxTypeIdentifier = taxTypeIdentifierEnum.Item00;
+            myDetailTax.cardAcceptorTaxId = "58-1942497";
+            saleObj.enhancedData.detailTaxes.Add(myDetailTax);
+
+            var responseObj = _cnp.Sale(saleObj);
+            Assert.AreEqual("sandbox", responseObj.location);
+            StringAssert.AreEqualIgnoringCase("Approved", responseObj.message);
+        }
 
         [Test]
         public void SimpleSaleWithCard()

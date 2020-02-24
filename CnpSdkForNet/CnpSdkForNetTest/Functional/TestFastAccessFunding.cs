@@ -36,6 +36,7 @@ namespace Cnp.Sdk.Test.Functional
             
             var response = _cnp.FastAccessFunding(fastAccessFunding);
             Assert.AreEqual("000", response.response);
+            Assert.AreEqual("sandbox", response.location);
             StringAssert.AreEqualIgnoringCase("Approved", response.message);
         }
         
