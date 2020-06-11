@@ -275,7 +275,7 @@ namespace Cnp.Sdk.Test.Unit
             var mock = new Mock<Communications>();
 
             mock.Setup(Communications => Communications.HttpPost(It.IsRegex(".*<actionReason>SUSPECT_FRAUD</actionReason>.*", RegexOptions.Singleline), It.IsAny<Dictionary<String, String>>()))
-                .Returns("<cnpOnlineResponse version='8.10' response='0' message='Valid Format' location='sandbox' xmlns='http://www.vantivcnp.com/schema'><creditResponse><cnpTxnId>123</cnpTxnId></creditResponse></cnpOnlineResponse>");
+                .Returns("<cnpOnlineResponse version='8.10' response='0' message='Valid Format' xmlns='http://www.vantivcnp.com/schema'><creditResponse><cnpTxnId>123</cnpTxnId><location>sandbox</location></creditResponse></cnpOnlineResponse>");
      
             Communications mockedCommunication = mock.Object;
             cnp.SetCommunication(mockedCommunication);
