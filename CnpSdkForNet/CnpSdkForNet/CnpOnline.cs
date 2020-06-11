@@ -807,10 +807,6 @@ namespace Cnp.Sdk
         {
             var cnpResponse = SendRequest(response => response, activate);
             var activatationResponse = cnpResponse.activateResponse;
-            if (activatationResponse != null)
-            {
-                activatationResponse.location = cnpResponse.location;
-            }
             return activatationResponse;
         }
 
