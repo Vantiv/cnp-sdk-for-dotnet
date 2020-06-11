@@ -215,7 +215,7 @@ namespace Cnp.Sdk.Test.Certification
             auth.token = token;
 
             authorizationResponse response = cnp.Authorize(auth);
-            Assert.AreEqual("823", response.response);
+            Assert.AreEqual("822", response.response);
         }
 
         [Test]
