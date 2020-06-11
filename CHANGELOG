@@ -1,6 +1,9 @@
 
 = Worldpay CNP CHANGELOG
 
+==Version 12.13 (June 11, 2020)
+* Feature: Added location as optional element of all online responses
+
 ==Version 12.12.0 (February 21, 2020)
 * Feature: Added location in responses for CnpOnline
 
