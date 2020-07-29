@@ -2082,6 +2082,8 @@ namespace Cnp.Sdk
 
         private androidpayResponse androidpayResponseField;
 
+        private pinlessDebitResponse pinlessDebitResponseField;
+
         private string networkTransactionIdField;
 
         private string locationField;
@@ -2386,6 +2388,17 @@ namespace Cnp.Sdk
             set
             {
                 this.androidpayResponseField = value;
+            }
+        }
+        public pinlessDebitResponse pinlessDebitResponse
+        {
+            get
+            {
+                return this.pinlessDebitResponseField;
+            }
+            set
+            {
+                this.pinlessDebitResponseField = value;
             }
         }
 
@@ -2985,6 +2998,8 @@ namespace Cnp.Sdk
 
         private string locationField;
 
+        private pinlessDebitResponse pinlessDebitResponseField;
+
         /// <remarks/>
         public long cnpTxnId
         {
@@ -3073,6 +3088,17 @@ namespace Cnp.Sdk
                 return this.locationField;
             }
             set { this.locationField = value; }
+        }
+        public pinlessDebitResponse pinlessDebitResponse
+        {
+            get
+            {
+                return this.pinlessDebitResponseField;
+            }
+            set
+            {
+                this.pinlessDebitResponseField = value;
+            }
         }
     }
 
@@ -3237,6 +3263,8 @@ namespace Cnp.Sdk
 
         private fraudResult fraudResultField;
 
+        private pinlessDebitResponse pinlessDebitResponseField;
+
         /// <remarks/>
         public long cnpTxnId
         {
@@ -3354,7 +3382,17 @@ namespace Cnp.Sdk
                 this.fraudResultField = value;
             }
         }
-
+        public pinlessDebitResponse pinlessDebitResponse
+        {
+            get
+            {
+                return this.pinlessDebitResponseField;
+            }
+            set
+            {
+                this.pinlessDebitResponseField = value;
+            }
+        }
     }
 
     /// <remarks/>
@@ -3881,7 +3919,7 @@ namespace Cnp.Sdk
         private pinlessDebitResponse pinlessDebitResponseField;
 
         private string paymentAccountReferenceNumberField;
-
+        
         /// <remarks/>
         public long cnpTxnId
         {

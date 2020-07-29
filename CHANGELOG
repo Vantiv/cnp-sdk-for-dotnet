@@ -1,6 +1,10 @@
 
 = Worldpay CNP CHANGELOG
 
+==Version 12.14.0 (July 14, 2020)
+* Feature: Added PinlessDebitResponse in authorizationResponse, authReversalResponse, captureResponse, saleResponse
+* Feature: Added TokenAuthenticationValue as optional element of fraudCheckType
+
 ==Version 12.13.0 (June 11, 2020)
 * Feature: Added location as optional element of all online responses
 
