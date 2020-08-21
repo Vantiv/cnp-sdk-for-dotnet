@@ -3407,6 +3407,7 @@ namespace Cnp.Sdk
         public string tokenUrl;
         public string expDate;
         public string cardValidationNum;
+		private string authenticationShopperID 
         private methodOfPaymentTypeEnum typeField;
         private bool typeSet;
         public methodOfPaymentTypeEnum type
@@ -3435,6 +3436,7 @@ namespace Cnp.Sdk
             if (cardValidationNum != null) xml += "\r\n<cardValidationNum>" + SecurityElement.Escape(cardValidationNum) + "</cardValidationNum>";
             if (typeSet) xml += "\r\n<type>" + methodOfPaymentSerializer.Serialize(typeField) + "</type>";
             if (checkoutIdSet) xml += "\r\n<checkoutId>" + checkoutId + "</checkoutId>";
+			if {authenticationShopperID != null} xml += "\r\n<authenticationShopperID>" + authenticationShipperID + "</authenticationShopperID";
             return xml;
         }
     }
@@ -4145,6 +4147,7 @@ namespace Cnp.Sdk
     {
         private int totalHealthcareAmountField;
         private bool totalHealthcareAmountSet;
+		private long copayAmount;
         public int totalHealthcareAmount
         {
             get { return totalHealthcareAmountField; }

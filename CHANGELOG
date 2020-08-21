@@ -1,6 +1,12 @@
 
 = Worldpay CNP CHANGELOG
 
+==Version 12.15.0 (August 19, 2020)
+* Feature: Added AuthenticationShopperID to cardTokenType
+* Feature: Added copayAmount to healthcareAmounts
+* Feature: Created echeckTokenRoutingNumber and echeckTokenAccountTypeEnum types and set routingNum and accType in eCheckTokenType to those new types
+* Feature" Added debitResponse and debitMessage fields to pinlessDebitResponse
+
 ==Version 12.14.0 (July 14, 2020)
 * Feature: Added PinlessDebitResponse in authorizationResponse, authReversalResponse, captureResponse, saleResponse
 * Feature: Added TokenAuthenticationValue as optional element of fraudCheckType
