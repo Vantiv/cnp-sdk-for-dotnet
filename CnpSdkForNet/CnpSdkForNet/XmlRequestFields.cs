@@ -3407,7 +3407,7 @@ namespace Cnp.Sdk
         public string tokenUrl;
         public string expDate;
         public string cardValidationNum;
-		private string authenticationShopperID 
+	private string authenticatedShopperID;
         private methodOfPaymentTypeEnum typeField;
         private bool typeSet;
         public methodOfPaymentTypeEnum type
@@ -3425,7 +3425,9 @@ namespace Cnp.Sdk
             set { checkoutIdField = value;
                 checkoutIdSet = true;
             }
-        } 
+        }
+
+ 
 
         public string Serialize()
         {
@@ -3436,7 +3438,7 @@ namespace Cnp.Sdk
             if (cardValidationNum != null) xml += "\r\n<cardValidationNum>" + SecurityElement.Escape(cardValidationNum) + "</cardValidationNum>";
             if (typeSet) xml += "\r\n<type>" + methodOfPaymentSerializer.Serialize(typeField) + "</type>";
             if (checkoutIdSet) xml += "\r\n<checkoutId>" + checkoutId + "</checkoutId>";
-			if {authenticationShopperID != null} xml += "\r\n<authenticationShopperID>" + authenticationShipperID + "</authenticationShopperID";
+	    if (authenticatedShopperID != null) xml += "\r\n<authenticatednShopperID>" + authenticatedShopperID + "</authenticatedShopperID>";
             return xml;
         }
     }
@@ -4130,7 +4132,6 @@ namespace Cnp.Sdk
     }
 
 
-
     public partial class recurringRequest
     {
         public subscription subscription;
@@ -4147,7 +4148,6 @@ namespace Cnp.Sdk
     {
         private int totalHealthcareAmountField;
         private bool totalHealthcareAmountSet;
-		private long copayAmount;
         public int totalHealthcareAmount
         {
             get { return totalHealthcareAmountField; }
@@ -4186,6 +4186,15 @@ namespace Cnp.Sdk
             set { dentalAmountField = value; dentalAmountSet = true; }
         }
 
+
+	private int copayAmountField;
+	private bool copayAmountSet;
+	public int copayAmount
+	{
+		get { return copayAmountField; }
+		set { copayAmountField = value; copayAmountSet = true; }
+	}
+	
         public string Serialize()
         {
             var xml = "";
@@ -4194,6 +4203,7 @@ namespace Cnp.Sdk
             if (visionAmountSet) xml += "\r\n<visionAmount>" + visionAmountField + "</visionAmount>";
             if (clinicOtherAmountSet) xml += "\r\n<clinicOtherAmount>" + clinicOtherAmountField + "</clinicOtherAmount>";
             if (dentalAmountSet) xml += "\r\n<dentalAmount>" + dentalAmountField + "</dentalAmount>";
+	    if (copayAmountSet) xml += "\r\n<copayAmount>" + copayAmountField + "</copayAmount>";
             return xml;
         }
     }
