@@ -1,6 +1,11 @@
 
 = Worldpay CNP CHANGELOG
 
+==Version 12.7.6 (September 3, 2020)
+* Feature: merchantId field added to CnpOnline class to allow changing merchantIds with same CnpOnline instance.
+* Feature: keepAlive setting added to config for keeping the Async Http Request Alive
+* BugFix:  communication field is made static in CnpOnline to limit initializations
+
 ==Version 12.7.5 (July 17, 2019)
 * BugFix: Refactor config code to limit direct property usage
 
