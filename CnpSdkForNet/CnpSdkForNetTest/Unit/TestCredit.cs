@@ -33,7 +33,7 @@ namespace Cnp.Sdk.Test.Unit
            
             var mock = new Mock<Communications>();
 
-            mock.Setup(Communications => Communications.HttpPost(It.IsRegex(".*<actionReason>SUSPECT_FRAUD</actionReason>.*", RegexOptions.Singleline), It.IsAny<Dictionary<String, String>>()))
+            mock.Setup(Communications => Communications.HttpPost(It.IsRegex(".*<actionReason>SUSPECT_FRAUD</actionReason>.*", RegexOptions.Singleline)  ))
                 .Returns("<cnpOnlineResponse version='8.10' response='0' message='Valid Format' xmlns='http://www.vantivcnp.com/schema'><creditResponse><cnpTxnId>123</cnpTxnId></creditResponse></cnpOnlineResponse>");
      
             Communications mockedCommunication = mock.Object;
@@ -54,7 +54,7 @@ namespace Cnp.Sdk.Test.Unit
 
             var mock = new Mock<Communications>();
 
-            mock.Setup(Communications => Communications.HttpPost(It.IsRegex(".*<credit.*<amount>2</amount>.*<orderSource>ecommerce</orderSource>.*</credit>.*", RegexOptions.Singleline), It.IsAny<Dictionary<String, String>>()))
+            mock.Setup(Communications => Communications.HttpPost(It.IsRegex(".*<credit.*<amount>2</amount>.*<orderSource>ecommerce</orderSource>.*</credit>.*", RegexOptions.Singleline)  ))
                 .Returns("<cnpOnlineResponse version='8.10' response='0' message='Valid Format' xmlns='http://www.vantivcnp.com/schema'><creditResponse><cnpTxnId>123</cnpTxnId></creditResponse></cnpOnlineResponse>");
 
             Communications mockedCommunication = mock.Object;
@@ -74,7 +74,7 @@ namespace Cnp.Sdk.Test.Unit
 
             var mock = new Mock<Communications>();
 
-            mock.Setup(Communications => Communications.HttpPost(It.IsRegex(".*<orderId>3</orderId>\r\n<amount>2</amount>\r\n<secondaryAmount>1</secondaryAmount>\r\n<orderSource>ecommerce</orderSource>.*", RegexOptions.Singleline), It.IsAny<Dictionary<String, String>>()))
+            mock.Setup(Communications => Communications.HttpPost(It.IsRegex(".*<orderId>3</orderId>\r\n<amount>2</amount>\r\n<secondaryAmount>1</secondaryAmount>\r\n<orderSource>ecommerce</orderSource>.*", RegexOptions.Singleline)  ))
                 .Returns("<cnpOnlineResponse version='8.14' response='0' message='Valid Format' xmlns='http://www.vantivcnp.com/schema'><creditResponse><cnpTxnId>123</cnpTxnId></creditResponse></cnpOnlineResponse>");
 
             Communications mockedCommunication = mock.Object;
@@ -94,7 +94,7 @@ namespace Cnp.Sdk.Test.Unit
 
             var mock = new Mock<Communications>();
 
-            mock.Setup(Communications => Communications.HttpPost(It.IsRegex(".*<cnpTxnId>3</cnpTxnId>\r\n<amount>2</amount>\r\n<secondaryAmount>1</secondaryAmount>\r\n<process.*", RegexOptions.Singleline), It.IsAny<Dictionary<String, String>>()))
+            mock.Setup(Communications => Communications.HttpPost(It.IsRegex(".*<cnpTxnId>3</cnpTxnId>\r\n<amount>2</amount>\r\n<secondaryAmount>1</secondaryAmount>\r\n<process.*", RegexOptions.Singleline)  ))
                 .Returns("<cnpOnlineResponse version='8.14' response='0' message='Valid Format' xmlns='http://www.vantivcnp.com/schema'><creditResponse><cnpTxnId>123</cnpTxnId></creditResponse></cnpOnlineResponse>");
 
             Communications mockedCommunication = mock.Object;
@@ -114,7 +114,7 @@ namespace Cnp.Sdk.Test.Unit
 
             var mock = new Mock<Communications>();
 
-            mock.Setup(Communications => Communications.HttpPost(It.IsRegex(".*<cnpTxnId>3</cnpTxnId>\r\n<amount>2</amount>\r\n<surchargeAmount>1</surchargeAmount>\r\n<process.*", RegexOptions.Singleline), It.IsAny<Dictionary<String, String>>()))
+            mock.Setup(Communications => Communications.HttpPost(It.IsRegex(".*<cnpTxnId>3</cnpTxnId>\r\n<amount>2</amount>\r\n<surchargeAmount>1</surchargeAmount>\r\n<process.*", RegexOptions.Singleline)  ))
                 .Returns("<cnpOnlineResponse version='8.14' response='0' message='Valid Format' xmlns='http://www.vantivcnp.com/schema'><creditResponse><cnpTxnId>123</cnpTxnId></creditResponse></cnpOnlineResponse>");
 
             Communications mockedCommunication = mock.Object;
@@ -133,7 +133,7 @@ namespace Cnp.Sdk.Test.Unit
 
             var mock = new Mock<Communications>();
 
-            mock.Setup(Communications => Communications.HttpPost(It.IsRegex(".*<cnpTxnId>3</cnpTxnId>\r\n<amount>2</amount>\r\n<processi.*", RegexOptions.Singleline), It.IsAny<Dictionary<String, String>>()))
+            mock.Setup(Communications => Communications.HttpPost(It.IsRegex(".*<cnpTxnId>3</cnpTxnId>\r\n<amount>2</amount>\r\n<processi.*", RegexOptions.Singleline)  ))
                 .Returns("<cnpOnlineResponse version='8.14' response='0' message='Valid Format' xmlns='http://www.vantivcnp.com/schema'><creditResponse><cnpTxnId>123</cnpTxnId></creditResponse></cnpOnlineResponse>");
 
             Communications mockedCommunication = mock.Object;
@@ -153,7 +153,7 @@ namespace Cnp.Sdk.Test.Unit
 
             var mock = new Mock<Communications>();
 
-            mock.Setup(Communications => Communications.HttpPost(It.IsRegex(".*<orderId>3</orderId>\r\n<amount>2</amount>\r\n<surchargeAmount>1</surchargeAmount>\r\n<orderSource>ecommerce</orderSource>.*", RegexOptions.Singleline), It.IsAny<Dictionary<String, String>>()))
+            mock.Setup(Communications => Communications.HttpPost(It.IsRegex(".*<orderId>3</orderId>\r\n<amount>2</amount>\r\n<surchargeAmount>1</surchargeAmount>\r\n<orderSource>ecommerce</orderSource>.*", RegexOptions.Singleline)  ))
                 .Returns("<cnpOnlineResponse version='8.14' response='0' message='Valid Format' xmlns='http://www.vantivcnp.com/schema'><creditResponse><cnpTxnId>123</cnpTxnId></creditResponse></cnpOnlineResponse>");
 
             Communications mockedCommunication = mock.Object;
@@ -172,7 +172,7 @@ namespace Cnp.Sdk.Test.Unit
 
             var mock = new Mock<Communications>();
 
-            mock.Setup(Communications => Communications.HttpPost(It.IsRegex(".*<orderId>3</orderId>\r\n<amount>2</amount>\r\n<orderSource>ecommerce</orderSource>.*", RegexOptions.Singleline), It.IsAny<Dictionary<String, String>>()))
+            mock.Setup(Communications => Communications.HttpPost(It.IsRegex(".*<orderId>3</orderId>\r\n<amount>2</amount>\r\n<orderSource>ecommerce</orderSource>.*", RegexOptions.Singleline)  ))
                 .Returns("<cnpOnlineResponse version='8.14' response='0' message='Valid Format' xmlns='http://www.vantivcnp.com/schema'><creditResponse><cnpTxnId>123</cnpTxnId></creditResponse></cnpOnlineResponse>");
 
             Communications mockedCommunication = mock.Object;
@@ -193,7 +193,7 @@ namespace Cnp.Sdk.Test.Unit
 
             var mock = new Mock<Communications>();
 
-            mock.Setup(Communications => Communications.HttpPost(It.IsRegex(".*<cnpTxnId>3</cnpTxnId>\r\n<amount>2</amount>\r\n<pos>\r\n<terminalId>abc123</terminalId></pos>\r\n<payPalNotes>.*", RegexOptions.Singleline), It.IsAny<Dictionary<String, String>>()))
+            mock.Setup(Communications => Communications.HttpPost(It.IsRegex(".*<cnpTxnId>3</cnpTxnId>\r\n<amount>2</amount>\r\n<pos>\r\n<terminalId>abc123</terminalId></pos>\r\n<payPalNotes>.*", RegexOptions.Singleline)  ))
                 .Returns("<cnpOnlineResponse version='8.14' response='0' message='Valid Format' xmlns='http://www.vantivcnp.com/schema'><creditResponse><cnpTxnId>123</cnpTxnId></creditResponse></cnpOnlineResponse>");
 
             Communications mockedCommunication = mock.Object;
@@ -212,7 +212,7 @@ namespace Cnp.Sdk.Test.Unit
 
             var mock = new Mock<Communications>();
 
-            mock.Setup(Communications => Communications.HttpPost(It.IsRegex(".*<cnpTxnId>3</cnpTxnId>\r\n<amount>2</amount>\r\n<payPalNotes>.*", RegexOptions.Singleline), It.IsAny<Dictionary<String, String>>()))
+            mock.Setup(Communications => Communications.HttpPost(It.IsRegex(".*<cnpTxnId>3</cnpTxnId>\r\n<amount>2</amount>\r\n<payPalNotes>.*", RegexOptions.Singleline)  ))
                 .Returns("<cnpOnlineResponse version='8.14' response='0' message='Valid Format' xmlns='http://www.vantivcnp.com/schema'><creditResponse><cnpTxnId>123</cnpTxnId></creditResponse></cnpOnlineResponse>");
 
             Communications mockedCommunication = mock.Object;
@@ -236,7 +236,7 @@ namespace Cnp.Sdk.Test.Unit
 
             var mock = new Mock<Communications>();
 
-            mock.Setup(Communications => Communications.HttpPost(It.IsRegex(".*<credit.*<pin>1234</pin>.*</credit>.*", RegexOptions.Singleline), It.IsAny<Dictionary<String, String>>()))
+            mock.Setup(Communications => Communications.HttpPost(It.IsRegex(".*<credit.*<pin>1234</pin>.*</credit>.*", RegexOptions.Singleline)  ))
                 .Returns("<cnpOnlineResponse version='8.10' response='0' message='Valid Format' xmlns='http://www.vantivcnp.com/schema'><creditResponse><cnpTxnId>123</cnpTxnId></creditResponse></cnpOnlineResponse>");
 
             Communications mockedCommunication = mock.Object;

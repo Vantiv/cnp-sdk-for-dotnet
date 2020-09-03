@@ -28,7 +28,8 @@ namespace Cnp.Sdk.Test.Functional
                 {"proxyHost", Properties.Settings.Default.proxyHost},
                 {"proxyPort", Properties.Settings.Default.proxyPort},
                 {"logFile", Properties.Settings.Default.logFile},
-                {"neuterAccountNums", "true"}
+                {"neuterAccountNums", "true"},
+                {"KeepAlive", Properties.Settings.Default.keepAlive}
             };
 
             _cnp = new CnpOnline(_config);
@@ -643,6 +644,32 @@ namespace Cnp.Sdk.Test.Functional
         [Test]
         public void TestAuthAsync()
         {
+            var authorization = new authorization
+            {
+                id = "1",
+                reportGroup = "Planets",
+                orderId = "12344",
+                amount = 106,
+                orderSource = orderSourceType.ecommerce,
+                card = new cardType
+                {
+                    type = methodOfPaymentTypeEnum.VI,
+                    number = "414100000000000000",
+                    expDate = "1210"
+                },
+                customBilling = new customBilling { phone = "1112223333" }
+            };
+
+            CancellationToken cancellationToken = new CancellationToken(false);
+            var response = _cnp.AuthorizeAsync(authorization, cancellationToken);
+
+            Assert.AreEqual("000", response.Result.response);
+        }
+
+        [Test]
+        public void TestAuthAsync_newMerchantId()
+        {
+            _cnp.SetMerchantId("1234");
             var authorization = new authorization
             {
                 id = "1",

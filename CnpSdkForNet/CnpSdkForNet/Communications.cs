@@ -22,6 +22,13 @@ namespace Cnp.Sdk
 
         public event EventHandler HttpAction;
 
+        private Dictionary<string, string> _config;
+
+        public Communications(Dictionary<string, string> config)
+        {
+            _config = config;
+        }
+
 
         private void OnHttpAction(RequestType requestType, string xmlPayload, bool neuter)
         {
@@ -85,34 +92,34 @@ namespace Cnp.Sdk
         }
 
         
-        public virtual Task<string> HttpPostAsync(string xmlRequest, Dictionary<string, string> config, CancellationToken cancellationToken)
+        public virtual Task<string> HttpPostAsync(string xmlRequest, CancellationToken cancellationToken)
         {
-            return HttpPostCoreAsync(xmlRequest, config, cancellationToken);
+            return HttpPostCoreAsync(xmlRequest, cancellationToken);
         }
 
-        private async Task<string> HttpPostCoreAsync(string xmlRequest, Dictionary<string, string> config, CancellationToken cancellationToken)
+        private async Task<string> HttpPostCoreAsync(string xmlRequest, CancellationToken cancellationToken)
         {
             string logFile = null;
-            if (IsValidConfigValueSet(config, "logFile"))
+            if (IsValidConfigValueSet(_config, "logFile"))
             {
-                logFile = config["logFile"];
+                logFile = _config["logFile"];
             }
 
-            RequestTarget reqTarget = CommManager.instance(config).findUrl();
+            RequestTarget reqTarget = CommManager.instance(_config).findUrl();
             var uri = reqTarget.getUrl();
             ServicePointManager.SecurityProtocol = ServicePointManager.SecurityProtocol | SecurityProtocolType.Tls12 | SecurityProtocolType.Tls11;
             var request = (HttpWebRequest)WebRequest.Create(uri);
 
             var neuter = false;
-            if (config.ContainsKey("neuterAccountNums"))
+            if (_config.ContainsKey("neuterAccountNums"))
             {
-                neuter = ("true".Equals(config["neuterAccountNums"]));
+                neuter = ("true".Equals(_config["neuterAccountNums"]));
             }
 
             var printxml = false;
-            if (config.ContainsKey("printxml"))
+            if (_config.ContainsKey("printxml"))
             {
-                if ("true".Equals(config["printxml"]))
+                if ("true".Equals(_config["printxml"]))
                 {
                     printxml = true;
                 }
@@ -134,10 +141,14 @@ namespace Cnp.Sdk
             request.Method = "POST";
             request.ServicePoint.MaxIdleTime = 8000;
             request.ServicePoint.Expect100Continue = false;
-            request.KeepAlive = false;
-            if (IsProxyOn(config))
+            request.KeepAlive = true;
+            if (_config.ContainsKey("keepAlive"))
             {
-                var myproxy = new WebProxy(config["proxyHost"], int.Parse(config["proxyPort"]))
+                request.KeepAlive = (true.Equals(_config["keepAlive"]));
+            }
+            if (IsProxyOn(_config))
+            {
+                var myproxy = new WebProxy(_config["proxyHost"], int.Parse(_config["proxyPort"]))
                 {
                     BypassProxyOnLocal = true
                 };
@@ -198,29 +209,29 @@ namespace Cnp.Sdk
             return config != null && config.ContainsKey(propertyName) && !String.IsNullOrEmpty(config[propertyName]);
         }
 
-        public virtual string HttpPost(string xmlRequest, Dictionary<string, string> config)
+        public virtual string HttpPost(string xmlRequest)
         {
             string logFile = null;
-            if (IsValidConfigValueSet(config, "logFile"))
+            if (IsValidConfigValueSet(_config, "logFile"))
             {
-                logFile = config["logFile"];
+                logFile = _config["logFile"];
             }
 
-            RequestTarget reqTarget = CommManager.instance(config).findUrl();
+            RequestTarget reqTarget = CommManager.instance(_config).findUrl();
             var uri = reqTarget.getUrl();
             ServicePointManager.SecurityProtocol = ServicePointManager.SecurityProtocol | SecurityProtocolType.Tls12 | SecurityProtocolType.Tls11;
             var req = (HttpWebRequest)WebRequest.Create(uri);
 
             var neuter = false;
-            if (config.ContainsKey("neuterAccountNums"))
+            if (_config.ContainsKey("neuterAccountNums"))
             {
-                neuter = ("true".Equals(config["neuterAccountNums"]));
+                neuter = ("true".Equals(_config["neuterAccountNums"]));
             }
 
             var printxml = false;
-            if (config.ContainsKey("printxml"))
+            if (_config.ContainsKey("printxml"))
             {
-                if ("true".Equals(config["printxml"]))
+                if ("true".Equals(_config["printxml"]))
                 {
                     printxml = true;
                 }
@@ -243,10 +254,14 @@ namespace Cnp.Sdk
             req.ServicePoint.MaxIdleTime = 8000;
             req.ServicePoint.Expect100Continue = false;
             req.KeepAlive = true;
-            //req.Timeout = 500000;
-            if (IsProxyOn(config))
+            if (_config.ContainsKey("keepAlive"))
             {
-                var myproxy = new WebProxy(config["proxyHost"], int.Parse(config["proxyPort"]))
+                req.KeepAlive = (true.Equals(_config["keepAlive"]));
+            }
+            //req.Timeout = 500000;
+            if (IsProxyOn(_config))
+            {
+                var myproxy = new WebProxy(_config["proxyHost"], int.Parse(_config["proxyPort"]))
                 {
                     BypassProxyOnLocal = true
                 };
@@ -383,17 +398,17 @@ namespace Cnp.Sdk
         //    return xmlResponseDestinationDirectory + batchName;
         //}
 
-        public virtual void FtpDropOff(string fileDirectory, string fileName, Dictionary<string, string> config)
+        public virtual void FtpDropOff(string fileDirectory, string fileName)
         {
             ChannelSftp channelSftp;
 
-            var url = config["sftpUrl"];
-            var username = config["sftpUsername"];
-            var password = config["sftpPassword"];
-            var knownHostsFile = config["knownHostsFile"];
+            var url = _config["sftpUrl"];
+            var username = _config["sftpUsername"];
+            var password = _config["sftpPassword"];
+            var knownHostsFile = _config["knownHostsFile"];
             var filePath = Path.Combine(fileDirectory, fileName);
 
-            var printxml = config["printxml"] == "true";
+            var printxml = _config["printxml"] == "true";
             if (printxml)
             {
                 Console.WriteLine("Sftp Url: " + url);
@@ -547,16 +562,16 @@ namespace Cnp.Sdk
             } while (sftpAttrs == null && stopWatch.Elapsed.TotalMilliseconds <= timeout);
         }
 
-        public virtual void FtpPickUp(string destinationFilePath, Dictionary<string, string> config, string fileName)
+        public virtual void FtpPickUp(string destinationFilePath, string fileName)
         {
             ChannelSftp channelSftp;
 
-            var printxml = config["printxml"] == "true";
+            var printxml = _config["printxml"] == "true";
 
-            var url = config["sftpUrl"];
-            var username = config["sftpUsername"];
-            var password = config["sftpPassword"];
-            var knownHostsFile = config["knownHostsFile"];
+            var url = _config["sftpUrl"];
+            var username = _config["sftpUsername"];
+            var password = _config["sftpPassword"];
+            var knownHostsFile = _config["knownHostsFile"];
 
             var jsch = new JSch();
             jsch.setKnownHosts(knownHostsFile);

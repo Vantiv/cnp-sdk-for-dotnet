@@ -13,7 +13,8 @@ namespace Cnp.Sdk.Test.Unit
         [TestFixtureSetUp]
         public void SetUpCnp()
         {
-            _objectUnderTest = new Communications();
+            Dictionary<string, string> config = new Dictionary<string, string>();
+            _objectUnderTest = new Communications(config);
         }
 
         [Test]
