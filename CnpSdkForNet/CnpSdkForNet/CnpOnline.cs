@@ -18,7 +18,7 @@ namespace Cnp.Sdk
         // Configuration object containing credentials and settings.
         private Dictionary<string, string> _config;
         // 
-        private Communications _communication;
+        private static Communications _communication = new Communications();
 
         /**
          * Construct a Cnp online using the configuration specified in CnpSdkForNet.dll.config
@@ -39,7 +39,7 @@ namespace Cnp.Sdk
             //_config["proxyPort"] = Properties.Settings.Default.proxyPort;
             //_config["logFile"] = Properties.Settings.Default.logFile;
             //_config["neuterAccountNums"] = Properties.Settings.Default.neuterAccountNums;
-            _communication = new Communications();
+//            _communication = new Communications();
 
         }
 
@@ -62,7 +62,7 @@ namespace Cnp.Sdk
         public CnpOnline(Dictionary<string, string> config)
         {
             this._config = config;
-            _communication = new Communications();
+////            _communication = new Communications();
         }
 
         public event EventHandler HttpAction
@@ -73,17 +73,17 @@ namespace Cnp.Sdk
 
         public void SetCommunication(Communications communication)
         {
-            this._communication = communication;
+////            this._communication = communication;
         }
         
 
-        public Task<authorizationResponse> AuthorizeAsync(authorization auth, CancellationToken cancellationToken)
+        public Task<authorizationResponse> AuthorizeAsync(authorization auth, CancellationToken cancellationToken, string merchantId = null)
         {
             return SendRequestAsync(response =>
             {
                 var authResponse = response.authorizationResponse;
                 return authResponse;
-            }, auth, cancellationToken);
+            }, auth, cancellationToken, merchantId);
         }
 
         private T SendRequest<T>(Func<cnpOnlineResponse, T> getResponse, transactionRequest transaction)
@@ -94,9 +94,9 @@ namespace Cnp.Sdk
             return getResponse(response);
         }
 
-        private cnpOnlineRequest CreateRequest(transactionRequest transaction)
+        private cnpOnlineRequest CreateRequest(transactionRequest transaction, string merchantId = null)
         {
-            cnpOnlineRequest request = CreateCnpOnlineRequest();
+            cnpOnlineRequest request = CreateCnpOnlineRequest(merchantId);
 
             if (transaction is transactionTypeWithReportGroup)
             {
@@ -1019,10 +1019,10 @@ namespace Cnp.Sdk
         }
 
 
-        private cnpOnlineRequest CreateCnpOnlineRequest()
+        private cnpOnlineRequest CreateCnpOnlineRequest(string merchantId = null)
         {
             var request = new cnpOnlineRequest();
-            request.merchantId = _config["merchantId"];
+            request.merchantId = merchantId ?? _config["merchantId"];
             request.merchantSdk = "DotNet;" + CnpVersion.CurrentCNPSDKVersion;
             var authentication = new authentication();
             authentication.password = _config["password"];
@@ -1075,9 +1075,9 @@ namespace Cnp.Sdk
             }
         }
 
-        private async Task<T> SendRequestAsync<T>(Func<cnpOnlineResponse, T> getResponse, transactionRequest transaction, CancellationToken cancellationToken)
+        private async Task<T> SendRequestAsync<T>(Func<cnpOnlineResponse, T> getResponse, transactionRequest transaction, CancellationToken cancellationToken, string merchantId = null)
         {
-            var request = CreateRequest(transaction);
+            var request = CreateRequest(transaction, merchantId);
 
             cnpOnlineResponse response = await SendToCnpAsync(request, cancellationToken).ConfigureAwait(false);
             return getResponse(response);
@@ -1145,7 +1145,7 @@ namespace Cnp.Sdk
     public interface ICnpOnline
     {
         authorizationResponse Authorize(authorization auth);
-        Task<authorizationResponse> AuthorizeAsync(authorization auth, CancellationToken cancellationToken);
+        Task<authorizationResponse> AuthorizeAsync(authorization auth, CancellationToken cancellationToken, string merchantId);
         authReversalResponse AuthReversal(authReversal reversal);
         Task<authReversalResponse> AuthReversalAsync(authReversal reversal, CancellationToken cancellationToken);
         captureResponse Capture(capture capture);
