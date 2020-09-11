@@ -22,6 +22,18 @@ namespace Cnp.Sdk
 
         public event EventHandler HttpAction;
 
+        private Dictionary<string, string> _config;
+
+        public Communications(Dictionary<string, string> config)
+        {
+            _config = config;
+        }
+
+        public Communications()
+        {
+            _config = new ConfigManager().getConfig();
+        }
+
 
         private void OnHttpAction(RequestType requestType, string xmlPayload, bool neuterAccNums, bool neuterCreds)
         {
@@ -107,34 +119,34 @@ namespace Cnp.Sdk
                 }
             }
         }
-        
-        public HttpWebRequest CreateWebRequest(string xmlRequest,Dictionary<string, string> config)
-        { 
+
+        public HttpWebRequest CreateWebRequest(string xmlRequest)
+        {
             // Get the log file.
             string logFile = null;
-            if (IsValidConfigValueSet(config, "logFile"))
+            if (IsValidConfigValueSet(_config, "logFile"))
             {
-                logFile = config["logFile"];
+                logFile = _config["logFile"];
             }
-            
+
             // Get the rest of the configuration values.
-            var requestUrl = config["url"];
+            var requestUrl = _config["url"];
             var printXml = false;
             var neuterAccountNumbers = false;
             var neuterUserCredentials = false;
-            if (config.ContainsKey("neuterAccountNums"))
+            if (_config.ContainsKey("neuterAccountNums"))
             {
-                neuterAccountNumbers = ("true".Equals(config["neuterAccountNums"]));
+                neuterAccountNumbers = ("true".Equals(_config["neuterAccountNums"]));
             }
-            if (config.ContainsKey("neuterUserCredentials"))
+            if (_config.ContainsKey("neuterUserCredentials"))
             {
-                neuterUserCredentials = ("true".Equals(config["neuterUserCredentials"]));
+                neuterUserCredentials = ("true".Equals(_config["neuterUserCredentials"]));
             }
-            if (config.ContainsKey("printxml"))
+            if (_config.ContainsKey("printxml"))
             {
-                printXml = ("true".Equals(config["printxml"]));
+                printXml = ("true".Equals(_config["printxml"]));
             }
-            
+
             // Get the request target information.
             ServicePointManager.SecurityProtocol = ServicePointManager.SecurityProtocol | SecurityProtocolType.Tls12 | SecurityProtocolType.Tls11;
             var request = (HttpWebRequest)WebRequest.Create(requestUrl);
@@ -158,9 +170,14 @@ namespace Cnp.Sdk
             request.ServicePoint.MaxIdleTime = 8000;
             request.ServicePoint.Expect100Continue = false;
             request.KeepAlive = true;
-            if (IsProxyOn(config))
+
+            if (_config.ContainsKey("keepAlive"))
             {
-                var proxy = new WebProxy(config["proxyHost"], int.Parse(config["proxyPort"]))
+                request.KeepAlive = (true.Equals(_config["keepAlive"]));
+            }
+            if (IsProxyOn(_config))
+            {
+                var proxy = new WebProxy(_config["proxyHost"], int.Parse(_config["proxyPort"]))
                 {
                     BypassProxyOnLocal = true
                 };
@@ -168,9 +185,9 @@ namespace Cnp.Sdk
             }
 
             // Set the timeout (only effective for non-async requests.
-            if (config.ContainsKey("timeout")) {
+            if (_config.ContainsKey("timeout")) {
                 try {
-                    request.Timeout = Convert.ToInt32(config["timeout"]);
+                    request.Timeout = Convert.ToInt32(_config["timeout"]);
                 }
                 catch (FormatException e) {
                     // If timeout setting contains non-numeric
@@ -182,41 +199,41 @@ namespace Cnp.Sdk
 
             // Invoke the event.
             this.OnHttpAction(Communications.RequestType.Request,xmlRequest,neuterAccountNumbers,neuterUserCredentials);
-            
+
             // Return the request.
             return request;
         }
 
-        public virtual Task<string> HttpPostAsync(string xmlRequest, Dictionary<string, string> config, CancellationToken cancellationToken)
+        public virtual Task<string> HttpPostAsync(string xmlRequest, CancellationToken cancellationToken)
         {
-            return HttpPostCoreAsync(xmlRequest, config, cancellationToken);
+            return HttpPostCoreAsync(xmlRequest, cancellationToken);
         }
 
-        private async Task<string> HttpPostCoreAsync(string xmlRequest, Dictionary<string, string> config, CancellationToken cancellationToken)
+        private async Task<string> HttpPostCoreAsync(string xmlRequest, CancellationToken cancellationToken)
         {
             string logFile = null;
             var printXml = false;
             var neuterAccountNumbers = false;
             var neuterUserCredentials = false;
-            if (IsValidConfigValueSet(config, "logFile"))
+            if (IsValidConfigValueSet(_config, "logFile"))
             {
-                logFile = config["logFile"];
+                logFile = _config["logFile"];
             }
-            if (config.ContainsKey("neuterAccountNums"))
+            if (_config.ContainsKey("neuterAccountNums"))
             {
-                neuterAccountNumbers = ("true".Equals(config["neuterAccountNums"]));
+                neuterAccountNumbers = ("true".Equals(_config["neuterAccountNums"]));
             }
-            if (config.ContainsKey("neuterUserCredentials"))
+            if (_config.ContainsKey("neuterUserCredentials"))
             {
-                neuterUserCredentials = ("true".Equals(config["neuterUserCredentials"]));
+                neuterUserCredentials = ("true".Equals(_config["neuterUserCredentials"]));
             }
-            if (config.ContainsKey("printxml"))
+            if (_config.ContainsKey("printxml"))
             {
-                printXml = ("true".Equals(config["printxml"]));
+                printXml = ("true".Equals(_config["printxml"]));
             }
-            
+
             // submit http request
-            var request = this.CreateWebRequest(xmlRequest, config);
+            var request = this.CreateWebRequest(xmlRequest);
             using (var writer = new StreamWriter(await request.GetRequestStreamAsync().ConfigureAwait(false)))
             {
                 writer.Write(xmlRequest);
@@ -250,7 +267,7 @@ namespace Cnp.Sdk
 
             return xmlResponse;
         }
-       
+
         public bool IsProxyOn(Dictionary<string, string> config)
         {
             return IsValidConfigValueSet(config, "proxyHost") && IsValidConfigValueSet(config, "proxyPort");
@@ -261,31 +278,31 @@ namespace Cnp.Sdk
             return config != null && config.ContainsKey(propertyName) && !String.IsNullOrEmpty(config[propertyName]);
         }
 
-        public virtual string HttpPost(string xmlRequest, Dictionary<string, string> config)
+        public virtual string HttpPost(string xmlRequest)
         {
             string logFile = null;
             var printXml = false;
             var neuterAccountNumbers = false;
             var neuterUserCredentials = false;
-            if (IsValidConfigValueSet(config, "logFile"))
+            if (IsValidConfigValueSet(_config, "logFile"))
             {
-                logFile = config["logFile"];
+                logFile = _config["logFile"];
             }
-            if (config.ContainsKey("neuterAccountNums"))
+            if (_config.ContainsKey("neuterAccountNums"))
             {
-                neuterAccountNumbers = ("true".Equals(config["neuterAccountNums"]));
+                neuterAccountNumbers = ("true".Equals(_config["neuterAccountNums"]));
             }
-            if (config.ContainsKey("neuterUserCredentials"))
+            if (_config.ContainsKey("neuterUserCredentials"))
             {
-                neuterUserCredentials = ("true".Equals(config["neuterUserCredentials"]));
+                neuterUserCredentials = ("true".Equals(_config["neuterUserCredentials"]));
             }
-            if (config.ContainsKey("printxml"))
+            if (_config.ContainsKey("printxml"))
             {
-                printXml = ("true".Equals(config["printxml"]));
+                printXml = ("true".Equals(_config["printxml"]));
             }
-            
+
             // submit http request
-            var request = this.CreateWebRequest(xmlRequest, config);
+            var request = this.CreateWebRequest(xmlRequest);
 
             // submit http request
             using (var writer = new StreamWriter(request.GetRequestStream()))
@@ -407,16 +424,16 @@ namespace Cnp.Sdk
         //    return xmlResponseDestinationDirectory + batchName;
         //}
 
-        public virtual void FtpDropOff(string fileDirectory, string fileName, Dictionary<string, string> config)
+        public virtual void FtpDropOff(string fileDirectory, string fileName)
         {
             SftpClient sftpClient;
 
-            var url = config["sftpUrl"];
-            var username = config["sftpUsername"];
-            var password = config["sftpPassword"];
+            var url = _config["sftpUrl"];
+            var username = _config["sftpUsername"];
+            var password = _config["sftpPassword"];
             var filePath = Path.Combine(fileDirectory, fileName);
 
-            var printxml = config["printxml"] == "true";
+            var printxml = _config["printxml"] == "true";
             if (printxml)
             {
                 Console.WriteLine("Sftp Url: " + url);
@@ -536,15 +553,14 @@ namespace Cnp.Sdk
             sftpClient.Disconnect();
         }
 
-        public virtual void FtpPickUp(string destinationFilePath, Dictionary<string, string> config, string fileName)
+        public virtual void FtpPickUp(string destinationFilePath, string fileName)
         {
             SftpClient sftpClient;
 
-            var printxml = config["printxml"] == "true";
-
-            var url = config["sftpUrl"];
-            var username = config["sftpUsername"];
-            var password = config["sftpPassword"];
+            var printxml = _config["printxml"] == "true";
+            var url = _config["sftpUrl"];
+            var username = _config["sftpUsername"];
+            var password = _config["sftpPassword"];
 
             sftpClient = new SftpClient(url, username, password);
 

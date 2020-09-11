@@ -18,7 +18,10 @@ namespace Cnp.Sdk
         // Configuration object containing credentials and settings.
         private Dictionary<string, string> _config;
         // 
-        private Communications _communication;
+        private static Communications _communication;
+
+        // exposed merchantId for organizations with multiple Merchant Ids.
+        private string _merchantId;
 
         /**
          * Construct a Cnp online using the configuration specified in CnpSdkForNet.dll.config
@@ -39,8 +42,10 @@ namespace Cnp.Sdk
             //_config["proxyPort"] = Properties.Settings.Default.proxyPort;
             //_config["logFile"] = Properties.Settings.Default.logFile;
             //_config["neuterAccountNums"] = Properties.Settings.Default.neuterAccountNums;
-            _communication = new Communications();
-
+            if(_communication == null)
+            {
+                InitializeCommunication(_config);
+            }
         }
 
         /**
@@ -62,7 +67,30 @@ namespace Cnp.Sdk
         public CnpOnline(Dictionary<string, string> config)
         {
             this._config = config;
-            _communication = new Communications();
+            if(_communication==null)
+            {
+                InitializeCommunication(config);
+            }
+        }
+
+        // We have moved to static usage of Communications and will deprecated this method in the future
+        public void SetCommunication(Communications communication)
+        {
+            
+            if(_communication==null)
+            {
+                InitializeCommunication(_config);
+            }
+        }
+
+        public string GetMerchantId()
+        {
+            return _merchantId;
+        }
+
+        public void SetMerchantId(String merchantId)
+        {
+            this._merchantId = merchantId;
         }
 
         public event EventHandler HttpAction
@@ -71,9 +99,9 @@ namespace Cnp.Sdk
             remove { _communication.HttpAction -= value; }
         }
 
-        public void SetCommunication(Communications communication)
+        public static void InitializeCommunication(Dictionary<string, string> config)
         {
-            this._communication = communication;
+            _communication = new Communications(config);
         }
         
 
@@ -1022,8 +1050,8 @@ namespace Cnp.Sdk
         private cnpOnlineRequest CreateCnpOnlineRequest()
         {
             var request = new cnpOnlineRequest();
-            request.merchantId = _config["merchantId"];
             request.merchantSdk = "DotNet;" + CnpVersion.CurrentCNPSDKVersion;
+            request.merchantId = _merchantId ?? _config["merchantId"];
             var authentication = new authentication();
             authentication.password = _config["password"];
             authentication.user = _config["username"];
@@ -1034,7 +1062,7 @@ namespace Cnp.Sdk
         private cnpOnlineResponse SendToCnp(cnpOnlineRequest request)
         {
             var xmlRequest = request.Serialize();
-            var xmlResponse = _communication.HttpPost(xmlRequest, _config);
+            var xmlResponse = _communication.HttpPost(xmlRequest);
             if (xmlResponse == null)
             {
                 throw new WebException("Could not retrieve response from server for given request");
@@ -1086,7 +1114,7 @@ namespace Cnp.Sdk
         private async Task<cnpOnlineResponse> SendToCnpAsync(cnpOnlineRequest request, CancellationToken cancellationToken)
         {
             string xmlRequest = request.Serialize();
-            string xmlResponse = await _communication.HttpPostAsync(xmlRequest, _config, cancellationToken).ConfigureAwait(false);
+            string xmlResponse = await _communication.HttpPostAsync(xmlRequest, cancellationToken).ConfigureAwait(false);
             return DeserializeResponse(xmlResponse);
         }
 

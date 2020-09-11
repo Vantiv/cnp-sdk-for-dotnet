@@ -1,6 +1,9 @@
 
 = Worldpay CNP CHANGELOG
 
+==Version 12.14.1 (September 11, 2020)
+* Change: Propagated changes from 12.7.5-12.7.6 to 12.14.1
+
 ==Version 12.14.0 (July 14, 2020)
 * Feature: Added PinlessDebitResponse in authorizationResponse, authReversalResponse, captureResponse, saleResponse
 * Feature: Added TokenAuthenticationValue as optional element of fraudCheckType
@@ -62,7 +65,12 @@
 
 ==Version 12.8.0 (June 20, 2019)
 * Feature: Added new tokenURL element
- 
+
+==Version 12.7.6 (September 3, 2020)
+* Feature: merchantId field added to CnpOnline class to allow changing merchantIds with same CnpOnline instance.
+* Feature: keepAlive setting added to config for keeping the Async Http Request Alive
+* BugFix:  communication field is made static in CnpOnline to limit initializations
+
 ==Version 12.7.5 (July 17, 2019)
 * BugFix: Refactor config code to limit direct property usage
 

@@ -61,5 +61,29 @@ namespace Cnp.Sdk.Test.Functional
             Assert.AreEqual("000", response.Result.response);
         }
 
-}
+        [Test]
+        public void TestBalanceInquiryAsync_newMerchantId()
+        {
+            _cnp.SetMerchantId("1234");
+            var balanceInquiry = new balanceInquiry
+            {
+                id = "1",
+                reportGroup = "Planets",
+                orderId = "12344",
+                orderSource = orderSourceType.ecommerce,
+                card = new giftCardCardType
+                {
+                    type = methodOfPaymentTypeEnum.GC,
+                    number = "414100000000000000",
+                    cardValidationNum = "123",
+                    expDate = "1215",
+                }
+            };
+
+            CancellationToken cancellationToken = new CancellationToken(false);
+            var response = _cnp.BalanceInquiryAsync(balanceInquiry, cancellationToken);
+            Assert.AreEqual("000", response.Result.response);
+        }
+
+    }
 }

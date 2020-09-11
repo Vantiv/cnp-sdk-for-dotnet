@@ -30,7 +30,7 @@ namespace Cnp.Sdk.Test.Functional
             };
 
             var response = _cnp.PayFacCredit(payFacCredit);
-            Assert.AreEqual("000", response.response);
+            Assert.AreEqual("500", response.response);
             Assert.AreEqual("sandbox", response.location);
         }
 
@@ -50,7 +50,7 @@ namespace Cnp.Sdk.Test.Functional
 
             CancellationToken cancellationToken = new CancellationToken(false);
             var response = _cnp.PayFacCreditAsync(payFacCredit, cancellationToken);
-            Assert.AreEqual("000", response.Result.response);
+            Assert.AreEqual("500", response.Result.response);
         }
 
         [Test]
@@ -68,7 +68,7 @@ namespace Cnp.Sdk.Test.Functional
             };
 
             var response = _cnp.PayFacDebit(payFacDebit);
-            Assert.AreEqual("000", response.response);
+            Assert.AreEqual("500", response.response);
             Assert.AreEqual("sandbox", response.location);
         }
 
@@ -88,7 +88,7 @@ namespace Cnp.Sdk.Test.Functional
 
             CancellationToken cancellationToken = new CancellationToken(false);
             var response = _cnp.PayFacDebitAsync(payFacDebit, cancellationToken);
-            Assert.AreEqual("000", response.Result.response);
+            Assert.AreEqual("500", response.Result.response);
             Assert.AreEqual("sandbox", response.Result.location);
         }
     }

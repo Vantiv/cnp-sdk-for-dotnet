@@ -37,7 +37,7 @@ namespace Cnp.Sdk
             _config["vantivPublicKeyId"] = Properties.Settings.Default.vantivPublicKeyId;
             _config["pgpPassphrase"] = Properties.Settings.Default.pgpPassphrase;
             _config["neuterUserCredentials"] = Properties.Settings.Default.neuterUserCredentials;
-
+            _config["keepAlive"] = Properties.Settings.Default.keepAlive;
 
 
         }
