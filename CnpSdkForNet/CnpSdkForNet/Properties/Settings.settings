@@ -41,8 +41,8 @@
     <Setting Name="password" Type="System.String" Scope="User">
       <Value Profile="(Default)">V2b9F4k7</Value>
     </Setting>
-    <Setting Name="keepAlive" Type="System.String" Scope="User">
-      <Value Profile="(Default)">true</Value>
+    <Setting Name="maxConnections" Type="System.String" Scope="User">
+      <Value Profile="(Default)" />
     </Setting>
     <Setting Name="printxml" Type="System.String" Scope="User">
       <Value Profile="(Default)">true</Value>

@@ -181,13 +181,13 @@ namespace Cnp.Sdk.Properties {
         
         [global::System.Configuration.UserScopedSettingAttribute()]
         [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
-        [global::System.Configuration.DefaultSettingValueAttribute("true")]
-        public string keepAlive {
+        [global::System.Configuration.DefaultSettingValueAttribute("")]
+        public string maxConnections {
             get {
-                return ((string)(this["keepAlive"]));
+                return ((string)(this["maxConnections"]));
             }
             set {
-                this["keepAlive"] = value;
+                this["maxConnections"] = value;
             }
         }
         

@@ -4,8 +4,11 @@ using System.Collections.Generic;
 using System.Diagnostics;
 using System.Globalization;
 using System.Net;
+using System.Net.Http;
 using System.Net.Security;
+using System.Security.Authentication;
 using System.Security.Cryptography.X509Certificates;
+using System.Text;
 using System.Text.RegularExpressions;
 using System.Threading;
 using System.Threading.Tasks;
@@ -15,44 +18,74 @@ using Renci.SshNet.Common;
 
 namespace Cnp.Sdk
 {
-    public class Communications
+    public sealed class Communications
     {
         private static readonly object SynLock = new object();
-        public static string ContentTypeTextXmlUTF8 = "text/xml; charset=UTF-8";
 
         public event EventHandler HttpAction;
 
-        private Dictionary<string, string> _config;
+        private readonly HttpClient client;
 
-        public Communications(Dictionary<string, string> config)
+        private readonly Dictionary<string, string> _config;
+
+        public Communications(Dictionary<string, string> config = null)
         {
-            _config = config;
-        }
+            _config = config ?? new ConfigManager().getConfig();
+            
+            // The handler specifies several fields we need that cannot be directly set on the HttpClient
+            var handler = new HttpClientHandler {SslProtocols = SslProtocols.Tls12 | SslProtocols.Tls13};
 
-        public Communications()
-        {
-            _config = new ConfigManager().getConfig();
-        }
-
-
-        private void OnHttpAction(RequestType requestType, string xmlPayload, bool neuterAccNums, bool neuterCreds)
-        {
-            if (HttpAction != null)
+            // Set the maximum connections for the client, if specified
+            if (IsValidConfigValueSet("maxConnections"))
             {
-                if (neuterAccNums)
+                int.TryParse(_config["maxConnections"], out var maxConnections);
+                if (maxConnections > 0)
                 {
-                    NeuterXml(ref xmlPayload);
+                    handler.MaxConnectionsPerServer = maxConnections;
                 }
+            }
 
-                if (neuterCreds)
+            // Configure the client to use the proxy, if specified
+            if (IsProxyOn())
+            {
+                handler.Proxy = new WebProxy(_config["proxyHost"], int.Parse(_config["proxyPort"]))
                 {
-                    NeuterUserCredentials(ref xmlPayload);
-                }
+                    BypassProxyOnLocal = true
+                };
+                handler.UseProxy = true;
+            }
 
-                HttpAction(this, new HttpActionEventArgs(requestType, xmlPayload));
+            // Now that the handler is set up, configure any remaining fields on the HttpClient
+            client = new HttpClient(handler) {BaseAddress = new Uri(_config["url"])};
+            // TODO client.DefaultRequestHeaders.? (note: there is an Add method on the obj for custom)
+            // also, any other handler things we need to set?
+           /*
+            for reference, the old code:
+            public HttpWebRequest CreateWebRequest(string xmlRequest)
+            {
+                request.ServicePoint.MaxIdleTime = 8000;
+                request.ServicePoint.Expect100Continue = false;
+            }
+            */
+            
+            // Set the timeout for the client, if specified
+            if (_config.ContainsKey("timeout"))
+            {
+                // Read timeout from config and default to 60000 (1 minute) if it cannot be parsed
+                var timeoutInMillis = int.TryParse(_config["timeout"], out var temp) ? temp : 60000;
+                client.Timeout = TimeSpan.FromMilliseconds(timeoutInMillis);
             }
         }
 
+        private void OnHttpAction(RequestType requestType, string xmlPayload)
+        {
+            if (HttpAction == null) return;
+ 
+            NeuterXml(ref xmlPayload);
+            NeuterUserCredentials(ref xmlPayload);
+
+            HttpAction(this, new HttpActionEventArgs(requestType, xmlPayload));
+        }
 
         public static bool ValidateServerCertificate(
              object sender,
@@ -65,13 +98,17 @@ namespace Cnp.Sdk
 
             Console.WriteLine("Certificate error: {0}", sslPolicyErrors);
 
-            // Do not allow this client to communicate with unauthenticated servers. 
+            // Do not allow this client to communicate with unauthenticated servers.
             return false;
         }
 
+        // Neuters the XML if needed
         public void NeuterXml(ref string inputXml)
         {
-
+            var neuterAccountNumbers = 
+                _config.ContainsKey("neuterAccountNums") && "true".Equals(_config["neuterAccountNums"]);
+            if (!neuterAccountNumbers) return;
+            
             const string pattern1 = "(?i)<number>.*?</number>";
             const string pattern2 = "(?i)<accNum>.*?</accNum>";
             const string pattern3 = "(?i)<track>.*?</track>";
@@ -87,8 +124,12 @@ namespace Cnp.Sdk
             inputXml = rgx4.Replace(inputXml, "<accountNumber>xxxxxxxxxxxxxxxx</accountNumber>");
         }
 
+        // Neuters the user credentials if needed
         public void NeuterUserCredentials(ref string inputXml)
         {
+            var neuterUserCredentials =
+                _config.ContainsKey("neuterUserCredentials") && "true".Equals(_config["neuterUserCredentials"]);
+            if (!neuterUserCredentials) return;
 
             const string pattern1 = "(?i)<user>.*?</user>";
             const string pattern2 = "(?i)<password>.*></password>";
@@ -99,18 +140,13 @@ namespace Cnp.Sdk
             inputXml = rgx2.Replace(inputXml, "<password>xxxxxxxx</password>");
         }
 
-        public void Log(string logMessage, string logFile, bool neuterAccNums, bool neuterCreds)
+        public void Log(string logMessage, string logFile)
         {
             lock (SynLock)
             {
-                if (neuterAccNums)
-                {
-                    NeuterXml(ref logMessage);
-                }
-                if (neuterCreds)
-                {
-                    NeuterUserCredentials(ref logMessage);
-                }
+                NeuterXml(ref logMessage);
+                NeuterUserCredentials(ref logMessage);
+ 
                 using (var logWriter = new StreamWriter(logFile, true))
                 {
                     var time = DateTime.Now;
@@ -120,311 +156,70 @@ namespace Cnp.Sdk
             }
         }
 
-        public HttpWebRequest CreateWebRequest(string xmlRequest)
+        // Post the specified XML asynchronously
+        public async Task<string> HttpPostAsync(string xmlRequest, CancellationToken cancellationToken)
         {
-            // Get the log file.
-            string logFile = null;
-            if (IsValidConfigValueSet(_config, "logFile"))
-            {
-                logFile = _config["logFile"];
-            }
+            // First, read values from the config that we need that relate to logging
+            _config.TryGetValue("logFile", out var logFile);
+            var printXml = _config.ContainsKey("printxml") && "true".Equals(_config["printxml"]);
 
-            // Get the rest of the configuration values.
-            var requestUrl = _config["url"];
-            var printXml = false;
-            var neuterAccountNumbers = false;
-            var neuterUserCredentials = false;
-            if (_config.ContainsKey("neuterAccountNums"))
-            {
-                neuterAccountNumbers = ("true".Equals(_config["neuterAccountNums"]));
-            }
-            if (_config.ContainsKey("neuterUserCredentials"))
-            {
-                neuterUserCredentials = ("true".Equals(_config["neuterUserCredentials"]));
-            }
-            if (_config.ContainsKey("printxml"))
-            {
-                printXml = ("true".Equals(_config["printxml"]));
-            }
-
-            // Get the request target information.
-            ServicePointManager.SecurityProtocol = ServicePointManager.SecurityProtocol | SecurityProtocolType.Tls12 | SecurityProtocolType.Tls11;
-            var request = (HttpWebRequest)WebRequest.Create(requestUrl);
-
-            // Output the request and log file.
+            // Log any data to the appropriate places, only if we need to
             if (printXml)
             {
                 Console.WriteLine(xmlRequest);
                 Console.WriteLine(logFile);
             }
-
-            // Log the request.
             if (logFile != null)
             {
-                this.Log(xmlRequest,logFile, neuterAccountNumbers,neuterUserCredentials);
-            }
-
-            // Set up the request.
-            request.ContentType = ContentTypeTextXmlUTF8;
-            request.Method = "POST";
-            request.ServicePoint.MaxIdleTime = 8000;
-            request.ServicePoint.Expect100Continue = false;
-            request.KeepAlive = true;
-
-            if (_config.ContainsKey("keepAlive"))
-            {
-                request.KeepAlive = (true.Equals(_config["keepAlive"]));
-            }
-            if (IsProxyOn(_config))
-            {
-                var proxy = new WebProxy(_config["proxyHost"], int.Parse(_config["proxyPort"]))
-                {
-                    BypassProxyOnLocal = true
-                };
-                request.Proxy = proxy;
-            }
-
-            // Set the timeout (only effective for non-async requests.
-            if (_config.ContainsKey("timeout")) {
-                try {
-                    request.Timeout = Convert.ToInt32(_config["timeout"]);
-                }
-                catch (FormatException e) {
-                    // If timeout setting contains non-numeric
-                    // characters, we will fall back to 1 minute
-                    // default timeout.
-                    request.Timeout = 60000;
-                }
-            }
-
-            // Invoke the event.
-            this.OnHttpAction(Communications.RequestType.Request,xmlRequest,neuterAccountNumbers,neuterUserCredentials);
-
-            // Return the request.
-            return request;
-        }
-
-        public virtual Task<string> HttpPostAsync(string xmlRequest, CancellationToken cancellationToken)
-        {
-            return HttpPostCoreAsync(xmlRequest, cancellationToken);
-        }
-
-        private async Task<string> HttpPostCoreAsync(string xmlRequest, CancellationToken cancellationToken)
-        {
-            string logFile = null;
-            var printXml = false;
-            var neuterAccountNumbers = false;
-            var neuterUserCredentials = false;
-            if (IsValidConfigValueSet(_config, "logFile"))
-            {
-                logFile = _config["logFile"];
-            }
-            if (_config.ContainsKey("neuterAccountNums"))
-            {
-                neuterAccountNumbers = ("true".Equals(_config["neuterAccountNums"]));
-            }
-            if (_config.ContainsKey("neuterUserCredentials"))
-            {
-                neuterUserCredentials = ("true".Equals(_config["neuterUserCredentials"]));
-            }
-            if (_config.ContainsKey("printxml"))
-            {
-                printXml = ("true".Equals(_config["printxml"]));
-            }
-
-            // submit http request
-            var request = this.CreateWebRequest(xmlRequest);
-            using (var writer = new StreamWriter(await request.GetRequestStreamAsync().ConfigureAwait(false)))
-            {
-                writer.Write(xmlRequest);
-            }
-
-            // read response
-            string xmlResponse = null;
-            var response = await request.GetResponseAsync().ConfigureAwait(false);
-            try
-            {
-                using (var reader = new StreamReader(response.GetResponseStream()))
-                {
-                    xmlResponse = (await reader.ReadToEndAsync().ConfigureAwait(false)).Trim();
-                }
-                if (printXml)
-                {
-                    Console.WriteLine(xmlResponse);
-                }
-
-                OnHttpAction(RequestType.Response, xmlResponse, neuterAccountNumbers, neuterUserCredentials);
-
-                //log response
-                if (logFile != null)
-                {
-                    Log(xmlResponse, logFile, neuterAccountNumbers, neuterUserCredentials);
-                }
-            }catch (WebException we)
-            {
-                
-            }
-
-            return xmlResponse;
-        }
-
-        public bool IsProxyOn(Dictionary<string, string> config)
-        {
-            return IsValidConfigValueSet(config, "proxyHost") && IsValidConfigValueSet(config, "proxyPort");
-        }
-
-        public bool IsValidConfigValueSet(Dictionary<string, string> config, string propertyName)
-        {
-            return config != null && config.ContainsKey(propertyName) && !String.IsNullOrEmpty(config[propertyName]);
-        }
-
-        public virtual string HttpPost(string xmlRequest)
-        {
-            string logFile = null;
-            var printXml = false;
-            var neuterAccountNumbers = false;
-            var neuterUserCredentials = false;
-            if (IsValidConfigValueSet(_config, "logFile"))
-            {
-                logFile = _config["logFile"];
-            }
-            if (_config.ContainsKey("neuterAccountNums"))
-            {
-                neuterAccountNumbers = ("true".Equals(_config["neuterAccountNums"]));
-            }
-            if (_config.ContainsKey("neuterUserCredentials"))
-            {
-                neuterUserCredentials = ("true".Equals(_config["neuterUserCredentials"]));
-            }
-            if (_config.ContainsKey("printxml"))
-            {
-                printXml = ("true".Equals(_config["printxml"]));
-            }
-
-            // submit http request
-            var request = this.CreateWebRequest(xmlRequest);
-
-            // submit http request
-            using (var writer = new StreamWriter(request.GetRequestStream()))
-            {
-                writer.Write(xmlRequest);
-            }
-
-            // read response
-            string xmlResponse = null;
-            try
-            {
-                var resp = request.GetResponse();
-                if (resp == null)
-                {
-                    return null;
-                }
-                HttpWebResponse httpResp = (HttpWebResponse)resp;
-
-                using (var reader = new StreamReader(resp.GetResponseStream()))
-                {
-                    xmlResponse = reader.ReadToEnd().Trim();
-                }
-                if (printXml)
-                {
-                    Console.WriteLine(xmlResponse);
-                }
-
-                OnHttpAction(RequestType.Response, xmlResponse, neuterAccountNumbers, neuterUserCredentials);
-
-                //log response
-                if (logFile != null)
-                {
-                    Log(xmlResponse, logFile, neuterAccountNumbers, neuterUserCredentials);
-                }
-            } catch (WebException we)
-            {
-                
+                Log(xmlRequest, logFile);
             }
             
-            return xmlResponse;
+            // Now that we have gotten the values for logging from the config, we need to actually send the request
+            try
+            {
+                OnHttpAction(RequestType.Request, xmlRequest);
+                var xmlContent = new StringContent(xmlRequest, Encoding.UTF8, "application/xml");
+                var response = await client.PostAsync(_config["url"], xmlContent, cancellationToken);
+                var xmlResponse = await response.Content.ReadAsStringAsync();
+                OnHttpAction(RequestType.Response, xmlResponse);
+
+                if (printXml)
+                {
+                    Console.WriteLine(xmlResponse);
+                }
+                if (logFile != null)
+                {
+                    Log(xmlResponse, logFile);
+                }
+
+                return xmlResponse;
+            }
+            catch (Exception)
+            {
+                return null;
+            }
         }
 
+        public string HttpPost(string xmlRequest)
+        {
+            return HttpPostAsync(xmlRequest, null).Result;
+            // TODO do we need a .Wait() on the task before a .Result?
+            // TODO do we need a Task.Run()? What about .ConfigureAwait(false)?
+            // https://devblogs.microsoft.com/dotnet/configureawait-faq/
+            // https://docs.microsoft.com/en-us/archive/blogs/jpsanders/asp-net-do-not-use-task-result-in-main-context
+        }
 
+        public bool IsProxyOn()
+        {
+            return IsValidConfigValueSet("proxyHost") && IsValidConfigValueSet("proxyPort");
+        }
 
-        //public virtual string SocketStream(string xmlRequestFilePath, string xmlResponseDestinationDirectory, Dictionary<string, string> config)
-        //{
-        //    var url = config["onlineBatchUrl"];
-        //    var port = int.Parse(config["onlineBatchPort"]);
-        //    TcpClient tcpClient;
-        //    SslStream sslStream;
+        public bool IsValidConfigValueSet(string propertyName)
+        {
+            return _config.ContainsKey(propertyName) && !string.IsNullOrEmpty(_config[propertyName]);
+        }
 
-        //    try
-        //    {
-        //        tcpClient = new TcpClient(url, port);
-        //        sslStream = new SslStream(tcpClient.GetStream(), false, ValidateServerCertificate, null);
-        //    }
-        //    catch (SocketException e)
-        //    {
-        //        throw new CnpOnlineException("Error establishing a network connection", e);
-        //    }
-
-        //    try
-        //    {
-        //        sslStream.AuthenticateAsClient(url);
-        //    }
-        //    catch (AuthenticationException e)
-        //    {
-        //        tcpClient.Close();
-        //        throw new CnpOnlineException("Error establishing a network connection - SSL Authencation failed", e);
-        //    }
-
-        //    if ("true".Equals(config["printxml"]))
-        //    {
-        //        Console.WriteLine("Using XML File: " + xmlRequestFilePath);
-        //    }
-
-        //    using (var readFileStream = new FileStream(xmlRequestFilePath, FileMode.Open))
-        //    {
-        //        var bytesRead = -1;
-
-        //        do
-        //        {
-        //            var byteBuffer = new byte[1024 * sizeof(char)];
-        //            bytesRead = readFileStream.Read(byteBuffer, 0, byteBuffer.Length);
-
-        //            sslStream.Write(byteBuffer, 0, bytesRead);
-        //            sslStream.Flush();
-        //        } while (bytesRead != 0);
-        //    }
-
-        //    var batchName = Path.GetFileName(xmlRequestFilePath);
-        //    var destinationDirectory = Path.GetDirectoryName(xmlResponseDestinationDirectory);
-        //    if (!Directory.Exists(destinationDirectory))
-        //    {
-        //        if (destinationDirectory != null) Directory.CreateDirectory(destinationDirectory);
-        //    }
-
-        //    if ("true".Equals(config["printxml"]))
-        //    {
-        //        Console.WriteLine("Writing to XML File: " + xmlResponseDestinationDirectory + batchName);
-        //    }
-
-        //    using (var writeFileStream = new FileStream(xmlResponseDestinationDirectory + batchName, FileMode.Create))
-        //    {
-        //        int bytesRead;
-
-        //        do
-        //        {
-        //            var byteBuffer = new byte[1024 * sizeof(char)];
-        //            bytesRead = sslStream.Read(byteBuffer, 0, byteBuffer.Length);
-
-        //            writeFileStream.Write(byteBuffer, 0, bytesRead);
-        //        } while (bytesRead > 0);
-        //    }
-
-        //    tcpClient.Close();
-        //    sslStream.Close();
-
-        //    return xmlResponseDestinationDirectory + batchName;
-        //}
-
-        public virtual void FtpDropOff(string fileDirectory, string fileName)
+        public void FtpDropOff(string fileDirectory, string fileName)
         {
             SftpClient sftpClient;
 
@@ -482,7 +277,7 @@ namespace Cnp.Sdk
             }
         }
 
-        public virtual void FtpPoll(string fileName, int timeout, Dictionary<string, string> config)
+        public void FtpPoll(string fileName, int timeout, Dictionary<string, string> config)
         {
             fileName = fileName + ".asc";
             var printxml = config["printxml"] == "true";
@@ -548,12 +343,12 @@ namespace Cnp.Sdk
                     System.Threading.Thread.Sleep(30000);
                 }
             } while (sftpAttrs == null && stopWatch.Elapsed.TotalMilliseconds <= timeout);
-            
+
             // Close the connections.
             sftpClient.Disconnect();
         }
 
-        public virtual void FtpPickUp(string destinationFilePath, string fileName)
+        public void FtpPickUp(string destinationFilePath, string fileName)
         {
             SftpClient sftpClient;
 
@@ -616,18 +411,16 @@ namespace Cnp.Sdk
                 XmlPayload = xmlPayload;
             }
         }
-        
+
         private String getSftpFileAttributes(SftpFileAttributes sftpAttrs)
         {
             String permissions = sftpAttrs.GetBytes().ToString();
             return "Permissions: " + permissions
-                                   + " | UserID: " + sftpAttrs.UserId 
-                                   + " | GroupID: " + sftpAttrs.GroupId 
-                                   + " | Size: " + sftpAttrs.Size 
+                                   + " | UserID: " + sftpAttrs.UserId
+                                   + " | GroupID: " + sftpAttrs.GroupId
+                                   + " | Size: " + sftpAttrs.Size
                                    + " | LastEdited: " + sftpAttrs.LastWriteTime.ToString();
         }
-
-
 
         public struct SshConnectionInfo
         {

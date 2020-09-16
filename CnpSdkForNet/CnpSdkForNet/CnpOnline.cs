@@ -17,7 +17,8 @@ namespace Cnp.Sdk
     {
         // Configuration object containing credentials and settings.
         private Dictionary<string, string> _config;
-        // 
+
+        // The object used for communicating with the server
         private static Communications _communication;
 
         // exposed merchantId for organizations with multiple Merchant Ids.
@@ -26,27 +27,7 @@ namespace Cnp.Sdk
         /**
          * Construct a Cnp online using the configuration specified in CnpSdkForNet.dll.config
          */
-        public CnpOnline()
-        {
-            ConfigManager configManager = new ConfigManager();
-            _config = configManager.getConfig();
-            
-            //_config["url"] = Properties.Settings.Default.url;
-            //_config["reportGroup"] = Properties.Settings.Default.reportGroup;
-            //_config["username"] = Properties.Settings.Default.username;
-            //_config["printxml"] = Properties.Settings.Default.printxml;
-            //_config["timeout"] = Properties.Settings.Default.timeout;
-            //_config["proxyHost"] = Properties.Settings.Default.proxyHost;
-            //_config["merchantId"] = Properties.Settings.Default.merchantId;
-            //_config["password"] = Properties.Settings.Default.password;
-            //_config["proxyPort"] = Properties.Settings.Default.proxyPort;
-            //_config["logFile"] = Properties.Settings.Default.logFile;
-            //_config["neuterAccountNums"] = Properties.Settings.Default.neuterAccountNums;
-            if(_communication == null)
-            {
-                InitializeCommunication(_config);
-            }
-        }
+        public CnpOnline() : this(new ConfigManager().getConfig()) { }
 
         /**
          * Construct a CnpOnline specifying the configuration in code.  This should be used by integration that have another way
@@ -66,18 +47,19 @@ namespace Cnp.Sdk
          */
         public CnpOnline(Dictionary<string, string> config)
         {
-            this._config = config;
-            if(_communication==null)
+            _config = config;
+            
+            if(_communication == null)
             {
                 InitializeCommunication(config);
             }
         }
 
-        // We have moved to static usage of Communications and will deprecated this method in the future
+        [Obsolete("SetCommunication is deprecated as we now use a static Communications object; "
+                  + "please use InitializeCommunication instead")]
         public void SetCommunication(Communications communication)
         {
-            
-            if(_communication==null)
+            if(_communication == null)
             {
                 InitializeCommunication(_config);
             }
