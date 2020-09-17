@@ -48,7 +48,7 @@ namespace Cnp.Sdk
             _config = config ?? new ConfigManager().getConfig();
             
             // The handler specifies several fields we need that cannot be directly set on the HttpClient
-            var handler = new HttpClientHandler {SslProtocols = SslProtocols.Tls12 | SslProtocols.Tls13};
+            var handler = new HttpClientHandler {SslProtocols = SslProtocols.Tls12};
 
             // Set the maximum connections for the client, if specified
             if (IsValidConfigValueSet("maxConnections"))
@@ -238,11 +238,10 @@ namespace Cnp.Sdk
         /// <returns>The XML response as a string on success, or null otherwise</returns>
         public string HttpPost(string xmlRequest)
         {
-            return HttpPostAsync(xmlRequest, null).Result;
-            // TODO do we need a .Wait() on the task before a .Result?
-            // TODO do we need a Task.Run()? What about .ConfigureAwait(false)?
-            // https://devblogs.microsoft.com/dotnet/configureawait-faq/
-            // https://docs.microsoft.com/en-us/archive/blogs/jpsanders/asp-net-do-not-use-task-result-in-main-context
+            var source = new CancellationTokenSource();
+            var asyncTask = Task.Run(() => HttpPostAsync(xmlRequest, source.Token), source.Token);
+            asyncTask.Wait(source.Token);
+            return asyncTask.Result;
         }
 
         /// <summary>
