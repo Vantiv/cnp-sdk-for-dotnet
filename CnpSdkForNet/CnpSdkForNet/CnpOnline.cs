@@ -9,7 +9,6 @@ using System.Net;
 
 namespace Cnp.Sdk
 {
-    
 
     // Represent an online request.
     // Defining all transactions supported for online processing.
@@ -19,7 +18,7 @@ namespace Cnp.Sdk
         private Dictionary<string, string> _config;
 
         // The object used for communicating with the server
-        private static Communications _communication;
+        private Communications _communication;
 
         // exposed merchantId for organizations with multiple Merchant Ids.
         private string _merchantId;
@@ -44,25 +43,25 @@ namespace Cnp.Sdk
          * proxyHost
          * proxyPort
          * printxml (possible values "true" and "false" - defaults to false)
+         * maxConnections (max amount of connections used for HTTP requests)
+         *
+         * NOTE: The config of the first CnpOnline object created will determine the following
+         *   for the entire lifespan of the application:
+         * - proxyHost
+         * - proxyPort
+         * - timeout
+         * - maxConnections
+         * These values *cannot* be changed for the lifetime of the application
          */
         public CnpOnline(Dictionary<string, string> config)
         {
             _config = config;
-            
-            if(_communication == null)
-            {
-                InitializeCommunication(config);
-            }
+            SetCommunication(new Communications(_config));
         }
 
-        [Obsolete("SetCommunication is deprecated as we now use a static Communications object; "
-                  + "please use InitializeCommunication instead")]
         public void SetCommunication(Communications communication)
         {
-            if(_communication == null)
-            {
-                InitializeCommunication(_config);
-            }
+            _communication = communication;
         }
 
         public string GetMerchantId()
@@ -70,9 +69,9 @@ namespace Cnp.Sdk
             return _merchantId;
         }
 
-        public void SetMerchantId(String merchantId)
+        public void SetMerchantId(string merchantId)
         {
-            this._merchantId = merchantId;
+            _merchantId = merchantId;
         }
 
         public event EventHandler HttpAction
@@ -80,12 +79,6 @@ namespace Cnp.Sdk
             add { _communication.HttpAction += value; }
             remove { _communication.HttpAction -= value; }
         }
-
-        public static void InitializeCommunication(Dictionary<string, string> config)
-        {
-            _communication = new Communications(config);
-        }
-        
 
         public Task<authorizationResponse> AuthorizeAsync(authorization auth, CancellationToken cancellationToken)
         {

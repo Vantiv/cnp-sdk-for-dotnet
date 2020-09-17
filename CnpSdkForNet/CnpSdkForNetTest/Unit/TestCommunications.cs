@@ -1,21 +1,19 @@
 ﻿using System.Collections.Generic;
 using NUnit.Framework;
 
-
-
 namespace Cnp.Sdk.Test.Unit
 {
     [TestFixture]
     internal class TestCommunications
     {
         private Dictionary<string, string> config;
-        private Communications _objectUnderTest;
+        private Communications objectUnderTest;
 
         [OneTimeSetUp]
         public void SetUpCnp()
         {
-            config = new Dictionary<string, string>();
-            _objectUnderTest = new Communications(config);
+            config = new Dictionary<string, string> {["url"] = "https://example.com"};
+            objectUnderTest = new Communications(config);
         }
 
         [Test]
@@ -24,7 +22,7 @@ namespace Cnp.Sdk.Test.Unit
             config["proxyHost"] = null;
             config["proxyPort"] = null;
 
-            Assert.IsFalse(_objectUnderTest.IsProxyOn());
+            Assert.IsFalse(objectUnderTest.IsProxyOn());
         }
 
         [Test]
@@ -33,7 +31,7 @@ namespace Cnp.Sdk.Test.Unit
             config["proxyHost"] = "";
             config["proxyPort"] = "";
 
-            Assert.IsFalse(_objectUnderTest.IsProxyOn());
+            Assert.IsFalse(objectUnderTest.IsProxyOn());
         }
 
         [Test]
@@ -41,13 +39,13 @@ namespace Cnp.Sdk.Test.Unit
         {
             config["logFile"] = "";
 
-            Assert.IsFalse(_objectUnderTest.IsValidConfigValueSet("logFile"));
+            Assert.IsFalse(objectUnderTest.IsValidConfigValueSet("logFile"));
         }
 
         [Test]
         public void TestConfigNotPresentInDictionary()
         {
-            Assert.IsFalse(_objectUnderTest.IsValidConfigValueSet("logFile"));
+            Assert.IsFalse(objectUnderTest.IsValidConfigValueSet("logFile"));
         }
     }
 }

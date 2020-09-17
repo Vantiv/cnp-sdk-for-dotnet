@@ -24,7 +24,7 @@ namespace Cnp.Sdk
     /// Note: this class was designed to be instantiated *once* because it has a member HttpClient, which itself
     ///       should only be instantiated once
     /// </summary>
-    public sealed class Communications
+    public class Communications
     {
         /// <summary>
         ///  Locking object so that writing logs are thread safe
@@ -36,17 +36,38 @@ namespace Cnp.Sdk
         /// <summary>
         /// Client for communicating with the APIs through HTTP
         /// </summary>
-        private readonly HttpClient client;
+        private static HttpClient _client;
 
         /// <summary>
         /// The configuration dictionary containing logging, proxy, and other various properties
         /// </summary>
         private readonly Dictionary<string, string> _config;
 
+        /// <summary>
+        /// The main constructor, which initializes the config and HttpClient
+        /// </summary>
+        /// <param name="config"></param>
         public Communications(Dictionary<string, string> config = null)
         {
             _config = config ?? new ConfigManager().getConfig();
-            
+
+            // On the first initialization of this class, initialize the HttpClient based on the given config
+            if (_client == null)
+            {
+                InitializeHttpClient();
+            }
+        }
+        
+        /// <summary>
+        /// A no-arg constructor that simply calls the main constructor, primarily used for mocking in tests
+        /// </summary>
+        public Communications() : this(null) { }
+
+        /// <summary>
+        /// Initializes the http client based on the config
+        /// </summary>
+        private void InitializeHttpClient()
+        {
             // The handler specifies several fields we need that cannot be directly set on the HttpClient
             var handler = new HttpClientHandler {SslProtocols = SslProtocols.Tls12};
 
@@ -71,7 +92,7 @@ namespace Cnp.Sdk
             }
 
             // Now that the handler is set up, configure any remaining fields on the HttpClient
-            client = new HttpClient(handler) {BaseAddress = new Uri(_config["url"])};
+            _client = new HttpClient(handler) {BaseAddress = new Uri(_config["url"])};
             // TODO client.DefaultRequestHeaders.? (note: there is an Add method on the obj for custom)
             // also, any other handler things we need to set?
            /*
@@ -88,10 +109,10 @@ namespace Cnp.Sdk
             {
                 // Read timeout from config and default to 60000 (1 minute) if it cannot be parsed
                 var timeoutInMillis = int.TryParse(_config["timeout"], out var temp) ? temp : 60000;
-                client.Timeout = TimeSpan.FromMilliseconds(timeoutInMillis);
+                _client.Timeout = TimeSpan.FromMilliseconds(timeoutInMillis);
             }
         }
-
+        
         private void OnHttpAction(RequestType requestType, string xmlPayload)
         {
             if (HttpAction == null) return;
@@ -210,7 +231,7 @@ namespace Cnp.Sdk
             {
                 OnHttpAction(RequestType.Request, xmlRequest);
                 var xmlContent = new StringContent(xmlRequest, Encoding.UTF8, "application/xml");
-                var response = await client.PostAsync(_config["url"], xmlContent, cancellationToken);
+                var response = await _client.PostAsync(_config["url"], xmlContent, cancellationToken);
                 var xmlResponse = await response.Content.ReadAsStringAsync();
                 OnHttpAction(RequestType.Response, xmlResponse);
 
@@ -225,7 +246,7 @@ namespace Cnp.Sdk
 
                 return xmlResponse;
             }
-            catch (Exception)
+            catch (Exception e)
             {
                 return null;
             }
@@ -236,7 +257,7 @@ namespace Cnp.Sdk
         /// </summary>
         /// <param name="xmlRequest">The XML to send to the API</param>
         /// <returns>The XML response as a string on success, or null otherwise</returns>
-        public string HttpPost(string xmlRequest)
+        public virtual string HttpPost(string xmlRequest)
         {
             var source = new CancellationTokenSource();
             var asyncTask = Task.Run(() => HttpPostAsync(xmlRequest, source.Token), source.Token);

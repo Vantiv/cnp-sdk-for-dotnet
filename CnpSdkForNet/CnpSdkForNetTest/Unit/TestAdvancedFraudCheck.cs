@@ -32,7 +32,7 @@ namespace Cnp.Sdk.Test.Unit
                 .Returns("<cnpOnlineResponse version='10.1' response='0' message='Valid Format' xmlns='http://www.vantivcnp.com/schema'><fraudCheckResponse id='127' reportGroup='Planets' customerId=''><cnpTxnId>742802348034313000</cnpTxnId><response>000</response><message>Approved</message><advancedFraudResults><deviceReviewStatus>pass</deviceReviewStatus><deviceReputationScore>42</deviceReputationScore><triggeredRule>triggered_rule_default</triggeredRule></advancedFraudResults></fraudCheckResponse></cnpOnlineResponse >");
 
             Communications mockedCommunication = mock.Object;
-            //cnp.SetCommunication(mockedCommunication);
+            cnp.SetCommunication(mockedCommunication);
             fraudCheckResponse fraudCheckResponse = cnp.FraudCheck(fraudCheck);
 
             Assert.NotNull(fraudCheckResponse);
