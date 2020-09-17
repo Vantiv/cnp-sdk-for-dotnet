@@ -18,14 +18,29 @@ using Renci.SshNet.Common;
 
 namespace Cnp.Sdk
 {
+    /// <summary>
+    /// Communications handles outbound communications with the API
+    /// There is a component of this class that deals with HTTP requests (using HttpClient) and one that deals with SFTP
+    /// Note: this class was designed to be instantiated *once* because it has a member HttpClient, which itself
+    ///       should only be instantiated once
+    /// </summary>
     public sealed class Communications
     {
+        /// <summary>
+        ///  Locking object so that writing logs are thread safe
+        /// </summary>
         private static readonly object SynLock = new object();
 
         public event EventHandler HttpAction;
 
+        /// <summary>
+        /// Client for communicating with the APIs through HTTP
+        /// </summary>
         private readonly HttpClient client;
 
+        /// <summary>
+        /// The configuration dictionary containing logging, proxy, and other various properties
+        /// </summary>
         private readonly Dictionary<string, string> _config;
 
         public Communications(Dictionary<string, string> config = null)
@@ -102,7 +117,10 @@ namespace Cnp.Sdk
             return false;
         }
 
-        // Neuters the XML if needed
+        /// <summary>
+        /// Obfuscates account information in the XML, only if the config value specifies to do so
+        /// </summary>
+        /// <param name="inputXml">the XML to obfuscate</param>
         public void NeuterXml(ref string inputXml)
         {
             var neuterAccountNumbers = 
@@ -124,7 +142,10 @@ namespace Cnp.Sdk
             inputXml = rgx4.Replace(inputXml, "<accountNumber>xxxxxxxxxxxxxxxx</accountNumber>");
         }
 
-        // Neuters the user credentials if needed
+        /// <summary>
+        /// Obfuscates user credentials in the XML, only if the config value specifies to do so
+        /// </summary>
+        /// <param name="inputXml">the XML to obfuscate</param>
         public void NeuterUserCredentials(ref string inputXml)
         {
             var neuterUserCredentials =
@@ -140,6 +161,11 @@ namespace Cnp.Sdk
             inputXml = rgx2.Replace(inputXml, "<password>xxxxxxxx</password>");
         }
 
+        /// <summary>
+        /// Logs the specified logMessage to the logFile
+        /// </summary>
+        /// <param name="logMessage">The message to log</param>
+        /// <param name="logFile">The file to write the message to</param>
         public void Log(string logMessage, string logFile)
         {
             lock (SynLock)
@@ -156,7 +182,12 @@ namespace Cnp.Sdk
             }
         }
 
-        // Post the specified XML asynchronously
+        /// <summary>
+        /// Sends a POST request with the given XML to the API, asynchronously
+        /// </summary>
+        /// <param name="xmlRequest">The XML to send to the API</param>
+        /// <param name="cancellationToken"></param>
+        /// <returns>The XML response on success, null otherwise</returns>
         public async Task<string> HttpPostAsync(string xmlRequest, CancellationToken cancellationToken)
         {
             // First, read values from the config that we need that relate to logging
@@ -200,6 +231,11 @@ namespace Cnp.Sdk
             }
         }
 
+        /// <summary>
+        /// Sends a POST request synchronously to the API. Prefer the async variant of this method when possible.
+        /// </summary>
+        /// <param name="xmlRequest">The XML to send to the API</param>
+        /// <returns>The XML response as a string on success, or null otherwise</returns>
         public string HttpPost(string xmlRequest)
         {
             return HttpPostAsync(xmlRequest, null).Result;
@@ -209,11 +245,20 @@ namespace Cnp.Sdk
             // https://docs.microsoft.com/en-us/archive/blogs/jpsanders/asp-net-do-not-use-task-result-in-main-context
         }
 
+        /// <summary>
+        /// Determines if the proxy is on based on the object's configuration
+        /// </summary>
+        /// <returns>Whether or not a web proxy should be used</returns>
         public bool IsProxyOn()
         {
             return IsValidConfigValueSet("proxyHost") && IsValidConfigValueSet("proxyPort");
         }
 
+        /// <summary>
+        /// Determines whether the specified parameter is properly set in the configuration
+        /// </summary>
+        /// <param name="propertyName">The property to check for in the config</param>
+        /// <returns>Whether or not propertyName is properly set in _config</returns>
         public bool IsValidConfigValueSet(string propertyName)
         {
             return _config.ContainsKey(propertyName) && !string.IsNullOrEmpty(_config[propertyName]);
