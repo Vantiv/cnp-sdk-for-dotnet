@@ -94,16 +94,7 @@ namespace Cnp.Sdk
             // Now that the handler is set up, configure any remaining fields on the HttpClient
             _client = new HttpClient(handler) {BaseAddress = new Uri(_config["url"])};
             // TODO client.DefaultRequestHeaders.? (note: there is an Add method on the obj for custom)
-            // also, any other handler things we need to set?
-           /*
-            for reference, the old code:
-            public HttpWebRequest CreateWebRequest(string xmlRequest)
-            {
-                request.ServicePoint.MaxIdleTime = 8000;
-                request.ServicePoint.Expect100Continue = false;
-            }
-            */
-            
+
             // Set the timeout for the client, if specified
             if (_config.ContainsKey("timeout"))
             {
@@ -246,7 +237,7 @@ namespace Cnp.Sdk
 
                 return xmlResponse;
             }
-            catch (Exception e)
+            catch (Exception)
             {
                 return null;
             }
