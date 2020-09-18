@@ -284,7 +284,7 @@ namespace Cnp.Sdk
             return _config.ContainsKey(propertyName) && !string.IsNullOrEmpty(_config[propertyName]);
         }
 
-        public void FtpDropOff(string fileDirectory, string fileName)
+        public virtual void FtpDropOff(string fileDirectory, string fileName)
         {
             SftpClient sftpClient;
 
@@ -342,7 +342,7 @@ namespace Cnp.Sdk
             }
         }
 
-        public void FtpPoll(string fileName, int timeout, Dictionary<string, string> config)
+        public virtual void FtpPoll(string fileName, int timeout, Dictionary<string, string> config)
         {
             fileName = fileName + ".asc";
             var printxml = config["printxml"] == "true";
@@ -413,7 +413,7 @@ namespace Cnp.Sdk
             sftpClient.Disconnect();
         }
 
-        public void FtpPickUp(string destinationFilePath, string fileName)
+        public virtual void FtpPickUp(string destinationFilePath, string fileName)
         {
             SftpClient sftpClient;
 
