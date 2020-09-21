@@ -21,8 +21,6 @@ namespace Cnp.Sdk
     /// <summary>
     /// Communications handles outbound communications with the API
     /// There is a component of this class that deals with HTTP requests (using HttpClient) and one that deals with SFTP
-    /// Note: this class was designed to be instantiated *once* because it has a member HttpClient, which itself
-    ///       should only be instantiated once
     /// </summary>
     public class Communications
     {
@@ -35,6 +33,7 @@ namespace Cnp.Sdk
 
         /// <summary>
         /// Client for communicating with the APIs through HTTP
+        ///   _client is static so it will only be created once, as recommended in the documentation
         /// </summary>
         private static HttpClient _client;
 
@@ -60,6 +59,7 @@ namespace Cnp.Sdk
         
         /// <summary>
         /// A no-arg constructor that simply calls the main constructor, primarily used for mocking in tests
+        ///   This constructor serves no other purpose than to keep the tests passing
         /// </summary>
         public Communications() : this(null) { }
 
@@ -93,7 +93,6 @@ namespace Cnp.Sdk
 
             // Now that the handler is set up, configure any remaining fields on the HttpClient
             _client = new HttpClient(handler) {BaseAddress = new Uri(_config["url"])};
-            // TODO client.DefaultRequestHeaders.? (note: there is an Add method on the obj for custom)
 
             // Set the timeout for the client, if specified
             if (_config.ContainsKey("timeout"))
@@ -103,7 +102,7 @@ namespace Cnp.Sdk
                 _client.Timeout = TimeSpan.FromMilliseconds(timeoutInMillis);
             }
         }
-        
+
         private void OnHttpAction(RequestType requestType, string xmlPayload)
         {
             if (HttpAction == null) return;
@@ -196,6 +195,7 @@ namespace Cnp.Sdk
 
         /// <summary>
         /// Sends a POST request with the given XML to the API, asynchronously
+        /// Prefer the use of this method over HttpPost
         /// </summary>
         /// <param name="xmlRequest">The XML to send to the API</param>
         /// <param name="cancellationToken"></param>
@@ -245,6 +245,8 @@ namespace Cnp.Sdk
 
         /// <summary>
         /// Sends a POST request synchronously to the API. Prefer the async variant of this method when possible.
+        /// Eventually, this method and all other sync-based methods should be deprecated to match C# style
+        /// This is only kept now for backwards compatibility
         /// </summary>
         /// <param name="xmlRequest">The XML to send to the API</param>
         /// <returns>The XML response as a string on success, or null otherwise</returns>
