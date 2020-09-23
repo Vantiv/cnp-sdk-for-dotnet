@@ -103,6 +103,21 @@ namespace Cnp.Sdk
             }
         }
 
+        /// <summary>
+        /// DO NOT USE THIS METHOD UNLESS YOU KNOW WHAT YOU ARE DOING!
+        /// Disposes the HttpClient, allowing for the initialization of a new one.
+        /// This was created for use in testing, and should not be used normally unless a configuration value changed.
+        /// If a configuration value changed, you will need to create a new Communications object with the new config
+        /// immediately for the effects to take place (applies to url, proxy, maxConnections, and timeout settings)
+        /// NPEs may be thrown after calling this method and before creating a new Communications--be warned.
+        /// As such, this method is extremely dangerous in a multi-threaded environment.
+        /// </summary>
+        public static void DisposeHttpClient()
+        {
+            _client?.Dispose();
+            _client = null;
+        }
+
         private void OnHttpAction(RequestType requestType, string xmlPayload)
         {
             if (HttpAction == null) return;

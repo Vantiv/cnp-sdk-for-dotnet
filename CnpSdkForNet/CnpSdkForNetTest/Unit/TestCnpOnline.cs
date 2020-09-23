@@ -1,5 +1,4 @@
 ﻿using System;
-using System.Collections.Generic;
 using NUnit.Framework;
 using Moq;
 using System.Text.RegularExpressions;
@@ -13,12 +12,18 @@ namespace Cnp.Sdk.Test.Unit
         
         private CnpOnline cnp;
 
-        [OneTimeSetUp]
+        [SetUp]
         public void SetUpCnp()
         {
             cnp = new CnpOnline();
         }
 
+        [TearDown]
+        public void Dispose()
+        {
+            Communications.DisposeHttpClient();
+        }
+        
         [Test]
         public void TestAuth()
         {
@@ -287,7 +292,7 @@ namespace Cnp.Sdk.Test.Unit
         [Test]
         public void TestSale_BadConnection()
         {
-            sale sale = new sale
+            var sale = new sale
             {
                 id = "21321415412",
                 orderId = "1556632727643",
@@ -299,35 +304,14 @@ namespace Cnp.Sdk.Test.Unit
                 }
             };
 
-            ConfigManager configManager = new ConfigManager();
-            //Dictionary<string, string> config = new Dictionary<string, string>();
-            Dictionary<string, string> config = configManager.getConfig();
-            //config["url"] = Properties.Settings.Default.url;
-            //config["reportGroup"] = Properties.Settings.Default.reportGroup;
-            //config["username"] = Properties.Settings.Default.username;
-            //config["printxml"] = Properties.Settings.Default.printxml;
-            //config["timeout"] = Properties.Settings.Default.timeout;
-            config["proxyHost"] = "somegarbage";
-            //config["merchantId"] = Properties.Settings.Default.merchantId;
-            //config["password"] = Properties.Settings.Default.password;
+            Communications.DisposeHttpClient();
+            var config = new ConfigManager().getConfig();
+            config["proxyHost"] = "some-garbage";
             config["proxyPort"] = "123";
-            //config["logFile"] = Properties.Settings.Default.logFile;
-            //config["neuterAccountNums"] = Properties.Settings.Default.neuterAccountNums;
+            var tempCnp = new CnpOnline(config);
 
-            CnpOnline tempCnp = new CnpOnline(config);
-
-            Communications comms = new Communications(config);
-            tempCnp.SetCommunication(comms);
-            bool exceptionRasied = false;
-            try
-            {
-                saleResponse saleresponse = tempCnp.Sale(sale);
-            }
-            catch (WebException e) {
-                exceptionRasied = true;
-            }
-
-            Assert.IsTrue(exceptionRasied,"Web exception not raised.");
+            // Expect a WebException because an invalid proxy configuration is set
+            Assert.Throws<WebException>(() => tempCnp.Sale(sale));
         }
 
         [Test]
