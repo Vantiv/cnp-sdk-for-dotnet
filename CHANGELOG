@@ -1,11 +1,17 @@
 
 = Worldpay CNP CHANGELOG
 
-==Version 12.14.1 (September 24, 2020)
+==Version 12.15.1 (October 7, 2020)
 * Feature: Added maxConnections config parameter to set the maximum number of http connections (defaults to ServicePointManager.DefaultConnectionLimit)
-* Change: Propagated changes from 12.7.5-12.7.6 to 12.14.1, with some changes
+* Change: Propagated changes from 12.7.5-12.7.6, with some changes
 * Change: The first CnpOnline object's config will now determine the proxy and timeout for the lifetime of the application
 * BugFix: Tls 1.2 now the only available online encryption, specified for cnp-related connections only
+
+==Version 12.15.0 (October 7, 2020)
+* Feature: Added AuthenticationShopperID to cardTokenType
+* Feature: Added copayAmount to healthcareAmounts
+* Feature: Created echeckTokenRoutingNumber and echeckTokenAccountTypeEnum types and set routingNum and accType in eCheckTokenType to those new types
+* Feature: Added debitResponse and debitMessage fields to pinlessDebitResponse
 
 ==Version 12.14.0 (July 14, 2020)
 * Feature: Added PinlessDebitResponse in authorizationResponse, authReversalResponse, captureResponse, saleResponse

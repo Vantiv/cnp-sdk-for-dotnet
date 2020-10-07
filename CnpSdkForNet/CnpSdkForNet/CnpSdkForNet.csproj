@@ -3,7 +3,7 @@
         <TargetFramework>netstandard2.0</TargetFramework>
         <SignAssembly>true</SignAssembly>
         <AssemblyOriginatorKeyFile>dotNetSDKKey.snk</AssemblyOriginatorKeyFile>
-        <PackageVersion>12.14.1</PackageVersion>
+        <PackageVersion>12.15.1</PackageVersion>
         <Title>Vantiv.CnpSdkForNet</Title>
         <Authors>Worldpay</Authors>
         <Copyright>Copyright © Worldpay 2020</Copyright>
