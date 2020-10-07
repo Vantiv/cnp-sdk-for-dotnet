@@ -1,7 +1,7 @@
 
 = Worldpay CNP CHANGELOG
 
-==Version 12.15.0 (August 19, 2020)
+==Version 12.15.0 (October 7, 2020)
 * Feature: Added AuthenticationShopperID to cardTokenType
 * Feature: Added copayAmount to healthcareAmounts
 * Feature: Created echeckTokenRoutingNumber and echeckTokenAccountTypeEnum types and set routingNum and accType in eCheckTokenType to those new types
