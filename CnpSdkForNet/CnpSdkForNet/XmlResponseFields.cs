@@ -10682,16 +10682,43 @@ namespace Cnp.Sdk
     public partial class pinlessDebitResponse {
     
         private string networkNameField;
+	private string debitResponseField;
+	private string debitMessageField;
     
         /// <remarks/>
         public string networkName {
-            get {
+            get
+	    {
                 return this.networkNameField;
             }
-            set {
+            set 
+	    {
                 this.networkNameField = value;
             }
         }
+
+	public string debitResponse {
+	   get
+	   {
+	      return this.debitResponseField;
+	   }
+	   set	
+	   {
+	       this.debitResponseField = value;
+	   }
+	}
+	
+	public string debitMessage {
+	   get 
+	   {
+	       return this.debitMessageField;
+	   }
+	   set 
+	   {
+	       this.debitMessageField = value;
+	   }
+	}
+
     }
 
     public partial class idealResponse
