@@ -149,6 +149,22 @@ merchantId=""01234"">
             mockCnpFile.Verify(cnpFile => cnpFile.createRandomFile(It.IsAny<string>(), It.IsAny<string>(), It.IsAny<string>(), mockCnpTime.Object));
             mockCnpFile.Verify(cnpFile => cnpFile.AppendLineToFile(mockFilePath, authreversal.Serialize()));
         }
+        
+        [Test]
+        public void TestTransactionReversal()
+        {
+            var transactionReversal = new transactionReversal();
+            transactionReversal.cnpTxnId = 12345678000;
+            transactionReversal.amount = 106;
+
+            batchRequest.addTransactionReversal(transactionReversal);
+
+            Assert.AreEqual(1, batchRequest.getNumTransactionReversal());
+            Assert.AreEqual(transactionReversal.amount, batchRequest.getSumOfTransactionReversal());
+
+            mockCnpFile.Verify(cnpFile => cnpFile.createRandomFile(It.IsAny<string>(), It.IsAny<string>(), It.IsAny<string>(), mockCnpTime.Object));
+            mockCnpFile.Verify(cnpFile => cnpFile.AppendLineToFile(mockFilePath, transactionReversal.Serialize()));
+        }
 
         [Test]
         public void TestCapture()

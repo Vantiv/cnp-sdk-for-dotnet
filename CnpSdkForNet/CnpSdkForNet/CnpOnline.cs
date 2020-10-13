@@ -115,6 +115,10 @@ namespace Cnp.Sdk
                 request.authReversal = (authReversal)transaction;
 
             }
+            else if (transaction is transactionReversal)
+            {
+                request.transactionReversal = (transactionReversal) transaction;
+            }
             else if (transaction is capture)
             {
                 request.capture = (capture)transaction;
@@ -369,6 +373,23 @@ namespace Cnp.Sdk
             {
                 var authReversalResponse = response.authReversalResponse;
                 return authReversalResponse;
+            }, reversal, cancellationToken);
+        }
+        
+        public transactionReversalResponse TransactionReversal(transactionReversal reversal)
+        {
+            
+            var cnpResponse =  SendRequest(response => response, reversal);
+            var reversalResponse = cnpResponse.transactionReversalResponse;
+            return reversalResponse;
+        }
+        
+        public Task<transactionReversalResponse> TransactionReversalAsync(transactionReversal reversal, CancellationToken cancellationToken)
+        {
+            return SendRequestAsync(response =>
+            {
+                var transactionReversalResponse = response.transactionReversalResponse;
+                return transactionReversalResponse;
             }, reversal, cancellationToken);
         }
 
