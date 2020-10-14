@@ -1534,11 +1534,13 @@ namespace Cnp.Sdk.Test.Functional
         {
             var cnpBatchRequest = new batchRequest();
 
-            var reversal = new transactionReversal();
-            reversal.reportGroup = "<ReportGroup>";
-            reversal.customerId = "12344&'\"";
-            reversal.amount = 106;
-            reversal.cnpTxnId = 1234567890000L;
+            var reversal = new transactionReversal
+            {
+                id = "1",
+                reportGroup = "Planets",
+                cnpTxnId = 12345678000L,
+                amount = 106,
+            };
 
             cnpBatchRequest.addTransactionReversal(reversal);
 
