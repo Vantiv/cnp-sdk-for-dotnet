@@ -1226,7 +1226,7 @@ namespace Cnp.Sdk.Test.Functional
             }
             catch (CnpOnlineException e)
             {
-                Assert.AreEqual("Error occured while attempting to retrieve and save the file from SFTP", e.Message);
+                Assert.AreEqual("Error occured while attempting to establish an SFTP connection", e.Message);
             }
         }
 
