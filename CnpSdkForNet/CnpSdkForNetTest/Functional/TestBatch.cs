@@ -1216,12 +1216,11 @@ namespace Cnp.Sdk.Test.Functional
 
             cnpIC.addBatch(cnpBatchRequest);
 
-            var batchName = cnpIC.sendToCnp();
-
-            cnpIC.blockAndWaitForResponse(batchName, 60*1000*5);
-
             try
             {
+                var batchName = cnpIC.sendToCnp();
+
+                cnpIC.blockAndWaitForResponse(batchName, 60*1000*5);
                 var cnpResponse = cnpIC.receiveFromCnp(batchName);
                 Assert.Fail("Fail to throw a connection exception");
             }
