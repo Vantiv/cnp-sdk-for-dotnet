@@ -1533,10 +1533,29 @@ namespace Cnp.Sdk.Test.Functional
         public void TestSimpleBatchWithTransactionReversal()
         {
             var cnpBatchRequest = new batchRequest();
+            
+            var authorization = new authorization
+            {
+                reportGroup = "Planets",
+                orderId = "12344",
+                amount = 106,
+                orderSource = orderSourceType.ecommerce
+            };
+            var card = new cardType
+            {
+                type = methodOfPaymentTypeEnum.VI,
+                number = "4100000000000001",
+                expDate = "1210"
+
+            };
+            authorization.card = card;
+            authorization.id = "id";
+
+            cnpBatchRequest.addAuthorization(authorization);
 
             var reversal = new transactionReversal
             {
-                id = "1",
+                id = "id",
                 reportGroup = "Planets",
                 cnpTxnId = 12345678000L,
                 amount = 106,
