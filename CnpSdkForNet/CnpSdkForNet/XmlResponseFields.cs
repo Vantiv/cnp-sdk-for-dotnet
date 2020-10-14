@@ -3239,7 +3239,7 @@ namespace Cnp.Sdk
 
         public transactionReversalRecyclingResponseType recyclingResponse
         {
-            get { return this.recyclingResponse; }
+            get { return this.recyclingResponseField; }
             set { this.recyclingResponseField = value; }
         }
     }
@@ -5644,6 +5644,7 @@ namespace Cnp.Sdk
         private XmlReader accountUpdateResponseReader;
         private XmlReader authorizationResponseReader;
         private XmlReader authReversalResponseReader;
+        private XmlReader transactionReversalResponseReader;
         private XmlReader translateToLowValueTokenResponseReader;
         private XmlReader giftCardAuthReversalResponseReader;
         private XmlReader captureResponseReader;
@@ -5709,6 +5710,11 @@ namespace Cnp.Sdk
         public void setAuthReversalResponseReader(XmlReader xmlReader)
         {
             this.authReversalResponseReader = xmlReader;
+        }
+        
+        public void setTransactionReversalResponseReader(XmlReader xmlReader)
+        {
+            this.transactionReversalResponseReader = xmlReader;
         }
 
         public void setTranslateToLowValueTokenResponseReader(XmlReader xmlReader)
@@ -5936,6 +5942,7 @@ namespace Cnp.Sdk
             authorizationResponseReader = new XmlTextReader(filePath);
             translateToLowValueTokenResponseReader = new XmlTextReader(filePath);
             authReversalResponseReader = new XmlTextReader(filePath);
+            transactionReversalResponseReader = new XmlTextReader(filePath);
             giftCardAuthReversalResponseReader = new XmlTextReader(filePath);
             captureResponseReader = new XmlTextReader(filePath);
             giftCardCaptureResponseReader = new XmlTextReader(filePath);
@@ -5993,6 +6000,11 @@ namespace Cnp.Sdk
             if (!authReversalResponseReader.ReadToFollowing("authReversalResponse"))
             {
                 authReversalResponseReader.Close();
+            }
+
+            if (!transactionReversalResponseReader.ReadToFollowing(("transactionReversalResponse")))
+            {
+                transactionReversalResponseReader.Close();
             }
             if (!giftCardAuthReversalResponseReader.ReadToFollowing("giftCardAuthReversalResponse"))
             {
@@ -6203,6 +6215,26 @@ namespace Cnp.Sdk
                 if (!authReversalResponseReader.ReadToFollowing("authReversalResponse"))
                 {
                     authReversalResponseReader.Close();
+                }
+
+                return i;
+            }
+
+            return null;
+        }
+        
+        virtual public transactionReversalResponse nextTransactionReversalResponse()
+        {
+            if (transactionReversalResponseReader.ReadState != ReadState.Closed)
+            {
+                string response = transactionReversalResponseReader.ReadOuterXml();
+                XmlSerializer serializer = new XmlSerializer(typeof(transactionReversalResponse));
+                StringReader reader = new StringReader(response);
+                transactionReversalResponse i = (transactionReversalResponse)serializer.Deserialize(reader);
+
+                if (!transactionReversalResponseReader.ReadToFollowing("transactionReversalResponse"))
+                {
+                    transactionReversalResponseReader.Close();
                 }
 
                 return i;

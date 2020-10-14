@@ -1528,6 +1528,46 @@ namespace Cnp.Sdk.Test.Functional
                 cnpBatchResponse = cnpResponse.nextBatchResponse();
             }
         }
+        
+        [Test]
+        public void TestSimpleBatchWithTransactionReversal()
+        {
+            var cnpBatchRequest = new batchRequest();
+
+            var reversal = new transactionReversal();
+            reversal.reportGroup = "<ReportGroup>";
+            reversal.customerId = "12344&'\"";
+            reversal.amount = 106;
+            reversal.cnpTxnId = 1234567890000L;
+
+            cnpBatchRequest.addTransactionReversal(reversal);
+
+            _cnp.addBatch(cnpBatchRequest);
+
+            var batchName = _cnp.sendToCnp();
+
+            _cnp.blockAndWaitForResponse(batchName, estimatedResponseTime(2 * 2, 10 * 2));
+
+            var cnpResponse = _cnp.receiveFromCnp(batchName);
+
+            Assert.NotNull(cnpResponse);
+            Assert.AreEqual("0", cnpResponse.response);
+            Assert.AreEqual("Valid Format", cnpResponse.message);
+
+            var cnpBatchResponse = cnpResponse.nextBatchResponse();
+            while (cnpBatchResponse != null)
+            {
+                var reversalResponse = cnpBatchResponse.nextTransactionReversalResponse();
+                while (reversalResponse != null)
+                {
+                    Assert.AreEqual("000", reversalResponse.response);
+
+                    reversalResponse = cnpBatchResponse.nextTransactionReversalResponse();
+                }
+
+                cnpBatchResponse = cnpResponse.nextBatchResponse();
+            }
+        }
 
         private int estimatedResponseTime(int numAuthsAndSales, int numRest)
         {
