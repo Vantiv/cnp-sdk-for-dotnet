@@ -1555,7 +1555,7 @@ namespace Cnp.Sdk.Test.Functional
 
             var reversal = new transactionReversal
             {
-                id = "id",
+                id = "1",
                 reportGroup = "Planets",
                 cnpTxnId = 12345678000L,
                 amount = 106,
@@ -1581,7 +1581,7 @@ namespace Cnp.Sdk.Test.Functional
                 var reversalResponse = cnpBatchResponse.nextTransactionReversalResponse();
                 while (reversalResponse != null)
                 {
-                    Assert.AreEqual("000", reversalResponse.response);
+                    Assert.AreEqual("983", reversalResponse.response);
 
                     reversalResponse = cnpBatchResponse.nextTransactionReversalResponse();
                 }
