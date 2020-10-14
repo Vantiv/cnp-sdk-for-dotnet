@@ -1,6 +1,9 @@
 
 = Worldpay CNP CHANGELOG
 
+==Version 12.16.0 (October 14, 2020)
+* Feature: Added new transaction type: transactionReversal
+
 ==Version 12.15.0 (October 7, 2020)
 * Feature: Added AuthenticationShopperID to cardTokenType
 * Feature: Added copayAmount to healthcareAmounts
