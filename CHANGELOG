@@ -11,7 +11,6 @@
 * Change: The first CnpOnline object's config will now determine the proxy and timeout for the lifetime of the application
 * BugFix: Tls 1.2 now the only available online encryption, specified for cnp-related connections only
 
-
 ==Version 12.15.0 (October 7, 2020)
 * Feature: Added AuthenticationShopperID to cardTokenType
 * Feature: Added copayAmount to healthcareAmounts
