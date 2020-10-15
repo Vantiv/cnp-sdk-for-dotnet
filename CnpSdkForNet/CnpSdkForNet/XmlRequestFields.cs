@@ -54,6 +54,7 @@ namespace Cnp.Sdk
         public submerchantDebit submerchantDebit;
         public queryTransaction queryTransaction;
         public refundReversal refundReversal;
+        public transactionReversal transactionReversal;
         public registerTokenRequestType registerTokenRequest;
         public sale sale;
         public string merchantId;
@@ -128,6 +129,7 @@ namespace Cnp.Sdk
             else if (payoutOrgCredit != null) xml += payoutOrgCredit.Serialize();
             else if (payoutOrgDebit != null) xml += payoutOrgDebit.Serialize();
             else if (translateToLowValueTokenRequest != null) xml += translateToLowValueTokenRequest.Serialize();
+            else if (transactionReversal != null) xml += transactionReversal.Serialize();
             xml += "\r\n</cnpOnlineRequest>";
 
             return xml;
@@ -592,6 +594,123 @@ namespace Cnp.Sdk
 
     }
 
+    // Authorization Reversal Transaction.
+    public partial class transactionReversal : transactionTypeWithReportGroup
+    {
+        public long cnpTxnId;
+        private long amountField;
+        private bool amountSet;
+        public long amount
+        {
+            get { return amountField; }
+            set { amountField = value; amountSet = true; }
+        }
+
+        private bool pinSet;
+        private string pinField;
+        public string pin
+        {
+            get { return pinField; }
+            set
+            {
+                pinField = value; pinSet = true;
+            }
+        }
+
+        private bool surchargeAmountIsSet;
+        private int surchargeAmountField;
+
+        public int surchargeAmount
+        {
+            get { return surchargeAmountField; }
+            set { surchargeAmountField = value; surchargeAmountIsSet = true; }
+        }
+
+        private bool enhancedDataIsSet;
+        private enhancedData enhancedDataField;
+        public enhancedData enhancedData
+        {
+            get { return enhancedDataField; }
+            set { enhancedDataField = value; enhancedDataIsSet = true; }
+        }
+
+        private bool processingInstructionsIsSet;
+        private processingInstructions processingInstructionsField;
+        public processingInstructions processingInstructions
+        {
+            get { return processingInstructionsField; }
+            set { processingInstructions = value; processingInstructionsIsSet = true; }
+        }
+
+        private bool customBillingIsSet;
+        private customBilling customBillingField;
+
+        public customBilling customBilling
+        {
+            get { return customBillingField; }
+            set { customBillingField = value; customBillingIsSet = true; }
+        }
+
+        private bool lodgingInfoIsSet;
+        private lodgingInfo lodgingInfoField;
+
+        public lodgingInfo lodgingInfo
+        {
+            get { return lodgingInfoField; }
+            set { lodgingInfoField = value; lodgingInfoIsSet = true; }
+        }
+
+        public override string Serialize()
+        {
+            var xml = "\r\n<transactionReversal";
+            xml += " id=\"" + SecurityElement.Escape(id) + "\"";
+            if (customerId != null)
+            {
+                xml += " customerId=\"" + SecurityElement.Escape(customerId) + "\"";
+            }
+            xml += " reportGroup=\"" + SecurityElement.Escape(reportGroup) + "\">";
+            xml += "\r\n<cnpTxnId>" + cnpTxnId + "</cnpTxnId>";
+            if (amountSet)
+            {
+                xml += "\r\n<amount>" + amountField + "</amount>";
+            }
+
+            if (pinSet)
+            {
+                xml += "\r\n<pin>" + SecurityElement.Escape(pinField) + "</pin>";
+            }
+
+            if (surchargeAmountIsSet)
+            {
+                xml += "\r\n<surchargeAmount>" + surchargeAmountField + "</surchargeAmount>";
+            }
+
+            if (this.customBillingIsSet)
+            {
+                xml += this.customBillingField.Serialize();
+            }
+
+            if (this.enhancedDataIsSet)
+            {
+                xml += this.enhancedDataField.Serialize();
+            }
+            
+            if (this.lodgingInfoIsSet)
+            {
+                xml += this.lodgingInfoField.Serialize();
+            }
+            
+            if (this.processingInstructionsIsSet)
+            {
+                xml += this.processingInstructionsField.Serialize();
+            }
+            
+            xml += "\r\n</transactionReversal>";
+            return xml;
+        }
+
+    }
+    
     // Balance Inquiry Transaction.
     public partial class balanceInquiry : transactionTypeWithReportGroup
     {

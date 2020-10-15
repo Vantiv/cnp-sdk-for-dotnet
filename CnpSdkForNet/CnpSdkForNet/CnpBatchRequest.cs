@@ -65,6 +65,7 @@ namespace Cnp.Sdk
         private int numPayoutOrgDebit; 
         private int numCustomerCredit;
         private int numCustomerDebit;
+        private int numTransactionReversal;
 
         private long sumOfAuthorization;
         private long sumOfAuthReversal;
@@ -97,6 +98,7 @@ namespace Cnp.Sdk
         private long payoutOrgDebitAmount;
         private long customerCreditAmount;
         private long customerDebitAmount;
+        private long sumOfTransactionReversal;
 
         private bool sameDayFunding;
 
@@ -181,6 +183,7 @@ namespace Cnp.Sdk
             numPayoutOrgDebit = 0;
             numCustomerCredit = 0;
             numCustomerDebit = 0;
+            numTransactionReversal = 0;
             sumOfAuthorization = 0;
             sumOfAuthReversal = 0;
             sumOfGiftCardAuthReversal = 0;
@@ -209,6 +212,7 @@ namespace Cnp.Sdk
             payoutOrgDebitAmount = 0;
             physicalCheckDebitAmount = 0;
             fastAccessFundingAmount = 0;
+            sumOfTransactionReversal = 0;
             sameDayFunding = false;
         }
 
@@ -281,6 +285,11 @@ namespace Cnp.Sdk
         public int getNumAuthReversal()
         {
             return numAuthReversal;
+        }
+        
+        public int getNumTransactionReversal()
+        {
+            return numTransactionReversal;
         }
 
         public int getNumGiftCardAuthReversal()
@@ -491,6 +500,11 @@ namespace Cnp.Sdk
         public long getSumOfAuthReversal()
         {
             return sumOfAuthReversal;
+        }
+        
+        public long getSumOfTransactionReversal()
+        {
+            return sumOfTransactionReversal;
         }
 
         public long getSumOfGiftCardAuthReversal()
@@ -721,6 +735,21 @@ namespace Cnp.Sdk
                 sumOfAuthReversal += authReversal.amount;
                 fillInReportGroup(authReversal);
                 tempBatchFilePath = saveElement(cnpFile, cnpTime, tempBatchFilePath, authReversal);
+            }
+            else
+            {
+                throw new CnpOnlineException(accountUpdateErrorMessage);
+            }
+        }
+        
+        public void addTransactionReversal(transactionReversal txnReversal)
+        {
+            if (numAccountUpdates == 0)
+            {
+                numTransactionReversal++;
+                sumOfTransactionReversal += txnReversal.amount;
+                fillInReportGroup(txnReversal);
+                tempBatchFilePath = saveElement(cnpFile, cnpTime, tempBatchFilePath, txnReversal);
             }
             else
             {
@@ -1317,6 +1346,12 @@ namespace Cnp.Sdk
                 xmlHeader += "authReversalAmount=\"" + sumOfAuthReversal + "\"\r\n";
             }
 
+            if (numTransactionReversal != 0)
+            {
+                xmlHeader += "numTransactionReversals=\"" + numTransactionReversal + "\"\r\n";
+                xmlHeader += "transactionReversalAmount=\"" + sumOfTransactionReversal + "\"\r\n"; 
+            }
+
             if (numGiftCardAuthReversal != 0)
             {
                 xmlHeader += "numGiftCardAuthReversals=\"" + numGiftCardAuthReversal + "\"\r\n";
@@ -1625,6 +1660,7 @@ namespace Cnp.Sdk
                 && numCredit == 0
                 && numSale == 0
                 && numAuthReversal == 0
+                && numTransactionReversal == 0
                 && numEcheckCredit == 0
                 && numEcheckVerification == 0
                 && numEcheckSale == 0

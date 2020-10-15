@@ -1216,18 +1216,17 @@ namespace Cnp.Sdk.Test.Functional
 
             cnpIC.addBatch(cnpBatchRequest);
 
-            var batchName = cnpIC.sendToCnp();
-
-            cnpIC.blockAndWaitForResponse(batchName, 60*1000*5);
-
             try
             {
+                var batchName = cnpIC.sendToCnp();
+
+                cnpIC.blockAndWaitForResponse(batchName, 60*1000*5);
                 var cnpResponse = cnpIC.receiveFromCnp(batchName);
                 Assert.Fail("Fail to throw a connection exception");
             }
             catch (CnpOnlineException e)
             {
-                Assert.AreEqual("Error occured while attempting to retrieve and save the file from SFTP", e.Message);
+                Assert.AreEqual("Error occured while attempting to establish an SFTP connection", e.Message);
             }
         }
 
@@ -1523,6 +1522,67 @@ namespace Cnp.Sdk.Test.Functional
                     Assert.AreEqual("000", authorizationResponse.response);
 
                     authorizationResponse = cnpBatchResponse.nextAuthorizationResponse();
+                }
+
+                cnpBatchResponse = cnpResponse.nextBatchResponse();
+            }
+        }
+        
+        [Test]
+        public void TestSimpleBatchWithTransactionReversal()
+        {
+            var cnpBatchRequest = new batchRequest();
+            
+            var authorization = new authorization
+            {
+                reportGroup = "Planets",
+                orderId = "12344",
+                amount = 106,
+                orderSource = orderSourceType.ecommerce
+            };
+            var card = new cardType
+            {
+                type = methodOfPaymentTypeEnum.VI,
+                number = "4100000000000001",
+                expDate = "1210"
+
+            };
+            authorization.card = card;
+            authorization.id = "id";
+
+            cnpBatchRequest.addAuthorization(authorization);
+
+            var reversal = new transactionReversal
+            {
+                id = "1",
+                reportGroup = "Planets",
+                cnpTxnId = 12345678000L,
+                amount = 106,
+            };
+
+            cnpBatchRequest.addTransactionReversal(reversal);
+
+            _cnp.addBatch(cnpBatchRequest);
+
+            var batchName = _cnp.sendToCnp();
+
+            _cnp.blockAndWaitForResponse(batchName, estimatedResponseTime(2 * 2, 10 * 2));
+
+            var cnpResponse = _cnp.receiveFromCnp(batchName);
+
+            Assert.NotNull(cnpResponse);
+            Assert.AreEqual("0", cnpResponse.response);
+            Assert.AreEqual("Valid Format", cnpResponse.message);
+
+            var cnpBatchResponse = cnpResponse.nextBatchResponse();
+            while (cnpBatchResponse != null)
+            {
+                var reversalResponse = cnpBatchResponse.nextTransactionReversalResponse();
+                while (reversalResponse != null)
+                {
+                    Assert.AreEqual("983", reversalResponse.response);
+
+                    reversalResponse = cnpBatchResponse.nextTransactionReversalResponse();
                 }
 
                 cnpBatchResponse = cnpResponse.nextBatchResponse();
