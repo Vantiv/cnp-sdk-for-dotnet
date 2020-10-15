@@ -81,5 +81,23 @@ namespace Cnp.Sdk.Test.Functional
             Assert.AreEqual("sandbox", response.location);
             Assert.AreEqual("Approved", response.message);
         }
+
+        [Test]
+        public void TestAuthReversalAsync_newMerchantId()
+        {
+            _cnp.SetMerchantId("1234");
+            var reversal = new authReversal
+            {
+                id = "1",
+                reportGroup = "Planets",
+                cnpTxnId = 12345678000L,
+                amount = 106,
+                payPalNotes = "<'&\">"
+            };
+
+            CancellationToken cancellationToken = new CancellationToken(false);
+            var response = _cnp.AuthReversalAsync(reversal, cancellationToken);
+            Assert.AreEqual("000", response.Result.response);
+        }
     }
 }

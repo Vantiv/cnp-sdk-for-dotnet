@@ -214,5 +214,29 @@ namespace Cnp.Sdk.Test.Functional
             Assert.AreEqual("Approved", response.message);
         }
 
+        [Test]
+        public void TestCreditWithCardAsync_newMerchantId()
+        {
+            _cnp.SetMerchantId("1234");
+            var creditObj = new credit
+            {
+                id = "1",
+                reportGroup = "planets",
+                amount = 106,
+                orderId = "2111",
+                orderSource = orderSourceType.ecommerce,
+                card = new cardType
+                {
+                    type = methodOfPaymentTypeEnum.VI,
+                    number = "4100000000000001",
+                    expDate = "1210"
+                }
+            };
+
+            CancellationToken cancellationToken = new CancellationToken(false);
+            var response = _cnp.CreditAsync(creditObj, cancellationToken);
+            Assert.AreEqual("000", response.Result.response);
+        }
+
     }
 }

@@ -32,6 +32,12 @@ namespace Cnp.Sdk.Test.Certification
             cnp = new CnpOnline(configManager.getConfig());
         }
 
+        [OneTimeTearDown]
+        public void Dispose()
+        {
+            Communications.DisposeHttpClient();
+        }
+
         [Test]
         public void Test14()
         {

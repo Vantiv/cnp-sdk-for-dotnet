@@ -144,8 +144,8 @@ namespace Cnp.Sdk.Test.Unit
             Assert.AreEqual("000", actualAccountUpdateResponse2.response);
             Assert.IsNull(nullAccountUpdateResponse);
 
-            mockCommunications.Verify(Communications => Communications.FtpDropOff(It.IsAny<String>(), mockFileName, It.IsAny<Dictionary<String, String>>()));
-            mockCommunications.Verify(Communications => Communications.FtpPickUp(It.IsAny<String>(), It.IsAny<Dictionary<String, String>>(), mockFileName));
+            mockCommunications.Verify(Communications => Communications.FtpDropOff(It.IsAny<String>(), mockFileName  ));
+            mockCommunications.Verify(Communications => Communications.FtpPickUp(It.IsAny<String>()  , mockFileName));
         }
 
 
@@ -205,8 +205,8 @@ namespace Cnp.Sdk.Test.Unit
             Assert.AreEqual(124, actualCnpBatchResponse.nextAuthorizationResponse().cnpTxnId);
             Assert.IsNull(actualCnpBatchResponse.nextAuthorizationResponse());
 
-            mockCommunications.Verify(Communications => Communications.FtpDropOff(It.IsAny<String>(), mockFileName, It.IsAny<Dictionary<String, String>>()));
-            mockCommunications.Verify(Communications => Communications.FtpPickUp(It.IsAny<String>(), It.IsAny<Dictionary<String, String>>(), mockFileName));
+            mockCommunications.Verify(Communications => Communications.FtpDropOff(It.IsAny<String>(), mockFileName  ));
+            mockCommunications.Verify(Communications => Communications.FtpPickUp(It.IsAny<String>()  , mockFileName));
         }
 
         [Test]
@@ -262,8 +262,8 @@ namespace Cnp.Sdk.Test.Unit
             Assert.AreEqual(124, actualAuthReversalResponse2.cnpTxnId);
             Assert.IsNull(nullAuthReversalResponse);
 
-            mockCommunications.Verify(Communications => Communications.FtpDropOff(It.IsAny<String>(), mockFileName, It.IsAny<Dictionary<String, String>>()));
-            mockCommunications.Verify(Communications => Communications.FtpPickUp(It.IsAny<String>(), It.IsAny<Dictionary<String, String>>(), mockFileName));
+            mockCommunications.Verify(Communications => Communications.FtpDropOff(It.IsAny<String>(), mockFileName  ));
+            mockCommunications.Verify(Communications => Communications.FtpPickUp(It.IsAny<String>()  , mockFileName));
         }
 
         [Test]
@@ -317,8 +317,8 @@ namespace Cnp.Sdk.Test.Unit
             Assert.AreEqual(124, actualCaptureResponse2.cnpTxnId);
             Assert.IsNull(nullCaptureResponse);
 
-            mockCommunications.Verify(Communications => Communications.FtpDropOff(It.IsAny<String>(), mockFileName, It.IsAny<Dictionary<String, String>>()));
-            mockCommunications.Verify(Communications => Communications.FtpPickUp(It.IsAny<String>(), It.IsAny<Dictionary<String, String>>(), mockFileName));
+            mockCommunications.Verify(Communications => Communications.FtpDropOff(It.IsAny<String>(), mockFileName  ));
+            mockCommunications.Verify(Communications => Communications.FtpPickUp(It.IsAny<String>()  , mockFileName));
         }
 
         [Test]
@@ -383,8 +383,8 @@ namespace Cnp.Sdk.Test.Unit
             Assert.AreEqual(124, actualCaptureGivenAuthReponse2.cnpTxnId);
             Assert.IsNull(nullCaptureGivenAuthReponse);
 
-            mockCommunications.Verify(Communications => Communications.FtpDropOff(It.IsAny<String>(), mockFileName, It.IsAny<Dictionary<String, String>>()));
-            mockCommunications.Verify(Communications => Communications.FtpPickUp(It.IsAny<String>(), It.IsAny<Dictionary<String, String>>(), mockFileName));
+            mockCommunications.Verify(Communications => Communications.FtpDropOff(It.IsAny<String>(), mockFileName  ));
+            mockCommunications.Verify(Communications => Communications.FtpPickUp(It.IsAny<String>()  , mockFileName));
         }
 
         [Test]
@@ -444,8 +444,8 @@ namespace Cnp.Sdk.Test.Unit
             Assert.AreEqual(124, actualCreditReponse2.cnpTxnId);
             Assert.IsNull(nullCreditReponse1);
 
-            mockCommunications.Verify(Communications => Communications.FtpDropOff(It.IsAny<String>(), mockFileName, It.IsAny<Dictionary<String, String>>()));
-            mockCommunications.Verify(Communications => Communications.FtpPickUp(It.IsAny<String>(), It.IsAny<Dictionary<String, String>>(), mockFileName));
+            mockCommunications.Verify(Communications => Communications.FtpDropOff(It.IsAny<String>(), mockFileName  ));
+            mockCommunications.Verify(Communications => Communications.FtpPickUp(It.IsAny<String>()  , mockFileName));
         }
 
         [Test]
@@ -499,8 +499,8 @@ namespace Cnp.Sdk.Test.Unit
             Assert.AreEqual(124, actualEcheckCreditResponse2.cnpTxnId);
             Assert.IsNull(nullEcheckCreditResponse);
 
-            mockCommunications.Verify(Communications => Communications.FtpDropOff(It.IsAny<String>(), mockFileName, It.IsAny<Dictionary<String, String>>()));
-            mockCommunications.Verify(Communications => Communications.FtpPickUp(It.IsAny<String>(), It.IsAny<Dictionary<String, String>>(), mockFileName));
+            mockCommunications.Verify(Communications => Communications.FtpDropOff(It.IsAny<String>(), mockFileName  ));
+            mockCommunications.Verify(Communications => Communications.FtpPickUp(It.IsAny<String>()  , mockFileName));
         }
 
         [Test]
@@ -553,8 +553,8 @@ namespace Cnp.Sdk.Test.Unit
             Assert.AreEqual(124, actualEcheckRedepositResponse2.cnpTxnId);
             Assert.IsNull(nullEcheckRedepositResponse);
 
-            mockCommunications.Verify(Communications => Communications.FtpDropOff(It.IsAny<String>(), mockFileName, It.IsAny<Dictionary<String, String>>()));
-            mockCommunications.Verify(Communications => Communications.FtpPickUp(It.IsAny<String>(), It.IsAny<Dictionary<String, String>>(), mockFileName));
+            mockCommunications.Verify(Communications => Communications.FtpDropOff(It.IsAny<String>(), mockFileName  ));
+            mockCommunications.Verify(Communications => Communications.FtpPickUp(It.IsAny<String>()  , mockFileName));
         }
 
         [Test]
@@ -621,8 +621,8 @@ namespace Cnp.Sdk.Test.Unit
             Assert.AreEqual(124, actualEcheckSalesResponse2.cnpTxnId);
             Assert.IsNull(nullEcheckSalesResponse);
 
-            mockCommunications.Verify(Communications => Communications.FtpDropOff(It.IsAny<String>(), mockFileName, It.IsAny<Dictionary<String, String>>()));
-            mockCommunications.Verify(Communications => Communications.FtpPickUp(It.IsAny<String>(), It.IsAny<Dictionary<String, String>>(), mockFileName));
+            mockCommunications.Verify(Communications => Communications.FtpDropOff(It.IsAny<String>(), mockFileName  ));
+            mockCommunications.Verify(Communications => Communications.FtpPickUp(It.IsAny<String>()  , mockFileName));
         }
 
         [Test]
@@ -689,8 +689,8 @@ namespace Cnp.Sdk.Test.Unit
             Assert.AreEqual(124, actualEcheckVerificationResponse2.cnpTxnId);
             Assert.IsNull(nullEcheckVerificationResponse);
 
-            mockCommunications.Verify(Communications => Communications.FtpDropOff(It.IsAny<String>(), mockFileName, It.IsAny<Dictionary<String, String>>()));
-            mockCommunications.Verify(Communications => Communications.FtpPickUp(It.IsAny<String>(), It.IsAny<Dictionary<String, String>>(), mockFileName));
+            mockCommunications.Verify(Communications => Communications.FtpDropOff(It.IsAny<String>(), mockFileName  ));
+            mockCommunications.Verify(Communications => Communications.FtpPickUp(It.IsAny<String>()  , mockFileName));
         }
 
         [Test]
@@ -750,8 +750,8 @@ namespace Cnp.Sdk.Test.Unit
             Assert.AreEqual(124, actualForceCaptureResponse2.cnpTxnId);
             Assert.IsNull(nullForceCaptureResponse);
 
-            mockCommunications.Verify(Communications => Communications.FtpDropOff(It.IsAny<String>(), mockFileName, It.IsAny<Dictionary<String, String>>()));
-            mockCommunications.Verify(Communications => Communications.FtpPickUp(It.IsAny<String>(), It.IsAny<Dictionary<String, String>>(), mockFileName));
+            mockCommunications.Verify(Communications => Communications.FtpDropOff(It.IsAny<String>(), mockFileName  ));
+            mockCommunications.Verify(Communications => Communications.FtpPickUp(It.IsAny<String>()  , mockFileName));
         }
 
         [Test]
@@ -811,8 +811,8 @@ namespace Cnp.Sdk.Test.Unit
             Assert.AreEqual(124, actualSaleResponse2.cnpTxnId);
             Assert.IsNull(nullSaleResponse);
 
-            mockCommunications.Verify(Communications => Communications.FtpDropOff(It.IsAny<String>(), mockFileName, It.IsAny<Dictionary<String, String>>()));
-            mockCommunications.Verify(Communications => Communications.FtpPickUp(It.IsAny<String>(), It.IsAny<Dictionary<String, String>>(), mockFileName));
+            mockCommunications.Verify(Communications => Communications.FtpDropOff(It.IsAny<String>(), mockFileName  ));
+            mockCommunications.Verify(Communications => Communications.FtpPickUp(It.IsAny<String>()  , mockFileName));
         }
 
         [Test]
@@ -866,8 +866,8 @@ namespace Cnp.Sdk.Test.Unit
             Assert.AreEqual(124, actualRegisterTokenResponse2.cnpTxnId);
             Assert.IsNull(nullRegisterTokenResponse);
 
-            mockCommunications.Verify(Communications => Communications.FtpDropOff(It.IsAny<String>(), mockFileName, It.IsAny<Dictionary<String, String>>()));
-            mockCommunications.Verify(Communications => Communications.FtpPickUp(It.IsAny<String>(), It.IsAny<Dictionary<String, String>>(), mockFileName));
+            mockCommunications.Verify(Communications => Communications.FtpDropOff(It.IsAny<String>(), mockFileName  ));
+            mockCommunications.Verify(Communications => Communications.FtpPickUp(It.IsAny<String>()  , mockFileName));
         }
 
         [Test]
@@ -921,8 +921,8 @@ namespace Cnp.Sdk.Test.Unit
             Assert.AreEqual(124, actualUpdateCardValidationNumOnTokenResponse2.cnpTxnId);
             Assert.IsNull(nullUpdateCardValidationNumOnTokenResponse);
 
-            mockCommunications.Verify(Communications => Communications.FtpDropOff(It.IsAny<String>(), mockFileName, It.IsAny<Dictionary<String, String>>()));
-            mockCommunications.Verify(Communications => Communications.FtpPickUp(It.IsAny<String>(), It.IsAny<Dictionary<String, String>>(), mockFileName));
+            mockCommunications.Verify(Communications => Communications.FtpDropOff(It.IsAny<String>(), mockFileName  ));
+            mockCommunications.Verify(Communications => Communications.FtpPickUp(It.IsAny<String>()  , mockFileName));
         }
 
         [Test]
@@ -1094,8 +1094,8 @@ namespace Cnp.Sdk.Test.Unit
             Assert.IsNull(nullAuthorizationResponse);
 
             mockCnpFile.Verify(cnpFile => cnpFile.AppendLineToFile(mockFilePath, It.IsRegex(".*reportGroup=\"Default Report Group\".*", RegexOptions.Singleline)));
-            mockCommunications.Verify(Communications => Communications.FtpDropOff(It.IsAny<String>(), mockFileName, It.IsAny<Dictionary<String, String>>()));
-            mockCommunications.Verify(Communications => Communications.FtpPickUp(It.IsAny<String>(), It.IsAny<Dictionary<String, String>>(), mockFileName));
+            mockCommunications.Verify(Communications => Communications.FtpDropOff(It.IsAny<String>(), mockFileName  ));
+            mockCommunications.Verify(Communications => Communications.FtpPickUp(It.IsAny<String>()  , mockFileName));
         }
 
         [Test]
@@ -1176,8 +1176,8 @@ namespace Cnp.Sdk.Test.Unit
             Assert.IsNull(nullCnpBatchResponse);
             Assert.IsNull(nullRFRResponse);
 
-            mockCommunications.Verify(Communications => Communications.FtpDropOff(It.IsAny<String>(), mockFileName, It.IsAny<Dictionary<String, String>>()));
-            mockCommunications.Verify(Communications => Communications.FtpPickUp(It.IsAny<String>(), It.IsAny<Dictionary<String, String>>(), mockFileName));
+            mockCommunications.Verify(Communications => Communications.FtpDropOff(It.IsAny<String>(), mockFileName  ));
+            mockCommunications.Verify(Communications => Communications.FtpPickUp(It.IsAny<String>()  , mockFileName));
         }
 
         [Test]
@@ -1227,8 +1227,8 @@ namespace Cnp.Sdk.Test.Unit
             Assert.AreEqual("54321", actualCnpBatchResponse.nextCancelSubscriptionResponse().subscriptionId);
             Assert.IsNull(actualCnpBatchResponse.nextCancelSubscriptionResponse());
 
-            mockCommunications.Verify(Communications => Communications.FtpDropOff(It.IsAny<String>(), mockFileName, It.IsAny<Dictionary<String, String>>()));
-            mockCommunications.Verify(Communications => Communications.FtpPickUp(It.IsAny<String>(), It.IsAny<Dictionary<String, String>>(), mockFileName));
+            mockCommunications.Verify(Communications => Communications.FtpDropOff(It.IsAny<String>(), mockFileName  ));
+            mockCommunications.Verify(Communications => Communications.FtpPickUp(It.IsAny<String>()  , mockFileName));
         }
 
         [Test]
@@ -1291,8 +1291,8 @@ namespace Cnp.Sdk.Test.Unit
             Assert.AreEqual("54321", actualCnpBatchResponse.nextUpdateSubscriptionResponse().subscriptionId);
             Assert.IsNull(actualCnpBatchResponse.nextUpdateSubscriptionResponse());
 
-            mockCommunications.Verify(Communications => Communications.FtpDropOff(It.IsAny<String>(), mockFileName, It.IsAny<Dictionary<String, String>>()));
-            mockCommunications.Verify(Communications => Communications.FtpPickUp(It.IsAny<String>(), It.IsAny<Dictionary<String, String>>(), mockFileName));
+            mockCommunications.Verify(Communications => Communications.FtpDropOff(It.IsAny<String>(), mockFileName  ));
+            mockCommunications.Verify(Communications => Communications.FtpPickUp(It.IsAny<String>()  , mockFileName));
         }
 
         [Test]
@@ -1346,8 +1346,8 @@ namespace Cnp.Sdk.Test.Unit
             Assert.AreEqual("124", actualCnpBatchResponse.nextCreatePlanResponse().cnpTxnId);
             Assert.IsNull(actualCnpBatchResponse.nextCreatePlanResponse());
 
-            mockCommunications.Verify(Communications => Communications.FtpDropOff(It.IsAny<String>(), mockFileName, It.IsAny<Dictionary<String, String>>()));
-            mockCommunications.Verify(Communications => Communications.FtpPickUp(It.IsAny<String>(), It.IsAny<Dictionary<String, String>>(), mockFileName));
+            mockCommunications.Verify(Communications => Communications.FtpDropOff(It.IsAny<String>(), mockFileName  ));
+            mockCommunications.Verify(Communications => Communications.FtpPickUp(It.IsAny<String>()  , mockFileName));
         }
 
         [Test]
@@ -1399,8 +1399,8 @@ namespace Cnp.Sdk.Test.Unit
             Assert.AreEqual("124", actualCnpBatchResponse.nextUpdatePlanResponse().cnpTxnId);
             Assert.IsNull(actualCnpBatchResponse.nextUpdatePlanResponse());
 
-            mockCommunications.Verify(Communications => Communications.FtpDropOff(It.IsAny<String>(), mockFileName, It.IsAny<Dictionary<String, String>>()));
-            mockCommunications.Verify(Communications => Communications.FtpPickUp(It.IsAny<String>(), It.IsAny<Dictionary<String, String>>(), mockFileName));
+            mockCommunications.Verify(Communications => Communications.FtpDropOff(It.IsAny<String>(), mockFileName  ));
+            mockCommunications.Verify(Communications => Communications.FtpPickUp(It.IsAny<String>()  , mockFileName));
         }
 
         [Test]
@@ -1453,8 +1453,8 @@ namespace Cnp.Sdk.Test.Unit
             Assert.AreEqual(124, actualCnpBatchResponse.nextActivateResponse().cnpTxnId);
             Assert.IsNull(actualCnpBatchResponse.nextActivateResponse());
 
-            mockCommunications.Verify(Communications => Communications.FtpDropOff(It.IsAny<String>(), mockFileName, It.IsAny<Dictionary<String, String>>()));
-            mockCommunications.Verify(Communications => Communications.FtpPickUp(It.IsAny<String>(), It.IsAny<Dictionary<String, String>>(), mockFileName));
+            mockCommunications.Verify(Communications => Communications.FtpDropOff(It.IsAny<String>(), mockFileName  ));
+            mockCommunications.Verify(Communications => Communications.FtpPickUp(It.IsAny<String>()  , mockFileName));
         }
 
         [Test]
@@ -1507,8 +1507,8 @@ namespace Cnp.Sdk.Test.Unit
             Assert.AreEqual(124, actualCnpBatchResponse.nextDeactivateResponse().cnpTxnId);
             Assert.IsNull(actualCnpBatchResponse.nextDeactivateResponse());
 
-            mockCommunications.Verify(Communications => Communications.FtpDropOff(It.IsAny<String>(), mockFileName, It.IsAny<Dictionary<String, String>>()));
-            mockCommunications.Verify(Communications => Communications.FtpPickUp(It.IsAny<String>(), It.IsAny<Dictionary<String, String>>(), mockFileName));
+            mockCommunications.Verify(Communications => Communications.FtpDropOff(It.IsAny<String>(), mockFileName  ));
+            mockCommunications.Verify(Communications => Communications.FtpPickUp(It.IsAny<String>()  , mockFileName));
         }
 
         [Test]
@@ -1561,8 +1561,8 @@ namespace Cnp.Sdk.Test.Unit
             Assert.AreEqual(124, actualCnpBatchResponse.nextLoadResponse().cnpTxnId);
             Assert.IsNull(actualCnpBatchResponse.nextLoadResponse());
 
-            mockCommunications.Verify(Communications => Communications.FtpDropOff(It.IsAny<String>(), mockFileName, It.IsAny<Dictionary<String, String>>()));
-            mockCommunications.Verify(Communications => Communications.FtpPickUp(It.IsAny<String>(), It.IsAny<Dictionary<String, String>>(), mockFileName));
+            mockCommunications.Verify(Communications => Communications.FtpDropOff(It.IsAny<String>(), mockFileName  ));
+            mockCommunications.Verify(Communications => Communications.FtpPickUp(It.IsAny<String>()  , mockFileName));
         }
 
         [Test]
@@ -1615,8 +1615,8 @@ namespace Cnp.Sdk.Test.Unit
             Assert.AreEqual(124, actualCnpBatchResponse.nextUnloadResponse().cnpTxnId);
             Assert.IsNull(actualCnpBatchResponse.nextUnloadResponse());
 
-            mockCommunications.Verify(Communications => Communications.FtpDropOff(It.IsAny<String>(), mockFileName, It.IsAny<Dictionary<String, String>>()));
-            mockCommunications.Verify(Communications => Communications.FtpPickUp(It.IsAny<String>(), It.IsAny<Dictionary<String, String>>(), mockFileName));
+            mockCommunications.Verify(Communications => Communications.FtpDropOff(It.IsAny<String>(), mockFileName  ));
+            mockCommunications.Verify(Communications => Communications.FtpPickUp(It.IsAny<String>()  , mockFileName));
         }
 
         [Test]
@@ -1669,8 +1669,8 @@ namespace Cnp.Sdk.Test.Unit
             Assert.AreEqual(124, actualCnpBatchResponse.nextBalanceInquiryResponse().cnpTxnId);
             Assert.IsNull(actualCnpBatchResponse.nextBalanceInquiryResponse());
 
-            mockCommunications.Verify(Communications => Communications.FtpDropOff(It.IsAny<String>(), mockFileName, It.IsAny<Dictionary<String, String>>()));
-            mockCommunications.Verify(Communications => Communications.FtpPickUp(It.IsAny<String>(), It.IsAny<Dictionary<String, String>>(), mockFileName));
+            mockCommunications.Verify(Communications => Communications.FtpDropOff(It.IsAny<String>(), mockFileName  ));
+            mockCommunications.Verify(Communications => Communications.FtpPickUp(It.IsAny<String>()  , mockFileName));
         }
 
         [Test]
@@ -1736,8 +1736,8 @@ namespace Cnp.Sdk.Test.Unit
             Assert.AreEqual(124, actualEcheckPreNoteSaleResponse2.cnpTxnId);
             Assert.IsNull(nullEcheckPreNoteSalesResponse);
 
-            mockCommunications.Verify(Communications => Communications.FtpDropOff(It.IsAny<String>(), mockFileName, It.IsAny<Dictionary<String, String>>()));
-            mockCommunications.Verify(Communications => Communications.FtpPickUp(It.IsAny<String>(), It.IsAny<Dictionary<String, String>>(), mockFileName));
+            mockCommunications.Verify(Communications => Communications.FtpDropOff(It.IsAny<String>(), mockFileName  ));
+            mockCommunications.Verify(Communications => Communications.FtpPickUp(It.IsAny<String>()  , mockFileName));
         }
 
         [Test]
@@ -1803,8 +1803,8 @@ namespace Cnp.Sdk.Test.Unit
             Assert.AreEqual(124, actualEcheckPreNoteCreditResponse2.cnpTxnId);
             Assert.IsNull(nullEcheckPreNoteCreditsResponse);
 
-            mockCommunications.Verify(Communications => Communications.FtpDropOff(It.IsAny<String>(), mockFileName, It.IsAny<Dictionary<String, String>>()));
-            mockCommunications.Verify(Communications => Communications.FtpPickUp(It.IsAny<String>(), It.IsAny<Dictionary<String, String>>(), mockFileName));
+            mockCommunications.Verify(Communications => Communications.FtpDropOff(It.IsAny<String>(), mockFileName  ));
+            mockCommunications.Verify(Communications => Communications.FtpPickUp(It.IsAny<String>()  , mockFileName));
         }
 
         [Test]
@@ -1891,8 +1891,8 @@ namespace Cnp.Sdk.Test.Unit
             Assert.AreEqual(522547723741503001, actualCnpBatchResponse.nextGiftCardAuthReversalResponse().cnpTxnId);
             Assert.IsNull(actualCnpBatchResponse.nextGiftCardAuthReversalResponse());
 
-            mockCommunications.Verify(Communications => Communications.FtpDropOff(It.IsAny<String>(), mockFileName, It.IsAny<Dictionary<String, String>>()));
-            mockCommunications.Verify(Communications => Communications.FtpPickUp(It.IsAny<String>(), It.IsAny<Dictionary<String, String>>(), mockFileName));
+            mockCommunications.Verify(Communications => Communications.FtpDropOff(It.IsAny<String>(), mockFileName  ));
+            mockCommunications.Verify(Communications => Communications.FtpPickUp(It.IsAny<String>()  , mockFileName));
         }
 
         [Test]
@@ -1978,8 +1978,8 @@ namespace Cnp.Sdk.Test.Unit
             Assert.AreEqual(522547723741503001, actualCnpBatchResponse.nextGiftCardCaptureResponse().cnpTxnId);
             Assert.IsNull(actualCnpBatchResponse.nextGiftCardCaptureResponse());
 
-            mockCommunications.Verify(Communications => Communications.FtpDropOff(It.IsAny<String>(), mockFileName, It.IsAny<Dictionary<String, String>>()));
-            mockCommunications.Verify(Communications => Communications.FtpPickUp(It.IsAny<String>(), It.IsAny<Dictionary<String, String>>(), mockFileName));
+            mockCommunications.Verify(Communications => Communications.FtpDropOff(It.IsAny<String>(), mockFileName  ));
+            mockCommunications.Verify(Communications => Communications.FtpPickUp(It.IsAny<String>()  , mockFileName));
         }
 
         [Test]
@@ -2063,8 +2063,8 @@ namespace Cnp.Sdk.Test.Unit
             Assert.AreEqual(522547723741503001, actualCnpBatchResponse.nextGiftCardCreditResponse().cnpTxnId);
             Assert.IsNull(actualCnpBatchResponse.nextGiftCardCreditResponse());
 
-            mockCommunications.Verify(Communications => Communications.FtpDropOff(It.IsAny<String>(), mockFileName, It.IsAny<Dictionary<String, String>>()));
-            mockCommunications.Verify(Communications => Communications.FtpPickUp(It.IsAny<String>(), It.IsAny<Dictionary<String, String>>(), mockFileName));
+            mockCommunications.Verify(Communications => Communications.FtpDropOff(It.IsAny<String>(), mockFileName  ));
+            mockCommunications.Verify(Communications => Communications.FtpPickUp(It.IsAny<String>()  , mockFileName));
         }
 
         [Test]
@@ -2151,8 +2151,8 @@ namespace Cnp.Sdk.Test.Unit
             Assert.AreEqual(522547723741503001, actualCnpBatchResponse.nextGiftCardCreditResponse().cnpTxnId);
             Assert.IsNull(actualCnpBatchResponse.nextGiftCardCreditResponse());
 
-            mockCommunications.Verify(Communications => Communications.FtpDropOff(It.IsAny<String>(), mockFileName, It.IsAny<Dictionary<String, String>>()));
-            mockCommunications.Verify(Communications => Communications.FtpPickUp(It.IsAny<String>(), It.IsAny<Dictionary<String, String>>(), mockFileName));
+            mockCommunications.Verify(Communications => Communications.FtpDropOff(It.IsAny<String>(), mockFileName  ));
+            mockCommunications.Verify(Communications => Communications.FtpPickUp(It.IsAny<String>()  , mockFileName));
         }
 
         [Test]

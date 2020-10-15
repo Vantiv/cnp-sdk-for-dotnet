@@ -85,7 +85,7 @@ namespace Cnp.Sdk
         // 
         private void initializeRequest()
         {
-            communication = new Communications();
+            communication = new Communications(config);
 
             authentication = new authentication();
             authentication.user = config["username"];
@@ -212,7 +212,7 @@ namespace Cnp.Sdk
                 PgpHelper.EncryptFile(requestFilePath, finalRequestFilePath, vantivPublicKeyId);
             }
             
-            communication.FtpDropOff(batchRequestDir, Path.GetFileName(finalRequestFilePath), config);
+            communication.FtpDropOff(batchRequestDir, Path.GetFileName(finalRequestFilePath));
             
             return Path.GetFileName(finalRequestFilePath);
         }
@@ -241,7 +241,7 @@ namespace Cnp.Sdk
                     Path.Combine(batchResponseDir, batchFileName);
                 cnpFile.createDirectory(finalResponseFilePath);
             }
-            communication.FtpPickUp(finalResponseFilePath, config, batchFileName);
+            communication.FtpPickUp(finalResponseFilePath, batchFileName);
 
             if ("true".Equals(useEncryption))
             {
