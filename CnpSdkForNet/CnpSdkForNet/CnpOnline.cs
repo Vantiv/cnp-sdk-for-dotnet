@@ -9,7 +9,6 @@ using System.Net;
 
 namespace Cnp.Sdk
 {
-    
 
     // Represent an online request.
     // Defining all transactions supported for online processing.
@@ -17,31 +16,17 @@ namespace Cnp.Sdk
     {
         // Configuration object containing credentials and settings.
         private Dictionary<string, string> _config;
-        // 
+
+        // The object used for communicating with the server
         private Communications _communication;
+
+        // exposed merchantId for organizations with multiple Merchant Ids.
+        private string _merchantId;
 
         /**
          * Construct a Cnp online using the configuration specified in CnpSdkForNet.dll.config
          */
-        public CnpOnline()
-        {
-            ConfigManager configManager = new ConfigManager();
-            _config = configManager.getConfig();
-            
-            //_config["url"] = Properties.Settings.Default.url;
-            //_config["reportGroup"] = Properties.Settings.Default.reportGroup;
-            //_config["username"] = Properties.Settings.Default.username;
-            //_config["printxml"] = Properties.Settings.Default.printxml;
-            //_config["timeout"] = Properties.Settings.Default.timeout;
-            //_config["proxyHost"] = Properties.Settings.Default.proxyHost;
-            //_config["merchantId"] = Properties.Settings.Default.merchantId;
-            //_config["password"] = Properties.Settings.Default.password;
-            //_config["proxyPort"] = Properties.Settings.Default.proxyPort;
-            //_config["logFile"] = Properties.Settings.Default.logFile;
-            //_config["neuterAccountNums"] = Properties.Settings.Default.neuterAccountNums;
-            _communication = new Communications();
-
-        }
+        public CnpOnline() : this(new ConfigManager().getConfig()) { }
 
         /**
          * Construct a CnpOnline specifying the configuration in code.  This should be used by integration that have another way
@@ -58,11 +43,35 @@ namespace Cnp.Sdk
          * proxyHost
          * proxyPort
          * printxml (possible values "true" and "false" - defaults to false)
+         * maxConnections (max amount of connections used for HTTP requests)
+         *
+         * NOTE: The config of the first CnpOnline object created will determine the following
+         *   for the entire lifespan of the application:
+         * - proxyHost
+         * - proxyPort
+         * - timeout
+         * - maxConnections
+         * These values *cannot* be changed for the lifetime of the application
          */
         public CnpOnline(Dictionary<string, string> config)
         {
-            this._config = config;
-            _communication = new Communications();
+            _config = config;
+            SetCommunication(new Communications(_config));
+        }
+
+        public void SetCommunication(Communications communication)
+        {
+            _communication = communication;
+        }
+
+        public string GetMerchantId()
+        {
+            return _merchantId;
+        }
+
+        public void SetMerchantId(string merchantId)
+        {
+            _merchantId = merchantId;
         }
 
         public event EventHandler HttpAction
@@ -70,12 +79,6 @@ namespace Cnp.Sdk
             add { _communication.HttpAction += value; }
             remove { _communication.HttpAction -= value; }
         }
-
-        public void SetCommunication(Communications communication)
-        {
-            this._communication = communication;
-        }
-        
 
         public Task<authorizationResponse> AuthorizeAsync(authorization auth, CancellationToken cancellationToken)
         {
@@ -1043,8 +1046,8 @@ namespace Cnp.Sdk
         private cnpOnlineRequest CreateCnpOnlineRequest()
         {
             var request = new cnpOnlineRequest();
-            request.merchantId = _config["merchantId"];
             request.merchantSdk = "DotNet;" + CnpVersion.CurrentCNPSDKVersion;
+            request.merchantId = _merchantId ?? _config["merchantId"];
             var authentication = new authentication();
             authentication.password = _config["password"];
             authentication.user = _config["username"];
@@ -1055,7 +1058,7 @@ namespace Cnp.Sdk
         private cnpOnlineResponse SendToCnp(cnpOnlineRequest request)
         {
             var xmlRequest = request.Serialize();
-            var xmlResponse = _communication.HttpPost(xmlRequest, _config);
+            var xmlResponse = _communication.HttpPost(xmlRequest);
             if (xmlResponse == null)
             {
                 throw new WebException("Could not retrieve response from server for given request");
@@ -1107,7 +1110,7 @@ namespace Cnp.Sdk
         private async Task<cnpOnlineResponse> SendToCnpAsync(cnpOnlineRequest request, CancellationToken cancellationToken)
         {
             string xmlRequest = request.Serialize();
-            string xmlResponse = await _communication.HttpPostAsync(xmlRequest, _config, cancellationToken).ConfigureAwait(false);
+            string xmlResponse = await _communication.HttpPostAsync(xmlRequest, cancellationToken).ConfigureAwait(false);
             return DeserializeResponse(xmlResponse);
         }
 

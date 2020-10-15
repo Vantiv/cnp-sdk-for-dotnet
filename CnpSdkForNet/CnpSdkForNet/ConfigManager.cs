@@ -12,76 +12,36 @@ namespace Cnp.Sdk
             return _config;
         }
 
-        public ConfigManager()
+        public ConfigManager() : this(new Dictionary<string, string>
         {
-            _config = new Dictionary<string, string>();
-            _config["url"] = Properties.Settings.Default.url;
-            _config["reportGroup"] = Properties.Settings.Default.reportGroup;
-            _config["username"] = Properties.Settings.Default.username;
-            _config["printxml"] = Properties.Settings.Default.printxml;
-            _config["timeout"] = Properties.Settings.Default.timeout;
-            _config["proxyHost"] = Properties.Settings.Default.proxyHost;
-            _config["merchantId"] = Properties.Settings.Default.merchantId;
-            _config["password"] = Properties.Settings.Default.password;
-            _config["proxyPort"] = Properties.Settings.Default.proxyPort;
-            _config["logFile"] = Properties.Settings.Default.logFile;
-            _config["neuterAccountNums"] = Properties.Settings.Default.neuterAccountNums;
-            _config["sftpUrl"] = Properties.Settings.Default.sftpUrl;
-            _config["sftpUsername"] = Properties.Settings.Default.sftpUsername;
-            _config["sftpPassword"] = Properties.Settings.Default.sftpPassword;
-            _config["onlineBatchUrl"] = Properties.Settings.Default.onlineBatchUrl;
-            _config["onlineBatchPort"] = Properties.Settings.Default.onlineBatchPort;
-            _config["requestDirectory"] = Properties.Settings.Default.requestDirectory;
-            _config["responseDirectory"] = Properties.Settings.Default.responseDirectory;
-            _config["useEncryption"] = Properties.Settings.Default.useEncryption;
-            _config["vantivPublicKeyId"] = Properties.Settings.Default.vantivPublicKeyId;
-            _config["pgpPassphrase"] = Properties.Settings.Default.pgpPassphrase;
-            _config["neuterUserCredentials"] = Properties.Settings.Default.neuterUserCredentials;
-
-
-
-        }
+            ["url"] = Properties.Settings.Default.url,
+            ["reportGroup"] = Properties.Settings.Default.reportGroup,
+            ["username"] = Properties.Settings.Default.username,
+            ["printxml"] = Properties.Settings.Default.printxml,
+            ["timeout"] = Properties.Settings.Default.timeout,
+            ["proxyHost"] = Properties.Settings.Default.proxyHost,
+            ["merchantId"] = Properties.Settings.Default.merchantId,
+            ["password"] = Properties.Settings.Default.password,
+            ["proxyPort"] = Properties.Settings.Default.proxyPort,
+            ["logFile"] = Properties.Settings.Default.logFile,
+            ["neuterAccountNums"] = Properties.Settings.Default.neuterAccountNums,
+            ["sftpUrl"] = Properties.Settings.Default.sftpUrl,
+            ["sftpUsername"] = Properties.Settings.Default.sftpUsername,
+            ["sftpPassword"] = Properties.Settings.Default.sftpPassword,
+            ["onlineBatchUrl"] = Properties.Settings.Default.onlineBatchUrl,
+            ["onlineBatchPort"] = Properties.Settings.Default.onlineBatchPort,
+            ["requestDirectory"] = Properties.Settings.Default.requestDirectory,
+            ["responseDirectory"] = Properties.Settings.Default.responseDirectory,
+            ["useEncryption"] = Properties.Settings.Default.useEncryption,
+            ["vantivPublicKeyId"] = Properties.Settings.Default.vantivPublicKeyId,
+            ["pgpPassphrase"] = Properties.Settings.Default.pgpPassphrase,
+            ["neuterUserCredentials"] = Properties.Settings.Default.neuterUserCredentials,
+            ["maxConnections"] = Properties.Settings.Default.maxConnections
+        }) { }
 
         public ConfigManager(Dictionary<string, string> config)
         {
             _config = config;
         }
-
-        //public void configureConfig()
-        //{
-        //    Console.Write("Please input the URL for online transactions (ex: https://www.testantivcnp.com/sandbox/communicator/online):");
-        //    string url = Console.ReadLine();
-        //    setProperty("url", url);
-        //    Console.Write("reportGroup: ");
-        //    string reportGroup = Console.ReadLine();
-        //    setProperty("reportGroup", reportGroup);
-        //    Console.Write("Please input your presenter user name: ");
-        //    string username = Console.ReadLine();
-        //    setProperty("username", username);
-        //    Console.Write("printxml: ");
-        //    string printxml = Console.ReadLine();
-        //    setProperty("printxml", printxml);
-        //    Console.Write("timeout: ");
-        //    string timeout = Console.ReadLine();
-        //    setProperty("timeout", timeout);
-        //    Console.Write("
-        //}
-
-        //private void setProperty(string property, string val)
-        //{
-        //    if (val.ToLower() == "t" || val.ToLower() == "true")
-        //    {
-        //        _config[property] = "true";
-        //    }
-        //    else if (val.ToLower() == "f" || val.ToLower() == "false")
-        //    {
-        //        _config[property] = "false";
-        //    }
-        //    else if (val != "")
-        //    {
-        //        _config[property] = val;
-        //    }
-        //}
-
     }
 }

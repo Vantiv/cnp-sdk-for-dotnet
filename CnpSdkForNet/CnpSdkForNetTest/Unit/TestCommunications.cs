@@ -1,61 +1,51 @@
 ﻿using System.Collections.Generic;
 using NUnit.Framework;
 
-
-
 namespace Cnp.Sdk.Test.Unit
 {
     [TestFixture]
     internal class TestCommunications
     {
-        private Communications _objectUnderTest;
+        private Dictionary<string, string> config;
+        private Communications objectUnderTest;
 
         [OneTimeSetUp]
         public void SetUpCnp()
         {
-            _objectUnderTest = new Communications();
+            config = new Dictionary<string, string> {["url"] = "https://example.com"};
+            objectUnderTest = new Communications(config);
         }
 
         [Test]
         public void TestSettingProxyPropertiesToNullShouldTurnOffProxy()
         {
-            var config = new Dictionary<string, string> { { "proxyHost", null }, { "proxyPort", null } };
+            config["proxyHost"] = null;
+            config["proxyPort"] = null;
 
-            Assert.IsFalse(_objectUnderTest.IsProxyOn(config));
-
+            Assert.IsFalse(objectUnderTest.IsProxyOn());
         }
 
         [Test]
         public void TestSettingProxyPropertiesToEmptyShouldTurnOffProxy()
         {
-            var config = new Dictionary<string, string> { { "proxyHost", "" }, { "proxyPort", "" } };
+            config["proxyHost"] = "";
+            config["proxyPort"] = "";
 
-            Assert.IsFalse(_objectUnderTest.IsProxyOn(config));
-
+            Assert.IsFalse(objectUnderTest.IsProxyOn());
         }
 
         [Test]
         public void TestSettingLogFileToEmptyShouldTurnOffLogFile()
         {
-            var config = new Dictionary<string, string> { { "logFile", "" } };
+            config["logFile"] = "";
 
-            Assert.IsFalse(_objectUnderTest.IsValidConfigValueSet(config, "logFile"));
-
-            config = null;
-
-            Assert.IsFalse(_objectUnderTest.IsValidConfigValueSet(config, "logFile"));
-
+            Assert.IsFalse(objectUnderTest.IsValidConfigValueSet("logFile"));
         }
 
         [Test]
         public void TestConfigNotPresentInDictionary()
         {
-            var config = new Dictionary<string, string> { };
-
-            Assert.IsFalse(_objectUnderTest.IsValidConfigValueSet(config, "logFile"));
-
+            Assert.IsFalse(objectUnderTest.IsValidConfigValueSet("logFile"));
         }
-
-
     }
 }
