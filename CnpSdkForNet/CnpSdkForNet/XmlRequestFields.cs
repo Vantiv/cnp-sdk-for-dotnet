@@ -299,6 +299,19 @@ namespace Cnp.Sdk
             get { return taxTypeField; }
             set { taxTypeField = value; taxTypeSet = true; }
         }
+        
+                
+        //12.17 changes
+        private businessIndicatorEnum businessIndicatorField;
+        private bool businessIndicatorSet;
+        public businessIndicatorEnum businessIndicator
+        {
+            get { return businessIndicatorField; }
+            set { businessIndicatorField = value; businessIndicatorSet = true; }
+        }
+        
+        
+        
         private processingType processingTypeField;
         private bool processingTypeSet;
         public processingType processingType
@@ -471,6 +484,13 @@ namespace Cnp.Sdk
                 {
                     xml += "\r\n<taxType>" + taxTypeField + "</taxType>";
                 }
+                
+                // 12.17 changes
+                if (businessIndicatorSet)
+                {
+                    xml += "\r\n<businessIndicator>" + businessIndicatorField + "</businessIndicator>";
+                }
+                
                 if (enhancedData != null)
                 {
                     xml += "\r\n<enhancedData>" + enhancedData.Serialize() + "\r\n</enhancedData>";
@@ -862,6 +882,19 @@ namespace Cnp.Sdk
             get { return taxTypeField; }
             set { taxTypeField = value; taxTypeSet = true; }
         }
+        
+        
+        //12.17 changes
+        private businessIndicatorEnum businessIndicatorField;
+        private bool businessIndicatorSet;
+        public businessIndicatorEnum businessIndicator
+        {
+            get { return businessIndicatorField; }
+            set { businessIndicatorField = value; businessIndicatorSet = true; }
+        }
+
+        
+        
         public billMeLaterRequest billMeLaterRequest;
         public enhancedData enhancedData;
         public lodgingInfo lodgingInfo;
@@ -968,6 +1001,15 @@ namespace Cnp.Sdk
             {
                 xml += "\r\n<taxType>" + taxTypeField + "</taxType>";
             }
+            
+            
+            //12.17 changes
+            if (businessIndicatorSet)
+            {
+                xml += "\r\n<businessIndicator>" + businessIndicatorField + "</businessIndicator>";
+            }
+            
+            
             if (billMeLaterRequest != null)
             {
                 xml += "\r\n<billMeLaterRequest>" + billMeLaterRequest.Serialize() + "\r\n</billMeLaterRequest>";
@@ -1618,6 +1660,20 @@ namespace Cnp.Sdk
             get { return taxTypeField; }
             set { taxTypeField = value; taxTypeSet = true; }
         }
+        
+        
+        //12.17 changes
+        private businessIndicatorEnum businessIndicatorField;
+        private bool businessIndicatorSet;
+        public businessIndicatorEnum businessIndicator
+        {
+            get { return businessIndicatorField; }
+            set { businessIndicatorField = value; businessIndicatorSet = true; }
+        }
+        
+        
+        
+        
         public enhancedData enhancedData;
         public lodgingInfo lodgingInfo;
         public processingInstructions processingInstructions;
@@ -1690,6 +1746,16 @@ namespace Cnp.Sdk
             {
                 xml += "\r\n<taxType>" + taxTypeField + "</taxType>";
             }
+            
+            
+            //12.17 changes
+            if (businessIndicatorSet)
+            {
+                xml += "\r\n<businessIndicator>" + businessIndicatorField + "</businessIndicator>";
+            }
+            
+            
+            
             if (enhancedData != null)
             {
                 xml += "\r\n<enhancedData>" + enhancedData.Serialize() + "\r\n</enhancedData>";
@@ -2169,6 +2235,19 @@ namespace Cnp.Sdk
             get { return taxTypeField; }
             set { taxTypeField = value; taxTypeSet = true; }
         }
+        
+        
+        //12.17 changes
+        private businessIndicatorEnum businessIndicatorField;
+        private bool businessIndicatorSet;
+        public businessIndicatorEnum businessIndicator
+        {
+            get { return businessIndicatorField; }
+            set { businessIndicatorField = value; businessIndicatorSet = true; }
+        }
+        
+        
+        
         public enhancedData enhancedData;
         public processingInstructions processingInstructions;
         public pos pos;
@@ -2368,6 +2447,16 @@ namespace Cnp.Sdk
             {
                 xml += "\r\n<taxType>" + taxTypeField + "</taxType>";
             }
+            
+            //12.17 changes
+            if (businessIndicatorSet)
+            {
+                xml += "\r\n<businessIndicator>" + businessIndicatorField + "</businessIndicator>";
+            }
+
+            
+            
+            
             if (enhancedData != null)
             {
                 xml += "\r\n<enhancedData>" + enhancedData.Serialize() + "\r\n</enhancedData>";
