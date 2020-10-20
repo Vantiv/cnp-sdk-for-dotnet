@@ -2986,6 +2986,18 @@ namespace Cnp.Sdk
         [System.Xml.Serialization.XmlEnumAttribute("MASS AFFLUENT")]
         MASSAFFLUENT,
     }
+    
+    /// <remarks/>
+    /// 12.17 Changes
+    [System.CodeDom.Compiler.GeneratedCodeAttribute("xsd", "2.0.50727.42")]
+    [System.SerializableAttribute()]
+    [System.Xml.Serialization.XmlTypeAttribute(Namespace = "http://www.vantivcnp.com/schema")]
+    public enum businessApplicationIdentifierEnum
+    {
+
+        /// <remarks/>
+        CB,
+    }
 
     /// <remarks/>
     [System.CodeDom.Compiler.GeneratedCodeAttribute("xsd", "2.0.50727.42")]
