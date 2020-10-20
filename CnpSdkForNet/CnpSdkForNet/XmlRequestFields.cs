@@ -480,17 +480,12 @@ namespace Cnp.Sdk
                 {
                     xml += "\r\n<customBilling>" + customBilling.Serialize() + "\r\n</customBilling>";
                 }
+
                 if (taxTypeSet)
                 {
                     xml += "\r\n<taxType>" + taxTypeField + "</taxType>";
                 }
-                
-                // 12.17 changes
-                if (businessIndicatorSet)
-                {
-                    xml += "\r\n<businessIndicator>" + businessIndicatorField + "</businessIndicator>";
-                }
-                
+
                 if (enhancedData != null)
                 {
                     xml += "\r\n<enhancedData>" + enhancedData.Serialize() + "\r\n</enhancedData>";
@@ -556,6 +551,12 @@ namespace Cnp.Sdk
                 if (merchantCategoryCode != null)
                 {
                     xml += "\r\n<merchantCategoryCode>" + merchantCategoryCode + "</merchantCategoryCode>";
+                }
+                
+                // 12.17 changes
+                if (businessIndicatorSet)
+                {
+                    xml += "\r\n<businessIndicator>" + businessIndicatorField + "</businessIndicator>";
                 }
             }
 
@@ -1001,15 +1002,7 @@ namespace Cnp.Sdk
             {
                 xml += "\r\n<taxType>" + taxTypeField + "</taxType>";
             }
-            
-            
-            //12.17 changes
-            if (businessIndicatorSet)
-            {
-                xml += "\r\n<businessIndicator>" + businessIndicatorField + "</businessIndicator>";
-            }
-            
-            
+
             if (billMeLaterRequest != null)
             {
                 xml += "\r\n<billMeLaterRequest>" + billMeLaterRequest.Serialize() + "\r\n</billMeLaterRequest>";
@@ -1057,6 +1050,11 @@ namespace Cnp.Sdk
             if (merchantCategoryCode != null)
             {
                 xml += "\r\n<merchantCategoryCode>" + merchantCategoryCode + "</merchantCategoryCode>";
+            }
+            //12.17 changes
+            if (businessIndicatorSet)
+            {
+                xml += "\r\n<businessIndicator>" + businessIndicatorField + "</businessIndicator>";
             }
             xml += "\r\n</captureGivenAuth>";
             return xml;
@@ -1179,6 +1177,19 @@ namespace Cnp.Sdk
             get { return taxTypeField; }
             set { taxTypeField = value; taxTypeSet = true; }
         }
+        
+        
+        //12.17 changes
+        private businessIndicatorEnum businessIndicatorField;
+        private bool businessIndicatorSet;
+        public businessIndicatorEnum businessIndicator
+        {
+            get { return businessIndicatorField; }
+            set { businessIndicatorField = value; businessIndicatorSet = true; }
+        }
+
+        
+        
         public billMeLaterRequest billMeLaterRequest;
         public pos pos;
         private string pinField;
@@ -1253,6 +1264,9 @@ namespace Cnp.Sdk
             }
             if (payPalNotes != null) xml += "\r\n<payPalNotes>" + SecurityElement.Escape(payPalNotes) + "</payPalNotes>";
             if (actionReason != null) xml += "\r\n<actionReason>" + SecurityElement.Escape(actionReason) + "</actionReason>";
+            //12.17 changes
+            if (businessIndicatorSet) xml += "\r\n<businessIndicator>" + businessIndicatorField + "</businessIndicator>";
+
             xml += "\r\n</credit>";
             return xml;
         }
@@ -1746,16 +1760,6 @@ namespace Cnp.Sdk
             {
                 xml += "\r\n<taxType>" + taxTypeField + "</taxType>";
             }
-            
-            
-            //12.17 changes
-            if (businessIndicatorSet)
-            {
-                xml += "\r\n<businessIndicator>" + businessIndicatorField + "</businessIndicator>";
-            }
-            
-            
-            
             if (enhancedData != null)
             {
                 xml += "\r\n<enhancedData>" + enhancedData.Serialize() + "\r\n</enhancedData>";
@@ -1792,6 +1796,12 @@ namespace Cnp.Sdk
             if (merchantCategoryCode != null)
             {
                 xml += "\r\n<merchantCategoryCode>" + merchantCategoryCode + "</merchantCategoryCode>";
+            }
+            
+            //12.17 changes
+            if (businessIndicatorSet)
+            {
+                xml += "\r\n<businessIndicator>" + businessIndicatorField + "</businessIndicator>";
             }
             
             xml += "\r\n</forceCapture>";
@@ -2447,16 +2457,6 @@ namespace Cnp.Sdk
             {
                 xml += "\r\n<taxType>" + taxTypeField + "</taxType>";
             }
-            
-            //12.17 changes
-            if (businessIndicatorSet)
-            {
-                xml += "\r\n<businessIndicator>" + businessIndicatorField + "</businessIndicator>";
-            }
-
-            
-            
-            
             if (enhancedData != null)
             {
                 xml += "\r\n<enhancedData>" + enhancedData.Serialize() + "\r\n</enhancedData>";
@@ -2535,6 +2535,11 @@ namespace Cnp.Sdk
             if (merchantCategoryCode != null)
             {
                 xml += "\r\n<merchantCategoryCode>" + merchantCategoryCode + "</merchantCategoryCode>";
+            }
+            //12.17 changes
+            if (businessIndicatorSet)
+            {
+                xml += "\r\n<businessIndicator>" + businessIndicatorField + "</businessIndicator>";
             }
 
             //if (routingPreferenceSet)
