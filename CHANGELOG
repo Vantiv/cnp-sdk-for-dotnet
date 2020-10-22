@@ -1,6 +1,10 @@
 
 = Worldpay CNP CHANGELOG
 
+==Version 12.17.0 (October 21, 2020)
+* Feature: Added businessIndicator in authorization, forceCapture, captureGivenAuth, sale, credit
+* Feature: Added businessApplicationIdentifier
+
 
 ==Version 12.16.0 (October 14, 2020)
 * Feature: Added new transaction type: transactionReversal
