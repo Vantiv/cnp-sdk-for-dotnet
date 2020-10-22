@@ -381,7 +381,6 @@ namespace Cnp.Sdk
         /// <remarks/>
         fee,
     }
-    // 12.17 change
     [System.CodeDom.Compiler.GeneratedCodeAttribute("xsd", "2.0.50727.42")]
     [System.SerializableAttribute()]
     [System.Xml.Serialization.XmlTypeAttribute(Namespace = "http://www.vantivcnp.com/schema")]
@@ -2988,7 +2987,6 @@ namespace Cnp.Sdk
     }
     
     /// <remarks/>
-    /// 12.17 Changes
     [System.CodeDom.Compiler.GeneratedCodeAttribute("xsd", "2.0.50727.42")]
     [System.SerializableAttribute()]
     [System.Xml.Serialization.XmlTypeAttribute(Namespace = "http://www.vantivcnp.com/schema")]

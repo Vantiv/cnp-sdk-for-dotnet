@@ -300,8 +300,7 @@ namespace Cnp.Sdk
             set { taxTypeField = value; taxTypeSet = true; }
         }
         
-                
-        //12.17 changes
+        
         private businessIndicatorEnum businessIndicatorField;
         private bool businessIndicatorSet;
         public businessIndicatorEnum businessIndicator
@@ -553,7 +552,7 @@ namespace Cnp.Sdk
                     xml += "\r\n<merchantCategoryCode>" + merchantCategoryCode + "</merchantCategoryCode>";
                 }
                 
-                // 12.17 changes
+
                 if (businessIndicatorSet)
                 {
                     xml += "\r\n<businessIndicator>" + businessIndicatorField + "</businessIndicator>";
@@ -885,7 +884,6 @@ namespace Cnp.Sdk
         }
         
         
-        //12.17 changes
         private businessIndicatorEnum businessIndicatorField;
         private bool businessIndicatorSet;
         public businessIndicatorEnum businessIndicator
@@ -1051,7 +1049,6 @@ namespace Cnp.Sdk
             {
                 xml += "\r\n<merchantCategoryCode>" + merchantCategoryCode + "</merchantCategoryCode>";
             }
-            //12.17 changes
             if (businessIndicatorSet)
             {
                 xml += "\r\n<businessIndicator>" + businessIndicatorField + "</businessIndicator>";
@@ -1178,8 +1175,6 @@ namespace Cnp.Sdk
             set { taxTypeField = value; taxTypeSet = true; }
         }
         
-        
-        //12.17 changes
         private businessIndicatorEnum businessIndicatorField;
         private bool businessIndicatorSet;
         public businessIndicatorEnum businessIndicator
@@ -1264,7 +1259,6 @@ namespace Cnp.Sdk
             }
             if (payPalNotes != null) xml += "\r\n<payPalNotes>" + SecurityElement.Escape(payPalNotes) + "</payPalNotes>";
             if (actionReason != null) xml += "\r\n<actionReason>" + SecurityElement.Escape(actionReason) + "</actionReason>";
-            //12.17 changes
             if (businessIndicatorSet) xml += "\r\n<businessIndicator>" + businessIndicatorField + "</businessIndicator>";
 
             xml += "\r\n</credit>";
@@ -1675,8 +1669,6 @@ namespace Cnp.Sdk
             set { taxTypeField = value; taxTypeSet = true; }
         }
         
-        
-        //12.17 changes
         private businessIndicatorEnum businessIndicatorField;
         private bool businessIndicatorSet;
         public businessIndicatorEnum businessIndicator
@@ -1797,8 +1789,7 @@ namespace Cnp.Sdk
             {
                 xml += "\r\n<merchantCategoryCode>" + merchantCategoryCode + "</merchantCategoryCode>";
             }
-            
-            //12.17 changes
+
             if (businessIndicatorSet)
             {
                 xml += "\r\n<businessIndicator>" + businessIndicatorField + "</businessIndicator>";
@@ -2246,8 +2237,6 @@ namespace Cnp.Sdk
             set { taxTypeField = value; taxTypeSet = true; }
         }
         
-        
-        //12.17 changes
         private businessIndicatorEnum businessIndicatorField;
         private bool businessIndicatorSet;
         public businessIndicatorEnum businessIndicator
@@ -2536,7 +2525,6 @@ namespace Cnp.Sdk
             {
                 xml += "\r\n<merchantCategoryCode>" + merchantCategoryCode + "</merchantCategoryCode>";
             }
-            //12.17 changes
             if (businessIndicatorSet)
             {
                 xml += "\r\n<businessIndicator>" + businessIndicatorField + "</businessIndicator>";
