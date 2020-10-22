@@ -314,3 +314,7 @@ ASALocalRun/
 
 # MFractors (Xamarin productivity tool) working folder 
 .mfractor/
+
+#DS_Store from MACOS
+.DS_Store
+CnpSdkForNet/.DS_Store

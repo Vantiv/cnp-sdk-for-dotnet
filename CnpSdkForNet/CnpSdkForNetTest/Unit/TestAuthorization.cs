@@ -672,25 +672,13 @@ namespace Cnp.Sdk.Test.Unit
             auth.orderId = "12344";
             auth.amount = 2;
             auth.orderSource = orderSourceType.ecommerce;
-            auth.reportGroup = "Planets";
-            auth.fraudFilterOverride = true;
             auth.businessIndicator = businessIndicatorEnum.consumerBillPayment;
+            auth.reportGroup = "Planets";
             
-
-            var expectedResult = @"
-<authorization id="""" reportGroup=""Planets"">
-<orderId>12344</orderId>
-<amount>2</amount>
-<orderSource>ecommerce</orderSource>
-<fraudFilterOverride>true</fraudFilterOverride>
-<businessIndicator>consumerBillPayment</businessIndicator>
-</authorization>";
-
-            Assert.AreEqual(Regex.Replace(expectedResult, @"\s+", string.Empty), Regex.Replace(auth.Serialize(), @"\s+", string.Empty));
 
             var mock = new Mock<Communications>();
 
-            mock.Setup(Communications => Communications.HttpPost(It.IsRegex(".*<fraudFilterOverride>true</fraudFilterOverride>.*", RegexOptions.Singleline) ))
+            mock.Setup(Communications => Communications.HttpPost(It.IsRegex(".*<amount>2</amount>\r\n<orderSource>ecommerce</orderSource>\r\n<businessIndicator>consumerBillPayment</businessIndicator>.*", RegexOptions.Singleline) ))
                 .Returns("<cnpOnlineResponse version='8.10' response='0' message='Valid Format' xmlns='http://www.vantivcnp.com/schema'><authorizationResponse><cnpTxnId>123</cnpTxnId></authorizationResponse></cnpOnlineResponse>");
 
             var mockedCommunication = mock.Object;

@@ -206,5 +206,26 @@ namespace Cnp.Sdk.Test.Unit
             Assert.NotNull(response);
             Assert.AreEqual("sandbox", response.location);
         }
+        
+        //12.17 Changes
+        [Test]
+        public void TestBusinessIndicator()
+        {
+            captureGivenAuth capture = new captureGivenAuth();
+            capture.amount = 2;
+            capture.orderSource = orderSourceType.ecommerce;
+            capture.businessIndicator = businessIndicatorEnum.consumerBillPayment;
+            capture.reportGroup = "Planets";
+            
+
+            var mock = new Mock<Communications>();
+
+            mock.Setup(Communications => Communications.HttpPost(It.IsRegex(".*<amount>2</amount>\r\n<orderSource>ecommerce</orderSource>\r\n<businessIndicator>consumerBillPayment</businessIndicator>.*", RegexOptions.Singleline)  ))
+                .Returns("<cnpOnlineResponse version='8.14' response='0' message='Valid Format' xmlns='http://www.vantivcnp.com/schema'><captureGivenAuthResponse><cnpTxnId>123</cnpTxnId></captureGivenAuthResponse></cnpOnlineResponse>");
+
+            Communications mockedCommunication = mock.Object;
+            cnp.SetCommunication(mockedCommunication);
+            cnp.CaptureGivenAuth(capture);
+        }
     }
 }
