@@ -172,6 +172,30 @@ namespace Cnp.Sdk.Test.Functional
             var response = _cnp.ForceCaptureAsync(forcecapture, cancellationToken);
             Assert.AreEqual("000", response.Result.response);
         }
+        [Test]
+        public void SimpleForceCaptureBusinessIndicator()
+        {
+            var forcecapture = new forceCapture
+            {
+                id = "1",
+                amount = 106,
+                orderId = "12344",
+                orderSource = orderSourceType.ecommerce,
+                processingType = processingType.accountFunding,
+                businessIndicator = businessIndicatorEnum.consumerBillPayment,
+                card = new cardType
+                {
+                    type = methodOfPaymentTypeEnum.VI,
+                    number = "4100000000000001",
+                    expDate = "1210"
+                },
+                merchantCategoryCode = "1111"
+            };
+            
+
+            var response = _cnp.ForceCapture(forcecapture);
+            Assert.AreEqual("Approved", response.message);
+        }
 
     }
 }

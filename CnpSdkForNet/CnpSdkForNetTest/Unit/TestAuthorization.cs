@@ -660,33 +660,5 @@ namespace Cnp.Sdk.Test.Unit
             Assert.AreEqual(123, authorizationResponse.cnpTxnId);
             Assert.AreEqual("sandbox", authorizationResponse.location);
         }
-        
-        
-        
-        //12.17 CHANGES?!?!?!?!
-        [Test]
-        public void TestBusinessIndicator()
-        {
-
-            var auth = new authorization();
-            auth.orderId = "12344";
-            auth.amount = 2;
-            auth.orderSource = orderSourceType.ecommerce;
-            auth.businessIndicator = businessIndicatorEnum.consumerBillPayment;
-            auth.reportGroup = "Planets";
-            
-
-            var mock = new Mock<Communications>();
-
-            mock.Setup(Communications => Communications.HttpPost(It.IsRegex(".*<amount>2</amount>\r\n<orderSource>ecommerce</orderSource>\r\n<businessIndicator>consumerBillPayment</businessIndicator>.*", RegexOptions.Singleline) ))
-                .Returns("<cnpOnlineResponse version='8.10' response='0' message='Valid Format' xmlns='http://www.vantivcnp.com/schema'><authorizationResponse><cnpTxnId>123</cnpTxnId></authorizationResponse></cnpOnlineResponse>");
-
-            var mockedCommunication = mock.Object;
-            cnp.SetCommunication(mockedCommunication);
-            var authorizationResponse = cnp.Authorize(auth);
-
-            Assert.NotNull(authorizationResponse);
-            Assert.AreEqual(123, authorizationResponse.cnpTxnId);
-        }
     }
 }

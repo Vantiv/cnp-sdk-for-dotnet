@@ -284,30 +284,5 @@ namespace Cnp.Sdk.Test.Unit
             Assert.NotNull(response);
             Assert.AreEqual("sandbox", response.location);
         }
-        
-        //12.17 Changes
-        [Test]
-        public void TestBusinessIndicator()
-        {
-            credit credit = new credit();
-            credit.orderId = "12344";
-            credit.amount = 2;
-            credit.orderSource = orderSourceType.ecommerce;
-            credit.businessIndicator = businessIndicatorEnum.consumerBillPayment;
-            credit.reportGroup = "Planets";
-            
-
-            var mock = new Mock<Communications>();
-
-            mock.Setup(Communications => Communications.HttpPost(It.IsRegex(".*<amount>2</amount>\r\n<orderSource>ecommerce</orderSource>\r\n<businessIndicator>consumerBillPayment</businessIndicator>.*", RegexOptions.Singleline)  ))
-                .Returns("<cnpOnlineResponse version='8.10' response='0' message='Valid Format' xmlns='http://www.vantivcnp.com/schema'><creditResponse><cnpTxnId>123</cnpTxnId></creditResponse></cnpOnlineResponse>");
-            
-            
-            Communications mockedCommunication = mock.Object;
-            cnp.SetCommunication(mockedCommunication);
-            cnp.Credit(credit);
-        }
-
-
     }
 }
