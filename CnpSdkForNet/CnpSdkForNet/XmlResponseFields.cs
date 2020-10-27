@@ -381,6 +381,14 @@ namespace Cnp.Sdk
         /// <remarks/>
         fee,
     }
+    [System.CodeDom.Compiler.GeneratedCodeAttribute("xsd", "2.0.50727.42")]
+    [System.SerializableAttribute()]
+    [System.Xml.Serialization.XmlTypeAttribute(Namespace = "http://www.vantivcnp.com/schema")]
+    public enum businessIndicatorEnum
+    {
+        /// <remarks/>
+        consumerBillPayment,
+    }
 
     /// <remarks/>
     [System.CodeDom.Compiler.GeneratedCodeAttribute("xsd", "2.0.50727.42")]
@@ -2976,6 +2984,17 @@ namespace Cnp.Sdk
         /// <remarks/>
         [System.Xml.Serialization.XmlEnumAttribute("MASS AFFLUENT")]
         MASSAFFLUENT,
+    }
+    
+    /// <remarks/>
+    [System.CodeDom.Compiler.GeneratedCodeAttribute("xsd", "2.0.50727.42")]
+    [System.SerializableAttribute()]
+    [System.Xml.Serialization.XmlTypeAttribute(Namespace = "http://www.vantivcnp.com/schema")]
+    public enum businessApplicationIdentifierEnum
+    {
+
+        /// <remarks/>
+        CB,
     }
 
     /// <remarks/>

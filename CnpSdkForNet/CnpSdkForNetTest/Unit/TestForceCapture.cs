@@ -192,6 +192,7 @@ namespace Cnp.Sdk.Test.Unit
             capture.amount = 2;
             capture.secondaryAmount = 1;
             capture.orderSource = orderSourceType.ecommerce;
+            
             capture.reportGroup = "Planets";
 
             var mock = new Mock<Communications>();

@@ -299,6 +299,18 @@ namespace Cnp.Sdk
             get { return taxTypeField; }
             set { taxTypeField = value; taxTypeSet = true; }
         }
+        
+        
+        private businessIndicatorEnum businessIndicatorField;
+        private bool businessIndicatorSet;
+        public businessIndicatorEnum businessIndicator
+        {
+            get { return businessIndicatorField; }
+            set { businessIndicatorField = value; businessIndicatorSet = true; }
+        }
+        
+        
+        
         private processingType processingTypeField;
         private bool processingTypeSet;
         public processingType processingType
@@ -467,10 +479,12 @@ namespace Cnp.Sdk
                 {
                     xml += "\r\n<customBilling>" + customBilling.Serialize() + "\r\n</customBilling>";
                 }
+
                 if (taxTypeSet)
                 {
                     xml += "\r\n<taxType>" + taxTypeField + "</taxType>";
                 }
+
                 if (enhancedData != null)
                 {
                     xml += "\r\n<enhancedData>" + enhancedData.Serialize() + "\r\n</enhancedData>";
@@ -536,6 +550,12 @@ namespace Cnp.Sdk
                 if (merchantCategoryCode != null)
                 {
                     xml += "\r\n<merchantCategoryCode>" + merchantCategoryCode + "</merchantCategoryCode>";
+                }
+                
+
+                if (businessIndicatorSet)
+                {
+                    xml += "\r\n<businessIndicator>" + businessIndicatorField + "</businessIndicator>";
                 }
             }
 
@@ -862,6 +882,18 @@ namespace Cnp.Sdk
             get { return taxTypeField; }
             set { taxTypeField = value; taxTypeSet = true; }
         }
+        
+        
+        private businessIndicatorEnum businessIndicatorField;
+        private bool businessIndicatorSet;
+        public businessIndicatorEnum businessIndicator
+        {
+            get { return businessIndicatorField; }
+            set { businessIndicatorField = value; businessIndicatorSet = true; }
+        }
+
+        
+        
         public billMeLaterRequest billMeLaterRequest;
         public enhancedData enhancedData;
         public lodgingInfo lodgingInfo;
@@ -968,6 +1000,7 @@ namespace Cnp.Sdk
             {
                 xml += "\r\n<taxType>" + taxTypeField + "</taxType>";
             }
+
             if (billMeLaterRequest != null)
             {
                 xml += "\r\n<billMeLaterRequest>" + billMeLaterRequest.Serialize() + "\r\n</billMeLaterRequest>";
@@ -1015,6 +1048,10 @@ namespace Cnp.Sdk
             if (merchantCategoryCode != null)
             {
                 xml += "\r\n<merchantCategoryCode>" + merchantCategoryCode + "</merchantCategoryCode>";
+            }
+            if (businessIndicatorSet)
+            {
+                xml += "\r\n<businessIndicator>" + businessIndicatorField + "</businessIndicator>";
             }
             xml += "\r\n</captureGivenAuth>";
             return xml;
@@ -1137,6 +1174,17 @@ namespace Cnp.Sdk
             get { return taxTypeField; }
             set { taxTypeField = value; taxTypeSet = true; }
         }
+        
+        private businessIndicatorEnum businessIndicatorField;
+        private bool businessIndicatorSet;
+        public businessIndicatorEnum businessIndicator
+        {
+            get { return businessIndicatorField; }
+            set { businessIndicatorField = value; businessIndicatorSet = true; }
+        }
+
+        
+        
         public billMeLaterRequest billMeLaterRequest;
         public pos pos;
         private string pinField;
@@ -1211,6 +1259,8 @@ namespace Cnp.Sdk
             }
             if (payPalNotes != null) xml += "\r\n<payPalNotes>" + SecurityElement.Escape(payPalNotes) + "</payPalNotes>";
             if (actionReason != null) xml += "\r\n<actionReason>" + SecurityElement.Escape(actionReason) + "</actionReason>";
+            if (businessIndicatorSet) xml += "\r\n<businessIndicator>" + businessIndicatorField + "</businessIndicator>";
+
             xml += "\r\n</credit>";
             return xml;
         }
@@ -1618,6 +1668,18 @@ namespace Cnp.Sdk
             get { return taxTypeField; }
             set { taxTypeField = value; taxTypeSet = true; }
         }
+        
+        private businessIndicatorEnum businessIndicatorField;
+        private bool businessIndicatorSet;
+        public businessIndicatorEnum businessIndicator
+        {
+            get { return businessIndicatorField; }
+            set { businessIndicatorField = value; businessIndicatorSet = true; }
+        }
+        
+        
+        
+        
         public enhancedData enhancedData;
         public lodgingInfo lodgingInfo;
         public processingInstructions processingInstructions;
@@ -1726,6 +1788,11 @@ namespace Cnp.Sdk
             if (merchantCategoryCode != null)
             {
                 xml += "\r\n<merchantCategoryCode>" + merchantCategoryCode + "</merchantCategoryCode>";
+            }
+
+            if (businessIndicatorSet)
+            {
+                xml += "\r\n<businessIndicator>" + businessIndicatorField + "</businessIndicator>";
             }
             
             xml += "\r\n</forceCapture>";
@@ -2169,6 +2236,17 @@ namespace Cnp.Sdk
             get { return taxTypeField; }
             set { taxTypeField = value; taxTypeSet = true; }
         }
+        
+        private businessIndicatorEnum businessIndicatorField;
+        private bool businessIndicatorSet;
+        public businessIndicatorEnum businessIndicator
+        {
+            get { return businessIndicatorField; }
+            set { businessIndicatorField = value; businessIndicatorSet = true; }
+        }
+        
+        
+        
         public enhancedData enhancedData;
         public processingInstructions processingInstructions;
         public pos pos;
@@ -2446,6 +2524,10 @@ namespace Cnp.Sdk
             if (merchantCategoryCode != null)
             {
                 xml += "\r\n<merchantCategoryCode>" + merchantCategoryCode + "</merchantCategoryCode>";
+            }
+            if (businessIndicatorSet)
+            {
+                xml += "\r\n<businessIndicator>" + businessIndicatorField + "</businessIndicator>";
             }
 
             //if (routingPreferenceSet)

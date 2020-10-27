@@ -521,5 +521,29 @@ namespace Cnp.Sdk.Test.Functional
             var responseObj = _cnp.SaleAsync(saleObj,cancellationToken).Result;
             StringAssert.AreEqualIgnoringCase("Approved", responseObj.message);
         }
+        
+        
+        [Test]
+        public void SimpleSaleWithBusinessIndicator()
+        {
+            var saleObj = new sale
+            {
+                id = "1",
+                amount = 106,
+                cnpTxnId = 123456,
+                orderId = "12344",
+                orderSource = orderSourceType.ecommerce,
+                businessIndicator = businessIndicatorEnum.consumerBillPayment,
+                card = new cardType
+                {
+                    type = methodOfPaymentTypeEnum.VI,
+                    number = "4100000000000000",
+                    expDate = "1210"
+                }
+            };
+            Console.WriteLine(saleObj.Serialize());
+            var responseObj = _cnp.Sale(saleObj);
+            StringAssert.AreEqualIgnoringCase("Approved", responseObj.message);
+        }
     }
 }
