@@ -38,7 +38,7 @@ namespace Cnp.Sdk
          * username
          * merchantId
          * password
-         * timeout (in seconds)
+         * timeout (in milliseconds)
          * Optional properties are:
          * proxyHost
          * proxyPort
