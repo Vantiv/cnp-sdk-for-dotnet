@@ -179,7 +179,7 @@ namespace Cnp.Sdk
             if (!neuterUserCredentials) return;
 
             const string pattern1 = "(?i)<user>.*?</user>";
-            const string pattern2 = "(?i)<password>.*></password>";
+            const string pattern2 = "(?i)<password>.*?</password>";
 
             var rgx1 = new Regex(pattern1);
             var rgx2 = new Regex(pattern2);
