@@ -1,6 +1,9 @@
 
 = Worldpay CNP CHANGELOG
 
+==Version 12.17.1 (July 28, 2020)
+* BugFix: Fixed the regex in the password pattern
+
 ==Version 12.17.0 (October 21, 2020)
 * Feature: Added businessIndicator in authorization, forceCapture, captureGivenAuth, sale, credit
 * Feature: Added businessApplicationIdentifier
