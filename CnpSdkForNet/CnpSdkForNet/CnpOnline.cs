@@ -795,6 +795,15 @@ namespace Cnp.Sdk
             return fraudCheckResponse;
         }
 
+        public Task<fraudCheckResponse> FraudCheckAsync(fraudCheck fraudCheck, CancellationToken cancellationToken)
+        {
+            return SendRequestAsync(response =>
+            {
+                var fraudCheckResponse = response.fraudCheckResponse;
+                return fraudCheckResponse;
+            }, fraudCheck, cancellationToken);
+        }
+
         public fastAccessFundingResponse FastAccessFunding(fastAccessFunding fastAccessFunding)
         {
             var cnpResponse = SendRequest(response => response, fastAccessFunding);
@@ -1243,6 +1252,8 @@ namespace Cnp.Sdk
         Task<giftCardCreditResponse> GiftCardCreditAsync(giftCardCredit giftCardCredit, CancellationToken cancellationToken);
         transactionTypeWithReportGroup QueryTransaction(queryTransaction queryTransaction);
         Task<transactionTypeWithReportGroup> QueryTransactionAsync(queryTransaction queryTransaction, CancellationToken cancellationToken);
+        fraudCheckResponse FraudCheck(fraudCheck fraudCheck);
+        Task<fraudCheckResponse> FraudCheckAsync(fraudCheck fraudCheck, CancellationToken cancellationToken);
 
         translateToLowValueTokenResponse TranslateToLowValueTokenRequest(translateToLowValueTokenRequest translateToLowValueTokenRequest);
         Task<translateToLowValueTokenResponse> TranslateToLowValueTokenRequestAsync(translateToLowValueTokenRequest translateToLowValueTokenRequest, CancellationToken cancellationToken);
