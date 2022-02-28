@@ -1,6 +1,9 @@
 
 = Worldpay CNP CHANGELOG
 
+==Version 12.17.2 (February 28, 2022)
+* Feature: Added new method FraudCheckAsync
+
 ==Version 12.17.1 (July 28, 2020)
 * BugFix: Fixed the regex in the password pattern
 
