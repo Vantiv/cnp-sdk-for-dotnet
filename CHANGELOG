@@ -1,6 +1,9 @@
 
 = Worldpay CNP CHANGELOG
 
+==Version 12.17.3 (March 23, 2022)
+* BugFix: Fixed echeckAccountTypeEnum.CorpSavings for echeckTokenType
+
 ==Version 12.17.2 (February 28, 2022)
 * Feature: Added new method FraudCheckAsync
 
