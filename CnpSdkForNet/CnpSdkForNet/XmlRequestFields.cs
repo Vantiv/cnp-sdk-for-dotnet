@@ -3510,9 +3510,13 @@ namespace Cnp.Sdk
         public string Serialize()
         {
             var xml = "";
+            var accTypeFieldName = accTypeField.ToString();
+            var attributes =
+                (XmlEnumAttribute[])typeof(echeckAccountTypeEnum).GetMember(accTypeField.ToString())[0].GetCustomAttributes(typeof(XmlEnumAttribute), false);
+            if (attributes.Length > 0) accTypeFieldName = attributes[0].Name;
             if (cnpToken != null) xml += "\r\n<cnpToken>" + SecurityElement.Escape(cnpToken) + "</cnpToken>";
             if (routingNum != null) xml += "\r\n<routingNum>" + SecurityElement.Escape(routingNum) + "</routingNum>";
-            if (accTypeSet) xml += "\r\n<accType>" + accTypeField + "</accType>";
+            if (accTypeSet) xml += "\r\n<accType>" + accTypeFieldName + "</accType>";
             if (checkNum != null) xml += "\r\n<checkNum>" + SecurityElement.Escape(checkNum) + "</checkNum>";
             return xml;
         }
