@@ -225,7 +225,7 @@ namespace Cnp.Sdk.Test.Functional
                 orderSource = orderSourceType.ecommerce,
                 token = new echeckTokenType
                 {
-                    accType = echeckAccountTypeEnum.Checking,
+                    accType = echeckAccountTypeEnum.CorpSavings,
                     cnpToken = "1234565789012",
                     routingNum = "123456789",
                     checkNum = "123455"
