@@ -3,7 +3,7 @@
         <TargetFramework>netstandard2.0</TargetFramework>
         <SignAssembly>true</SignAssembly>
         <AssemblyOriginatorKeyFile>dotNetSDKKey.snk</AssemblyOriginatorKeyFile>
-        <PackageVersion>12.17.2</PackageVersion>
+        <PackageVersion>12.17.3</PackageVersion>
         <Title>Vantiv.CnpSdkForNet</Title>
         <Authors>FIS</Authors>
         <Copyright>Copyright © FIS 2020</Copyright>
