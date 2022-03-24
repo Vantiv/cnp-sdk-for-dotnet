@@ -1529,7 +1529,7 @@ namespace Cnp.Sdk.Test.Functional
         }
         
         [Test]
-        public void TestSimpleBatchWithTransactionReversal()
+        public void TestSimpleBatchWithDepositTransactionReversal()
         {
             var cnpBatchRequest = new batchRequest();
             
@@ -1552,7 +1552,7 @@ namespace Cnp.Sdk.Test.Functional
 
             cnpBatchRequest.addAuthorization(authorization);
 
-            var reversal = new transactionReversal
+            var reversal = new depositTransactionReversal
             {
                 id = "1",
                 reportGroup = "Planets",
@@ -1560,7 +1560,7 @@ namespace Cnp.Sdk.Test.Functional
                 amount = 106,
             };
 
-            cnpBatchRequest.addTransactionReversal(reversal);
+            cnpBatchRequest.addDepositTransactionReversal(reversal);
 
             _cnp.addBatch(cnpBatchRequest);
 
@@ -1577,12 +1577,73 @@ namespace Cnp.Sdk.Test.Functional
             var cnpBatchResponse = cnpResponse.nextBatchResponse();
             while (cnpBatchResponse != null)
             {
-                var reversalResponse = cnpBatchResponse.nextTransactionReversalResponse();
+                var reversalResponse = cnpBatchResponse.nextDepositTransactionReversalResponse();
                 while (reversalResponse != null)
                 {
                     Assert.AreEqual("983", reversalResponse.response);
 
-                    reversalResponse = cnpBatchResponse.nextTransactionReversalResponse();
+                    reversalResponse = cnpBatchResponse.nextDepositTransactionReversalResponse();
+                }
+
+                cnpBatchResponse = cnpResponse.nextBatchResponse();
+            }
+        }
+
+        [Test]
+        public void TestSimpleBatchWithRefundTransactionReversal()
+        {
+            var cnpBatchRequest = new batchRequest();
+
+            var authorization = new authorization
+            {
+                reportGroup = "Planets",
+                orderId = "12344",
+                amount = 106,
+                orderSource = orderSourceType.ecommerce
+            };
+            var card = new cardType
+            {
+                type = methodOfPaymentTypeEnum.VI,
+                number = "4100000000000001",
+                expDate = "1210"
+
+            };
+            authorization.card = card;
+            authorization.id = "id";
+
+            cnpBatchRequest.addAuthorization(authorization);
+
+            var reversal = new refundTransactionReversal
+            {
+                id = "1",
+                reportGroup = "Planets",
+                cnpTxnId = 12345678000L,
+                amount = 106,
+            };
+
+            cnpBatchRequest.addRefundTransactionReversal(reversal);
+
+            _cnp.addBatch(cnpBatchRequest);
+
+            var batchName = _cnp.sendToCnp();
+
+            _cnp.blockAndWaitForResponse(batchName, estimatedResponseTime(2 * 2, 10 * 2));
+
+            var cnpResponse = _cnp.receiveFromCnp(batchName);
+
+            Assert.NotNull(cnpResponse);
+            Assert.AreEqual("0", cnpResponse.response);
+            Assert.AreEqual("Valid Format", cnpResponse.message);
+
+            var cnpBatchResponse = cnpResponse.nextBatchResponse();
+            while (cnpBatchResponse != null)
+            {
+                var reversalResponse = cnpBatchResponse.nextRefundTransactionReversalResponse();
+                while (reversalResponse != null)
+                {
+                    Assert.AreEqual("983", reversalResponse.response);
+
+                    reversalResponse = cnpBatchResponse.nextRefundTransactionReversalResponse();
                 }
 
                 cnpBatchResponse = cnpResponse.nextBatchResponse();

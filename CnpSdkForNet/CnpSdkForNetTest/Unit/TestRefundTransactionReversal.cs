@@ -8,7 +8,7 @@ using System.Text.RegularExpressions;
 namespace Cnp.Sdk.Test.Unit
 {
     [TestFixture]
-    class TestTransactionReversal
+    class TestRefundTransactionReversal
     {
         
         private CnpOnline cnp;
@@ -22,7 +22,7 @@ namespace Cnp.Sdk.Test.Unit
         [Test]
         public void TestSurchargeAmount()
         {
-            transactionReversal reversal = new transactionReversal();
+            refundTransactionReversal reversal = new refundTransactionReversal();
             reversal.cnpTxnId = 3;
             reversal.amount = 2;
             reversal.surchargeAmount = 1;
@@ -31,17 +31,17 @@ namespace Cnp.Sdk.Test.Unit
             var mock = new Mock<Communications>();
 
             mock.Setup(Communications => Communications.HttpPost(It.IsRegex(".*<amount>2</amount>\r\n<surchargeAmount>1</surchargeAmount>\r\n.*", RegexOptions.Singleline)))
-                .Returns("<cnpOnlineResponse version='12.16' response='0' message='Valid Format' xmlns='http://www.vantivcnp.com/schema'><transactionReversalResponse><cnpTxnId>3</cnpTxnId></transactionReversalResponse></cnpOnlineResponse>");
+                .Returns("<cnpOnlineResponse version='12.16' response='0' message='Valid Format' xmlns='http://www.vantivcnp.com/schema'><refundTransactionReversalResponse><cnpTxnId>3</cnpTxnId></refundTransactionReversalResponse></cnpOnlineResponse>");
 
             Communications mockedCommunication = mock.Object;
             cnp.SetCommunication(mockedCommunication);
-            cnp.TransactionReversal(reversal);
+            cnp.RefundTransactionReversal(reversal);
         }
 
         [Test]
         public void TestSurchargeAmount_Optional()
         {
-            transactionReversal reversal = new transactionReversal();
+            refundTransactionReversal reversal = new refundTransactionReversal();
             reversal.cnpTxnId = 3;
             reversal.amount = 2;
             reversal.reportGroup = "Planets";
@@ -49,17 +49,17 @@ namespace Cnp.Sdk.Test.Unit
             var mock = new Mock<Communications>();
 
             mock.Setup(Communications => Communications.HttpPost(It.IsRegex(".*<amount>2</amount>\r\n.*", RegexOptions.Singleline)))
-                .Returns("<cnpOnlineResponse version='12.16' response='0' message='Valid Format' xmlns='http://www.vantivcnp.com/schema'><transactionReversalResponse><cnpTxnId>123</cnpTxnId></transactionReversalResponse></cnpOnlineResponse>");
+                .Returns("<cnpOnlineResponse version='12.16' response='0' message='Valid Format' xmlns='http://www.vantivcnp.com/schema'><refundTransactionReversalResponse><cnpTxnId>123</cnpTxnId></refundTransactionReversalResponse></cnpOnlineResponse>");
 
             Communications mockedCommunication = mock.Object;
             cnp.SetCommunication(mockedCommunication);
-            cnp.TransactionReversal(reversal);
+            cnp.RefundTransactionReversal(reversal);
         }
         
         [Test]
         public void TestTransactionReversalWithLocation()
         {
-            transactionReversal reversal = new transactionReversal();
+            refundTransactionReversal reversal = new refundTransactionReversal();
             reversal.cnpTxnId = 3;
             reversal.amount = 2;
             reversal.surchargeAmount = 1;
@@ -68,11 +68,11 @@ namespace Cnp.Sdk.Test.Unit
             var mock = new Mock<Communications>();
 
             mock.Setup(Communications => Communications.HttpPost(It.IsRegex(".*<amount>2</amount>\r\n<surchargeAmount>1</surchargeAmount>\r\n.*", RegexOptions.Singleline)))
-                .Returns("<cnpOnlineResponse version='12.16' response='0' message='Valid Format' xmlns='http://www.vantivcnp.com/schema'><transactionReversalResponse><cnpTxnId>123</cnpTxnId><location>sandbox</location></transactionReversalResponse></cnpOnlineResponse>");
+                .Returns("<cnpOnlineResponse version='12.16' response='0' message='Valid Format' xmlns='http://www.vantivcnp.com/schema'><refundTransactionReversalResponse><cnpTxnId>123</cnpTxnId><location>sandbox</location></refundTransactionReversalResponse></cnpOnlineResponse>");
 
             Communications mockedCommunication = mock.Object;
             cnp.SetCommunication(mockedCommunication);
-            var response = cnp.TransactionReversal(reversal);
+            var response = cnp.RefundTransactionReversal(reversal);
             
             Assert.NotNull(response);
             Assert.AreEqual("sandbox", response.location);

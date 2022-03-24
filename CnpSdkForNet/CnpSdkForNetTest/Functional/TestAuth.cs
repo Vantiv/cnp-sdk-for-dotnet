@@ -838,5 +838,31 @@ namespace Cnp.Sdk.Test.Functional
             Assert.AreEqual("000", response.response);
             Assert.AreEqual(checkDate, response.postDate);
         }
+
+        [Test]
+        public void SimpleAuthWithOrderIDLengthGT25()
+        {
+            var authorization = new authorization
+            {
+                id = "1",
+                reportGroup = "Planets",
+                orderId = "orderidmorethan25charactersareacceptednow",
+                amount = 106,
+                orderSource = orderSourceType.ecommerce,
+                card = new cardType
+                {
+                    type = methodOfPaymentTypeEnum.VI,
+                    number = "414100000000000000",
+                    expDate = "1210"
+                },
+                customBilling = new customBilling { phone = "1112223333" }
+            };
+            var response = _cnp.Authorize(authorization);
+
+            DateTime checkDate = new DateTime(0001, 1, 1, 00, 00, 00);
+
+            Assert.AreEqual("000", response.response);
+            Assert.AreEqual(checkDate, response.postDate);
+        }
     }
 }

@@ -8,7 +8,7 @@ namespace Cnp.Sdk
      */
     public class CnpVersion
     {
-        public const String CurrentCNPXMLVersion = "12.17";
-        public const String CurrentCNPSDKVersion = "12.17.3";
+        public const String CurrentCNPXMLVersion = "12.19";
+        public const String CurrentCNPSDKVersion = "12.19.0";
     }
 }

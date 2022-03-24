@@ -151,16 +151,32 @@ merchantId=""01234"">
         }
         
         [Test]
-        public void TestTransactionReversal()
+        public void TestDepositTransactionReversal()
         {
-            var transactionReversal = new transactionReversal();
+            var transactionReversal = new depositTransactionReversal();
             transactionReversal.cnpTxnId = 12345678000;
             transactionReversal.amount = 106;
 
-            batchRequest.addTransactionReversal(transactionReversal);
+            batchRequest.addDepositTransactionReversal(transactionReversal);
 
-            Assert.AreEqual(1, batchRequest.getNumTransactionReversal());
-            Assert.AreEqual(transactionReversal.amount, batchRequest.getSumOfTransactionReversal());
+            Assert.AreEqual(1, batchRequest.getNumDepositTransactionReversals());
+            Assert.AreEqual(transactionReversal.amount, batchRequest.getSumOfDepositTransactionReversalAmount());
+
+            mockCnpFile.Verify(cnpFile => cnpFile.createRandomFile(It.IsAny<string>(), It.IsAny<string>(), It.IsAny<string>(), mockCnpTime.Object));
+            mockCnpFile.Verify(cnpFile => cnpFile.AppendLineToFile(mockFilePath, transactionReversal.Serialize()));
+        }
+
+        [Test]
+        public void TestRefundTransactionReversal()
+        {
+            var transactionReversal = new refundTransactionReversal();
+            transactionReversal.cnpTxnId = 12345678000;
+            transactionReversal.amount = 106;
+
+            batchRequest.addRefundTransactionReversal(transactionReversal);
+
+            Assert.AreEqual(1, batchRequest.getNumRefundTransactionReversals());
+            Assert.AreEqual(transactionReversal.amount, batchRequest.getSumOfRefundTransactionReversalAmount());
 
             mockCnpFile.Verify(cnpFile => cnpFile.createRandomFile(It.IsAny<string>(), It.IsAny<string>(), It.IsAny<string>(), mockCnpTime.Object));
             mockCnpFile.Verify(cnpFile => cnpFile.AppendLineToFile(mockFilePath, transactionReversal.Serialize()));

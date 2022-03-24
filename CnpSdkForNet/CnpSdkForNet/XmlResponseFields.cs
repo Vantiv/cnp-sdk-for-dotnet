@@ -1021,7 +1021,27 @@ namespace Cnp.Sdk
     [System.Diagnostics.DebuggerStepThroughAttribute()]
     [System.ComponentModel.DesignerCategoryAttribute("code")]
     [System.Xml.Serialization.XmlTypeAttribute(Namespace = "http://www.vantivcnp.com/schema")]
-    public partial class transactionReversalRecyclingResponseType
+    public partial class depositTransactionReversalRecyclingResponseType
+    {
+
+        private long creditCnpTxnIdField;
+
+        /// <remarks/>
+        public long creditCnpTxnId
+        {
+            get { return this.creditCnpTxnIdField; }
+            set { this.creditCnpTxnIdField = value; }
+        }
+
+    }
+
+    /// <remarks/>
+    [System.CodeDom.Compiler.GeneratedCodeAttribute("xsd", "2.0.50727.42")]
+    [System.SerializableAttribute()]
+    [System.Diagnostics.DebuggerStepThroughAttribute()]
+    [System.ComponentModel.DesignerCategoryAttribute("code")]
+    [System.Xml.Serialization.XmlTypeAttribute(Namespace = "http://www.vantivcnp.com/schema")]
+    public partial class refundTransactionReversalRecyclingResponseType
     {
 
         private long creditCnpTxnIdField;
@@ -3148,7 +3168,7 @@ namespace Cnp.Sdk
     [System.ComponentModel.DesignerCategoryAttribute("code")]
     [System.Xml.Serialization.XmlTypeAttribute(AnonymousType = true, Namespace = "http://www.vantivcnp.com/schema")]
     [System.Xml.Serialization.XmlRootAttribute(Namespace = "http://www.vantivcnp.com/schema", IsNullable = false)]
-    public partial class transactionReversalResponse : transactionTypeWithReportGroup
+    public partial class depositTransactionReversalResponse : transactionTypeWithReportGroup
     {
         private long cnpTxnIdField;
 
@@ -3164,7 +3184,7 @@ namespace Cnp.Sdk
 
         private string locationField;
 
-        private transactionReversalRecyclingResponseType recyclingResponseField;
+        private depositTransactionReversalRecyclingResponseType depositRecyclingResponseField;
 
         /// <remarks/>
         public long cnpTxnId
@@ -3256,10 +3276,132 @@ namespace Cnp.Sdk
             set { this.locationField = value; }
         }
 
-        public transactionReversalRecyclingResponseType recyclingResponse
+        public depositTransactionReversalRecyclingResponseType recyclingResponse
         {
-            get { return this.recyclingResponseField; }
-            set { this.recyclingResponseField = value; }
+            get { return this.depositRecyclingResponseField; }
+            set { this.depositRecyclingResponseField = value; }
+        }
+    }
+
+    /// <remarks/>
+    [System.CodeDom.Compiler.GeneratedCodeAttribute("xsd", "2.0.50727.42")]
+    [System.SerializableAttribute()]
+    [System.Diagnostics.DebuggerStepThroughAttribute()]
+    [System.ComponentModel.DesignerCategoryAttribute("code")]
+    [System.Xml.Serialization.XmlTypeAttribute(AnonymousType = true, Namespace = "http://www.vantivcnp.com/schema")]
+    [System.Xml.Serialization.XmlRootAttribute(Namespace = "http://www.vantivcnp.com/schema", IsNullable = false)]
+    public partial class refundTransactionReversalResponse : transactionTypeWithReportGroup
+    {
+        private long cnpTxnIdField;
+
+        private string responseField;
+
+        private System.DateTime responseTimeField;
+
+        private System.DateTime postDateField;
+
+        private bool postDateFieldSpecified;
+
+        private string messageField;
+
+        private string locationField;
+
+        private refundTransactionReversalRecyclingResponseType refundRecyclingResponseField;
+
+        /// <remarks/>
+        public long cnpTxnId
+        {
+            get
+            {
+                return this.cnpTxnIdField;
+            }
+            set
+            {
+                this.cnpTxnIdField = value;
+            }
+        }
+
+        /// <remarks/>
+        public string response
+        {
+            get
+            {
+                return this.responseField;
+            }
+            set
+            {
+                this.responseField = value;
+            }
+        }
+
+        /// <remarks/>
+        public System.DateTime responseTime
+        {
+            get
+            {
+                return this.responseTimeField;
+            }
+            set
+            {
+                this.responseTimeField = value;
+            }
+        }
+
+        /// <remarks/>
+        [System.Xml.Serialization.XmlElementAttribute(DataType = "date")]
+        public System.DateTime postDate
+        {
+            get
+            {
+                return this.postDateField;
+            }
+            set
+            {
+                this.postDateField = value;
+            }
+        }
+
+        /// <remarks/>
+        [System.Xml.Serialization.XmlIgnoreAttribute()]
+        public bool postDateSpecified
+        {
+            get
+            {
+                return this.postDateFieldSpecified;
+            }
+            set
+            {
+                this.postDateFieldSpecified = value;
+            }
+        }
+
+        /// <remarks/>
+        public string message
+        {
+            get
+            {
+                return this.messageField;
+            }
+            set
+            {
+                this.messageField = value;
+            }
+        }
+
+        //TODO: make deserializable
+        public string location
+        {
+            get
+            {
+                return this.locationField;
+            }
+            set { this.locationField = value; }
+        }
+
+        public refundTransactionReversalRecyclingResponseType recyclingResponse
+        {
+            get { return this.refundRecyclingResponseField; }
+            set { this.refundRecyclingResponseField = value; }
         }
     }
 
@@ -5479,7 +5621,8 @@ namespace Cnp.Sdk
         public customerCreditResponse customerCreditResponse;
         public customerDebitResponse customerDebitResponse;
         public translateToLowValueTokenResponse translateToLowValueTokenResponse;
-        public transactionReversalResponse transactionReversalResponse;
+        public depositTransactionReversalResponse depositTransactionReversalResponse;
+        public refundTransactionReversalResponse refundTransactionReversalResponse;
 
         /// <remarks/>
         [System.Xml.Serialization.XmlAttributeAttribute()]
@@ -5663,7 +5806,8 @@ namespace Cnp.Sdk
         private XmlReader accountUpdateResponseReader;
         private XmlReader authorizationResponseReader;
         private XmlReader authReversalResponseReader;
-        private XmlReader transactionReversalResponseReader;
+        private XmlReader depositTransactionReversalResponseReader;
+        private XmlReader refundTransactionReversalResponseReader;
         private XmlReader translateToLowValueTokenResponseReader;
         private XmlReader giftCardAuthReversalResponseReader;
         private XmlReader captureResponseReader;
@@ -5731,9 +5875,14 @@ namespace Cnp.Sdk
             this.authReversalResponseReader = xmlReader;
         }
         
-        public void setTransactionReversalResponseReader(XmlReader xmlReader)
+        public void setDepositTransactionReversalResponseReader(XmlReader xmlReader)
         {
-            this.transactionReversalResponseReader = xmlReader;
+            this.depositTransactionReversalResponseReader = xmlReader;
+        }
+
+        public void setRefundTransactionReversalResponseReader(XmlReader xmlReader)
+        {
+            this.refundTransactionReversalResponseReader = xmlReader;
         }
 
         public void setTranslateToLowValueTokenResponseReader(XmlReader xmlReader)
@@ -5961,7 +6110,8 @@ namespace Cnp.Sdk
             authorizationResponseReader = new XmlTextReader(filePath);
             translateToLowValueTokenResponseReader = new XmlTextReader(filePath);
             authReversalResponseReader = new XmlTextReader(filePath);
-            transactionReversalResponseReader = new XmlTextReader(filePath);
+            depositTransactionReversalResponseReader = new XmlTextReader(filePath);
+            refundTransactionReversalResponseReader = new XmlTextReader(filePath);
             giftCardAuthReversalResponseReader = new XmlTextReader(filePath);
             captureResponseReader = new XmlTextReader(filePath);
             giftCardCaptureResponseReader = new XmlTextReader(filePath);
@@ -6020,10 +6170,13 @@ namespace Cnp.Sdk
             {
                 authReversalResponseReader.Close();
             }
-
-            if (!transactionReversalResponseReader.ReadToFollowing(("transactionReversalResponse")))
+            if (!depositTransactionReversalResponseReader.ReadToFollowing(("transactionReversalResponse")))
             {
-                transactionReversalResponseReader.Close();
+                depositTransactionReversalResponseReader.Close();
+            }
+            if (!refundTransactionReversalResponseReader.ReadToFollowing(("transactionReversalResponse")))
+            {
+                refundTransactionReversalResponseReader.Close();
             }
             if (!giftCardAuthReversalResponseReader.ReadToFollowing("giftCardAuthReversalResponse"))
             {
@@ -6242,18 +6395,38 @@ namespace Cnp.Sdk
             return null;
         }
         
-        virtual public transactionReversalResponse nextTransactionReversalResponse()
+        virtual public depositTransactionReversalResponse nextDepositTransactionReversalResponse()
         {
-            if (transactionReversalResponseReader.ReadState != ReadState.Closed)
+            if (depositTransactionReversalResponseReader.ReadState != ReadState.Closed)
             {
-                string response = transactionReversalResponseReader.ReadOuterXml();
-                XmlSerializer serializer = new XmlSerializer(typeof(transactionReversalResponse));
+                string response = depositTransactionReversalResponseReader.ReadOuterXml();
+                XmlSerializer serializer = new XmlSerializer(typeof(depositTransactionReversalResponse));
                 StringReader reader = new StringReader(response);
-                transactionReversalResponse i = (transactionReversalResponse)serializer.Deserialize(reader);
+                depositTransactionReversalResponse i = (depositTransactionReversalResponse)serializer.Deserialize(reader);
 
-                if (!transactionReversalResponseReader.ReadToFollowing("transactionReversalResponse"))
+                if (!depositTransactionReversalResponseReader.ReadToFollowing("depositTransactionReversalResponse"))
                 {
-                    transactionReversalResponseReader.Close();
+                    depositTransactionReversalResponseReader.Close();
+                }
+
+                return i;
+            }
+
+            return null;
+        }
+
+        virtual public refundTransactionReversalResponse nextRefundTransactionReversalResponse()
+        {
+            if (refundTransactionReversalResponseReader.ReadState != ReadState.Closed)
+            {
+                string response = refundTransactionReversalResponseReader.ReadOuterXml();
+                XmlSerializer serializer = new XmlSerializer(typeof(refundTransactionReversalResponse));
+                StringReader reader = new StringReader(response);
+                refundTransactionReversalResponse i = (refundTransactionReversalResponse)serializer.Deserialize(reader);
+
+                if (!refundTransactionReversalResponseReader.ReadToFollowing("refundTransactionReversalResponse"))
+                {
+                    refundTransactionReversalResponseReader.Close();
                 }
 
                 return i;

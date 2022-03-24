@@ -157,5 +157,22 @@ namespace Cnp.Sdk.Test.Functional
             Assert.AreEqual("sandbox", response.location);
             Assert.AreEqual("Approved", response.message);
         }
+
+        [Test]
+        public void SimpleCaptureWithOptionalOrderID()
+        {
+            var capture = new capture
+            {
+                id = "1",
+                cnpTxnId = 123456000,
+                orderId = "orderidmorethan25charactersareacceptednow",
+                amount = 106,
+                payPalNotes = "Notes",
+                pin = "1234"
+            };
+
+            var response = _cnp.Capture(capture);
+            Assert.AreEqual("Approved", response.message);
+        }
     }
 }

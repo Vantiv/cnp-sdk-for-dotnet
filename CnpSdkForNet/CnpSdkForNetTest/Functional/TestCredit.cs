@@ -259,5 +259,27 @@ namespace Cnp.Sdk.Test.Functional
             var response = _cnp.Credit(creditObj);
             Assert.AreEqual("Approved", response.message);
         }
+
+        [Test]
+        public void SimpleCreditWithPinAndOptionalOrderID()
+        {
+            var creditObj = new credit
+            {
+                id = "1",
+                reportGroup = "planets",
+                cnpTxnId = 123456000,
+                orderId = "2111",
+                pin = "1234",
+                card = new cardType
+                {
+                    type = methodOfPaymentTypeEnum.VI,
+                    number = "4100000000000001",
+                    expDate = "1210"
+                }
+            };
+
+            var response = _cnp.Credit(creditObj);
+            Assert.AreEqual("Approved", response.message);
+        }
     }
 }
