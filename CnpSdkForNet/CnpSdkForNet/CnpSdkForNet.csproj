@@ -11,13 +11,24 @@
         <PackageId>Vantiv.CnpSdkForNet</PackageId>
         <Description>.NET implementation of FIS eCommerce XML spec</Description>
         <PackageProjectUrl>https://github.com/Vantiv/cnp-sdk-for-dotnet</PackageProjectUrl>
-        <PackageLicenseUrl>https://github.com/Vantiv/cnp-sdk-for-dotnet/blob/12.x/LICENSE</PackageLicenseUrl>
+        <PackageLicenseUrl></PackageLicenseUrl>
         <PackageTags>Vantiv FIS eCommerce Payments</PackageTags>
+        <PackageLicenseFile>LICENSE</PackageLicenseFile>
+        <RepositoryUrl>https://github.com/Vantiv/cnp-sdk-for-dotnet.git</RepositoryUrl>
+        <PackageReleaseNotes>https://github.com/Vantiv/cnp-sdk-for-dotnet/blob/12.x/CHANGELOG</PackageReleaseNotes>
+        <RepositoryType>git</RepositoryType>
     </PropertyGroup>
 
     <ItemGroup>
       <PackageReference Include="SSH.NET" Version="2016.1.0" />
       <PackageReference Include="System.Configuration.ConfigurationManager" Version="4.6.0" />
+    </ItemGroup>
+
+    <ItemGroup>
+      <None Include="..\..\LICENSE">
+        <Pack>True</Pack>
+        <PackagePath></PackagePath>
+      </None>
     </ItemGroup>
 
 </Project>
