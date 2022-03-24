@@ -5,7 +5,7 @@ using System.Threading;
 namespace Cnp.Sdk.Test.Functional
 {
     [TestFixture]
-    internal class TestTransactionReversal
+    internal class TestDeposiTransactionReversal
     {
         private CnpOnline _cnp;
 
@@ -18,7 +18,7 @@ namespace Cnp.Sdk.Test.Functional
         [Test]
         public void SimpleTransactionReversal()
         {
-            var reversal = new transactionReversal
+            var reversal = new depositTransactionReversal
             {
                 id = "1",
                 reportGroup = "Planets",
@@ -26,14 +26,14 @@ namespace Cnp.Sdk.Test.Functional
                 amount = 106,
             };
 
-            var response = _cnp.TransactionReversal(reversal);
+            var response = _cnp.DepositTransactionReversal(reversal);
             Assert.AreEqual("Approved", response.message);
         }
 
         [Test]
         public void TestTransactionReversalHandleSpecialCharacters()
         {
-            var reversal = new transactionReversal()
+            var reversal = new depositTransactionReversal()
             {
                 id = "1",
                 reportGroup = "Planets",
@@ -43,14 +43,14 @@ namespace Cnp.Sdk.Test.Functional
             };
 
 
-            var response = _cnp.TransactionReversal(reversal);
+            var response = _cnp.DepositTransactionReversal(reversal);
             Assert.AreEqual("Approved", response.message);
         }
 
         [Test]
         public void TestTransactionReversalAsync()
         {
-            var reversal = new transactionReversal
+            var reversal = new depositTransactionReversal
             {
                 id = "1",
                 reportGroup = "Planets",
@@ -60,14 +60,14 @@ namespace Cnp.Sdk.Test.Functional
             };
 
             CancellationToken cancellationToken = new CancellationToken(false);
-            var response = _cnp.TransactionReversalAsync(reversal, cancellationToken);
+            var response = _cnp.DepositTransactionReversalAsync(reversal, cancellationToken);
             Assert.AreEqual("000", response.Result.response);
         }
         
         [Test]
         public void TestSimpleTransactionReversalWithLocation()
         {
-            var reversal = new transactionReversal
+            var reversal = new depositTransactionReversal
             {
                 id = "1",
                 reportGroup = "Planets",
@@ -75,7 +75,7 @@ namespace Cnp.Sdk.Test.Functional
                 amount = 106,
             };
 
-            var response = _cnp.TransactionReversal(reversal);
+            var response = _cnp.DepositTransactionReversal(reversal);
             Assert.AreEqual("sandbox", response.location);
             Assert.AreEqual("Approved", response.message);
         }
@@ -83,7 +83,7 @@ namespace Cnp.Sdk.Test.Functional
         [Test]
         public void TestTransactionReversalWithRecycling()
         {
-            var reversal = new transactionReversal
+            var reversal = new depositTransactionReversal
             {
                 id = "1",
                 reportGroup = "Planets",
@@ -91,7 +91,7 @@ namespace Cnp.Sdk.Test.Functional
                 amount = 106,
             };
 
-            var response = _cnp.TransactionReversal(reversal);
+            var response = _cnp.DepositTransactionReversal(reversal);
             Assert.AreEqual("sandbox", response.location);
             Assert.AreEqual("Approved", response.message);
             Assert.AreEqual(12345678000L, response.recyclingResponse.creditCnpTxnId);

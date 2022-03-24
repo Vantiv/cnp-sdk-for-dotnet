@@ -1,6 +1,13 @@
 
 = Worldpay CNP CHANGELOG
 
+==Version 12.19.0 (March 24, 2022)
+* Feature: OrderID element now supports 256 characters.
+* Feature: Optional OrderID element is supported in Capture and Credit transactions.
+* Feature: transactionReversal transaction is not supported in and after cnpAPI v12.19. It has been split into two different transactions:
+			- depositTransactionReversal
+			- refundTransactionReversal
+
 ==Version 12.17.3 (March 23, 2022)
 * BugFix: Fixed echeckAccountTypeEnum.CorpSavings for echeckTokenType
 

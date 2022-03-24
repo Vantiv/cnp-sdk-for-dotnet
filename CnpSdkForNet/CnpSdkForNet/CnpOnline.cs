@@ -118,9 +118,13 @@ namespace Cnp.Sdk
                 request.authReversal = (authReversal)transaction;
 
             }
-            else if (transaction is transactionReversal)
+            else if (transaction is depositTransactionReversal)
             {
-                request.transactionReversal = (transactionReversal) transaction;
+                request.depositTransactionReversal = (depositTransactionReversal) transaction;
+            }
+            else if (transaction is refundTransactionReversal)
+            {
+                request.refundTransactionReversal = (refundTransactionReversal)transaction;
             }
             else if (transaction is capture)
             {
@@ -379,20 +383,35 @@ namespace Cnp.Sdk
             }, reversal, cancellationToken);
         }
         
-        public transactionReversalResponse TransactionReversal(transactionReversal reversal)
-        {
-            
+        public depositTransactionReversalResponse DepositTransactionReversal(depositTransactionReversal reversal)
+        {            
             var cnpResponse =  SendRequest(response => response, reversal);
-            var reversalResponse = cnpResponse.transactionReversalResponse;
+            var reversalResponse = cnpResponse.depositTransactionReversalResponse;
             return reversalResponse;
         }
         
-        public Task<transactionReversalResponse> TransactionReversalAsync(transactionReversal reversal, CancellationToken cancellationToken)
+        public Task<depositTransactionReversalResponse> DepositTransactionReversalAsync(depositTransactionReversal reversal, CancellationToken cancellationToken)
         {
             return SendRequestAsync(response =>
             {
-                var transactionReversalResponse = response.transactionReversalResponse;
-                return transactionReversalResponse;
+                var depositTransactionReversalResponse = response.depositTransactionReversalResponse;
+                return depositTransactionReversalResponse;
+            }, reversal, cancellationToken);
+        }
+
+        public refundTransactionReversalResponse RefundTransactionReversal(refundTransactionReversal reversal)
+        {
+            var cnpResponse = SendRequest(response => response, reversal);
+            var reversalResponse = cnpResponse.refundTransactionReversalResponse;
+            return reversalResponse;
+        }
+
+        public Task<refundTransactionReversalResponse> RefundTransactionReversalAsync(refundTransactionReversal reversal, CancellationToken cancellationToken)
+        {
+            return SendRequestAsync(response =>
+            {
+                var refundTransactionReversalResponse = response.refundTransactionReversalResponse;
+                return refundTransactionReversalResponse;
             }, reversal, cancellationToken);
         }
 

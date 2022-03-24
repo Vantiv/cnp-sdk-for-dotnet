@@ -54,7 +54,8 @@ namespace Cnp.Sdk
         public submerchantDebit submerchantDebit;
         public queryTransaction queryTransaction;
         public refundReversal refundReversal;
-        public transactionReversal transactionReversal;
+        public depositTransactionReversal depositTransactionReversal;
+        public refundTransactionReversal refundTransactionReversal;
         public registerTokenRequestType registerTokenRequest;
         public sale sale;
         public string merchantId;
@@ -129,7 +130,8 @@ namespace Cnp.Sdk
             else if (payoutOrgCredit != null) xml += payoutOrgCredit.Serialize();
             else if (payoutOrgDebit != null) xml += payoutOrgDebit.Serialize();
             else if (translateToLowValueTokenRequest != null) xml += translateToLowValueTokenRequest.Serialize();
-            else if (transactionReversal != null) xml += transactionReversal.Serialize();
+            else if (depositTransactionReversal != null) xml += depositTransactionReversal.Serialize();
+            else if (refundTransactionReversal != null) xml += refundTransactionReversal.Serialize();
             xml += "\r\n</cnpOnlineRequest>";
 
             return xml;
@@ -615,7 +617,7 @@ namespace Cnp.Sdk
     }
 
     // Authorization Reversal Transaction.
-    public partial class transactionReversal : transactionTypeWithReportGroup
+    public partial class depositTransactionReversal : transactionTypeWithReportGroup
     {
         public long cnpTxnId;
         private long amountField;
@@ -682,7 +684,7 @@ namespace Cnp.Sdk
 
         public override string Serialize()
         {
-            var xml = "\r\n<transactionReversal";
+            var xml = "\r\n<depositTransactionReversal";
             xml += " id=\"" + SecurityElement.Escape(id) + "\"";
             if (customerId != null)
             {
@@ -725,12 +727,128 @@ namespace Cnp.Sdk
                 xml += this.processingInstructionsField.Serialize();
             }
             
-            xml += "\r\n</transactionReversal>";
+            xml += "\r\n</depositTransactionReversal>";
             return xml;
         }
 
     }
-    
+
+    public partial class refundTransactionReversal : transactionTypeWithReportGroup
+    {
+        public long cnpTxnId;
+        private long amountField;
+        private bool amountSet;
+        public long amount
+        {
+            get { return amountField; }
+            set { amountField = value; amountSet = true; }
+        }
+
+        private bool pinSet;
+        private string pinField;
+        public string pin
+        {
+            get { return pinField; }
+            set
+            {
+                pinField = value; pinSet = true;
+            }
+        }
+
+        private bool surchargeAmountIsSet;
+        private int surchargeAmountField;
+
+        public int surchargeAmount
+        {
+            get { return surchargeAmountField; }
+            set { surchargeAmountField = value; surchargeAmountIsSet = true; }
+        }
+
+        private bool enhancedDataIsSet;
+        private enhancedData enhancedDataField;
+        public enhancedData enhancedData
+        {
+            get { return enhancedDataField; }
+            set { enhancedDataField = value; enhancedDataIsSet = true; }
+        }
+
+        private bool processingInstructionsIsSet;
+        private processingInstructions processingInstructionsField;
+        public processingInstructions processingInstructions
+        {
+            get { return processingInstructionsField; }
+            set { processingInstructions = value; processingInstructionsIsSet = true; }
+        }
+
+        private bool customBillingIsSet;
+        private customBilling customBillingField;
+
+        public customBilling customBilling
+        {
+            get { return customBillingField; }
+            set { customBillingField = value; customBillingIsSet = true; }
+        }
+
+        private bool lodgingInfoIsSet;
+        private lodgingInfo lodgingInfoField;
+
+        public lodgingInfo lodgingInfo
+        {
+            get { return lodgingInfoField; }
+            set { lodgingInfoField = value; lodgingInfoIsSet = true; }
+        }
+
+        public override string Serialize()
+        {
+            var xml = "\r\n<refundTransactionReversal";
+            xml += " id=\"" + SecurityElement.Escape(id) + "\"";
+            if (customerId != null)
+            {
+                xml += " customerId=\"" + SecurityElement.Escape(customerId) + "\"";
+            }
+            xml += " reportGroup=\"" + SecurityElement.Escape(reportGroup) + "\">";
+            xml += "\r\n<cnpTxnId>" + cnpTxnId + "</cnpTxnId>";
+            if (amountSet)
+            {
+                xml += "\r\n<amount>" + amountField + "</amount>";
+            }
+
+            if (pinSet)
+            {
+                xml += "\r\n<pin>" + SecurityElement.Escape(pinField) + "</pin>";
+            }
+
+            if (surchargeAmountIsSet)
+            {
+                xml += "\r\n<surchargeAmount>" + surchargeAmountField + "</surchargeAmount>";
+            }
+
+            if (this.customBillingIsSet)
+            {
+                xml += this.customBillingField.Serialize();
+            }
+
+            if (this.enhancedDataIsSet)
+            {
+                xml += this.enhancedDataField.Serialize();
+            }
+
+            if (this.lodgingInfoIsSet)
+            {
+                xml += this.lodgingInfoField.Serialize();
+            }
+
+            if (this.processingInstructionsIsSet)
+            {
+                xml += this.processingInstructionsField.Serialize();
+            }
+
+            xml += "\r\n</refundTransactionReversal>";
+            return xml;
+        }
+
+    }
+
     // Balance Inquiry Transaction.
     public partial class balanceInquiry : transactionTypeWithReportGroup
     {
@@ -786,6 +904,7 @@ namespace Cnp.Sdk
     public partial class capture : transactionTypeWithReportGroupAndPartial
     {
         public long cnpTxnId;
+        public string orderId;
         private long amountField;
         private bool amountSet;
         public long amount
@@ -829,6 +948,7 @@ namespace Cnp.Sdk
             }
             xml += ">";
             xml += "\r\n<cnpTxnId>" + cnpTxnId + "</cnpTxnId>";
+            if (orderId != null) xml += "\r\n<orderId>" + SecurityElement.Escape(orderId) + "</orderId>";
             if (amountSet) xml += "\r\n<amount>" + amountField + "</amount>";
             if (surchargeAmountSet) xml += "\r\n<surchargeAmount>" + surchargeAmountField + "</surchargeAmount>";
             if (enhancedData != null) xml += "\r\n<enhancedData>" + enhancedData.Serialize() + "\r\n</enhancedData>";
@@ -1214,6 +1334,7 @@ namespace Cnp.Sdk
             if (cnpTxnIdSet)
             {
                 xml += "\r\n<cnpTxnId>" + cnpTxnIdField + "</cnpTxnId>";
+                if (orderId != null) xml += "\r\n<orderId>" + SecurityElement.Escape(orderId) + "</orderId>";
                 if (amountSet) xml += "\r\n<amount>" + amountField + "</amount>";
                 if (secondaryAmountSet) xml += "\r\n<secondaryAmount>" + secondaryAmountField + "</secondaryAmount>";
                 if (surchargeAmountSet) xml += "\r\n<surchargeAmount>" + surchargeAmountField + "</surchargeAmount>";
