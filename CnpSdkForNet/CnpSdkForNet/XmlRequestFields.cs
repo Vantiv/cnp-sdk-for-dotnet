@@ -2919,6 +2919,7 @@ namespace Cnp.Sdk
         public string submerchantName;
         public string customerName;
         public string fundsTransferId;
+        public addressType cardholderAddress;
         public int amount;
         private disbursementTypeEnum disbursementTypeField;
         private bool disbursementTypeSet;
@@ -2961,6 +2962,7 @@ namespace Cnp.Sdk
                 xml += "\r\n<amount>" + amount + "</amount>";
                 if (disbursementTypeSet)
                     xml += "\r\n<disbursementType>" + disbursementTypeField + "</disbursementType>";
+                if (cardholderAddress != null) xml += "\r\n<cardholderAddress>" + cardholderAddress.Serialize() + "</cardholderAddress>";
                 if (card != null) xml += "\r\n<card>" + card.Serialize() + "</card>";
                 else if (token != null) xml += "\r\n<token>" + token.Serialize() + "</token>";
                 else xml += "\r\n<paypage>" + paypage.Serialize() + "</paypage>";
@@ -4853,6 +4855,36 @@ namespace Cnp.Sdk
         ZW,
         RS,
         ME,
+    }
+
+    public partial class addressType
+    {        
+        public string addressLine1;
+        public string addressLine2;
+        public string addressLine3;
+        public string city;
+        public string state;
+        public string zip;
+        private countryTypeEnum countryField;
+        private bool countrySpecified;
+        public countryTypeEnum country
+        {
+            get { return countryField; }
+            set { countryField = value; countrySpecified = true; }
+        }        
+
+        public string Serialize()
+        {
+            var xml = "";            
+            if (addressLine1 != null) xml += "\r\n<addressLine1>" + SecurityElement.Escape(addressLine1) + "</addressLine1>";
+            if (addressLine2 != null) xml += "\r\n<addressLine2>" + SecurityElement.Escape(addressLine2) + "</addressLine2>";
+            if (addressLine3 != null) xml += "\r\n<addressLine3>" + SecurityElement.Escape(addressLine3) + "</addressLine3>";
+            if (city != null) xml += "\r\n<city>" + SecurityElement.Escape(city) + "</city>";
+            if (state != null) xml += "\r\n<state>" + SecurityElement.Escape(state) + "</state>";
+            if (zip != null) xml += "\r\n<zip>" + SecurityElement.Escape(zip) + "</zip>";
+            if (countrySpecified) xml += "\r\n<country>" + countryField + "</country>";            
+            return xml;
+        }
     }
 
     public partial class advancedFraudChecksType

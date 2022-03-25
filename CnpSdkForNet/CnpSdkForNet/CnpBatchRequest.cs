@@ -2240,6 +2240,8 @@ namespace Cnp.Sdk
 
         public echeckType accountInfo { get; set; }
 
+        public addressType vendorAddress { get; set; }
+
         public override string Serialize()
         {
             var xml = "\r\n<vendorCredit ";
@@ -2265,6 +2267,7 @@ namespace Cnp.Sdk
                 xml += accountInfo.Serialize();
                 xml += "</accountInfo>";
             }
+            if (vendorAddress != null) xml += "\r\n<vendorAddress>" + vendorAddress.Serialize() + "</vendorAddress>";
 
             xml += "\r\n</vendorCredit>";
 
@@ -2516,6 +2519,8 @@ namespace Cnp.Sdk
 
         public echeckType accountInfo { get; set; }
 
+        public addressType vendorAddress { get; set; }
+
         public override string Serialize()
         {
             var xml = "\r\n<vendorDebit ";
@@ -2541,7 +2546,7 @@ namespace Cnp.Sdk
                 xml += accountInfo.Serialize();
                 xml += "</accountInfo>";
             }
-
+            if (vendorAddress != null) xml += "\r\n<vendorAddress>" + vendorAddress.Serialize() + "</vendorAddress>";
             xml += "\r\n</vendorDebit>";
 
             return xml;

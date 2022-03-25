@@ -217,18 +217,100 @@ namespace Cnp.Sdk.Test.Functional
                 },
                 cardholderAuthentication = new fraudCheckType
                 {
-                    authenticationValue = "123456789012345678901234567890123456789012345678901234567890",
+                    /// Not adding base64 authenticationValue
+                    authenticationValue = "123456789012345678901234567890123456789012345678901234567890123456789012345678901234567890123456789012345678901234567890123456789012345678901234567890123456789012345678901234567890123456789012345678901234567890123456789012345678901234567890123456789012345678901234567890123456789012345678901234567890123456789012345678901234567890123456789012345678901234567890123456789012345678901234567890123456789012345678901234567890123456789012345678901234567890123456789012345678901234567890123456789012345678901234567890123",
                 }
             };
 
             try
             {
                 var responseObj = _cnp.Sale(saleObj);
+                Assert.Fail();
             }
             catch (CnpOnlineException e)
             {
                 Assert.True(e.Message.StartsWith("Error validating xml data against the schema"));
             }
+        }
+
+        [Test]
+        public void SimpleSaleWithInvalidFraudCheckLength()
+        {
+            var saleObj = new sale
+            {
+                id = "1",
+                amount = 106,
+                cnpTxnId = 123456,
+                orderId = "12344",
+                orderSource = orderSourceType.ecommerce,
+                card = new cardType
+                {
+                    type = methodOfPaymentTypeEnum.VI,
+                    number = "4100000000000000",
+                    expDate = "1210"
+                },
+                cardholderAuthentication = new fraudCheckType
+                {
+                    ///  base64 value for dummy number
+                    /// '123456789012345678901234567890123456789012345678901234567890123456789012345678901234567890
+                    ///  123456789012345678901234567890123456789012345678901234567890123456789012345678901234567890
+                    ///  123456789012345678901234567890123456789012345678901234567890123456789012345678901234567890
+                    ///  123456789012345678901234567890123456789012345678901234567890123456789012345678901234567890
+                    ///  123456789012345678901234567890123456789012345678901234567890123456789012345678901234567890
+                    ///  123456789012345678901234567890123456789012345678901234567890123'
+                    ///  
+                    /// System should respond with the error 
+                    /// 'message="Error validating xml data against the schema: cvc-maxLength-valid: Value 
+                    /// 'MTIzNDU2Nzg5MDEyMzQ1Njc4OTAxMjM0NTY3ODkwMTIzNDU2Nzg5MDEyMzQ1Njc4OTAxMjM0NTY3ODkwMTIzNDU2N
+                    ///  zg5MDEyMzQ1Njc4OTAxMjM0NTY3ODkwMTIzNDU2Nzg5MDEyMzQ1Njc4OTAxMjM0NTY3ODkwMTIzNDU2Nzg5MDEyMz
+                    ///  Q1Njc4OTAxMjM0NTY3ODkwMTIzNDU2Nzg5MDEyMzQ1Njc4OTAxMjM0NTY3ODkwMTIzNDU2Nzg5MDEyMzQ1Njc4OTA
+                    ///  xMjM0NTY3ODkwMTIzNDU2Nzg5MDEyMzQ1Njc4OTAxMjM0NTY3ODkwMTIzNDU2Nzg5MDEyMzQ1Njc4OTAxMjM0NTY3
+                    ///  ODkwMTIzNDU2Nzg5MDEyMzQ1Njc4OTAxMjM0NTY3ODkwMTIzNDU2Nzg5MDEyMzQ1Njc4OTAxMjM0NTY3ODkwMTIzN
+                    ///  DU2Nzg5MDEyMzQ1Njc4OTAxMjM0NTY3ODkwMTIzNDU2Nzg5MDEyMzQ1Njc4OTAxMjM0NTY3ODkwMTIzNDU2Nzg5MD
+                    ///  EyMzQ1Njc4OTAxMjM0NTY3ODkwMTIzNDU2Nzg5MDEyMzQ1Njc4OTAxMjM0NTY3ODkwMTIzNDU2Nzg5MDEyMzQ1Njc
+                    ///  4OTAxMjM0NTY3ODkwMTIzNDU2Nzg5MDEyMzQ1Njc4OTAxMjM0NTY3ODkwMTIz' with length = '513' is not
+                    ///  facet-valid with respect to maxLength '512' for type 'authenticationValueType'."'
+                    authenticationValue = "MTIzNDU2Nzg5MDEyMzQ1Njc4OTAxMjM0NTY3ODkwMTIzNDU2Nzg5MDEyMzQ1Njc4OTAxMjM0NTY3ODkwMTIzNDU2Nzg5MDEyMzQ1Njc4OTAxMjM0NTY3ODkwMTIzNDU2Nzg5MDEyMzQ1Njc4OTAxMjM0NTY3ODkwMTIzNDU2Nzg5MDEyMzQ1Njc4OTAxMjM0NTY3ODkwMTIzNDU2Nzg5MDEyMzQ1Njc4OTAxMjM0NTY3ODkwMTIzNDU2Nzg5MDEyMzQ1Njc4OTAxMjM0NTY3ODkwMTIzNDU2Nzg5MDEyMzQ1Njc4OTAxMjM0NTY3ODkwMTIzNDU2Nzg5MDEyMzQ1Njc4OTAxMjM0NTY3ODkwMTIzNDU2Nzg5MDEyMzQ1Njc4OTAxMjM0NTY3ODkwMTIzNDU2Nzg5MDEyMzQ1Njc4OTAxMjM0NTY3ODkwMTIzNDU2Nzg5MDEyMzQ1Njc4OTAxMjM0NTY3ODkwMTIzNDU2Nzg5MDEyMzQ1Njc4OTAxMjM0NTY3ODkwMTIzNDU2Nzg5MDEyMzQ1Njc4OTAxMjM0NTY3ODkwMTIzNDU2Nzg5MDEyMzQ1Njc4OTAxMjM0NTY3ODkwMTIzNDU2Nzg5MDEyMzQ1Njc4OTAxMjM0NTY3ODkwMTIzNDU2Nzg5MDEyMzQ1Njc4OTAxMjM0NTY3ODkwMTIz",
+                }
+            };            
+
+            try
+            {
+                var responseObj = _cnp.Sale(saleObj);
+                Assert.Fail();
+            }
+            catch (CnpOnlineException e)
+            {
+                Assert.True(e.Message.Contains("is not facet-valid with respect to maxLength '512'"));
+            }
+        }
+
+        [Test]
+        public void SimpleSaleWithValidIncreasedFraudCheckLength()
+        {
+            var saleObj = new sale
+            {
+                id = "1",
+                amount = 106,
+                cnpTxnId = 123456,
+                orderId = "12344",
+                orderSource = orderSourceType.ecommerce,
+                card = new cardType
+                {
+                    type = methodOfPaymentTypeEnum.IC,
+                    number = "4100000000000000",
+                    expDate = "1210"
+                },
+                cardholderAuthentication = new fraudCheckType
+                {
+                    /// base64 value for dummy number '123456789012345678901234567890123456789012345678901234567890'
+                    /// System should accept the request with length 60 of authenticationValueType
+                    authenticationValue = "MTIzNDU2Nzg5MDEyMzQ1Njc4OTAxMjM0NTY3ODkwMTIzNDU2Nzg5MDEyMzQ1Njc4OTAxMjM0NTY3ODkw",
+                }
+            };
+
+            var responseObj = _cnp.Sale(saleObj);
+            StringAssert.AreEqualIgnoringCase("Approved", responseObj.message);
         }
 
         [Test]
