@@ -2919,7 +2919,7 @@ namespace Cnp.Sdk
         public string submerchantName;
         public string customerName;
         public string fundsTransferId;
-        public string cardholderAddress;
+        public addressType cardholderAddress;
         public int amount;
         private disbursementTypeEnum disbursementTypeField;
         private bool disbursementTypeSet;
@@ -2962,7 +2962,7 @@ namespace Cnp.Sdk
                 xml += "\r\n<amount>" + amount + "</amount>";
                 if (disbursementTypeSet)
                     xml += "\r\n<disbursementType>" + disbursementTypeField + "</disbursementType>";
-                if (cardholderAddress != null) xml += "\r\n<cardholderAddress>" + cardholderAddress + "</cardholderAddress>";
+                if (cardholderAddress != null) xml += "\r\n<cardholderAddress>" + cardholderAddress.Serialize() + "</cardholderAddress>";
                 if (card != null) xml += "\r\n<card>" + card.Serialize() + "</card>";
                 else if (token != null) xml += "\r\n<token>" + token.Serialize() + "</token>";
                 else xml += "\r\n<paypage>" + paypage.Serialize() + "</paypage>";
