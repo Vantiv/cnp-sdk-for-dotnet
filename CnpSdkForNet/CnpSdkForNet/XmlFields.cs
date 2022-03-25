@@ -31,13 +31,16 @@ namespace Cnp.Sdk
         JC,
 
         /// <remarks/>
-        BL,
+        PL,
 
         /// <remarks/>
         EC,
 
         /// <remarks/>
         GC,
+
+        /// <remarks/>
+        IC,
 
         /// <remarks/>
         [System.Xml.Serialization.XmlEnumAttribute("")]

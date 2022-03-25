@@ -702,7 +702,45 @@ merchantId=""01234"">
             mockCnpFile.Verify(cnpFile => cnpFile.createRandomFile(It.IsAny<string>(), It.IsAny<string>(), It.IsAny<string>(), mockCnpTime.Object));
             mockCnpFile.Verify(cnpFile => cnpFile.AppendLineToFile(mockFilePath, vendorCredit.Serialize()));
         }
-        
+
+        [Test]
+        public void TestAddVendorCreditWithVendorAddress()
+        {
+            var vendorCredit = new vendorCredit();
+            vendorCredit.fundingSubmerchantId = "123456";
+            vendorCredit.vendorName = "merchant";
+            vendorCredit.fundsTransferId = "123467";
+            vendorCredit.amount = 106L;
+            var echeck = new echeckType();
+            echeck.accType = echeckAccountTypeEnum.Checking;
+            echeck.accNum = "12345657890";
+            echeck.routingNum = "123456789";
+            echeck.checkNum = "123455";
+
+            vendorCredit.accountInfo = echeck;
+
+            var vendorAddress = new addressType();
+            vendorAddress.addressLine1 = "37 Main Street";
+            vendorAddress.addressLine2 = "";
+            vendorAddress.addressLine3 = "";
+            vendorAddress.city = "Augusta";
+            vendorAddress.state = "Wisconsin";
+            vendorAddress.zip = "28209";
+            vendorAddress.country = countryTypeEnum.USA;
+
+            vendorCredit.vendorAddress = vendorAddress;
+
+            batchRequest.addVendorCredit(vendorCredit);
+
+            Assert.AreEqual(1, batchRequest.getNumVendorCredit());
+            Assert.AreEqual(106L, batchRequest.getVendorCreditAmount());
+            Assert.AreEqual("\r\n<vendorCredit reportGroup=\"Default Report Group\">\r\n<fundingSubmerchantId>123456</fundingSubmerchantId>\r\n<vendorName>merchant</vendorName>\r\n<fundsTransferId>123467</fundsTransferId>\r\n<amount>106</amount>\r\n<accountInfo>\r\n<accType>Checking</accType>\r\n<accNum>12345657890</accNum>\r\n<routingNum>123456789</routingNum>\r\n<checkNum>123455</checkNum></accountInfo>\r\n<vendorAddress>\r\n<addressLine1>37 Main Street</addressLine1>\r\n<addressLine2></addressLine2>\r\n<addressLine3></addressLine3>\r\n<city>Augusta</city>\r\n<state>Wisconsin</state>\r\n<zip>28209</zip>\r\n<country>USA</country></vendorAddress>\r\n</vendorCredit>",
+               vendorCredit.Serialize());
+
+            mockCnpFile.Verify(cnpFile => cnpFile.createRandomFile(It.IsAny<string>(), It.IsAny<string>(), It.IsAny<string>(), mockCnpTime.Object));
+            mockCnpFile.Verify(cnpFile => cnpFile.AppendLineToFile(mockFilePath, vendorCredit.Serialize()));
+        }
+
         [Test]
         public void TestAddPhysicalCheckCredit()
         {
@@ -807,6 +845,43 @@ merchantId=""01234"">
             Assert.AreEqual(1, batchRequest.getNumVendorDebit());
             Assert.AreEqual(106L, batchRequest.getVendorDebitAmount());
             Assert.AreEqual("\r\n<vendorDebit reportGroup=\"Default Report Group\">\r\n<fundingSubmerchantId>123456</fundingSubmerchantId>\r\n<vendorName>merchant</vendorName>\r\n<fundsTransferId>123467</fundsTransferId>\r\n<amount>106</amount>\r\n<accountInfo>\r\n<accType>Checking</accType>\r\n<accNum>12345657890</accNum>\r\n<routingNum>123456789</routingNum>\r\n<checkNum>123455</checkNum></accountInfo>\r\n</vendorDebit>",
+               vendorDebit.Serialize());
+
+            mockCnpFile.Verify(cnpFile => cnpFile.createRandomFile(It.IsAny<string>(), It.IsAny<string>(), It.IsAny<string>(), mockCnpTime.Object));
+            mockCnpFile.Verify(cnpFile => cnpFile.AppendLineToFile(mockFilePath, vendorDebit.Serialize()));
+        }
+
+        [Test]
+        public void TestAddVendorDebitWithVendorAddress()
+        {
+            var vendorDebit = new vendorDebit();
+            vendorDebit.fundingSubmerchantId = "123456";
+            vendorDebit.vendorName = "merchant";
+            vendorDebit.fundsTransferId = "123467";
+            vendorDebit.amount = 106L;
+            var echeck = new echeckType();
+            echeck.accType = echeckAccountTypeEnum.Checking;
+            echeck.accNum = "12345657890";
+            echeck.routingNum = "123456789";
+            echeck.checkNum = "123455";
+            vendorDebit.accountInfo = echeck;
+
+            var vendorAddress = new addressType();
+            vendorAddress.addressLine1 = "37 Main Street";
+            vendorAddress.addressLine2 = "";
+            vendorAddress.addressLine3 = "";
+            vendorAddress.city = "Augusta";
+            vendorAddress.state = "Wisconsin";
+            vendorAddress.zip = "28209";
+            vendorAddress.country = countryTypeEnum.USA;
+
+            vendorDebit.vendorAddress = vendorAddress;
+
+            batchRequest.addVendorDebit(vendorDebit);
+
+            Assert.AreEqual(1, batchRequest.getNumVendorDebit());
+            Assert.AreEqual(106L, batchRequest.getVendorDebitAmount());
+            Assert.AreEqual("\r\n<vendorDebit reportGroup=\"Default Report Group\">\r\n<fundingSubmerchantId>123456</fundingSubmerchantId>\r\n<vendorName>merchant</vendorName>\r\n<fundsTransferId>123467</fundsTransferId>\r\n<amount>106</amount>\r\n<accountInfo>\r\n<accType>Checking</accType>\r\n<accNum>12345657890</accNum>\r\n<routingNum>123456789</routingNum>\r\n<checkNum>123455</checkNum></accountInfo>\r\n<vendorAddress>\r\n<addressLine1>37 Main Street</addressLine1>\r\n<addressLine2></addressLine2>\r\n<addressLine3></addressLine3>\r\n<city>Augusta</city>\r\n<state>Wisconsin</state>\r\n<zip>28209</zip>\r\n<country>USA</country></vendorAddress>\r\n</vendorDebit>",
                vendorDebit.Serialize());
 
             mockCnpFile.Verify(cnpFile => cnpFile.createRandomFile(It.IsAny<string>(), It.IsAny<string>(), It.IsAny<string>(), mockCnpTime.Object));

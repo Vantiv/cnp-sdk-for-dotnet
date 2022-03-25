@@ -42,6 +42,42 @@ namespace Cnp.Sdk.Test.Functional
         }
 
         [Test]
+        public void VendorCreditWithVendorAddress()
+        {
+            var vendorCredit = new vendorCredit
+            {
+                // attributes.
+                id = "1",
+                reportGroup = "Default Report Group",
+                // required child elements.
+                accountInfo = new echeckType()
+                {
+                    accType = echeckAccountTypeEnum.Savings,
+                    accNum = "1234",
+                    routingNum = "12345678"
+                },
+                vendorAddress = new addressType()
+                {
+                    addressLine1 = "37 Main Street",
+                    addressLine2 = "",
+                    addressLine3 = "",
+                    city = "Augusta",
+                    state = "Wisconsin",
+                    zip = "28209",
+                    country = countryTypeEnum.USA
+                },
+                amount = 1512l,
+                fundingSubmerchantId = "value for fundingSubmerchantId",
+                fundsTransferId = "value for fundsTransferId",
+                vendorName = "Vantiv"
+            };
+
+            var response = _cnp.VendorCredit(vendorCredit);
+            Assert.AreEqual("000", response.response);
+            Assert.AreEqual("sandbox", response.location);
+        }
+
+        [Test]
         public void VendorCreditWithFundingCustomerId()
         {
             var vendorCredit = new vendorCredit
@@ -92,7 +128,7 @@ namespace Cnp.Sdk.Test.Functional
             Assert.AreEqual("000", response.Result.response);
             Assert.AreEqual("sandbox", response.Result.location);
         }
-        
+
         [Test]
         public void ReserveDebit()
         {
@@ -109,6 +145,42 @@ namespace Cnp.Sdk.Test.Functional
                     routingNum = "12345678"
                 },
                 amount = 1512l,
+                fundingSubmerchantId = "value for fundingSubmerchantId",
+                fundsTransferId = "value for fundsTransferId",
+                vendorName = "WorldPay"
+            };
+
+            var response = _cnp.VendorDebit(vendorDebit);
+            Assert.AreEqual("000", response.response);
+            Assert.AreEqual("sandbox", response.location);
+        }
+
+        [Test]
+        public void TestVendorDebitWithVendorAddress()
+        {
+            var vendorDebit = new vendorDebit
+            {
+                // attributes.
+                id = "1",
+                reportGroup = "Default Report Group",
+                // required child elements.
+                accountInfo = new echeckType()
+                {
+                    accType = echeckAccountTypeEnum.Savings,
+                    accNum = "1234",
+                    routingNum = "12345678"
+                },
+                vendorAddress = new addressType()
+                {
+                    addressLine1 = "37 Main Street",
+                    addressLine2 = "",
+                    addressLine3 = "",
+                    city = "Augusta",
+                    state = "Wisconsin",
+                    zip = "28209",
+                    country = countryTypeEnum.USA
+                },
+                amount = 1512L,
                 fundingSubmerchantId = "value for fundingSubmerchantId",
                 fundsTransferId = "value for fundsTransferId",
                 vendorName = "WorldPay"
