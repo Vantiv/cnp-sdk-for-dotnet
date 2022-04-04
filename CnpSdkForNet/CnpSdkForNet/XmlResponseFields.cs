@@ -388,6 +388,11 @@ namespace Cnp.Sdk
     {
         /// <remarks/>
         consumerBillPayment,
+        ///new 12.24
+        buyOnlinePickUpInStore,
+        highRiskSecuritiesPurchase,
+        fundTransfer,
+        walletTransfer,
     }
 
     /// <remarks/>
@@ -1638,6 +1643,8 @@ namespace Cnp.Sdk
 
         private string addressIndicatorField;
 
+        private int discountPercentTypeField; /// new 12.24
+
         private string loanToValueEstimatorField;
 
         private string riskEstimatorField;
@@ -1721,6 +1728,19 @@ namespace Cnp.Sdk
             set
             {
                 this.addressIndicatorField = value;
+            }
+        }
+
+        /// new 12.24
+        public int discountPercentType
+        {
+            get
+            {
+                return this.discountPercentTypeField;
+            }
+            set
+            {
+                this.discountPercentTypeField = value;
             }
         }
 
@@ -2138,6 +2158,8 @@ namespace Cnp.Sdk
 
         private string paymentAccountReferenceNumberField;
 
+        private string checkoutIdField;
+
         /// <remarks/>
         public long cnpTxnId
         {
@@ -2479,6 +2501,18 @@ namespace Cnp.Sdk
         {
             get { return paymentAccountReferenceNumberField; }
             set { paymentAccountReferenceNumberField = value; }
+        }
+        /// 12.24
+        public string checkoutId
+        {
+            get
+            {
+                return this.checkoutIdField;
+            }
+            set
+            {
+                this.checkoutIdField = value;
+            }
         }
     }
     
@@ -3059,6 +3093,8 @@ namespace Cnp.Sdk
 
         private pinlessDebitResponse pinlessDebitResponseField;
 
+        private string checkoutIdField;
+
         /// <remarks/>
         public long cnpTxnId
         {
@@ -3157,6 +3193,18 @@ namespace Cnp.Sdk
             set
             {
                 this.pinlessDebitResponseField = value;
+            }
+        }
+        /// 12.24
+        public string checkoutId
+        {
+            get
+            {
+                return this.checkoutIdField;
+            }
+            set
+            {
+                this.checkoutIdField = value;
             }
         }
     }
@@ -3568,6 +3616,8 @@ namespace Cnp.Sdk
 
         private pinlessDebitResponse pinlessDebitResponseField;
 
+        private string checkoutIdField;///12.24
+
         /// <remarks/>
         public long cnpTxnId
         {
@@ -3694,6 +3744,18 @@ namespace Cnp.Sdk
             set
             {
                 this.pinlessDebitResponseField = value;
+            }
+        }
+        /// 12.24
+        public string checkoutId
+        {
+            get
+            {
+                return this.checkoutIdField;
+            }
+            set
+            {
+                this.checkoutIdField = value;
             }
         }
     }
@@ -3893,6 +3955,8 @@ namespace Cnp.Sdk
 
         private accountUpdater accountUpdaterField;
 
+        private string checkoutIdField; ///12.24
+
         /// <remarks/>
         public long cnpTxnId
         {
@@ -4011,6 +4075,19 @@ namespace Cnp.Sdk
                 this.accountUpdaterField = value;
             }
         }
+
+        /// 12.24
+        public string checkoutId
+        {
+            get
+            {
+                return this.checkoutIdField;
+            }
+            set
+            {
+                this.checkoutIdField = value;
+            }
+        }
     }
 
     /// <remarks/>
@@ -4039,6 +4116,8 @@ namespace Cnp.Sdk
         private tokenResponseType tokenResponseField;
 
         private string locationField;
+
+        private string checkoutIdField; ///12.24
 
         /// <remarks/>
         public long cnpTxnId
@@ -4145,6 +4224,19 @@ namespace Cnp.Sdk
                 this.locationField = value;
             }
         }
+
+        /// 12.24
+        public string checkoutId
+        {
+            get
+            {
+                return this.checkoutIdField;
+            }
+            set
+            {
+                this.checkoutIdField = value;
+            }
+        }
     }
 
     /// <remarks/>
@@ -4222,6 +4314,8 @@ namespace Cnp.Sdk
         private pinlessDebitResponse pinlessDebitResponseField;
 
         private string paymentAccountReferenceNumberField;
+
+        private string checkoutIdField; //12.24
         
         /// <remarks/>
         public long cnpTxnId
@@ -4647,6 +4741,19 @@ namespace Cnp.Sdk
             get { return paymentAccountReferenceNumberField; }
             set { paymentAccountReferenceNumberField = value; }
         }
+
+        /// 12.24
+        public string checkoutId
+        {
+            get
+            {
+                return this.checkoutIdField;
+            }
+            set
+            {
+                this.checkoutIdField = value;
+            }
+        }
     }
 
     /// <remarks/>
@@ -4675,6 +4782,8 @@ namespace Cnp.Sdk
         private tokenResponseType tokenResponseField;
 
         private fraudResult fraudResultField;
+
+        private string checkoutIdField; ///12.24
 
         /// <remarks/>
         public long cnpTxnId
@@ -4792,6 +4901,19 @@ namespace Cnp.Sdk
             set
             {
                     this.fraudResultField = value;
+            }
+        }
+
+        /// 12.24
+        public string checkoutId
+        {
+            get
+            {
+                return this.checkoutIdField;
+            }
+            set
+            {
+                this.checkoutIdField = value;
             }
         }
     }
@@ -4989,6 +5111,8 @@ namespace Cnp.Sdk
 
         private tokenResponseType tokenResponseField;
 
+        private string checkoutIdField;///new 12.24
+
         /// <remarks/>
         public long cnpTxnId
         {
@@ -5120,6 +5244,20 @@ namespace Cnp.Sdk
                 this.tokenResponseField = value;
             }
         }
+
+        /// 12.24
+        public string checkoutId
+        {
+            get
+            {
+                return this.checkoutIdField;
+            }
+            set
+            {
+                this.checkoutIdField = value;
+            }
+        }
+
     }
 
     /// <remarks/>
@@ -5150,6 +5288,7 @@ namespace Cnp.Sdk
 
         private tokenResponseType tokenResponseField;
 
+        private string checkoutIdField;///new 12.24
         /// <remarks/>
         public long cnpTxnId
         {
@@ -5266,6 +5405,19 @@ namespace Cnp.Sdk
             set
             {
                 this.tokenResponseField = value;
+            }
+        }
+
+        /// 12.24
+        public string checkoutId
+        {
+            get
+            {
+                return this.checkoutIdField;
+            }
+            set
+            {
+                this.checkoutIdField = value;
             }
         }
     }
@@ -7341,7 +7493,9 @@ namespace Cnp.Sdk
         private string messageField;
 
         private string locationField;
-        
+
+        private string checkoutIdField;///new 12.24
+
         /// <remarks/>
         public long cnpTxnId
         {
@@ -7421,6 +7575,19 @@ namespace Cnp.Sdk
             }
         }
 
+        /// private string checkoutIdField; 12.24
+        public string checkoutId
+        {
+            get
+            {
+                return this.checkoutIdField;
+            }
+            set
+            {
+                this.checkoutIdField = value;
+            }
+        }
+
     }
 
     /// <remarks/>
@@ -7446,6 +7613,8 @@ namespace Cnp.Sdk
         private string locationField;
 
         private voidRecyclingResponseType recyclingResponseField;
+
+        private string checkoutIdField; ///new for 12.24
 
         /// <remarks/>
         public long cnpTxnId
@@ -7539,6 +7708,19 @@ namespace Cnp.Sdk
             set
             {
                 this.recyclingResponseField = value;
+            }
+        }
+
+        /// private string checkoutIdField; 12.24
+        public string checkoutId
+        {
+            get
+            {
+                return this.checkoutIdField;
+            }
+            set
+            {
+                this.checkoutIdField = value;
             }
         }
     }

@@ -660,5 +660,31 @@ namespace Cnp.Sdk.Test.Unit
             Assert.AreEqual(123, authorizationResponse.cnpTxnId);
             Assert.AreEqual("sandbox", authorizationResponse.location);
         }
+
+        [Test]
+        public void TestContactForRetailerAddress() ///new testcase 12.24
+        {
+            var auth = new authorization();
+            auth.orderId = "12344";
+            auth.amount = 2;
+            auth.orderSource = orderSourceType.ecommerce;
+            auth.reportGroup = "Planets";
+            var retailerAddress = new contact();
+            retailerAddress.email = "mikasa@cnp.com";
+            retailerAddress.zip = "411057";
+            auth.retailerAddress = retailerAddress;
+
+            var mock = new Mock<Communications>();
+
+            mock.Setup(Communications => Communications.HttpPost(It.IsRegex(".*<zip>411057</zip>.*<email>mikasa@cnp.com</email>.*", RegexOptions.Singleline)))
+                .Returns("<cnpOnlineResponse version='8.14' response='0' message='Valid Format' xmlns='http://www.vantivcnp.com/schema'><authorizationResponse><cnpTxnId>123</cnpTxnId></authorizationResponse></cnpOnlineResponse>");
+
+            var mockedCommunication = mock.Object;
+            cnp.SetCommunication(mockedCommunication);
+            var authorizationResponse = cnp.Authorize(auth);
+
+            Assert.NotNull(authorizationResponse);
+            Assert.AreEqual(123, authorizationResponse.cnpTxnId);
+        }
     }
 }
