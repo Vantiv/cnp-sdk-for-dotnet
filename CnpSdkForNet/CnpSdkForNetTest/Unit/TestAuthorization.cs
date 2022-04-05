@@ -683,6 +683,8 @@ namespace Cnp.Sdk.Test.Unit
             retailerAddress.country = countryTypeEnum.USA;
             retailerAddress.email = "mikasa@cnp.com";
             retailerAddress.zip = "01867-4456";
+            retailerAddress.sellerId = "s1234";
+            retailerAddress.url = "www.google.com";
             auth.retailerAddress = retailerAddress;
 
             var additionalCOFData = new additionalCOFData();
@@ -697,7 +699,7 @@ namespace Cnp.Sdk.Test.Unit
 
             var mock = new Mock<Communications>();
 
-            mock.Setup(Communications => Communications.HttpPost(It.IsRegex(".*<zip>01867-4456</zip>.*<email>mikasa@cnp.com</email>.*<frequencyOfMIT>BiWeekly</frequencyOfMIT>.*<orderChannel>PHONE</orderChannel>\r\n<fraudCheckStatus>Not Approved</fraudCheckStatus>\r\n<crypto>False</crypto>.*", RegexOptions.Singleline)))
+            mock.Setup(Communications => Communications.HttpPost(It.IsRegex(".*<zip>01867-4456</zip>.*<email>mikasa@cnp.com</email>.*<sellerId>s1234</sellerId>.*<url>www.google.com</url>.*<frequencyOfMIT>BiWeekly</frequencyOfMIT>.*<orderChannel>PHONE</orderChannel>\r\n<fraudCheckStatus>Not Approved</fraudCheckStatus>\r\n<crypto>False</crypto>.*", RegexOptions.Singleline)))
                 .Returns("<cnpOnlineResponse version='8.14' response='0' message='Valid Format' xmlns='http://www.vantivcnp.com/schema'><authorizationResponse><cnpTxnId>123</cnpTxnId></authorizationResponse></cnpOnlineResponse>");
 
             var mockedCommunication = mock.Object;
