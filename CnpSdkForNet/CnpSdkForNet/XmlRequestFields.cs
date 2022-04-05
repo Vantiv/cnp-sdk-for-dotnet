@@ -3399,7 +3399,7 @@ namespace Cnp.Sdk
 
     }
 
-    /// new 12.24
+    /// new 12.24 to be checked
     public enum paymentTypeEnum
     {
 

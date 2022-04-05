@@ -662,21 +662,42 @@ namespace Cnp.Sdk.Test.Unit
         }
 
         [Test]
-        public void TestContactForRetailerAddress() ///new testcase 12.24
+        public void TestSimpleAuthWithRetailerAddressAndAdditionalCOFdata() ///new testcase 12.24
         {
             var auth = new authorization();
             auth.orderId = "12344";
             auth.amount = 2;
             auth.orderSource = orderSourceType.ecommerce;
             auth.reportGroup = "Planets";
+            auth.id = "thisisid";
+            auth.businessIndicator = businessIndicatorEnum.fundTransfer;
+            auth.crypto = false;
+            auth.orderChannel = orderChannelEnum.PHONE;
+            auth.fraudCheckStatus = "Not Approved";
+
             var retailerAddress = new contact();
+            retailerAddress.name = "Mikasa Ackerman";
+            retailerAddress.addressLine1 = "1st Main Street";
+            retailerAddress.city = "Burlington";
+            retailerAddress.state = "MA";
+            retailerAddress.country = countryTypeEnum.USA;
             retailerAddress.email = "mikasa@cnp.com";
-            retailerAddress.zip = "411057";
+            retailerAddress.zip = "01867-4456";
             auth.retailerAddress = retailerAddress;
+
+            var additionalCOFData = new additionalCOFData();
+            additionalCOFData.totalPaymentCount = "35";
+            additionalCOFData.paymentType = paymentTypeEnum.Fixed_Amount;
+            additionalCOFData.uniqueId = "12345wereew233";
+            additionalCOFData.frequencyOfMIT = frequencyOfMITEnum.BiWeekly;
+            additionalCOFData.validationReference = "re3298rhriw4wrw";
+            additionalCOFData.sequenceIndicator = 2;
+
+            auth.additionalCOFData = additionalCOFData;
 
             var mock = new Mock<Communications>();
 
-            mock.Setup(Communications => Communications.HttpPost(It.IsRegex(".*<zip>411057</zip>.*<email>mikasa@cnp.com</email>.*", RegexOptions.Singleline)))
+            mock.Setup(Communications => Communications.HttpPost(It.IsRegex(".*<zip>01867-4456</zip>.*<email>mikasa@cnp.com</email>.*<frequencyOfMIT>BiWeekly</frequencyOfMIT>.*<orderChannel>PHONE</orderChannel>\r\n<fraudCheckStatus>Not Approved</fraudCheckStatus>\r\n<crypto>False</crypto>.*", RegexOptions.Singleline)))
                 .Returns("<cnpOnlineResponse version='8.14' response='0' message='Valid Format' xmlns='http://www.vantivcnp.com/schema'><authorizationResponse><cnpTxnId>123</cnpTxnId></authorizationResponse></cnpOnlineResponse>");
 
             var mockedCommunication = mock.Object;
