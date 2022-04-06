@@ -64,7 +64,7 @@ Note: It contains changes from cnpAPI v12.20 & v12.21. In case you need any feat
 * Changed: Removed Multisite support at SDK-level in favor Global Load Balancer (GLB)
 
 ==Version 12.10.2 (December 09, 2019)
-* Feature: Changed from .NET Framework 4.5 to .NET Standard 2.0 (.NET Framework builds will now need to be 4.6.1 or greater)
+* Feature: Changed from .NET Framework 4.5 to .NET Standard 2.0 (.NET Framework builds will now need to be 4.7.2 or greater)
 * Change: Removed known host file
 * Change: Changed GPG commands to be compatible with versions before 2.1
 * BugFix: Fixed file paths only working with "\" instead of both "\" and "/"
