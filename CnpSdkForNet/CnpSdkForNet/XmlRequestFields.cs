@@ -577,7 +577,7 @@ namespace Cnp.Sdk
                 }
                 if (cryptoSet)
                 {
-                    xml += "\r\n<crypto>" + cryptoField + "</crypto>";
+                    xml += "\r\n<crypto>" + cryptoField.ToString().ToLower() + "</crypto>";
                 }
                 ///end
                 if (merchantData != null)
@@ -1259,9 +1259,9 @@ namespace Cnp.Sdk
             {
                 xml += "\r\n<originalTransactionAmount>" + originalTransactionAmount + "</originalTransactionAmount>";
             }
-            if (cryptoSet)///12.24
+            if (cryptoSet)
             {
-                xml += "\r\n<crypto>" + cryptoField + "</crypto>";
+                xml += "\r\n<crypto>" + cryptoField.ToString().ToLower() + "</crypto>";
             }
             if (merchantCategoryCode != null)
             {
@@ -2742,7 +2742,7 @@ namespace Cnp.Sdk
             }
             if (cryptoSet)
             {
-                xml += "\r\n<crypto>" + cryptoField + "</crypto>";
+                xml += "\r\n<crypto>" + cryptoField.ToString().ToLower() + "</crypto>";
             }
             ///end
             if (enhancedData != null)
@@ -3338,6 +3338,14 @@ namespace Cnp.Sdk
 
             if (showStatusOnlySet) xml += "\r\n<showStatusOnly>" + showStatusOnlyField + "</showStatusOnly>";
 
+            var accTypeName = paymentTypeField.ToString();
+            var attributes =
+                (XmlEnumAttribute[])typeof(paymentTypeEnum).GetMember(paymentTypeField.ToString())[0].GetCustomAttributes(typeof(XmlEnumAttribute), false);
+            if (attributes.Length > 0) accTypeName = attributes[0].Name;
+            
+
+            if (paymentTypeSet) xml += "\r\n<paymentType>" + accTypeName + "</paymentType>";///12.24
+
             if (frequencyOfMITSet) xml += "\r\n<frequencyOfMIT>" + frequencyOfMITField + "</frequencyOfMIT>";///12.24
 
             if (fulfilmentMethodTypeSet) xml += "\r\n<fulfilmentMethod>" + fulfilmentMethodTypeField + "</fulfilmentMethod>";///12.24 
@@ -3402,8 +3410,10 @@ namespace Cnp.Sdk
     /// new 12.24 to be checked
     public enum paymentTypeEnum
     {
-
+        [System.Xml.Serialization.XmlEnumAttribute("Fixed Amount")]
         Fixed_Amount,
+
+        [System.Xml.Serialization.XmlEnumAttribute("Variable Amount")]
         Variable_Amount,
     }
 
@@ -4185,7 +4195,15 @@ namespace Cnp.Sdk
         {
             var xml = "";
             if (totalPaymentCount != null) xml += "\r\n<totalPaymentCount>" + SecurityElement.Escape(totalPaymentCount) + "</totalPaymentCount>";
-            if (paymentTypeSet) xml += "\r\n<paymentType>" + paymentTypeField + "</paymentTypeSet>";
+            var accTypeName = paymentTypeField.ToString();
+            var attributes =
+                (XmlEnumAttribute[])typeof(paymentTypeEnum).GetMember(paymentTypeField.ToString())[0].GetCustomAttributes(typeof(XmlEnumAttribute), false);
+            if (attributes.Length > 0) accTypeName = attributes[0].Name;
+
+
+            if (paymentTypeSet) xml += "\r\n<paymentType>" + accTypeName + "</paymentType>";///12.24
+
+            ///if (paymentTypeSet) xml += "\r\n<paymentType>" + paymentTypeField + "</paymentType>";
             if (uniqueId != null) xml += "\r\n<uniqueId>" + SecurityElement.Escape(uniqueId) + "</uniqueId>";
             if (frequencyOfMITSet) xml += "\r\n<frequencyOfMIT>" + frequencyOfMITField + "</frequencyOfMIT>";
             if (validationReference != null) xml += "\r\n<validationReference>" + SecurityElement.Escape(validationReference) + "</validationReference>";

@@ -864,5 +864,53 @@ namespace Cnp.Sdk.Test.Functional
             Assert.AreEqual("000", response.response);
             Assert.AreEqual(checkDate, response.postDate);
         }
+
+        [Test]
+        public void SimpleAuthWithRetailerAddressAndAdditionalCOFdata()///12.24
+        {
+            var authorization = new authorization
+            {
+                id = "1",
+                reportGroup = "Planets",
+                orderId = "12344",
+                amount = 106,
+                orderSource = orderSourceType.ecommerce,
+                crypto = false,
+                orderChannel = orderChannelEnum.PHONE,
+                fraudCheckStatus = "Not Approved",
+                card = new cardType
+                {
+                    type = methodOfPaymentTypeEnum.VI,
+                    number = "414100000000000000",
+                    expDate = "1210"
+                },
+                retailerAddress = new contact
+                {
+                    name = "Mikasa Ackerman",
+                    addressLine1 = "1st Main Street",
+                    city = "Burlington",
+                    state = "MA",
+                    country = countryTypeEnum.USA,
+                    email = "mikasa@cnp.com",
+                    zip = "01867-4456",
+                    sellerId = "s1234",
+                    url = "www.google.com"
+                },
+                additionalCOFData = new additionalCOFData()
+                {
+                    totalPaymentCount = "35",
+                    paymentType = paymentTypeEnum.Fixed_Amount,
+                    uniqueId = "12345wereew233",
+                    frequencyOfMIT = frequencyOfMITEnum.BiWeekly,
+                    validationReference = "re3298rhriw4wrw",
+                    sequenceIndicator = 2
+                },
+                customBilling = new customBilling { phone = "1112223333" }
+            };
+            var response = _cnp.Authorize(authorization);
+
+            Assert.AreEqual("000", response.response);
+            Assert.AreEqual("sandbox", response.location);
+        }
     }
 }

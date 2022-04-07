@@ -337,5 +337,58 @@ namespace Cnp.Sdk.Test.Functional
             var response = _cnp.CaptureGivenAuth(capturegivenauth);
             Assert.AreEqual("Approved", response.message);
         }
+
+        [Test]
+        public void SimpleCaptureGivenAuthWithRetailerAddressAndAdditionalCOFdata()///12.24
+        {
+            
+            var capturegivenauth = new captureGivenAuth
+            {
+                id = "1",
+                amount = 106,
+                orderId = "12344",
+                crypto = false,
+                authInformation = new authInformation
+                {
+                    authDate = new DateTime(2002, 10, 9),
+                    authCode = "543216",
+                    authAmount = 12345,
+                },
+                orderSource = orderSourceType.ecommerce,
+                card = new cardType
+                {
+                    type = methodOfPaymentTypeEnum.VI,
+                    number = "4100000000000000",
+                    expDate = "1210",
+                },
+                retailerAddress = new contact
+                {
+                    name = "Mikasa Ackerman",
+                    addressLine1 = "1st Main Street",
+                    city = "Burlington",
+                    state = "MA",
+                    country = countryTypeEnum.USA,
+                    email = "mikasa@cnp.com",
+                    zip = "01867-4456",
+                    sellerId = "s1234",
+                    url = "www.google.com"
+                },
+                additionalCOFData = new additionalCOFData()
+                {
+                    totalPaymentCount = "35",
+                    paymentType = paymentTypeEnum.Fixed_Amount,
+                    uniqueId = "12345wereew233",
+                    frequencyOfMIT = frequencyOfMITEnum.BiWeekly,
+                    validationReference = "re3298rhriw4wrw",
+                    sequenceIndicator = 2
+                },
+                processingType = processingType.accountFunding,
+                originalNetworkTransactionId = "abc123",
+                originalTransactionAmount = 123456789
+            };
+
+            var response = _cnp.CaptureGivenAuth(capturegivenauth);
+            Assert.AreEqual("Approved", response.message);
+        }
     }
 }
