@@ -206,5 +206,52 @@ namespace Cnp.Sdk.Test.Unit
             Assert.NotNull(response);
             Assert.AreEqual("sandbox", response.location);
         }
+
+        [Test]
+        public void TestSimpleCaptureGivenAuthWithRetailerAddressAndAdditionalCOFdata() ///new testcase 12.24
+        {
+            captureGivenAuth capture = new captureGivenAuth();
+            capture.orderId = "12344";
+            capture.amount = 2;
+            capture.orderSource = orderSourceType.ecommerce;
+            capture.reportGroup = "Planets";
+            capture.id = "thisisid";
+            capture.businessIndicator = businessIndicatorEnum.fundTransfer;
+            capture.crypto = false;
+
+            var retailerAddress = new contact();
+            retailerAddress.name = "Mikasa Ackerman";
+            retailerAddress.addressLine1 = "1st Main Street";
+            retailerAddress.city = "Burlington";
+            retailerAddress.state = "MA";
+            retailerAddress.country = countryTypeEnum.USA;
+            retailerAddress.email = "mikasa@cnp.com";
+            retailerAddress.zip = "01867-4456";
+            retailerAddress.sellerId = "s1234";
+            retailerAddress.url = "www.google.com";
+            capture.retailerAddress = retailerAddress;
+
+            var additionalCOFData = new additionalCOFData();
+            additionalCOFData.totalPaymentCount = "35";
+            additionalCOFData.paymentType = paymentTypeEnum.Fixed_Amount;
+            additionalCOFData.uniqueId = "12345wereew233";
+            additionalCOFData.frequencyOfMIT = frequencyOfMITEnum.BiWeekly;
+            additionalCOFData.validationReference = "re3298rhriw4wrw";
+            additionalCOFData.sequenceIndicator = 2;
+
+            capture.additionalCOFData = additionalCOFData;
+
+            var mock = new Mock<Communications>();
+
+            mock.Setup(Communications => Communications.HttpPost(It.IsRegex(".*<zip>01867-4456</zip>.*<email>mikasa@cnp.com</email>.*<sellerId>s1234</sellerId>.*<url>www.google.com</url>.*<frequencyOfMIT>BiWeekly</frequencyOfMIT>.*<crypto>false</crypto>.*", RegexOptions.Singleline)))
+                .Returns("<cnpOnlineResponse version='8.14' response='0' message='Valid Format' xmlns='http://www.vantivcnp.com/schema'><captureGivenAuthResponse><cnpTxnId>123</cnpTxnId><location>sandbox</location></captureGivenAuthResponse></cnpOnlineResponse>");
+
+            var mockedCommunication = mock.Object;
+            cnp.SetCommunication(mockedCommunication);
+            var response = cnp.CaptureGivenAuth(capture);
+
+            Assert.NotNull(response);
+            Assert.AreEqual("sandbox", response.location);
+        }
     }
 }
