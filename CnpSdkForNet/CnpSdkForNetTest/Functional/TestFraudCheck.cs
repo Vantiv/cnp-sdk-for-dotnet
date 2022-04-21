@@ -50,6 +50,50 @@ namespace Cnp.Sdk.Test.Functional
         }
 
         [Test]
+        public void TestFraudCheckWithWebSessionId()
+        {
+            var fraudCheck = new fraudCheck
+            {
+                id = "1",
+                reportGroup = "Planets",
+                advancedFraudChecks = new advancedFraudChecksType
+                {
+                    customAttribute1 = "fail",
+                    customAttribute2 = "60",
+                    customAttribute3 = "7",
+                    customAttribute4 = "jkl",
+                    customAttribute5 = "mno",
+                    webSessionId = "abc123"
+                },
+                billToAddress = new contact
+                {
+                    firstName = "Bob",
+                    lastName = "Bagels",
+                    addressLine1 = "37 Main Street",
+                    city = "Augusta",
+                    state = "Wisconsin",
+                    zip = "28209"
+                },
+                shipToAddress = new contact
+                {
+                    firstName = "P",
+                    lastName = "Sherman",
+                    addressLine1 = "42 Wallaby Way",
+                    city = "Sydney",
+                    state = "New South Wales",
+                    zip = "2127"
+                },
+                amount = 51699
+            };
+
+            var fraudCheckResponse = _cnp.FraudCheck(fraudCheck);
+            Assert.NotNull(fraudCheckResponse);
+            Assert.AreEqual("sandbox", fraudCheckResponse.location);
+            Assert.AreEqual("Approved", fraudCheckResponse.message);
+            Assert.AreEqual("fail", fraudCheckResponse.advancedFraudResults.deviceReviewStatus);
+        }
+
+        [Test]
         public void TestFraudCheckWithAddressAndAmount()
         {
             var fraudCheck = new fraudCheck
