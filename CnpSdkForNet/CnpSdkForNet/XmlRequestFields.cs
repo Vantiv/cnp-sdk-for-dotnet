@@ -5331,7 +5331,9 @@ namespace Cnp.Sdk
 
     public partial class advancedFraudChecksType
     {
+        [Obsolete("threatMetrixSessionId is deprecated, please use webSessionId instead.")]
         public string threatMetrixSessionId;
+        public string webSessionId;
         private string customAttribute1Field;
         private bool customAttribute1Set;
         public string customAttribute1
@@ -5372,6 +5374,7 @@ namespace Cnp.Sdk
         {
             var xml = "";
             if (threatMetrixSessionId != null) xml += "\r\n<threatMetrixSessionId>" + SecurityElement.Escape(threatMetrixSessionId) + "</threatMetrixSessionId>";
+            else if (webSessionId != null) xml += "\r\n<webSessionId>" + SecurityElement.Escape(webSessionId) + "</webSessionId>";
             if (customAttribute1Set) xml += "\r\n<customAttribute1>" + SecurityElement.Escape(customAttribute1Field) + "</customAttribute1>";
             if (customAttribute2Set) xml += "\r\n<customAttribute2>" + SecurityElement.Escape(customAttribute2Field) + "</customAttribute2>";
             if (customAttribute3Set) xml += "\r\n<customAttribute3>" + SecurityElement.Escape(customAttribute3Field) + "</customAttribute3>";

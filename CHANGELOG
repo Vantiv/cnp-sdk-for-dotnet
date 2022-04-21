@@ -1,6 +1,10 @@
 
 = Worldpay CNP CHANGELOG
 
+==Version 12.24.1 (April 21, 2022)
+* BugFix: Starting with CNP API v12.3, threatMetrixSessionId is deprecated. Use webSessionId instead. The use and structure is identical.
+
+
 ==Version 12.24.0 (April 18, 2022)
 Note: It contains changes from cnpAPI v12.23. In case you need any feature supported by cnpAPI v12.23, please use SDK version 12.24.0
 
