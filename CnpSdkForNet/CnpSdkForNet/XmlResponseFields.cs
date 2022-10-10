@@ -2152,6 +2152,8 @@ namespace Cnp.Sdk
 
         private pinlessDebitResponse pinlessDebitResponseField;
 
+        private authMax authMaxField;
+
         private string networkTransactionIdField;
 
         private string locationField;
@@ -2469,6 +2471,18 @@ namespace Cnp.Sdk
             set
             {
                 this.pinlessDebitResponseField = value;
+            }
+        }
+        //12.27
+        public authMax authMax
+        {
+            get
+            {
+                return this.authMaxField;
+            }
+            set
+            {
+                this.authMaxField = value;
             }
         }
 
@@ -4313,6 +4327,8 @@ namespace Cnp.Sdk
         
         private pinlessDebitResponse pinlessDebitResponseField;
 
+        private authMax authMaxField; //12.27
+
         private string paymentAccountReferenceNumberField;
 
         private string checkoutIdField; //12.24
@@ -4736,6 +4752,18 @@ namespace Cnp.Sdk
             }
         }
 
+        //12.27
+        public authMax authMax
+        {
+            get
+            {
+                return this.authMaxField;
+            }
+            set
+            {
+                this.authMaxField = value;
+            }
+        }
         public string paymentAccountReferenceNumber
         {
             get { return paymentAccountReferenceNumberField; }
@@ -11268,6 +11296,45 @@ namespace Cnp.Sdk
 	   }
 	}
 
+    }
+    //12.27
+    public partial class authMax
+    {
+        private bool authMaxAppliedField;
+        private bool networkTokenAppliedField;
+        private string networkTokenField;
+        private string authMaxResponseCodeField;
+        private string authMaxResponseMessageField;
+
+        public bool authMaxApplied
+        {
+            get { return this.authMaxAppliedField; }
+            set { this.authMaxAppliedField = value; }
+        }
+
+        public bool networkTokenApplied
+        {
+            get { return this.networkTokenAppliedField; }
+            set { this.networkTokenAppliedField = value; }
+        }
+
+        public string networkToken
+        {
+            get { return this.networkTokenField; }
+            set { this.networkTokenField = value; }
+        }
+
+        public string authMaxResponseCode
+        {
+            get { return this.authMaxResponseCodeField; }
+            set { this.authMaxResponseCodeField = value; }
+        }
+
+        public string authenticationMaxResponseMessage
+        {
+            get { return this.authMaxResponseMessageField; }
+            set { this.authMaxResponseMessageField = value; }
+        }
     }
 
     public partial class idealResponse
