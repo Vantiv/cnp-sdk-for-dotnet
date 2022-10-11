@@ -673,5 +673,36 @@ namespace Cnp.Sdk.Test.Functional
             var responseObj = _cnp.Sale(saleObj);
             StringAssert.AreEqualIgnoringCase("Approved", responseObj.message);
         }
+
+        [Test]
+        public void SimpleSaleWithOverridePolicy()///12.25
+        {
+            var saleObj = new sale
+            {
+                id = "1",
+                reportGroup = "Planets",
+                orderId = "12344",
+                amount = 106,
+                orderSource = orderSourceType.ecommerce,
+                crypto = false,
+                orderChannel = orderChannelEnum.PHONE,
+                fraudCheckStatus = "Not Approved",
+                card = new cardType
+                {
+                    type = methodOfPaymentTypeEnum.VI,
+                    number = "414100000000000000",
+                    expDate = "1210"
+                },
+                overridePolicy = "Override Policy",
+                fsErrorCode = "FS Error Code",
+                merchantAccountStatus = "Merchant Account Status",
+                productEnrolled = productEnrolledEnum.GUARPAY2,
+                decisionPurpose = decisionPurposeEnum.INFORMATION_ONLY,
+                fraudSwitchIndicator = fraudSwitchIndicatorEnum.PRE,
+                customBilling = new customBilling { phone = "1112223333" }
+            };
+            var responseObj = _cnp.Sale(saleObj);
+            StringAssert.AreEqualIgnoringCase("Approved", responseObj.message);
+        }
     }
 }
