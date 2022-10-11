@@ -234,5 +234,65 @@ namespace Cnp.Sdk.Test.Functional
             var response = _cnp.ForceCapture(forcecapture);
             Assert.AreEqual("Approved", response.message);
         }
+        [Test]
+        public void SimpleForceCaptureWithPassengerTransportData()///12.26
+        {
+            var forcecapture = new forceCapture
+            {
+                id = "1",
+                amount = 106,
+                orderId = "12344",
+                orderSource = orderSourceType.ecommerce,
+                processingType = processingType.accountFunding,
+                businessIndicator = businessIndicatorEnum.consumerBillPayment,
+                card = new cardType
+                {
+                    type = methodOfPaymentTypeEnum.VI,
+                    number = "4100000000000001",
+                    expDate = "1210"
+                },
+                merchantCategoryCode = "1111",
+                passengerTransportData = new passengerTransportData
+                {
+                    passengerName = "Pia Jaiswal",
+                    ticketNumber = "TR0001",
+                    issuingCarrier = "IC",
+                    carrierName = "Indigo",
+                    restrictedTicketIndicator = "TI2022",
+                    numberOfAdults = 1,
+                    numberOfChildren = 1,
+                    customerCode = "C2011583",
+                    arrivalDate = new System.DateTime(2022, 12, 31),
+                    issueDate = new System.DateTime(2022, 12, 25),
+                    travelAgencyCode = "TAC12345",
+                    travelAgencyName = "Yatra",
+                    computerizedReservationSystem = computerizedReservationSystemEnum.STRT,
+                    creditReasonIndicator = creditReasonIndicatorEnum.A,
+                    ticketChangeIndicator = ticketChangeIndicatorEnum.C,
+                    ticketIssuerAddress = "Hinjewadi",
+                    exchangeTicketNumber = "ETN12345",
+                    exchangeAmount = 12300,
+                    exchangeFeeAmount = 11000,
+                    tripLegData = new tripLegData
+                    {
+                        tripLegNumber = 12,
+                        departureCode = "DC",
+                        carrierCode = "CC",
+                        serviceClass = serviceClassEnum.First,
+                        stopOverCode = "N",
+                        destinationCode = "DC111",
+                        fareBasisCode = "FBC12345",
+                        departureDate = new System.DateTime(2023, 1, 31),
+                        originCity = "Pune",
+                        travelNumber = "TN111",
+                        departureTime = "13:05",
+                        arrivalTime = "16:10",
+                        remarks = "NA"
+                    }
+                }
+            };
+            var response = _cnp.ForceCapture(forcecapture);
+            Assert.AreEqual("Approved", response.message);
+        }
     }
 }

@@ -918,7 +918,7 @@ namespace Cnp.Sdk
             }
             if (passengerTransportData != null)//12.26
             {
-                xml += "\r\n<passengerTransportData>" + passengerTransportData + "</passengerTransportData>";
+                xml += "\r\n<passengerTransportData>" + passengerTransportData.Serialize() + "</passengerTransportData>";
             }
             xml += "\r\n</depositTransactionReversal>";
             return xml;
@@ -1039,7 +1039,7 @@ namespace Cnp.Sdk
             }
             if (passengerTransportData != null)//12.26
             {
-                xml += "\r\n<passengerTransportData>" + passengerTransportData + "</passengerTransportData>";
+                xml += "\r\n<passengerTransportData>" + passengerTransportData.Serialize() + "</passengerTransportData>";
             }
             xml += "\r\n</refundTransactionReversal>";
             return xml;

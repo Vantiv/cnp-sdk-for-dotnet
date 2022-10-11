@@ -432,5 +432,69 @@ namespace Cnp.Sdk.Test.Functional
             var response = _cnp.CaptureGivenAuth(capturegivenauth);
             Assert.AreEqual("Approved", response.message);
         }
+        [Test]
+        public void SimpleCaptureGivenAuthWithPassengerTransportData()///12.26
+        {
+            var capturegivenauth = new captureGivenAuth
+            {
+                id = "1",
+                amount = 106,
+                orderId = "12344",
+                crypto = false,
+                authInformation = new authInformation
+                {
+                    authDate = new DateTime(2002, 10, 9),
+                    authCode = "543216",
+                    authAmount = 12345,
+                },
+                orderSource = orderSourceType.ecommerce,
+                card = new cardType
+                {
+                    type = methodOfPaymentTypeEnum.VI,
+                    number = "4100000000000000",
+                    expDate = "1210",
+                },
+                passengerTransportData = new passengerTransportData
+                {
+                    passengerName = "Pia Jaiswal",
+                    ticketNumber = "TR0001",
+                    issuingCarrier = "IC",
+                    carrierName = "Indigo",
+                    restrictedTicketIndicator = "TI2022",
+                    numberOfAdults = 1,
+                    numberOfChildren = 1,
+                    customerCode = "C2011583",
+                    arrivalDate = new System.DateTime(2022, 12, 31),
+                    issueDate = new System.DateTime(2022, 12, 25),
+                    travelAgencyCode = "TAC12345",
+                    travelAgencyName = "Yatra",
+                    computerizedReservationSystem = computerizedReservationSystemEnum.STRT,
+                    creditReasonIndicator = creditReasonIndicatorEnum.A,
+                    ticketChangeIndicator = ticketChangeIndicatorEnum.C,
+                    ticketIssuerAddress = "Hinjewadi",
+                    exchangeTicketNumber = "ETN12345",
+                    exchangeAmount = 12300,
+                    exchangeFeeAmount = 11000,
+                    tripLegData = new tripLegData
+                    {
+                        tripLegNumber = 12,
+                        departureCode = "DC",
+                        carrierCode = "CC",
+                        serviceClass = serviceClassEnum.First,
+                        stopOverCode = "N",
+                        destinationCode = "DC111",
+                        fareBasisCode = "FBC12345",
+                        departureDate = new System.DateTime(2023, 1, 31),
+                        originCity = "Pune",
+                        travelNumber = "TN111",
+                        departureTime = "13:05",
+                        arrivalTime = "16:10",
+                        remarks = "NA"
+                    }
+                }
+            };
+            var response = _cnp.CaptureGivenAuth(capturegivenauth);
+            Assert.AreEqual("Approved", response.message);
+        }
     }
 }
