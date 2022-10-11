@@ -281,5 +281,41 @@ namespace Cnp.Sdk.Test.Functional
             var response = _cnp.Credit(creditObj);
             Assert.AreEqual("Approved", response.message);
         }
+        [Test]
+        public void SimpleCreditWithModifiedLodgingInfo()///12.25
+        {
+            var creditObj = new credit
+            {
+                id = "1",
+                reportGroup = "planets",
+                cnpTxnId = 123456000,
+                orderId = "2111",
+                pin = "1234",
+                card = new cardType
+                {
+                    type = methodOfPaymentTypeEnum.VI,
+                    number = "4100000000000001",
+                    expDate = "1210"
+                },
+                lodgingInfo = new lodgingInfo
+                {
+                    bookingID = "BID12345",
+                    passengerName = "Pia Jaiswal",
+                    propertyAddress = new propertyAddress
+                    {
+                        name = "Godrej",
+                        city = "Pune",
+                        region = "WES",
+                        country = countryTypeEnum.IN
+                    },
+                    travelPackageIndicator = travelPackageIndicatorEnum.AirlineReservation,
+                    smokingPreference = "N",
+                    numberOfRooms = 1,
+                    tollFreePhoneNumber = "1234567890"
+                }
+            };
+            var response = _cnp.Credit(creditObj);
+            Assert.AreEqual("Approved", response.message);
+        }
     }
 }

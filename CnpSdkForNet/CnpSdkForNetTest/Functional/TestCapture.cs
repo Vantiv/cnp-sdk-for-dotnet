@@ -174,5 +174,36 @@ namespace Cnp.Sdk.Test.Functional
             var response = _cnp.Capture(capture);
             Assert.AreEqual("Approved", response.message);
         }
+        [Test]
+        public void SimpleCaptureWithModifiedLodgingInfo()///12.25
+        {
+            var capture = new capture
+            {
+                id = "1",
+                cnpTxnId = 123456000,
+                orderId = "orderidmorethan25charactersareacceptednow",
+                amount = 106,
+                payPalNotes = "Notes",
+                pin = "1234",
+                lodgingInfo = new lodgingInfo
+                {
+                    bookingID = "BID12345",
+                    passengerName = "Pia Jaiswal",
+                    propertyAddress = new propertyAddress
+                    {
+                        name = "Godrej",
+                        city = "Pune",
+                        region = "WES",
+                        country = countryTypeEnum.IN
+                    },
+                    travelPackageIndicator = travelPackageIndicatorEnum.AirlineReservation,
+                    smokingPreference = "N",
+                    numberOfRooms = 1,
+                    tollFreePhoneNumber = "1234567890"
+                }
+            };
+            var response = _cnp.Capture(capture);
+            Assert.AreEqual("Approved", response.message);
+        }
     }
 }
