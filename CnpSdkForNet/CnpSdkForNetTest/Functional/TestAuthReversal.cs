@@ -99,5 +99,30 @@ namespace Cnp.Sdk.Test.Functional
             var response = _cnp.AuthReversalAsync(reversal, cancellationToken);
             Assert.AreEqual("000", response.Result.response);
         }
+        [Test]
+        public void SimpleAuthReversalWithAdditionalCOFdata()///12.26
+        {
+
+            var reversal = new authReversal
+            {
+                id = "1",
+                reportGroup = "Planets",
+                cnpTxnId = 12345678000L,
+                amount = 106,
+                
+                additionalCOFData = new additionalCOFData()
+                {
+                    totalPaymentCount = "35",
+                    paymentType = paymentTypeEnum.Fixed_Amount,
+                    uniqueId = "12345wereew233",
+                    frequencyOfMIT = frequencyOfMITEnum.BiWeekly,
+                    validationReference = "re3298rhriw4wrw",
+                    sequenceIndicator = 2
+                }
+            };
+
+            var response = _cnp.AuthReversal(reversal);
+            Assert.AreEqual("Approved", response.message);
+        }
     }
 }

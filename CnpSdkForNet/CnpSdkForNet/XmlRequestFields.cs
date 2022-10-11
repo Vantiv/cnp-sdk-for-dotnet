@@ -769,7 +769,7 @@ namespace Cnp.Sdk
         }
         public string payPalNotes;
         public string actionReason;
-        public additionalCOFData additionalCOFData;//12.27
+        public additionalCOFData additionalCOFData;//12.26
 
         public override string Serialize()
         {
@@ -794,7 +794,7 @@ namespace Cnp.Sdk
             {
                 xml += "\r\n<actionReason>" + SecurityElement.Escape(actionReason) + "</actionReason>";
             }
-            if (additionalCOFData != null)///12.27
+            if (additionalCOFData != null)///12.26
             {
                 xml += "\r\n<additionalCOFData>" + additionalCOFData.Serialize() + "\r\n</additionalCOFData>";
             }
@@ -870,7 +870,7 @@ namespace Cnp.Sdk
             set { lodgingInfoField = value; lodgingInfoIsSet = true; }
         }
 
-        public passengerTransportData passengerTransportData;//12.27
+        public passengerTransportData passengerTransportData;//12.26
 
         public override string Serialize()
         {
@@ -916,7 +916,7 @@ namespace Cnp.Sdk
             {
                 xml += this.processingInstructionsField.Serialize();
             }
-            if (passengerTransportData != null)//12.27
+            if (passengerTransportData != null)//12.26
             {
                 xml += "\r\n<passengerTransportData>" + passengerTransportData + "</passengerTransportData>";
             }
@@ -991,7 +991,7 @@ namespace Cnp.Sdk
             set { lodgingInfoField = value; lodgingInfoIsSet = true; }
         }
 
-        public passengerTransportData passengerTransportData;//12.27
+        public passengerTransportData passengerTransportData;//12.26
 
         public override string Serialize()
         {
@@ -1037,7 +1037,7 @@ namespace Cnp.Sdk
             {
                 xml += this.processingInstructionsField.Serialize();
             }
-            if (passengerTransportData != null)//12.27
+            if (passengerTransportData != null)//12.26
             {
                 xml += "\r\n<passengerTransportData>" + passengerTransportData + "</passengerTransportData>";
             }
@@ -1292,7 +1292,7 @@ namespace Cnp.Sdk
         }
         ///end
         public string merchantCategoryCode;
-        public passengerTransportData passengerTransportData; //12.27
+        public passengerTransportData passengerTransportData; //12.26
         public override string Serialize()
         {
             var xml = "\r\n<captureGivenAuth";
@@ -1511,11 +1511,10 @@ namespace Cnp.Sdk
             get { return surchargeAmountField; }
             set { surchargeAmountField = value; surchargeAmountSet = true; }
         }
+        public additionalCOFData additionalCOFData;///12.26
         public customBilling customBilling;
         public enhancedData enhancedData;
         public lodgingInfo lodgingInfo;
-        public additionalCOFData additionalCOFData;///12.27
-        public passengerTransportData passengerTransportData;//12.27
         public processingInstructions processingInstructions;
         public string orderId;
         public orderSourceType orderSource;
@@ -1553,6 +1552,7 @@ namespace Cnp.Sdk
             get { return pinField; }
             set { pinField = value; pinSet = true; }
         }
+        public passengerTransportData passengerTransportData;//12.26
         public amexAggregatorData amexAggregatorData;
         public merchantDataType merchantData;
         public string merchantCategoryCode;
@@ -1577,7 +1577,7 @@ namespace Cnp.Sdk
                 if (amountSet) xml += "\r\n<amount>" + amountField + "</amount>";
                 if (secondaryAmountSet) xml += "\r\n<secondaryAmount>" + secondaryAmountField + "</secondaryAmount>";
                 if (surchargeAmountSet) xml += "\r\n<surchargeAmount>" + surchargeAmountField + "</surchargeAmount>";
-                if (additionalCOFData != null)///12.27
+                if (additionalCOFData != null)///12.26
                 {
                     xml += "\r\n<additionalCOFData>" + additionalCOFData.Serialize() + "\r\n</additionalCOFData>";
                 }
@@ -1587,7 +1587,7 @@ namespace Cnp.Sdk
                 if (processingInstructions != null) xml += "\r\n<processingInstructions>" + processingInstructions.Serialize() + "</processingInstructions>";
                 if (pos != null) xml += "\r\n<pos>" + pos.Serialize() + "</pos>";
                 if (pinSet) xml += "\r\n<pin>" + pinField + "</pin>";
-                if (passengerTransportData != null)///12.27
+                if (passengerTransportData != null)///12.26
                 {
                     xml += "\r\n<passengerTransportData>" + passengerTransportData.Serialize() + "\r\n</passengerTransportData>";
                 }

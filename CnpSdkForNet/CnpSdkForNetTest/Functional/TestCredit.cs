@@ -317,5 +317,96 @@ namespace Cnp.Sdk.Test.Functional
             var response = _cnp.Credit(creditObj);
             Assert.AreEqual("Approved", response.message);
         }
+        [Test]
+        public void SimpleCreditWithAdditionalCOFdata()///12.26
+        {
+
+            var creditObj = new credit
+            {
+                id = "1",
+                reportGroup = "planets",
+                cnpTxnId = 123456000,
+                orderId = "2111",
+                pin = "1234",
+                card = new cardType
+                {
+                    type = methodOfPaymentTypeEnum.VI,
+                    number = "4100000000000001",
+                    expDate = "1210"
+                },
+                additionalCOFData = new additionalCOFData()
+                {
+                    totalPaymentCount = "35",
+                    paymentType = paymentTypeEnum.Fixed_Amount,
+                    uniqueId = "12345wereew233",
+                    frequencyOfMIT = frequencyOfMITEnum.BiWeekly,
+                    validationReference = "re3298rhriw4wrw",
+                    sequenceIndicator = 2
+                }
+            };
+
+            var response = _cnp.Credit(creditObj);
+            Assert.AreEqual("Approved", response.message);
+        }
+
+        [Test]
+        public void SimpleCreditWithPassengerTransportData() //12.26
+        {
+            var creditObj = new credit
+            {
+                id = "1",
+                reportGroup = "Planets",
+                orderId = "12344",
+                amount = 106,
+                orderSource = orderSourceType.ecommerce,
+                card = new cardType
+                {
+                    type = methodOfPaymentTypeEnum.VI,
+                    number = "414100000000000000",
+                    expDate = "1210"
+                },
+                customBilling = new customBilling { phone = "1112223333" },
+                passengerTransportData= new passengerTransportData
+                {
+                    passengerName = "Pia Jaiswal",
+                    ticketNumber = "TR0001",
+                    issuingCarrier = "IC",
+                    carrierName = "Indigo",
+                    restrictedTicketIndicator = "TI2022",
+                    numberOfAdults = 1,
+                    numberOfChildren = 1,
+                    customerCode = "C2011583",
+                    arrivalDate = new System.DateTime(2022, 12, 31),
+                    issueDate = new System.DateTime(2022, 12, 25),
+                    travelAgencyCode = "TAC12345",
+                    travelAgencyName = "Yatra",
+                    computerizedReservationSystem = computerizedReservationSystemEnum.STRT,
+                    creditReasonIndicator = creditReasonIndicatorEnum.A,
+                    ticketChangeIndicator = ticketChangeIndicatorEnum.C,
+                    ticketIssuerAddress = "Hinjewadi",
+                    exchangeTicketNumber = "ETN12345",
+                    exchangeAmount = 12300,
+                    exchangeFeeAmount = 11000,
+                    tripLegData = new tripLegData
+                    {
+                        tripLegNumber = 12,
+                        departureCode = "DC",
+                        carrierCode = "CC",
+                        serviceClass = serviceClassEnum.First,
+                        stopOverCode = "N",
+                        destinationCode = "DC111",
+                        fareBasisCode = "FBC12345",
+                        departureDate = new System.DateTime(2023, 1,31),
+                        originCity = "Pune",
+                        travelNumber = "TN111",
+                        departureTime = "13:05",
+                        arrivalTime = "16:10",
+                        remarks = "NA"
+                    }
+                }
+            };
+            var response = _cnp.Credit(creditObj);
+            Assert.AreEqual("Approved", response.message);
+        }
     }
 }

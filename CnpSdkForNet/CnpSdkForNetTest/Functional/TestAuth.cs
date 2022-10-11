@@ -988,5 +988,69 @@ namespace Cnp.Sdk.Test.Functional
             Assert.AreEqual("000", response.response);
             Assert.AreEqual("sandbox", response.location);
         }
+     
+        [Test]
+        public void SimpleAuthWithPassengerTransportData()
+        {
+            var authorization = new authorization
+            {
+                id = "1",
+                reportGroup = "Planets",
+                orderId = "12344",
+                amount = 106,
+                orderSource = orderSourceType.ecommerce,
+                card = new cardType
+                {
+                    type = methodOfPaymentTypeEnum.VI,
+                    number = "414100000000000000",
+                    expDate = "1210"
+                },
+                customBilling = new customBilling { phone = "1112223333" },
+                passengerTransportData= new passengerTransportData
+                {
+                    passengerName = "Pia Jaiswal",
+                    ticketNumber = "TR0001",
+                    issuingCarrier = "IC",
+                    carrierName = "Indigo",
+                    restrictedTicketIndicator = "TI2022",
+                    numberOfAdults = 1,
+                    numberOfChildren = 1,
+                    customerCode = "C2011583",
+                    arrivalDate = new DateTime(2022, 12, 31),
+                    issueDate = new DateTime(2022, 12, 25),
+                    travelAgencyCode = "TAC12345",
+                    travelAgencyName = "Yatra",
+                    computerizedReservationSystem = computerizedReservationSystemEnum.STRT,
+                    creditReasonIndicator = creditReasonIndicatorEnum.A,
+                    ticketChangeIndicator = ticketChangeIndicatorEnum.C,
+                    ticketIssuerAddress = "Hinjewadi",
+                    exchangeTicketNumber = "ETN12345",
+                    exchangeAmount = 12300,
+                    exchangeFeeAmount = 11000,
+                    tripLegData = new tripLegData
+                    {
+                        tripLegNumber = 12,
+                        departureCode = "DC",
+                        carrierCode = "CC",
+                        serviceClass = serviceClassEnum.First,
+                        stopOverCode = "N",
+                        destinationCode = "DC111",
+                        fareBasisCode = "FBC12345",
+                        departureDate = new DateTime(2023, 1,31),
+                        originCity = "Pune",
+                        travelNumber = "TN111",
+                        departureTime = "13:05",
+                        arrivalTime = "16:10",
+                        remarks = "NA"
+                    }
+                }
+            };
+            var response = _cnp.Authorize(authorization);
+
+            DateTime checkDate = new DateTime(0001, 1, 1, 00, 00, 00);
+
+            Assert.AreEqual("000", response.response);
+            Assert.AreEqual(checkDate, response.postDate);
+        }
     }
 }
