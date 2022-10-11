@@ -5175,6 +5175,14 @@ namespace Cnp.Sdk
                 fireSafetyIndicatorSet = true;
             }
         }
+
+        public List<lodgingCharge> lodgingCharges;
+        public lodgingInfo()
+        {
+
+            lodgingCharges = new List<lodgingCharge>();
+
+        }
         // 12.25 start
         private string bookingIDField;
         private bool bookingIDSet;
@@ -5204,6 +5212,7 @@ namespace Cnp.Sdk
                 passengerNameSet = true;
             }
         }
+        public propertyAddress propertyAddress;
         private travelPackageIndicatorEnum travelPackageIndicatorField;
         private bool travelPackageIndicatorSet;
         public travelPackageIndicatorEnum travelPackageIndicator
@@ -5218,6 +5227,28 @@ namespace Cnp.Sdk
                 travelPackageIndicatorSet = true;
             }
         }
+        private string smokingPreferenceField;
+        private bool smokingPreferenceSet;
+        public string smokingPreference
+        {
+            get
+            {
+                return smokingPreferenceField;
+            }
+            set
+            {
+                smokingPreferenceField = value;
+                smokingPreferenceSet = true;
+            }
+        }
+        private int numberOfRoomsField;
+        private bool numberOfRoomsSet;
+        public int numberOfRooms
+        {
+            get { return numberOfRoomsField; }
+            set { numberOfRoomsField = value; numberOfRoomsSet = true; }
+        }
+
         private string tollFreePhoneNumberField;
         private bool tollFreePhoneNumberSet;
         public string tollFreePhoneNumber
@@ -5232,32 +5263,16 @@ namespace Cnp.Sdk
                 tollFreePhoneNumberSet = true;
             }
         }
-        private string smokingPreferenceField;
-        private bool smokingPreferenceSet;
-        public string smokingPreference
-        {
-            get { return smokingPreferenceField; }
-            set { smokingPreferenceField = value; smokingPreferenceSet = true;  }
-        }
-        private int numberOfRoomsField;
-        private bool numberOfRoomsSet;
-        public int numberOfRooms
-        {
-            get { return numberOfRoomsField; }
-            set { numberOfRoomsField = value; numberOfRoomsSet = true; }
-        }
-        public propertyAddress propertyAddress;
+        //12.25 and 12.27 end
 
-        //12.27 end
+        
 
-        public List<lodgingCharge> lodgingCharges;
-
-        public lodgingInfo()
+       /* public lodgingInfo()
         {
 
             lodgingCharges = new List<lodgingCharge>();
 
-        }
+        }*/
 
         public string Serialize()
         {
@@ -5274,21 +5289,20 @@ namespace Cnp.Sdk
             if (sequenceIndicatorSet) xml += "\r\n<sequenceIndicator>" + sequenceIndicatorField + "</sequenceIndicator>";///12.24
             if (propertyLocalPhone != null) xml += "\r\n<propertyLocalPhone>" + propertyLocalPhone + "</propertyLocalPhone>";
             if (fireSafetyIndicatorSet) xml += "\r\n<fireSafetyIndicator>" + fireSafetyIndicatorField + "</fireSafetyIndicator>";
-            if (bookingIDSet) xml += "\r\n<bookingID>" + bookingIDField + "</bookingID>";
-            if (passengerNameSet) xml += "\r\n<passengerName>" + passengerNameField + "</passengerName>";
-            if (travelPackageIndicatorSet) xml += "\r\n<travelPackageIndicator>" + travelPackageIndicatorField + "</travelPackageIndicator>";
-            if (tollFreePhoneNumberSet) xml += "\r\n<tollFreePhoneNumber>" + tollFreePhoneNumberField + "</tollFreePhoneNumber>";
-            if (smokingPreferenceSet) xml += "\r\n<smokingPreference>" + smokingPreferenceField + "</smokingPreference>";
-            if (numberOfRoomsSet) xml += "\r\n<numberOfRooms>" + numberOfRoomsField + "</numberOfRooms>";
-            if (propertyAddress != null)
-            {
-                xml += "\r\n<propertyAddress>" + propertyAddress.Serialize() + "\r\n</propertyAddress>";
-            }
             foreach (var lodgingCharge in lodgingCharges)
             {
                 xml += "\r\n<lodgingCharge>" + lodgingCharge.Serialize() + "</lodgingCharge>";
             }
-
+            if (bookingIDSet) xml += "\r\n<bookingID>" + bookingIDField + "</bookingID>";
+            if (passengerNameSet) xml += "\r\n<passengerName>" + passengerNameField + "</passengerName>";
+            if (propertyAddress != null)
+            {
+                xml += "\r\n<propertyAddress>" + propertyAddress.Serialize() + "\r\n</propertyAddress>";
+            }
+            if (travelPackageIndicatorSet) xml += "\r\n<travelPackageIndicator>" + travelPackageIndicatorField + "</travelPackageIndicator>";
+            if (smokingPreferenceSet) xml += "\r\n<smokingPreference>" + smokingPreferenceField + "</smokingPreference>";
+            if (numberOfRoomsSet) xml += "\r\n<numberOfRooms>" + numberOfRoomsField + "</numberOfRooms>";
+            if (tollFreePhoneNumberSet) xml += "\r\n<tollFreePhoneNumber>" + tollFreePhoneNumberField + "</tollFreePhoneNumber>";
             return xml;
         }
     }

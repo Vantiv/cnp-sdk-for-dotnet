@@ -912,5 +912,81 @@ namespace Cnp.Sdk.Test.Functional
             Assert.AreEqual("000", response.response);
             Assert.AreEqual("sandbox", response.location);
         }
+
+        [Test]
+        public void SimpleAuthWithOverridePolicy()///12.25
+        {
+            var authorization = new authorization
+            {
+                id = "1",
+                reportGroup = "Planets",
+                orderId = "12344",
+                amount = 106,
+                orderSource = orderSourceType.ecommerce,
+                crypto = false,
+                orderChannel = orderChannelEnum.PHONE,
+                fraudCheckStatus = "Not Approved",
+                card = new cardType
+                {
+                    type = methodOfPaymentTypeEnum.VI,
+                    number = "414100000000000000",
+                    expDate = "1210"
+                },
+                overridePolicy = "Override Policy",
+                fsErrorCode = "FS Error Code",
+                merchantAccountStatus = "Merchant Account Status",
+                productEnrolled = productEnrolledEnum.GUARPAY2,
+                decisionPurpose = decisionPurposeEnum.INFORMATION_ONLY,
+                fraudSwitchIndicator = fraudSwitchIndicatorEnum.PRE,
+                customBilling = new customBilling { phone = "1112223333" }
+            };
+            var response = _cnp.Authorize(authorization);
+
+            Assert.AreEqual("000", response.response);
+            Assert.AreEqual("sandbox", response.location);
+        }
+
+        [Test]
+        public void SimpleAuthWithModifiedLodgingInfo()///12.25
+        {
+            var authorization = new authorization
+            {
+                id = "1",
+                reportGroup = "Planets",
+                orderId = "12344",
+                amount = 106,
+                orderSource = orderSourceType.ecommerce,
+                crypto = false,
+                orderChannel = orderChannelEnum.PHONE,
+                fraudCheckStatus = "Not Approved",
+                card = new cardType
+                {
+                    type = methodOfPaymentTypeEnum.VI,
+                    number = "414100000000000000",
+                    expDate = "1210"
+                },
+                lodgingInfo = new lodgingInfo
+                {
+                    bookingID = "BID12345",
+                    passengerName = "Pia Jaiswal",
+                    propertyAddress = new propertyAddress
+                    {
+                        name = "Godrej",
+                        city = "Pune",
+                        region = "WES",
+                        country = countryTypeEnum.IN
+                    },
+                    travelPackageIndicator = travelPackageIndicatorEnum.AirlineReservation,
+                    smokingPreference = "N",
+                    numberOfRooms = 1,
+                    tollFreePhoneNumber = "1234567890"
+                },
+                customBilling = new customBilling { phone = "1112223333" }
+            };
+            var response = _cnp.Authorize(authorization);
+
+            Assert.AreEqual("000", response.response);
+            Assert.AreEqual("sandbox", response.location);
+        }
     }
 }

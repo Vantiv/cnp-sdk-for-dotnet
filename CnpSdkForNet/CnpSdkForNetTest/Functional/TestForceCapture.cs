@@ -196,6 +196,43 @@ namespace Cnp.Sdk.Test.Functional
             var response = _cnp.ForceCapture(forcecapture);
             Assert.AreEqual("Approved", response.message);
         }
-
+        [Test]
+        public void SimpleForceCaptureWithModifiedLodgingInfo()///12.25
+        {
+            var forcecapture = new forceCapture
+            {
+                id = "1",
+                amount = 106,
+                orderId = "12344",
+                orderSource = orderSourceType.ecommerce,
+                processingType = processingType.accountFunding,
+                businessIndicator = businessIndicatorEnum.consumerBillPayment,
+                card = new cardType
+                {
+                    type = methodOfPaymentTypeEnum.VI,
+                    number = "4100000000000001",
+                    expDate = "1210"
+                },
+                merchantCategoryCode = "1111",
+                lodgingInfo = new lodgingInfo
+                {
+                    bookingID = "BID12345",
+                    passengerName = "Pia Jaiswal",
+                    propertyAddress = new propertyAddress
+                    {
+                        name = "Godrej",
+                        city = "Pune",
+                        region = "WES",
+                        country = countryTypeEnum.IN
+                    },
+                    travelPackageIndicator = travelPackageIndicatorEnum.AirlineReservation,
+                    smokingPreference = "N",
+                    numberOfRooms = 1,
+                    tollFreePhoneNumber = "1234567890"
+                }
+            };
+            var response = _cnp.ForceCapture(forcecapture);
+            Assert.AreEqual("Approved", response.message);
+        }
     }
 }

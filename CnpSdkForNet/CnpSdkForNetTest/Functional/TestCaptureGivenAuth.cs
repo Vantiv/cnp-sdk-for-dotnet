@@ -390,5 +390,47 @@ namespace Cnp.Sdk.Test.Functional
             var response = _cnp.CaptureGivenAuth(capturegivenauth);
             Assert.AreEqual("Approved", response.message);
         }
+        [Test]
+        public void SimpleCaptureGivenAuthWithModifiedLodgingInfo()///12.25
+        {
+            var capturegivenauth = new captureGivenAuth
+            {
+                id = "1",
+                amount = 106,
+                orderId = "12344",
+                crypto = false,
+                authInformation = new authInformation
+                {
+                    authDate = new DateTime(2002, 10, 9),
+                    authCode = "543216",
+                    authAmount = 12345,
+                },
+                orderSource = orderSourceType.ecommerce,
+                card = new cardType
+                {
+                    type = methodOfPaymentTypeEnum.VI,
+                    number = "4100000000000000",
+                    expDate = "1210",
+                },
+                lodgingInfo = new lodgingInfo
+                {
+                    bookingID = "BID12345",
+                    passengerName = "Pia Jaiswal",
+                    propertyAddress = new propertyAddress
+                    {
+                        name = "Godrej",
+                        city = "Pune",
+                        region = "WES",
+                        country = countryTypeEnum.IN
+                    },
+                    travelPackageIndicator = travelPackageIndicatorEnum.AirlineReservation,
+                    smokingPreference = "N",
+                    numberOfRooms = 1,
+                    tollFreePhoneNumber = "1234567890"
+                }
+            };
+            var response = _cnp.CaptureGivenAuth(capturegivenauth);
+            Assert.AreEqual("Approved", response.message);
+        }
     }
 }
