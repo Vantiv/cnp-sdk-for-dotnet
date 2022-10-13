@@ -796,5 +796,44 @@ namespace Cnp.Sdk.Test.Functional
             var responseObj = _cnp.Sale(saleObj);
             StringAssert.AreEqualIgnoringCase("Approved", responseObj.message);
         }
+        [Test]
+        public void SimpleSaleWithAuthMaxApplied() //12.27
+        {
+            var saleObj = new sale
+            {
+                id = "1",
+                amount = 106,
+                cnpTxnId = 123456,
+                orderId = "1234401",
+                orderSource = orderSourceType.ecommerce,
+                sofort = new sofortType
+                {
+                    preferredLanguage = countryTypeEnum.US
+                }
+            };
+            var responseObj = _cnp.Sale(saleObj);
+            Assert.AreEqual("000", responseObj.authMax.authMaxResponseCode);
+            Assert.AreEqual(true, responseObj.authMax.authMaxApplied);
+            StringAssert.AreEqualIgnoringCase("Approved", responseObj.message);
+        }
+        [Test]
+        public void SimpleSaleWithAuthMaxNotApplied() //12.27
+        {
+            var saleObj = new sale
+            {
+                id = "1",
+                amount = 106,
+                cnpTxnId = 123456,
+                orderId = "1234402",
+                orderSource = orderSourceType.ecommerce,
+                sofort = new sofortType
+                {
+                    preferredLanguage = countryTypeEnum.US
+                }
+            };
+            var responseObj = _cnp.Sale(saleObj);
+            Assert.AreEqual(false, responseObj.authMax.authMaxApplied);
+            StringAssert.AreEqualIgnoringCase("Approved", responseObj.message);
+        }
     }
 }
