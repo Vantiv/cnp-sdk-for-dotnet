@@ -1080,6 +1080,43 @@ namespace Cnp.Sdk.Test.Functional
             Assert.AreEqual(true, response.authMax.authMaxApplied);
             Assert.AreEqual(checkDate, response.postDate);
         }
+        [Test]
+        public void SimpleAuthWithTxnIdAuthMaxApplied() //12.27
+        {
+            var authorization = new authorization
+            {
+                id = "1",
+                reportGroup = "Planets",
+                cnpTxnId = 10000401   
+               
+            };
+            var response = _cnp.Authorize(authorization);
+
+            DateTime checkDate = new DateTime(0001, 1, 1, 00, 00, 00);
+
+            Assert.AreEqual("000", response.response);
+            Assert.AreEqual("000", response.authMax.authMaxResponseCode);
+            Assert.AreEqual(true, response.authMax.authMaxApplied);
+            Assert.AreEqual(checkDate, response.postDate);
+        }
+        [Test]
+        public void SimpleAuthWithTxnIdAuthMaxAppliedFalse() //12.27
+        {
+            var authorization = new authorization
+            {
+                id = "1",
+                reportGroup = "Planets",
+                cnpTxnId = 10000402
+
+            };
+            var response = _cnp.Authorize(authorization);
+
+            DateTime checkDate = new DateTime(0001, 1, 1, 00, 00, 00);
+
+            Assert.AreEqual("000", response.response);
+            Assert.AreEqual(false, response.authMax.authMaxApplied);
+            Assert.AreEqual(checkDate, response.postDate);
+        }
 
         [Test]
         public void SimpleAuthWithAuthMaxNotApplied() //12.27
