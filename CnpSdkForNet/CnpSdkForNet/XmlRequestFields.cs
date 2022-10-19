@@ -6300,52 +6300,6 @@ namespace Cnp.Sdk
         }
     }
 
-    /*public partial class authMax
-    {
-        private bool authMaxAppliedField;
-        private bool authMaxAppliedSet;
-        public bool authMaxApplied
-        {
-            get
-            {
-                return authMaxAppliedField;
-            }
-            set
-            {
-                authMaxAppliedField = value;
-                authMaxAppliedSet = true;
-            }
-        }
-        private bool networkTokenAppliedField;
-        private bool networkTokenAppliedSet;
-        public bool networkTokenApplied
-        {
-            get
-            {
-                return networkTokenAppliedField;
-            }
-            set
-            {
-                networkTokenAppliedField = value;
-                networkTokenAppliedSet = true;
-            }
-        }
-        public string networkToken;
-        public string authMaxResponseCode;
-        public string authMaxResponseMessage;
-        public string Serialize()
-        {
-            var xml = "";
-            if (authMaxAppliedSet) xml += "\r\n<authMaxApplied>" + authMaxAppliedField.ToString().ToLower() + "</authMaxApplied>";
-            if (networkTokenAppliedSet) xml += "\r\n<networkTokenApplied>" + networkTokenAppliedField.ToString().ToLower() + "</networkTokenApplied>";
-            if (networkToken != null) xml += "\r\n<networkToken>" + SecurityElement.Escape(networkToken) + "</networkToken>";
-            if (authMaxResponseCode != null) xml += "\r\n<authMaxResponseCode>" + SecurityElement.Escape(authMaxResponseCode) + "</authMaxResponseCode>";
-            if (authMaxResponseMessage != null) xml += "\r\n<authMaxResponseMessage>" + SecurityElement.Escape(authMaxResponseMessage) + "</authMaxResponseMessage>";
-            return xml;
-        }
-    }*/
-    //12.27 end
-
     public partial class pinlessDebitRequestType
     {
 
