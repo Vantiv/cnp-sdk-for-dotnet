@@ -446,7 +446,7 @@ namespace Cnp.Sdk
             }
         }
         ///end
-        //12.25 start
+        //12.25 and 12.26 start
         private string overridePolicyField;
         private bool overridePolicySet;
         public string overridePolicy
@@ -530,7 +530,7 @@ namespace Cnp.Sdk
             }
         }
         public passengerTransportData passengerTransportData;
-        //12.25 end
+        //12.25 and 12.26 end
         public bool? skipRealtimeAU;
 
         public string merchantCategoryCode;
@@ -1130,7 +1130,7 @@ namespace Cnp.Sdk
         public customBilling customBilling;
         public lodgingInfo lodgingInfo;
         public string pin;
-        public passengerTransportData passengerTransportData;
+        public passengerTransportData passengerTransportData;//12.26
 
         public override string Serialize()
         {
@@ -1160,7 +1160,7 @@ namespace Cnp.Sdk
                 xml += "\r\n<lodgingInfo>" + lodgingInfo.Serialize() + "\r\n</lodgingInfo>";
             }
             if (pin != null) xml += "\r\n<pin>" + pin + "</pin>";
-            if(passengerTransportData != null)
+            if(passengerTransportData != null)//12.26
             {
                 xml += "\r\n<passengerTransportData>" + passengerTransportData.Serialize() + "\r\n</passengerTransportData>";
             }
@@ -1405,7 +1405,7 @@ namespace Cnp.Sdk
             {
                 xml += "\r\n<businessIndicator>" + businessIndicatorField + "</businessIndicator>";
             }
-            if (passengerTransportData != null)
+            if (passengerTransportData != null)//12.26
             {
                 xml += "\r\n<passengerTransportData>" + passengerTransportData.Serialize() + "\r\n</passengerTransportData>";
             }
@@ -1600,7 +1600,7 @@ namespace Cnp.Sdk
                 if (surchargeAmountSet) xml += "\r\n<surchargeAmount>" + surchargeAmountField + "</surchargeAmount>";
                 if (orderSource != null) xml += "\r\n<orderSource>" + orderSource.Serialize() + "</orderSource>";
                 if (billToAddress != null) xml += "\r\n<billToAddress>" + billToAddress.Serialize() + "</billToAddress>";
-                if (additionalCOFData != null)///12.27
+                if (additionalCOFData != null)///12.26
                 {
                     xml += "\r\n<additionalCOFData>" + additionalCOFData.Serialize() + "\r\n</additionalCOFData>";
                 }
@@ -1629,7 +1629,7 @@ namespace Cnp.Sdk
                 {
                     xml += "\r\n<merchantCategoryCode>" + merchantCategoryCode + "</merchantCategoryCode>";
                 }
-                if (passengerTransportData != null)///12.27
+                if (passengerTransportData != null)///12.26
                 {
                     xml += "\r\n<passengerTransportData>" + passengerTransportData.Serialize() + "\r\n</passengerTransportData>";
                 }
@@ -2093,7 +2093,7 @@ namespace Cnp.Sdk
         }
 
         public string merchantCategoryCode;
-        public passengerTransportData passengerTransportData;
+        public passengerTransportData passengerTransportData;//12.26
         public override string Serialize()
         {
             var xml = "\r\n<forceCapture";
@@ -2182,7 +2182,7 @@ namespace Cnp.Sdk
             {
                 xml += "\r\n<businessIndicator>" + businessIndicatorField + "</businessIndicator>";
             }
-            if (passengerTransportData != null)
+            if (passengerTransportData != null)//12.26
             {
                 xml += "\r\n<passengerTransportData>" + passengerTransportData.Serialize() + "</passengerTransportData>";
             }
@@ -3101,7 +3101,7 @@ namespace Cnp.Sdk
             {
                 xml += "\r\n<fraudSwitchIndicator>" + fraudSwitchIndicatorField + "</fraudSwitchIndicator>";
             }
-            if (passengerTransportData != null)
+            if (passengerTransportData != null)//12.26
             {
                 xml += "\r\n<passengerTransportData>" + passengerTransportData.Serialize() + "\r\n</passengerTransportData>";
             }
@@ -5263,7 +5263,7 @@ namespace Cnp.Sdk
                 tollFreePhoneNumberSet = true;
             }
         }
-        //12.25 and 12.27 end
+        //12.25 end
 
         
 
@@ -6089,7 +6089,7 @@ namespace Cnp.Sdk
             return xml;
         }
     }
-    ///new 12.27
+    ///new 12.26
     public partial class passengerTransportData
     {
         public string passengerName;
@@ -6273,8 +6273,8 @@ namespace Cnp.Sdk
         public DateTime departureDate;
         public string originCity;
         public string travelNumber;
-        public string departureTime;//to check
-        public string arrivalTime;//to check
+        public string departureTime;
+        public string arrivalTime;
         public string remarks;
 
         public string Serialize()
