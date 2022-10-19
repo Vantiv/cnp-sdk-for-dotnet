@@ -174,5 +174,87 @@ namespace Cnp.Sdk.Test.Functional
             var response = _cnp.Capture(capture);
             Assert.AreEqual("Approved", response.message);
         }
+        [Test]
+        public void SimpleCaptureWithModifiedLodgingInfo()///12.25
+        {
+            var capture = new capture
+            {
+                id = "1",
+                cnpTxnId = 123456000,
+                orderId = "orderidmorethan25charactersareacceptednow",
+                amount = 106,
+                payPalNotes = "Notes",
+                pin = "1234",
+                lodgingInfo = new lodgingInfo
+                {
+                    bookingID = "BID12345",
+                    passengerName = "Pia Jaiswal",
+                    propertyAddress = new propertyAddress
+                    {
+                        name = "Godrej",
+                        city = "Pune",
+                        region = "WES",
+                        country = countryTypeEnum.IN
+                    },
+                    travelPackageIndicator = travelPackageIndicatorEnum.AirlineReservation,
+                    smokingPreference = "N",
+                    numberOfRooms = 1,
+                    tollFreePhoneNumber = "1234567890"
+                }
+            };
+            var response = _cnp.Capture(capture);
+            Assert.AreEqual("Approved", response.message);
+        }
+        [Test]
+        public void SimpleCaptureWithPassengerTransportData()///12.26
+        {
+            var capture = new capture
+            {
+                id = "1",
+                cnpTxnId = 123456000,
+                orderId = "orderidmorethan25charactersareacceptednow",
+                amount = 106,
+                passengerTransportData = new passengerTransportData
+                {
+                    passengerName = "Pia Jaiswal",
+                    ticketNumber = "TR0001",
+                    issuingCarrier = "IC",
+                    carrierName = "Indigo",
+                    restrictedTicketIndicator = "TI2022",
+                    numberOfAdults = 1,
+                    numberOfChildren = 1,
+                    customerCode = "C2011583",
+                    arrivalDate = new System.DateTime(2022, 12, 31),
+                    issueDate = new System.DateTime(2022, 12, 25),
+                    travelAgencyCode = "TAC12345",
+                    travelAgencyName = "Yatra",
+                    computerizedReservationSystem = computerizedReservationSystemEnum.STRT,
+                    creditReasonIndicator = creditReasonIndicatorEnum.A,
+                    ticketChangeIndicator = ticketChangeIndicatorEnum.C,
+                    ticketIssuerAddress = "Hinjewadi",
+                    exchangeTicketNumber = "ETN12345",
+                    exchangeAmount = 12300,
+                    exchangeFeeAmount = 11000,
+                    tripLegData = new tripLegData
+                    {
+                        tripLegNumber = 12,
+                        departureCode = "DC",
+                        carrierCode = "CC",
+                        serviceClass = serviceClassEnum.First,
+                        stopOverCode = "N",
+                        destinationCode = "DC111",
+                        fareBasisCode = "FBC12345",
+                        departureDate = new System.DateTime(2023, 1, 31),
+                        originCity = "Pune",
+                        travelNumber = "TN111",
+                        departureTime = "13:05",
+                        arrivalTime = "16:10",
+                        remarks = "NA"
+                    }
+                }
+            };
+            var response = _cnp.Capture(capture);
+            Assert.AreEqual("Approved", response.message);
+        }
     }
 }

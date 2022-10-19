@@ -446,7 +446,91 @@ namespace Cnp.Sdk
             }
         }
         ///end
-
+        //12.25 and 12.26 start
+        private string overridePolicyField;
+        private bool overridePolicySet;
+        public string overridePolicy
+        {
+            get 
+            { 
+                return overridePolicyField; 
+            }
+            set 
+            { 
+                overridePolicyField = value; 
+                overridePolicySet = true;
+            }
+        }
+        private string fsErrorCodeField;
+        private bool fsErrorCodeSet;
+        public string fsErrorCode
+        {
+            get 
+            { 
+                return fsErrorCodeField; 
+            }
+            set
+            {
+                fsErrorCodeField = value;
+                fsErrorCodeSet = true;
+            }
+        }
+        private string merchantAccountStatusField;
+        private bool merchantAccountStatusSet;
+        public string merchantAccountStatus
+        {
+            get 
+            { 
+                return merchantAccountStatusField;
+            }
+            set { merchantAccountStatusField = value;
+                merchantAccountStatusSet = true;
+                }
+        }
+        private productEnrolledEnum productEnrolledField;
+        private bool productEnrolledSet;
+        public productEnrolledEnum productEnrolled
+        {
+            get 
+            { 
+                return productEnrolledField; 
+            }
+            set
+            {
+                productEnrolledField = value;
+                productEnrolledSet = true;
+            }
+        }
+        private decisionPurposeEnum decisionPurposeField;
+        private bool decisionPurposeSet;
+        public decisionPurposeEnum decisionPurpose
+        {
+            get 
+            { 
+                return decisionPurposeField;
+            }
+            set
+            {
+                decisionPurposeField = value;
+                decisionPurposeSet = true;
+            }
+        }
+        private fraudSwitchIndicatorEnum fraudSwitchIndicatorField;
+        private bool fraudSwitchIndicatorSet;
+        public fraudSwitchIndicatorEnum fraudSwitchIndicator
+        {
+            get 
+            { 
+                return fraudSwitchIndicatorField; 
+            }
+            set
+            {
+                fraudSwitchIndicatorField = value;
+                fraudSwitchIndicatorSet = true;
+            }
+        }
+        public passengerTransportData passengerTransportData;
+        //12.25 and 12.26 end
         public bool? skipRealtimeAU;
 
         public string merchantCategoryCode;
@@ -580,6 +664,36 @@ namespace Cnp.Sdk
                     xml += "\r\n<crypto>" + cryptoField.ToString().ToLower() + "</crypto>";
                 }
                 ///end
+                //12.25 and 12.26
+                if(overridePolicySet)
+                {
+                    xml += "\r\n<overridePolicy>" + overridePolicyField + "</overridePolicy>";
+                }
+                if (fsErrorCodeSet)
+                {
+                    xml += "\r\n<fsErrorCode>" + fsErrorCodeField + "</fsErrorCode>";
+                }
+                if (merchantAccountStatusSet)
+                {
+                    xml += "\r\n<merchantAccountStatus>" + merchantAccountStatusField + "</merchantAccountStatus>";
+                }
+                if (productEnrolledSet)
+                {
+                    xml += "\r\n<productEnrolled>" + productEnrolledField + "</productEnrolled>";
+                }
+                if (decisionPurposeSet)
+                {
+                    xml += "\r\n<decisionPurpose>" + decisionPurposeField + "</decisionPurpose>";
+                }
+                if (fraudSwitchIndicatorSet)
+                {
+                    xml += "\r\n<fraudSwitchIndicator>" + fraudSwitchIndicatorField + "</fraudSwitchIndicator>";
+                }
+                if (passengerTransportData != null)
+                {
+                    xml += "\r\n<passengerTransportData>" + passengerTransportData.Serialize() + "\r\n</passengerTransportData>";
+                }
+                //end
                 if (merchantData != null)
                 {
                     xml += "\r\n<merchantData>" + merchantData.Serialize() + "\r\n</merchantData>";
@@ -655,6 +769,7 @@ namespace Cnp.Sdk
         }
         public string payPalNotes;
         public string actionReason;
+        public additionalCOFData additionalCOFData;//12.26
 
         public override string Serialize()
         {
@@ -678,6 +793,10 @@ namespace Cnp.Sdk
             if (actionReason != null)
             {
                 xml += "\r\n<actionReason>" + SecurityElement.Escape(actionReason) + "</actionReason>";
+            }
+            if (additionalCOFData != null)///12.26
+            {
+                xml += "\r\n<additionalCOFData>" + additionalCOFData.Serialize() + "\r\n</additionalCOFData>";
             }
             xml += "\r\n</authReversal>";
             return xml;
@@ -751,6 +870,8 @@ namespace Cnp.Sdk
             set { lodgingInfoField = value; lodgingInfoIsSet = true; }
         }
 
+        public passengerTransportData passengerTransportData;//12.26
+
         public override string Serialize()
         {
             var xml = "\r\n<depositTransactionReversal";
@@ -795,7 +916,10 @@ namespace Cnp.Sdk
             {
                 xml += this.processingInstructionsField.Serialize();
             }
-            
+            if (passengerTransportData != null)//12.26
+            {
+                xml += "\r\n<passengerTransportData>" + passengerTransportData.Serialize() + "</passengerTransportData>";
+            }
             xml += "\r\n</depositTransactionReversal>";
             return xml;
         }
@@ -867,6 +991,8 @@ namespace Cnp.Sdk
             set { lodgingInfoField = value; lodgingInfoIsSet = true; }
         }
 
+        public passengerTransportData passengerTransportData;//12.26
+
         public override string Serialize()
         {
             var xml = "\r\n<refundTransactionReversal";
@@ -911,7 +1037,10 @@ namespace Cnp.Sdk
             {
                 xml += this.processingInstructionsField.Serialize();
             }
-
+            if (passengerTransportData != null)//12.26
+            {
+                xml += "\r\n<passengerTransportData>" + passengerTransportData.Serialize() + "</passengerTransportData>";
+            }
             xml += "\r\n</refundTransactionReversal>";
             return xml;
         }
@@ -1001,6 +1130,7 @@ namespace Cnp.Sdk
         public customBilling customBilling;
         public lodgingInfo lodgingInfo;
         public string pin;
+        public passengerTransportData passengerTransportData;//12.26
 
         public override string Serialize()
         {
@@ -1030,6 +1160,10 @@ namespace Cnp.Sdk
                 xml += "\r\n<lodgingInfo>" + lodgingInfo.Serialize() + "\r\n</lodgingInfo>";
             }
             if (pin != null) xml += "\r\n<pin>" + pin + "</pin>";
+            if(passengerTransportData != null)//12.26
+            {
+                xml += "\r\n<passengerTransportData>" + passengerTransportData.Serialize() + "\r\n</passengerTransportData>";
+            }
             xml += "\r\n</capture>";
 
             return xml;
@@ -1158,7 +1292,7 @@ namespace Cnp.Sdk
         }
         ///end
         public string merchantCategoryCode;
-
+        public passengerTransportData passengerTransportData; //12.26
         public override string Serialize()
         {
             var xml = "\r\n<captureGivenAuth";
@@ -1271,6 +1405,10 @@ namespace Cnp.Sdk
             {
                 xml += "\r\n<businessIndicator>" + businessIndicatorField + "</businessIndicator>";
             }
+            if (passengerTransportData != null)//12.26
+            {
+                xml += "\r\n<passengerTransportData>" + passengerTransportData.Serialize() + "\r\n</passengerTransportData>";
+            }
             xml += "\r\n</captureGivenAuth>";
             return xml;
         }
@@ -1373,6 +1511,7 @@ namespace Cnp.Sdk
             get { return surchargeAmountField; }
             set { surchargeAmountField = value; surchargeAmountSet = true; }
         }
+        public additionalCOFData additionalCOFData;///12.26
         public customBilling customBilling;
         public enhancedData enhancedData;
         public lodgingInfo lodgingInfo;
@@ -1413,6 +1552,7 @@ namespace Cnp.Sdk
             get { return pinField; }
             set { pinField = value; pinSet = true; }
         }
+        public passengerTransportData passengerTransportData;//12.26
         public amexAggregatorData amexAggregatorData;
         public merchantDataType merchantData;
         public string merchantCategoryCode;
@@ -1437,12 +1577,20 @@ namespace Cnp.Sdk
                 if (amountSet) xml += "\r\n<amount>" + amountField + "</amount>";
                 if (secondaryAmountSet) xml += "\r\n<secondaryAmount>" + secondaryAmountField + "</secondaryAmount>";
                 if (surchargeAmountSet) xml += "\r\n<surchargeAmount>" + surchargeAmountField + "</surchargeAmount>";
+                if (additionalCOFData != null)///12.26
+                {
+                    xml += "\r\n<additionalCOFData>" + additionalCOFData.Serialize() + "\r\n</additionalCOFData>";
+                }
                 if (customBilling != null) xml += "\r\n<customBilling>" + customBilling.Serialize() + "</customBilling>";
                 if (enhancedData != null) xml += "\r\n<enhancedData>" + enhancedData.Serialize() + "</enhancedData>";
                 if (lodgingInfo != null) xml += "\r\n<lodgingInfo>" + lodgingInfo.Serialize() + "\r\n</lodgingInfo>";
                 if (processingInstructions != null) xml += "\r\n<processingInstructions>" + processingInstructions.Serialize() + "</processingInstructions>";
                 if (pos != null) xml += "\r\n<pos>" + pos.Serialize() + "</pos>";
                 if (pinSet) xml += "\r\n<pin>" + pinField + "</pin>";
+                if (passengerTransportData != null)///12.26
+                {
+                    xml += "\r\n<passengerTransportData>" + passengerTransportData.Serialize() + "\r\n</passengerTransportData>";
+                }
             }
             else
             {
@@ -1451,7 +1599,11 @@ namespace Cnp.Sdk
                 if (secondaryAmountSet) xml += "\r\n<secondaryAmount>" + secondaryAmountField + "</secondaryAmount>";
                 if (surchargeAmountSet) xml += "\r\n<surchargeAmount>" + surchargeAmountField + "</surchargeAmount>";
                 if (orderSource != null) xml += "\r\n<orderSource>" + orderSource.Serialize() + "</orderSource>";
-                if (billToAddress != null) xml += "\r\n<billToAddress>" + billToAddress.Serialize() + "</billToAddress>"; 
+                if (billToAddress != null) xml += "\r\n<billToAddress>" + billToAddress.Serialize() + "</billToAddress>";
+                if (additionalCOFData != null)///12.26
+                {
+                    xml += "\r\n<additionalCOFData>" + additionalCOFData.Serialize() + "\r\n</additionalCOFData>";
+                }
                 if (retailerAddress != null) xml += "\r\n<retailerAddress>" + retailerAddress.Serialize() + "</retailerAddress>";///12.24
                 if (card != null) xml += "\r\n<card>" + card.Serialize() + "</card>";
                 else if (token != null) xml += "\r\n<token>" + token.Serialize() + "</token>";
@@ -1476,6 +1628,10 @@ namespace Cnp.Sdk
                 if (merchantCategoryCode != null)
                 {
                     xml += "\r\n<merchantCategoryCode>" + merchantCategoryCode + "</merchantCategoryCode>";
+                }
+                if (passengerTransportData != null)///12.26
+                {
+                    xml += "\r\n<passengerTransportData>" + passengerTransportData.Serialize() + "\r\n</passengerTransportData>";
                 }
             }
             if (payPalNotes != null) xml += "\r\n<payPalNotes>" + SecurityElement.Escape(payPalNotes) + "</payPalNotes>";
@@ -1937,7 +2093,7 @@ namespace Cnp.Sdk
         }
 
         public string merchantCategoryCode;
-
+        public passengerTransportData passengerTransportData;//12.26
         public override string Serialize()
         {
             var xml = "\r\n<forceCapture";
@@ -2026,7 +2182,12 @@ namespace Cnp.Sdk
             {
                 xml += "\r\n<businessIndicator>" + businessIndicatorField + "</businessIndicator>";
             }
-            
+            if (passengerTransportData != null)//12.26
+            {
+                xml += "\r\n<passengerTransportData>" + passengerTransportData.Serialize() + "</passengerTransportData>";
+            }
+
+
             xml += "\r\n</forceCapture>";
             return xml;
         }
@@ -2524,6 +2685,93 @@ namespace Cnp.Sdk
         }
         ///end
 
+        //12.25 and 12.26 start
+        private string overridePolicyField;
+        private bool overridePolicySet;
+        public string overridePolicy
+        {
+            get
+            {
+                return overridePolicyField;
+            }
+            set
+            {
+                overridePolicyField = value;
+                overridePolicySet = true;
+            }
+        }
+        private string fsErrorCodeField;
+        private bool fsErrorCodeSet;
+        public string fsErrorCode
+        {
+            get
+            {
+                return fsErrorCodeField;
+            }
+            set
+            {
+                fsErrorCodeField = value;
+                fsErrorCodeSet = true;
+            }
+        }
+        private string merchantAccountStatusField;
+        private bool merchantAccountStatusSet;
+        public string merchantAccountStatus
+        {
+            get
+            {
+                return merchantAccountStatusField;
+            }
+            set
+            {
+                merchantAccountStatusField = value;
+                merchantAccountStatusSet = true;
+            }
+        }
+        private productEnrolledEnum productEnrolledField;
+        private bool productEnrolledSet;
+        public productEnrolledEnum productEnrolled
+        {
+            get
+            {
+                return productEnrolledField;
+            }
+            set
+            {
+                productEnrolledField = value;
+                productEnrolledSet = true;
+            }
+        }
+        private decisionPurposeEnum decisionPurposeField;
+        private bool decisionPurposeSet;
+        public decisionPurposeEnum decisionPurpose
+        {
+            get
+            {
+                return decisionPurposeField;
+            }
+            set
+            {
+                decisionPurposeField = value;
+                decisionPurposeSet = true;
+            }
+        }
+        private fraudSwitchIndicatorEnum fraudSwitchIndicatorField;
+        private bool fraudSwitchIndicatorSet;
+        public fraudSwitchIndicatorEnum fraudSwitchIndicator
+        {
+            get
+            {
+                return fraudSwitchIndicatorField;
+            }
+            set
+            {
+                fraudSwitchIndicatorField = value;
+                fraudSwitchIndicatorSet = true;
+            }
+        }
+        public passengerTransportData passengerTransportData;
+        //12.25 and 12.26 end
         public enhancedData enhancedData;
         public processingInstructions processingInstructions;
         public pos pos;
@@ -2828,7 +3076,36 @@ namespace Cnp.Sdk
             {
                 xml += "\r\n<businessIndicator>" + businessIndicatorField + "</businessIndicator>";
             }
-            
+            //12.25 and 12.26
+            if (overridePolicySet)
+            {
+                xml += "\r\n<overridePolicy>" + overridePolicyField + "</overridePolicy>";
+            }
+            if (fsErrorCodeSet)
+            {
+                xml += "\r\n<fsErrorCode>" + fsErrorCodeField + "</fsErrorCode>";
+            }
+            if (merchantAccountStatusSet)
+            {
+                xml += "\r\n<merchantAccountStatus>" + merchantAccountStatusField + "</merchantAccountStatus>";
+            }
+            if (productEnrolledSet)
+            {
+                xml += "\r\n<productEnrolled>" + productEnrolledField + "</productEnrolled>";
+            }
+            if (decisionPurposeSet)
+            {
+                xml += "\r\n<decisionPurpose>" + decisionPurposeField + "</decisionPurpose>";
+            }
+            if (fraudSwitchIndicatorSet)
+            {
+                xml += "\r\n<fraudSwitchIndicator>" + fraudSwitchIndicatorField + "</fraudSwitchIndicator>";
+            }
+            if (passengerTransportData != null)//12.26
+            {
+                xml += "\r\n<passengerTransportData>" + passengerTransportData.Serialize() + "\r\n</passengerTransportData>";
+            }
+            //end
             //if (routingPreferenceSet)
             //{
             //    var routingPreferenceName = routingPreferenceField.ToString();
@@ -3379,8 +3656,16 @@ namespace Cnp.Sdk
         UR,
         V,
         W,
-        X
-
+        X,
+        //12.27
+        FIFA,
+        FIVC,
+        FISC,
+        FISD,
+        FIPC,
+        FIPD,
+        FIRC,
+        FIRD
     }
 
     // To include element showStatusOnly having type Enum
@@ -3436,6 +3721,75 @@ namespace Cnp.Sdk
         MARKETPLACE,
         IN_STORE_KIOSK,
     }
+
+    //new 12.25, 12.26 and 12.27 start
+    public enum travelPackageIndicatorEnum
+    {
+        CarRentalReservation,
+        AirlineReservation,
+        Both,
+        Unknown
+    }
+
+    public enum productEnrolledEnum
+    {
+        GUARPAY1,
+        GUARPAY2,
+        GUARPAY3
+    }
+
+    public enum decisionPurposeEnum
+    {
+        CONSIDER_DECISION,
+        INFORMATION_ONLY
+    }
+
+    public enum fraudSwitchIndicatorEnum
+    {
+        PRE,
+        POST
+    }
+
+    public enum creditReasonIndicatorEnum
+    {
+        A,
+        B,
+        C,
+        O,
+        P
+    }
+
+    public enum ticketChangeIndicatorEnum
+    {
+        C,
+        N
+    }
+
+    public enum computerizedReservationSystemEnum
+    {
+        STRT,
+        PARS,
+        DATS,
+        SABR,
+        DALA,
+        BLAN,
+        DERD,
+        TUID
+    }
+
+    public enum serviceClassEnum
+    {
+        First,
+        Business,
+        Economy
+    }
+
+    public enum walletSourceType
+    {
+        MasterPass,
+
+    }
+    //12.25, 12.26 and 12.27 end
 
     #endregion
 
@@ -4823,13 +5177,102 @@ namespace Cnp.Sdk
         }
 
         public List<lodgingCharge> lodgingCharges;
-
         public lodgingInfo()
         {
 
             lodgingCharges = new List<lodgingCharge>();
 
         }
+        // 12.25 start
+        private string bookingIDField;
+        private bool bookingIDSet;
+        public string bookingID
+        {
+            get 
+            { 
+                return bookingIDField; 
+            }
+            set 
+            { 
+                bookingIDField = value; 
+                bookingIDSet = true;
+            }
+        }
+        private string passengerNameField;
+        private bool passengerNameSet;
+        public string passengerName
+        {
+            get 
+            { 
+                return passengerNameField; 
+            }
+            set 
+            { 
+                passengerNameField = value; 
+                passengerNameSet = true;
+            }
+        }
+        public propertyAddress propertyAddress;
+        private travelPackageIndicatorEnum travelPackageIndicatorField;
+        private bool travelPackageIndicatorSet;
+        public travelPackageIndicatorEnum travelPackageIndicator
+        {
+            get 
+            {
+                return travelPackageIndicatorField; 
+            }
+            set
+            {
+                travelPackageIndicatorField = value;
+                travelPackageIndicatorSet = true;
+            }
+        }
+        private string smokingPreferenceField;
+        private bool smokingPreferenceSet;
+        public string smokingPreference
+        {
+            get
+            {
+                return smokingPreferenceField;
+            }
+            set
+            {
+                smokingPreferenceField = value;
+                smokingPreferenceSet = true;
+            }
+        }
+        private int numberOfRoomsField;
+        private bool numberOfRoomsSet;
+        public int numberOfRooms
+        {
+            get { return numberOfRoomsField; }
+            set { numberOfRoomsField = value; numberOfRoomsSet = true; }
+        }
+
+        private string tollFreePhoneNumberField;
+        private bool tollFreePhoneNumberSet;
+        public string tollFreePhoneNumber
+        {
+            get 
+            { 
+                return tollFreePhoneNumberField; 
+            }
+            set
+            {
+                tollFreePhoneNumberField = value;
+                tollFreePhoneNumberSet = true;
+            }
+        }
+        //12.25 end
+
+        
+
+       /* public lodgingInfo()
+        {
+
+            lodgingCharges = new List<lodgingCharge>();
+
+        }*/
 
         public string Serialize()
         {
@@ -4846,12 +5289,20 @@ namespace Cnp.Sdk
             if (sequenceIndicatorSet) xml += "\r\n<sequenceIndicator>" + sequenceIndicatorField + "</sequenceIndicator>";///12.24
             if (propertyLocalPhone != null) xml += "\r\n<propertyLocalPhone>" + propertyLocalPhone + "</propertyLocalPhone>";
             if (fireSafetyIndicatorSet) xml += "\r\n<fireSafetyIndicator>" + fireSafetyIndicatorField + "</fireSafetyIndicator>";
-
             foreach (var lodgingCharge in lodgingCharges)
             {
                 xml += "\r\n<lodgingCharge>" + lodgingCharge.Serialize() + "</lodgingCharge>";
             }
-
+            if (bookingIDSet) xml += "\r\n<bookingID>" + bookingIDField + "</bookingID>";
+            if (passengerNameSet) xml += "\r\n<passengerName>" + passengerNameField + "</passengerName>";
+            if (propertyAddress != null)
+            {
+                xml += "\r\n<propertyAddress>" + propertyAddress.Serialize() + "\r\n</propertyAddress>";
+            }
+            if (travelPackageIndicatorSet) xml += "\r\n<travelPackageIndicator>" + travelPackageIndicatorField + "</travelPackageIndicator>";
+            if (smokingPreferenceSet) xml += "\r\n<smokingPreference>" + smokingPreferenceField + "</smokingPreference>";
+            if (numberOfRoomsSet) xml += "\r\n<numberOfRooms>" + numberOfRoomsField + "</numberOfRooms>";
+            if (tollFreePhoneNumberSet) xml += "\r\n<tollFreePhoneNumber>" + tollFreePhoneNumberField + "</tollFreePhoneNumber>";
             return xml;
         }
     }
@@ -5638,7 +6089,216 @@ namespace Cnp.Sdk
             return xml;
         }
     }
+    ///new 12.26
+    public partial class passengerTransportData
+    {
+        public string passengerName;
+        public string ticketNumber;
+        public string issuingCarrier;
+        public string carrierName;
+        public string restrictedTicketIndicator;
+        private int numberOfAdultsField;
+        private bool numberOfAdultsSet;
+        public int numberOfAdults
+        {
+            get { return numberOfAdultsField; }
+            set { numberOfAdultsField = value; numberOfAdultsSet = true; }
+        }
+        private int numberOfChildrenField;
+        private bool numberOfChildrenSet;
+        public int numberOfChildren
+        {
+            get { return numberOfChildrenField; }
+            set { numberOfChildrenField = value; numberOfChildrenSet = true; }
+        }
+        public string customerCode;
+        public DateTime arrivalDate;
+        public DateTime issueDate;
+        public string travelAgencyCode;
+        public string travelAgencyName;
+        public computerizedReservationSystemEnum computerizedReservationSystemField;
+        public bool computerizedReservationSystemSet;
+        public computerizedReservationSystemEnum computerizedReservationSystem
+        {
+            get
+            {
+                return computerizedReservationSystemField;
+            }
+            set
+            {
+                computerizedReservationSystemField = value;
+                computerizedReservationSystemSet = true;
+            }
+        }
+        public creditReasonIndicatorEnum creditReasonIndicatorField;
+        public bool creditReasonIndicatorSet;
+        public creditReasonIndicatorEnum creditReasonIndicator
+        {
+            get
+            {
+                return creditReasonIndicatorField;
+            }
+            set
+            {
+                creditReasonIndicatorField = value;
+                creditReasonIndicatorSet = true;
+            }
+        }
+        public ticketChangeIndicatorEnum ticketChangeIndicatorField;
+        public bool ticketChangeIndicatorSet;
+        public ticketChangeIndicatorEnum ticketChangeIndicator
+        {
+            get
+            {
+                return ticketChangeIndicatorField;
+            }
+            set
+            {
+                ticketChangeIndicatorField = value;
+                ticketChangeIndicatorSet = true;
+            }
+        }
+        public string ticketIssuerAddress;
+        public string exchangeTicketNumber;
+        private int exchangeAmountField;
+        private bool exchangeAmountSet;
+        public int exchangeAmount
+        {
+            get { return exchangeAmountField; }
+            set { exchangeAmountField = value; exchangeAmountSet = true; }
+        }
+        private int exchangeFeeAmountField;
+        private bool exchangeFeeAmountSet;
+        public int exchangeFeeAmount
+        {
+            get { return exchangeFeeAmountField; }
+            set { exchangeFeeAmountField = value; exchangeFeeAmountSet = true; }
+        }
+        public tripLegData tripLegData;
+        public string Serialize()
+        {
+            var xml = "";
+            if (passengerName != null) xml += "\r\n<passengerName>" + SecurityElement.Escape(passengerName) + "</passengerName>";
+            if (ticketNumber != null) xml += "\r\n<ticketNumber>" + SecurityElement.Escape(ticketNumber) + "</ticketNumber>";
+            if (issuingCarrier != null) xml += "\r\n<issuingCarrier>" + SecurityElement.Escape(issuingCarrier) + "</issuingCarrier>";
+            if (carrierName != null) xml += "\r\n<carrierName>" + SecurityElement.Escape(carrierName) + "</carrierName>";
+            if (restrictedTicketIndicator != null) xml += "\r\n<restrictedTicketIndicator>" + SecurityElement.Escape(restrictedTicketIndicator) + "</restrictedTicketIndicator>";
+            if (numberOfAdultsSet) xml += "\r\n<numberOfAdults>" + numberOfAdultsField + "</numberOfAdults>";
+            if (numberOfChildrenSet) xml += "\r\n<numberOfChildren>" + numberOfChildrenField + "</numberOfChildren>";
+            if (customerCode != null) xml += "\r\n<customerCode>" + SecurityElement.Escape(customerCode) + "</customerCode>";
+            if (arrivalDate != null)
+            {
+                xml += "\r\n<arrivalDate>" + XmlUtil.toXsdDate(arrivalDate) + "</arrivalDate>";
+            }
+            if (issueDate != null)
+            {
+                xml += "\r\n<issueDate>" + XmlUtil.toXsdDate(issueDate) + "</issueDate>";
+            }
+            if (travelAgencyCode != null) xml += "\r\n<travelAgencyCode>" + SecurityElement.Escape(travelAgencyCode) + "</travelAgencyCode>";
+            if (travelAgencyName != null) xml += "\r\n<travelAgencyName>" + SecurityElement.Escape(travelAgencyName) + "</travelAgencyName>";
+            if (computerizedReservationSystemSet) xml += "\r\n<computerizedReservationSystem>" + computerizedReservationSystemField + "</computerizedReservationSystem>";
+            if (creditReasonIndicatorSet) xml += "\r\n<creditReasonIndicator>" + creditReasonIndicatorField + "</creditReasonIndicator>";
+            if (ticketChangeIndicatorSet) xml += "\r\n<ticketChangeIndicator>" + ticketChangeIndicatorField + "</ticketChangeIndicator>";
+            if (ticketIssuerAddress != null) xml += "\r\n<ticketIssuerAddress>" + SecurityElement.Escape(ticketIssuerAddress) + "</ticketIssuerAddress>";
+            if (exchangeTicketNumber != null) xml += "\r\n<exchangeTicketNumber>" + SecurityElement.Escape(exchangeTicketNumber) + "</exchangeTicketNumber>";
+            if (exchangeAmountSet) xml += "\r\n<exchangeAmount>" + exchangeAmountField + "</exchangeAmount>";
+            if (exchangeFeeAmountSet) xml += "\r\n<exchangeFeeAmount>" + exchangeFeeAmountField + "</exchangeFeeAmount>";
+            if (tripLegData != null)
+            {
+                xml += "\r\n<tripLegData>" + tripLegData.Serialize() + "\r\n</tripLegData>";
+            }
+            return xml;
+        }
+    }
 
+    public partial class propertyAddress
+    {
+        public string name;
+        public string city;
+        public string region;
+        private countryTypeEnum countryField;
+        private bool countrySet;
+        public countryTypeEnum country
+        {
+            get { return countryField; }
+            set { countryField = value; countrySet = true; }
+        }
+
+        public string Serialize()
+        {
+            var xml = "";
+            if (name != null) xml += "\r\n<name>" + SecurityElement.Escape(name) + "</name>";
+            if (city != null) xml += "\r\n<city>" + SecurityElement.Escape(city) + "</city>";
+            if (region != null) xml += "\r\n<region>" + SecurityElement.Escape(region) + "</region>";
+            if (countrySet) xml += "\r\n<country>" + countryField + "</country>";
+            return xml;
+        }
+    }
+
+    public partial class tripLegData
+    {
+        private int tripLegNumberField;
+        private bool tripLegNumberSet;
+        public int tripLegNumber
+        {
+            get
+            {
+                return tripLegNumberField;
+            }
+            set
+            {
+                tripLegNumberField = value;
+                tripLegNumberSet = true;
+            }
+        }
+        public string departureCode;
+        public string carrierCode;
+        private serviceClassEnum serviceClassField;
+        private bool serviceClassSet;
+        public serviceClassEnum serviceClass
+        {
+            get
+            {
+                return serviceClassField;
+            }
+            set
+            {
+                serviceClassField = value;
+                serviceClassSet = true;
+            }
+        }
+        public string stopOverCode;
+        public string destinationCode;
+        public string fareBasisCode;
+        public DateTime departureDate;
+        public string originCity;
+        public string travelNumber;
+        public string departureTime;
+        public string arrivalTime;
+        public string remarks;
+
+        public string Serialize()
+        {
+            var xml = "";
+            if (tripLegNumberSet) xml += "\r\n<tripLegNumber>" + tripLegNumberField.ToString() + "</tripLegNumber>";
+            if (departureCode != null) xml += "\r\n<departureCode>" + SecurityElement.Escape(departureCode) + "</departureCode>";
+            if (carrierCode != null) xml += "\r\n<carrierCode>" + SecurityElement.Escape(carrierCode) + "</carrierCode>";
+            if (serviceClassSet) xml += "\r\n<serviceClass>" + serviceClassField + "</serviceClass>";
+            if (stopOverCode != null) xml += "\r\n<stopOverCode>" + SecurityElement.Escape(stopOverCode) + "</stopOverCode>";
+            if (destinationCode != null) xml += "\r\n<destinationCode>" + SecurityElement.Escape(destinationCode) + "</destinationCode>";
+            if (fareBasisCode != null) xml += "\r\n<fareBasisCode>" + SecurityElement.Escape(fareBasisCode) + "</fareBasisCode>";
+            if (departureDate != null)
+            {
+                xml += "\r\n<departureDate>" + XmlUtil.toXsdDate(departureDate) + "</departureDate>";
+            }
+            if (originCity != null) xml += "\r\n<originCity>" + SecurityElement.Escape(originCity) + "</originCity>";
+            if (travelNumber != null) xml += "\r\n<travelNumber>" + SecurityElement.Escape(travelNumber) + "</travelNumber>";
+            if (departureTime != null) xml += "\r\n<departureTime>" + SecurityElement.Escape(departureTime) + "</departureTime>";
+            if (arrivalTime != null) xml += "\r\n<arrivalTime>" + SecurityElement.Escape(arrivalTime) + "</arrivalTime>";
+            if (remarks != null) xml += "\r\n<remarks>" + SecurityElement.Escape(remarks) + "</remarks>";
+            return xml;
+        }
+    }
 
     public partial class pinlessDebitRequestType
     {

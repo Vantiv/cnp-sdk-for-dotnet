@@ -1817,6 +1817,128 @@ namespace Cnp.Sdk.Test.Functional
             }
         }
 
+        [Test]
+        public void SimpleAuthSaleCaptureGivenAuthWithOverridePolicy()///12.25
+        {
+            var cnpBatchRequest = new batchRequest();
+            var authorization = new authorization
+            {
+                id = new Random().Next(100).ToString(),
+                reportGroup = "Planets",
+                orderId = "12344",
+                amount = new Random().Next(1000),
+                orderSource = orderSourceType.ecommerce,
+                crypto = false,
+                orderChannel = orderChannelEnum.PHONE,
+                fraudCheckStatus = "Not Approved",
+                card = new cardType
+                {
+                    type = methodOfPaymentTypeEnum.VI,
+                    number = "4100000000000001",
+                    expDate = "1223"
+
+                },
+                lodgingInfo = new lodgingInfo
+                {
+                    bookingID = "BID12345",
+                    passengerName = "Pia Jaiswal",
+                    propertyAddress = new propertyAddress
+                    {
+                        name = "Godrej",
+                        city = "Pune",
+                        region = "WES",
+                        country = countryTypeEnum.IN
+                    },
+                    travelPackageIndicator = travelPackageIndicatorEnum.AirlineReservation,
+                    smokingPreference = "N",
+                    numberOfRooms = 1,
+                    tollFreePhoneNumber = "1234567890"
+                },
+                overridePolicy = "Override Policy",
+                fsErrorCode = "FS Error Code",
+                merchantAccountStatus = "Merchant Account Status",
+                productEnrolled = productEnrolledEnum.GUARPAY2,
+                decisionPurpose = decisionPurposeEnum.INFORMATION_ONLY,
+                fraudSwitchIndicator = fraudSwitchIndicatorEnum.PRE,
+                customBilling = new customBilling { phone = "1112223333" }
+            };
+
+            cnpBatchRequest.addAuthorization(authorization);
+            
+            _cnp.addBatch(cnpBatchRequest);
+
+            var batchName = _cnp.sendToCnp();
+
+            _cnp.blockAndWaitForResponse(batchName, estimatedResponseTime(2 * 2, 10 * 2));
+
+            var cnpResponse = _cnp.receiveFromCnp(batchName);
+
+            Assert.NotNull(cnpResponse);
+            Assert.AreEqual("0", cnpResponse.response);
+            Assert.AreEqual("Valid Format", cnpResponse.message);
+
+            var cnpBatchResponse = cnpResponse.nextBatchResponse();
+            while (cnpBatchResponse != null)
+            {
+                var authResponse = cnpBatchResponse.nextAuthorizationResponse();
+                while (authResponse != null)
+                {
+                    Assert.AreEqual("000", authResponse.response);
+
+                    authResponse = cnpBatchResponse.nextAuthorizationResponse();
+                }
+                cnpBatchResponse = cnpResponse.nextBatchResponse();
+            }
+        }
+
+        [Test]
+        public void simpleAuthReversalWithAdditionalCOFdata()
+        {
+            var cnpBatchRequest = new batchRequest();
+            var reversal = new authReversal()
+            {
+                cnpTxnId = 12345678000L,
+                amount = 106,
+                payPalNotes = "Notes",
+                id = "id",
+                additionalCOFData = new additionalCOFData()
+                {
+                    totalPaymentCount = "35",
+                    paymentType = paymentTypeEnum.Fixed_Amount,
+                    uniqueId = "12345wereew233",
+                    frequencyOfMIT = frequencyOfMITEnum.BiWeekly,
+                    validationReference = "re3298rhriw4wrw",
+                    sequenceIndicator = 2
+                }
+            };
+            cnpBatchRequest.addAuthReversal(reversal);
+
+            _cnp.addBatch(cnpBatchRequest);
+
+            var batchName = _cnp.sendToCnp();
+
+            _cnp.blockAndWaitForResponse(batchName, estimatedResponseTime(2 * 2, 10 * 2));
+
+            var cnpResponse = _cnp.receiveFromCnp(batchName);
+
+            Assert.NotNull(cnpResponse);
+            Assert.AreEqual("0", cnpResponse.response);
+            Assert.AreEqual("Valid Format", cnpResponse.message);
+
+            var cnpBatchResponse = cnpResponse.nextBatchResponse();
+            while (cnpBatchResponse != null)
+            {
+                var authReversalResponse = cnpBatchResponse.nextAuthReversalResponse();
+                while (authReversalResponse != null)
+                {
+                    Assert.AreEqual("000", authReversalResponse.response);
+
+                    authReversalResponse = cnpBatchResponse.nextAuthReversalResponse();
+                }
+                cnpBatchResponse = cnpResponse.nextBatchResponse();
+            }
+        }
+
         private int estimatedResponseTime(int numAuthsAndSales, int numRest)
         {
             return (int)(5 * 60 * 1000 + 2.5 * 1000 + numAuthsAndSales * (1 / 5) * 1000 + numRest * (1 / 50) * 1000) * 5;
