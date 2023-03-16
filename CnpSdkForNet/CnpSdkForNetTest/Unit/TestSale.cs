@@ -700,5 +700,97 @@ namespace Cnp.Sdk.Test.Unit
             Assert.NotNull(response);
             Assert.AreEqual("sandbox", response.location);
         }
+
+        [Test]
+        public void TestSaleWithOrderchannelEnumMIT_SellerInfo() //new testcase for 12.28 and 12.29
+        {
+            sale sale = new sale();
+            sale.orderId = "12344";
+            sale.amount = 2;
+            sale.orderSource = orderSourceType.ecommerce;
+            var sellerInfo = new sellerInfo();
+            sellerInfo.accountNumber = "4485581000000005";
+            sellerInfo.aggregateOrderCount = 4;
+            sellerInfo.aggregateOrderDollars = 100000;
+            var sellerAddress = new sellerAddress();
+            sellerAddress.sellerStreetaddress = "15 Main Street";
+            sellerAddress.sellerUnit = "100 AB";
+            sellerAddress.sellerPostalcode = "12345";
+            sellerAddress.sellerCity = "San Jose";
+            sellerAddress.sellerProvincecode = "MA";
+            sellerAddress.sellerCountrycode = "US";
+            sellerInfo.sellerAddress = sellerAddress;
+            sellerInfo.createdDate = "2015-11-12T20:33:09";
+            sellerInfo.domain = "vap";
+            sellerInfo.email = "bob@example.com";
+            sellerInfo.lastUpdateDate = "2015-11-12T20:33:09";
+            sellerInfo.name = "bob";
+            sellerInfo.onboardingEmail = "bob@example.com";
+            sellerInfo.onboardingIpAddress = "75.100.88.78";
+            sellerInfo.parentEntity = "abc";
+            sellerInfo.phone = "9785510040";
+            sellerInfo.sellerId = "123456789";
+            var sellerTagsType = new sellerTagsType();
+            sellerTagsType.tag = "3";
+            sellerInfo.sellerTags = sellerTagsType;
+            sellerInfo.username = "bob123";
+            sale.sellerInfo = sellerInfo;
+            sale.reportGroup = "Planets";
+            sale.id = "thisisid";
+            sale.businessIndicator = businessIndicatorEnum.fundTransfer;
+            sale.crypto = false;
+            sale.orderChannel = orderChannelEnum.MIT;
+            sale.fraudCheckStatus = "Not Approved";
+
+            var passengerTransportData = new passengerTransportData();
+            passengerTransportData.passengerName = "Pia Jaiswal";
+            passengerTransportData.ticketNumber = "TR0001";
+            passengerTransportData.issuingCarrier = "IC";
+            passengerTransportData.carrierName = "Indigo";
+            passengerTransportData.restrictedTicketIndicator = "TI2022";
+            passengerTransportData.numberOfAdults = 1;
+            passengerTransportData.numberOfChildren = 1;
+            passengerTransportData.customerCode = "C2011583";
+            passengerTransportData.arrivalDate = new System.DateTime(2022, 12, 31);
+            passengerTransportData.issueDate = new System.DateTime(2022, 12, 25);
+            passengerTransportData.travelAgencyCode = "TAC12345";
+            passengerTransportData.travelAgencyName = "Yatra";
+            passengerTransportData.computerizedReservationSystem = computerizedReservationSystemEnum.STRT;
+            passengerTransportData.creditReasonIndicator = creditReasonIndicatorEnum.A;
+            passengerTransportData.ticketChangeIndicator = ticketChangeIndicatorEnum.C;
+            passengerTransportData.ticketIssuerAddress = "Hinjewadi";
+            passengerTransportData.exchangeTicketNumber = "ETN12345";
+            passengerTransportData.exchangeAmount = 12300;
+            passengerTransportData.exchangeFeeAmount = 11000;
+
+            var tripLegData = new tripLegData();
+            tripLegData.tripLegNumber = 12;
+            tripLegData.departureCode = "DC";
+            tripLegData.carrierCode = "CC";
+            tripLegData.serviceClass = serviceClassEnum.First;
+            tripLegData.stopOverCode = "N";
+            tripLegData.destinationCode = "DC111";
+            tripLegData.fareBasisCode = "FBC12345";
+            tripLegData.departureDate = new System.DateTime(2023, 1, 31);
+            tripLegData.originCity = "Pune";
+            tripLegData.travelNumber = "TN111";
+            tripLegData.departureTime = "13:05";
+            tripLegData.arrivalTime = "16:10";
+            tripLegData.remarks = "NA";
+            passengerTransportData.tripLegData = tripLegData;
+            sale.passengerTransportData = passengerTransportData;
+
+            var mock = new Mock<Communications>();
+
+            mock.Setup(Communications => Communications.HttpPost(It.IsRegex(".*<accountNumber>4485581000000005</accountNumber>.*<aggregateOrderCount>4</aggregateOrderCount>.*<aggregateOrderDollars>100000</aggregateOrderDollars>.*", RegexOptions.Singleline)))
+                .Returns("<cnpOnlineResponse version='12.30' response='0' message='Valid Format' xmlns='http://www.vantivcnp.com/schema'><saleResponse><cnpTxnId>123</cnpTxnId><location>sandbox</location></saleResponse></cnpOnlineResponse>");
+
+            var mockedCommunication = mock.Object;
+            cnp.SetCommunication(mockedCommunication);
+            var response = cnp.Sale(sale);
+
+            Assert.NotNull(response);
+            Assert.AreEqual("sandbox", response.location);
+        }
     }
 }
