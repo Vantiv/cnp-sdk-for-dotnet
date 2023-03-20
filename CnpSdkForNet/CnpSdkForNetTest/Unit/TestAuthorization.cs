@@ -2,7 +2,6 @@
 using NUnit.Framework;
 using Moq;
 using System.Text.RegularExpressions;
-using System.Xml.Linq;
 
 
 namespace Cnp.Sdk.Test.Unit
