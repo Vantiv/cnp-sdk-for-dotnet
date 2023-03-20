@@ -1144,5 +1144,139 @@ namespace Cnp.Sdk.Test.Functional
             Assert.AreEqual(false, response.authMax.authMaxApplied);
             Assert.AreEqual(checkDate, response.postDate);
         }
+
+        //12.28,12.29 and 12.30 start
+        [Test]
+        public void SimpleAuthWithOrdChanelEnumMIT()
+        {
+            var authorization = new authorization
+            {
+                id = "1",
+                reportGroup = "Planets",
+                orderId = "12344",
+                amount = 106,
+                orderSource = orderSourceType.ecommerce,
+                authIndicator = authIndicatorEnum.Estimated,
+                card = new cardType
+                {
+                    type = methodOfPaymentTypeEnum.VI,
+                    number = "414100000000000000",
+                    expDate = "1210"
+                },
+                customBilling = new customBilling { phone = "1112223333" },
+                orderChannel = orderChannelEnum.MIT
+            };
+            var response = _cnp.Authorize(authorization);
+
+            DateTime checkDate = new DateTime(0001, 1, 1, 00, 00, 00);
+
+            Assert.AreEqual("000", response.response);
+            Assert.AreEqual(checkDate, response.postDate);
+        }
+
+        [Test]
+        public void SimpleAuthWithSellerInfo()
+        {
+            var authorization = new authorization
+            {
+                id = "1",
+                reportGroup = "Planets",
+                orderId = "12344",
+                amount = 106,
+                orderSource = orderSourceType.ecommerce,
+                card = new cardType
+                {
+                    type = methodOfPaymentTypeEnum.VI,
+                    number = "414100000000000000",
+                    expDate = "1210"
+                },
+                customBilling = new customBilling { phone = "1112223333" },
+                sellerInfo = new sellerInfo
+                {
+                    accountNumber = "4485581000000005",
+                    aggregateOrderCount = 4,
+                    aggregateOrderDollars = 100000,
+                    sellerAddress = new sellerAddress
+                    {
+                        sellerStreetaddress = "15 Main Street",
+                        sellerUnit = "100 AB",
+                        sellerPostalcode = "12345",
+                        sellerCity = "San Jose",
+                        sellerProvincecode = "MA",
+                        sellerCountrycode = "US"
+                    },
+                    createdDate = "2015-11-12T20:33:09",
+                    domain = "vap",
+                    email = "bob@example.com",
+                    lastUpdateDate = "2015-11-12T20:33:09",
+                    name = "bob",
+                    onboardingEmail = "bob@example.com",
+                    onboardingIpAddress = "75.100.88.78",
+                    parentEntity = "abc",
+                    phone = "9785510040",
+                    sellerId = "123456789",
+                    sellerTags = new sellerTagsType
+                    {
+                     tag = "2"
+                    },
+                    username = "bob123"
+                }
+            };
+            var response = _cnp.Authorize(authorization);
+
+            DateTime checkDate = new DateTime(0001, 1, 1, 00, 00, 00);
+
+            Assert.AreEqual("000", response.response);
+            Assert.AreEqual(checkDate, response.postDate);
+        }
+
+        [Test]
+        public void SimpleAuthWithAuthIndicatorWithEstimatedEnum()
+        {
+            var authorization = new authorization
+            {
+                id = "1",
+                reportGroup = "Planets",
+                orderId = "12344",
+                amount = 106,
+                orderSource = orderSourceType.ecommerce,
+                authIndicator = authIndicatorEnum.Estimated,
+                card = new cardType
+                {
+                    type = methodOfPaymentTypeEnum.VI,
+                    number = "414100000000000000",
+                    expDate = "1210"
+                },
+                customBilling = new customBilling { phone = "1112223333" }
+            };
+            var response = _cnp.Authorize(authorization);
+
+            DateTime checkDate = new DateTime(0001, 1, 1, 00, 00, 00);
+
+            Assert.AreEqual("000", response.response);
+            Assert.AreEqual(checkDate, response.postDate);
+        }
+
+        [Test]
+        public void SimpleAuthWithAuthIndicatorWithIncreamentalEnum()
+        {
+            var authorization = new authorization
+            {
+                id = "1",
+                customerId = "CustId",
+                reportGroup = "Planets", 
+                cnpTxnId = 901097991325067135,
+                amount = 106,
+                authIndicator = authIndicatorEnum.Incremental,
+        
+            };
+            var response = _cnp.Authorize(authorization);
+
+            DateTime checkDate = new DateTime(0001, 1, 1, 00, 00, 00);
+
+            Assert.AreEqual("000", response.response);
+            Assert.AreEqual(checkDate, response.postDate);
+        }
+        //12.28,12.29 and 12.30 end
     }
 }
