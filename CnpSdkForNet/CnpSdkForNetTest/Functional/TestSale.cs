@@ -835,5 +835,88 @@ namespace Cnp.Sdk.Test.Functional
             Assert.AreEqual(false, responseObj.authMax.authMaxApplied);
             StringAssert.AreEqualIgnoringCase("Approved", responseObj.message);
         }
+
+        [Test]
+        public void SimpleSaleWithOrdChanelEnumMIT() //12.28
+        {
+            var saleObj = new sale
+            {
+                id = "1",
+                reportGroup = "Planets",
+                orderId = "12344",
+                amount = 106,
+                orderSource = orderSourceType.ecommerce,
+                crypto = false,
+                orderChannel = orderChannelEnum.MIT,
+                fraudCheckStatus = "Not Approved",
+                card = new cardType
+                {
+                    type = methodOfPaymentTypeEnum.VI,
+                    number = "414100000000000000",
+                    expDate = "1210"
+                },
+                overridePolicy = "Override Policy",
+                fsErrorCode = "FS Error Code",
+                merchantAccountStatus = "Merchant Account Status",
+                productEnrolled = productEnrolledEnum.GUARPAY2,
+                decisionPurpose = decisionPurposeEnum.INFORMATION_ONLY,
+                fraudSwitchIndicator = fraudSwitchIndicatorEnum.PRE,
+                customBilling = new customBilling { phone = "1112223333" }
+            };
+            var responseObj = _cnp.Sale(saleObj);
+            StringAssert.AreEqualIgnoringCase("Approved", responseObj.message);
+        }
+
+        [Test]
+        public void SimpleSaleWithSellerInfo() //12.29
+        {
+            var saleObj = new sale
+            {
+                id = "1",
+                amount = 106,
+                cnpTxnId = 123456,
+                orderId = "12344",
+                orderSource = orderSourceType.ecommerce,
+                card = new cardType
+                {
+                    type = methodOfPaymentTypeEnum.VI,
+                    number = "414100000000000000",
+                    expDate = "1210"
+                },
+                sellerInfo = new sellerInfo
+                {
+                    accountNumber = "4485581000000005",
+                    aggregateOrderCount = 4,
+                    aggregateOrderDollars = 100000,
+                    sellerAddress = new sellerAddress
+                    {
+                        sellerStreetaddress = "15 Main Street",
+                        sellerUnit = "100 AB",
+                        sellerPostalcode = "12345",
+                        sellerCity = "San Jose",
+                        sellerProvincecode = "MA",
+                        sellerCountrycode = "US"
+                    },
+                    createdDate = "2015-11-12T20:33:09",
+                    domain = "vap",
+                    email = "bob@example.com",
+                    lastUpdateDate = "2015-11-12T20:33:09",
+                    name = "bob",
+                    onboardingEmail = "bob@example.com",
+                    onboardingIpAddress = "75.100.88.78",
+                    parentEntity = "abc",
+                    phone = "9785510040",
+                    sellerId = "123456789",
+                    sellerTags = new sellerTagsType
+                    {
+                        tag = "2"
+                    },
+                    username = "bob123"
+                
+                }
+            };
+            var responseObj = _cnp.Sale(saleObj);
+            StringAssert.AreEqualIgnoringCase("Approved", responseObj.message);
+        }
     }
 }

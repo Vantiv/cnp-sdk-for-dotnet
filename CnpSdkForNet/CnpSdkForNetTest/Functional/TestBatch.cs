@@ -1939,6 +1939,99 @@ namespace Cnp.Sdk.Test.Functional
             }
         }
 
+        // 12.28,12.29 and 12.30 start
+        [Test]
+        public void SimpleAuthSaleWithOrderchannelEnumMIT_SellerInfo_AuthIndicatorEstimatedEnum() //12.28 , 12.29 and 12.30
+        {
+            var cnpBatchRequest = new batchRequest();
+            var authorization = new authorization
+            {
+                id = new Random().Next(100).ToString(),
+                reportGroup = "Planets",
+                orderId = "12344",
+                amount = new Random().Next(1000),
+                orderSource = orderSourceType.ecommerce,
+                sellerInfo = new sellerInfo
+                {
+                    accountNumber = "4485581000000005",
+                    aggregateOrderCount = 4,
+                    aggregateOrderDollars = 100000,
+                    sellerAddress = new sellerAddress
+                    {
+                        sellerStreetaddress = "15 Main Street",
+                        sellerUnit = "100 AB",
+                        sellerPostalcode = "12345",
+                        sellerCity = "San Jose",
+                        sellerProvincecode = "MA",
+                        sellerCountrycode = "US"
+                    },
+                    createdDate = "2015-11-12T20:33:09",
+                    domain = "vap",
+                    email = "bob@example.com",
+                    lastUpdateDate = "2015-11-12T20:33:09",
+                    name = "bob",
+                    onboardingEmail = "bob@example.com",
+                    onboardingIpAddress = "75.100.88.78",
+                    parentEntity = "abc",
+                    phone = "9785510040",
+                    sellerId = "123456789",
+                    sellerTags = new sellerTagsType
+                    {
+                        tag = "2"
+                    },
+                    username = "bob123"
+
+                },
+                crypto = false,
+                orderChannel = orderChannelEnum.MIT,
+                fraudCheckStatus = "Not Approved",
+                card = new cardType
+                {
+                    type = methodOfPaymentTypeEnum.VI,
+                    number = "4100000000000001",
+                    expDate = "1223"
+
+                },
+
+                overridePolicy = "Override Policy",
+                fsErrorCode = "FS Error Code",
+                merchantAccountStatus = "Merchant Account Status",
+                productEnrolled = productEnrolledEnum.GUARPAY2,
+                decisionPurpose = decisionPurposeEnum.INFORMATION_ONLY,
+                fraudSwitchIndicator = fraudSwitchIndicatorEnum.PRE,
+                customBilling = new customBilling { phone = "1112223333" },
+                authIndicator = authIndicatorEnum.Estimated
+            };
+
+            cnpBatchRequest.addAuthorization(authorization);
+
+            _cnp.addBatch(cnpBatchRequest);
+
+            var batchName = _cnp.sendToCnp();
+
+            _cnp.blockAndWaitForResponse(batchName, estimatedResponseTime(2 * 2, 10 * 2));
+
+            var cnpResponse = _cnp.receiveFromCnp(batchName);
+
+            Assert.NotNull(cnpResponse);
+            Assert.AreEqual("0", cnpResponse.response);
+            Assert.AreEqual("Valid Format", cnpResponse.message);
+
+            var cnpBatchResponse = cnpResponse.nextBatchResponse();
+            while (cnpBatchResponse != null)
+            {
+                var authResponse = cnpBatchResponse.nextAuthorizationResponse();
+                while (authResponse != null)
+                {
+                    Assert.AreEqual("000", authResponse.response);
+
+                    authResponse = cnpBatchResponse.nextAuthorizationResponse();
+                }
+                cnpBatchResponse = cnpResponse.nextBatchResponse();
+            }
+        }
+        // 12.28,12.29 and 12.30 end
+
         private int estimatedResponseTime(int numAuthsAndSales, int numRest)
         {
             return (int)(5 * 60 * 1000 + 2.5 * 1000 + numAuthsAndSales * (1 / 5) * 1000 + numRest * (1 / 50) * 1000) * 5;

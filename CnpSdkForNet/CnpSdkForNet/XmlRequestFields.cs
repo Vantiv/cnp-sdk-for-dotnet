@@ -281,6 +281,7 @@ namespace Cnp.Sdk
         }
         public orderSourceType orderSource;
         public customerInfo customerInfo;
+        public sellerInfo sellerInfo;//12.29
         public contact billToAddress;
         public contact retailerAddress;///12.24
         public additionalCOFData additionalCOFData;
@@ -531,6 +532,25 @@ namespace Cnp.Sdk
         }
         public passengerTransportData passengerTransportData;
         //12.25 and 12.26 end
+
+        //12.30 start
+        private authIndicatorEnum authIndicatorField;
+        private bool authIndicatorSet;
+        public authIndicatorEnum authIndicator
+        {
+            get
+            {
+                return authIndicatorField;
+            }
+            set
+            {
+                authIndicatorField = value;
+                authIndicatorSet = true;
+            }
+        }
+
+        //12.30 end
+
         public bool? skipRealtimeAU;
 
         public string merchantCategoryCode;
@@ -547,6 +567,8 @@ namespace Cnp.Sdk
             if (cnpTxnIdSet)
             {
                 xml += "\r\n<cnpTxnId>" + cnpTxnIdField + "</cnpTxnId>";
+                xml += "\r\n<amount>" + amount + "</amount>";
+                xml += "\r\n<authIndicator>" + authIndicatorField + "</authIndicator>";
             }
             else
             {
@@ -559,6 +581,10 @@ namespace Cnp.Sdk
                 if (customerInfo != null)
                 {
                     xml += "\r\n<customerInfo>" + customerInfo.Serialize() + "\r\n</customerInfo>";
+                }
+                if (sellerInfo != null)
+                {
+                    xml += "\r\n<sellerInfo>" + sellerInfo.Serialize() + "\r\n</sellerInfo>";
                 }
                 if (billToAddress != null)
                 {
@@ -694,6 +720,15 @@ namespace Cnp.Sdk
                     xml += "\r\n<passengerTransportData>" + passengerTransportData.Serialize() + "\r\n</passengerTransportData>";
                 }
                 //end
+
+                //12.30 start
+
+                if (authIndicatorSet)
+                {
+                    xml += "\r\n<authIndicator>" + authIndicatorField + "</authIndicator>";
+                }
+                //end 
+
                 if (merchantData != null)
                 {
                     xml += "\r\n<merchantData>" + merchantData.Serialize() + "\r\n</merchantData>";
@@ -2607,6 +2642,7 @@ namespace Cnp.Sdk
         }
         public orderSourceType orderSource;
         public customerInfo customerInfo;
+        public sellerInfo sellerInfo;//12.29
         public contact billToAddress;
         public contact retailerAddress;///12.24
         public contact shipToAddress;
@@ -2906,6 +2942,10 @@ namespace Cnp.Sdk
             if (customerInfo != null)
             {
                 xml += "\r\n<customerInfo>" + customerInfo.Serialize() + "\r\n</customerInfo>";
+            }
+            if (sellerInfo != null)
+            {
+                xml += "\r\n<sellerInfo>" + sellerInfo.Serialize() + "\r\n</sellerInfo>";
             }
             if (billToAddress != null)
             {
@@ -3720,6 +3760,7 @@ namespace Cnp.Sdk
         SOCIAL,
         MARKETPLACE,
         IN_STORE_KIOSK,
+        MIT// new 12.28
     }
 
     //new 12.25, 12.26 and 12.27 start
@@ -3790,6 +3831,14 @@ namespace Cnp.Sdk
 
     }
     //12.25, 12.26 and 12.27 end
+
+    //new 12.28, 12.29 and 12.30 start
+    public enum authIndicatorEnum
+    {
+        Estimated,
+        Incremental
+    }
+
 
     #endregion
 
@@ -4458,7 +4507,7 @@ namespace Cnp.Sdk
         public string tokenUrl;
         public string expDate;
         public string cardValidationNum;
-	private string authenticatedShopperID;
+	    private string authenticatedShopperID;
         private methodOfPaymentTypeEnum typeField;
         private bool typeSet;
         public methodOfPaymentTypeEnum type
@@ -6207,6 +6256,106 @@ namespace Cnp.Sdk
             {
                 xml += "\r\n<tripLegData>" + tripLegData.Serialize() + "\r\n</tripLegData>";
             }
+            return xml;
+        }
+    }
+
+    //12.29
+    public partial class sellerInfo
+    {
+        public string accountNumber;
+        private int aggregateOrderCountField;
+        private bool aggregateOrderCountSet;
+        public int aggregateOrderCount
+        {
+            get { return aggregateOrderCountField; }
+            set { aggregateOrderCountField = value; aggregateOrderCountSet = true; }
+        }
+
+        private int aggregateOrderDollarsField;
+        private bool aggregateOrderDollarsSet;
+
+        public int aggregateOrderDollars
+        {
+            get { return aggregateOrderDollarsField; }
+            set { aggregateOrderDollarsField = value; aggregateOrderDollarsSet = true; }
+        }
+        public sellerAddress sellerAddress;
+        public string createdDate;
+        public string domain;
+        public string email;
+        public string lastUpdateDate;
+        public string name;
+        public string onboardingEmail;
+        public string onboardingIpAddress;
+        public string parentEntity;
+        public string phone;
+        public string sellerId;
+        public sellerTagsType sellerTags;
+        public string username;
+
+        public string Serialize()
+        {
+            var xml = "";
+            if (accountNumber != null) xml += "\r\n<accountNumber>" + SecurityElement.Escape(accountNumber) + "</accountNumber>";
+            if (aggregateOrderCountSet) xml += "\r\n<aggregateOrderCount>" + aggregateOrderCountField + "</aggregateOrderCount>";
+            if (aggregateOrderDollarsSet) xml += "\r\n<aggregateOrderDollars>" + aggregateOrderDollarsField + "</aggregateOrderDollars>";
+            if (sellerAddress != null)
+            {
+                xml += "\r\n<sellerAddress>" + sellerAddress.Serialize() + "\r\n</sellerAddress>";
+            }
+            return xml;
+            if (createdDate != null) xml += "\r\n<createdDate>" + SecurityElement.Escape(createdDate) + "</createdDate>";
+            if (domain != null) xml += "\r\n<domain>" + SecurityElement.Escape(domain) + "</domain>";
+            if (email != null) xml += "\r\n<email>" + SecurityElement.Escape(email) + "</email>";
+            if (lastUpdateDate != null) xml += "\r\n<lastUpdateDate>" + SecurityElement.Escape(lastUpdateDate) + "</lastUpdateDate>";
+            if (name != null) xml += "\r\n<name>" + SecurityElement.Escape(name) + "</name>";
+            if (onboardingEmail != null) xml += "\r\n<onboardingEmail>" + SecurityElement.Escape(onboardingEmail) + "</onboardingEmail>";
+            if (onboardingIpAddress != null) xml += "\r\n<onboardingIpAddress>" + SecurityElement.Escape(onboardingIpAddress) + "</onboardingIpAddress>";
+            if (parentEntity != null) xml += "\r\n<parentEntity>" + SecurityElement.Escape(parentEntity) + "</parentEntity>";
+            if (phone != null) xml += "\r\n<phone>" + SecurityElement.Escape(phone) + "</phone>";
+            if (sellerId != null) xml += "\r\n<sellerId>" + SecurityElement.Escape(sellerId) + "</sellerId>";
+            if (sellerTags != null)
+            {
+                xml += "\r\n<sellerTags>" + sellerTags.Serialize() + "\r\n</sellerTags>";
+            }
+            if (username != null) xml += "\r\n<username>" + SecurityElement.Escape(username) + "</username>";
+
+            return xml;
+        }
+
+    }
+
+    public partial class sellerAddress
+    {
+        public string sellerStreetaddress;
+        public string sellerUnit;
+        public string sellerPostalcode;
+        public string sellerCity;
+        public string sellerProvincecode;
+        public string sellerCountrycode;
+
+        public string Serialize()
+        {
+            var xml = "";
+            if (sellerStreetaddress != null) xml += "\r\n<sellerStreetaddress>" + SecurityElement.Escape(sellerStreetaddress) + "</sellerStreetaddress>";
+            if (sellerUnit != null) xml += "\r\n<sellerUnit>" + SecurityElement.Escape(sellerUnit) + "</sellerUnit>";
+            if (sellerPostalcode != null) xml += "\r\n<sellerPostalcode>" + SecurityElement.Escape(sellerPostalcode) + "</sellerPostalcode>";
+            if (sellerCity != null) xml += "\r\n<sellerCity>" + SecurityElement.Escape(sellerCity) + "</sellerCity>";
+            if (sellerProvincecode != null) xml += "\r\n<sellerProvincecode>" + SecurityElement.Escape(sellerProvincecode) + "</sellerProvincecode>";
+            if (sellerCountrycode != null) xml += "\r\n<sellerCountrycode>" + SecurityElement.Escape(sellerCountrycode) + "</sellerCountrycode>";
+            return xml;
+        }
+    }
+
+    public partial class sellerTagsType
+    {
+        public string tag;
+
+        public string Serialize()
+        {
+            var xml = "";
+            if (tag != null) xml += "\r\n<tag>" + SecurityElement.Escape(tag) + "</tag>";
             return xml;
         }
     }
