@@ -1,6 +1,21 @@
 
 = Worldpay CNP CHANGELOG
 
+==Version 12.30.0 (March 21, 2023)
+Note : It contains changes from cnpAPI v12.28, v12.29 & v12.30. In case you need any feature supported by cnpAPI v12.28, v12.29 & v12.30, please use SDK version 12.30.0
+Change: [cnpAPI v12.30] Added new Element authIndicator for authorization
+Change: [cnpAPI v12.30] Added new values - Estimated and Incremental in authIndicatorEnum
+Change: [cnpAPI v12.30] Added new Element amount for authorization for cnpTxnId.
+Change: [cnpAPI v12.29] Added new Element sellerInfo for authorization and sale
+Change: [cnpAPI v12.29] Added new Element sellerAddress in SellerInfo
+Change: [cnpAPI v12.29] Added new Element sellerTagsType in SellerInfo
+Change: [cnpAPI v12.29] New elements accountNumber, aggregateOrderCount, aggregateOrderDollars, sellerAddress, createdDate,
+domain, email,lastUpdateDate, name, onboardingEmail, onboardingIpAddress, parentEntity, phone,
+sellerId,sellerTags and username in SellerInfo.
+Change: [cnpAPI v12.29] New elements sellerStreetaddress, sellerUnit, sellerPostalcode, sellerCity, sellerProvincecode,sellerCountrycode in
+SellerAddress
+Change: [cnpAPI v12.28] Added new value - MIT in orderChannelEnum
+
 ==Version 12.27.0 (October 19, 2022)
 Note: It contains changes from cnpAPI v12.25, v12.26 & v12.27. In case you need any feature supported by cnpAPI v12.25, v12.26 & v12.27, please use SDK version 12.27.0
 
