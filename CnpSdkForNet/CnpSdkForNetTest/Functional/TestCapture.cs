@@ -256,5 +256,37 @@ namespace Cnp.Sdk.Test.Functional
             var response = _cnp.Capture(capture);
             Assert.AreEqual("Approved", response.message);
         }
+
+        [Test]
+        public void SimpleCaptureWithForeignRetailerIndicator()///12.31
+        {
+            var capture = new capture
+            {
+                id = "1",
+                cnpTxnId = 123456000,
+                orderId = "defaultOrderId",
+                amount = 106,
+                lodgingInfo = new lodgingInfo
+                {
+                    bookingID = "BID1234555",
+                    passengerName = "Rohan Sharma",
+                    propertyAddress = new propertyAddress
+                    {
+                        name = "Xpress",
+                        city = "Pune",
+                        region = "WES",
+                        country = countryTypeEnum.IN
+                    },
+                    travelPackageIndicator = travelPackageIndicatorEnum.AirlineReservation,
+                    smokingPreference = "N",
+                    numberOfRooms = 1,
+                    tollFreePhoneNumber = "1234567890"
+                },
+                foreignRetailerIndicator= foreignRetailerIndicatorEnum.F
+
+            };
+            var response = _cnp.Capture(capture);
+            Assert.AreEqual("Approved", response.message);
+        }
     }
 }

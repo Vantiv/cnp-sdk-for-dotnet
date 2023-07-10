@@ -918,5 +918,42 @@ namespace Cnp.Sdk.Test.Functional
             var responseObj = _cnp.Sale(saleObj);
             StringAssert.AreEqualIgnoringCase("Approved", responseObj.message);
         }
+
+        [Test]
+        public void SimpleSaleWithForeignRetailerIndicator()///12.31()
+        {
+            var saleObj = new sale
+            {
+                id = "1",
+                amount = 7878,
+                cnpTxnId = 123456,
+                orderId = "5355354",
+                orderSource = orderSourceType.ecommerce,
+                sofort = new sofortType
+                {
+                    preferredLanguage = countryTypeEnum.US
+                },
+                lodgingInfo = new lodgingInfo
+                {
+                    bookingID = "BID1234566",
+                    passengerName = "Jitendra Verma",
+                    propertyAddress = new propertyAddress
+                    {
+                        name = "Godrej",
+                        city = "Pune",
+                        region = "WES",
+                        country = countryTypeEnum.IN
+                    },
+                    travelPackageIndicator = travelPackageIndicatorEnum.AirlineReservation,
+                    smokingPreference = "N",
+                    numberOfRooms = 1,
+                    tollFreePhoneNumber = "1234567890"
+                },
+                foreignRetailerIndicator = foreignRetailerIndicatorEnum.F
+            };
+            saleObj.lodgingInfo.lodgingCharges.Add(new lodgingCharge() { name = lodgingExtraChargeEnum.GIFTSHOP });
+            var responseObj = _cnp.Sale(saleObj);
+            StringAssert.AreEqualIgnoringCase("Approved", responseObj.message);
+        }
     }
 }
