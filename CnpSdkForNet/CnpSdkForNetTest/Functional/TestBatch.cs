@@ -2031,7 +2031,208 @@ namespace Cnp.Sdk.Test.Functional
             }
         }
         // 12.28,12.29 and 12.30 end
+        [Test]
+        public void SimpleCaptureForceCaptureSaleCaptureGivenAuthWithForeignRetailerIndicator()//12.31
+        {
+            var cnpBatchRequest = new batchRequest();
+            var card = new cardType();
+            card.type = methodOfPaymentTypeEnum.VI;
+            card.number = "4100000000000001";
+            card.expDate = "1210";
 
+            var authorization = new authorization
+            {
+                id = new Random().Next(100).ToString(),
+                reportGroup = "Planets",
+                orderId = "12344",
+                amount = 106,
+                orderSource = orderSourceType.ecommerce,
+                crypto = false,
+                orderChannel = orderChannelEnum.PHONE,
+                fraudCheckStatus = "Not Approved",
+                card = card,
+                retailerAddress = new contact
+                {
+                    name = "Mikasa Ackerman",
+                    addressLine1 = "1st Main Street",
+                    city = "Burlington",
+                    state = "MA",
+                    country = countryTypeEnum.USA,
+                    email = "mikasa@cnp.com",
+                    zip = "01867-4456",
+                    sellerId = "s1234",
+                    url = "www.google.com"
+                },
+                additionalCOFData = new additionalCOFData()
+                {
+                    totalPaymentCount = "35",
+                    paymentType = paymentTypeEnum.Fixed_Amount,
+                    uniqueId = "12345wereew233",
+                    frequencyOfMIT = frequencyOfMITEnum.BiWeekly,
+                    validationReference = "re3298rhriw4wrw",
+                    sequenceIndicator = 2
+                },
+                customBilling = new customBilling { phone = "1112223333" }
+            };
+
+            var capture = new capture();
+            capture.id = new Random().Next(100).ToString();
+            capture.cnpTxnId = 123456000;
+            capture.orderId = "12344";
+            capture.amount = 106;
+            capture.payPalNotes = "Notes";
+            capture.foreignRetailerIndicator = foreignRetailerIndicatorEnum.F;
+
+            var forcecapture = new forceCapture();
+            forcecapture.id = new Random().Next(1000).ToString();
+            forcecapture.amount = 106;
+            forcecapture.orderId = "12344";
+            forcecapture.orderSource = orderSourceType.ecommerce;
+            forcecapture.card = card;
+            forcecapture.foreignRetailerIndicator = foreignRetailerIndicatorEnum.F;
+
+            var capturegivenauth = new captureGivenAuth
+            {
+                id = new Random().Next(10000000).ToString(),
+                amount = new Random().Next(100000),
+                orderId = "12344",
+                crypto = false,
+                authInformation = new authInformation
+                {
+                    authDate = new DateTime(2002, 10, 9),
+                    authCode = "543216",
+                    authAmount = 12345,
+                },
+                orderSource = orderSourceType.ecommerce,
+                card = card,
+                retailerAddress = new contact
+                {
+                    name = "Mikasa Ackerman",
+                    addressLine1 = "1st Main Street",
+                    city = "Burlington",
+                    state = "MA",
+                    country = countryTypeEnum.USA,
+                    email = "mikasa@cnp.com",
+                    zip = "01867-4456",
+                    sellerId = "s1234",
+                    url = "www.google.com"
+                },
+                additionalCOFData = new additionalCOFData()
+                {
+                    totalPaymentCount = "35",
+                    paymentType = paymentTypeEnum.Fixed_Amount,
+                    uniqueId = "12345wereew233",
+                    frequencyOfMIT = frequencyOfMITEnum.BiWeekly,
+                    validationReference = "re3298rhriw4wrw",
+                    sequenceIndicator = 2
+                },
+                processingType = processingType.accountFunding,
+                originalNetworkTransactionId = "abc123",
+                originalTransactionAmount = 123456789,
+                foreignRetailerIndicator = foreignRetailerIndicatorEnum.F
+
+            };
+            var saleObj = new sale
+            {
+                id = new Random().Next(10000000).ToString(),
+                amount = 1234567,
+                reportGroup = "Planets",
+                orderId = "1234984",
+                orderSource = orderSourceType.ecommerce,
+                crypto = false,
+                orderChannel = orderChannelEnum.PHONE,
+                fraudCheckStatus = "Not Approved",
+                card = card,
+                retailerAddress = new contact
+                {
+                    name = "Mikasa Ackerman",
+                    addressLine1 = "1st Main Street",
+                    city = "Burlington",
+                    state = "MA",
+                    country = countryTypeEnum.USA,
+                    email = "mikasa@cnp.com",
+                    zip = "01867-4456",
+                    sellerId = "s1234",
+                    url = "www.google.com"
+                },
+                additionalCOFData = new additionalCOFData()
+                {
+                    totalPaymentCount = "35",
+                    paymentType = paymentTypeEnum.Fixed_Amount,
+                    uniqueId = "12345wereew233",
+                    frequencyOfMIT = frequencyOfMITEnum.BiWeekly,
+                    validationReference = "re3298rhriw4wrw",
+                    sequenceIndicator = 2
+                },
+                customBilling = new customBilling { phone = "1112223333" },
+                foreignRetailerIndicator = foreignRetailerIndicatorEnum.F
+            };
+
+            cnpBatchRequest.addAuthorization(authorization);
+            cnpBatchRequest.addCapture(capture);
+            cnpBatchRequest.addForceCapture(forcecapture);
+            cnpBatchRequest.addCaptureGivenAuth(capturegivenauth);
+            cnpBatchRequest.addSale(saleObj);
+
+            _cnp.addBatch(cnpBatchRequest);
+
+            var batchName = _cnp.sendToCnp();
+
+            _cnp.blockAndWaitForResponse(batchName, estimatedResponseTime(2 * 2, 10 * 2));
+
+            var cnpResponse = _cnp.receiveFromCnp(batchName);
+
+            Assert.NotNull(cnpResponse);
+            Assert.AreEqual("0", cnpResponse.response);
+            Assert.AreEqual("Valid Format", cnpResponse.message);
+
+            var cnpBatchResponse = cnpResponse.nextBatchResponse();
+            while (cnpBatchResponse != null)
+            {
+                var authResponse = cnpBatchResponse.nextAuthorizationResponse();
+                while (authResponse != null)
+                {
+                    Assert.AreEqual("000", authResponse.response);
+
+                    authResponse = cnpBatchResponse.nextAuthorizationResponse();
+                }
+
+                var captureResponse = cnpBatchResponse.nextCaptureResponse();
+                while (captureResponse != null)
+                {
+                    Assert.AreEqual("000", captureResponse.response);
+
+                    captureResponse = cnpBatchResponse.nextCaptureResponse();
+                }
+
+                var forceCaptureResponse = cnpBatchResponse.nextForceCaptureResponse();
+                while (forceCaptureResponse != null)
+                {
+                    Assert.AreEqual("000", forceCaptureResponse.response);
+
+                    forceCaptureResponse = cnpBatchResponse.nextForceCaptureResponse();
+                }
+
+                var captureGivenAuthResponse = cnpBatchResponse.nextCaptureGivenAuthResponse();
+                while (captureGivenAuthResponse != null)
+                {
+                    Assert.AreEqual("000", captureGivenAuthResponse.response);
+
+                    captureGivenAuthResponse = cnpBatchResponse.nextCaptureGivenAuthResponse();
+                }
+
+                var saleResponse = cnpBatchResponse.nextSaleResponse();
+                while (saleResponse != null)
+                {
+                    Assert.AreEqual("000", saleResponse.response);
+
+                    saleResponse = cnpBatchResponse.nextSaleResponse();
+                }
+                cnpBatchResponse = cnpResponse.nextBatchResponse();
+            }
+
+        }
+        //12.31 end
         private int estimatedResponseTime(int numAuthsAndSales, int numRest)
         {
             return (int)(5 * 60 * 1000 + 2.5 * 1000 + numAuthsAndSales * (1 / 5) * 1000 + numRest * (1 / 50) * 1000) * 5;

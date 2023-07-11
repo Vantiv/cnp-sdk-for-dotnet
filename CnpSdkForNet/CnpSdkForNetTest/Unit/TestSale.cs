@@ -792,5 +792,56 @@ namespace Cnp.Sdk.Test.Unit
             Assert.NotNull(response);
             Assert.AreEqual("sandbox", response.location);
         }
+
+        [Test]
+        public void TestSaleWithForeignRetailerIndicator()///12.31
+        {
+            sale sale = new sale();
+            sale.orderId = "12344";
+            sale.amount = 2;
+            sale.orderSource = orderSourceType.ecommerce;
+            sale.reportGroup = "Planets";
+            sale.id = "thisisid";
+            sale.businessIndicator = businessIndicatorEnum.fundTransfer;
+            sale.crypto = false;
+            sale.orderChannel = orderChannelEnum.PHONE;
+            sale.fraudCheckStatus = "Not Approved";
+
+            var passengerTransportData = new passengerTransportData();
+            passengerTransportData.passengerName = "Raj Thakur";
+            passengerTransportData.ticketNumber = "TR0001";
+            passengerTransportData.issuingCarrier = "IC";
+            passengerTransportData.carrierName = "Jet Airways";
+            passengerTransportData.restrictedTicketIndicator = "TI2022";
+            passengerTransportData.numberOfAdults = 1;
+            passengerTransportData.numberOfChildren = 1;
+            passengerTransportData.customerCode = "C2011583";
+            passengerTransportData.arrivalDate = new System.DateTime(2022, 12, 31);
+            passengerTransportData.issueDate = new System.DateTime(2022, 12, 25);
+            passengerTransportData.travelAgencyCode = "TAC12345";
+            passengerTransportData.travelAgencyName = "Make My Trip";
+            passengerTransportData.computerizedReservationSystem = computerizedReservationSystemEnum.STRT;
+            passengerTransportData.creditReasonIndicator = creditReasonIndicatorEnum.A;
+            passengerTransportData.ticketChangeIndicator = ticketChangeIndicatorEnum.C;
+            passengerTransportData.ticketIssuerAddress = "Kharadi";
+            passengerTransportData.exchangeTicketNumber = "ETN12345";
+            passengerTransportData.exchangeAmount = 12300;
+            passengerTransportData.exchangeFeeAmount = 11000;
+
+            sale.passengerTransportData = passengerTransportData;
+            sale.foreignRetailerIndicator = foreignRetailerIndicatorEnum.F;
+
+            var mock = new Mock<Communications>();
+
+            mock.Setup(Communications => Communications.HttpPost(It.IsRegex(".*<ticketNumber>TR0001</ticketNumber>.*<issuingCarrier>IC</issuingCarrier>.*<carrierName>Jet Airways</carrierName>.*<restrictedTicketIndicator>TI2022</restrictedTicketIndicator>.*<numberOfAdults>1</numberOfAdults>.*<numberOfChildren>1</numberOfChildren>\r\n<customerCode>C2011583</customerCode>.*<foreignRetailerIndicator>F</foreignRetailerIndicator>.*", RegexOptions.Singleline)))
+                .Returns("<cnpOnlineResponse version='12.31' response='0' message='Valid Format' xmlns='http://www.vantivcnp.com/schema'><saleResponse><cnpTxnId>123</cnpTxnId><location>sandbox</location></saleResponse></cnpOnlineResponse>");
+
+            var mockedCommunication = mock.Object;
+            cnp.SetCommunication(mockedCommunication);
+            var response = cnp.Sale(sale);
+
+            Assert.NotNull(response);
+            Assert.AreEqual("sandbox", response.location);
+        }
     }
 }

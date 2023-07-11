@@ -1166,6 +1166,15 @@ namespace Cnp.Sdk
         public lodgingInfo lodgingInfo;
         public string pin;
         public passengerTransportData passengerTransportData;//12.26
+        //12.31 start
+        private foreignRetailerIndicatorEnum foreignRetailerIndicatorField;
+        private bool foreignRetailerIndicatorSet;
+        public foreignRetailerIndicatorEnum foreignRetailerIndicator
+        {
+            get { return foreignRetailerIndicatorField; }
+            set { foreignRetailerIndicatorField = value; foreignRetailerIndicatorSet = true; }
+        }
+        //12.31 end
 
         public override string Serialize()
         {
@@ -1198,6 +1207,10 @@ namespace Cnp.Sdk
             if(passengerTransportData != null)//12.26
             {
                 xml += "\r\n<passengerTransportData>" + passengerTransportData.Serialize() + "\r\n</passengerTransportData>";
+            }
+            if (foreignRetailerIndicatorSet)//12.31
+            {
+                xml += "\r\n<foreignRetailerIndicator>" + foreignRetailerIndicatorField + "</foreignRetailerIndicator>";
             }
             xml += "\r\n</capture>";
 
@@ -1328,6 +1341,15 @@ namespace Cnp.Sdk
         ///end
         public string merchantCategoryCode;
         public passengerTransportData passengerTransportData; //12.26
+        //12.31 start
+        private foreignRetailerIndicatorEnum foreignRetailerIndicatorField;
+        private bool foreignRetailerIndicatorSet;
+        public foreignRetailerIndicatorEnum foreignRetailerIndicator
+        {
+            get { return foreignRetailerIndicatorField; }
+            set { foreignRetailerIndicatorField = value; foreignRetailerIndicatorSet = true; }
+        }
+        //12.31 end
         public override string Serialize()
         {
             var xml = "\r\n<captureGivenAuth";
@@ -1443,6 +1465,10 @@ namespace Cnp.Sdk
             if (passengerTransportData != null)//12.26
             {
                 xml += "\r\n<passengerTransportData>" + passengerTransportData.Serialize() + "\r\n</passengerTransportData>";
+            }
+            if (foreignRetailerIndicatorSet)//12.31
+            {
+                xml += "\r\n<foreignRetailerIndicator>" + foreignRetailerIndicatorField + "</foreignRetailerIndicator>";
             }
             xml += "\r\n</captureGivenAuth>";
             return xml;
@@ -2129,6 +2155,16 @@ namespace Cnp.Sdk
 
         public string merchantCategoryCode;
         public passengerTransportData passengerTransportData;//12.26
+
+        //12.31 start
+        private foreignRetailerIndicatorEnum foreignRetailerIndicatorField;
+        private bool foreignRetailerIndicatorSet;
+        public foreignRetailerIndicatorEnum foreignRetailerIndicator
+        {
+            get { return foreignRetailerIndicatorField; }
+            set { foreignRetailerIndicatorField = value; foreignRetailerIndicatorSet = true; }
+        }
+        //12.31 end
         public override string Serialize()
         {
             var xml = "\r\n<forceCapture";
@@ -2220,6 +2256,10 @@ namespace Cnp.Sdk
             if (passengerTransportData != null)//12.26
             {
                 xml += "\r\n<passengerTransportData>" + passengerTransportData.Serialize() + "</passengerTransportData>";
+            }
+            if (foreignRetailerIndicatorSet)//12.31
+            {
+                xml += "\r\n<foreignRetailerIndicator>" + foreignRetailerIndicatorField + "</foreignRetailerIndicator>";
             }
 
 
@@ -2910,6 +2950,15 @@ namespace Cnp.Sdk
         public pinlessDebitRequestType pinlessDebitRequest;
         public bool? skipRealtimeAU;
         public string merchantCategoryCode;
+        //12.31 start
+        private foreignRetailerIndicatorEnum foreignRetailerIndicatorField;
+        private bool foreignRetailerIndicatorSet;
+        public foreignRetailerIndicatorEnum foreignRetailerIndicator
+        {
+            get { return foreignRetailerIndicatorField; }
+            set { foreignRetailerIndicatorField = value; foreignRetailerIndicatorSet = true; }
+        }
+        //12.31 end
 
         //private routingPreferenceEnum routingPreferenceField;
         //private bool routingPreferenceSet;
@@ -3144,6 +3193,10 @@ namespace Cnp.Sdk
             if (passengerTransportData != null)//12.26
             {
                 xml += "\r\n<passengerTransportData>" + passengerTransportData.Serialize() + "\r\n</passengerTransportData>";
+            }
+            if (foreignRetailerIndicatorSet)//12.31
+            {
+                xml += "\r\n<foreignRetailerIndicator>" + foreignRetailerIndicatorField + "</foreignRetailerIndicator>";
             }
             //end
             //if (routingPreferenceSet)
@@ -3838,8 +3891,14 @@ namespace Cnp.Sdk
         Estimated,
         Incremental
     }
+    // 12.28, 12.29 and 12.30 end
 
-
+    //new 12.31 start
+    public enum foreignRetailerIndicatorEnum
+    {
+       F
+    }
+    // 12.31 end
     #endregion
 
     #region Child elements.
