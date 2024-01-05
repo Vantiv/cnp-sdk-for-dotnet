@@ -871,13 +871,7 @@ namespace Cnp.Sdk
             set { surchargeAmountField = value; surchargeAmountIsSet = true; }
         }
 
-        private bool enhancedDataIsSet;
-        private enhancedData enhancedDataField;
-        public enhancedData enhancedData
-        {
-            get { return enhancedDataField; }
-            set { enhancedDataField = value; enhancedDataIsSet = true; }
-        }
+        public enhancedData enhancedData;
 
         private bool processingInstructionsIsSet;
         private processingInstructions processingInstructionsField;
@@ -937,11 +931,11 @@ namespace Cnp.Sdk
                 xml += this.customBillingField.Serialize();
             }
 
-            if (this.enhancedDataIsSet)
+            if (enhancedData != null)
             {
-                xml += this.enhancedDataField.Serialize();
+                xml += "\r\n<enhancedData>" + enhancedData.Serialize() + "\r\n</enhancedData>";
             }
-            
+
             if (this.lodgingInfoIsSet)
             {
                 xml += this.lodgingInfoField.Serialize();
@@ -992,14 +986,8 @@ namespace Cnp.Sdk
             set { surchargeAmountField = value; surchargeAmountIsSet = true; }
         }
 
-        private bool enhancedDataIsSet;
-        private enhancedData enhancedDataField;
-        public enhancedData enhancedData
-        {
-            get { return enhancedDataField; }
-            set { enhancedDataField = value; enhancedDataIsSet = true; }
-        }
-
+        public enhancedData enhancedData;
+        
         private bool processingInstructionsIsSet;
         private processingInstructions processingInstructionsField;
         public processingInstructions processingInstructions
@@ -1058,9 +1046,9 @@ namespace Cnp.Sdk
                 xml += this.customBillingField.Serialize();
             }
 
-            if (this.enhancedDataIsSet)
+            if (enhancedData != null)
             {
-                xml += this.enhancedDataField.Serialize();
+                xml += "\r\n<enhancedData>" + enhancedData.Serialize() + "\r\n</enhancedData>";
             }
 
             if (this.lodgingInfoIsSet)

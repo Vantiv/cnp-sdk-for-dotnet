@@ -1,6 +1,7 @@
 ﻿using System.Collections.Generic;
 using NUnit.Framework;
 using System.Threading;
+using System;
 
 namespace Cnp.Sdk.Test.Functional
 {
@@ -144,6 +145,50 @@ namespace Cnp.Sdk.Test.Functional
                     }
                 }
             };
+            var response = _cnp.RefundTransactionReversal(reversal);
+            Assert.AreEqual("sandbox", response.location);
+            Assert.AreEqual("Approved", response.message);
+            Assert.AreEqual(12345678000L, response.recyclingResponse.creditCnpTxnId);
+        }
+
+        [Test]
+        public void TestTransactionReversalWithShipmentIDSunscription() //new testcase for 12.33
+        {
+            var reversal = new refundTransactionReversal
+            {
+                id = "1",
+                reportGroup = "Planets",
+                cnpTxnId = 12345678000L,
+                enhancedData = new enhancedData
+                {
+                    customerReference = "000000008110801",
+                    salesTax = 97,
+                    deliveryType = enhancedDataDeliveryType.DIG,
+                    taxExempt = false,
+                    lineItems = new List<lineItemData>(),
+                }
+
+            };
+            var mysubscription = new subscriptions();
+            mysubscription.subscriptionId = "803";
+            mysubscription.currentPeriod = 922;
+            mysubscription.periodUnit = periodUnit.WEEK;
+            mysubscription.numberOfPeriods = 331;
+            mysubscription.regularItemPrice = 700;
+            mysubscription.nextDeliveryDate = new DateTime(2023, 9, 9);
+
+            var mylineItemData = new lineItemData();
+            mylineItemData.itemSequenceNumber = 8;
+            mylineItemData.itemDescription = "Planets";
+            mylineItemData.productCode = "A12234";
+            mylineItemData.itemCategory = "Ele Bussi";
+            mylineItemData.itemSubCategory = "home appliaces";
+            mylineItemData.productId = "1601";
+            mylineItemData.productName = "dryer";
+            mylineItemData.shipmentId = "2003";
+            mylineItemData.subscription.Add(mysubscription);
+
+            reversal.enhancedData.lineItems.Add(mylineItemData);
             var response = _cnp.RefundTransactionReversal(reversal);
             Assert.AreEqual("sandbox", response.location);
             Assert.AreEqual("Approved", response.message);
