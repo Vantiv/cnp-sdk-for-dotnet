@@ -334,5 +334,58 @@ namespace Cnp.Sdk.Test.Functional
             var response = _cnp.ForceCapture(forcecapture);
             Assert.AreEqual("Approved", response.message);
         }
+
+        [Test]
+        public void SimpleForceCaptureWithShipmentIdAndSubscription()///12.33
+        {
+            var forcecapture = new forceCapture
+            {
+                id = "1",
+                amount = 177,
+                orderId = "1234455",
+                orderSource = orderSourceType.ecommerce,
+                processingType = processingType.accountFunding,
+                businessIndicator = businessIndicatorEnum.consumerBillPayment,
+                card = new cardType
+                {
+                    type = methodOfPaymentTypeEnum.VI,
+                    number = "4100000000000001",
+                    expDate = "1210"
+                },
+                enhancedData = new enhancedData
+                {
+                    customerReference = "000000008110801",
+                    salesTax = 23,
+                    deliveryType = enhancedDataDeliveryType.DIG,
+                    taxExempt = false,
+                    detailTaxes = new List<detailTax>(),
+                    lineItems = new List<lineItemData>(),
+
+                },
+                foreignRetailerIndicator = foreignRetailerIndicatorEnum.F
+            };
+            var mysubscription = new subscriptions();
+            mysubscription.subscriptionId = "123";
+            mysubscription.currentPeriod = 112;
+            mysubscription.periodUnit = periodUnit.MONTH;
+            mysubscription.numberOfPeriods = 123;
+            mysubscription.regularItemPrice = 69;
+            mysubscription.nextDeliveryDate = new DateTime(2017, 1, 1);
+
+            var mylineItemData = new lineItemData();
+            mylineItemData.itemSequenceNumber = 1;
+            mylineItemData.itemDescription = "Electronics";
+            mylineItemData.productCode = "El01";
+            mylineItemData.itemCategory = "Ele Appiances";
+            mylineItemData.itemSubCategory = "home appliaces";
+            mylineItemData.productId = "1001";
+            mylineItemData.productName = "dryer";
+            mylineItemData.shipmentId = "2543";
+            mylineItemData.subscription.Add(mysubscription);
+            forcecapture.enhancedData.lineItems.Add(mylineItemData);
+
+            var response = _cnp.ForceCapture(forcecapture);
+            Assert.AreEqual("Approved", response.message);
+        }
     }
 }

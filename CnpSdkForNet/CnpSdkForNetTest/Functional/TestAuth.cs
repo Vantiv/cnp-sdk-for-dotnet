@@ -1278,5 +1278,63 @@ namespace Cnp.Sdk.Test.Functional
             Assert.AreEqual(checkDate, response.postDate);
         }
         //12.28,12.29 and 12.30 end
+
+        [Test]
+        public void SimpleAuthWithShipmentIdAndSubscription()
+        {
+            var authorization = new authorization
+            {
+                id = "1",
+                reportGroup = "Planets",
+                orderId = "12344",
+                amount = 106,
+                orderSource = orderSourceType.ecommerce,
+                authIndicator = authIndicatorEnum.Estimated,
+                card = new cardType
+                {
+                    type = methodOfPaymentTypeEnum.VI,
+                    number = "414100000000000000",
+                    expDate = "1210"
+                },
+                customBilling = new customBilling { phone = "1112223333" },
+                enhancedData = new enhancedData
+                    {
+                        customerReference = "000000008110801",
+                        salesTax = 23,
+                        deliveryType = enhancedDataDeliveryType.DIG,
+                        taxExempt = false,
+                        detailTaxes = new List<detailTax>(),
+                        lineItems = new List<lineItemData>(),
+
+                }
+            };
+
+            var mysubscription = new subscriptions();
+            mysubscription.subscriptionId = "123";
+            mysubscription.currentPeriod = 114;
+            mysubscription.periodUnit = periodUnit.YEAR;
+            mysubscription.numberOfPeriods = 123;
+            mysubscription.regularItemPrice = 69;
+            mysubscription.nextDeliveryDate = new DateTime(2017, 1, 1);
+
+            var mylineItemData = new lineItemData();
+            mylineItemData.itemSequenceNumber = 1;
+            mylineItemData.itemDescription = "Electronics";
+            mylineItemData.productCode = "El03";
+            mylineItemData.itemCategory = "E Appiances";
+            mylineItemData.itemSubCategory = "appliaces";
+            mylineItemData.productId = "1023";
+            mylineItemData.productName = "dyer";
+            mylineItemData.shipmentId = "2124";
+            mylineItemData.subscription.Add(mysubscription);
+            authorization.enhancedData.lineItems.Add(mylineItemData);
+
+            var response = _cnp.Authorize(authorization);
+
+            DateTime checkDate = new DateTime(0001, 1, 1, 00, 00, 00);
+
+            Assert.AreEqual("000", response.response);
+            Assert.AreEqual(checkDate, response.postDate);
+        }
     }
 }
