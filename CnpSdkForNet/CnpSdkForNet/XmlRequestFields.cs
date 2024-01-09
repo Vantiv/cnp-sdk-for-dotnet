@@ -871,13 +871,7 @@ namespace Cnp.Sdk
             set { surchargeAmountField = value; surchargeAmountIsSet = true; }
         }
 
-        private bool enhancedDataIsSet;
-        private enhancedData enhancedDataField;
-        public enhancedData enhancedData
-        {
-            get { return enhancedDataField; }
-            set { enhancedDataField = value; enhancedDataIsSet = true; }
-        }
+        public enhancedData enhancedData;
 
         private bool processingInstructionsIsSet;
         private processingInstructions processingInstructionsField;
@@ -937,11 +931,11 @@ namespace Cnp.Sdk
                 xml += this.customBillingField.Serialize();
             }
 
-            if (this.enhancedDataIsSet)
+            if (enhancedData != null)
             {
-                xml += this.enhancedDataField.Serialize();
+                xml += "\r\n<enhancedData>" + enhancedData.Serialize() + "\r\n</enhancedData>";
             }
-            
+
             if (this.lodgingInfoIsSet)
             {
                 xml += this.lodgingInfoField.Serialize();
@@ -992,14 +986,8 @@ namespace Cnp.Sdk
             set { surchargeAmountField = value; surchargeAmountIsSet = true; }
         }
 
-        private bool enhancedDataIsSet;
-        private enhancedData enhancedDataField;
-        public enhancedData enhancedData
-        {
-            get { return enhancedDataField; }
-            set { enhancedDataField = value; enhancedDataIsSet = true; }
-        }
-
+        public enhancedData enhancedData;
+        
         private bool processingInstructionsIsSet;
         private processingInstructions processingInstructionsField;
         public processingInstructions processingInstructions
@@ -1058,9 +1046,9 @@ namespace Cnp.Sdk
                 xml += this.customBillingField.Serialize();
             }
 
-            if (this.enhancedDataIsSet)
+            if (enhancedData != null)
             {
-                xml += this.enhancedDataField.Serialize();
+                xml += "\r\n<enhancedData>" + enhancedData.Serialize() + "\r\n</enhancedData>";
             }
 
             if (this.lodgingInfoIsSet)
@@ -4301,12 +4289,16 @@ namespace Cnp.Sdk
         public string productName;
         ///end
         public List<detailTax> detailTaxes;
+        // 12.33
+        public string shipmentId;
+        public List<subscriptions> subscription;
 
         public lineItemData()
         {
             detailTaxes = new List<detailTax>();
+            subscription = new List<subscriptions>();
         }
-
+        
         public string Serialize()
         {
             var xml = "";
@@ -4326,10 +4318,15 @@ namespace Cnp.Sdk
             if (itemSubCategory != null) xml += "\r\n<itemSubCategory>" + SecurityElement.Escape(itemSubCategory) + "</itemSubCategory>";
             if (productId != null) xml += "\r\n<productId>" + SecurityElement.Escape(productId) + "</productId>";
             if (productName != null) xml += "\r\n<productName>" + SecurityElement.Escape(productName) + "</productName>";
-            ///end
+            ///end  
             foreach (var detailTax in detailTaxes)
             {
                 if (detailTax != null) xml += "\r\n<detailTax>" + detailTax.Serialize() + "</detailTax>";
+            }
+            if (shipmentId != null) xml += "\r\n<shipmentId>" + SecurityElement.Escape(shipmentId) + "</shipmentId>";
+            foreach (var subscription in subscription)
+            {
+                if (subscription != null) xml += "\r\n<subscription>" + subscription.Serialize() + "</subscription>";
             }
             return xml;
         }
@@ -6418,6 +6415,87 @@ namespace Cnp.Sdk
             return xml;
         }
     }
+
+    //12.33 start
+    public partial class subscriptions
+    {
+        public string subscriptionId;
+        public DateTime nextDeliveryDate;
+
+        private periodUnit periodUnitField;
+        private bool periodUnitSet;
+        public periodUnit periodUnit
+        {
+            get { return periodUnitField; }
+            set { periodUnitField = value; periodUnitSet = true; }
+        }
+
+        private int numberOfPeriodsField;
+        private bool numberOfPeriodsSet;
+        public int numberOfPeriods
+        {
+            get
+            {
+                return numberOfPeriodsField;
+            }
+            set
+            {
+                numberOfPeriodsField = value;
+                numberOfPeriodsSet = true;
+            }
+        }
+
+        private int regularItemPriceField;
+        private bool regularItemPriceSet;
+        public int regularItemPrice
+        {
+            get { return regularItemPriceField; }
+            set { regularItemPriceField = value; regularItemPriceSet = true; }
+        }
+
+        private int currentPeriodField;
+        private bool currentPeriodSet;
+        public int currentPeriod
+        {
+            get
+            {
+                return currentPeriodField;
+            }
+            set
+            {
+                currentPeriodField = value;
+                currentPeriodSet = true;
+            }
+        }
+
+        public string Serialize()
+        {
+            var xml = "";
+            if (subscriptionId != null) xml += "\r\n<subscriptionId>" + SecurityElement.Escape(subscriptionId) + "</subscriptionId>";
+            if (nextDeliveryDate != null)
+            {
+                xml += "\r\n<nextDeliveryDate>" + XmlUtil.toXsdDate(nextDeliveryDate) + "</nextDeliveryDate>";
+            }
+            if (periodUnitSet)
+            {
+                xml += "\r\n<periodUnit>" + periodUnitField + "</periodUnit>";
+            }
+            if (numberOfPeriodsSet) xml += "\r\n<numberOfPeriods>" + numberOfPeriodsField + "</numberOfPeriods>";
+            if (regularItemPriceSet) xml += "\r\n<regularItemPrice>" + regularItemPriceField + "</regularItemPrice>";
+            if (currentPeriodSet) xml += "\r\n<currentPeriod>" + currentPeriodField + "</currentPeriod>";
+            return xml;
+        }
+    }
+
+    public enum periodUnit
+    {
+        /// <remarks/>
+        WEEK,
+        MONTH,
+        QUARTER,
+        YEAR
+    }
+    //12.33 end
 
     public partial class propertyAddress
     {

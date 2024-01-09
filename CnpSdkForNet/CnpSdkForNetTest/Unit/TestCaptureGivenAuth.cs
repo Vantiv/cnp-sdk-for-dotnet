@@ -366,5 +366,55 @@ namespace Cnp.Sdk.Test.Unit
             Assert.NotNull(response);
             Assert.AreEqual("sandbox", response.location);
         }
+
+        [Test]
+        public void TestSimpleCaptureGivenAuthWithShipmentIDSubscription()///12.33
+        {
+            captureGivenAuth capture = new captureGivenAuth();
+            capture.orderId = "12344";
+            capture.amount = 2;
+            capture.orderSource = orderSourceType.ecommerce;
+            capture.reportGroup = "Planets";
+            capture.id = "thisisid";
+            capture.businessIndicator = businessIndicatorEnum.fundTransfer;
+            capture.crypto = false;
+            enhancedData enhancedData = new enhancedData();
+            enhancedData.lineItems = new List<lineItemData>();
+
+            var mysubscription = new subscriptions();
+            mysubscription.subscriptionId = "123";
+            mysubscription.currentPeriod = 112;
+            mysubscription.periodUnit = periodUnit.WEEK;
+            mysubscription.numberOfPeriods = 131;
+            mysubscription.regularItemPrice = 169;
+            mysubscription.nextDeliveryDate = new DateTime(2023, 3, 2);
+
+            var mylineItemData = new lineItemData();
+            mylineItemData.itemSequenceNumber = 1;
+            mylineItemData.itemDescription = "Ecomm";
+            mylineItemData.productCode = "El11";
+            mylineItemData.itemCategory = "Ele Appiances";
+            mylineItemData.itemSubCategory = "home appliaces";
+            mylineItemData.productId = "1111";
+            mylineItemData.productName = "dryer";
+            mylineItemData.shipmentId = "2593";
+            mylineItemData.subscription.Add(mysubscription);
+            enhancedData.lineItems.Add(mylineItemData);
+         
+            capture.enhancedData=enhancedData;
+            capture.foreignRetailerIndicator = foreignRetailerIndicatorEnum.F;
+
+            var mock = new Mock<Communications>();
+
+            mock.Setup(Communications => Communications.HttpPost(It.IsRegex(".*<enhancedData>.*<lineItemData>.*<itemSequenceNumber>1</itemSequenceNumber>.*<itemDescription>Ecomm</itemDescription>.*<productCode>El11</productCode>.*<itemCategory>Ele Appiances</itemCategory>.*<itemSubCategory>home appliaces</itemSubCategory>.*<productId>1111</productId>.*<productName>dryer</productName>.*<shipmentId>2593</shipmentId>.*<subscription>.*<subscriptionId>123</subscriptionId>.*<nextDeliveryDate>2023-03-02</nextDeliveryDate>.*<periodUnit>WEEK</periodUnit>.*<numberOfPeriods>131</numberOfPeriods>.*<regularItemPrice>169</regularItemPrice>.*<currentPeriod>112</currentPeriod></subscription>.*</lineItemData>.*</enhancedData>.*<foreignRetailerIndicator>F</foreignRetailerIndicator>.*", RegexOptions.Singleline)))
+                .Returns("<cnpOnlineResponse version='12.33' response='0' message='Valid Format' xmlns='http://www.vantivcnp.com/schema'><captureGivenAuthResponse><cnpTxnId>123</cnpTxnId><location>sandbox</location></captureGivenAuthResponse></cnpOnlineResponse>");
+
+            var mockedCommunication = mock.Object;
+            cnp.SetCommunication(mockedCommunication);
+            var response = cnp.CaptureGivenAuth(capture);
+
+            Assert.NotNull(response);
+            Assert.AreEqual("sandbox", response.location);
+        }
     }
 }

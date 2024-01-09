@@ -1669,7 +1669,7 @@ namespace Cnp.Sdk.Test.Functional
                     validationReference = "re3298rhriw4wrw",
                     sequenceIndicator = 2
                 },
-                processingType = processingType.accountFunding,
+                processingType = processingType.initialCOF,
                 originalNetworkTransactionId = "abc123",
                 originalTransactionAmount = 123456789
             };
@@ -2126,7 +2126,7 @@ namespace Cnp.Sdk.Test.Functional
                     validationReference = "re3298rhriw4wrw",
                     sequenceIndicator = 2
                 },
-                processingType = processingType.accountFunding,
+                processingType = processingType.initialCOF,
                 originalNetworkTransactionId = "abc123",
                 originalTransactionAmount = 123456789,
                 foreignRetailerIndicator = foreignRetailerIndicatorEnum.F
@@ -2233,6 +2233,217 @@ namespace Cnp.Sdk.Test.Functional
 
         }
         //12.31 end
+
+        [Test]
+        public void SimpleAuthCaptureForceCaptureSaleCaptureGivenAuthWithShipmentIDSunscription()//12.33
+        {
+            var cnpBatchRequest = new batchRequest();
+            var card = new cardType();
+            card.type = methodOfPaymentTypeEnum.VI;
+            card.number = "4100000000000001";
+            card.expDate = "1210";
+            var authorization = new authorization
+            {
+                id = new Random().Next(100).ToString(),
+                reportGroup = "Planets",
+                orderId = "12344",
+                amount = 106,
+                orderSource = orderSourceType.ecommerce,
+                crypto = false,
+                orderChannel = orderChannelEnum.PHONE,
+                fraudCheckStatus = "Not Approved",
+                card = card,
+                enhancedData = new enhancedData
+                {
+                    customerReference = "000000008110801",
+                    salesTax = 23,
+                    deliveryType = enhancedDataDeliveryType.DIG,
+                    taxExempt = false,
+                    detailTaxes = new List<detailTax>(),
+                    lineItems = new List<lineItemData>(),
+                },
+                customBilling = new customBilling { phone = "1112223333" }
+            };
+
+            var capture = new capture
+            {
+                id = "1",
+                cnpTxnId = 123456000,
+                orderId = "defaultOrderId",
+                amount = 106,
+                enhancedData = new enhancedData
+                {
+                    customerReference = "000000008110801",
+                    salesTax = 27,
+                    deliveryType = enhancedDataDeliveryType.DIG,
+                    taxExempt = false,
+                    lineItems = new List<lineItemData>(),
+                },
+            };
+
+            var capturegivenauth = new captureGivenAuth
+            {
+                id = "1",
+                amount = 1176,
+                orderId = "12377",
+                crypto = false,
+                authInformation = new authInformation
+                {
+                    authDate = new DateTime(2023, 4, 9),
+                    authCode = "543216",
+                    authAmount = 6532,
+                },
+                orderSource = orderSourceType.ecommerce,
+                card = card,
+                enhancedData = new enhancedData
+                {
+                    customerReference = "000000008110801",
+                    salesTax = 27,
+                    deliveryType = enhancedDataDeliveryType.DIG,
+                    taxExempt = false,
+                    lineItems = new List<lineItemData>(),
+                },
+            };
+            capturegivenauth.foreignRetailerIndicator = foreignRetailerIndicatorEnum.F;
+
+            var forcecapture = new forceCapture
+            {
+                id = new Random().Next(1000).ToString(),
+                amount = 106,
+                orderId = "12344",
+                orderSource = orderSourceType.ecommerce,
+                card = card,
+                enhancedData = new enhancedData
+                {
+                    customerReference = "000000008110801",
+                    salesTax = 23,
+                    deliveryType = enhancedDataDeliveryType.DIG,
+                    taxExempt = false,
+                    detailTaxes = new List<detailTax>(),
+                    lineItems = new List<lineItemData>(),
+
+                },
+                foreignRetailerIndicator = foreignRetailerIndicatorEnum.F
+            };
+
+            var saleObj = new sale
+            {
+                amount = 106,
+                cnpTxnId = 123456,
+                id = "1",
+                orderId = "12344",
+                orderSource = orderSourceType.ecommerce,
+                card = new cardType
+                {
+                    type = methodOfPaymentTypeEnum.VI,
+                    number = "4100000000000001",
+                    expDate = "1210"
+                },
+                cardholderAuthentication = new fraudCheckType
+                {
+                    customerIpAddress = "127.1.1"
+                },
+                enhancedData = new enhancedData
+                {
+                    customerReference = "000000008110801",
+                    salesTax = 23,
+                    deliveryType = enhancedDataDeliveryType.DIG,
+                    taxExempt = false,
+                    lineItems = new List<lineItemData>(),
+
+                }
+            };
+
+            var mysubscription = new subscriptions();
+            mysubscription.subscriptionId = "123";
+            mysubscription.currentPeriod = 112;
+            mysubscription.periodUnit = periodUnit.WEEK;
+            mysubscription.numberOfPeriods = 131;
+            mysubscription.regularItemPrice = 169;
+            mysubscription.nextDeliveryDate = new DateTime(2023, 3, 2);
+
+            var mylineItemData = new lineItemData();
+            mylineItemData.itemSequenceNumber = 1;
+            mylineItemData.itemDescription = "Ecomm";
+            mylineItemData.productCode = "El11";
+            mylineItemData.itemCategory = "Ele Appiances";
+            mylineItemData.itemSubCategory = "home appliaces";
+            mylineItemData.productId = "1111";
+            mylineItemData.productName = "dryer";
+            mylineItemData.shipmentId = "2593";
+            mylineItemData.subscription.Add(mysubscription);
+
+            authorization.enhancedData.lineItems.Add(mylineItemData);
+            capture.enhancedData.lineItems.Add(mylineItemData);
+            capturegivenauth.enhancedData.lineItems.Add(mylineItemData);
+            forcecapture.enhancedData.lineItems.Add(mylineItemData);
+            saleObj.enhancedData.lineItems.Add(mylineItemData);
+
+            cnpBatchRequest.addAuthorization(authorization);
+            cnpBatchRequest.addCapture(capture);
+            cnpBatchRequest.addCaptureGivenAuth(capturegivenauth);
+            cnpBatchRequest.addForceCapture(forcecapture);
+            cnpBatchRequest.addSale(saleObj);
+
+            _cnp.addBatch(cnpBatchRequest);
+
+            var batchName = _cnp.sendToCnp();
+
+            _cnp.blockAndWaitForResponse(batchName, estimatedResponseTime(2 * 2, 10 * 2));
+
+            var cnpResponse = _cnp.receiveFromCnp(batchName);
+
+            Assert.NotNull(cnpResponse);
+            Assert.AreEqual("0", cnpResponse.response);
+            Assert.AreEqual("Valid Format", cnpResponse.message);
+
+            var cnpBatchResponse = cnpResponse.nextBatchResponse();
+            while (cnpBatchResponse != null)
+            {
+                var authResponse = cnpBatchResponse.nextAuthorizationResponse();
+                while (authResponse != null)
+                {
+                    Assert.AreEqual("000", authResponse.response);
+
+                    authResponse = cnpBatchResponse.nextAuthorizationResponse();
+                }
+
+                var captureResponse = cnpBatchResponse.nextCaptureResponse();
+                while (captureResponse != null)
+                {
+                    Assert.AreEqual("000", captureResponse.response);
+
+                    captureResponse = cnpBatchResponse.nextCaptureResponse();
+                }
+
+                var forceCaptureResponse = cnpBatchResponse.nextForceCaptureResponse();
+                while (forceCaptureResponse != null)
+                {
+                    Assert.AreEqual("000", forceCaptureResponse.response);
+
+                    forceCaptureResponse = cnpBatchResponse.nextForceCaptureResponse();
+                }
+
+                var captureGivenAuthResponse = cnpBatchResponse.nextCaptureGivenAuthResponse();
+                while (captureGivenAuthResponse != null)
+                {
+                    Assert.AreEqual("000", captureGivenAuthResponse.response);
+
+                    captureGivenAuthResponse = cnpBatchResponse.nextCaptureGivenAuthResponse();
+                }
+
+                var saleResponse = cnpBatchResponse.nextSaleResponse();
+                while (saleResponse != null)
+                {
+                    Assert.AreEqual("000", saleResponse.response);
+
+                    saleResponse = cnpBatchResponse.nextSaleResponse();
+                }
+                cnpBatchResponse = cnpResponse.nextBatchResponse();
+            }
+
+        } //12.33 End
+
         private int estimatedResponseTime(int numAuthsAndSales, int numRest)
         {
             return (int)(5 * 60 * 1000 + 2.5 * 1000 + numAuthsAndSales * (1 / 5) * 1000 + numRest * (1 / 50) * 1000) * 5;

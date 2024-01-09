@@ -2,7 +2,7 @@
 using NUnit.Framework;
 using Moq;
 using System.Text.RegularExpressions;
-
+using System;
 
 namespace Cnp.Sdk.Test.Unit
 {
@@ -989,7 +989,7 @@ namespace Cnp.Sdk.Test.Unit
         [Test]
         public void AuthWithAuthIndicatorIncrementalEnum()
         {
-            var auth = new authorization();
+             var auth = new authorization();
             auth.id = "thisisid";
             auth.customerId = "Cust044";
             auth.reportGroup = "Planets";
@@ -1010,5 +1010,50 @@ namespace Cnp.Sdk.Test.Unit
         }
         // 12.28, 12.29 and 12.30 end
 
+        //12.33
+        [Test]
+        public void AuthWithShipmentIdAndSubscription()
+        {
+            var auth = new authorization();
+            auth.orderId = "12344";
+            auth.amount = 2;
+            auth.orderSource = orderSourceType.ecommerce;
+
+            enhancedData enhancedData = new enhancedData();
+            enhancedData.lineItems = new List<lineItemData>();
+
+            var mysubscription = new subscriptions();
+            mysubscription.subscriptionId = "123";
+            mysubscription.currentPeriod = 114;
+            mysubscription.periodUnit = periodUnit.YEAR;
+            mysubscription.numberOfPeriods = 123;
+            mysubscription.regularItemPrice = 69;
+            mysubscription.nextDeliveryDate = new DateTime(2017, 1, 1);
+
+            var mylineItemData = new lineItemData();
+            mylineItemData.itemSequenceNumber = 1;
+            mylineItemData.itemDescription = "Electronics";
+            mylineItemData.productCode = "El03";
+            mylineItemData.itemCategory = "E Appiances";
+            mylineItemData.itemSubCategory = "appliaces";
+            mylineItemData.productId = "1023";
+            mylineItemData.productName = "dyer";
+            mylineItemData.shipmentId = "2124";
+            mylineItemData.subscription.Add(mysubscription);
+            enhancedData.lineItems.Add(mylineItemData);
+            auth.enhancedData = enhancedData;
+
+            var mock = new Mock<Communications>();
+            mock.Setup(Communications => Communications.HttpPost(It.IsRegex(".*<enhancedData>.*<lineItemData>.*<itemSequenceNumber>1</itemSequenceNumber>.*<itemDescription>Electronics</itemDescription>.*<productCode>El03</productCode>.*<itemCategory>E Appiances</itemCategory>.*<itemSubCategory>appliaces</itemSubCategory>.*<productId>1023</productId>.*<productName>dyer</productName>.*<shipmentId>2124</shipmentId>.*<subscription>.*<subscriptionId>123</subscriptionId>.*<nextDeliveryDate>2017-01-01</nextDeliveryDate>.*<periodUnit>YEAR</periodUnit>.*<numberOfPeriods>123</numberOfPeriods>.*<regularItemPrice>69</regularItemPrice>.*<currentPeriod>114</currentPeriod></subscription>.*</lineItemData>.*</enhancedData>.*", RegexOptions.Singleline)))
+               .Returns("<cnpOnlineResponse version='12.33' response='0' message='Valid Format' xmlns='http://www.vantivcnp.com/schema'><authorizationResponse><cnpTxnId>123</cnpTxnId></authorizationResponse></cnpOnlineResponse>");
+
+            var mockedCommunication = mock.Object;
+            cnp.SetCommunication(mockedCommunication);
+            var authorizationResponse = cnp.Authorize(auth);
+
+            Assert.NotNull(authorizationResponse);
+            Assert.AreEqual(123, authorizationResponse.cnpTxnId);
+
+        }
     }
 }

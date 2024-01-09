@@ -540,5 +540,62 @@ namespace Cnp.Sdk.Test.Functional
             var response = _cnp.CaptureGivenAuth(capturegivenauth);
             Assert.AreEqual("Approved", response.message);
         }
+
+        [Test]
+        public void SimpleCaptureGivenAuthWithShipmentIDSubscription()//12.33
+        {
+            var capturegivenauth = new captureGivenAuth
+            {
+                id = "1",
+                amount = 1176,
+                orderId = "12377",
+                crypto = false,
+                authInformation = new authInformation
+                {
+                    authDate = new DateTime(2023, 4, 9),
+                    authCode = "543216",
+                    authAmount = 6532,
+                },
+                orderSource = orderSourceType.ecommerce,
+                card = new cardType
+                {
+                    type = methodOfPaymentTypeEnum.VI,
+                    number = "4100000000000000",
+                    expDate = "1210",
+                },
+                enhancedData = new enhancedData
+                {
+                    customerReference = "000000008110801",
+                    salesTax = 27,
+                    deliveryType = enhancedDataDeliveryType.DIG,
+                    taxExempt = false,
+                    lineItems = new List<lineItemData>(),
+
+                },
+            };
+            var mysubscription = new subscriptions();
+            mysubscription.subscriptionId = "123";
+            mysubscription.currentPeriod = 112;
+            mysubscription.periodUnit = periodUnit.WEEK;
+            mysubscription.numberOfPeriods = 131;
+            mysubscription.regularItemPrice = 169;
+            mysubscription.nextDeliveryDate = new DateTime(2023, 3, 2);
+
+            var mylineItemData = new lineItemData();
+            mylineItemData.itemSequenceNumber = 1;
+            mylineItemData.itemDescription = "Ecomm";
+            mylineItemData.productCode = "El11";
+            mylineItemData.itemCategory = "Ele Appiances";
+            mylineItemData.itemSubCategory = "home appliaces";
+            mylineItemData.productId = "1111";
+            mylineItemData.productName = "dryer";
+            mylineItemData.shipmentId = "2593";
+            mylineItemData.subscription.Add(mysubscription);
+            capturegivenauth.enhancedData.lineItems.Add(mylineItemData);
+            capturegivenauth.foreignRetailerIndicator = foreignRetailerIndicatorEnum.F;
+            
+            var response = _cnp.CaptureGivenAuth(capturegivenauth);
+            Assert.AreEqual("Approved", response.message);
+        }
     }
 }

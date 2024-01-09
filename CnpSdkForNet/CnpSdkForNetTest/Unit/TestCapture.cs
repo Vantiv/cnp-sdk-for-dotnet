@@ -208,5 +208,53 @@ namespace Cnp.Sdk.Test.Unit
             Assert.AreEqual("sandbox", response.location);
         }
 
+        [Test]
+        public void TestCaptureWithShipmentIDSubscription()///12.33
+        {
+            capture capture = new capture();
+            capture.cnpTxnId = 3;
+            capture.amount = 2;
+            capture.payPalNotes = "note";
+            capture.reportGroup = "Planets";
+            capture.pin = "1234";
+            enhancedData enhancedData = new enhancedData();
+            enhancedData.lineItems = new List<lineItemData>();
+
+            var mysubscription = new subscriptions();
+            mysubscription.subscriptionId = "023";
+            mysubscription.currentPeriod = 922;
+            mysubscription.periodUnit = periodUnit.QUARTER;
+            mysubscription.numberOfPeriods = 731;
+            mysubscription.regularItemPrice = 669;
+            mysubscription.nextDeliveryDate = new DateTime(2023, 7, 6);
+
+            var mylineItemData = new lineItemData();
+            mylineItemData.itemSequenceNumber = 1;
+            mylineItemData.itemDescription = "Business";
+            mylineItemData.productCode = "El1331";
+            mylineItemData.itemCategory = "Ele Ecomm";
+            mylineItemData.itemSubCategory = "home appliaces";
+            mylineItemData.productId = "1611";
+            mylineItemData.productName = "dryer";
+            mylineItemData.shipmentId = "2993";
+            mylineItemData.subscription.Add(mysubscription);
+            enhancedData.lineItems.Add(mylineItemData);
+
+            capture.enhancedData = enhancedData;
+            capture.foreignRetailerIndicator = foreignRetailerIndicatorEnum.F;
+
+            var mock = new Mock<Communications>();
+
+            mock.Setup(Communications => Communications.HttpPost(It.IsRegex(".*<enhancedData>.*<lineItemData>.*<itemSequenceNumber>1</itemSequenceNumber>.*<itemDescription>Business</itemDescription>.*<productCode>El1331</productCode>.*<itemCategory>Ele Ecomm</itemCategory>.*<itemSubCategory>home appliaces</itemSubCategory>.*<productId>1611</productId>.*<productName>dryer</productName>.*<shipmentId>2993</shipmentId>.*<subscription>.*<subscriptionId>023</subscriptionId>.*<nextDeliveryDate>2023-07-06</nextDeliveryDate>.*<periodUnit>QUARTER</periodUnit>.*<numberOfPeriods>731</numberOfPeriods>.*<regularItemPrice>669</regularItemPrice>.*<currentPeriod>922</currentPeriod></subscription>.*</lineItemData>.*</enhancedData>.*<foreignRetailerIndicator>F</foreignRetailerIndicator>.*", RegexOptions.Singleline)))
+                .Returns("<cnpOnlineResponse version='12.33' response='0' message='Valid Format' xmlns='http://www.vantivcnp.com/schema'><captureResponse><cnpTxnId>123</cnpTxnId><location>sandbox</location></captureResponse></cnpOnlineResponse>");
+
+            Communications mockedCommunication = mock.Object;
+            cnp.SetCommunication(mockedCommunication);
+            var response = cnp.Capture(capture);
+
+            Assert.NotNull(response);
+            Assert.AreEqual("sandbox", response.location);
+        }
+
     }
 }

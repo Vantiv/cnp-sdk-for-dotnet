@@ -1,6 +1,7 @@
 ﻿using System.Collections.Generic;
 using NUnit.Framework;
 using System.Threading;
+using System;
 
 namespace Cnp.Sdk.Test.Functional
 {
@@ -285,6 +286,50 @@ namespace Cnp.Sdk.Test.Functional
                 foreignRetailerIndicator= foreignRetailerIndicatorEnum.F
 
             };
+            var response = _cnp.Capture(capture);
+            Assert.AreEqual("Approved", response.message);
+        }
+
+        [Test]
+        public void SimpleCaptureWithShipmentIDSubscription()///12.33
+        {
+            var capture = new capture
+            {
+                id = "1",
+                cnpTxnId = 123456000,
+                orderId = "defaultOrderId",
+                amount = 106,
+                enhancedData = new enhancedData
+                {
+                    customerReference = "000000008110801",
+                    salesTax = 27,
+                    deliveryType = enhancedDataDeliveryType.DIG,
+                    taxExempt = false,
+                    lineItems = new List<lineItemData>(),
+
+                },
+            };
+            var mysubscription = new subscriptions();
+            mysubscription.subscriptionId = "023";
+            mysubscription.currentPeriod = 922;
+            mysubscription.periodUnit = periodUnit.QUARTER;
+            mysubscription.numberOfPeriods = 731;
+            mysubscription.regularItemPrice = 669;
+            mysubscription.nextDeliveryDate = new DateTime(2023, 7, 6);
+
+            var mylineItemData = new lineItemData();
+            mylineItemData.itemSequenceNumber = 1;
+            mylineItemData.itemDescription = "Business";
+            mylineItemData.productCode = "El1331";
+            mylineItemData.itemCategory = "Ele Ecomm";
+            mylineItemData.itemSubCategory = "home appliaces";
+            mylineItemData.productId = "1611";
+            mylineItemData.productName = "dryer";
+            mylineItemData.shipmentId = "2993";
+            mylineItemData.subscription.Add(mysubscription);
+            capture.enhancedData.lineItems.Add(mylineItemData);
+            capture.foreignRetailerIndicator = foreignRetailerIndicatorEnum.F;
+
             var response = _cnp.Capture(capture);
             Assert.AreEqual("Approved", response.message);
         }
