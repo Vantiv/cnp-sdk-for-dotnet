@@ -31,6 +31,7 @@ namespace Cnp.Sdk
         public echeckVerification echeckVerification;
         public echeckVoid echeckVoid;
         public fastAccessFunding fastAccessFunding;
+        public finicityUrlRequest finicityUrlRequest;
         public forceCapture forceCapture;
         public fraudCheck fraudCheck;
         public giftCardAuthReversal giftCardAuthReversal;
@@ -132,6 +133,7 @@ namespace Cnp.Sdk
             else if (translateToLowValueTokenRequest != null) xml += translateToLowValueTokenRequest.Serialize();
             else if (depositTransactionReversal != null) xml += depositTransactionReversal.Serialize();
             else if (refundTransactionReversal != null) xml += refundTransactionReversal.Serialize();
+            else if (finicityUrlRequest != null) xml += finicityUrlRequest.Serialize();
             xml += "\r\n</cnpOnlineRequest>";
 
             return xml;
@@ -4422,6 +4424,7 @@ namespace Cnp.Sdk
         public string checkNum;
         public string ccdPaymentInformation;
         public string[] ctxPaymentInformation;
+        public string echeckCustomerId;
 
         public string Serialize()
         {
@@ -4441,8 +4444,10 @@ namespace Cnp.Sdk
                 for (int i = 0; i < ctxPaymentInformation.Length; i++) xml += "\r\n<ctxPaymentDetail>" + SecurityElement.Escape(ctxPaymentInformation[i]) + "</ctxPaymentDetail>";
                 xml += "\r\n</ctxPaymentInformation>";
             }
+            if (echeckCustomerId != null) xml += "\r\n<echeckCustomerId>" + SecurityElement.Escape(echeckCustomerId) + "</echeckCustomerId>";
             return xml;
         }
+        
     }
 
     public partial class echeckTokenType
@@ -6119,6 +6124,27 @@ namespace Cnp.Sdk
         }
     }
 
+    public partial class finicityUrlRequest : transactionTypeWithReportGroup
+    {
+        public string firstName;
+        public string lastName;
+        public string phoneNumber;
+        public string email;
+    
+        public override string Serialize()
+        {
+            var xml = "\r\n<finicityUrlRequest";
+            xml += " id=\"" + SecurityElement.Escape(id) + "\"";
+            if (customerId != null)
+            {
+                xml += " customerId=\"" + SecurityElement.Escape(customerId) + "\"";
+            }
+            xml += " reportGroup=\"" + SecurityElement.Escape(reportGroup) + "\">";
+            xml += "\r\n<firstName>" + SecurityElement.Escape(firstName) + "</orderId>";
+            xml += "\r\n<lastName>" + lastName + "</lastName>";
+            xml += "\r\n<email>" + email + "</email>";
+        }
+    }
     public class accountUpdateFileRequestData
     {
         public string merchantId;

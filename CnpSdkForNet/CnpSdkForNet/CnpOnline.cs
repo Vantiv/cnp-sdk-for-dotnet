@@ -351,6 +351,10 @@ namespace Cnp.Sdk
             {
                 request.customerCredit = (customerCredit)transaction;
             }
+            else if (transaction is finicityUrlRequest)
+            {
+                request.finicityUrlRequest= (finicityUrlRequest)transaction;
+            }
             else
             {
                 throw new NotImplementedException("Support for type: " + transaction.GetType().Name +
@@ -1070,6 +1074,23 @@ namespace Cnp.Sdk
             }, customerDebit, cancellationToken);
         }
 
+        public finicityUrlResponse FinicityUrl(finicityUrlRequest finicityUrlRequest)
+        {
+
+            var cnpResponse = SendRequest(response => response, reversal);
+            var fi = cnpResponse.finicityUrlResponse;
+            return finicityUrlResponse;
+        }
+
+        public Task<finicityUrlResponse> finicityUrlAsync(finicityUrlRequest finicityUrl, CancellationToken cancellationToken)
+        {
+            return SendRequestAsync(response =>
+            {
+                var finicityUrlResponse = response.finicityUrlResponse;
+                return finicityUrlResponse;
+            }, finicityUrl, cancellationToken);
+        }
+
 
         private cnpOnlineRequest CreateCnpOnlineRequest()
         {
@@ -1276,7 +1297,8 @@ namespace Cnp.Sdk
 
         translateToLowValueTokenResponse TranslateToLowValueTokenRequest(translateToLowValueTokenRequest translateToLowValueTokenRequest);
         Task<translateToLowValueTokenResponse> TranslateToLowValueTokenRequestAsync(translateToLowValueTokenRequest translateToLowValueTokenRequest, CancellationToken cancellationToken);
-
+        finicityUrlResponse FinicityUrl(finicityUrlRequest finicityUrl);
+        Task<finicityUrlResponse> finicityUrlAsync(finicityUrlRequest finicityUrl, CancellationToken cancellationToken);
 
         event EventHandler HttpAction;
     }
