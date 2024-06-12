@@ -28,6 +28,7 @@ namespace Cnp.Sdk.Test.Functional
                 reportGroup = "Planets",
                 firstName = "first",
                 lastName = "last",
+                phoneNumber ="123456789",
                 email = "bcv@abc"
             };
 

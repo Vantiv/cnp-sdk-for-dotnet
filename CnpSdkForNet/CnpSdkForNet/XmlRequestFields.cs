@@ -6142,6 +6142,7 @@ namespace Cnp.Sdk
             xml += " reportGroup=\"" + SecurityElement.Escape(reportGroup) + "\">";
             xml += "\r\n<firstName>" + SecurityElement.Escape(firstName) + "</firstName>";
             xml += "\r\n<lastName>" + lastName + "</lastName>";
+            xml += "\r\n<phoneNumber>" + phoneNumber + "</phoneNumber>";
             xml += "\r\n<email>" + email + "</email>";
             xml += "\r\n</finicityUrlRequest>";
             return xml;
