@@ -6140,10 +6140,13 @@ namespace Cnp.Sdk
                 xml += " customerId=\"" + SecurityElement.Escape(customerId) + "\"";
             }
             xml += " reportGroup=\"" + SecurityElement.Escape(reportGroup) + "\">";
-            xml += "\r\n<firstName>" + SecurityElement.Escape(firstName) + "</orderId>";
+            xml += "\r\n<firstName>" + SecurityElement.Escape(firstName) + "</firstName>";
             xml += "\r\n<lastName>" + lastName + "</lastName>";
             xml += "\r\n<email>" + email + "</email>";
+            xml += "\r\n</finicityUrlRequest>";
+            return xml;
         }
+
     }
     public class accountUpdateFileRequestData
     {

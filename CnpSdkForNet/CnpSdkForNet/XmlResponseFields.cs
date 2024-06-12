@@ -5810,6 +5810,7 @@ namespace Cnp.Sdk
         public translateToLowValueTokenResponse translateToLowValueTokenResponse;
         public depositTransactionReversalResponse depositTransactionReversalResponse;
         public refundTransactionReversalResponse refundTransactionReversalResponse;
+        public finicityUrlResponse finicityUrlResponse;
 
         /// <remarks/>
         [System.Xml.Serialization.XmlAttributeAttribute()]

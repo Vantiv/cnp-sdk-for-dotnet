@@ -822,7 +822,7 @@ namespace Cnp.Sdk.Test.Functional
                 orderId = "12344",
                 amount = 106,
                 orderSource = orderSourceType.ecommerce,
-                businessIndicator = businessIndicatorEnum.consumerBillPayment,
+                businessIndicator = businessIndicatorEnum.personToPerson,
                 card = new cardType
                 {
                     type = methodOfPaymentTypeEnum.VI,

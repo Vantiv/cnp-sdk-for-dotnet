@@ -1077,8 +1077,8 @@ namespace Cnp.Sdk
         public finicityUrlResponse FinicityUrl(finicityUrlRequest finicityUrlRequest)
         {
 
-            var cnpResponse = SendRequest(response => response, reversal);
-            var fi = cnpResponse.finicityUrlResponse;
+            var cnpResponse = SendRequest(response => response, finicityUrlRequest);
+            var finicityUrlResponse = cnpResponse.finicityUrlResponse;
             return finicityUrlResponse;
         }
 
