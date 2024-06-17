@@ -1298,17 +1298,26 @@ namespace Cnp.Sdk.Test.Functional
                 },
                 customBilling = new customBilling { phone = "1112223333" },
                 enhancedData = new enhancedData
-                    {
-                        customerReference = "000000008110801",
-                        salesTax = 23,
-                        deliveryType = enhancedDataDeliveryType.DIG,
-                        taxExempt = false,
-                        detailTaxes = new List<detailTax>(),
-                        lineItems = new List<lineItemData>(),
+                {
+                    customerReference = "000000008110801",
+                    salesTax = 23,
+                    deliveryType = enhancedDataDeliveryType.DIG,
+                    taxExempt = false,
+                    detailTaxes = new List<detailTax>(),
+                    lineItems = new List<lineItemData>(),
+
+                },
+                accountFundingTransactionData = new accountFundingTransactionData()
+                {
+                    receiverFirstName = "abcc",
+                    receiverLastName = "cde",
+                    receiverCountry = countryTypeEnum.US,
+                    receiverState = stateTypeEnum.AL,
+                    receiverAccountNumber = "4141000",
 
                 }
             };
-
+            var response = _cnp.Authorize(authorization);
             var mysubscription = new subscriptions();
             mysubscription.subscriptionId = "123";
             mysubscription.currentPeriod = 114;
@@ -1328,8 +1337,6 @@ namespace Cnp.Sdk.Test.Functional
             mylineItemData.shipmentId = "2124";
             mylineItemData.subscription.Add(mysubscription);
             authorization.enhancedData.lineItems.Add(mylineItemData);
-
-            var response = _cnp.Authorize(authorization);
 
             DateTime checkDate = new DateTime(0001, 1, 1, 00, 00, 00);
 

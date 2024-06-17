@@ -557,6 +557,9 @@ namespace Cnp.Sdk
 
         public string merchantCategoryCode;
 
+        //12.35
+        public accountFundingTransactionData accountFundingTransactionData;
+
         public override string Serialize()
         {
             var xml = "\r\n<authorization";
@@ -778,6 +781,11 @@ namespace Cnp.Sdk
                 if (businessIndicatorSet)
                 {
                     xml += "\r\n<businessIndicator>" + businessIndicatorField + "</businessIndicator>";
+                }
+
+                if (accountFundingTransactionData != null)
+                {
+                    xml += "\r\n<accountFundingTransactionData>" + accountFundingTransactionData.Serialize() + "\r\n</accountFundingTransactionData>";
                 }
             }
 
@@ -1340,6 +1348,7 @@ namespace Cnp.Sdk
             set { foreignRetailerIndicatorField = value; foreignRetailerIndicatorSet = true; }
         }
         //12.31 end
+        public accountFundingTransactionData accountFundingTransactionData;
         public override string Serialize()
         {
             var xml = "\r\n<captureGivenAuth";
@@ -1460,6 +1469,11 @@ namespace Cnp.Sdk
             {
                 xml += "\r\n<foreignRetailerIndicator>" + foreignRetailerIndicatorField + "</foreignRetailerIndicator>";
             }
+            if (accountFundingTransactionData != null)
+            {
+                xml += "\r\n<accountFundingTransactionData>" + accountFundingTransactionData.Serialize() + "\r\n</accountFundingTransactionData>";
+            }
+
             xml += "\r\n</captureGivenAuth>";
             return xml;
         }
@@ -1609,7 +1623,7 @@ namespace Cnp.Sdk
         public string merchantCategoryCode;
         public string payPalNotes;
         public string actionReason;
-
+        public accountFundingTransactionData accountFundingTransactionData;
         public override string Serialize()
         {
             var xml = "\r\n<credit";
@@ -1688,7 +1702,10 @@ namespace Cnp.Sdk
             if (payPalNotes != null) xml += "\r\n<payPalNotes>" + SecurityElement.Escape(payPalNotes) + "</payPalNotes>";
             if (actionReason != null) xml += "\r\n<actionReason>" + SecurityElement.Escape(actionReason) + "</actionReason>";
             if (businessIndicatorSet) xml += "\r\n<businessIndicator>" + businessIndicatorField + "</businessIndicator>";
-
+            if (accountFundingTransactionData != null)
+            {
+                xml += "\r\n<accountFundingTransactionData>" + accountFundingTransactionData.Serialize() + "\r\n</accountFundingTransactionData>";
+            }
             xml += "\r\n</credit>";
             return xml;
         }
@@ -2155,6 +2172,10 @@ namespace Cnp.Sdk
             set { foreignRetailerIndicatorField = value; foreignRetailerIndicatorSet = true; }
         }
         //12.31 end
+
+        //new 12.35 start 
+        public accountFundingTransactionData accountFundingTransactionData;
+        //new 12.35 end
         public override string Serialize()
         {
             var xml = "\r\n<forceCapture";
@@ -2251,8 +2272,10 @@ namespace Cnp.Sdk
             {
                 xml += "\r\n<foreignRetailerIndicator>" + foreignRetailerIndicatorField + "</foreignRetailerIndicator>";
             }
-
-
+            if (accountFundingTransactionData != null)
+            {
+                xml += "\r\n<accountFundingTransactionData>" + accountFundingTransactionData.Serialize() + "\r\n</accountFundingTransactionData>";
+            }
             xml += "\r\n</forceCapture>";
             return xml;
         }
@@ -2963,6 +2986,9 @@ namespace Cnp.Sdk
         //    }
         //}
 
+
+        //new 12.35
+        public accountFundingTransactionData accountFundingTransactionData;
         public override string Serialize()
         {
             var xml = "\r\n<sale";
@@ -3188,6 +3214,11 @@ namespace Cnp.Sdk
             {
                 xml += "\r\n<foreignRetailerIndicator>" + foreignRetailerIndicatorField + "</foreignRetailerIndicator>";
             }
+            if (accountFundingTransactionData != null)
+            {
+                xml += "\r\n<accountFundingTransactionData>" + accountFundingTransactionData.Serialize() + "\r\n</accountFundingTransactionData>";
+            }
+
             //end
             //if (routingPreferenceSet)
             //{
@@ -3792,6 +3823,8 @@ namespace Cnp.Sdk
         COUNTER_PICKUP,
         CURBSIDE_PICKUP,
         LOCKER_PICKUP,
+        STANDARD_SHIPPING,
+        EXPEDITED_SHIPPING
     }
 
     /// new 12.24
@@ -3803,7 +3836,10 @@ namespace Cnp.Sdk
         SOCIAL,
         MARKETPLACE,
         IN_STORE_KIOSK,
-        MIT// new 12.28
+        MIT,// new 12.28
+        // new 12.35
+        SCAN_AND_GO,
+        SMART_TV
     }
 
     //new 12.25, 12.26 and 12.27 start
@@ -5860,6 +5896,76 @@ namespace Cnp.Sdk
         ME,
     }
 
+    public enum stateTypeEnum
+    {
+
+        /// <remarks/>
+        AL,
+        AK,
+        AZ,
+        AR,
+        CA,
+        CO,
+        CT,
+        DE,
+        DC,
+        FL,
+        GA,
+        HI,
+        ID,
+        IL,
+        IN,
+        IA,
+        KS,
+        KY,
+        LA,
+        ME,
+        MD,
+        MA,
+        MI,
+        MN,
+        MS,
+        MO,
+        MT,
+        NE,
+        NV,
+        NH,
+        NJ,
+        NM,
+        NY,
+        NC,
+        ND,
+        OH,
+        OK,
+        OR,
+        PA,
+        RI,
+        SC,
+        SD,
+        TN,
+        TX,
+        UT,
+        VT,
+        VA,
+        WA,
+        WV,
+        WI,
+        WY,
+        AB,
+        BC,
+        MB,
+        NB,
+        NL,
+        NT,
+        NS,
+        ON,
+        PE,
+        QC,
+        SK,
+        YT,
+        NU,
+    }
+
     public partial class addressType
     {        
         public string addressLine1;
@@ -7003,6 +7109,63 @@ namespace Cnp.Sdk
             {
                 xml += "\r\n<preferredLanguage>" + preferredLanguage + "</preferredLanguage>";
             }
+            return xml;
+        }
+    }
+
+    ///new 12.35
+    public partial class accountFundingTransactionData
+    {
+        public string receiverFirstName;
+        public string receiverLastName;
+
+        public stateTypeEnum receiverStateFeild;
+        public bool receiverStateSet;
+        public stateTypeEnum receiverState
+        {
+            get
+            {
+                return receiverStateFeild;
+            }
+            set
+            {
+                receiverStateFeild = value;
+                receiverStateSet = true;
+            }
+        }
+
+        public countryTypeEnum receiverCountryFeild;
+        public bool receiverCountrySet;
+       
+        public countryTypeEnum receiverCountry
+        {
+            get
+            {
+                return receiverCountryFeild;
+            }
+            set
+            {
+                receiverCountryFeild = value;
+                receiverCountrySet = true;
+            }
+        }
+     
+
+        public string receiverAccountNumber;
+        public string Serialize()
+        {
+            var xml = "";
+            if (receiverFirstName != null) xml += "\r\n<receiverFirstName>" + SecurityElement.Escape(receiverFirstName) + "</receiverFirstName>";
+            if (receiverLastName != null) xml += "\r\n<receiverLastName>" + SecurityElement.Escape(receiverLastName) + "</receiverLastName>";
+            if (receiverStateSet)
+            {
+                xml += "\r\n<receiverState>" + receiverState + "</receiverState>";
+            }
+            if (receiverCountrySet)
+            {
+                xml += "\r\n<receiverCountry>" + receiverCountry + "</receiverCountry>";
+            }
+            if (receiverAccountNumber != null) xml += "\r\n<receiverAccountNumber>" + SecurityElement.Escape(receiverAccountNumber) + "</receiverAccountNumber>";         
             return xml;
         }
     }

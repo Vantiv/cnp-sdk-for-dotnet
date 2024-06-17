@@ -400,6 +400,15 @@ namespace Cnp.Sdk
         payrollDisbursement,
         personToPerson,
         topUp,
+        //new 12.35
+        personToPersonCardAccount,
+        debitPrepaidAccount,
+        paymentOfOwnCreditCardBill,
+        businessDisbursement,
+        businessToBusinessTransfer,
+        governmentNonProfitDisbursement,
+        rapidMerchantSettlement,
+        agentCashOut
     }
 
     /// <remarks/>

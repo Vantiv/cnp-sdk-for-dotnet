@@ -404,6 +404,15 @@ namespace Cnp.Sdk.Test.Functional
                         arrivalTime = "16:10",
                         remarks = "NA"
                     }
+                },
+                accountFundingTransactionData = new accountFundingTransactionData()
+                {
+                    receiverFirstName = "abcc",
+                    receiverLastName = "cde",
+                    receiverCountry = countryTypeEnum.US,
+                    receiverState = stateTypeEnum.AL,
+                    receiverAccountNumber = "4141000",
+
                 }
             };
             var response = _cnp.Credit(creditObj);

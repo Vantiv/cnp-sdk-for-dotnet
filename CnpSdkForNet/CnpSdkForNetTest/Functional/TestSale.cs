@@ -984,6 +984,15 @@ namespace Cnp.Sdk.Test.Functional
                     taxExempt = false,
                     lineItems = new List<lineItemData>(),
 
+                },
+                accountFundingTransactionData = new accountFundingTransactionData()
+                {
+                    receiverFirstName = "abcc",
+                    receiverLastName = "cde",
+                    receiverCountry = countryTypeEnum.US,
+                    receiverState = stateTypeEnum.AL,
+                    receiverAccountNumber = "4141000",
+
                 }
             };
             var mysubscription = new subscriptions();
