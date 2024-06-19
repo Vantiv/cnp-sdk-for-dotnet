@@ -353,7 +353,11 @@ namespace Cnp.Sdk
             }
             else if (transaction is finicityUrlRequest)
             {
-                request.finicityUrlRequest= (finicityUrlRequest)transaction;
+                request.finicityUrlRequest = (finicityUrlRequest)transaction;
+            }
+            else if (transaction is finicityAccountRequest)
+            {
+                request.finicityAccountRequest = (finicityAccountRequest)transaction;
             }
             else
             {
@@ -1091,6 +1095,22 @@ namespace Cnp.Sdk
             }, finicityUrl, cancellationToken);
         }
 
+        public finicityAccountResponse FinicityAccount(finicityAccountRequest finicityAccountRequest)
+        {
+
+            var cnpResponse = SendRequest(response => response, finicityAccountRequest);
+            var finicityAccountResponse = cnpResponse.finicityAccountResponse;
+            return finicityAccountResponse;
+        }
+
+        public Task<finicityAccountResponse> finicityAccountAsync(finicityAccountRequest finicityAccount, CancellationToken cancellationToken)
+        {
+            return SendRequestAsync(response =>
+            {
+                var finicityAccountResponse = response.finicityAccountResponse;
+                return finicityAccountResponse;
+            }, finicityAccount, cancellationToken);
+        }
 
         private cnpOnlineRequest CreateCnpOnlineRequest()
         {
@@ -1299,6 +1319,8 @@ namespace Cnp.Sdk
         Task<translateToLowValueTokenResponse> TranslateToLowValueTokenRequestAsync(translateToLowValueTokenRequest translateToLowValueTokenRequest, CancellationToken cancellationToken);
         finicityUrlResponse FinicityUrl(finicityUrlRequest finicityUrl);
         Task<finicityUrlResponse> finicityUrlAsync(finicityUrlRequest finicityUrl, CancellationToken cancellationToken);
+        finicityAccountResponse FinicityAccount(finicityAccountRequest finicityAccount);
+        Task<finicityAccountResponse> finicityAccountAsync(finicityAccountRequest finicityAccount, CancellationToken cancellationToken);
 
         event EventHandler HttpAction;
     }

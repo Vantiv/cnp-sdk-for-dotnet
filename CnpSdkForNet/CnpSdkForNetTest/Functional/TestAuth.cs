@@ -1313,9 +1313,11 @@ namespace Cnp.Sdk.Test.Functional
                     receiverLastName = "cde",
                     receiverCountry = countryTypeEnum.US,
                     receiverState = stateTypeEnum.AL,
+                    receiverAccountNumberType = accountFundingTransactionAccountNumberTypeEnum.cardAccount,
                     receiverAccountNumber = "4141000",
-
-                }
+                    accountFundingTransactionType = accountFundingTransactionTypeEnum.accountToAccount
+                },
+                fraudCheckAction = fraudCheckActionEnum.APPROVED_SKIP_FRAUD_CHECK,
             };
             var response = _cnp.Authorize(authorization);
             var mysubscription = new subscriptions();

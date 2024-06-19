@@ -394,7 +394,8 @@ namespace Cnp.Sdk.Test.Functional
                     accType = echeckAccountTypeEnum.Checking,
                     accNum = "12345657890",
                     routingNum = "123456789",
-                    checkNum = "123455"
+                    checkNum = "123455",
+                    accountId = "12345"
                 },
                 billToAddress = new contact
                 {

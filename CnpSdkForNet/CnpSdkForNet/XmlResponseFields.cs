@@ -5820,6 +5820,7 @@ namespace Cnp.Sdk
         public depositTransactionReversalResponse depositTransactionReversalResponse;
         public refundTransactionReversalResponse refundTransactionReversalResponse;
         public finicityUrlResponse finicityUrlResponse;
+        public finicityAccountResponse finicityAccountResponse;
 
         /// <remarks/>
         [System.Xml.Serialization.XmlAttributeAttribute()]
@@ -11740,5 +11741,165 @@ namespace Cnp.Sdk
 
     }
 
+    /// <remarks/>
+    [System.CodeDom.Compiler.GeneratedCodeAttribute("xsd", "2.0.50727.42")]
+    [System.SerializableAttribute()]
+    [System.Diagnostics.DebuggerStepThroughAttribute()]
+    [System.ComponentModel.DesignerCategoryAttribute("code")]
+    [System.Xml.Serialization.XmlTypeAttribute(Namespace = "http://www.vantivcnp.com/schema")]
+    public partial class finicityAccountInfoType
+    {
+     
+        private String accountIdFeild;
+        private echeckAccountTypeEnum accTypeFeild;
+        private String realAccNumFeild;
+        private String routingNumFeild;
+        public string accountId
+        {
+            get
+            {
+                return this.accountIdFeild;
+            }
+            set
+            {
+                this.accountIdFeild = value;
+            }
+        }
+        public echeckAccountTypeEnum accType
+        {
+            get
+            {
+                return this.accTypeFeild;
+            }
+            set
+            {
+                this.accTypeFeild = value;
+            }
+        }
+        
+       public String realAccNum
+        {
+            get
+            {
+                return this.realAccNumFeild;
+            }
+            set
+            {
+                this.realAccNumFeild = value;
+            }
+        } 
+        public String routingNum
+        {
+            get
+            {
+                return this.routingNumFeild;
+            }
+            set
+            {
+                this.routingNumFeild = value;
+            }
+        }
+
+    }
+
+     [System.CodeDom.Compiler.GeneratedCodeAttribute("xsd", "2.0.50727.3038")]
+    [System.SerializableAttribute()]
+    [System.Diagnostics.DebuggerStepThroughAttribute()]
+    [System.ComponentModel.DesignerCategoryAttribute("code")]
+    [System.Xml.Serialization.XmlTypeAttribute(AnonymousType = true, Namespace = "http://www.vantivcnp.com/schema")]
+    [System.Xml.Serialization.XmlRootAttribute(Namespace = "http://www.vantivcnp.com/schema", IsNullable = false)]
+    public partial class finicityAccountResponse : transactionTypeWithReportGroup
+    {
+
+        private long cnpTxnIdField;
+
+        private string responseField;
+
+        private System.DateTime responseTimeField;
+
+        private string messageField;
+        private string locationField;
+        private finicityAccountInfoType finicityAccountFeild;
+
+
+        /// <remarks/>
+        public long cnpTxnId
+        {
+            get
+            {
+                return this.cnpTxnIdField;
+            }
+            set
+            {
+                this.cnpTxnIdField = value;
+            }
+        }
+
+        /// <remarks/>
+        public string response
+        {
+            get
+            {
+                return this.responseField;
+            }
+            set
+            {
+                this.responseField = value;
+            }
+        }
+
+        /// <remarks/>
+        public System.DateTime responseTime
+        {
+            get
+            {
+                return this.responseTimeField;
+            }
+            set
+            {
+                this.responseTimeField = value;
+            }
+        }
+
+        /// <remarks/>
+        public string message
+        {
+            get
+            {
+                return this.messageField;
+            }
+            set
+            {
+                this.messageField = value;
+            }
+        }
+
+        //TODO: make deserializable
+        public string location
+        {
+            get
+            {
+                return locationField;
+            }
+            set
+            {
+                this.locationField = value;
+            }
+        }
+
+        public finicityAccountInfoType finicityAccount
+        {
+            get
+            {
+                return finicityAccountFeild;
+            }
+            set
+            {
+                this.finicityAccountFeild = value;
+            }
+        }
+
+    }
 }
+
 
