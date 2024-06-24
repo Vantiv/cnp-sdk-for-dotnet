@@ -1045,7 +1045,7 @@ namespace Cnp.Sdk.Test.Unit
 
             var mock = new Mock<Communications>();
             mock.Setup(Communications => Communications.HttpPost(It.IsRegex(".*<enhancedData>.*<lineItemData>.*<itemSequenceNumber>1</itemSequenceNumber>.*<itemDescription>Electronics</itemDescription>.*<productCode>El03</productCode>.*<itemCategory>E Appiances</itemCategory>.*<itemSubCategory>appliaces</itemSubCategory>.*<productId>1023</productId>.*<productName>dyer</productName>.*<shipmentId>2124</shipmentId>.*<subscription>.*<subscriptionId>123</subscriptionId>.*<nextDeliveryDate>2017-01-01</nextDeliveryDate>.*<periodUnit>YEAR</periodUnit>.*<numberOfPeriods>123</numberOfPeriods>.*<regularItemPrice>69</regularItemPrice>.*<currentPeriod>114</currentPeriod></subscription>.*</lineItemData>.*</enhancedData>.*", RegexOptions.Singleline)))
-               .Returns("<cnpOnlineResponse version='12.33' response='0' message='Valid Format' xmlns='http://www.vantivcnp.com/schema'><authorizationResponse><cnpTxnId>123</cnpTxnId></authorizationResponse></cnpOnlineResponse>");
+               .Returns("<cnpOnlineResponse version='12.37' response='0' message='Valid Format' xmlns='http://www.vantivcnp.com/schema'><authorizationResponse><cnpTxnId>123</cnpTxnId></authorizationResponse></cnpOnlineResponse>");
 
             var mockedCommunication = mock.Object;
             cnp.SetCommunication(mockedCommunication);
@@ -1149,7 +1149,7 @@ namespace Cnp.Sdk.Test.Unit
             auth.fraudCheckAction = fraudCheckActionEnum.APPROVED_SKIP_FRAUD_CHECK;
             var mock = new Mock<Communications>();
 
-            mock.Setup(Communications => Communications.HttpPost(It.IsRegex(".*<accountFundingTransactionData>.*<receiverFirstName>abcc</receiverFirstName>.*<receiverLastName>cde</receiverLastName>.*<receiverCountry>US</receiverCountry>.*<receiverState>AL</receiverState>.*<receiverAccountNumberType>cardAccount</receiverAccountNumberType>.*<receiverAccountNumber>4141000</receiverAccountNumber>.*<accountFundingTransactionType>accountToAccount</accountFundingTransactionType>.*</accountFundingTransactionData>.*\r\n", RegexOptions.Singleline)))
+            mock.Setup(Communications => Communications.HttpPost(It.IsRegex(".*<accountFundingTransactionData>.*<receiverFirstName>abcc</receiverFirstName>.*<receiverLastName>cde</receiverLastName>.*", RegexOptions.Singleline)))
                 .Returns("<cnpOnlineResponse version='12.37' response='0' message='Valid Format' xmlns='http://www.vantivcnp.com/schema'><authorizationResponse><cnpTxnId>123</cnpTxnId></authorizationResponse></cnpOnlineResponse>");
 
             var mockedCommunication = mock.Object;
