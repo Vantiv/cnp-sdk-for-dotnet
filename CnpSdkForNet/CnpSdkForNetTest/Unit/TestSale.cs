@@ -145,7 +145,7 @@ namespace Cnp.Sdk.Test.Unit
 
             var mock = new Mock<Communications>();
             
-            mock.Setup(Communications => Communications.HttpPost(It.IsRegex(".*<fraudFilterOverride>true</fraudFilterOverride>\r\n</sale>.*", RegexOptions.Singleline) ))
+            mock.Setup(Communications => Communications.HttpPost(It.IsRegex(".*<fraudFilterOverride>true</fraudFilterOverride>.*", RegexOptions.Singleline) ))
                 .Returns("<cnpOnlineResponse version='8.14' response='0' message='Valid Format' xmlns='http://www.vantivcnp.com/schema'><saleResponse><cnpTxnId>123</cnpTxnId></saleResponse></cnpOnlineResponse>");
 
             Communications mockedCommunication = mock.Object;
@@ -210,7 +210,7 @@ namespace Cnp.Sdk.Test.Unit
 
             var mock = new Mock<Communications>();
 
-            mock.Setup(Communications => Communications.HttpPost(It.IsRegex(".*</cnpInternalRecurringRequest>\r\n<debtRepayment>true</debtRepayment>\r\n</sale>.*", RegexOptions.Singleline) ))
+            mock.Setup(Communications => Communications.HttpPost(It.IsRegex(".*</cnpInternalRecurringRequest>\r\n<debtRepayment>true</debtRepayment>.*", RegexOptions.Singleline) ))
                 .Returns("<cnpOnlineResponse version='8.19' response='0' message='Valid Format' xmlns='http://www.vantivcnp.com/schema'><saleResponse><cnpTxnId>123</cnpTxnId></saleResponse></cnpOnlineResponse>");
 
             Communications mockedCommunication = mock.Object;
@@ -227,7 +227,7 @@ namespace Cnp.Sdk.Test.Unit
 
             var mock = new Mock<Communications>();
 
-            mock.Setup(Communications => Communications.HttpPost(It.IsRegex(".*</cnpInternalRecurringRequest>\r\n<debtRepayment>false</debtRepayment>\r\n</sale>.*", RegexOptions.Singleline) ))
+            mock.Setup(Communications => Communications.HttpPost(It.IsRegex(".*</cnpInternalRecurringRequest>\r\n<debtRepayment>false</debtRepayment>.*", RegexOptions.Singleline) ))
                 .Returns("<cnpOnlineResponse version='8.19' response='0' message='Valid Format' xmlns='http://www.vantivcnp.com/schema'><saleResponse><cnpTxnId>123</cnpTxnId></saleResponse></cnpOnlineResponse>");
 
             Communications mockedCommunication = mock.Object;
@@ -243,7 +243,7 @@ namespace Cnp.Sdk.Test.Unit
 
             var mock = new Mock<Communications>();
 
-            mock.Setup(Communications => Communications.HttpPost(It.IsRegex(".*</cnpInternalRecurringRequest>\r\n</sale>.*", RegexOptions.Singleline) ))
+            mock.Setup(Communications => Communications.HttpPost(It.IsRegex(".*</cnpInternalRecurringRequest>.*", RegexOptions.Singleline) ))
                 .Returns("<cnpOnlineResponse version='8.19' response='0' message='Valid Format' xmlns='http://www.vantivcnp.com/schema'><saleResponse><cnpTxnId>123</cnpTxnId></saleResponse></cnpOnlineResponse>");
 
             Communications mockedCommunication = mock.Object;

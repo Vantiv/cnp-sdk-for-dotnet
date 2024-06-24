@@ -267,11 +267,11 @@ namespace Cnp.Sdk.Test.Unit
             auth.recurringRequest.subscription = new subscription();
             auth.recurringRequest.subscription.planCode = "abc123";
             auth.recurringRequest.subscription.numberOfPayments = 12;
-
+           
             var mock = new Mock<Communications>();
 
-            mock.Setup(Communications => Communications.HttpPost(It.IsRegex(".*<fraudFilterOverride>true</fraudFilterOverride>\r\n<recurringRequest>\r\n<subscription>\r\n<planCode>abc123</planCode>\r\n<numberOfPayments>12</numberOfPayments>\r\n</subscription>\r\n</recurringRequest>\r\n</authorization>.*", RegexOptions.Singleline) ))
-                .Returns("<cnpOnlineResponse version='8.18' response='0' message='Valid Format' xmlns='http://www.vantivcnp.com/schema'><authorizationResponse><cnpTxnId>123</cnpTxnId></authorizationResponse></cnpOnlineResponse>");
+            mock.Setup(Communications => Communications.HttpPost(It.IsRegex(".*<fraudFilterOverride>true</fraudFilterOverride>\r\n<recurringRequest>\r\n<subscription>\r\n<planCode>abc123</planCode>\r\n<numberOfPayments>12</numberOfPayments>\r\n</subscription>\r\n</recurringRequest>.*", RegexOptions.Singleline) ))
+                .Returns("<cnpOnlineResponse version='12.37' response='0' message='Valid Format' xmlns='http://www.vantivcnp.com/schema'><authorizationResponse><cnpTxnId>123</cnpTxnId></authorizationResponse></cnpOnlineResponse>");
 
             var mockedCommunication = mock.Object;
             cnp.SetCommunication(mockedCommunication);
@@ -294,11 +294,11 @@ namespace Cnp.Sdk.Test.Unit
             auth.orderSource = orderSourceType.ecommerce;
             auth.fraudFilterOverride = true;
             auth.debtRepayment = true;
-
+   
             var mock = new Mock<Communications>();
 
-            mock.Setup(Communications => Communications.HttpPost(It.IsRegex(".*<fraudFilterOverride>true</fraudFilterOverride>\r\n<debtRepayment>true</debtRepayment>\r\n</authorization>.*", RegexOptions.Singleline) ))
-                .Returns("<cnpOnlineResponse version='8.14' response='0' message='Valid Format' xmlns='http://www.vantivcnp.com/schema'><authorizationResponse><cnpTxnId>123</cnpTxnId></authorizationResponse></cnpOnlineResponse>");
+            mock.Setup(Communications => Communications.HttpPost(It.IsRegex(".*<fraudFilterOverride>true</fraudFilterOverride>\r\n<debtRepayment>true</debtRepayment>.*", RegexOptions.Singleline) ))
+                .Returns("<cnpOnlineResponse version='12.37' response='0' message='Valid Format' xmlns='http://www.vantivcnp.com/schema'><authorizationResponse><cnpTxnId>123</cnpTxnId></authorizationResponse></cnpOnlineResponse>");
 
             var mockedCommunication = mock.Object;
             cnp.SetCommunication(mockedCommunication);
@@ -351,7 +351,17 @@ namespace Cnp.Sdk.Test.Unit
             checkType.authenticationProtocolVersionType = "PAP";
             auth.cardholderAuthentication = checkType;
             auth.cardholderAuthentication.customerIpAddress = "192.168.1.1";
-
+            auth.accountFundingTransactionData = new accountFundingTransactionData()
+            {
+                receiverFirstName = "abcc",
+                receiverLastName = "cde",
+                receiverCountry = countryTypeEnum.US,
+                receiverState = stateTypeEnum.AL,
+                receiverAccountNumberType = accountFundingTransactionAccountNumberTypeEnum.cardAccount,
+                receiverAccountNumber = "4141000",
+                accountFundingTransactionType = accountFundingTransactionTypeEnum.accountToAccount
+            };
+            auth.fraudCheckAction = fraudCheckActionEnum.APPROVED_SKIP_FRAUD_CHECK;
             var expectedResult = @"
 <authorization id="""" reportGroup="""">
 <orderId>12344</orderId>
@@ -366,6 +376,16 @@ namespace Cnp.Sdk.Test.Unit
 <customerIpAddress>192.168.1.1</customerIpAddress>
 <authenticationProtocolVersionType>PAP</authenticationProtocolVersionType>
 </cardholderAuthentication>
+<accountFundingTransactionData>
+<receiverFirstName>abcc</receiverFirstName>
+<receiverLastName>cde</receiverLastName>
+<receiverState>AL</receiverState>
+<receiverCountry>US</receiverCountry>
+<receiverAccountNumberType>cardAccount</receiverAccountNumberType>
+<receiverAccountNumber>4141000</receiverAccountNumber>
+<accountFundingTransactionType>accountToAccount</accountFundingTransactionType>
+</accountFundingTransactionData>
+<fraudCheckAction>APPROVED_SKIP_FRAUD_CHECK</fraudCheckAction>
 </authorization>";
 
             Assert.AreEqual(Regex.Replace(expectedResult, @"\s+", string.Empty), Regex.Replace(auth.Serialize(), @"\s+", string.Empty));
@@ -398,7 +418,17 @@ namespace Cnp.Sdk.Test.Unit
             auth.billMeLaterRequest = new billMeLaterRequest();
             auth.billMeLaterRequest.virtualAuthenticationKeyData = "Data";
             auth.billMeLaterRequest.virtualAuthenticationKeyPresenceIndicator = "Presence";
-
+            auth.accountFundingTransactionData = new accountFundingTransactionData()
+            {
+                receiverFirstName = "abcc",
+                receiverLastName = "cde",
+                receiverCountry = countryTypeEnum.US,
+                receiverState = stateTypeEnum.AL,
+                receiverAccountNumberType = accountFundingTransactionAccountNumberTypeEnum.cardAccount,
+                receiverAccountNumber = "4141000",
+                accountFundingTransactionType = accountFundingTransactionTypeEnum.accountToAccount
+            };
+            auth.fraudCheckAction = fraudCheckActionEnum.APPROVED_SKIP_FRAUD_CHECK;
             var expectedResult = @"
 <authorization id="""" reportGroup="""">
 <orderId>12344</orderId>
@@ -413,13 +443,23 @@ namespace Cnp.Sdk.Test.Unit
 <virtualAuthenticationKeyPresenceIndicator>Presence</virtualAuthenticationKeyPresenceIndicator>
 <virtualAuthenticationKeyData>Data</virtualAuthenticationKeyData>
 </billMeLaterRequest>
+<accountFundingTransactionData>
+<receiverFirstName>abcc</receiverFirstName>
+<receiverLastName>cde</receiverLastName>
+<receiverState>AL</receiverState>
+<receiverCountry>US</receiverCountry>
+<receiverAccountNumberType>cardAccount</receiverAccountNumberType>
+<receiverAccountNumber>4141000</receiverAccountNumber>
+<accountFundingTransactionType>accountToAccount</accountFundingTransactionType>
+</accountFundingTransactionData>
+<fraudCheckAction>APPROVED_SKIP_FRAUD_CHECK</fraudCheckAction>
 </authorization>";
 
             Assert.AreEqual(Regex.Replace(expectedResult, @"\s+", string.Empty), Regex.Replace(auth.Serialize(), @"\s+", string.Empty));
 
             var mock = new Mock<Communications>();
             mock.Setup(Communications => Communications.HttpPost(It.IsRegex(".*<authorization id=\".*>.*<billMeLaterRequest>\r\n<virtualAuthenticationKeyPresenceIndicator>Presence</virtualAuthenticationKeyPresenceIndicator>\r\n<virtualAuthenticationKeyData>Data</virtualAuthenticationKeyData>\r\n</billMeLaterRequest>.*</authorization>.*", RegexOptions.Singleline) ))
-                .Returns("<cnpOnlineResponse version='8.14' response='0' message='Valid Format' xmlns='http://www.vantivcnp.com/schema'><authorizationResponse><cnpTxnId>123</cnpTxnId></authorizationResponse></cnpOnlineResponse>");
+                .Returns("<cnpOnlineResponse version='12.37' response='0' message='Valid Format' xmlns='http://www.vantivcnp.com/schema'><authorizationResponse><cnpTxnId>123</cnpTxnId></authorizationResponse></cnpOnlineResponse>");
 
             var mockedCommunication = mock.Object;
             cnp.SetCommunication(mockedCommunication);
@@ -444,6 +484,17 @@ namespace Cnp.Sdk.Test.Unit
             auth.advancedFraudChecks.customAttribute3 = "testAttribute3";
             auth.advancedFraudChecks.customAttribute4 = "testAttribute4";
             auth.advancedFraudChecks.customAttribute5 = "testAttribute5";
+            auth.accountFundingTransactionData = new accountFundingTransactionData()
+            {
+                receiverFirstName = "abcc",
+                receiverLastName = "cde",
+                receiverCountry = countryTypeEnum.US,
+                receiverState = stateTypeEnum.AL,
+                receiverAccountNumberType = accountFundingTransactionAccountNumberTypeEnum.cardAccount,
+                receiverAccountNumber = "4141000",
+                accountFundingTransactionType = accountFundingTransactionTypeEnum.accountToAccount
+            };
+            auth.fraudCheckAction = fraudCheckActionEnum.APPROVED_SKIP_FRAUD_CHECK;
 
 
             var expectedResult = @"
@@ -458,13 +509,23 @@ namespace Cnp.Sdk.Test.Unit
 <customAttribute4>testAttribute4</customAttribute4>
 <customAttribute5>testAttribute5</customAttribute5>
 </advancedFraudChecks>
+<accountFundingTransactionData>
+<receiverFirstName>abcc</receiverFirstName>
+<receiverLastName>cde</receiverLastName>
+<receiverState>AL</receiverState>
+<receiverCountry>US</receiverCountry>
+<receiverAccountNumberType>cardAccount</receiverAccountNumberType>
+<receiverAccountNumber>4141000</receiverAccountNumber>
+<accountFundingTransactionType>accountToAccount</accountFundingTransactionType>
+</accountFundingTransactionData>
+<fraudCheckAction>APPROVED_SKIP_FRAUD_CHECK</fraudCheckAction>
 </authorization>";
             var test = auth.Serialize();
             Assert.AreEqual(Regex.Replace(expectedResult, @"\s+", string.Empty), Regex.Replace(auth.Serialize(), @"\s+", string.Empty));
 
             var mock = new Mock<Communications>();
             mock.Setup(Communications => Communications.HttpPost(It.IsAny<string>() ))
-                .Returns("<cnpOnlineResponse version='8.23' response='0' message='Valid Format' xmlns='http://www.vantivcnp.com/schema'><authorizationResponse><orderId>123</orderId><fraudResult><advancedFraudResults><deviceReviewStatus>\"ReviewStatus\"</deviceReviewStatus><deviceReputationScore>800</deviceReputationScore></advancedFraudResults></fraudResult></authorizationResponse></cnpOnlineResponse>");
+                .Returns("<cnpOnlineResponse version='12.37' response='0' message='Valid Format' xmlns='http://www.vantivcnp.com/schema'><authorizationResponse><orderId>123</orderId><fraudResult><advancedFraudResults><deviceReviewStatus>\"ReviewStatus\"</deviceReviewStatus><deviceReputationScore>800</deviceReputationScore></advancedFraudResults></fraudResult></authorizationResponse></cnpOnlineResponse>");
 
             var mockedCommunication = mock.Object;
             cnp.SetCommunication(mockedCommunication);
@@ -514,7 +575,17 @@ namespace Cnp.Sdk.Test.Unit
             auth.orderId = "ABC123";
             auth.amount = 98700;
             auth.pos.catLevel = posCatLevelEnum.selfservice;
-
+            auth.accountFundingTransactionData = new accountFundingTransactionData()
+            {
+                receiverFirstName = "abcc",
+                receiverLastName = "cde",
+                receiverCountry = countryTypeEnum.US,
+                receiverState = stateTypeEnum.AL,
+                receiverAccountNumberType = accountFundingTransactionAccountNumberTypeEnum.cardAccount,
+                receiverAccountNumber = "4141000",
+                accountFundingTransactionType = accountFundingTransactionTypeEnum.accountToAccount
+            };
+            auth.fraudCheckAction = fraudCheckActionEnum.APPROVED_SKIP_FRAUD_CHECK;
             var expectedResult = @"
 <authorization id="""" reportGroup="""">
 <orderId>ABC123</orderId>
@@ -522,13 +593,24 @@ namespace Cnp.Sdk.Test.Unit
 <pos>
 <catLevel>self service</catLevel>
 </pos>
+<accountFundingTransactionData>
+<receiverFirstName>abcc</receiverFirstName>
+<receiverLastName>cde</receiverLastName>
+<receiverState>AL</receiverState>
+<receiverCountry>US</receiverCountry>
+<receiverAccountNumberType>cardAccount</receiverAccountNumberType>
+<receiverAccountNumber>4141000</receiverAccountNumber>
+<accountFundingTransactionType>accountToAccount</accountFundingTransactionType>
+</accountFundingTransactionData>
+<fraudCheckAction>APPROVED_SKIP_FRAUD_CHECK</fraudCheckAction>
+
 </authorization>";
 
             Assert.AreEqual(Regex.Replace(expectedResult, @"\s+", string.Empty), Regex.Replace(auth.Serialize(), @"\s+", string.Empty));
 
             var mock = new Mock<Communications>();
             mock.Setup(Communications => Communications.HttpPost(It.IsAny<string>() ))
-                .Returns("<cnpOnlineResponse version='8.23' response='0' message='Valid Format' xmlns='http://www.vantivcnp.com/schema'><authorizationResponse><cnpTxnId>123</cnpTxnId></authorizationResponse></cnpOnlineResponse>");
+                .Returns("<cnpOnlineResponse version='12.37' response='0' message='Valid Format' xmlns='http://www.vantivcnp.com/schema'><authorizationResponse><cnpTxnId>123</cnpTxnId></authorizationResponse></cnpOnlineResponse>");
 
             var mockedCommunication = mock.Object;
             cnp.SetCommunication(mockedCommunication);
