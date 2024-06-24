@@ -2,11 +2,13 @@
 using NUnit.Framework;
 using System.Threading;
 using System;
+using Castle.Core.Configuration;
+using System.Runtime.Intrinsics.X86;
 
 namespace Cnp.Sdk.Test.Functional
 {
     [TestFixture]
-    internal class TestFinicityAccountRequest
+    internal class TestBNPLInquiryRequest
     {
         private CnpOnline _cnp;
         private Dictionary<string, string> _config;
@@ -19,18 +21,20 @@ namespace Cnp.Sdk.Test.Functional
         }
 
         [Test]
-        public void simpleFinicityAccountRequest()
+        public void simpleBNPLInquiryRequest()
         {
-            var finicityAccount = new finicityAccountRequest
+            var bNPLInquiry = new BNPLInquiryRequest
             {
                 id = "1",
                 customerId = "12334",
                 reportGroup = "Planets",
-                echeckCustomerId = "ABC"
+                cnpTxnId = 12345,
+                orderId = " orderId "
             };
-
-            var response = _cnp.FinicityAccount(finicityAccount);
+            var response = _cnp.BNPLInquiry(bNPLInquiry);
             Assert.AreEqual("Approved", response.message);
         }
+
+
     }
 }

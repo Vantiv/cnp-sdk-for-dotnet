@@ -5821,6 +5821,11 @@ namespace Cnp.Sdk
         public refundTransactionReversalResponse refundTransactionReversalResponse;
         public finicityUrlResponse finicityUrlResponse;
         public finicityAccountResponse finicityAccountResponse;
+        public BNPLAuthResponse BNPLAuthResponse;
+        public BNPLCaptureResponse BNPLCaptureResponse;
+        public BNPLRefundResponse BNPLRefundResponse;
+        public BNPLCancelResponse BNPLCancelResponse;
+        public BNPLInquiryResponse BNPLInquiryResponse;
 
         /// <remarks/>
         [System.Xml.Serialization.XmlAttributeAttribute()]
@@ -11896,6 +11901,507 @@ namespace Cnp.Sdk
             set
             {
                 this.finicityAccountFeild = value;
+            }
+        }
+
+    }
+    //12.37
+    public partial class inquiryResultType
+    {
+        private string responseField;
+
+        /// <remarks/>
+        public string response
+        {
+            get
+            {
+                return this.responseField;
+            }
+            set
+            {
+                this.responseField = value;
+            }
+        }
+
+        private string messageField;
+
+        /// <remarks/>
+        public string message
+        {
+            get
+            {
+                return this.messageField;
+            }
+            set
+            {
+                this.messageField = value;
+            }
+        }
+    }
+
+    /// <remarks/>
+    [System.CodeDom.Compiler.GeneratedCodeAttribute("xsd", "2.0.50727.3038")]
+    [System.SerializableAttribute()]
+    [System.Diagnostics.DebuggerStepThroughAttribute()]
+    [System.ComponentModel.DesignerCategoryAttribute("code")]
+    [System.Xml.Serialization.XmlTypeAttribute(AnonymousType = true, Namespace = "http://www.vantivcnp.com/schema")]
+    [System.Xml.Serialization.XmlRootAttribute(Namespace = "http://www.vantivcnp.com/schema", IsNullable = false)]
+    public partial class BNPLAuthResponse : transactionTypeWithReportGroup
+    {
+
+        private long cnpTxnIdField;
+
+        private string responseField;
+
+        private System.DateTime responseTimeField;
+
+        private string messageField;
+        private string locationField;
+        private string echeckCustomerIdFeild;
+        private string checkoutUrlFeild;
+
+
+        /// <remarks/>
+        public long cnpTxnId
+        {
+            get
+            {
+                return this.cnpTxnIdField;
+            }
+            set
+            {
+                this.cnpTxnIdField = value;
+            }
+        }
+
+        /// <remarks/>
+        public string response
+        {
+            get
+            {
+                return this.responseField;
+            }
+            set
+            {
+                this.responseField = value;
+            }
+        }
+
+        /// <remarks/>
+        public System.DateTime responseTime
+        {
+            get
+            {
+                return this.responseTimeField;
+            }
+            set
+            {
+                this.responseTimeField = value;
+            }
+        }
+
+        /// <remarks/>
+        public string message
+        {
+            get
+            {
+                return this.messageField;
+            }
+            set
+            {
+                this.messageField = value;
+            }
+        }
+
+        //TODO: make deserializable
+        public string location
+        {
+            get
+            {
+                return locationField;
+            }
+            set
+            {
+                this.locationField = value;
+            }
+        }
+
+        //TODO: make deserializable
+        public string echeckCustomerId
+        {
+            get
+            {
+                return echeckCustomerIdFeild;
+            }
+            set
+            {
+                this.echeckCustomerIdFeild = value;
+            }
+        }
+
+        //TODO: make deserializable
+        public string checkoutUrl
+        {
+            get
+            {
+                return checkoutUrlFeild;
+            }
+            set
+            {
+                this.checkoutUrlFeild = value;
+            }
+        }
+
+    }
+
+    [System.CodeDom.Compiler.GeneratedCodeAttribute("xsd", "2.0.50727.3038")]
+    [System.SerializableAttribute()]
+    [System.Diagnostics.DebuggerStepThroughAttribute()]
+    [System.ComponentModel.DesignerCategoryAttribute("code")]
+    [System.Xml.Serialization.XmlTypeAttribute(AnonymousType = true, Namespace = "http://www.vantivcnp.com/schema")]
+    [System.Xml.Serialization.XmlRootAttribute(Namespace = "http://www.vantivcnp.com/schema", IsNullable = false)]
+    public partial class BNPLCaptureResponse : transactionTypeWithReportGroup
+    {
+
+        private long cnpTxnIdField;
+
+        private string responseField;
+
+        private System.DateTime responseTimeField;
+
+        private string messageField;
+        private string locationField;
+
+        /// <remarks/>
+        public long cnpTxnId
+        {
+            get
+            {
+                return this.cnpTxnIdField;
+            }
+            set
+            {
+                this.cnpTxnIdField = value;
+            }
+        }
+
+        /// <remarks/>
+        public string response
+        {
+            get
+            {
+                return this.responseField;
+            }
+            set
+            {
+                this.responseField = value;
+            }
+        }
+
+        /// <remarks/>
+        public System.DateTime responseTime
+        {
+            get
+            {
+                return this.responseTimeField;
+            }
+            set
+            {
+                this.responseTimeField = value;
+            }
+        }
+
+        /// <remarks/>
+        public string message
+        {
+            get
+            {
+                return this.messageField;
+            }
+            set
+            {
+                this.messageField = value;
+            }
+        }
+
+        //TODO: make deserializable
+        public string location
+        {
+            get
+            {
+                return locationField;
+            }
+            set
+            {
+                this.locationField = value;
+            }
+        }
+
+    }
+
+    [System.CodeDom.Compiler.GeneratedCodeAttribute("xsd", "2.0.50727.3038")]
+    [System.SerializableAttribute()]
+    [System.Diagnostics.DebuggerStepThroughAttribute()]
+    [System.ComponentModel.DesignerCategoryAttribute("code")]
+    [System.Xml.Serialization.XmlTypeAttribute(AnonymousType = true, Namespace = "http://www.vantivcnp.com/schema")]
+    [System.Xml.Serialization.XmlRootAttribute(Namespace = "http://www.vantivcnp.com/schema", IsNullable = false)]
+    public partial class BNPLRefundResponse : transactionTypeWithReportGroup
+    {
+
+        private long cnpTxnIdField;
+
+        private string responseField;
+
+        private System.DateTime responseTimeField;
+
+        private string messageField;
+        private string locationField;
+
+        /// <remarks/>
+        public long cnpTxnId
+        {
+            get
+            {
+                return this.cnpTxnIdField;
+            }
+            set
+            {
+                this.cnpTxnIdField = value;
+            }
+        }
+
+        /// <remarks/>
+        public string response
+        {
+            get
+            {
+                return this.responseField;
+            }
+            set
+            {
+                this.responseField = value;
+            }
+        }
+
+        /// <remarks/>
+        public System.DateTime responseTime
+        {
+            get
+            {
+                return this.responseTimeField;
+            }
+            set
+            {
+                this.responseTimeField = value;
+            }
+        }
+
+        /// <remarks/>
+        public string message
+        {
+            get
+            {
+                return this.messageField;
+            }
+            set
+            {
+                this.messageField = value;
+            }
+        }
+
+        //TODO: make deserializable
+        public string location
+        {
+            get
+            {
+                return locationField;
+            }
+            set
+            {
+                this.locationField = value;
+            }
+        }
+
+    }
+
+    [System.CodeDom.Compiler.GeneratedCodeAttribute("xsd", "2.0.50727.3038")]
+    [System.SerializableAttribute()]
+    [System.Diagnostics.DebuggerStepThroughAttribute()]
+    [System.ComponentModel.DesignerCategoryAttribute("code")]
+    [System.Xml.Serialization.XmlTypeAttribute(AnonymousType = true, Namespace = "http://www.vantivcnp.com/schema")]
+    [System.Xml.Serialization.XmlRootAttribute(Namespace = "http://www.vantivcnp.com/schema", IsNullable = false)]
+    public partial class BNPLCancelResponse : transactionTypeWithReportGroup
+    {
+
+        private long cnpTxnIdField;
+
+        private string responseField;
+
+        private System.DateTime responseTimeField;
+
+        private string messageField;
+        private string locationField;
+
+        /// <remarks/>
+        public long cnpTxnId
+        {
+            get
+            {
+                return this.cnpTxnIdField;
+            }
+            set
+            {
+                this.cnpTxnIdField = value;
+            }
+        }
+
+        /// <remarks/>
+        public string response
+        {
+            get
+            {
+                return this.responseField;
+            }
+            set
+            {
+                this.responseField = value;
+            }
+        }
+
+        /// <remarks/>
+        public System.DateTime responseTime
+        {
+            get
+            {
+                return this.responseTimeField;
+            }
+            set
+            {
+                this.responseTimeField = value;
+            }
+        }
+
+        /// <remarks/>
+        public string message
+        {
+            get
+            {
+                return this.messageField;
+            }
+            set
+            {
+                this.messageField = value;
+            }
+        }
+
+        //TODO: make deserializable
+        public string location
+        {
+            get
+            {
+                return locationField;
+            }
+            set
+            {
+                this.locationField = value;
+            }
+        }
+
+    }
+
+    [System.CodeDom.Compiler.GeneratedCodeAttribute("xsd", "2.0.50727.3038")]
+    [System.SerializableAttribute()]
+    [System.Diagnostics.DebuggerStepThroughAttribute()]
+    [System.ComponentModel.DesignerCategoryAttribute("code")]
+    [System.Xml.Serialization.XmlTypeAttribute(AnonymousType = true, Namespace = "http://www.vantivcnp.com/schema")]
+    [System.Xml.Serialization.XmlRootAttribute(Namespace = "http://www.vantivcnp.com/schema", IsNullable = false)]
+    public partial class BNPLInquiryResponse : transactionTypeWithReportGroup
+    {
+
+        private long cnpTxnIdField;
+
+        private string responseField;
+
+        private System.DateTime responseTimeField;
+
+        private string messageField;
+        private string locationField;
+        private inquiryResultType inquiryResultField;
+
+        /// <remarks/>
+        public long cnpTxnId
+        {
+            get
+            {
+                return this.cnpTxnIdField;
+            }
+            set
+            {
+                this.cnpTxnIdField = value;
+            }
+        }
+
+        /// <remarks/>
+        public string response
+        {
+            get
+            {
+                return this.responseField;
+            }
+            set
+            {
+                this.responseField = value;
+            }
+        }
+
+        /// <remarks/>
+        public System.DateTime responseTime
+        {
+            get
+            {
+                return this.responseTimeField;
+            }
+            set
+            {
+                this.responseTimeField = value;
+            }
+        }
+
+        /// <remarks/>
+        public string message
+        {
+            get
+            {
+                return this.messageField;
+            }
+            set
+            {
+                this.messageField = value;
+            }
+        }
+
+        //TODO: make deserializable
+        public string location
+        {
+            get
+            {
+                return locationField;
+            }
+            set
+            {
+                this.locationField = value;
+            }
+        }
+
+        public inquiryResultType inquiryResult
+        {
+            get
+            {
+                return this.inquiryResultField;
+            }
+            set
+            {
+                this.inquiryResultField = value;
             }
         }
 

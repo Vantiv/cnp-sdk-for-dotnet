@@ -343,7 +343,7 @@ namespace Cnp.Sdk
             {
                 request.vendorDebit = (vendorDebit)transaction;
             }
-            else if (transaction is customerDebit) 
+            else if (transaction is customerDebit)
             {
                 request.customerDebit = (customerDebit)transaction;
             }
@@ -358,6 +358,26 @@ namespace Cnp.Sdk
             else if (transaction is finicityAccountRequest)
             {
                 request.finicityAccountRequest = (finicityAccountRequest)transaction;
+            }
+            else if (transaction is BNPLAuthorizationRequest)
+            {
+                request.BNPLAuthorizationRequest = (BNPLAuthorizationRequest)transaction;
+            }
+            else if (transaction is BNPLCaptureRequest)
+            {
+                request.BNPLCaptureRequest = (BNPLCaptureRequest)transaction;
+            }
+            else if (transaction is BNPLRefundRequest)
+            {
+                request.BNPLRefundRequest = (BNPLRefundRequest)transaction;
+            }
+            else if (transaction is BNPLCancelRequest)
+            {
+                request.BNPLCancelRequest = (BNPLCancelRequest)transaction;
+            }
+            else if (transaction is BNPLInquiryRequest)
+            {
+                request.BNPLInquiryRequest = (BNPLInquiryRequest)transaction;
             }
             else
             {
@@ -1112,6 +1132,88 @@ namespace Cnp.Sdk
             }, finicityAccount, cancellationToken);
         }
 
+        public BNPLAuthResponse BNPLAuthorization(BNPLAuthorizationRequest bnplAuth)
+        {
+
+            var cnpResponse = SendRequest(response => response, bnplAuth);
+            var BNPLAuthResponse = cnpResponse.BNPLAuthResponse;
+            return BNPLAuthResponse;
+        }
+
+        public Task<BNPLAuthResponse> BNPLAuthorizationAsync(BNPLAuthorizationRequest bnplAuth, CancellationToken cancellationToken)
+        {
+            return SendRequestAsync(response =>
+            {
+                var BNPLAuthResponse = response.BNPLAuthResponse;
+                return BNPLAuthResponse;
+            }, bnplAuth, cancellationToken);
+        }
+        public BNPLCaptureResponse BNPLCapture(BNPLCaptureRequest bnplCapture)
+        {
+
+            var cnpResponse = SendRequest(response => response, bnplCapture);
+            var BNPLCaptureResponse = cnpResponse.BNPLCaptureResponse;
+            return BNPLCaptureResponse;
+        }
+
+        public Task<BNPLCaptureResponse> BNPLCaptureAsync(BNPLCaptureRequest bnplCapture, CancellationToken cancellationToken)
+        {
+            return SendRequestAsync(response =>
+            {
+                var BNPLCaptureResponse = response.BNPLCaptureResponse;
+                return BNPLCaptureResponse;
+            }, bnplCapture, cancellationToken);
+        } 
+        public BNPLRefundResponse BNPLRefund(BNPLRefundRequest bnplRefund)
+        {
+
+            var cnpResponse = SendRequest(response => response, bnplRefund);
+            var BNPLRefundResponse = cnpResponse.BNPLRefundResponse;
+            return BNPLRefundResponse;
+        }
+
+        public Task<BNPLRefundResponse> BNPLRefundAsync(BNPLRefundRequest bnplRefund, CancellationToken cancellationToken)
+        {
+            return SendRequestAsync(response =>
+            {
+                var BNPLRefundResponse = response.BNPLRefundResponse;
+                return BNPLRefundResponse;
+            }, bnplRefund, cancellationToken);
+        }
+
+        public BNPLCancelResponse BNPLCancle(BNPLCancelRequest bnplCancle)
+        {
+
+            var cnpResponse = SendRequest(response => response, bnplCancle);
+            var BNPLCancelResponse = cnpResponse.BNPLCancelResponse;
+            return BNPLCancelResponse;
+        }
+        public Task<BNPLCancelResponse> BNPLCancleAsync(BNPLCancelRequest bnplCancle, CancellationToken cancellationToken)
+        {
+            return SendRequestAsync(response =>
+            {
+                var BNPLCancelResponse = response.BNPLCancelResponse;
+                return BNPLCancelResponse;
+            }, bnplCancle, cancellationToken);
+        }
+
+        public BNPLInquiryResponse BNPLInquiry(BNPLInquiryRequest bnplInquiry)
+        {
+
+            var cnpResponse = SendRequest(response => response, bnplInquiry);
+            var BNPLInquiryResponse = cnpResponse.BNPLInquiryResponse;
+            return BNPLInquiryResponse;
+        }
+
+        public Task<BNPLInquiryResponse> BNPLInquiryAsync(BNPLInquiryRequest bnplInquiry, CancellationToken cancellationToken)
+        {
+            return SendRequestAsync(response =>
+            {
+                var BNPLInquiryResponse = response.BNPLInquiryResponse;
+                return BNPLInquiryResponse;
+            }, bnplInquiry, cancellationToken);
+        }
+
         private cnpOnlineRequest CreateCnpOnlineRequest()
         {
             var request = new cnpOnlineRequest();
@@ -1321,7 +1423,16 @@ namespace Cnp.Sdk
         Task<finicityUrlResponse> finicityUrlAsync(finicityUrlRequest finicityUrl, CancellationToken cancellationToken);
         finicityAccountResponse FinicityAccount(finicityAccountRequest finicityAccount);
         Task<finicityAccountResponse> finicityAccountAsync(finicityAccountRequest finicityAccount, CancellationToken cancellationToken);
-
+        BNPLAuthResponse BNPLAuthorization(BNPLAuthorizationRequest bnplAuth);
+        Task<BNPLAuthResponse> BNPLAuthorizationAsync(BNPLAuthorizationRequest bnplAuth, CancellationToken cancellationToken);
+        BNPLCaptureResponse BNPLCapture(BNPLCaptureRequest bnplCapture);
+        Task<BNPLCaptureResponse> BNPLCaptureAsync(BNPLCaptureRequest bnplCapture, CancellationToken cancellationToken);
+        BNPLRefundResponse BNPLRefund(BNPLRefundRequest bnplRefund);
+        Task<BNPLRefundResponse> BNPLRefundAsync(BNPLRefundRequest bnplRefund, CancellationToken cancellationToken);
+        BNPLCancelResponse BNPLCancle(BNPLCancelRequest bnplCancle);
+        Task<BNPLCancelResponse> BNPLCancleAsync(BNPLCancelRequest bnplCancle, CancellationToken cancellationToken);
+        BNPLInquiryResponse BNPLInquiry(BNPLInquiryRequest bnplInquiry);
+        Task<BNPLInquiryResponse> BNPLInquiryAsync(BNPLInquiryRequest bnplInquiry, CancellationToken cancellationToken);
         event EventHandler HttpAction;
     }
 }
