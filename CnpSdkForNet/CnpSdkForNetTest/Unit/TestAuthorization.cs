@@ -829,7 +829,7 @@ namespace Cnp.Sdk.Test.Unit
         }
 
         [Test]
-        public void AuthWithPassengerTransportDataChanges() //new testcase for 12.26
+        public void AuthWithPassengerTransportDataChanges() //new testcase for 12.36
         {
             var auth = new authorization();
             auth.orderId = "12344";
@@ -1054,6 +1054,110 @@ namespace Cnp.Sdk.Test.Unit
             Assert.NotNull(authorizationResponse);
             Assert.AreEqual(123, authorizationResponse.cnpTxnId);
 
+        }
+
+        //12.37
+        [Test]
+        public void TestAuthWithaccountFundingTransactionData()
+        {
+            var auth = new authorization();
+            auth.orderId = "12344";
+            auth.amount = 2;
+            auth.orderSource = orderSourceType.ecommerce;
+            var sellerInfo = new sellerInfo();
+            sellerInfo.accountNumber = "4485581000000005";
+            sellerInfo.aggregateOrderCount = 4;
+            sellerInfo.aggregateOrderDollars = 100000;
+            var sellerAddress = new sellerAddress();
+            sellerAddress.sellerStreetaddress = "15 Main Street";
+            sellerAddress.sellerUnit = "100 AB";
+            sellerAddress.sellerPostalcode = "12345";
+            sellerAddress.sellerCity = "San Jose";
+            sellerAddress.sellerProvincecode = "MA";
+            sellerAddress.sellerCountrycode = "US";
+            sellerInfo.sellerAddress = sellerAddress;
+            sellerInfo.createdDate = "2015-11-12T20:33:09";
+            sellerInfo.domain = "vap";
+            sellerInfo.email = "bob@example.com";
+            sellerInfo.lastUpdateDate = "2015-11-12T20:33:09";
+            sellerInfo.name = "bob";
+            sellerInfo.onboardingEmail = "bob@example.com";
+            sellerInfo.onboardingIpAddress = "75.100.88.78";
+            sellerInfo.parentEntity = "abc";
+            sellerInfo.phone = "9785510040";
+            sellerInfo.sellerId = "123456789";
+            var sellerTagsType = new sellerTagsType();
+            sellerTagsType.tag = "3";
+            sellerInfo.sellerTags = sellerTagsType;
+            sellerInfo.username = "bob123";
+            auth.sellerInfo = sellerInfo;
+            auth.reportGroup = "Planets";
+            auth.id = "thisisid";
+            auth.businessIndicator = businessIndicatorEnum.fundTransfer;
+            auth.orderChannel = orderChannelEnum.MIT;
+            auth.crypto = false;
+            auth.fraudCheckStatus = "Not Approved";
+            var passengerTransportData = new passengerTransportData();
+            passengerTransportData.passengerName = "Pia Jaiswal";
+            passengerTransportData.ticketNumber = "TR0001";
+            passengerTransportData.issuingCarrier = "IC";
+            passengerTransportData.carrierName = "Indigo";
+            passengerTransportData.restrictedTicketIndicator = "TI2022";
+            passengerTransportData.numberOfAdults = 1;
+            passengerTransportData.numberOfChildren = 1;
+            passengerTransportData.customerCode = "C2011583";
+            passengerTransportData.arrivalDate = new System.DateTime(2022, 12, 31);
+            passengerTransportData.issueDate = new System.DateTime(2022, 12, 25);
+            passengerTransportData.travelAgencyCode = "TAC12345";
+            passengerTransportData.travelAgencyName = "Yatra";
+            passengerTransportData.computerizedReservationSystem = computerizedReservationSystemEnum.STRT;
+            passengerTransportData.creditReasonIndicator = creditReasonIndicatorEnum.A;
+            passengerTransportData.ticketChangeIndicator = ticketChangeIndicatorEnum.C;
+            passengerTransportData.ticketIssuerAddress = "Hinjewadi";
+            passengerTransportData.exchangeTicketNumber = "ETN12345";
+            passengerTransportData.exchangeAmount = 12300;
+            passengerTransportData.exchangeFeeAmount = 11000;
+
+            var tripLegData = new tripLegData();
+            tripLegData.tripLegNumber = 12;
+            tripLegData.departureCode = "DC";
+            tripLegData.carrierCode = "CC";
+            tripLegData.serviceClass = serviceClassEnum.First;
+            tripLegData.stopOverCode = "N";
+            tripLegData.destinationCode = "DC111";
+            tripLegData.fareBasisCode = "FBC12345";
+            tripLegData.departureDate = new System.DateTime(2023, 1, 31);
+            tripLegData.originCity = "Pune";
+            tripLegData.travelNumber = "TN111";
+            tripLegData.departureTime = "13:05";
+            tripLegData.arrivalTime = "16:10";
+            tripLegData.remarks = "NA";
+            passengerTransportData.tripLegData = tripLegData;
+            auth.passengerTransportData = passengerTransportData;
+
+            auth.authIndicator = authIndicatorEnum.Estimated;
+            auth.accountFundingTransactionData = new accountFundingTransactionData()
+            {
+                receiverFirstName = "abcc",
+                receiverLastName = "cde",
+                receiverCountry = countryTypeEnum.US,
+                receiverState = stateTypeEnum.AL,
+                receiverAccountNumberType = accountFundingTransactionAccountNumberTypeEnum.cardAccount,
+                receiverAccountNumber = "4141000",
+                accountFundingTransactionType = accountFundingTransactionTypeEnum.accountToAccount
+            };
+            auth.fraudCheckAction = fraudCheckActionEnum.APPROVED_SKIP_FRAUD_CHECK;
+            var mock = new Mock<Communications>();
+
+            mock.Setup(Communications => Communications.HttpPost(It.IsRegex(".*<accountFundingTransactionData>.*<receiverFirstName>abcc</receiverFirstName>.*<receiverLastName>cde</receiverLastName>.*<receiverCountry>US</receiverCountry>.*<receiverState>AL</receiverState>.*<receiverAccountNumberType>cardAccount</receiverAccountNumberType>.*<receiverAccountNumber>4141000</receiverAccountNumber>.*<accountFundingTransactionType>accountToAccount</accountFundingTransactionType>.*</accountFundingTransactionData>.*\r\n", RegexOptions.Singleline)))
+                .Returns("<cnpOnlineResponse version='12.37' response='0' message='Valid Format' xmlns='http://www.vantivcnp.com/schema'><authorizationResponse><cnpTxnId>123</cnpTxnId></authorizationResponse></cnpOnlineResponse>");
+
+            var mockedCommunication = mock.Object;
+            cnp.SetCommunication(mockedCommunication);
+            var authorizationResponse = cnp.Authorize(auth);
+
+            Assert.NotNull(authorizationResponse);
+            Assert.AreEqual(123, authorizationResponse.cnpTxnId);
         }
     }
 }

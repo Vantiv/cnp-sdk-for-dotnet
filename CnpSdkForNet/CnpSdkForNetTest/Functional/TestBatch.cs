@@ -64,6 +64,18 @@ namespace Cnp.Sdk.Test.Functional
             };
             authorization.card = card;
             authorization.id = "id";
+            authorization.accountFundingTransactionData = new accountFundingTransactionData()
+            {
+                receiverFirstName = "abcc",
+                receiverLastName = "cde",
+                receiverCountry = countryTypeEnum.US,
+                receiverState = stateTypeEnum.AL,
+                receiverAccountNumberType = accountFundingTransactionAccountNumberTypeEnum.cardAccount,
+                receiverAccountNumber = "4141000",
+                accountFundingTransactionType = accountFundingTransactionTypeEnum.accountToAccount
+            };
+            authorization.fraudCheckAction = fraudCheckActionEnum.APPROVED_SKIP_FRAUD_CHECK;
+
 
             cnpBatchRequest.addAuthorization(authorization);
 
@@ -2129,8 +2141,17 @@ namespace Cnp.Sdk.Test.Functional
                 processingType = processingType.initialCOF,
                 originalNetworkTransactionId = "abc123",
                 originalTransactionAmount = 123456789,
-                foreignRetailerIndicator = foreignRetailerIndicatorEnum.F
-
+                foreignRetailerIndicator = foreignRetailerIndicatorEnum.F,
+                accountFundingTransactionData = new accountFundingTransactionData()
+                {
+                    receiverFirstName = "abcc",
+                    receiverLastName = "cde",
+                    receiverCountry = countryTypeEnum.US,
+                    receiverState = stateTypeEnum.AL,
+                    receiverAccountNumberType = accountFundingTransactionAccountNumberTypeEnum.cardAccount,
+                    receiverAccountNumber = "4141000",
+                    accountFundingTransactionType = accountFundingTransactionTypeEnum.accountToAccount
+                }
             };
             var saleObj = new sale
             {
@@ -2262,7 +2283,17 @@ namespace Cnp.Sdk.Test.Functional
                     detailTaxes = new List<detailTax>(),
                     lineItems = new List<lineItemData>(),
                 },
-                customBilling = new customBilling { phone = "1112223333" }
+                customBilling = new customBilling { phone = "1112223333" },
+                accountFundingTransactionData = new accountFundingTransactionData()
+                {
+                    receiverFirstName = "abcc",
+                    receiverLastName = "cde",
+                    receiverCountry = countryTypeEnum.US,
+                    receiverState = stateTypeEnum.AL,
+                    receiverAccountNumberType = accountFundingTransactionAccountNumberTypeEnum.cardAccount,
+                    receiverAccountNumber = "4141000",
+                    accountFundingTransactionType = accountFundingTransactionTypeEnum.accountToAccount
+                }
             };
 
             var capture = new capture
@@ -2303,6 +2334,16 @@ namespace Cnp.Sdk.Test.Functional
                     taxExempt = false,
                     lineItems = new List<lineItemData>(),
                 },
+                accountFundingTransactionData = new accountFundingTransactionData()
+                {
+                    receiverFirstName = "abcc",
+                    receiverLastName = "cde",
+                    receiverCountry = countryTypeEnum.US,
+                    receiverState = stateTypeEnum.AL,
+                    receiverAccountNumberType = accountFundingTransactionAccountNumberTypeEnum.cardAccount,
+                    receiverAccountNumber = "4141000",
+                    accountFundingTransactionType = accountFundingTransactionTypeEnum.accountToAccount
+                }
             };
             capturegivenauth.foreignRetailerIndicator = foreignRetailerIndicatorEnum.F;
 
@@ -2323,7 +2364,18 @@ namespace Cnp.Sdk.Test.Functional
                     lineItems = new List<lineItemData>(),
 
                 },
-                foreignRetailerIndicator = foreignRetailerIndicatorEnum.F
+                foreignRetailerIndicator = foreignRetailerIndicatorEnum.F,
+                accountFundingTransactionData = new accountFundingTransactionData()
+                {
+                    receiverFirstName = "abcc",
+                    receiverLastName = "cde",
+                    receiverCountry = countryTypeEnum.US,
+                    receiverState = stateTypeEnum.AL,
+                    receiverAccountNumberType = accountFundingTransactionAccountNumberTypeEnum.cardAccount,
+                    receiverAccountNumber = "4141000",
+                    accountFundingTransactionType = accountFundingTransactionTypeEnum.accountToAccount
+                },
+
             };
 
             var saleObj = new sale
@@ -2351,7 +2403,19 @@ namespace Cnp.Sdk.Test.Functional
                     taxExempt = false,
                     lineItems = new List<lineItemData>(),
 
-                }
+                },
+                accountFundingTransactionData = new accountFundingTransactionData()
+                {
+                    receiverFirstName = "abcc",
+                    receiverLastName = "cde",
+                    receiverCountry = countryTypeEnum.US,
+                    receiverState = stateTypeEnum.AL,
+                    receiverAccountNumberType = accountFundingTransactionAccountNumberTypeEnum.cardAccount,
+                    receiverAccountNumber = "4141000",
+                    accountFundingTransactionType = accountFundingTransactionTypeEnum.accountToAccount
+                },
+                fraudCheckAction = fraudCheckActionEnum.APPROVED_SKIP_FRAUD_CHECK,
+
             };
 
             var mysubscription = new subscriptions();

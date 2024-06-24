@@ -162,6 +162,17 @@ namespace Cnp.Sdk.Test.Unit
             card.number = "4100000000000002";
             card.expDate = "1210";
             authorization.card = card;
+            authorization.accountFundingTransactionData = new accountFundingTransactionData()
+            {
+                receiverFirstName = "abcc",
+                receiverLastName = "cde",
+                receiverCountry = countryTypeEnum.US,
+                receiverState = stateTypeEnum.AL,
+                receiverAccountNumberType = accountFundingTransactionAccountNumberTypeEnum.cardAccount,
+                receiverAccountNumber = "4141000",
+                accountFundingTransactionType = accountFundingTransactionTypeEnum.accountToAccount
+            };
+            authorization.fraudCheckAction = fraudCheckActionEnum.APPROVED_SKIP_FRAUD_CHECK;
 
             var mockCnpResponse = new Mock<cnpResponse>();
             var mockCnpXmlSerializer = new Mock<cnpXmlSerializer>();
@@ -338,7 +349,16 @@ namespace Cnp.Sdk.Test.Unit
             card.number = "4100000000000001";
             card.expDate = "1210";
             capturegivenauth.card = card;
-
+            capturegivenauth.accountFundingTransactionData = new accountFundingTransactionData()
+            {
+                receiverFirstName = "abcc",
+                receiverLastName = "cde",
+                receiverCountry = countryTypeEnum.US,
+                receiverState = stateTypeEnum.AL,
+                receiverAccountNumberType = accountFundingTransactionAccountNumberTypeEnum.cardAccount,
+                receiverAccountNumber = "4141000",
+                accountFundingTransactionType = accountFundingTransactionTypeEnum.accountToAccount
+            };
             var mockCnpResponse = new Mock<cnpResponse>();
             var mockCnpXmlSerializer = new Mock<cnpXmlSerializer>();
 
@@ -399,7 +419,17 @@ namespace Cnp.Sdk.Test.Unit
             card.number = "4100000000000001";
             card.expDate = "1210";
             credit.card = card;
-
+            credit.accountFundingTransactionData = new accountFundingTransactionData()
+            {
+                receiverFirstName = "abcc",
+                receiverLastName = "cde",
+                receiverCountry = countryTypeEnum.US,
+                receiverState = stateTypeEnum.AL,
+                receiverAccountNumberType = accountFundingTransactionAccountNumberTypeEnum.cardAccount,
+                receiverAccountNumber = "4141000",
+                accountFundingTransactionType = accountFundingTransactionTypeEnum.accountToAccount
+            };
+        
             var mockCnpResponse = new Mock<cnpResponse>();
             var mockCnpXmlSerializer = new Mock<cnpXmlSerializer>();
 
@@ -569,6 +599,7 @@ namespace Cnp.Sdk.Test.Unit
             echeck.accNum = "12345657890";
             echeck.routingNum = "123456789";
             echeck.checkNum = "123455";
+            echeck.accountId = "12345";
             echecksale.echeck = echeck;
             contact contact = new contact();
             contact.name = "Bob";
@@ -705,7 +736,16 @@ namespace Cnp.Sdk.Test.Unit
             card.number = "4100000000000001";
             card.expDate = "1210";
             forcecapture.card = card;
-
+            forcecapture.accountFundingTransactionData = new accountFundingTransactionData()
+            {
+                receiverFirstName = "abcc",
+                receiverLastName = "cde",
+                receiverCountry = countryTypeEnum.US,
+                receiverState = stateTypeEnum.AL,
+                receiverAccountNumberType = accountFundingTransactionAccountNumberTypeEnum.cardAccount,
+                receiverAccountNumber = "4141000",
+                accountFundingTransactionType = accountFundingTransactionTypeEnum.accountToAccount
+            };
             var mockCnpResponse = new Mock<cnpResponse>();
             var mockCnpXmlSerializer = new Mock<cnpXmlSerializer>();
 
@@ -766,6 +806,17 @@ namespace Cnp.Sdk.Test.Unit
             card.number = "4100000000000002";
             card.expDate = "1210";
             sale.card = card;
+            sale.accountFundingTransactionData = new accountFundingTransactionData()
+            {
+                receiverFirstName = "abcc",
+                receiverLastName = "cde",
+                receiverCountry = countryTypeEnum.US,
+                receiverState = stateTypeEnum.AL,
+                receiverAccountNumberType = accountFundingTransactionAccountNumberTypeEnum.cardAccount,
+                receiverAccountNumber = "4141000",
+                accountFundingTransactionType = accountFundingTransactionTypeEnum.accountToAccount
+            };
+            sale.fraudCheckAction = fraudCheckActionEnum.APPROVED_SKIP_FRAUD_CHECK;
 
             var mockCnpResponse = new Mock<cnpResponse>();
             var mockCnpXmlSerializer = new Mock<cnpXmlSerializer>();
