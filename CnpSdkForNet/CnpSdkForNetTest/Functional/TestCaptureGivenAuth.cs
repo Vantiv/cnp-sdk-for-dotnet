@@ -299,7 +299,16 @@ namespace Cnp.Sdk.Test.Functional
                 },
                 processingType = processingType.accountFunding,
                 originalNetworkTransactionId = "abc123",
-                originalTransactionAmount = 123456789
+                originalTransactionAmount = 123456789,
+                accountFundingTransactionData = new accountFundingTransactionData()
+                {
+                    receiverFirstName = "abcc",
+                    receiverLastName = "cde",
+                    receiverCountry = countryTypeEnum.US,
+                    receiverState = stateTypeEnum.AL,
+                    receiverAccountNumber = "4141000",
+
+                }
             };
 
             var response = _cnp.CaptureGivenAuth(capturegivenauth);

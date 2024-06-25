@@ -1,6 +1,44 @@
 
 = Worldpay CNP CHANGELOG
 
+
+==Version 12.37.0 (v12.37.0)(June 25, 2024)
+* Change: [cnpAPI v12.37] New existing 'postCheckoutRedirectUrl' with min length '1' and maxlength '200'
+* Change: [cnpAPI v12.37] New enum 'provider' is added with value 'AFFIRM'
+* Change: [cnpAPI v12.37] New complex type 'inquiryResultType' is added with  simple element 'response' of 'responseType' and 'message' of 'messageType'.
+* Change: [cnpAPI v12.37] New complex element 'BNPLAuthorizationRequest' is added with added with few simple elements and few complex elements- simple elements 'amount','orderId' ,'provider' of type 'provider' and complex elements 'customerInfo','billToAddress','shipToAddress','enhancedData','postCheckoutRedirectUrl'
+* Change: [cnpAPI v12.37] New complex element 'BNPLAuthResponse' is added with few simple elements ,existing simple elements 'cnpTxnId','response','responseTime','message','location' and 'checkoutUrl'
+* Change: [cnpAPI v12.37] New complex element 'BNPLCaptureRequest' is added with existing simple element 'amount','orderId','cnpTxnId'
+* Change: [cnpAPI v12.37] New complex element 'BNPLCaptureResponse' is added with existing simple element 'cnpTxnId','response','responseTime','message','location'
+* Change: [cnpAPI v12.37] New complex element 'BNPLRefundRequest' is added with existing simple element 'amount','orderId','cnpTxnId'
+* Change: [cnpAPI v12.37] New complex element 'BNPLRefundResponse' is added with existing simple element 'cnpTxnId','response','responseTime','message','location'
+* Change: [cnpAPI v12.37] New complex element 'BNPLCancelRequest' is added with existing simple element 'amount','orderId','cnpTxnId'
+* Change: [cnpAPI v12.37] New complex element 'BNPLCancelResponse' is added with existing simple element 'cnpTxnId','response','responseTime','message','location'
+* Change: [cnpAPI v12.37] New complex element 'BNPLInquiryRequest' is added with existing simple element 'orderId','cnpTxnId'
+* Change: [cnpAPI v12.37] New complex element 'BNPLInquiryResponse' is added with existing simple element 'cnpTxnId','response','responseTime','message','location' and complex element 'inquiryResult' of 'inquiryResultType'
+* Change: [cnpAPI v12.36] new Enum is added 'accountFundingTransactionTypeEnum' with new values 'accountToAccount','agentCashOut','bankInitiated','businessDisbursement','businessToBusinessTransfer','debitPrepaidAccount','fundsDisbursement','fundTransfer','governmentNonProfitDisbursement','paymentOfOwnCreditCardBill','payrollDisbursement','personToPerson','personToPersonCardAccount','rapidMerchantSettlement','topUp','walletTransfer'
+* Change: [cnpAPI v12.36] new Enum is added 'accountFundingTransactionAccountNumberTypeEnum' with new values 'other','RTNAndBAN','IBAN','cardAccount','email','phoneNumber','BANAndBIC','walletID','socialNetworkID'
+* Change: [cnpAPI v12.36] New complex 'finicityAccountRequest' element is added with simple element 'echeckCustomerId' of type 'string25Type'
+* Change: [cnpAPI v12.36] New complex 'finicityAccountResponse' element is added with simple elements 'cnpTxnId','response','responseTime','message','location' and new complex element 'finicityAccount' of type 'finicityAccountInfoType'
+* Change: [cnpAPI v12.36] To support 'finicityAccount' new complex type 'finicityAccountInfoType' is added with simple element accountId' of 'string','accType' of type 'echeckAccountTypeEnum','realAccNum' of 'echeckAccountNumberType','routingNum' of 'routingNumberType'
+* Change: [cnpAPI v12.36] new element 'fraudCheckAction' of 'fraudCheckActionEnum' is added in Authorization, sale request.
+* Change: [cnpAPI v12.36] New values added 'APPROVED_SKIP_FRAUD_CHECK','DECLINED_NEED_FRAUD_CHECK' to existing 'fraudCheckActionEnum'
+* Change: [cnpAPI v12.36] New simple element 'accountId' of type 'string' is added in 'echeckType' existing complex type.
+* Change: [cnpAPI v12.36] new simple elements are added in existing complex element accountFundingTransactionData,'receiverAccountNumberType' of 'accountFundingTransactionAccountNumberTypeEnum' and 'accountFundingTransactionType' of 'accountFundingTransactionTypeEnum'
+* Change: [cnpAPI v12.35] In existing Enum businessIndicatorEnum new values 'personToPersonCardAccount','debitPrepaidAccount','paymentOfOwnCreditCardBill','businessDisbursement','businessToBusinessTransfer','governmentNonProfitDisbursement','rapidMerchantSettlement','agentCashOut' are added.
+* Change: [cnpAPI v12.35] New Enum 'stateTypeEnum' is added with values 'AL','AK','AZ','AR','CA','CO','CT','DE','DC','FL','GA','HI','ID','IL','IN','IA','KS','KY','LA','ME','MD','MA','MI','MN','MS','MO','MT','NE','NV','NH','NJ','NM','NY','NC','ND','OH','OK','OR','PA','RI','SC','SD','TN','TX','UT','VT','VA','WA','WV','WI','WY','AB','BC','MB','NB','NL','NT','NS','ON','PE','QC','SK','YT','NU'
+* Change: [cnpAPI v12.35] In existing Enum fulfilmentMethodTypeEnum new values 'STANDARD_SHIPPING' and 'EXPEDITED_SHIPPING'
+* Change: [cnpAPI v12.35] In existing Enum orderChannelEnum new values 'SCAN_AND_GO' and 'SMART_TV'
+* Change: [cnpAPI v12.35] New complex element 'accountFundingTransactionData' added with below simple elements receiverFirstName of 'string35Type' ,'receiverLastName' of 'string35Type','receiverState' of 'stateTypeEnum',''receiverCountry' of 'countryTypeEnum' and 'receiverAccountNumber' of 'string50Type'
+* Change: [cnpAPI v12.35] 'accountFundingTransactionData' is added in Authorization,sale,credit,capturegiventAuth and FORCECapture request.
+* Change: [cnpAPI v12.34] For existing simple element 'amount' simple type is changed from 'transactionAmountType' to 'achTransactionAmountType' in transactions- vendorCredit,vendorDebit,submerchantCredit,submerchantDebit,payFacDebit,payFacCredit,reserveCredit,reserveDebit
+* Change: [cnpAPI v12.34] Added new simple type 'achTransactionAmountType' to support 'amount'.
+* Change: [cnpAPI v12.34] Added 'accountToAccount','bankInitiated','fundsDisbursement','payrollDisbursement','personToPerson','topUp' in existing enum businessIndicatorEnum.
+* Change: [cnpAPI v12.34] For existing element 'origId' from 'queryTransaction' simpletype changed from 'string25Type' to 'stringMin1Max36CollapseWhiteSpaceType'.
+* Change: [cnpAPI v12.34] New request element 'finicityUrlRequest' is added with subfeilds-'firstName','lastName','phoneNumber','email'.
+* Change: [cnpAPI v12.34] New response element 'finicityUrlResponse' is added with subfeilds-'cnpTxnId','response','responseTime','message','location','echeckCustomerId','url'.
+* Change: [cnpAPI v12.34] New simple element 'echeckCustomerId' is added existing complex type 'echeckType'.
+
 ==Version: 12.33.0 (Jan 09, 2024)
 Note: It contains changes from cnpAPI v12.32 and v12.33. In case you need any feature supported by cnpAPI v12.32 and v12.33.please use SDK version 12.33.0.
 

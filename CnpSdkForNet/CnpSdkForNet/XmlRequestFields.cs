@@ -17,6 +17,11 @@ namespace Cnp.Sdk
         public authorization authorization;
         public authReversal authReversal;
         public balanceInquiry balanceInquiry;
+        public BNPLAuthorizationRequest BNPLAuthorizationRequest;
+        public BNPLCancelRequest BNPLCancelRequest;
+        public BNPLCaptureRequest BNPLCaptureRequest;
+        public BNPLRefundRequest BNPLRefundRequest;
+        public BNPLInquiryRequest BNPLInquiryRequest;
         public cancelSubscription cancelSubscription;
         public capture capture;
         public captureGivenAuth captureGivenAuth;
@@ -31,6 +36,8 @@ namespace Cnp.Sdk
         public echeckVerification echeckVerification;
         public echeckVoid echeckVoid;
         public fastAccessFunding fastAccessFunding;
+        public finicityUrlRequest finicityUrlRequest;
+        public finicityAccountRequest finicityAccountRequest;
         public forceCapture forceCapture;
         public fraudCheck fraudCheck;
         public giftCardAuthReversal giftCardAuthReversal;
@@ -85,6 +92,7 @@ namespace Cnp.Sdk
             else if (voidTxn != null) xml += voidTxn.Serialize();
             else if (sale != null) xml += sale.Serialize();
             else if (authReversal != null) xml += authReversal.Serialize();
+            else if (BNPLAuthorizationRequest != null) xml += BNPLAuthorizationRequest.Serialize();
             else if (echeckCredit != null) xml += echeckCredit.Serialize();
             else if (echeckVerification != null) xml += echeckVerification.Serialize();
             else if (echeckSale != null) xml += echeckSale.Serialize();
@@ -132,6 +140,12 @@ namespace Cnp.Sdk
             else if (translateToLowValueTokenRequest != null) xml += translateToLowValueTokenRequest.Serialize();
             else if (depositTransactionReversal != null) xml += depositTransactionReversal.Serialize();
             else if (refundTransactionReversal != null) xml += refundTransactionReversal.Serialize();
+            else if (finicityUrlRequest != null) xml += finicityUrlRequest.Serialize();
+            else if (finicityAccountRequest != null) xml += finicityAccountRequest.Serialize();
+            else if (BNPLCaptureRequest != null) xml += BNPLCaptureRequest.Serialize();
+            else if (BNPLRefundRequest != null) xml += BNPLRefundRequest.Serialize();
+            else if (BNPLCancelRequest != null) xml += BNPLCancelRequest.Serialize();
+            else if (BNPLInquiryRequest != null) xml += BNPLInquiryRequest.Serialize();
             xml += "\r\n</cnpOnlineRequest>";
 
             return xml;
@@ -555,6 +569,23 @@ namespace Cnp.Sdk
 
         public string merchantCategoryCode;
 
+        //12.35
+        public accountFundingTransactionData accountFundingTransactionData;
+        private fraudCheckActionEnum fraudCheckActionFeild;
+        private bool fraudCheckActionSet;
+        public fraudCheckActionEnum fraudCheckAction
+        {
+            get
+            {
+                return fraudCheckActionFeild;
+            }
+            set
+            {
+                fraudCheckActionFeild = value;
+                fraudCheckActionSet = true;
+            }
+        }
+
         public override string Serialize()
         {
             var xml = "\r\n<authorization";
@@ -772,10 +803,18 @@ namespace Cnp.Sdk
                     xml += "\r\n<merchantCategoryCode>" + merchantCategoryCode + "</merchantCategoryCode>";
                 }
                 
-
                 if (businessIndicatorSet)
                 {
                     xml += "\r\n<businessIndicator>" + businessIndicatorField + "</businessIndicator>";
+                }
+
+                if (accountFundingTransactionData != null)
+                {
+                    xml += "\r\n<accountFundingTransactionData>" + accountFundingTransactionData.Serialize() + "\r\n</accountFundingTransactionData>";
+                }
+                if (fraudCheckActionSet != null)
+                {
+                    xml += "\r\n<fraudCheckAction>" + fraudCheckActionFeild + "</fraudCheckAction>";
                 }
             }
 
@@ -1338,6 +1377,7 @@ namespace Cnp.Sdk
             set { foreignRetailerIndicatorField = value; foreignRetailerIndicatorSet = true; }
         }
         //12.31 end
+        public accountFundingTransactionData accountFundingTransactionData;
         public override string Serialize()
         {
             var xml = "\r\n<captureGivenAuth";
@@ -1458,6 +1498,11 @@ namespace Cnp.Sdk
             {
                 xml += "\r\n<foreignRetailerIndicator>" + foreignRetailerIndicatorField + "</foreignRetailerIndicator>";
             }
+            if (accountFundingTransactionData != null)
+            {
+                xml += "\r\n<accountFundingTransactionData>" + accountFundingTransactionData.Serialize() + "\r\n</accountFundingTransactionData>";
+            }
+
             xml += "\r\n</captureGivenAuth>";
             return xml;
         }
@@ -1607,7 +1652,7 @@ namespace Cnp.Sdk
         public string merchantCategoryCode;
         public string payPalNotes;
         public string actionReason;
-
+        public accountFundingTransactionData accountFundingTransactionData;
         public override string Serialize()
         {
             var xml = "\r\n<credit";
@@ -1686,7 +1731,10 @@ namespace Cnp.Sdk
             if (payPalNotes != null) xml += "\r\n<payPalNotes>" + SecurityElement.Escape(payPalNotes) + "</payPalNotes>";
             if (actionReason != null) xml += "\r\n<actionReason>" + SecurityElement.Escape(actionReason) + "</actionReason>";
             if (businessIndicatorSet) xml += "\r\n<businessIndicator>" + businessIndicatorField + "</businessIndicator>";
-
+            if (accountFundingTransactionData != null)
+            {
+                xml += "\r\n<accountFundingTransactionData>" + accountFundingTransactionData.Serialize() + "\r\n</accountFundingTransactionData>";
+            }
             xml += "\r\n</credit>";
             return xml;
         }
@@ -2153,6 +2201,10 @@ namespace Cnp.Sdk
             set { foreignRetailerIndicatorField = value; foreignRetailerIndicatorSet = true; }
         }
         //12.31 end
+
+        //new 12.35 start 
+        public accountFundingTransactionData accountFundingTransactionData;
+        //new 12.35 end
         public override string Serialize()
         {
             var xml = "\r\n<forceCapture";
@@ -2249,8 +2301,10 @@ namespace Cnp.Sdk
             {
                 xml += "\r\n<foreignRetailerIndicator>" + foreignRetailerIndicatorField + "</foreignRetailerIndicator>";
             }
-
-
+            if (accountFundingTransactionData != null)
+            {
+                xml += "\r\n<accountFundingTransactionData>" + accountFundingTransactionData.Serialize() + "\r\n</accountFundingTransactionData>";
+            }
             xml += "\r\n</forceCapture>";
             return xml;
         }
@@ -2961,6 +3015,25 @@ namespace Cnp.Sdk
         //    }
         //}
 
+
+        //new 12.35
+        public accountFundingTransactionData accountFundingTransactionData;
+
+        private fraudCheckActionEnum fraudCheckActionFeild;
+        private bool fraudCheckActionSet;
+        public fraudCheckActionEnum fraudCheckAction
+        {
+            get
+            {
+                return fraudCheckActionFeild;
+            }
+            set
+            {
+                fraudCheckActionFeild = value;
+                fraudCheckActionSet = true;
+            }
+        }
+
         public override string Serialize()
         {
             var xml = "\r\n<sale";
@@ -3186,6 +3259,15 @@ namespace Cnp.Sdk
             {
                 xml += "\r\n<foreignRetailerIndicator>" + foreignRetailerIndicatorField + "</foreignRetailerIndicator>";
             }
+            if (accountFundingTransactionData != null)
+            {
+                xml += "\r\n<accountFundingTransactionData>" + accountFundingTransactionData.Serialize() + "\r\n</accountFundingTransactionData>";
+            }
+            if (fraudCheckActionSet != null)
+            {
+                xml += "\r\n<fraudCheckAction>" + fraudCheckActionFeild + "</fraudCheckAction>";
+            }
+
             //end
             //if (routingPreferenceSet)
             //{
@@ -3790,6 +3872,8 @@ namespace Cnp.Sdk
         COUNTER_PICKUP,
         CURBSIDE_PICKUP,
         LOCKER_PICKUP,
+        STANDARD_SHIPPING,
+        EXPEDITED_SHIPPING
     }
 
     /// new 12.24
@@ -3801,7 +3885,10 @@ namespace Cnp.Sdk
         SOCIAL,
         MARKETPLACE,
         IN_STORE_KIOSK,
-        MIT// new 12.28
+        MIT,// new 12.28
+        // new 12.35
+        SCAN_AND_GO,
+        SMART_TV
     }
 
     //new 12.25, 12.26 and 12.27 start
@@ -3889,6 +3976,50 @@ namespace Cnp.Sdk
     // 12.31 end
     #endregion
 
+    //new 12.35
+    public enum accountFundingTransactionTypeEnum
+    {
+        accountToAccount,
+        agentCashOut,
+        bankInitiated,
+        businessDisbursement,
+        businessToBusinessTransfer,
+        debitPrepaidAccount,
+        fundsDisbursement,
+        fundTransfer,
+        governmentNonProfitDisbursement,
+        paymentOfOwnCreditCardBill,
+        payrollDisbursement,
+        personToPerson,
+        personToPersonCardAccount,
+        rapidMerchantSettlement,
+        topUp,
+        walletTransfer
+    }
+
+    public enum accountFundingTransactionAccountNumberTypeEnum
+    {
+        other,
+        RTNAndBAN,
+        IBAN,
+        cardAccount,
+        email,
+        phoneNumber,
+        BANAndBIC,
+        walletID,
+        socialNetworkID
+    }
+    public enum fraudCheckActionEnum
+    {
+        APPROVED_SKIP_FRAUD_CHECK,
+        DECLINED_NEED_FRAUD_CHECK,
+    } 
+    public enum provider
+    {
+        AFFIRM
+    }
+
+
     #region Child elements.
     // The customerInfo element is the parent of several child elements use to define customer information.
     public partial class customerInfo
@@ -3947,7 +4078,11 @@ namespace Cnp.Sdk
         
         public string membershipId;
         public string membershipName;
+        public string membershipPhone;
+        public string membershipEmail;    
         public DateTime accountCreatedDate;
+        public string userAccountPhone;
+        public string userAccountEmail;
         ///end
         public string customerWorkTelephone;
 
@@ -4026,29 +4161,7 @@ namespace Cnp.Sdk
             if (employerName != null)
             {
                 xml += "\r\n<employerName>" + SecurityElement.Escape(employerName) + "</employerName>";
-            }
-            ///12.24 start
-            if (accountUsername != null)
-            {
-                xml += "\r\n<accountUsername>" + SecurityElement.Escape(accountUsername) + "</accountUsername>";
-            }
-            if (userAccountNumber != null)
-            {
-                xml += "\r\n<userAccountNumber>" + SecurityElement.Escape(userAccountNumber) + "</userAccountNumber>";
-            }
-            if (membershipId != null)
-            {
-                xml += "\r\n<membershipId>" + SecurityElement.Escape(membershipId) + "</membershipId>";
-            }
-            if (membershipName != null)
-            {
-                xml += "\r\n<membershipName>" + SecurityElement.Escape(membershipName) + "</membershipName>";
-            }
-            if (accountCreatedDate != null)
-            {
-                xml += "\r\n<accountCreatedDate>" + XmlUtil.toXsdDate(accountCreatedDate) + "</accountCreatedDate>";
-            }
-            ///12.24 end
+            }            
             if (customerWorkTelephone != null)
             {
                 xml += "\r\n<customerWorkTelephone>" + SecurityElement.Escape(customerWorkTelephone) + "</customerWorkTelephone>";
@@ -4065,6 +4178,44 @@ namespace Cnp.Sdk
             {
                 xml += "\r\n<yearsAtEmployer>" + yearsAtEmployerField + "</yearsAtEmployer>";
             }
+            ///12.24 start
+            if (accountUsername != null)
+            {
+                xml += "\r\n<accountUsername>" + SecurityElement.Escape(accountUsername) + "</accountUsername>";
+            }
+            if (userAccountNumber != null)
+            {
+                xml += "\r\n<userAccountNumber>" + SecurityElement.Escape(userAccountNumber) + "</userAccountNumber>";
+            }
+            if (userAccountEmail != null)
+            {
+                xml += "\r\n<userAccountEmail>" + SecurityElement.Escape(userAccountEmail) + "</userAccountEmail>";
+            }
+            if (membershipId != null)
+            {
+                xml += "\r\n<membershipId>" + SecurityElement.Escape(membershipId) + "</membershipId>";
+            }
+            if (membershipPhone != null)
+            {
+                xml += "\r\n<membershipPhone>" + SecurityElement.Escape(membershipPhone) + "</membershipPhone>";
+            }
+            if (membershipEmail != null)
+            {
+                xml += "\r\n<membershipEmail>" + SecurityElement.Escape(membershipEmail) + "</membershipEmail>";
+            } 
+            if (membershipName != null)
+            {
+                xml += "\r\n<membershipName>" + SecurityElement.Escape(membershipName) + "</membershipName>";
+            }
+            if (accountCreatedDate != null)
+            {
+                xml += "\r\n<accountCreatedDate>" + XmlUtil.toXsdDate(accountCreatedDate) + "</accountCreatedDate>";
+            } 
+            if (userAccountPhone != null)
+            {
+                xml += "\r\n<userAccountPhone>" + SecurityElement.Escape(userAccountPhone) + "</userAccountPhone>";
+            }
+            ///12.24 end
             return xml;
         }
 
@@ -4219,11 +4370,6 @@ namespace Cnp.Sdk
             if (destinationPostalCode != null) xml += "\r\n<destinationPostalCode>" + SecurityElement.Escape(destinationPostalCode) + "</destinationPostalCode>";
             if (destinationCountryCodeSet) xml += "\r\n<destinationCountryCode>" + destinationCountryCodeField + "</destinationCountryCode>";
             if (invoiceReferenceNumber != null) xml += "\r\n<invoiceReferenceNumber>" + SecurityElement.Escape(invoiceReferenceNumber) + "</invoiceReferenceNumber>";
-            ///12.24
-            if (discountCode != null) xml += "\r\n<discountCode>" + SecurityElement.Escape(discountCode) + "</discountCode>";
-            if (discountPercentSet) xml += "\r\n<discountPercent>" + discountPercentField + "</discountPercent>";
-            if (fulfilmentMethodTypeSet) xml += "\r\n<fulfilmentMethodType>" + fulfilmentMethodTypeField + "</fulfilmentMethodType>";
-            ///end
             if (orderDateSet) xml += "\r\n<orderDate>" + XmlUtil.toXsdDate(orderDateField) + "</orderDate>";
             foreach (var detailTax in detailTaxes)
             {
@@ -4233,6 +4379,11 @@ namespace Cnp.Sdk
             {
                 xml += "\r\n<lineItemData>" + lineItem.Serialize() + "\r\n</lineItemData>";
             }
+            ///12.24
+            if (discountCode != null) xml += "\r\n<discountCode>" + SecurityElement.Escape(discountCode) + "</discountCode>";
+            if (discountPercentSet) xml += "\r\n<discountPercent>" + discountPercentField + "</discountPercent>";
+            if (fulfilmentMethodTypeSet) xml += "\r\n<fulfilmentMethodType>" + fulfilmentMethodTypeField + "</fulfilmentMethodType>";
+            ///end
             return xml;
         }
     }
@@ -4422,6 +4573,8 @@ namespace Cnp.Sdk
         public string checkNum;
         public string ccdPaymentInformation;
         public string[] ctxPaymentInformation;
+        public string echeckCustomerId;
+        public string accountId;
 
         public string Serialize()
         {
@@ -4441,8 +4594,11 @@ namespace Cnp.Sdk
                 for (int i = 0; i < ctxPaymentInformation.Length; i++) xml += "\r\n<ctxPaymentDetail>" + SecurityElement.Escape(ctxPaymentInformation[i]) + "</ctxPaymentDetail>";
                 xml += "\r\n</ctxPaymentInformation>";
             }
+            if (echeckCustomerId != null) xml += "\r\n<echeckCustomerId>" + SecurityElement.Escape(echeckCustomerId) + "</echeckCustomerId>";
+            if (accountId != null) xml += "\r\n<accountId>" + SecurityElement.Escape(accountId) + "</accountId>";
             return xml;
         }
+        
     }
 
     public partial class echeckTokenType
@@ -5855,6 +6011,76 @@ namespace Cnp.Sdk
         ME,
     }
 
+    public enum stateTypeEnum
+    {
+
+        /// <remarks/>
+        AL,
+        AK,
+        AZ,
+        AR,
+        CA,
+        CO,
+        CT,
+        DE,
+        DC,
+        FL,
+        GA,
+        HI,
+        ID,
+        IL,
+        IN,
+        IA,
+        KS,
+        KY,
+        LA,
+        ME,
+        MD,
+        MA,
+        MI,
+        MN,
+        MS,
+        MO,
+        MT,
+        NE,
+        NV,
+        NH,
+        NJ,
+        NM,
+        NY,
+        NC,
+        ND,
+        OH,
+        OK,
+        OR,
+        PA,
+        RI,
+        SC,
+        SD,
+        TN,
+        TX,
+        UT,
+        VT,
+        VA,
+        WA,
+        WV,
+        WI,
+        WY,
+        AB,
+        BC,
+        MB,
+        NB,
+        NL,
+        NT,
+        NS,
+        ON,
+        PE,
+        QC,
+        SK,
+        YT,
+        NU,
+    }
+
     public partial class addressType
     {        
         public string addressLine1;
@@ -6117,6 +6343,52 @@ namespace Cnp.Sdk
 
             return xml;
         }
+    }
+
+    public partial class finicityUrlRequest : transactionTypeWithReportGroup
+    {
+        public string firstName;
+        public string lastName;
+        public string phoneNumber;
+        public string email;
+    
+        public override string Serialize()
+        {
+            var xml = "\r\n<finicityUrlRequest";
+            xml += " id=\"" + SecurityElement.Escape(id) + "\"";
+            if (customerId != null)
+            {
+                xml += " customerId=\"" + SecurityElement.Escape(customerId) + "\"";
+            }
+            xml += " reportGroup=\"" + SecurityElement.Escape(reportGroup) + "\">";
+            xml += "\r\n<firstName>" + SecurityElement.Escape(firstName) + "</firstName>";
+            xml += "\r\n<lastName>" + lastName + "</lastName>";
+            xml += "\r\n<phoneNumber>" + phoneNumber + "</phoneNumber>";
+            xml += "\r\n<email>" + email + "</email>";
+            xml += "\r\n</finicityUrlRequest>";
+            return xml;
+        }
+
+    }
+
+    public partial class finicityAccountRequest : transactionTypeWithReportGroup
+    {
+        public string echeckCustomerId;
+      
+        public override string Serialize()
+        {
+            var xml = "\r\n<finicityAccountRequest";
+            xml += " id=\"" + SecurityElement.Escape(id) + "\"";
+            if (customerId != null)
+            {
+                xml += " customerId=\"" + SecurityElement.Escape(customerId) + "\"";
+            }
+            xml += " reportGroup=\"" + SecurityElement.Escape(reportGroup) + "\">";
+            xml += "\r\n<echeckCustomerId>" + echeckCustomerId + "</echeckCustomerId>";
+            xml += "\r\n</finicityAccountRequest>";
+            return xml;
+        }
+
     }
 
     public class accountUpdateFileRequestData
@@ -6977,7 +7249,314 @@ namespace Cnp.Sdk
         }
     }
 
+    ///new 12.35
+    public partial class accountFundingTransactionData
+    {
+        public string receiverFirstName;
+        public string receiverLastName;
+
+        public stateTypeEnum receiverStateFeild;
+        public bool receiverStateSet;
+        public stateTypeEnum receiverState
+        {
+            get
+            {
+                return receiverStateFeild;
+            }
+            set
+            {
+                receiverStateFeild = value;
+                receiverStateSet = true;
+            }
+        }
+
+        public countryTypeEnum receiverCountryFeild;
+        public bool receiverCountrySet;
+       
+        public countryTypeEnum receiverCountry
+        {
+            get
+            {
+                return receiverCountryFeild;
+            }
+            set
+            {
+                receiverCountryFeild = value;
+                receiverCountrySet = true;
+            }
+        }
+
+
+        public accountFundingTransactionAccountNumberTypeEnum receiverAccountNumberTypeFeild;
+        public bool receiverAccountNumberTypeSet;
+
+        public accountFundingTransactionAccountNumberTypeEnum receiverAccountNumberType
+        {
+            get
+            {
+                return receiverAccountNumberTypeFeild;
+            }
+            set
+            {
+                receiverAccountNumberTypeFeild = value;
+                receiverAccountNumberTypeSet = true;
+            }
+        }
+        public string receiverAccountNumber;
+
+        public accountFundingTransactionTypeEnum accountFundingTransactionTypeFeild;
+        public bool accountFundingTransactionTypeSet;
+
+        public accountFundingTransactionTypeEnum accountFundingTransactionType
+        {
+            get
+            {
+                return accountFundingTransactionTypeFeild;
+            }
+            set
+            {
+                accountFundingTransactionTypeFeild = value;
+                accountFundingTransactionTypeSet = true;
+            }
+        }
+        public string Serialize()
+        {
+            var xml = "";
+            if (receiverFirstName != null) xml += "\r\n<receiverFirstName>" + SecurityElement.Escape(receiverFirstName) + "</receiverFirstName>";
+            if (receiverLastName != null) xml += "\r\n<receiverLastName>" + SecurityElement.Escape(receiverLastName) + "</receiverLastName>";
+            if (receiverStateSet)
+            {
+                xml += "\r\n<receiverState>" + receiverState + "</receiverState>";
+            }
+            if (receiverCountrySet)
+            {
+                xml += "\r\n<receiverCountry>" + receiverCountry + "</receiverCountry>";
+            }
+            if(receiverAccountNumberTypeSet)
+            {
+                xml += "\r\n<receiverAccountNumberType>" + receiverAccountNumberType + "</receiverAccountNumberType>";
+            }
+            if (receiverAccountNumber != null) xml += "\r\n<receiverAccountNumber>" + SecurityElement.Escape(receiverAccountNumber) + "</receiverAccountNumber>";
+            if (accountFundingTransactionTypeSet)
+            {
+                xml += "\r\n<accountFundingTransactionType>" + accountFundingTransactionType + "</accountFundingTransactionType>";
+            }
+            return xml;
+        }
+    }
+
+    public partial class BNPLAuthorizationRequest : transactionTypeWithReportGroup
+    {
+        public long amount;
+        public string orderId;
+        private provider providerField;
+        private bool providerSet;
+        public provider provider
+        {
+            get { return providerField; }
+            set { providerField = value; providerSet = true; }
+        }
+        public string postCheckoutRedirectUrl;
+        public customerInfo customerInfo;
+        public contact billToAddress;
+        public contact shipToAddress;
+        public enhancedData enhancedData;
+
+        public override string Serialize()
+        {
+            var xml = "\r\n<BNPLAuthorizationRequest";
+            xml += " id=\"" + SecurityElement.Escape(id) + "\"";
+            if (customerId != null)
+            {
+                xml += " customerId=\"" + SecurityElement.Escape(customerId) + "\"";
+            }
+            xml += " reportGroup=\"" + SecurityElement.Escape(reportGroup) + "\">";
+           
+            xml += "\r\n<amount>" + amount + "</amount>";
+            xml += "\r\n<orderId>" + SecurityElement.Escape(orderId) + "</orderId>";
+            if (providerSet)
+            {
+                xml += "\r\n<provider>" + provider + "</provider>";
+            }
+            if (postCheckoutRedirectUrl != null)
+                {
+                xml += "\r\n<postCheckoutRedirectUrl>" + postCheckoutRedirectUrl + "</postCheckoutRedirectUrl>";
+            }
+            if (customerInfo != null)
+            {
+                xml += "\r\n<customerInfo>" + customerInfo.Serialize() + "\r\n</customerInfo>";
+            }   
+            if (billToAddress != null)
+            {
+                xml += "\r\n<billToAddress>" + billToAddress.Serialize() + "\r\n</billToAddress>";
+            }
+            if (shipToAddress != null)
+            {
+                xml += "\r\n<shipToAddress>" + shipToAddress.Serialize() + "\r\n</shipToAddress>";
+            }              
+            if (enhancedData != null)
+            {
+                xml += "\r\n<enhancedData>" + enhancedData.Serialize() + "\r\n</enhancedData>";
+            }
+            xml += "\r\n</BNPLAuthorizationRequest>";
+            return xml;
+        }
+    }
     #endregion
+
+    public partial class BNPLCaptureRequest : transactionTypeWithReportGroup
+    {
+        public long amount;
+        public string orderId;
+        private long cnpTxnIdField;
+        private bool cnpTxnIdSet;
+        public long cnpTxnId
+        {
+            get
+            {
+                return cnpTxnIdField;
+            }
+            set
+            {
+                cnpTxnIdField = value;
+                cnpTxnIdSet = true;
+            }
+        }
+        public override string Serialize()
+        {
+            var xml = "\r\n<BNPLCaptureRequest";
+            xml += " id=\"" + SecurityElement.Escape(id) + "\"";
+            if (customerId != null)
+            {
+                xml += " customerId=\"" + SecurityElement.Escape(customerId) + "\"";
+            }
+            xml += " reportGroup=\"" + SecurityElement.Escape(reportGroup) + "\">";
+
+            xml += "\r\n<amount>" + amount + "</amount>";
+            xml += "\r\n<orderId>" + SecurityElement.Escape(orderId) + "</orderId>";
+            if (cnpTxnIdSet)
+            {
+                xml += "\r\n<cnpTxnId>" + cnpTxnId + "</cnpTxnId>";
+            }
+            xml += "\r\n</BNPLCaptureRequest>";
+            return xml;
+        }
+    }
+
+    public partial class BNPLRefundRequest : transactionTypeWithReportGroup
+    {
+        public long amount;
+        public string orderId;
+        private long cnpTxnIdField;
+        private bool cnpTxnIdSet;
+        public long cnpTxnId
+        {
+            get
+            {
+                return cnpTxnIdField;
+            }
+            set
+            {
+                cnpTxnIdField = value;
+                cnpTxnIdSet = true;
+            }
+        }
+        public override string Serialize()
+        {
+            var xml = "\r\n<BNPLRefundRequest";
+            xml += " id=\"" + SecurityElement.Escape(id) + "\"";
+            if (customerId != null)
+            {
+                xml += " customerId=\"" + SecurityElement.Escape(customerId) + "\"";
+            }
+            xml += " reportGroup=\"" + SecurityElement.Escape(reportGroup) + "\">";
+
+            xml += "\r\n<amount>" + amount + "</amount>";
+            xml += "\r\n<orderId>" + SecurityElement.Escape(orderId) + "</orderId>";
+            if (cnpTxnIdSet)
+            {
+                xml += "\r\n<cnpTxnId>" + cnpTxnId + "</cnpTxnId>";
+            }
+            xml += "\r\n</BNPLRefundRequest>";
+            return xml;
+        }
+    }
+
+    public partial class BNPLCancelRequest : transactionTypeWithReportGroup
+    {
+        public long amount;
+        public string orderId;
+        private long cnpTxnIdField;
+        private bool cnpTxnIdSet;
+        public long cnpTxnId
+        {
+            get
+            {
+                return cnpTxnIdField;
+            }
+            set
+            {
+                cnpTxnIdField = value;
+                cnpTxnIdSet = true;
+            }
+        }
+        public override string Serialize()
+        {
+            var xml = "\r\n<BNPLCancelRequest";
+            xml += " id=\"" + SecurityElement.Escape(id) + "\"";
+            if (customerId != null)
+            {
+                xml += " customerId=\"" + SecurityElement.Escape(customerId) + "\"";
+            }
+            xml += " reportGroup=\"" + SecurityElement.Escape(reportGroup) + "\">";
+
+            xml += "\r\n<amount>" + amount + "</amount>";
+            xml += "\r\n<orderId>" + SecurityElement.Escape(orderId) + "</orderId>";
+            if (cnpTxnIdSet)
+            {
+                xml += "\r\n<cnpTxnId>" + cnpTxnId + "</cnpTxnId>";
+            }
+            xml += "\r\n</BNPLCancelRequest>";
+            return xml;
+        }
+    }
+
+    public partial class BNPLInquiryRequest : transactionTypeWithReportGroup
+    {
+        public string orderId;
+        private long cnpTxnIdField;
+        private bool cnpTxnIdSet;
+        public long cnpTxnId
+        {
+            get
+            {
+                return cnpTxnIdField;
+            }
+            set
+            {
+                cnpTxnIdField = value;
+                cnpTxnIdSet = true;
+            }
+        }
+        public override string Serialize()
+        {
+            var xml = "\r\n<BNPLInquiryRequest";
+            xml += " id=\"" + SecurityElement.Escape(id) + "\"";
+            if (customerId != null)
+            {
+                xml += " customerId=\"" + SecurityElement.Escape(customerId) + "\"";
+            }
+            xml += " reportGroup=\"" + SecurityElement.Escape(reportGroup) + "\">";
+       
+            xml += "\r\n<orderId>" + SecurityElement.Escape(orderId) + "</orderId>";
+            if (cnpTxnIdSet)
+            {
+                xml += "\r\n<cnpTxnId>" + cnpTxnId + "</cnpTxnId>";
+            }
+            xml += "\r\n</BNPLInquiryRequest>";
+            return xml;
+        }
+    }
 
     public class XmlUtil
     {

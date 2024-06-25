@@ -362,7 +362,16 @@ namespace Cnp.Sdk.Test.Functional
                     lineItems = new List<lineItemData>(),
 
                 },
-                foreignRetailerIndicator = foreignRetailerIndicatorEnum.F
+                foreignRetailerIndicator = foreignRetailerIndicatorEnum.F,
+                accountFundingTransactionData = new accountFundingTransactionData()
+                {
+                    receiverFirstName = "abcc",
+                    receiverLastName = "cde",
+                    receiverCountry = countryTypeEnum.US,
+                    receiverState = stateTypeEnum.AL,
+                    receiverAccountNumber = "4141000",
+
+                }
             };
             var mysubscription = new subscriptions();
             mysubscription.subscriptionId = "123";
