@@ -109,6 +109,10 @@ namespace Cnp.Sdk
             {
                 FillInReportGroup((transactionTypeWithReportGroupAndPartial)transaction);
             }
+            else if (transaction is transactionTypeWithReportGroupAndRtp)
+            {
+                FillInReportGroup((transactionTypeWithReportGroupAndRtp)transaction);
+            }
             if (transaction is authorization)
             {
                 request.authorization = (authorization)transaction;
@@ -1326,6 +1330,13 @@ namespace Cnp.Sdk
                 txn.reportGroup = _config["reportGroup"];
             }
         }
+        private void FillInReportGroup(transactionTypeWithReportGroupAndRtp txn)
+        {
+            if (txn.reportGroup == null)
+            {
+                txn.reportGroup = _config["reportGroup"];
+            }
+        }
 
         private void FillInReportGroup(transactionTypeWithReportGroupAndPartial txn)
         {
@@ -1334,7 +1345,7 @@ namespace Cnp.Sdk
                 txn.reportGroup = _config["reportGroup"];
             }
         }
-    }
+            }
 
     // CnpOnline interface for synchronous and asynchronous call.
     public interface ICnpOnline

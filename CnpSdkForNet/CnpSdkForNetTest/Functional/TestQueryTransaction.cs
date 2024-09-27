@@ -153,5 +153,26 @@ namespace Cnp.Sdk.Test.Functional
             Assert.AreEqual("000", ((captureResponse)queryResponse.results_max10[0]).response);
 
         }
+
+        [Test]
+        public void SimpleQueryTransactionNew()
+        {
+            var query = new queryTransaction
+            {
+                id = "myId",
+                reportGroup = "myReportGroup",
+                origId = "Deposit1",
+                origActionType = actionTypeEnum.FIVD,
+                origCnpTxnId = 54321
+            };
+
+            var response = _cnp.QueryTransaction(query);
+            var queryResponse = (queryTransactionResponse)response;
+
+            Assert.NotNull(queryResponse);
+            Assert.AreEqual("sandbox", response.location);
+            Assert.AreEqual("151", queryResponse.response);
+            Assert.AreEqual("Original transaction not found", queryResponse.message);
+        }
     }
 }

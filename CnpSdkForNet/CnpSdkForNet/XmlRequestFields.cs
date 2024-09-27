@@ -586,6 +586,36 @@ namespace Cnp.Sdk
             }
         }
 
+        private string typeOfDigitalCurrencyField;
+        private bool typeOfDigitalCurrencySet;
+        public string typeOfDigitalCurrency
+        {
+            get
+            {
+                return typeOfDigitalCurrencyField;
+            }
+            set
+            {
+                typeOfDigitalCurrencyField = value;
+                typeOfDigitalCurrencySet = true;
+            }
+        }
+
+        private string conversionAffiliateIdField;
+        private bool conversionAffiliateIdSet;
+        public string conversionAffiliateId
+        {
+            get
+            {
+                return conversionAffiliateIdField;
+            }
+            set
+            {
+                conversionAffiliateIdField = value;
+                conversionAffiliateIdSet = true;
+            }
+        }
+
         public override string Serialize()
         {
             var xml = "\r\n<authorization";
@@ -815,6 +845,14 @@ namespace Cnp.Sdk
                 if (fraudCheckActionSet != null)
                 {
                     xml += "\r\n<fraudCheckAction>" + fraudCheckActionFeild + "</fraudCheckAction>";
+                }
+                if (typeOfDigitalCurrencySet)
+                {
+                    xml += "\r\n<typeOfDigitalCurrency>" + typeOfDigitalCurrency + "</typeOfDigitalCurrency>";
+                }
+                if (conversionAffiliateIdSet)
+                {
+                    xml += "\r\n<conversionAffiliateId>" + conversionAffiliateId + "</conversionAffiliateId>";
                 }
             }
 
@@ -1201,6 +1239,7 @@ namespace Cnp.Sdk
             get { return foreignRetailerIndicatorField; }
             set { foreignRetailerIndicatorField = value; foreignRetailerIndicatorSet = true; }
         }
+        public partialCapture partialCapture; //12.38
         //12.31 end
 
         public override string Serialize()
@@ -1238,6 +1277,10 @@ namespace Cnp.Sdk
             if (foreignRetailerIndicatorSet)//12.31
             {
                 xml += "\r\n<foreignRetailerIndicator>" + foreignRetailerIndicatorField + "</foreignRetailerIndicator>";
+            }
+            if (partialCapture != null)//12.26
+            {
+                xml += "\r\n<partialCapture>" + partialCapture.Serialize() + "\r\n</partialCapture>";
             }
             xml += "\r\n</capture>";
 
@@ -1378,6 +1421,36 @@ namespace Cnp.Sdk
         }
         //12.31 end
         public accountFundingTransactionData accountFundingTransactionData;
+        private string typeOfDigitalCurrencyField;
+        private bool typeOfDigitalCurrencySet;
+        public string typeOfDigitalCurrency
+        {
+            get
+            {
+                return typeOfDigitalCurrencyField;
+            }
+            set
+            {
+                typeOfDigitalCurrencyField = value;
+                typeOfDigitalCurrencySet = true;
+            }
+        }
+
+        private string conversionAffiliateIdField;
+        private bool conversionAffiliateIdSet;
+        public string conversionAffiliateId
+        {
+            get
+            {
+                return conversionAffiliateIdField;
+            }
+            set
+            {
+                conversionAffiliateIdField = value;
+                conversionAffiliateIdSet = true;
+            }
+        }
+
         public override string Serialize()
         {
             var xml = "\r\n<captureGivenAuth";
@@ -1502,7 +1575,14 @@ namespace Cnp.Sdk
             {
                 xml += "\r\n<accountFundingTransactionData>" + accountFundingTransactionData.Serialize() + "\r\n</accountFundingTransactionData>";
             }
-
+            if (typeOfDigitalCurrencySet)
+            {
+                xml += "\r\n<typeOfDigitalCurrency>" + typeOfDigitalCurrency + "</typeOfDigitalCurrency>";
+            }
+            if (conversionAffiliateIdSet)
+            {
+                xml += "\r\n<conversionAffiliateId>" + conversionAffiliateId + "</conversionAffiliateId>";
+            }
             xml += "\r\n</captureGivenAuth>";
             return xml;
         }
@@ -2113,10 +2193,10 @@ namespace Cnp.Sdk
             return xml;
         }
 
-    }
+        }
 
-    // Force Capture Transaction.
-    public partial class forceCapture : transactionTypeWithReportGroup
+        // Force Capture Transaction.
+        public partial class forceCapture : transactionTypeWithReportGroup
     {
         public string orderId;
         public long amount;
@@ -3034,6 +3114,37 @@ namespace Cnp.Sdk
             }
         }
 
+        private string typeOfDigitalCurrencyField;
+        private bool typeOfDigitalCurrencySet;
+        public string typeOfDigitalCurrency
+        {
+            get
+            {
+                return typeOfDigitalCurrencyField;
+            }
+            set
+            {
+                typeOfDigitalCurrencyField = value;
+                typeOfDigitalCurrencySet = true;
+            }
+        }
+
+        private string conversionAffiliateIdField;
+        private bool conversionAffiliateIdSet;
+        public string conversionAffiliateId
+        {
+            get
+            {
+                return conversionAffiliateIdField;
+            }
+            set
+            {
+                conversionAffiliateIdField = value;
+                conversionAffiliateIdSet = true;
+            }
+        }
+
+
         public override string Serialize()
         {
             var xml = "\r\n<sale";
@@ -3268,17 +3379,25 @@ namespace Cnp.Sdk
                 xml += "\r\n<fraudCheckAction>" + fraudCheckActionFeild + "</fraudCheckAction>";
             }
 
-            //end
-            //if (routingPreferenceSet)
-            //{
-            //    var routingPreferenceName = routingPreferenceField.ToString();
-            //    var attributes = 
-            //        (XmlEnumAttribute[])typeof(echeckAccountTypeEnum).GetMember(routingPreferenceField.ToString())[0].GetCustomAttributes(typeof(XmlEnumAttribute), false);
-            //    if (attributes.Length > 0) routingPreferenceName = attributes[0].Name;
-            //    xml += "\r\n<routingPreference>" + routingPreferenceName + "</routingPreference>";
-            //}
+            if (typeOfDigitalCurrencySet)
+            {
+                xml += "\r\n<typeOfDigitalCurrency>" + typeOfDigitalCurrency + "</typeOfDigitalCurrency>";
+            }
+            if (conversionAffiliateIdSet)
+            {
+                xml += "\r\n<conversionAffiliateId>" + conversionAffiliateId + "</conversionAffiliateId>";
+            }
+        //end
+        //if (routingPreferenceSet)
+        //{
+        //    var routingPreferenceName = routingPreferenceField.ToString();
+        //    var attributes = 
+        //        (XmlEnumAttribute[])typeof(echeckAccountTypeEnum).GetMember(routingPreferenceField.ToString())[0].GetCustomAttributes(typeof(XmlEnumAttribute), false);
+        //    if (attributes.Length > 0) routingPreferenceName = attributes[0].Name;
+        //    xml += "\r\n<routingPreference>" + routingPreferenceName + "</routingPreference>";
+        //}
 
-            xml += "\r\n</sale>";
+        xml += "\r\n</sale>";
             return xml;
         }
     }
@@ -3823,6 +3942,7 @@ namespace Cnp.Sdk
         //12.27
         FIFA,
         FIVC,
+        FIVD,
         FISC,
         FISD,
         FIPC,
@@ -4541,6 +4661,18 @@ namespace Cnp.Sdk
         {
             get { return partialField; }
             set { partialField = value; partialSet = true; }
+        }
+    }
+
+    public partial class transactionTypeWithReportGroupAndRtp : transactionType
+    {
+        public string reportGroup;
+        private bool rtpField;
+        protected bool rtpSet;
+        public bool rtp
+        {
+            get { return rtpField; }
+            set { rtpField = value; rtpSet = true; }
         }
     }
 
@@ -6755,6 +6887,34 @@ namespace Cnp.Sdk
             if (numberOfPeriodsSet) xml += "\r\n<numberOfPeriods>" + numberOfPeriodsField + "</numberOfPeriods>";
             if (regularItemPriceSet) xml += "\r\n<regularItemPrice>" + regularItemPriceField + "</regularItemPrice>";
             if (currentPeriodSet) xml += "\r\n<currentPeriod>" + currentPeriodField + "</currentPeriod>";
+            return xml;
+        }
+    }
+
+    //12.38
+    public partial class partialCapture
+    {
+       
+        private int partialCaptureSequenceNumberField;
+        private bool partialCaptureSequenceNumberSet;
+        public int partialCaptureSequenceNumber
+        {
+            get { return partialCaptureSequenceNumberField; }
+            set { partialCaptureSequenceNumberField = value; partialCaptureSequenceNumberSet = true; }
+        }
+
+        private int partialCaptureTotalCountField;
+        private bool partialCaptureTotalCountSet;
+        public int partialCaptureTotalCount
+        {
+            get { return partialCaptureTotalCountField; }
+            set { partialCaptureTotalCountField = value; partialCaptureTotalCountSet = true; }
+        }
+        public string Serialize()
+        {
+            var xml = "";
+            if (partialCaptureSequenceNumberSet) xml += "\r\n<partialCaptureSequenceNumber>" + partialCaptureTotalCountField + "</partialCaptureSequenceNumber>";
+            if (partialCaptureTotalCountSet) xml += "\r\n<partialCaptureTotalCount>" + partialCaptureTotalCountField + "</partialCaptureTotalCount>"; 
             return xml;
         }
     }

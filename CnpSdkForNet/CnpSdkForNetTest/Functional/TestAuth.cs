@@ -1264,11 +1264,10 @@ namespace Cnp.Sdk.Test.Functional
             {
                 id = "1",
                 customerId = "CustId",
-                reportGroup = "Planets", 
+                reportGroup = "Planets",
                 cnpTxnId = 901097991325067135,
                 amount = 106,
                 authIndicator = authIndicatorEnum.Incremental,
-        
             };
             var response = _cnp.Authorize(authorization);
 
@@ -1318,6 +1317,8 @@ namespace Cnp.Sdk.Test.Functional
                     accountFundingTransactionType = accountFundingTransactionTypeEnum.accountToAccount
                 },
                 fraudCheckAction = fraudCheckActionEnum.APPROVED_SKIP_FRAUD_CHECK,
+                typeOfDigitalCurrency = "abc",
+                conversionAffiliateId = "123",
             };
             var response = _cnp.Authorize(authorization);
             var mysubscription = new subscriptions();

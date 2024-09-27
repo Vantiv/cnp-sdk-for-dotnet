@@ -2177,6 +2177,7 @@ namespace Cnp.Sdk
         private string paymentAccountReferenceNumberField;
 
         private string checkoutIdField;
+        private string fundingTransactionReferenceNumberFeild;
 
         /// <remarks/>
         public long cnpTxnId
@@ -2544,6 +2545,18 @@ namespace Cnp.Sdk
                 this.checkoutIdField = value;
             }
         }
+        public string fundingTransactionReferenceNumber
+        {
+            get
+            {
+                return this.fundingTransactionReferenceNumberFeild;
+            }
+            set
+            {
+                this.fundingTransactionReferenceNumberFeild = value;
+            }
+        }
+
     }
     
     /// <remarks/>
@@ -4348,7 +4361,10 @@ namespace Cnp.Sdk
         private string paymentAccountReferenceNumberField;
 
         private string checkoutIdField; //12.24
-        
+
+        private string fundingTransactionReferenceNumberFeild; //12.39
+
+
         /// <remarks/>
         public long cnpTxnId
         {
@@ -4796,6 +4812,17 @@ namespace Cnp.Sdk
             set
             {
                 this.checkoutIdField = value;
+            }
+        }
+        public string fundingTransactionReferenceNumber
+        {
+            get
+            {
+                return this.fundingTransactionReferenceNumberFeild;
+            }
+            set
+            {
+                this.fundingTransactionReferenceNumberFeild = value;
             }
         }
     }

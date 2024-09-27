@@ -259,7 +259,7 @@ namespace Cnp.Sdk.Test.Functional
         }
 
         [Test]
-        public void SimpleCaptureWithForeignRetailerIndicator()///12.31
+        public void SimpleCaptureWithForeignRetailerIndicatorandPartialCapture()///12.31 and 12.38
         {
             var capture = new capture
             {
@@ -283,8 +283,12 @@ namespace Cnp.Sdk.Test.Functional
                     numberOfRooms = 1,
                     tollFreePhoneNumber = "1234567890"
                 },
-                foreignRetailerIndicator= foreignRetailerIndicatorEnum.F
-
+                foreignRetailerIndicator= foreignRetailerIndicatorEnum.F,
+                partialCapture = new partialCapture
+                {
+                    partialCaptureSequenceNumber = 1,
+                    partialCaptureTotalCount = 1,
+                }
             };
             var response = _cnp.Capture(capture);
             Assert.AreEqual("Approved", response.message);

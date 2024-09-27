@@ -23,6 +23,7 @@ namespace Cnp.Sdk.Test.Functional
                 // attributes.
                 id = "1",
                 reportGroup = "Default Report Group",
+                rtp = false,
                 // required child elements.
                 amount = 1512l,
                 fundingSubmerchantId = "value for fundingSubmerchantId",
