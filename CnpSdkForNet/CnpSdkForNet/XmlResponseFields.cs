@@ -792,6 +792,14 @@ namespace Cnp.Sdk
         token,
     }
 
+    [System.CodeDom.Compiler.GeneratedCodeAttribute("xsd", "2.0.50727.42")]
+    [System.SerializableAttribute()]
+    [System.Xml.Serialization.XmlTypeAttribute(Namespace = "http://www.vantivcnp.com/schema")]
+    public enum encryptionKeyRequestEnum
+    {
+        CURRENT,
+        PREVIOUS
+    }
     /// <remarks/>
     [System.CodeDom.Compiler.GeneratedCodeAttribute("xsd", "2.0.50727.42")]
     [System.SerializableAttribute()]
@@ -5853,6 +5861,7 @@ namespace Cnp.Sdk
         public BNPLRefundResponse BNPLRefundResponse;
         public BNPLCancelResponse BNPLCancelResponse;
         public BNPLInquiryResponse BNPLInquiryResponse;
+        public encryptionKeyResponse encryptionKeyResponse;
 
         /// <remarks/>
         [System.Xml.Serialization.XmlAttributeAttribute()]
@@ -12433,6 +12442,49 @@ namespace Cnp.Sdk
         }
 
     }
+
+    [System.CodeDom.Compiler.GeneratedCodeAttribute("xsd", "2.0.50727.3038")]
+    [System.SerializableAttribute()]
+    [System.Diagnostics.DebuggerStepThroughAttribute()]
+    [System.ComponentModel.DesignerCategoryAttribute("code")]
+    [System.Xml.Serialization.XmlTypeAttribute(AnonymousType = true, Namespace = "http://www.vantivcnp.com/schema")]
+    [System.Xml.Serialization.XmlRootAttribute(Namespace = "http://www.vantivcnp.com/schema", IsNullable = false)]
+    public partial class encryptionKeyResponse : transactionType
+    {
+
+        private long encryptionKeySequenceField;
+
+        private string encryptionKeyField;
+
+        /// <remarks/>
+        public long encryptionKeySequence
+        {
+            get
+            {
+                return this.encryptionKeySequenceField;
+            }
+            set
+            {
+                this.encryptionKeySequenceField = value;
+            }
+        }
+
+        /// <remarks/>
+        public string encryptionKey
+        {
+            get
+            {
+                return this.encryptionKeyField;
+            }
+            set
+            {
+                this.encryptionKeyField = value;
+            }
+        }
+
+    }
+
+
 }
 
 

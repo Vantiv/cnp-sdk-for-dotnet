@@ -35,6 +35,7 @@ namespace Cnp.Sdk
         public echeckSale echeckSale;
         public echeckVerification echeckVerification;
         public echeckVoid echeckVoid;
+        public EncryptionKeyRequest encryptionKeyRequest;
         public fastAccessFunding fastAccessFunding;
         public finicityUrlRequest finicityUrlRequest;
         public finicityAccountRequest finicityAccountRequest;
@@ -146,6 +147,7 @@ namespace Cnp.Sdk
             else if (BNPLRefundRequest != null) xml += BNPLRefundRequest.Serialize();
             else if (BNPLCancelRequest != null) xml += BNPLCancelRequest.Serialize();
             else if (BNPLInquiryRequest != null) xml += BNPLInquiryRequest.Serialize();
+            else if (encryptionKeyRequest != null) xml += encryptionKeyRequest.Serialize();
             xml += "\r\n</cnpOnlineRequest>";
 
             return xml;
@@ -2396,7 +2398,7 @@ namespace Cnp.Sdk
         public string authenticationValue;
         public string authenticationTransactionId;
         public string customerIpAddress;
-        public string authenticationProtocolVersionType;
+        public string authenticationProtocolVersion;
         private bool authenticatedByMerchantField;
         private bool authenticatedByMerchantSet;
         private string tokenAuthenticationValue;
@@ -2413,7 +2415,7 @@ namespace Cnp.Sdk
             if (authenticationTransactionId != null) xml += "\r\n<authenticationTransactionId>" + SecurityElement.Escape(authenticationTransactionId) + "</authenticationTransactionId>";
             if (customerIpAddress != null) xml += "\r\n<customerIpAddress>" + SecurityElement.Escape(customerIpAddress) + "</customerIpAddress>";
             if (authenticatedByMerchantSet) xml += "\r\n<authenticatedByMerchant>" + authenticatedByMerchantField + "</authenticatedByMerchant>";
-            if (authenticationProtocolVersionType != null) xml += "\r\n<authenticationProtocolVersionType>" + authenticationProtocolVersionType + "</authenticationProtocolVersionType>";
+            if (authenticationProtocolVersion != null) xml += "\r\n<authenticationProtocolVersion>" + authenticationProtocolVersion + "</authenticationProtocolVersion>";
             if (tokenAuthenticationValue != null) xml += "\r\n<tokenAuthenticationValue>" + tokenAuthenticationValue + "</tokenAuthenticationValue";
             return xml;
         }
@@ -7714,6 +7716,34 @@ namespace Cnp.Sdk
                 xml += "\r\n<cnpTxnId>" + cnpTxnId + "</cnpTxnId>";
             }
             xml += "\r\n</BNPLInquiryRequest>";
+            return xml;
+        }
+    }
+
+    public partial class EncryptionKeyRequest : transactionRequest
+    {
+        private encryptionKeyRequestEnum encryptionKeyRequestField;
+        private bool encryptionKeyRequestSet;
+        public encryptionKeyRequestEnum encryptionKeyRequest
+        {
+            get
+            {
+                return encryptionKeyRequestField;
+            }
+            set
+            {
+                encryptionKeyRequestField = value;
+                encryptionKeyRequestSet = true;
+            }
+        }
+        public override string Serialize()
+        {
+            var xml = " ";
+       
+            if (encryptionKeyRequestSet)
+            {
+                xml += "\r\n<encryptionKeyRequest>" + encryptionKeyRequest + "</encryptionKeyRequest>";
+            }
             return xml;
         }
     }

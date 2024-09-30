@@ -383,6 +383,10 @@ namespace Cnp.Sdk
             {
                 request.BNPLInquiryRequest = (BNPLInquiryRequest)transaction;
             }
+            else if (transaction is EncryptionKeyRequest)
+            {
+                request.encryptionKeyRequest = (EncryptionKeyRequest)transaction;
+            }
             else
             {
                 throw new NotImplementedException("Support for type: " + transaction.GetType().Name +
@@ -1218,6 +1222,22 @@ namespace Cnp.Sdk
             }, bnplInquiry, cancellationToken);
         }
 
+        public encryptionKeyResponse encryptionKey(EncryptionKeyRequest encryptionKey)
+        {
+
+            var cnpResponse = SendRequest(response => response, encryptionKey);
+            var encryptionKeyResponse = cnpResponse.encryptionKeyResponse;
+            return encryptionKeyResponse;
+        }
+
+        public Task<encryptionKeyResponse> encryptionKeyAsync(EncryptionKeyRequest encryptionKey, CancellationToken cancellationToken)
+        {
+            return SendRequestAsync(response =>
+            {
+                var encryptionKeyResponse = response.encryptionKeyResponse;
+                return encryptionKeyResponse;
+            }, encryptionKey, cancellationToken);
+        }
         private cnpOnlineRequest CreateCnpOnlineRequest()
         {
             var request = new cnpOnlineRequest();

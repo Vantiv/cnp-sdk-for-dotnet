@@ -972,10 +972,11 @@ namespace Cnp.Sdk.Test.Functional
                     number = "4100000000000000",
                     expDate = "1210"
                 },
-                 cardholderAuthentication = new fraudCheckType
-                 {
-                     customerIpAddress ="127.1.1"
-                 },
+                cardholderAuthentication = new fraudCheckType
+                {
+                    customerIpAddress = "127.1.1",
+                    authenticationProtocolVersion = "1",
+               },
                 enhancedData = new enhancedData
                 {
                     customerReference = "000000008110801",

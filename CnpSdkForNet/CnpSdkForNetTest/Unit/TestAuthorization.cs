@@ -348,7 +348,7 @@ namespace Cnp.Sdk.Test.Unit
             auth.amount = 2;
             auth.orderSource = orderSourceType.ecommerce;
             fraudCheckType checkType = new fraudCheckType();
-            checkType.authenticationProtocolVersionType = "PAP";
+            checkType.authenticationProtocolVersion = "PAP";
             auth.cardholderAuthentication = checkType;
             auth.cardholderAuthentication.customerIpAddress = "192.168.1.1";
             auth.accountFundingTransactionData = new accountFundingTransactionData()
@@ -374,7 +374,7 @@ namespace Cnp.Sdk.Test.Unit
 </card>
 <cardholderAuthentication>
 <customerIpAddress>192.168.1.1</customerIpAddress>
-<authenticationProtocolVersionType>PAP</authenticationProtocolVersionType>
+<authenticationProtocolVersion>PAP</authenticationProtocolVersion>
 </cardholderAuthentication>
 <accountFundingTransactionData>
 <receiverFirstName>abcc</receiverFirstName>
