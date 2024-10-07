@@ -1464,6 +1464,9 @@ namespace Cnp.Sdk
         Task<BNPLCancelResponse> BNPLCancleAsync(BNPLCancelRequest bnplCancle, CancellationToken cancellationToken);
         BNPLInquiryResponse BNPLInquiry(BNPLInquiryRequest bnplInquiry);
         Task<BNPLInquiryResponse> BNPLInquiryAsync(BNPLInquiryRequest bnplInquiry, CancellationToken cancellationToken);
+        encryptionKeyResponse encryptionKey(EncryptionKeyRequest encryptionKey);
+        Task<encryptionKeyResponse> encryptionKeyAsync(EncryptionKeyRequest encryptionKey, CancellationToken cancellationToken);
         event EventHandler HttpAction;
     }
 }
+

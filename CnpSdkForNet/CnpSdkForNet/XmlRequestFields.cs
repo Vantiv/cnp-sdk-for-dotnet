@@ -1280,7 +1280,7 @@ namespace Cnp.Sdk
             {
                 xml += "\r\n<foreignRetailerIndicator>" + foreignRetailerIndicatorField + "</foreignRetailerIndicator>";
             }
-            if (partialCapture != null)//12.26
+            if (partialCapture != null)//12.38
             {
                 xml += "\r\n<partialCapture>" + partialCapture.Serialize() + "\r\n</partialCapture>";
             }
