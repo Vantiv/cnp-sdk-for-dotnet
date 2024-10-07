@@ -12,8 +12,8 @@ namespace Cnp.Sdk
         public string error;
         public int status;
     }
-    
-    
+
+
     public class PgpHelper
     {
         private const int Success = 0;
@@ -30,7 +30,7 @@ namespace Cnp.Sdk
 
             return path;
         }
-        
+
         public static void EncryptFile(string inputFileName, string outputFileName, string recipientKeyId)
         {
             const string commandFormat = @"--batch --yes --armor --trust-model always --output {0} --recipient {1} --encrypt {2}";
@@ -42,7 +42,7 @@ namespace Cnp.Sdk
                 {
                     throw new CnpOnlineException("Please make sure that the recipient Key ID is correct and is added to your gpg keyring.\n" + procResult.error);
                 }
-                
+
                 else if (Regex.IsMatch(procResult.error,string.Format("can't open .{0}", Regex.Escape(inputFileName))))
                 {
                     throw new CnpOnlineException("Please make sure the input file exists and has read permission.\n" + procResult.error);
@@ -53,8 +53,17 @@ namespace Cnp.Sdk
                     throw new CnpOnlineException(procResult.error);
                 }
             }
-            
+
             Console.WriteLine("Encrypted with key id " + recipientKeyId + " successfully!");
+        }
+
+        public static string encryptString(string inputFileName, string recipientKeyId)
+        {
+            const string commandFormat = @"--batch --yes --armor --trust-model always --recipient-file {0} {1}";
+            string output="";
+            var procResult = ExecuteCommandSync1(string.Format(commandFormat,recipientKeyId, inputFileName), GpgExecutable);
+            Console.WriteLine("Encrypted with key id " + procResult.ToString());
+            return procResult.ToString();
         }
 
         public static void DecryptFile(string inputFileName, string outputFileName, string passphrase)
@@ -66,7 +75,7 @@ namespace Cnp.Sdk
             {
                 File.Delete(outputFileName);
             }
-            
+
             // Run the command for GPG >=2.1. If it doesn't work (<2.1), then use 2.0 and earlier.
             // If it works, reset the passphrase so it isn't saved (GPG >=2.1).
             var procResult = ExecuteCommandSync(string.Format(commandFormatPinentryLoop, outputFileName, passphrase, inputFileName),GpgExecutable);
@@ -88,12 +97,12 @@ namespace Cnp.Sdk
                 {
                     throw new CnpOnlineException("Please make sure that the passphrase is correct.\n" + procResult.error);
                 }
-                
+
                 else if (procResult.error.ToLower().Contains("gpg: decryption failed: no secret key"))
                 {
                     throw new CnpOnlineException("Please make sure that your merchant secret key is added to your gpg keyring.\n" + procResult.error);
                 }
-                
+
                 else if (Regex.IsMatch(procResult.error,string.Format("can't open .{0}", Regex.Escape(inputFileName))))
                 {
                     throw new CnpOnlineException("Please make sure the input file exists and has read permission.\n" + procResult.error);
@@ -109,7 +118,7 @@ namespace Cnp.Sdk
         public static string ImportPrivateKey(string keyFilePath, string passphrase)
         {
             const string commandFormat = @"--import --passphrase-fd 0 --pinentry-mode loopback {0}";
-            
+
             var procResult = ExecuteCommandSync(string.Format(commandFormat, keyFilePath), passphrase);
             if (procResult.status != Success)
             {
@@ -118,11 +127,11 @@ namespace Cnp.Sdk
 
             return ExtractKeyId(procResult.error);
         }
-        
+
         public static string ImportPublicKey(string keyFilePath)
         {
             const string commandFormat = @"--import {0}";
-            
+
             var procResult = ExecuteCommandSync(string.Format(commandFormat, keyFilePath), GpgExecutable);
             if (procResult.status != Success)
             {
@@ -131,7 +140,7 @@ namespace Cnp.Sdk
 
             return ExtractKeyId(procResult.error);
         }
-        
+
 
         private static ProcResult ExecuteCommandSyncWithPassphrase(string command, string passphrase)
         {
@@ -164,7 +173,7 @@ namespace Cnp.Sdk
         private static ProcResult ExecuteCommandSync(string command, string executable)
         {
             string path = GetExecutablePath(Path.Combine(GpgPath, executable));
-            
+
             var procStartInfo = new ProcessStartInfo(path, command)
             {
                 CreateNoWindow = true,
@@ -178,7 +187,7 @@ namespace Cnp.Sdk
             proc.Start();
             proc.StandardInput.Flush();
             proc.WaitForExit();
-            
+
             return new ProcResult
             {
                 output = proc.StandardOutput.ReadToEnd(),
@@ -190,6 +199,46 @@ namespace Cnp.Sdk
         private static string ExtractKeyId(string result)
         {
             return result.Split(':')[1].Split(' ')[2].Substring(8);
+        }
+
+        public static string ExecuteCommandSync1(string command, string executablePath)
+        {
+            string path = GetExecutablePath(Path.Combine(GpgPath, executablePath));
+            try
+            {
+                // Create the process start info
+                var procStartInfo = new ProcessStartInfo(path, command)
+                {
+                    RedirectStandardOutput = true,
+                    RedirectStandardError = true,
+                    UseShellExecute = false,
+                    CreateNoWindow = true
+                };
+
+                // Create the process
+                var proc = new Process
+                {
+                    StartInfo = procStartInfo
+                };
+
+                // Start the process
+                proc.Start();
+
+                // Read the output
+                string result = proc.StandardOutput.ReadToEnd();
+                string error = proc.StandardError.ReadToEnd();
+
+                // Wait for the process to exit
+                proc.WaitForExit();
+
+                // Return the result or error
+                return string.IsNullOrEmpty(error) ? result : error;
+            }
+            catch (Exception ex)
+            {
+                // Handle any exceptions
+                return $"Error: {ex.Message}";
+            }
         }
     }
 }
