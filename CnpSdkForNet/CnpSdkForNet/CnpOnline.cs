@@ -1,12 +1,12 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.IO;
-using System.Net;
 using System.Text;
+using System.Xml.Serialization;
+using System.IO;
 using System.Threading;
 using System.Threading.Tasks;
+using System.Net;
 using System.Xml;
-using System.Xml.Serialization;
 using System.Xml.Xsl;
 
 
@@ -1312,130 +1312,6 @@ namespace Cnp.Sdk
             }
         }
 
-        private String processTxnToBeEncrypted(String requestTxn)
-        {
-            String path = _config["oltpEncryptionKeyPath"];
-            String encryptedTxn;
-            String output="";
-            if (path == null)
-            {
-                throw new CnpOnlineException("Problem in reading the Encryption Key path ...Provide the Encryption key path ");
-            }
-            else
-            {
-                // Path path = Paths.get(config.getProperty("oltpEncryptionKeyPath"));
-                if (!File.Exists(path) || (File.GetAttributes(path) & FileAttributes.Directory) == FileAttributes.Directory)
-                {
-                    throw new CnpOnlineException("The provided path is not a valid file path or the file does not exist.");
-                }
-                try
-                {
-                    encryptedTxn = PgpHelper.EncryptString(requestTxn,path);
-                }
-                catch (IOException e)
-                {
-                    throw new CnpOnlineException("\"There was an exception while reading the key from Specified path" +
-                      "\n If the Path is correct check for keys correctness ", e);
-                }
-               
-                return encryptedTxn;
-            }
-        }
-      
-        private String replaceWithEncryptedPayload(String xmlRequest)
-        {
-            try
-            {
-
-                XmlDocument doc = new XmlDocument();
-                doc.LoadXml(xmlRequest);
-                XmlNode root = doc.DocumentElement;
-                String encryptionKeySequence;
-                String tobeEncryptedChild, payload;
-              
-                XmlNode secondChild= root.ChildNodes.Item(1);
-
-
-                if (secondChild != null)
-                {
-                    // Transform the second element to a string
-                    string output;
-                    using (StringWriter writer = new StringWriter())
-                    {
-                        using (XmlWriter xmlWriter = XmlWriter.Create(writer, new XmlWriterSettings { Indent = true, OmitXmlDeclaration = true }))
-                        {
-                            secondChild.WriteTo(xmlWriter);
-                        }
-                        output = writer.ToString().Trim();
-                    }
-                   
-
-                    if (secondChild.Name == "encryptionKeyRequest")
-                    {
-                        return xmlRequest;
-                    }
-                    if (secondChild != null)
-                    {
-                        root.RemoveChild(secondChild);
-                    }
-                    if (secondChild.Name == "encryptionKeyRequest")
-                    {
-                        return xmlRequest;
-                    }
-                    else
-                    {
-                   
-                        payload = processTxnToBeEncrypted(output);
-                     
-
-                        XmlElement encryptedPayloadElement = doc.CreateElement("encryptedPayload");
-
-                        // Create and append the encryptionKeySequence element
-                        XmlElement encryptionKeySequenceElement = doc.CreateElement("encryptionKeySequence");
-                        if (_config["oltpEncryptionKeySequence"] != null)
-                        {
-                            encryptionKeySequence = _config["oltpEncryptionKeySequence"];
-                        }
-                        else
-                        {
-                            throw new CnpOnlineException("Problem in reading the Encryption Key Sequence ...Provide the Encryption key Sequence ");
-
-                        }
-                        encryptionKeySequenceElement.InnerText = encryptionKeySequence;
-                        encryptedPayloadElement.AppendChild(encryptionKeySequenceElement);
-                      
-                        // Create and append the payload element
-                        XmlElement payloadElement = doc.CreateElement("payload");
-                        payloadElement.InnerText = payload;
-                        encryptedPayloadElement.AppendChild(payloadElement);
-                       
-                        root.AppendChild(encryptedPayloadElement);
-                      
-                         using (StringWriter writer1 = new StringWriter())
-                         {
-                            using (XmlWriter xmlWriter1 = XmlWriter.Create(writer1, new XmlWriterSettings { Indent = true, OmitXmlDeclaration = true }))
-                                {
-                                    doc.WriteTo(xmlWriter1);
-                                }
-                            xmlRequest = writer1.ToString().Trim();
-                         }
-
-                        xmlRequest = xmlRequest.Replace("<encryptedPayload xmlns=\"\">", "<encryptedPayload>");
-                        return xmlRequest;
-                    }
-                  
-                }
-
-
-            }
-            catch (Exception e) when (e is XmlException || e is IOException || e is XsltException)
-            {
-                throw new Exception("Error processing XML request. Please reach out to SDK Support team.", e);
-            }
-            return xmlRequest;
-        }
-
-
         private async Task<T> SendRequestAsync<T>(Func<cnpOnlineResponse, T> getResponse, transactionRequest transaction, CancellationToken cancellationToken)
             {
                 var request = CreateRequest(transaction);
@@ -1507,7 +1383,130 @@ namespace Cnp.Sdk
                     txn.reportGroup = _config["reportGroup"];
                 }
             }
+
+        private String processTxnToBeEncrypted(String requestTxn)
+        {
+            String path = _config["oltpEncryptionKeyPath"];
+            String encryptedTxn;
+            String output = "";
+            if (path == null)
+            {
+                throw new CnpOnlineException("Problem in reading the Encryption Key path ...Provide the Encryption key path ");
+            }
+            else
+            {
+                // Path path = Paths.get(config.getProperty("oltpEncryptionKeyPath"));
+                if (!File.Exists(path) || (File.GetAttributes(path) & FileAttributes.Directory) == FileAttributes.Directory)
+                {
+                    throw new CnpOnlineException("The provided path is not a valid file path or the file does not exist.");
+                }
+                try
+                {
+                    encryptedTxn = PgpHelper.EncryptString(requestTxn, path);
+                }
+                catch (IOException e)
+                {
+                    throw new CnpOnlineException("\"There was an exception while reading the key from Specified path" +
+                      "\n If the Path is correct check for keys correctness ", e);
+                }
+
+                return encryptedTxn;
+            }
         }
+
+        private String replaceWithEncryptedPayload(String xmlRequest)
+        {
+            try
+            {
+
+                XmlDocument doc = new XmlDocument();
+                doc.LoadXml(xmlRequest);
+                XmlNode root = doc.DocumentElement;
+                String encryptionKeySequence;
+                String tobeEncryptedChild, payload;
+
+                XmlNode secondChild = root.ChildNodes.Item(1);
+
+
+                if (secondChild != null)
+                {
+                    // Transform the second element to a string
+                    string output;
+                    using (StringWriter writer = new StringWriter())
+                    {
+                        using (XmlWriter xmlWriter = XmlWriter.Create(writer, new XmlWriterSettings { Indent = true, OmitXmlDeclaration = true }))
+                        {
+                            secondChild.WriteTo(xmlWriter);
+                        }
+                        output = writer.ToString().Trim();
+                    }
+
+
+                    if (secondChild.Name == "encryptionKeyRequest")
+                    {
+                        return xmlRequest;
+                    }
+                    if (secondChild != null)
+                    {
+                        root.RemoveChild(secondChild);
+                    }
+                    if (secondChild.Name == "encryptionKeyRequest")
+                    {
+                        return xmlRequest;
+                    }
+                    else
+                    {
+
+                        payload = processTxnToBeEncrypted(output);
+
+
+                        XmlElement encryptedPayloadElement = doc.CreateElement("encryptedPayload");
+
+                        // Create and append the encryptionKeySequence element
+                        XmlElement encryptionKeySequenceElement = doc.CreateElement("encryptionKeySequence");
+                        if (_config["oltpEncryptionKeySequence"] != null)
+                        {
+                            encryptionKeySequence = _config["oltpEncryptionKeySequence"];
+                        }
+                        else
+                        {
+                            throw new CnpOnlineException("Problem in reading the Encryption Key Sequence ...Provide the Encryption key Sequence ");
+
+                        }
+                        encryptionKeySequenceElement.InnerText = encryptionKeySequence;
+                        encryptedPayloadElement.AppendChild(encryptionKeySequenceElement);
+
+                        // Create and append the payload element
+                        XmlElement payloadElement = doc.CreateElement("payload");
+                        payloadElement.InnerText = payload;
+                        encryptedPayloadElement.AppendChild(payloadElement);
+
+                        root.AppendChild(encryptedPayloadElement);
+
+                        using (StringWriter writer1 = new StringWriter())
+                        {
+                            using (XmlWriter xmlWriter1 = XmlWriter.Create(writer1, new XmlWriterSettings { Indent = true, OmitXmlDeclaration = true }))
+                            {
+                                doc.WriteTo(xmlWriter1);
+                            }
+                            xmlRequest = writer1.ToString().Trim();
+                        }
+
+                        xmlRequest = xmlRequest.Replace("<encryptedPayload xmlns=\"\">", "<encryptedPayload>");
+                        return xmlRequest;
+                    }
+
+                }
+
+
+            }
+            catch (Exception e) when (e is XmlException || e is IOException || e is XsltException)
+            {
+                throw new Exception("Error processing XML request. Please reach out to SDK Support team.", e);
+            }
+            return xmlRequest;
+        }
+    }
     
 
 

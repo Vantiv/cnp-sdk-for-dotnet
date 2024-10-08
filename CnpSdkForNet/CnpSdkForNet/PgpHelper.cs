@@ -13,8 +13,6 @@ namespace Cnp.Sdk
         public string error;
         public int status;
     }
-
-
     public class PgpHelper
     {
         private const int Success = 0;
