@@ -301,7 +301,7 @@ namespace Cnp.Sdk.Properties {
         
         [global::System.Configuration.UserScopedSettingAttribute()]
         [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
-        [global::System.Configuration.DefaultSettingValueAttribute("C:\\Program Files (x86)\\GnuPG\\bin")]
+        [global::System.Configuration.DefaultSettingValueAttribute("")]
         public string gnuPgDir {
             get {
                 return ((string)(this["gnuPgDir"]));

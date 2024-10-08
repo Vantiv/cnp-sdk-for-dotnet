@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Diagnostics;
 using System.IO;
+using System.Text;
 using System.Text.RegularExpressions;
 
 
@@ -51,19 +52,38 @@ namespace Cnp.Sdk
                 else
                 {
                     throw new CnpOnlineException(procResult.error);
-                }
+                }               
             }
 
             Console.WriteLine("Encrypted with key id " + recipientKeyId + " successfully!");
         }
 
-        public static string encryptString(string inputFileName, string recipientKeyId)
-        {
-            const string commandFormat = @"--batch --yes --armor --trust-model always --recipient-file {0} {1}";
-            string output="";
-            var procResult = ExecuteCommandSync1(string.Format(commandFormat,recipientKeyId, inputFileName), GpgExecutable);
-            Console.WriteLine("Encrypted with key id " + procResult.ToString());
-            return procResult.ToString();
+        public static string EncryptString(string toBeEncryptedString, string publicKeyPath)
+        {         
+            try
+            {
+                // Write the string to a temporary file
+                string tempInputPath = "temp_input.txt";
+                File.WriteAllText(tempInputPath, toBeEncryptedString);
+
+
+                const string commandFormat = @"--batch --yes --armor --trust-model always --recipient-file {0} --encrypt {1}";
+
+                var procResult = ExecuteCommandSync1(string.Format(commandFormat, publicKeyPath, tempInputPath), GpgExecutable);
+                // Read the encrypted content from the temporary file
+                string tempOutputPath = "temp_input.txt.asc";
+                string encryptedString = File.ReadAllText(tempOutputPath);
+
+                // Clean up temporary files
+                File.Delete(tempInputPath);
+                File.Delete(tempOutputPath);
+
+                return encryptedString;
+            }
+            catch (Exception ex)
+            {
+                throw new Exception($"Encrypting the string has failed!\n{ex.Message}");
+            }
         }
 
         public static void DecryptFile(string inputFileName, string outputFileName, string passphrase)
