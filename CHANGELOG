@@ -1,7 +1,7 @@
 
 = Worldpay CNP CHANGELOG
 
-==Version 12.27.1 (October 09, 2022)
+==Version 12.27.1 (October 09, 2024)
 * Change:  Enhanced de-serialization to handle error responses due to gateway-timeout
 
 ==Version 12.27.0 (October 19, 2022)
