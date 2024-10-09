@@ -120,7 +120,7 @@ namespace Cnp.Sdk
             }
             else if (transaction is depositTransactionReversal)
             {
-                request.depositTransactionReversal = (depositTransactionReversal) transaction;
+                request.depositTransactionReversal = (depositTransactionReversal)transaction;
             }
             else if (transaction is refundTransactionReversal)
             {
@@ -289,23 +289,23 @@ namespace Cnp.Sdk
             }
             else if (transaction is fastAccessFunding)
             {
-                request.fastAccessFunding = (fastAccessFunding) transaction;
+                request.fastAccessFunding = (fastAccessFunding)transaction;
             }
             else if (transaction is payFacCredit)
             {
-                request.payFacCredit = (payFacCredit) transaction;
+                request.payFacCredit = (payFacCredit)transaction;
             }
             else if (transaction is payFacDebit)
             {
-                request.payFacDebit = (payFacDebit) transaction;
+                request.payFacDebit = (payFacDebit)transaction;
             }
             else if (transaction is physicalCheckCredit)
             {
-                request.physicalCheckCredit = (physicalCheckCredit) transaction;
+                request.physicalCheckCredit = (physicalCheckCredit)transaction;
             }
             else if (transaction is physicalCheckDebit)
             {
-                request.physicalCheckDebit = (physicalCheckDebit) transaction;
+                request.physicalCheckDebit = (physicalCheckDebit)transaction;
             }
             else if (transaction is payoutOrgCredit)
             {
@@ -317,33 +317,33 @@ namespace Cnp.Sdk
             }
             else if (transaction is reserveCredit)
             {
-                request.reserveCredit = (reserveCredit) transaction;
+                request.reserveCredit = (reserveCredit)transaction;
             }
             else if (transaction is reserveDebit)
             {
-                request.reserveDebit = (reserveDebit) transaction;
+                request.reserveDebit = (reserveDebit)transaction;
             }
             else if (transaction is submerchantCredit)
             {
-                request.submerchantCredit = (submerchantCredit) transaction;
+                request.submerchantCredit = (submerchantCredit)transaction;
             }
             else if (transaction is submerchantDebit)
             {
-                request.submerchantDebit = (submerchantDebit) transaction;
+                request.submerchantDebit = (submerchantDebit)transaction;
             }
             else if (transaction is vendorCredit)
             {
-                request.vendorCredit = (vendorCredit) transaction;
+                request.vendorCredit = (vendorCredit)transaction;
             }
             else if (transaction is translateToLowValueTokenRequest)
             {
-                request.translateToLowValueTokenRequest = (translateToLowValueTokenRequest) transaction;
+                request.translateToLowValueTokenRequest = (translateToLowValueTokenRequest)transaction;
             }
             else if (transaction is vendorDebit)
             {
                 request.vendorDebit = (vendorDebit)transaction;
             }
-            else if (transaction is customerDebit) 
+            else if (transaction is customerDebit)
             {
                 request.customerDebit = (customerDebit)transaction;
             }
@@ -361,15 +361,15 @@ namespace Cnp.Sdk
 
         public authorizationResponse Authorize(authorization auth)
         {
-            var cnpResponse =  SendRequest(response => response, auth);
+            var cnpResponse = SendRequest(response => response, auth);
             var authResponse = cnpResponse.authorizationResponse;
             return authResponse;
         }
 
         public authReversalResponse AuthReversal(authReversal reversal)
         {
-            
-            var cnpResponse =  SendRequest(response => response, reversal);
+
+            var cnpResponse = SendRequest(response => response, reversal);
             var reversalResponse = cnpResponse.authReversalResponse;
             return reversalResponse;
         }
@@ -382,14 +382,14 @@ namespace Cnp.Sdk
                 return authReversalResponse;
             }, reversal, cancellationToken);
         }
-        
+
         public depositTransactionReversalResponse DepositTransactionReversal(depositTransactionReversal reversal)
-        {            
-            var cnpResponse =  SendRequest(response => response, reversal);
+        {
+            var cnpResponse = SendRequest(response => response, reversal);
             var reversalResponse = cnpResponse.depositTransactionReversalResponse;
             return reversalResponse;
         }
-        
+
         public Task<depositTransactionReversalResponse> DepositTransactionReversalAsync(depositTransactionReversal reversal, CancellationToken cancellationToken)
         {
             return SendRequestAsync(response =>
@@ -417,7 +417,7 @@ namespace Cnp.Sdk
 
         public giftCardAuthReversalResponse GiftCardAuthReversal(giftCardAuthReversal giftCard)
         {
-            var cnpResponse =  SendRequest(response => response, giftCard);
+            var cnpResponse = SendRequest(response => response, giftCard);
             var giftCardReversalResponse = cnpResponse.giftCardAuthReversalResponse;
             return giftCardReversalResponse;
         }
@@ -442,21 +442,21 @@ namespace Cnp.Sdk
 
         public captureResponse Capture(capture capture)
         {
-            var cnpResponse =  SendRequest(response => response, capture);
+            var cnpResponse = SendRequest(response => response, capture);
             var captureResponse = cnpResponse.captureResponse;
             return captureResponse;
         }
 
         public giftCardCaptureResponse GiftCardCapture(giftCardCapture giftCardCapture)
         {
-            var cnpResponse =  SendRequest(response => response, giftCardCapture);
+            var cnpResponse = SendRequest(response => response, giftCardCapture);
             var giftCaptureResponse = cnpResponse.giftCardCaptureResponse;
             return giftCaptureResponse;
         }
 
         public Task<giftCardCaptureResponse> GiftCardCaptureAsync(giftCardCapture giftCardCapture, CancellationToken cancellationToken)
         {
-            
+
             return SendRequestAsync(response =>
             {
                 var giftCardCaptureResponse = response.giftCardCaptureResponse;
@@ -491,7 +491,7 @@ namespace Cnp.Sdk
         {
             return SendRequestAsync(response =>
             {
-                var creditResponse= response.creditResponse;
+                var creditResponse = response.creditResponse;
                 return creditResponse;
             }, credit, cancellationToken);
         }
@@ -546,7 +546,7 @@ namespace Cnp.Sdk
 
         public Task<echeckSalesResponse> EcheckSaleAsync(echeckSale echeckSale, CancellationToken cancellationToken)
         {
-            
+
             return SendRequestAsync(response =>
             {
                 var echeckSalesResponse = response.echeckSalesResponse;
@@ -635,7 +635,7 @@ namespace Cnp.Sdk
         public Task<voidResponse> DoVoidAsync(voidTxn v, CancellationToken cancellationToken)
         {
             return SendRequestAsync(response =>
-            { 
+            {
                 var voidResponse = response.voidResponse;
                 return voidResponse;
             }, v, cancellationToken);
@@ -794,7 +794,7 @@ namespace Cnp.Sdk
             return SendRequestAsync(response =>
             {
                 var res = response.queryTransactionResponse ??
-                        (transactionTypeWithReportGroup) response.queryTransactionUnavailableResponse;
+                        (transactionTypeWithReportGroup)response.queryTransactionUnavailableResponse;
                 return res;
             }, queryTransaction, cancellationToken);
         }
@@ -803,7 +803,7 @@ namespace Cnp.Sdk
         {
             var cnpResponse = SendRequest(response => response, queryTransaction);
             var transactionResponse = cnpResponse.queryTransactionResponse ??
-                                      (transactionTypeWithReportGroup) cnpResponse.queryTransactionUnavailableResponse;
+                                      (transactionTypeWithReportGroup)cnpResponse.queryTransactionUnavailableResponse;
             return transactionResponse;
         }
 
@@ -829,7 +829,7 @@ namespace Cnp.Sdk
             var fastAccessFundingResponse = cnpResponse.fastAccessFundingResponse;
             return fastAccessFundingResponse;
         }
-        
+
         public payFacCreditResponse PayFacCredit(payFacCredit payFacCredit)
         {
             var cnpResponse = SendRequest(response => response, payFacCredit);
@@ -857,7 +857,7 @@ namespace Cnp.Sdk
         {
             return SendRequestAsync(response =>
             {
-                var payFacDebitResponse  = response.payFacDebitResponse;
+                var payFacDebitResponse = response.payFacDebitResponse;
                 return payFacDebitResponse;
             }, payFacDebit, cancellationToken);
         }
@@ -1091,35 +1091,18 @@ namespace Cnp.Sdk
             {
                 throw new WebException("Could not retrieve response from server for given request");
             }
+            if (!xmlResponse.IsSuccessStatusCode)
+            {
+                throw new CnpOnlineException(ProcessErrorResponseHttpStatusCode(xmlResponse));
+            }
             try
             {
-                var cnpOnlineResponse = DeserializeObject(xmlResponse);
+                var cnpOnlineResponse = DeserializeObject(xmlResponse.Content.ReadAsStringAsync().Result);
                 if (_config.ContainsKey("printxml") && Convert.ToBoolean(_config["printxml"]))
                 {
-                    
                     Console.WriteLine(cnpOnlineResponse.response);
-                    
                 }
-                if (!"0".Equals(cnpOnlineResponse.response))
-                {
-                    if ("2".Equals(cnpOnlineResponse.response) || "3".Equals(cnpOnlineResponse.response))
-                    {
-                        throw new CnpInvalidCredentialException(cnpOnlineResponse.message);
-                    }
-                    else if ("4".Equals(cnpOnlineResponse.response))
-                    {
-                        throw new CnpConnectionLimitExceededException(cnpOnlineResponse.message);
-                    }
-                    else if ("5".Equals(cnpOnlineResponse.response))
-                    {
-                        throw new CnpObjectionableContentException(cnpOnlineResponse.message);
-                    }
-                    else
-                    {
-                        throw new CnpOnlineException(cnpOnlineResponse.message);
-                    }
-                }
-                return cnpOnlineResponse;
+                return HandleCnpOnlineResponse(cnpOnlineResponse);
             }
             catch (InvalidOperationException ioe)
             {
@@ -1138,24 +1121,60 @@ namespace Cnp.Sdk
         private async Task<cnpOnlineResponse> SendToCnpAsync(cnpOnlineRequest request, CancellationToken cancellationToken)
         {
             string xmlRequest = request.Serialize();
-            string xmlResponse = await _communication.HttpPostAsync(xmlRequest, cancellationToken).ConfigureAwait(false);
+            System.Net.Http.HttpResponseMessage xmlResponse = await _communication.HttpPostAsync(xmlRequest, cancellationToken).ConfigureAwait(false);
             return DeserializeResponse(xmlResponse);
         }
 
-        private cnpOnlineResponse DeserializeResponse(string xmlResponse)
+        private cnpOnlineResponse DeserializeResponse(System.Net.Http.HttpResponseMessage xmlResponse)
         {
             try
             {
-                cnpOnlineResponse cnpOnlineResponse = DeserializeObject(xmlResponse);
-                if ("1".Equals(cnpOnlineResponse.response))
+                if (xmlResponse.IsSuccessStatusCode)
                 {
-                    throw new CnpOnlineException(cnpOnlineResponse.message);
+                    cnpOnlineResponse cnpOnlineResponse = DeserializeObject(xmlResponse.Content.ReadAsStringAsync().Result);
+                    return HandleCnpOnlineResponse(cnpOnlineResponse);
                 }
-                return cnpOnlineResponse;
+                else
+                {
+                    throw new CnpOnlineException(ProcessErrorResponseHttpStatusCode(xmlResponse));
+                }
             }
             catch (InvalidOperationException ioe)
             {
                 throw new CnpOnlineException("Error validating xml data against the schema", ioe);
+            }
+        }
+
+        private string ProcessErrorResponseHttpStatusCode(System.Net.Http.HttpResponseMessage xmlResponseErrorMessage)
+        {
+            switch (xmlResponseErrorMessage.StatusCode)
+            {
+                case HttpStatusCode.GatewayTimeout:
+                    return "The request was timed out while processing transaction. Please refer iQ before retrying the transaction."
+                        + xmlResponseErrorMessage.Content.ReadAsStringAsync().Result;
+                default:
+                    return "An error has occurred. Please share following while reaching Worldpay Support. "
+                        + xmlResponseErrorMessage.Content.ReadAsStringAsync().Result;
+            }
+        }
+
+        private cnpOnlineResponse HandleCnpOnlineResponse(cnpOnlineResponse cnpOnlineResponse)
+        {
+            switch (cnpOnlineResponse.response)
+            {
+                case "0":
+                    return cnpOnlineResponse;
+                case "1":
+                    throw new CnpOnlineException(cnpOnlineResponse.message);
+                case "2":
+                case "3":
+                    throw new CnpInvalidCredentialException(cnpOnlineResponse.message);
+                case "4":
+                    throw new CnpConnectionLimitExceededException(cnpOnlineResponse.message);
+                case "5":
+                    throw new CnpObjectionableContentException(cnpOnlineResponse.message);
+                default:
+                    throw new CnpOnlineException(cnpOnlineResponse.message);
             }
         }
 
@@ -1230,12 +1249,12 @@ namespace Cnp.Sdk
         Task<giftCardAuthReversalResponse> GiftCardAuthReversalAsync(giftCardAuthReversal giftCard, CancellationToken cancellationToken);
         giftCardCaptureResponse GiftCardCapture(giftCardCapture giftCardCapture);
         Task<giftCardCaptureResponse> GiftCardCaptureAsync(giftCardCapture giftCardCapture, CancellationToken cancellationToken);
-        
+
         payFacCreditResponse PayFacCredit(payFacCredit payFacCredit);
         Task<payFacCreditResponse> PayFacCreditAsync(payFacCredit payFacCredit, CancellationToken cancellationToken);
         payFacDebitResponse PayFacDebit(payFacDebit payFacDebit);
         Task<payFacDebitResponse> PayFacDebitAsync(payFacDebit payFacDebit, CancellationToken cancellationToken);
-        
+
         physicalCheckCreditResponse PhysicalCheckCredit(physicalCheckCredit physicalCheckCredit);
         Task<physicalCheckCreditResponse> PhysicalCheckCreditAsync(physicalCheckCredit physicalCheckCredit, CancellationToken cancellationToken);
         physicalCheckDebitResponse PhysicalCheckDebit(physicalCheckDebit physicalCheckDebit);
@@ -1245,18 +1264,18 @@ namespace Cnp.Sdk
         Task<payoutOrgCreditResponse> PayoutOrgCreditAsync(payoutOrgCredit payoutOrgCredit, CancellationToken cancellationToken);
         payoutOrgDebitResponse PayoutOrgDebit(payoutOrgDebit payoutOrgDebit);
         Task<payoutOrgDebitResponse> PayoutOrgDebitAsync(payoutOrgDebit payoutOrgDebit, CancellationToken cancellationToken);
-        
+
 
         reserveCreditResponse ReserveCredit(reserveCredit reserveCredit);
         Task<reserveCreditResponse> ReserveCreditAsync(reserveCredit reserveCredit, CancellationToken cancellationToken);
         reserveDebitResponse ReserveDebit(reserveDebit reserveDebit);
         Task<reserveDebitResponse> ReserveDebitAsync(reserveDebit reserveDebit, CancellationToken cancellationToken);
-        
+
         submerchantCreditResponse SubmerchantCredit(submerchantCredit submerchantCredit);
         Task<submerchantCreditResponse> SubmerchantCreditAsync(submerchantCredit submerchantCredit, CancellationToken cancellationToken);
         submerchantDebitResponse SubmerchantDebit(submerchantDebit submerchantDebit);
         Task<submerchantDebitResponse> SubmerchantDebitAsync(submerchantDebit submerchantDebit, CancellationToken cancellationToken);
-        
+
         vendorCreditResponse VendorCredit(vendorCredit vendorCredit);
         Task<vendorCreditResponse> VendorCreditAsync(vendorCredit vendorCredit, CancellationToken cancellationToken);
         vendorDebitResponse VendorDebit(vendorDebit vendorDebit);

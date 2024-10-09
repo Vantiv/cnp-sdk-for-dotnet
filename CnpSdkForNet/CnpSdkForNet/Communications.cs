@@ -215,7 +215,7 @@ namespace Cnp.Sdk
         /// <param name="xmlRequest">The XML to send to the API</param>
         /// <param name="cancellationToken"></param>
         /// <returns>The XML response on success, null otherwise</returns>
-        public async Task<string> HttpPostAsync(string xmlRequest, CancellationToken cancellationToken)
+        public async Task<HttpResponseMessage> HttpPostAsync(string xmlRequest, CancellationToken cancellationToken)
         {
             // First, read values from the config that we need that relate to logging
             _config.TryGetValue("logFile", out var logFile);
@@ -250,7 +250,7 @@ namespace Cnp.Sdk
                     Log(xmlResponse, logFile);
                 }
 
-                return xmlResponse;
+                return response;
             }
             catch (Exception)
             {
@@ -265,7 +265,7 @@ namespace Cnp.Sdk
         /// </summary>
         /// <param name="xmlRequest">The XML to send to the API</param>
         /// <returns>The XML response as a string on success, or null otherwise</returns>
-        public virtual string HttpPost(string xmlRequest)
+        public virtual HttpResponseMessage HttpPost(string xmlRequest)
         {
             var source = new CancellationTokenSource();
             var asyncTask = Task.Run(() => HttpPostAsync(xmlRequest, source.Token), source.Token);
