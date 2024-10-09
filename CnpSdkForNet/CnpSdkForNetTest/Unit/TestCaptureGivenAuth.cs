@@ -3,6 +3,8 @@ using System.Collections.Generic;
 using NUnit.Framework;
 using Moq;
 using System.Text.RegularExpressions;
+using System.Net.Http;
+using System.Net;
 
 
 namespace Cnp.Sdk.Test.Unit
@@ -31,7 +33,7 @@ namespace Cnp.Sdk.Test.Unit
             var mock = new Mock<Communications>();
 
             mock.Setup(Communications => Communications.HttpPost(It.IsRegex(".*<amount>2</amount>\r\n<secondaryAmount>1</secondaryAmount>\r\n<orderSource>ecommerce</orderSource>.*", RegexOptions.Singleline)  ))
-                .Returns("<cnpOnlineResponse version='8.14' response='0' message='Valid Format' xmlns='http://www.vantivcnp.com/schema'><captureGivenAuthResponse><cnpTxnId>123</cnpTxnId></captureGivenAuthResponse></cnpOnlineResponse>");
+                .Returns(new HttpResponseMessage { StatusCode = HttpStatusCode.OK, Content = new StringContent("<cnpOnlineResponse version='8.14' response='0' message='Valid Format' xmlns='http://www.vantivcnp.com/schema'><captureGivenAuthResponse><cnpTxnId>123</cnpTxnId></captureGivenAuthResponse></cnpOnlineResponse>")});
 
             Communications mockedCommunication = mock.Object;
             cnp.SetCommunication(mockedCommunication);
@@ -50,7 +52,7 @@ namespace Cnp.Sdk.Test.Unit
             var mock = new Mock<Communications>();
 
             mock.Setup(Communications => Communications.HttpPost(It.IsRegex(".*<amount>2</amount>\r\n<surchargeAmount>1</surchargeAmount>\r\n<orderSource>ecommerce</orderSource>.*", RegexOptions.Singleline)  ))
-                .Returns("<cnpOnlineResponse version='8.14' response='0' message='Valid Format' xmlns='http://www.vantivcnp.com/schema'><captureGivenAuthResponse><cnpTxnId>123</cnpTxnId></captureGivenAuthResponse></cnpOnlineResponse>");
+                .Returns(new HttpResponseMessage { StatusCode = HttpStatusCode.OK, Content = new StringContent("<cnpOnlineResponse version='8.14' response='0' message='Valid Format' xmlns='http://www.vantivcnp.com/schema'><captureGivenAuthResponse><cnpTxnId>123</cnpTxnId></captureGivenAuthResponse></cnpOnlineResponse>")});
 
             Communications mockedCommunication = mock.Object;
             cnp.SetCommunication(mockedCommunication);
@@ -68,7 +70,7 @@ namespace Cnp.Sdk.Test.Unit
             var mock = new Mock<Communications>();
 
             mock.Setup(Communications => Communications.HttpPost(It.IsRegex(".*<amount>2</amount>\r\n<orderSource>ecommerce</orderSource>.*", RegexOptions.Singleline)  ))
-                .Returns("<cnpOnlineResponse version='8.14' response='0' message='Valid Format' xmlns='http://www.vantivcnp.com/schema'><captureGivenAuthResponse><cnpTxnId>123</cnpTxnId></captureGivenAuthResponse></cnpOnlineResponse>");
+                .Returns(new HttpResponseMessage { StatusCode = HttpStatusCode.OK, Content = new StringContent("<cnpOnlineResponse version='8.14' response='0' message='Valid Format' xmlns='http://www.vantivcnp.com/schema'><captureGivenAuthResponse><cnpTxnId>123</cnpTxnId></captureGivenAuthResponse></cnpOnlineResponse>")});
 
             Communications mockedCommunication = mock.Object;
             cnp.SetCommunication(mockedCommunication);
@@ -85,7 +87,7 @@ namespace Cnp.Sdk.Test.Unit
             var mock = new Mock<Communications>();
 
             mock.Setup(Communications => Communications.HttpPost(It.IsRegex(".*</merchantData>\r\n<debtRepayment>true</debtRepayment>\r\n</captureGivenAuth>.*", RegexOptions.Singleline)  ))
-                .Returns("<cnpOnlineResponse version='8.19' response='0' message='Valid Format' xmlns='http://www.vantivcnp.com/schema'><captureGivenAuthResponse><cnpTxnId>123</cnpTxnId></captureGivenAuthResponse></cnpOnlineResponse>");
+                .Returns(new HttpResponseMessage { StatusCode = HttpStatusCode.OK, Content = new StringContent("<cnpOnlineResponse version='8.19' response='0' message='Valid Format' xmlns='http://www.vantivcnp.com/schema'><captureGivenAuthResponse><cnpTxnId>123</cnpTxnId></captureGivenAuthResponse></cnpOnlineResponse>")});
 
             Communications mockedCommunication = mock.Object;
             cnp.SetCommunication(mockedCommunication);
@@ -102,7 +104,7 @@ namespace Cnp.Sdk.Test.Unit
             var mock = new Mock<Communications>();
 
             mock.Setup(Communications => Communications.HttpPost(It.IsRegex(".*</merchantData>\r\n<debtRepayment>false</debtRepayment>\r\n</captureGivenAuth>.*", RegexOptions.Singleline)  ))
-                .Returns("<cnpOnlineResponse version='8.19' response='0' message='Valid Format' xmlns='http://www.vantivcnp.com/schema'><captureGivenAuthResponse><cnpTxnId>123</cnpTxnId></captureGivenAuthResponse></cnpOnlineResponse>");
+                .Returns(new HttpResponseMessage { StatusCode = HttpStatusCode.OK, Content = new StringContent("<cnpOnlineResponse version='8.19' response='0' message='Valid Format' xmlns='http://www.vantivcnp.com/schema'><captureGivenAuthResponse><cnpTxnId>123</cnpTxnId></captureGivenAuthResponse></cnpOnlineResponse>")});
 
             Communications mockedCommunication = mock.Object;
             cnp.SetCommunication(mockedCommunication);
@@ -118,7 +120,7 @@ namespace Cnp.Sdk.Test.Unit
             var mock = new Mock<Communications>();
 
             mock.Setup(Communications => Communications.HttpPost(It.IsRegex(".*</merchantData>\r\n</captureGivenAuth>.*", RegexOptions.Singleline)  ))
-                .Returns("<cnpOnlineResponse version='8.19' response='0' message='Valid Format' xmlns='http://www.vantivcnp.com/schema'><captureGivenAuthResponse><cnpTxnId>123</cnpTxnId></captureGivenAuthResponse></cnpOnlineResponse>");
+                .Returns(new HttpResponseMessage { StatusCode = HttpStatusCode.OK, Content = new StringContent("<cnpOnlineResponse version='8.19' response='0' message='Valid Format' xmlns='http://www.vantivcnp.com/schema'><captureGivenAuthResponse><cnpTxnId>123</cnpTxnId></captureGivenAuthResponse></cnpOnlineResponse>")});
 
             Communications mockedCommunication = mock.Object;
             cnp.SetCommunication(mockedCommunication);
@@ -138,7 +140,7 @@ namespace Cnp.Sdk.Test.Unit
             var mock = new Mock<Communications>();
 
             mock.Setup(Communications => Communications.HttpPost(It.IsRegex(".*<amount>2</amount>\r\n<orderSource>ecommerce</orderSource>\r\n<processingType>initialRecurring</processingType>\r\n<originalNetworkTransactionId>abc123</originalNetworkTransactionId>\r\n<originalTransactionAmount>1234</originalTransactionAmount>.*", RegexOptions.Singleline)  ))
-                .Returns("<cnpOnlineResponse version='8.14' response='0' message='Valid Format' xmlns='http://www.vantivcnp.com/schema'><captureGivenAuthResponse><cnpTxnId>123</cnpTxnId></captureGivenAuthResponse></cnpOnlineResponse>");
+                .Returns(new HttpResponseMessage { StatusCode = HttpStatusCode.OK, Content = new StringContent("<cnpOnlineResponse version='8.14' response='0' message='Valid Format' xmlns='http://www.vantivcnp.com/schema'><captureGivenAuthResponse><cnpTxnId>123</cnpTxnId></captureGivenAuthResponse></cnpOnlineResponse>")});
 
             Communications mockedCommunication = mock.Object;
             cnp.SetCommunication(mockedCommunication);
@@ -159,7 +161,7 @@ namespace Cnp.Sdk.Test.Unit
             var mock = new Mock<Communications>();
 
             mock.Setup(Communications => Communications.HttpPost(It.IsRegex(".*<amount>2</amount>\r\n<orderSource>ecommerce</orderSource>\r\n<originalNetworkTransactionId>abc123</originalNetworkTransactionId>\r\n<originalTransactionAmount>1234</originalTransactionAmount>.*", RegexOptions.Singleline)  ))
-                .Returns("<cnpOnlineResponse version='8.14' response='0' message='Valid Format' xmlns='http://www.vantivcnp.com/schema'><captureGivenAuthResponse><cnpTxnId>123</cnpTxnId></captureGivenAuthResponse></cnpOnlineResponse>");
+                .Returns(new HttpResponseMessage { StatusCode = HttpStatusCode.OK, Content = new StringContent("<cnpOnlineResponse version='8.14' response='0' message='Valid Format' xmlns='http://www.vantivcnp.com/schema'><captureGivenAuthResponse><cnpTxnId>123</cnpTxnId></captureGivenAuthResponse></cnpOnlineResponse>")});
 
             Communications mockedCommunication = mock.Object;
             cnp.SetCommunication(mockedCommunication);
@@ -178,7 +180,7 @@ namespace Cnp.Sdk.Test.Unit
             var mock = new Mock<Communications>();
 
             mock.Setup(Communications => Communications.HttpPost(It.IsRegex(".*<amount>2</amount>\r\n<orderSource>ecommerce</orderSource>\r\n<merchantCategoryCode>0111</merchantCategoryCode>.*", RegexOptions.Singleline)))
-                .Returns("<cnpOnlineResponse version='8.14' response='0' message='Valid Format' xmlns='http://www.vantivcnp.com/schema'><captureGivenAuthResponse><cnpTxnId>123</cnpTxnId></captureGivenAuthResponse></cnpOnlineResponse>");
+                .Returns(new HttpResponseMessage { StatusCode = HttpStatusCode.OK, Content = new StringContent("<cnpOnlineResponse version='8.14' response='0' message='Valid Format' xmlns='http://www.vantivcnp.com/schema'><captureGivenAuthResponse><cnpTxnId>123</cnpTxnId></captureGivenAuthResponse></cnpOnlineResponse>")});
 
             Communications mockedCommunication = mock.Object;
             cnp.SetCommunication(mockedCommunication);
@@ -197,7 +199,7 @@ namespace Cnp.Sdk.Test.Unit
             var mock = new Mock<Communications>();
 
             mock.Setup(Communications => Communications.HttpPost(It.IsRegex(".*<amount>2</amount>\r\n<secondaryAmount>1</secondaryAmount>\r\n<orderSource>ecommerce</orderSource>.*", RegexOptions.Singleline)))
-                .Returns("<cnpOnlineResponse version='8.14' response='0' message='Valid Format' xmlns='http://www.vantivcnp.com/schema'><captureGivenAuthResponse><cnpTxnId>123</cnpTxnId><location>sandbox</location></captureGivenAuthResponse></cnpOnlineResponse>");
+                .Returns(new HttpResponseMessage { StatusCode = HttpStatusCode.OK, Content = new StringContent("<cnpOnlineResponse version='8.14' response='0' message='Valid Format' xmlns='http://www.vantivcnp.com/schema'><captureGivenAuthResponse><cnpTxnId>123</cnpTxnId><location>sandbox</location></captureGivenAuthResponse></cnpOnlineResponse>")});
 
             Communications mockedCommunication = mock.Object;
             cnp.SetCommunication(mockedCommunication);
@@ -244,7 +246,7 @@ namespace Cnp.Sdk.Test.Unit
             var mock = new Mock<Communications>();
 
             mock.Setup(Communications => Communications.HttpPost(It.IsRegex(".*<zip>01867-4456</zip>.*<email>mikasa@cnp.com</email>.*<sellerId>s1234</sellerId>.*<url>www.google.com</url>.*<frequencyOfMIT>BiWeekly</frequencyOfMIT>.*<crypto>false</crypto>.*", RegexOptions.Singleline)))
-                .Returns("<cnpOnlineResponse version='8.14' response='0' message='Valid Format' xmlns='http://www.vantivcnp.com/schema'><captureGivenAuthResponse><cnpTxnId>123</cnpTxnId><location>sandbox</location></captureGivenAuthResponse></cnpOnlineResponse>");
+                .Returns(new HttpResponseMessage { StatusCode = HttpStatusCode.OK, Content = new StringContent("<cnpOnlineResponse version='8.14' response='0' message='Valid Format' xmlns='http://www.vantivcnp.com/schema'><captureGivenAuthResponse><cnpTxnId>123</cnpTxnId><location>sandbox</location></captureGivenAuthResponse></cnpOnlineResponse>")});
 
             var mockedCommunication = mock.Object;
             cnp.SetCommunication(mockedCommunication);
@@ -308,7 +310,7 @@ namespace Cnp.Sdk.Test.Unit
             var mock = new Mock<Communications>();
 
             mock.Setup(Communications => Communications.HttpPost(It.IsRegex(".*<ticketNumber>TR0001</ticketNumber>.*<issuingCarrier>IC</issuingCarrier>.*<carrierName>Indigo</carrierName>.*<restrictedTicketIndicator>TI2022</restrictedTicketIndicator>.*<numberOfAdults>1</numberOfAdults>.*<numberOfChildren>1</numberOfChildren>\r\n<customerCode>C2011583</customerCode>.*", RegexOptions.Singleline)))
-                .Returns("<cnpOnlineResponse version='8.14' response='0' message='Valid Format' xmlns='http://www.vantivcnp.com/schema'><captureGivenAuthResponse><cnpTxnId>123</cnpTxnId><location>sandbox</location></captureGivenAuthResponse></cnpOnlineResponse>");
+                .Returns(new HttpResponseMessage { StatusCode = HttpStatusCode.OK, Content = new StringContent("<cnpOnlineResponse version='8.14' response='0' message='Valid Format' xmlns='http://www.vantivcnp.com/schema'><captureGivenAuthResponse><cnpTxnId>123</cnpTxnId><location>sandbox</location></captureGivenAuthResponse></cnpOnlineResponse>")});
 
             var mockedCommunication = mock.Object;
             cnp.SetCommunication(mockedCommunication);

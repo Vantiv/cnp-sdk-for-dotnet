@@ -3,6 +3,8 @@ using System.Collections.Generic;
 using NUnit.Framework;
 using Moq;
 using System.Text.RegularExpressions;
+using System.Net.Http;
+using System.Net;
 
 namespace Cnp.Sdk.Test.Unit
 {
@@ -40,7 +42,7 @@ namespace Cnp.Sdk.Test.Unit
             var mock = new Mock<Communications>();
 
             mock.Setup(Communications => Communications.HttpPost(It.IsRegex(".*<cnpTxnId>123456000</cnpTxnId>\r\n<card>\r\n<type>GC</type>\r\n<number>414100000000000000</number>\r\n<expDate>1210</expDate>\r\n<pin>1234</pin>\r\n</card>\r\n<originalRefCode>123</originalRefCode>\r\n<originalAmount>123</originalAmount>\r\n<originalTxnTime>2017-01-01T00:00:00Z</originalTxnTime>\r\n<originalSystemTraceId>123</originalSystemTraceId>\r\n<originalSequenceNumber>123456</originalSequenceNumber>.*", RegexOptions.Singleline)  ))
-                    .Returns("<cnpOnlineResponse version='8.14' response='0' message='Valid Format' xmlns='http://www.vantivcnp.com/schema'><depositReversalResponse><cnpTxnId>123</cnpTxnId></depositReversalResponse></cnpOnlineResponse>");
+                    .Returns(new HttpResponseMessage { StatusCode = HttpStatusCode.OK, Content = new StringContent("<cnpOnlineResponse version='8.14' response='0' message='Valid Format' xmlns='http://www.vantivcnp.com/schema'><depositReversalResponse><cnpTxnId>123</cnpTxnId></depositReversalResponse></cnpOnlineResponse>")});
 
             Communications mockedCommunication = mock.Object;
             cnp.SetCommunication(mockedCommunication);
@@ -69,7 +71,7 @@ namespace Cnp.Sdk.Test.Unit
             var mock = new Mock<Communications>();
 
             mock.Setup(Communications => Communications.HttpPost(It.IsRegex(".*<cnpTxnId>123456000</cnpTxnId>\r\n<card>\r\n<type>GC</type>\r\n<number>414100000000000000</number>\r\n<expDate>1210</expDate>\r\n<pin>1234</pin>\r\n</card>\r\n<originalRefCode>123</originalRefCode>\r\n<originalAmount>123</originalAmount>\r\n<originalTxnTime>2017-01-01T00:00:00Z</originalTxnTime>\r\n<originalSystemTraceId>123</originalSystemTraceId>\r\n<originalSequenceNumber>123456</originalSequenceNumber>.*", RegexOptions.Singleline)  ))
-                    .Returns("<cnpOnlineResponse version='8.14' response='0' message='Valid Format' xmlns='http://www.vantivcnp.com/schema'><refundReversalResponse><cnpTxnId>123</cnpTxnId><location>sandbox</location></refundReversalResponse></cnpOnlineResponse>");
+                    .Returns(new HttpResponseMessage { StatusCode = HttpStatusCode.OK, Content = new StringContent("<cnpOnlineResponse version='8.14' response='0' message='Valid Format' xmlns='http://www.vantivcnp.com/schema'><refundReversalResponse><cnpTxnId>123</cnpTxnId><location>sandbox</location></refundReversalResponse></cnpOnlineResponse>")});
 
             Communications mockedCommunication = mock.Object;
             cnp.SetCommunication(mockedCommunication);
@@ -100,7 +102,7 @@ namespace Cnp.Sdk.Test.Unit
             var mock = new Mock<Communications>();
 
             mock.Setup(Communications => Communications.HttpPost(It.IsRegex(".*<cnpTxnId>123456000</cnpTxnId>\r\n<virtualGiftCardBin>123</virtualGiftCardBin>\r\n<card>\r\n<type>GC</type>\r\n<number>414100000000000000</number>\r\n<expDate>1210</expDate>\r\n<pin>1234</pin>\r\n</card>\r\n<originalRefCode>123</originalRefCode>\r\n<originalAmount>123</originalAmount>\r\n<originalTxnTime>2017-01-01T00:00:00Z</originalTxnTime>\r\n<originalSystemTraceId>123</originalSystemTraceId>\r\n<originalSequenceNumber>123456</originalSequenceNumber>.*", RegexOptions.Singleline)  ))
-                    .Returns("<cnpOnlineResponse version='8.14' response='0' message='Valid Format' xmlns='http://www.vantivcnp.com/schema'><activateReversalResponse><cnpTxnId>123</cnpTxnId><location>sandbox</location></activateReversalResponse></cnpOnlineResponse>");
+                    .Returns(new HttpResponseMessage { StatusCode = HttpStatusCode.OK, Content = new StringContent("<cnpOnlineResponse version='8.14' response='0' message='Valid Format' xmlns='http://www.vantivcnp.com/schema'><activateReversalResponse><cnpTxnId>123</cnpTxnId><location>sandbox</location></activateReversalResponse></cnpOnlineResponse>")});
 
             Communications mockedCommunication = mock.Object;
             cnp.SetCommunication(mockedCommunication);
@@ -131,7 +133,7 @@ namespace Cnp.Sdk.Test.Unit
             var mock = new Mock<Communications>();
 
             mock.Setup(Communications => Communications.HttpPost(It.IsRegex(".*<cnpTxnId>123456000</cnpTxnId>\r\n<card>\r\n<type>GC</type>\r\n<number>414100000000000000</number>\r\n<expDate>1210</expDate>\r\n<pin>1234</pin>\r\n</card>\r\n<originalRefCode>123</originalRefCode>\r\n<originalTxnTime>2017-01-01T00:00:00Z</originalTxnTime>\r\n<originalSystemTraceId>123</originalSystemTraceId>\r\n<originalSequenceNumber>123456</originalSequenceNumber>.*", RegexOptions.Singleline)  ))
-                    .Returns("<cnpOnlineResponse version='8.14' response='0' message='Valid Format' xmlns='http://www.vantivcnp.com/schema'><deactivateReversalResponse><cnpTxnId>123</cnpTxnId><location>sandbox</location></deactivateReversalResponse></cnpOnlineResponse>");
+                    .Returns(new HttpResponseMessage { StatusCode = HttpStatusCode.OK, Content = new StringContent("<cnpOnlineResponse version='8.14' response='0' message='Valid Format' xmlns='http://www.vantivcnp.com/schema'><deactivateReversalResponse><cnpTxnId>123</cnpTxnId><location>sandbox</location></deactivateReversalResponse></cnpOnlineResponse>")});
 
             Communications mockedCommunication = mock.Object;
             cnp.SetCommunication(mockedCommunication);
@@ -163,7 +165,7 @@ namespace Cnp.Sdk.Test.Unit
             var mock = new Mock<Communications>();
 
             mock.Setup(Communications => Communications.HttpPost(It.IsRegex(".*<cnpTxnId>123456000</cnpTxnId>\r\n<card>\r\n<type>GC</type>\r\n<number>414100000000000000</number>\r\n<expDate>1210</expDate>\r\n<pin>1234</pin>\r\n</card>\r\n<originalRefCode>123</originalRefCode>\r\n<originalAmount>123</originalAmount>\r\n<originalTxnTime>2017-01-01T00:00:00Z</originalTxnTime>\r\n<originalSystemTraceId>123</originalSystemTraceId>\r\n<originalSequenceNumber>123456</originalSequenceNumber>.*", RegexOptions.Singleline)  ))
-                    .Returns("<cnpOnlineResponse version='8.14' response='0' message='Valid Format' xmlns='http://www.vantivcnp.com/schema'><loadReversalResponse><cnpTxnId>123</cnpTxnId><location>sandbox</location></loadReversalResponse></cnpOnlineResponse>");
+                    .Returns(new HttpResponseMessage { StatusCode = HttpStatusCode.OK, Content = new StringContent("<cnpOnlineResponse version='8.14' response='0' message='Valid Format' xmlns='http://www.vantivcnp.com/schema'><loadReversalResponse><cnpTxnId>123</cnpTxnId><location>sandbox</location></loadReversalResponse></cnpOnlineResponse>")});
 
             Communications mockedCommunication = mock.Object;
             cnp.SetCommunication(mockedCommunication);
@@ -195,7 +197,7 @@ namespace Cnp.Sdk.Test.Unit
             var mock = new Mock<Communications>();
 
             mock.Setup(Communications => Communications.HttpPost(It.IsRegex(".*<cnpTxnId>123456000</cnpTxnId>\r\n<card>\r\n<type>GC</type>\r\n<number>414100000000000000</number>\r\n<expDate>1210</expDate>\r\n<pin>1234</pin>\r\n</card>\r\n<originalRefCode>123</originalRefCode>\r\n<originalAmount>123</originalAmount>\r\n<originalTxnTime>2017-01-01T00:00:00Z</originalTxnTime>\r\n<originalSystemTraceId>123</originalSystemTraceId>\r\n<originalSequenceNumber>123456</originalSequenceNumber>.*", RegexOptions.Singleline)  ))
-                    .Returns("<cnpOnlineResponse version='8.14' response='0' message='Valid Format' xmlns='http://www.vantivcnp.com/schema'><unloadReversalResponse><cnpTxnId>123</cnpTxnId><location>sandbox</location></unloadReversalResponse></cnpOnlineResponse>");
+                    .Returns(new HttpResponseMessage { StatusCode = HttpStatusCode.OK, Content = new StringContent("<cnpOnlineResponse version='8.14' response='0' message='Valid Format' xmlns='http://www.vantivcnp.com/schema'><unloadReversalResponse><cnpTxnId>123</cnpTxnId><location>sandbox</location></unloadReversalResponse></cnpOnlineResponse>")});
 
             Communications mockedCommunication = mock.Object;
             cnp.SetCommunication(mockedCommunication);
