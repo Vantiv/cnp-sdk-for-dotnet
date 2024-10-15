@@ -29,7 +29,7 @@ See LICENSE file for details on using this software.
 
 Source Code available from : https://github.com/Vantiv/cnp-sdk-for-dotNet
 
-SDK can be tested in [sandbox environment](https://www.testvantivcnp.com/sandbox/communicator/online). Sandbox does not require valid credentials to begin testing. 
+SDK can be tested in [sandbox environment](https://vantiv.github.io/sandbox/). Sandbox does not require valid credentials to begin testing. 
 
 Please contact [Vantiv eCommerce](http://developer.vantiv.com/community/ecommerce) to receive valid merchant credentials in order to run tests successfully or if you require assistance in any way.  We are reachable at sdksupport@fisglobal.com
 
