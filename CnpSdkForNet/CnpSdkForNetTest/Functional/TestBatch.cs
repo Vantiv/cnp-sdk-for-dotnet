@@ -99,7 +99,8 @@ namespace Cnp.Sdk.Test.Functional
             card2.expDate = "1210";
             authorization2.card = card2;
             authorization2.id = "id";
-
+            authorization2.typeOfDigitalCurrency = "type";
+            authorization2.conversionAffiliateId = "conversion";
             cnpBatchRequest.addAuthorization(authorization2);
 
             var reversal = new authReversal();
@@ -139,7 +140,10 @@ namespace Cnp.Sdk.Test.Functional
             capture.amount = 106;
             capture.payPalNotes = "Notes";
             capture.id = "id";
-
+            partialCapture cap = new partialCapture();
+            cap.partialCaptureSequenceNumber = 5;
+            cap.partialCaptureTotalCount = 5;
+            capture.partialCapture=cap;
             cnpBatchRequest.addCapture(capture);
 
             var capture2 = new capture();
@@ -177,7 +181,8 @@ namespace Cnp.Sdk.Test.Functional
             capturegivenauth.orderSource = orderSourceType.ecommerce;
             capturegivenauth.card = card;
             capturegivenauth.id = "id";
-
+            capturegivenauth.typeOfDigitalCurrency = "type";
+            capturegivenauth.conversionAffiliateId = "conversion";
             cnpBatchRequest.addCaptureGivenAuth(capturegivenauth);
 
             var capturegivenauth2 = new captureGivenAuth();
@@ -390,7 +395,8 @@ namespace Cnp.Sdk.Test.Functional
             saleObj2.orderSource = orderSourceType.ecommerce;
             saleObj2.card = card2;
             saleObj2.id = "id";
-
+            saleObj2.typeOfDigitalCurrency = "Bcoin";
+            saleObj2.conversionAffiliateId = "DC12345";
             cnpBatchRequest.addSale(saleObj2);
 
             var registerTokenRequest = new registerTokenRequestType();
@@ -2310,6 +2316,12 @@ namespace Cnp.Sdk.Test.Functional
                     taxExempt = false,
                     lineItems = new List<lineItemData>(),
                 },
+                partialCapture = new partialCapture
+                {
+                    partialCaptureSequenceNumber = 5,
+                    partialCaptureTotalCount= 5,
+                }
+
             };
 
             var capturegivenauth = new captureGivenAuth
@@ -2344,6 +2356,7 @@ namespace Cnp.Sdk.Test.Functional
                     receiverAccountNumber = "4141000",
                     accountFundingTransactionType = accountFundingTransactionTypeEnum.accountToAccount
                 }
+
             };
             capturegivenauth.foreignRetailerIndicator = foreignRetailerIndicatorEnum.F;
 
@@ -2393,7 +2406,8 @@ namespace Cnp.Sdk.Test.Functional
                 },
                 cardholderAuthentication = new fraudCheckType
                 {
-                    customerIpAddress = "127.1.1"
+                    customerIpAddress = "127.1.1",
+                    authenticationProtocolVersion="9"
                 },
                 enhancedData = new enhancedData
                 {

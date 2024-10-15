@@ -56,34 +56,40 @@ namespace Cnp.Sdk
             Console.WriteLine("Encrypted with key id " + recipientKeyId + " successfully!");
         }
 
-        public static string EncryptString(string toBeEncryptedString, string publicKeyPath)
-        {         
-            try
-            {
-                // Write the string to a temporary file
-                string tempInputPath = "temp_input.txt";
-                File.WriteAllText(tempInputPath, toBeEncryptedString);
+          public static string EncryptString(string toBeEncryptedString, string publicKeyPath)
+          {
+              try
+              {
+                  // Convert the string to a byte array
+                  byte[] inputBytes = Encoding.UTF8.GetBytes(toBeEncryptedString);
 
+                  // Create a memory stream for the input
+                  using (var inputStream = new MemoryStream(inputBytes))
+                  {
+                      // Create a memory stream for the output
+                      using (var outputStream = new MemoryStream())
+                      {
+                          // Prepare the GPG command
+                          const string commandFormat = @"--batch --yes --armor --trust-model always --recipient-file {0} --encrypt";
+                          var command = string.Format(commandFormat, publicKeyPath);
 
-                const string commandFormat = @"--batch --yes --armor --trust-model always --recipient-file {0} --encrypt {1}";
-
-                var procResult = ExecuteCommandSync1(string.Format(commandFormat, publicKeyPath, tempInputPath), GpgExecutable);
-                // Read the encrypted content from the temporary file
-                string tempOutputPath = "temp_input.txt.asc";
-                string encryptedString = File.ReadAllText(tempOutputPath);
-
-                // Clean up temporary files
-                File.Delete(tempInputPath);
-                File.Delete(tempOutputPath);
-
-                return encryptedString;
-            }
-            catch (Exception ex)
-            {
-                throw new Exception($"Encrypting the string has failed!\n{ex.Message}");
-            }
-        }
-
+                          // Execute the GPG command with input and output streams
+                          var procResult = ExecuteCommandSyncWithStreams(command, inputStream, outputStream, GpgExecutable);
+                          // Read the encrypted content from the output stream
+                          outputStream.Position = 0;
+                          using (var reader = new StreamReader(outputStream))
+                          {
+                              return reader.ReadToEnd();
+                          }
+                      }
+                  }
+              }
+              catch (Exception ex)
+              {
+                  throw new Exception($"Encrypting the string has failed!\n{ex.Message}");
+              }
+          }
+  
         public static void DecryptFile(string inputFileName, string outputFileName, string passphrase)
         {
             // Set up the commands for GPG >=2.1 and <2.1
@@ -219,45 +225,49 @@ namespace Cnp.Sdk
             return result.Split(':')[1].Split(' ')[2].Substring(8);
         }
 
-        public static string ExecuteCommandSync1(string command, string executablePath)
+        private static int ExecuteCommandSyncWithStreams(string command, Stream inputStream, Stream outputStream, string executablePath)
         {
+
             string path = GetExecutablePath(Path.Combine(GpgPath, executablePath));
-            try
+            var processStartInfo = new ProcessStartInfo
             {
-                // Create the process start info
-                var procStartInfo = new ProcessStartInfo(path, command)
-                {
-                    RedirectStandardOutput = true,
-                    RedirectStandardError = true,
-                    UseShellExecute = false,
-                    CreateNoWindow = true
-                };
+                FileName = path, // Path to the GPG executable
+                Arguments = command,
+                RedirectStandardInput = true,
+                RedirectStandardOutput = true,
+                RedirectStandardError = true,
+                UseShellExecute = false,
+                CreateNoWindow = true
+            };
 
-                // Create the process
-                var proc = new Process
-                {
-                    StartInfo = procStartInfo
-                };
-
-                // Start the process
-                proc.Start();
-
-                // Read the output
-                string result = proc.StandardOutput.ReadToEnd();
-                string error = proc.StandardError.ReadToEnd();
-
-                // Wait for the process to exit
-                proc.WaitForExit();
-
-                // Return the result or error
-                return string.IsNullOrEmpty(error) ? result : error;
-            }
-            catch (Exception ex)
+            using (var process = new Process { StartInfo = processStartInfo })
             {
-                // Handle any exceptions
-                return $"Error: {ex.Message}";
+                process.Start();
+
+                // Write to the standard input of the process
+                using (var processInput = process.StandardInput.BaseStream)
+                {
+                    inputStream.CopyTo(processInput);
+                }
+
+                // Read from the standard output of the process
+                using (var processOutput = process.StandardOutput.BaseStream)
+                {
+                    processOutput.CopyTo(outputStream);
+                }
+
+                // Read from the standard error of the process (optional)
+                string error = process.StandardError.ReadToEnd();
+                if (!string.IsNullOrEmpty(error))
+                {
+                    throw new Exception($"GPG error: {error}");
+                }
+
+                process.WaitForExit();
+                return process.ExitCode;
             }
         }
+
     }
 }
 

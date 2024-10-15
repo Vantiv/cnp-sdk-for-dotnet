@@ -12,11 +12,13 @@ namespace Cnp.Sdk.Test.Unit
     {
         
         private CnpOnline cnp;
+        Dictionary<String, String> config;
 
         [OneTimeSetUp]
         public void SetUpCnp()
         {
             cnp = new CnpOnline();
+            config = new ConfigManager().getConfig();
         }
 
         [Test]
@@ -29,10 +31,16 @@ namespace Cnp.Sdk.Test.Unit
             reversal.reportGroup = "Planets";
 
             var mock = new Mock<Communications>();
-
-            mock.Setup(Communications => Communications.HttpPost(It.IsRegex(".*<amount>2</amount>\r\n<surchargeAmount>1</surchargeAmount>\r\n.*", RegexOptions.Singleline)))
+            if (config["encrypteOltpPayload"] == "true")
+            {
+                mock.Setup(Communications => Communications.HttpPost(It.IsRegex(".*<cnpOnlineRequest.*<encryptedPayload.*</encryptedPayload>.*", RegexOptions.Singleline)))
                 .Returns("<cnpOnlineResponse version='12.16' response='0' message='Valid Format' xmlns='http://www.vantivcnp.com/schema'><refundTransactionReversalResponse><cnpTxnId>3</cnpTxnId></refundTransactionReversalResponse></cnpOnlineResponse>");
-
+            }
+            else
+            {
+                mock.Setup(Communications => Communications.HttpPost(It.IsRegex(".*<amount>2</amount>\r\n<surchargeAmount>1</surchargeAmount>\r\n.*", RegexOptions.Singleline)))
+                .Returns("<cnpOnlineResponse version='12.16' response='0' message='Valid Format' xmlns='http://www.vantivcnp.com/schema'><refundTransactionReversalResponse><cnpTxnId>3</cnpTxnId></refundTransactionReversalResponse></cnpOnlineResponse>");
+            }
             Communications mockedCommunication = mock.Object;
             cnp.SetCommunication(mockedCommunication);
             cnp.RefundTransactionReversal(reversal);
@@ -47,10 +55,16 @@ namespace Cnp.Sdk.Test.Unit
             reversal.reportGroup = "Planets";
 
             var mock = new Mock<Communications>();
-
-            mock.Setup(Communications => Communications.HttpPost(It.IsRegex(".*<amount>2</amount>\r\n.*", RegexOptions.Singleline)))
+            if (config["encrypteOltpPayload"] == "true")
+            {
+                mock.Setup(Communications => Communications.HttpPost(It.IsRegex(".*<cnpOnlineRequest.*<encryptedPayload.*</encryptedPayload>.*", RegexOptions.Singleline)))
+                .Returns("<cnpOnlineResponse version='12.16' response='0' message='Valid Format' xmlns='http://www.vantivcnp.com/schema'><refundTransactionReversalResponse><cnpTxnId>3</cnpTxnId></refundTransactionReversalResponse></cnpOnlineResponse>");
+            }
+            else
+            {
+                mock.Setup(Communications => Communications.HttpPost(It.IsRegex(".*<amount>2</amount>\r\n.*", RegexOptions.Singleline)))
                 .Returns("<cnpOnlineResponse version='12.16' response='0' message='Valid Format' xmlns='http://www.vantivcnp.com/schema'><refundTransactionReversalResponse><cnpTxnId>123</cnpTxnId></refundTransactionReversalResponse></cnpOnlineResponse>");
-
+            }
             Communications mockedCommunication = mock.Object;
             cnp.SetCommunication(mockedCommunication);
             cnp.RefundTransactionReversal(reversal);
@@ -66,10 +80,16 @@ namespace Cnp.Sdk.Test.Unit
             reversal.reportGroup = "Planets";
 
             var mock = new Mock<Communications>();
-
-            mock.Setup(Communications => Communications.HttpPost(It.IsRegex(".*<amount>2</amount>\r\n<surchargeAmount>1</surchargeAmount>\r\n.*", RegexOptions.Singleline)))
+            if (config["encrypteOltpPayload"] == "true")
+            {
+                mock.Setup(Communications => Communications.HttpPost(It.IsRegex(".*<cnpOnlineRequest.*<encryptedPayload.*</encryptedPayload>.*", RegexOptions.Singleline)))
                 .Returns("<cnpOnlineResponse version='12.16' response='0' message='Valid Format' xmlns='http://www.vantivcnp.com/schema'><refundTransactionReversalResponse><cnpTxnId>123</cnpTxnId><location>sandbox</location></refundTransactionReversalResponse></cnpOnlineResponse>");
-
+            }
+            else
+            {
+                mock.Setup(Communications => Communications.HttpPost(It.IsRegex(".*<amount>2</amount>\r\n<surchargeAmount>1</surchargeAmount>\r\n.*", RegexOptions.Singleline)))
+                .Returns("<cnpOnlineResponse version='12.16' response='0' message='Valid Format' xmlns='http://www.vantivcnp.com/schema'><refundTransactionReversalResponse><cnpTxnId>123</cnpTxnId><location>sandbox</location></refundTransactionReversalResponse></cnpOnlineResponse>");
+            }
             Communications mockedCommunication = mock.Object;
             cnp.SetCommunication(mockedCommunication);
             var response = cnp.RefundTransactionReversal(reversal);
@@ -126,10 +146,16 @@ namespace Cnp.Sdk.Test.Unit
             reversal.passengerTransportData = passengerTransportData;
 
             var mock = new Mock<Communications>();
-
-            mock.Setup(Communications => Communications.HttpPost(It.IsRegex(".*<ticketNumber>TR0001</ticketNumber>.*<issuingCarrier>IC</issuingCarrier>.*<carrierName>Indigo</carrierName>.*<restrictedTicketIndicator>TI2022</restrictedTicketIndicator>.*<numberOfAdults>1</numberOfAdults>.*<numberOfChildren>1</numberOfChildren>\r\n<customerCode>C2011583</customerCode>.*", RegexOptions.Singleline)))
+            if (config["encrypteOltpPayload"] == "true")
+            {
+                mock.Setup(Communications => Communications.HttpPost(It.IsRegex(".*<cnpOnlineRequest.*<encryptedPayload.*</encryptedPayload>.*", RegexOptions.Singleline)))
                 .Returns("<cnpOnlineResponse version='12.16' response='0' message='Valid Format' xmlns='http://www.vantivcnp.com/schema'><refundTransactionReversalResponse><cnpTxnId>123</cnpTxnId><location>sandbox</location></refundTransactionReversalResponse></cnpOnlineResponse>");
-
+            }
+            else
+            {
+                mock.Setup(Communications => Communications.HttpPost(It.IsRegex(".*<ticketNumber>TR0001</ticketNumber>.*<issuingCarrier>IC</issuingCarrier>.*<carrierName>Indigo</carrierName>.*<restrictedTicketIndicator>TI2022</restrictedTicketIndicator>.*<numberOfAdults>1</numberOfAdults>.*<numberOfChildren>1</numberOfChildren>\r\n<customerCode>C2011583</customerCode>.*", RegexOptions.Singleline)))
+                .Returns("<cnpOnlineResponse version='12.16' response='0' message='Valid Format' xmlns='http://www.vantivcnp.com/schema'><refundTransactionReversalResponse><cnpTxnId>123</cnpTxnId><location>sandbox</location></refundTransactionReversalResponse></cnpOnlineResponse>");
+            }
             Communications mockedCommunication = mock.Object;
             cnp.SetCommunication(mockedCommunication);
             var response = cnp.RefundTransactionReversal(reversal);
@@ -172,10 +198,16 @@ namespace Cnp.Sdk.Test.Unit
             reversal.enhancedData = enhancedData;
 
             var mock = new Mock<Communications>();
-
-            mock.Setup(Communications => Communications.HttpPost(It.IsRegex(".*<enhancedData>.*<lineItemData>.*<itemSequenceNumber>8</itemSequenceNumber>.*<itemDescription>Planets</itemDescription>.*<productCode>A12234</productCode>.*<itemCategory>Ele Bussi</itemCategory>.*<itemSubCategory>home appliaces</itemSubCategory>.*<productId>1601</productId>.*<productName>dryer</productName>.*<shipmentId>2003</shipmentId>.*<subscription>.*<subscriptionId>803</subscriptionId>.*<nextDeliveryDate>2023-09-09</nextDeliveryDate>.*<periodUnit>WEEK</periodUnit>.*<numberOfPeriods>331</numberOfPeriods>.*<regularItemPrice>700</regularItemPrice>.*<currentPeriod>922</currentPeriod></subscription>.*</lineItemData>.*</enhancedData>.*", RegexOptions.Singleline)))
+            if (config["encrypteOltpPayload"] == "true")
+            {
+                mock.Setup(Communications => Communications.HttpPost(It.IsRegex(".*<cnpOnlineRequest.*<encryptedPayload.*</encryptedPayload>.*", RegexOptions.Singleline)))
                 .Returns("<cnpOnlineResponse version='12.33' response='0' message='Valid Format' xmlns='http://www.vantivcnp.com/schema'><refundTransactionReversalResponse><cnpTxnId>123</cnpTxnId><location>sandbox</location></refundTransactionReversalResponse></cnpOnlineResponse>");
-
+            }
+            else
+            {
+                mock.Setup(Communications => Communications.HttpPost(It.IsRegex(".*<enhancedData>.*<lineItemData>.*<itemSequenceNumber>8</itemSequenceNumber>.*<itemDescription>Planets</itemDescription>.*<productCode>A12234</productCode>.*<itemCategory>Ele Bussi</itemCategory>.*<itemSubCategory>home appliaces</itemSubCategory>.*<productId>1601</productId>.*<productName>dryer</productName>.*<shipmentId>2003</shipmentId>.*<subscription>.*<subscriptionId>803</subscriptionId>.*<nextDeliveryDate>2023-09-09</nextDeliveryDate>.*<periodUnit>WEEK</periodUnit>.*<numberOfPeriods>331</numberOfPeriods>.*<regularItemPrice>700</regularItemPrice>.*<currentPeriod>922</currentPeriod></subscription>.*</lineItemData>.*</enhancedData>.*", RegexOptions.Singleline)))
+                .Returns("<cnpOnlineResponse version='12.33' response='0' message='Valid Format' xmlns='http://www.vantivcnp.com/schema'><refundTransactionReversalResponse><cnpTxnId>123</cnpTxnId><location>sandbox</location></refundTransactionReversalResponse></cnpOnlineResponse>");
+            }
             Communications mockedCommunication = mock.Object;
             cnp.SetCommunication(mockedCommunication);
             var response = cnp.RefundTransactionReversal(reversal);

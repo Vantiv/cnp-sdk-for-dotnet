@@ -11,10 +11,11 @@ namespace Cnp.Sdk.Test.Unit
     {
 
         private CnpOnline cnp;
-
+        Dictionary<String, String> config;
         [OneTimeSetUp]
         public void SetUpCnp()
         {
+            config = new ConfigManager().getConfig();
             cnp = new CnpOnline();
         }
 
@@ -137,10 +138,16 @@ namespace Cnp.Sdk.Test.Unit
             BNPLAuthorization.enhancedData.lineItems.Add(mylineItemData);
 
             var mock = new Mock<Communications>();
-
-            mock.Setup(Communications => Communications.HttpPost(It.IsRegex(".*<amount>9999</amount>.*<orderId> orderId </orderId>.*<provider>AFFIRM</provider>.*<postCheckoutRedirectUrl>noone@litle.com</postCheckoutRedirectUrl>.*", RegexOptions.Singleline)))
+            if (config["encrypteOltpPayload"] == "true")
+            {
+                mock.Setup(Communications => Communications.HttpPost(It.IsRegex(".*<cnpOnlineRequest.*<encryptedPayload.*</encryptedPayload>.*", RegexOptions.Singleline)))
                 .Returns("<cnpOnlineResponse version='12.37' response='0' message='Valid Format' xmlns='http://www.vantivcnp.com/schema'><BNPLAuthResponse><cnpTxnId>348408968181194299</cnpTxnId><location>sandbox</location></BNPLAuthResponse></cnpOnlineResponse>");
-
+            }
+            else
+            {
+                mock.Setup(Communications => Communications.HttpPost(It.IsRegex(".*<amount>9999</amount>.*<orderId> orderId </orderId>.*<provider>AFFIRM</provider>.*<postCheckoutRedirectUrl>noone@litle.com</postCheckoutRedirectUrl>.*", RegexOptions.Singleline)))
+                .Returns("<cnpOnlineResponse version='12.37' response='0' message='Valid Format' xmlns='http://www.vantivcnp.com/schema'><BNPLAuthResponse><cnpTxnId>348408968181194299</cnpTxnId><location>sandbox</location></BNPLAuthResponse></cnpOnlineResponse>");
+            }
             Communications mockedCommunication = mock.Object;
             cnp.SetCommunication(mockedCommunication);
             var response = cnp.BNPLAuthorization(BNPLAuthorization);
