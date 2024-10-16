@@ -281,7 +281,9 @@ namespace Cnp.Sdk.Test.Unit
 
             capture.enhancedData = enhancedData;
             capture.foreignRetailerIndicator = foreignRetailerIndicatorEnum.F;
-
+            var partial = new partialCapture();
+            partial.partialCaptureSequenceNumber = 1;
+            partial.partialCaptureTotalCount = 1;
             var mock = new Mock<Communications>();
             if (config["encrypteOltpPayload"] == "true")
             {

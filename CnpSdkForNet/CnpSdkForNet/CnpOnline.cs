@@ -1313,76 +1313,76 @@ namespace Cnp.Sdk
         }
 
         private async Task<T> SendRequestAsync<T>(Func<cnpOnlineResponse, T> getResponse, transactionRequest transaction, CancellationToken cancellationToken)
-            {
-                var request = CreateRequest(transaction);
+        {
+            var request = CreateRequest(transaction);
 
-                cnpOnlineResponse response = await SendToCnpAsync(request, cancellationToken).ConfigureAwait(false);
-                return getResponse(response);
-            }
+            cnpOnlineResponse response = await SendToCnpAsync(request, cancellationToken).ConfigureAwait(false);
+            return getResponse(response);
+        }
 
-            private async Task<cnpOnlineResponse> SendToCnpAsync(cnpOnlineRequest request, CancellationToken cancellationToken)
-            {
+        private async Task<cnpOnlineResponse> SendToCnpAsync(cnpOnlineRequest request, CancellationToken cancellationToken)
+        {
             string xmlRequest = request.Serialize();
             string xmlResponse = await _communication.HttpPostAsync(xmlRequest, cancellationToken).ConfigureAwait(false);
             return DeserializeResponse(xmlResponse);
-            }
+        }
         
-            private cnpOnlineResponse DeserializeResponse(string xmlResponse)
+        private cnpOnlineResponse DeserializeResponse(string xmlResponse)
+        {
+            try
             {
-                try
+                cnpOnlineResponse cnpOnlineResponse = DeserializeObject(xmlResponse);
+                if ("1".Equals(cnpOnlineResponse.response))
                 {
-                    cnpOnlineResponse cnpOnlineResponse = DeserializeObject(xmlResponse);
-                    if ("1".Equals(cnpOnlineResponse.response))
-                    {
-                        throw new CnpOnlineException(cnpOnlineResponse.message);
-                    }
-                    return cnpOnlineResponse;
+                    throw new CnpOnlineException(cnpOnlineResponse.message);
                 }
-                catch (InvalidOperationException ioe)
-                {
-                    throw new CnpOnlineException("Error validating xml data against the schema", ioe);
-                }
+                return cnpOnlineResponse;
             }
-
-            public static string SerializeObject(cnpOnlineRequest req)
+            catch (InvalidOperationException ioe)
             {
-                var serializer = new XmlSerializer(typeof(cnpOnlineRequest));
-                var ms = new MemoryStream();
-                serializer.Serialize(ms, req);
-                return Encoding.UTF8.GetString(ms.GetBuffer());//return string is UTF8 encoded.
-            }// serialize the xml
-
-            public static cnpOnlineResponse DeserializeObject(string response)
-            {
-                var serializer = new XmlSerializer(typeof(cnpOnlineResponse));
-                var reader = new StringReader(response);
-                var i = (cnpOnlineResponse)serializer.Deserialize(reader);
-                return i;
-
-            }// deserialize the object
-
-            private void FillInReportGroup(transactionTypeWithReportGroup txn)
-            {
-                if (txn.reportGroup == null)
-                {
-                    txn.reportGroup = _config["reportGroup"];
-                }
+                throw new CnpOnlineException("Error validating xml data against the schema", ioe);
             }
-            private void FillInReportGroup(transactionTypeWithReportGroupAndRtp txn)
-            {
-                if (txn.reportGroup == null)
-                {
-                    txn.reportGroup = _config["reportGroup"];
-                }
-            }
+        }
 
-            private void FillInReportGroup(transactionTypeWithReportGroupAndPartial txn)
+        public static string SerializeObject(cnpOnlineRequest req)
+        {
+            var serializer = new XmlSerializer(typeof(cnpOnlineRequest));
+            var ms = new MemoryStream();
+            serializer.Serialize(ms, req);
+            return Encoding.UTF8.GetString(ms.GetBuffer());//return string is UTF8 encoded.
+        }// serialize the xml
+
+        public static cnpOnlineResponse DeserializeObject(string response)
+        {
+            var serializer = new XmlSerializer(typeof(cnpOnlineResponse));
+            var reader = new StringReader(response);
+            var i = (cnpOnlineResponse)serializer.Deserialize(reader);
+            return i;
+
+        }// deserialize the object
+
+        private void FillInReportGroup(transactionTypeWithReportGroup txn)
+        {
+            if (txn.reportGroup == null)
             {
-                if (txn.reportGroup == null)
-                {
-                    txn.reportGroup = _config["reportGroup"];
-                }
+                txn.reportGroup = _config["reportGroup"];
             }
+        }
+        private void FillInReportGroup(transactionTypeWithReportGroupAndRtp txn)
+        {
+            if (txn.reportGroup == null)
+            {
+                txn.reportGroup = _config["reportGroup"];
+            }
+        }
+
+        private void FillInReportGroup(transactionTypeWithReportGroupAndPartial txn)
+        {
+            if (txn.reportGroup == null)
+            {
+                txn.reportGroup = _config["reportGroup"];
+            }
+        }
 
         private String processTxnToBeEncrypted(String requestTxn)
         {
@@ -1394,8 +1394,7 @@ namespace Cnp.Sdk
                 throw new CnpOnlineException("Problem in reading the Encryption Key path ...Provide the Encryption key path ");
             }
             else
-            {
-                // Path path = Paths.get(config.getProperty("oltpEncryptionKeyPath"));
+            {              
                 if (!File.Exists(path) || (File.GetAttributes(path) & FileAttributes.Directory) == FileAttributes.Directory)
                 {
                     throw new CnpOnlineException("The provided path is not a valid file path or the file does not exist.");
@@ -1427,190 +1426,170 @@ namespace Cnp.Sdk
 
                 XmlNode secondChild = root.ChildNodes.Item(1);
 
-
-                if (secondChild != null)
+                if (secondChild.Name == "encryptionKeyRequest")
                 {
-                    // Transform the second element to a string
-                    string output;
-                    using (StringWriter writer = new StringWriter())
-                    {
-                        using (XmlWriter xmlWriter = XmlWriter.Create(writer, new XmlWriterSettings { Indent = true, OmitXmlDeclaration = true }))
-                        {
-                            secondChild.WriteTo(xmlWriter);
-                        }
-                        output = writer.ToString().Trim();
-                    }
-
-
-                    if (secondChild.Name == "encryptionKeyRequest")
-                    {
-                        return xmlRequest;
-                    }
-                    if (secondChild != null)
-                    {
-                        root.RemoveChild(secondChild);
-                    }
-                    if (secondChild.Name == "encryptionKeyRequest")
-                    {
-                        return xmlRequest;
-                    }
-                    else
-                    {
-
-                        payload = processTxnToBeEncrypted(output);
-
-
-                        XmlElement encryptedPayloadElement = doc.CreateElement("encryptedPayload");
-
-                        // Create and append the encryptionKeySequence element
-                        XmlElement encryptionKeySequenceElement = doc.CreateElement("encryptionKeySequence");
-                        if (_config["oltpEncryptionKeySequence"] != null)
-                        {
-                            encryptionKeySequence = _config["oltpEncryptionKeySequence"];
-                        }
-                        else
-                        {
-                            throw new CnpOnlineException("Problem in reading the Encryption Key Sequence ...Provide the Encryption key Sequence ");
-
-                        }
-                        encryptionKeySequenceElement.InnerText = encryptionKeySequence;
-                        encryptedPayloadElement.AppendChild(encryptionKeySequenceElement);
-
-                        // Create and append the payload element
-                        XmlElement payloadElement = doc.CreateElement("payload");
-                        payloadElement.InnerText = payload;
-                        encryptedPayloadElement.AppendChild(payloadElement);
-
-                        root.AppendChild(encryptedPayloadElement);
-
-                        using (StringWriter writer1 = new StringWriter())
-                        {
-                            using (XmlWriter xmlWriter1 = XmlWriter.Create(writer1, new XmlWriterSettings { Indent = true, OmitXmlDeclaration = true }))
-                            {
-                                doc.WriteTo(xmlWriter1);
-                            }
-                            xmlRequest = writer1.ToString().Trim();
-                        }
-
-                        xmlRequest = xmlRequest.Replace("<encryptedPayload xmlns=\"\">", "<encryptedPayload>");
-                        return xmlRequest;
-                    }
-
+                    return xmlRequest;
                 }
 
+                // Transform the second element to a string
+                string output;
+                using (StringWriter writer = new StringWriter())
+                {
+                    using (XmlWriter xmlWriter = XmlWriter.Create(writer, new XmlWriterSettings { Indent = true, OmitXmlDeclaration = true }))
+                    {
+                    secondChild.WriteTo(xmlWriter);
+                    }
+                     output = writer.ToString().Trim();
+                }
+                if (secondChild != null)
+                {
+                    root.RemoveChild(secondChild);
+                }
+                  
+                payload = processTxnToBeEncrypted(output);
+                XmlElement encryptedPayloadElement = doc.CreateElement("encryptedPayload");
+                // Create and append the encryptionKeySequence element
+                XmlElement encryptionKeySequenceElement = doc.CreateElement("encryptionKeySequence");
+                if (_config["oltpEncryptionKeySequence"] != null)
+                {
+                    encryptionKeySequence = _config["oltpEncryptionKeySequence"];
+                }
+                else
+                {
+                    throw new CnpOnlineException("Problem in reading the Encryption Key Sequence ...Provide the Encryption key Sequence ");
 
+                }
+                encryptionKeySequenceElement.InnerText = encryptionKeySequence;
+                encryptedPayloadElement.AppendChild(encryptionKeySequenceElement);
+
+                // Create and append the payload element
+                XmlElement payloadElement = doc.CreateElement("payload");
+                payloadElement.InnerText = payload;
+                encryptedPayloadElement.AppendChild(payloadElement);
+                root.AppendChild(encryptedPayloadElement);
+
+                using (StringWriter writer1 = new StringWriter())
+                {
+                    using (XmlWriter xmlWriter1 = XmlWriter.Create(writer1, new XmlWriterSettings { Indent = true, OmitXmlDeclaration = true }))
+                    {
+                        doc.WriteTo(xmlWriter1);
+                    }
+                     xmlRequest = writer1.ToString().Trim();
+                }
+
+                xmlRequest = xmlRequest.Replace("<encryptedPayload xmlns=\"\">", "<encryptedPayload>");
+                return xmlRequest;
             }
             catch (Exception e) when (e is XmlException || e is IOException || e is XsltException)
             {
                 throw new Exception("Error processing XML request. Please reach out to SDK Support team.", e);
             }
-            return xmlRequest;
         }
     }
     
 
 
         // CnpOnline interface for synchronous and asynchronous call.
-        public interface ICnpOnline
-        {
-            authorizationResponse Authorize(authorization auth);
-            Task<authorizationResponse> AuthorizeAsync(authorization auth, CancellationToken cancellationToken);
-            authReversalResponse AuthReversal(authReversal reversal);
-            Task<authReversalResponse> AuthReversalAsync(authReversal reversal, CancellationToken cancellationToken);
-            captureResponse Capture(capture capture);
-            Task<captureResponse> CaptureAsync(capture capture, CancellationToken cancellationToken);
-            captureGivenAuthResponse CaptureGivenAuth(captureGivenAuth captureGivenAuth);
-            Task<captureGivenAuthResponse> CaptureGivenAuthAsync(captureGivenAuth captureGivenAuth, CancellationToken cancellationToken);
-            creditResponse Credit(credit credit);
-            Task<creditResponse> CreditAsync(credit credit, CancellationToken cancellationToken);
-            echeckCreditResponse EcheckCredit(echeckCredit echeckCredit);
-            Task<echeckCreditResponse> EcheckCreditAsync(echeckCredit echeckCredit, CancellationToken cancellationToken);
-            echeckRedepositResponse EcheckRedeposit(echeckRedeposit echeckRedeposit);
-            Task<echeckRedepositResponse> EcheckRedepositAsync(echeckRedeposit echeckRedeposit, CancellationToken cancellationToken);
-            echeckSalesResponse EcheckSale(echeckSale echeckSale);
-            Task<echeckSalesResponse> EcheckSaleAsync(echeckSale echeckSale, CancellationToken cancellationToken);
-            echeckVerificationResponse EcheckVerification(echeckVerification echeckVerification);
-            Task<echeckVerificationResponse> EcheckVerificationAsync(echeckVerification echeckVerification, CancellationToken cancellationToken);
-            forceCaptureResponse ForceCapture(forceCapture forceCapture);
-            Task<forceCaptureResponse> ForceCaptureAsync(forceCapture forceCapture, CancellationToken cancellationToken);
-            saleResponse Sale(sale sale);
-            Task<saleResponse> SaleAsync(sale sale, CancellationToken cancellationToken);
-            registerTokenResponse RegisterToken(registerTokenRequestType tokenRequest);
-            Task<registerTokenResponse> RegisterTokenAsync(registerTokenRequestType tokenRequest, CancellationToken cancellationToken);
-            voidResponse DoVoid(voidTxn v);
-            Task<voidResponse> DoVoidAsync(voidTxn v, CancellationToken cancellationToken);
-            echeckVoidResponse EcheckVoid(echeckVoid v);
-            Task<echeckVoidResponse> EcheckVoidAsync(echeckVoid v, CancellationToken cancellationToken);
-            updateCardValidationNumOnTokenResponse UpdateCardValidationNumOnToken(updateCardValidationNumOnToken update);
-            Task<updateCardValidationNumOnTokenResponse> UpdateCardValidationNumOnTokenAsync(updateCardValidationNumOnToken update, CancellationToken cancellationToken);
-            giftCardAuthReversalResponse GiftCardAuthReversal(giftCardAuthReversal giftCard);
-            Task<giftCardAuthReversalResponse> GiftCardAuthReversalAsync(giftCardAuthReversal giftCard, CancellationToken cancellationToken);
-            giftCardCaptureResponse GiftCardCapture(giftCardCapture giftCardCapture);
-            Task<giftCardCaptureResponse> GiftCardCaptureAsync(giftCardCapture giftCardCapture, CancellationToken cancellationToken);
+    public interface ICnpOnline
+    {
+        authorizationResponse Authorize(authorization auth);
+        Task<authorizationResponse> AuthorizeAsync(authorization auth, CancellationToken cancellationToken);
+        authReversalResponse AuthReversal(authReversal reversal);
+        Task<authReversalResponse> AuthReversalAsync(authReversal reversal, CancellationToken cancellationToken);
+        captureResponse Capture(capture capture);
+        Task<captureResponse> CaptureAsync(capture capture, CancellationToken cancellationToken);
+        captureGivenAuthResponse CaptureGivenAuth(captureGivenAuth captureGivenAuth);
+        Task<captureGivenAuthResponse> CaptureGivenAuthAsync(captureGivenAuth captureGivenAuth, CancellationToken cancellationToken);
+        creditResponse Credit(credit credit);
+        Task<creditResponse> CreditAsync(credit credit, CancellationToken cancellationToken);
+        echeckCreditResponse EcheckCredit(echeckCredit echeckCredit);
+        Task<echeckCreditResponse> EcheckCreditAsync(echeckCredit echeckCredit, CancellationToken cancellationToken);
+        echeckRedepositResponse EcheckRedeposit(echeckRedeposit echeckRedeposit);
+        Task<echeckRedepositResponse> EcheckRedepositAsync(echeckRedeposit echeckRedeposit, CancellationToken cancellationToken);
+        echeckSalesResponse EcheckSale(echeckSale echeckSale);
+        Task<echeckSalesResponse> EcheckSaleAsync(echeckSale echeckSale, CancellationToken cancellationToken);
+        echeckVerificationResponse EcheckVerification(echeckVerification echeckVerification);
+        Task<echeckVerificationResponse> EcheckVerificationAsync(echeckVerification echeckVerification, CancellationToken cancellationToken);
+        forceCaptureResponse ForceCapture(forceCapture forceCapture);
+        Task<forceCaptureResponse> ForceCaptureAsync(forceCapture forceCapture, CancellationToken cancellationToken);
+        saleResponse Sale(sale sale);
+        Task<saleResponse> SaleAsync(sale sale, CancellationToken cancellationToken);
+        registerTokenResponse RegisterToken(registerTokenRequestType tokenRequest);
+        Task<registerTokenResponse> RegisterTokenAsync(registerTokenRequestType tokenRequest, CancellationToken cancellationToken);
+        voidResponse DoVoid(voidTxn v);
+        Task<voidResponse> DoVoidAsync(voidTxn v, CancellationToken cancellationToken);
+        echeckVoidResponse EcheckVoid(echeckVoid v);
+        Task<echeckVoidResponse> EcheckVoidAsync(echeckVoid v, CancellationToken cancellationToken);
+        updateCardValidationNumOnTokenResponse UpdateCardValidationNumOnToken(updateCardValidationNumOnToken update);
+        Task<updateCardValidationNumOnTokenResponse> UpdateCardValidationNumOnTokenAsync(updateCardValidationNumOnToken update, CancellationToken cancellationToken);
+        giftCardAuthReversalResponse GiftCardAuthReversal(giftCardAuthReversal giftCard);
+        Task<giftCardAuthReversalResponse> GiftCardAuthReversalAsync(giftCardAuthReversal giftCard, CancellationToken cancellationToken);
+        giftCardCaptureResponse GiftCardCapture(giftCardCapture giftCardCapture);
+        Task<giftCardCaptureResponse> GiftCardCaptureAsync(giftCardCapture giftCardCapture, CancellationToken cancellationToken);
 
-            payFacCreditResponse PayFacCredit(payFacCredit payFacCredit);
-            Task<payFacCreditResponse> PayFacCreditAsync(payFacCredit payFacCredit, CancellationToken cancellationToken);
-            payFacDebitResponse PayFacDebit(payFacDebit payFacDebit);
-            Task<payFacDebitResponse> PayFacDebitAsync(payFacDebit payFacDebit, CancellationToken cancellationToken);
+        payFacCreditResponse PayFacCredit(payFacCredit payFacCredit);
+        Task<payFacCreditResponse> PayFacCreditAsync(payFacCredit payFacCredit, CancellationToken cancellationToken);
+        payFacDebitResponse PayFacDebit(payFacDebit payFacDebit);
+        Task<payFacDebitResponse> PayFacDebitAsync(payFacDebit payFacDebit, CancellationToken cancellationToken);
 
-            physicalCheckCreditResponse PhysicalCheckCredit(physicalCheckCredit physicalCheckCredit);
-            Task<physicalCheckCreditResponse> PhysicalCheckCreditAsync(physicalCheckCredit physicalCheckCredit, CancellationToken cancellationToken);
-            physicalCheckDebitResponse PhysicalCheckDebit(physicalCheckDebit physicalCheckDebit);
-            Task<physicalCheckDebitResponse> PhysicalCheckDebitAsync(physicalCheckDebit physicalCheckDebit, CancellationToken cancellationToken);
+        physicalCheckCreditResponse PhysicalCheckCredit(physicalCheckCredit physicalCheckCredit);
+        Task<physicalCheckCreditResponse> PhysicalCheckCreditAsync(physicalCheckCredit physicalCheckCredit, CancellationToken cancellationToken);
+        physicalCheckDebitResponse PhysicalCheckDebit(physicalCheckDebit physicalCheckDebit);
+        Task<physicalCheckDebitResponse> PhysicalCheckDebitAsync(physicalCheckDebit physicalCheckDebit, CancellationToken cancellationToken);
 
-            payoutOrgCreditResponse PayoutOrgCredit(payoutOrgCredit payoutOrgCredit);
-            Task<payoutOrgCreditResponse> PayoutOrgCreditAsync(payoutOrgCredit payoutOrgCredit, CancellationToken cancellationToken);
-            payoutOrgDebitResponse PayoutOrgDebit(payoutOrgDebit payoutOrgDebit);
-            Task<payoutOrgDebitResponse> PayoutOrgDebitAsync(payoutOrgDebit payoutOrgDebit, CancellationToken cancellationToken);
+        payoutOrgCreditResponse PayoutOrgCredit(payoutOrgCredit payoutOrgCredit);
+        Task<payoutOrgCreditResponse> PayoutOrgCreditAsync(payoutOrgCredit payoutOrgCredit, CancellationToken cancellationToken);
+        payoutOrgDebitResponse PayoutOrgDebit(payoutOrgDebit payoutOrgDebit);
+        Task<payoutOrgDebitResponse> PayoutOrgDebitAsync(payoutOrgDebit payoutOrgDebit, CancellationToken cancellationToken);
 
 
-            reserveCreditResponse ReserveCredit(reserveCredit reserveCredit);
-            Task<reserveCreditResponse> ReserveCreditAsync(reserveCredit reserveCredit, CancellationToken cancellationToken);
-            reserveDebitResponse ReserveDebit(reserveDebit reserveDebit);
-            Task<reserveDebitResponse> ReserveDebitAsync(reserveDebit reserveDebit, CancellationToken cancellationToken);
+        reserveCreditResponse ReserveCredit(reserveCredit reserveCredit);
+        Task<reserveCreditResponse> ReserveCreditAsync(reserveCredit reserveCredit, CancellationToken cancellationToken);
+        reserveDebitResponse ReserveDebit(reserveDebit reserveDebit);
+        Task<reserveDebitResponse> ReserveDebitAsync(reserveDebit reserveDebit, CancellationToken cancellationToken);
 
-            submerchantCreditResponse SubmerchantCredit(submerchantCredit submerchantCredit);
-            Task<submerchantCreditResponse> SubmerchantCreditAsync(submerchantCredit submerchantCredit, CancellationToken cancellationToken);
-            submerchantDebitResponse SubmerchantDebit(submerchantDebit submerchantDebit);
-            Task<submerchantDebitResponse> SubmerchantDebitAsync(submerchantDebit submerchantDebit, CancellationToken cancellationToken);
+        submerchantCreditResponse SubmerchantCredit(submerchantCredit submerchantCredit);
+        Task<submerchantCreditResponse> SubmerchantCreditAsync(submerchantCredit submerchantCredit, CancellationToken cancellationToken);
+        submerchantDebitResponse SubmerchantDebit(submerchantDebit submerchantDebit);
+        Task<submerchantDebitResponse> SubmerchantDebitAsync(submerchantDebit submerchantDebit, CancellationToken cancellationToken);
 
-            vendorCreditResponse VendorCredit(vendorCredit vendorCredit);
-            Task<vendorCreditResponse> VendorCreditAsync(vendorCredit vendorCredit, CancellationToken cancellationToken);
-            vendorDebitResponse VendorDebit(vendorDebit vendorDebit);
-            Task<vendorDebitResponse> VendorDebitAsync(vendorDebit vendorDebit, CancellationToken cancellationToken);
+        vendorCreditResponse VendorCredit(vendorCredit vendorCredit);
+        Task<vendorCreditResponse> VendorCreditAsync(vendorCredit vendorCredit, CancellationToken cancellationToken);
+        vendorDebitResponse VendorDebit(vendorDebit vendorDebit);
+        Task<vendorDebitResponse> VendorDebitAsync(vendorDebit vendorDebit, CancellationToken cancellationToken);
 
-            customerCreditResponse CustomerCredit(customerCredit customerCredit);
-            Task<customerCreditResponse> CustomerCreditAsync(customerCredit customerCredit, CancellationToken cancellationToken);
-            customerDebitResponse CustomerDebit(customerDebit customerDebit);
-            Task<customerDebitResponse> CustomerDebitAsync(customerDebit customerDebit, CancellationToken cancellationToken);
+        customerCreditResponse CustomerCredit(customerCredit customerCredit);
+        Task<customerCreditResponse> CustomerCreditAsync(customerCredit customerCredit, CancellationToken cancellationToken);
+        customerDebitResponse CustomerDebit(customerDebit customerDebit);
+        Task<customerDebitResponse> CustomerDebitAsync(customerDebit customerDebit, CancellationToken cancellationToken);
 
-            giftCardCreditResponse GiftCardCredit(giftCardCredit giftCardCredit);
-            Task<giftCardCreditResponse> GiftCardCreditAsync(giftCardCredit giftCardCredit, CancellationToken cancellationToken);
-            transactionTypeWithReportGroup QueryTransaction(queryTransaction queryTransaction);
-            Task<transactionTypeWithReportGroup> QueryTransactionAsync(queryTransaction queryTransaction, CancellationToken cancellationToken);
-            fraudCheckResponse FraudCheck(fraudCheck fraudCheck);
-            Task<fraudCheckResponse> FraudCheckAsync(fraudCheck fraudCheck, CancellationToken cancellationToken);
+        giftCardCreditResponse GiftCardCredit(giftCardCredit giftCardCredit);
+        Task<giftCardCreditResponse> GiftCardCreditAsync(giftCardCredit giftCardCredit, CancellationToken cancellationToken);
+        transactionTypeWithReportGroup QueryTransaction(queryTransaction queryTransaction);
+        Task<transactionTypeWithReportGroup> QueryTransactionAsync(queryTransaction queryTransaction, CancellationToken cancellationToken);
+        fraudCheckResponse FraudCheck(fraudCheck fraudCheck);
+        Task<fraudCheckResponse> FraudCheckAsync(fraudCheck fraudCheck, CancellationToken cancellationToken);
 
-            translateToLowValueTokenResponse TranslateToLowValueTokenRequest(translateToLowValueTokenRequest translateToLowValueTokenRequest);
-            Task<translateToLowValueTokenResponse> TranslateToLowValueTokenRequestAsync(translateToLowValueTokenRequest translateToLowValueTokenRequest, CancellationToken cancellationToken);
-            finicityUrlResponse FinicityUrl(finicityUrlRequest finicityUrl);
-            Task<finicityUrlResponse> finicityUrlAsync(finicityUrlRequest finicityUrl, CancellationToken cancellationToken);
-            finicityAccountResponse FinicityAccount(finicityAccountRequest finicityAccount);
-            Task<finicityAccountResponse> finicityAccountAsync(finicityAccountRequest finicityAccount, CancellationToken cancellationToken);
-            BNPLAuthResponse BNPLAuthorization(BNPLAuthorizationRequest bnplAuth);
-            Task<BNPLAuthResponse> BNPLAuthorizationAsync(BNPLAuthorizationRequest bnplAuth, CancellationToken cancellationToken);
-            BNPLCaptureResponse BNPLCapture(BNPLCaptureRequest bnplCapture);
-            Task<BNPLCaptureResponse> BNPLCaptureAsync(BNPLCaptureRequest bnplCapture, CancellationToken cancellationToken);
-            BNPLRefundResponse BNPLRefund(BNPLRefundRequest bnplRefund);
-            Task<BNPLRefundResponse> BNPLRefundAsync(BNPLRefundRequest bnplRefund, CancellationToken cancellationToken);
-            BNPLCancelResponse BNPLCancle(BNPLCancelRequest bnplCancle);
-            Task<BNPLCancelResponse> BNPLCancleAsync(BNPLCancelRequest bnplCancle, CancellationToken cancellationToken);
-            BNPLInquiryResponse BNPLInquiry(BNPLInquiryRequest bnplInquiry);
-            Task<BNPLInquiryResponse> BNPLInquiryAsync(BNPLInquiryRequest bnplInquiry, CancellationToken cancellationToken);
-            encryptionKeyResponse encryptionKey(EncryptionKeyRequest encryptionKey);
-            Task<encryptionKeyResponse> encryptionKeyAsync(EncryptionKeyRequest encryptionKey, CancellationToken cancellationToken);
-            event EventHandler HttpAction;
-        }
+        translateToLowValueTokenResponse TranslateToLowValueTokenRequest(translateToLowValueTokenRequest translateToLowValueTokenRequest);
+        Task<translateToLowValueTokenResponse> TranslateToLowValueTokenRequestAsync(translateToLowValueTokenRequest translateToLowValueTokenRequest, CancellationToken cancellationToken);
+        finicityUrlResponse FinicityUrl(finicityUrlRequest finicityUrl);
+        Task<finicityUrlResponse> finicityUrlAsync(finicityUrlRequest finicityUrl, CancellationToken cancellationToken);
+        finicityAccountResponse FinicityAccount(finicityAccountRequest finicityAccount);
+        Task<finicityAccountResponse> finicityAccountAsync(finicityAccountRequest finicityAccount, CancellationToken cancellationToken);
+        BNPLAuthResponse BNPLAuthorization(BNPLAuthorizationRequest bnplAuth);
+        Task<BNPLAuthResponse> BNPLAuthorizationAsync(BNPLAuthorizationRequest bnplAuth, CancellationToken cancellationToken);
+        BNPLCaptureResponse BNPLCapture(BNPLCaptureRequest bnplCapture);
+        Task<BNPLCaptureResponse> BNPLCaptureAsync(BNPLCaptureRequest bnplCapture, CancellationToken cancellationToken);
+        BNPLRefundResponse BNPLRefund(BNPLRefundRequest bnplRefund);
+        Task<BNPLRefundResponse> BNPLRefundAsync(BNPLRefundRequest bnplRefund, CancellationToken cancellationToken);
+        BNPLCancelResponse BNPLCancle(BNPLCancelRequest bnplCancle);
+        Task<BNPLCancelResponse> BNPLCancleAsync(BNPLCancelRequest bnplCancle, CancellationToken cancellationToken);
+        BNPLInquiryResponse BNPLInquiry(BNPLInquiryRequest bnplInquiry);
+        Task<BNPLInquiryResponse> BNPLInquiryAsync(BNPLInquiryRequest bnplInquiry, CancellationToken cancellationToken);
+        encryptionKeyResponse encryptionKey(EncryptionKeyRequest encryptionKey);
+        Task<encryptionKeyResponse> encryptionKeyAsync(EncryptionKeyRequest encryptionKey, CancellationToken cancellationToken);
+        event EventHandler HttpAction;
     }
+}
 
 

@@ -7742,7 +7742,7 @@ namespace Cnp.Sdk
        
             if (encryptionKeyRequestSet)
             {
-                xml += "\r\n<encryptionKeyRequest>" + encryptionKeyRequest + "</encryptionKeyRequest>";
+                xml += "\r<encryptionKeyRequest>" + encryptionKeyRequest + "</encryptionKeyRequest>";
             }
             return xml;
         }
