@@ -42,7 +42,7 @@ namespace Cnp.Sdk.Test.Unit
            
             var mock = new Mock<Communications>();
             
-            if (config["encrypteOltpPayload"] == "true")
+            if (config["encryptOltpPayload"] == "true")
             {
                 mock.Setup(Communications => Communications.HttpPost(It.IsRegex(".*<cnpOnlineRequest.*<encryptedPayload.*</encryptedPayload>.*", RegexOptions.Singleline)))
                .Returns("<cnpOnlineResponse version='8.10' response='0' message='Valid Format' xmlns='http://www.vantivcnp.com/schema'><authorizationResponse><cnpTxnId>123</cnpTxnId></authorizationResponse></cnpOnlineResponse>");
@@ -69,7 +69,7 @@ namespace Cnp.Sdk.Test.Unit
 
             var mock = new Mock<Communications>();
 
-            if (config["encrypteOltpPayload"] == "true")
+            if (config["encryptOltpPayload"] == "true")
             {
                 mock.Setup(Communications => Communications.HttpPost(It.IsRegex(".*<cnpOnlineRequest.*<encryptedPayload.*</encryptedPayload>.*", RegexOptions.Singleline)))
                 .Returns("<cnpOnlineResponse version='8.10' response='0' message='Valid Format' xmlns='http://www.vantivcnp.com/schema'><authReversalResponse><cnpTxnId>123</cnpTxnId></authReversalResponse></cnpOnlineResponse>");
@@ -95,7 +95,7 @@ namespace Cnp.Sdk.Test.Unit
 
 
             var mock = new Mock<Communications>();
-            if (config["encrypteOltpPayload"] == "true")
+            if (config["encryptOltpPayload"] == "true")
             {
                 mock.Setup(Communications => Communications.HttpPost(It.IsRegex(".*<cnpOnlineRequest.*<encryptedPayload.*</encryptedPayload>.*", RegexOptions.Singleline)))
                 .Returns("<cnpOnlineResponse version='8.10' response='0' message='Valid Format' xmlns='http://www.vantivcnp.com/schema'><captureResponse><cnpTxnId>123</cnpTxnId></captureResponse></cnpOnlineResponse>");
@@ -130,7 +130,7 @@ namespace Cnp.Sdk.Test.Unit
             capturegivenauth.card = card;
 
             var mock = new Mock<Communications>();
-            if (config["encrypteOltpPayload"] == "true")
+            if (config["encryptOltpPayload"] == "true")
             {
                 mock.Setup(Communications => Communications.HttpPost(It.IsRegex(".*<cnpOnlineRequest.*<encryptedPayload.*</encryptedPayload>.*", RegexOptions.Singleline)))
                 .Returns("<cnpOnlineResponse version='8.10' response='0' message='Valid Format' xmlns='http://www.vantivcnp.com/schema'><captureGivenAuthResponse><cnpTxnId>123</cnpTxnId></captureGivenAuthResponse></cnpOnlineResponse>");
@@ -160,7 +160,7 @@ namespace Cnp.Sdk.Test.Unit
             credit.card = card;
 
             var mock = new Mock<Communications>();
-            if (config["encrypteOltpPayload"] == "true")
+            if (config["encryptOltpPayload"] == "true")
             {
                 mock.Setup(Communications => Communications.HttpPost(It.IsRegex(".*<cnpOnlineRequest.*<encryptedPayload.*</encryptedPayload>.*", RegexOptions.Singleline)))
                 .Returns("<cnpOnlineResponse version='8.10' response='0' message='Valid Format' xmlns='http://www.vantivcnp.com/schema'><creditResponse><cnpTxnId>123</cnpTxnId></creditResponse></cnpOnlineResponse>");
@@ -184,7 +184,7 @@ namespace Cnp.Sdk.Test.Unit
             echeckcredit.cnpTxnId = 123456789101112;
 
             var mock = new Mock<Communications>();
-            if (config["encrypteOltpPayload"] == "true")
+            if (config["encryptOltpPayload"] == "true")
             {
                 mock.Setup(Communications => Communications.HttpPost(It.IsRegex(".*<cnpOnlineRequest.*<encryptedPayload.*</encryptedPayload>.*", RegexOptions.Singleline)))
                 .Returns("<cnpOnlineResponse version='8.10' response='0' message='Valid Format' xmlns='http://www.vantivcnp.com/schema'><echeckCreditResponse><cnpTxnId>123</cnpTxnId></echeckCreditResponse></cnpOnlineResponse>");
@@ -207,7 +207,7 @@ namespace Cnp.Sdk.Test.Unit
             echeckredeposit.cnpTxnId = 123456;
 
             var mock = new Mock<Communications>();
-            if (config["encrypteOltpPayload"] == "true")
+            if (config["encryptOltpPayload"] == "true")
             {
                 mock.Setup(Communications => Communications.HttpPost(It.IsRegex(".*<cnpOnlineRequest.*<encryptedPayload.*</encryptedPayload>.*", RegexOptions.Singleline)))
                 .Returns("<cnpOnlineResponse version='8.10' response='0' message='Valid Format' xmlns='http://www.vantivcnp.com/schema'><echeckRedepositResponse><cnpTxnId>123</cnpTxnId></echeckRedepositResponse></cnpOnlineResponse>");
@@ -245,7 +245,7 @@ namespace Cnp.Sdk.Test.Unit
             
 
             var mock = new Mock<Communications>();
-            if (config["encrypteOltpPayload"] == "true")
+            if (config["encryptOltpPayload"] == "true")
             {
                 mock.Setup(Communications => Communications.HttpPost(It.IsRegex(".*<cnpOnlineRequest.*<encryptedPayload.*</encryptedPayload>.*", RegexOptions.Singleline)))
                 .Returns("<cnpOnlineResponse version='8.10' response='0' message='Valid Format' xmlns='http://www.vantivcnp.com/schema'><echeckSalesResponse><cnpTxnId>123</cnpTxnId></echeckSalesResponse></cnpOnlineResponse>");
@@ -283,7 +283,7 @@ namespace Cnp.Sdk.Test.Unit
 
 
             var mock = new Mock<Communications>();
-            if (config["encrypteOltpPayload"] == "true")
+            if (config["encryptOltpPayload"] == "true")
             {
                 mock.Setup(Communications => Communications.HttpPost(It.IsRegex(".*<cnpOnlineRequest.*<encryptedPayload.*</encryptedPayload>.*", RegexOptions.Singleline)))
                 .Returns("<cnpOnlineResponse version='8.10' response='0' message='Valid Format' xmlns='http://www.vantivcnp.com/schema'><echeckVerificationResponse><cnpTxnId>123</cnpTxnId></echeckVerificationResponse></cnpOnlineResponse>");
@@ -313,7 +313,7 @@ namespace Cnp.Sdk.Test.Unit
             forcecapture.card = card;
 
             var mock = new Mock<Communications>();
-            if (config["encrypteOltpPayload"] == "true")
+            if (config["encryptOltpPayload"] == "true")
             {
                 mock.Setup(Communications => Communications.HttpPost(It.IsRegex(".*<cnpOnlineRequest.*<encryptedPayload.*</encryptedPayload>.*", RegexOptions.Singleline)))
                 .Returns("<cnpOnlineResponse version='8.10' response='0' message='Valid Format' xmlns='http://www.vantivcnp.com/schema'><forceCaptureResponse><cnpTxnId>123</cnpTxnId></forceCaptureResponse></cnpOnlineResponse>");
@@ -343,7 +343,7 @@ namespace Cnp.Sdk.Test.Unit
             sale.card = card;
 
             var mock = new Mock<Communications>();
-            if (config["encrypteOltpPayload"] == "true")
+            if (config["encryptOltpPayload"] == "true")
             {
                 mock.Setup(Communications => Communications.HttpPost(It.IsRegex(".*<cnpOnlineRequest.*<encryptedPayload.*</encryptedPayload>.*", RegexOptions.Singleline)))
                 .Returns("<cnpOnlineResponse version='8.10' response='0' message='Valid Format' xmlns='http://www.vantivcnp.com/schema'><saleResponse><cnpTxnId>123</cnpTxnId></saleResponse></cnpOnlineResponse>");
@@ -393,7 +393,7 @@ namespace Cnp.Sdk.Test.Unit
             
 
             var mock = new Mock<Communications>();
-            if (config["encrypteOltpPayload"] == "true")
+            if (config["encryptOltpPayload"] == "true")
             {
                 mock.Setup(Communications => Communications.HttpPost(It.IsRegex(".*<cnpOnlineRequest.*<encryptedPayload.*</encryptedPayload>.*", RegexOptions.Singleline)))
                 .Returns("<cnpOnlineResponse version='8.10' response='0' message='Valid Format' xmlns='http://www.vantivcnp.com/schema'><registerTokenResponse><cnpTxnId>123</cnpTxnId></registerTokenResponse></cnpOnlineResponse>");
@@ -419,7 +419,7 @@ namespace Cnp.Sdk.Test.Unit
             activate.card = new giftCardCardType();
 
             var mock = new Mock<Communications>();
-            if (config["encrypteOltpPayload"] == "true")
+            if (config["encryptOltpPayload"] == "true")
             {
                 mock.Setup(Communications => Communications.HttpPost(It.IsRegex(".*<cnpOnlineRequest.*<encryptedPayload.*</encryptedPayload>.*", RegexOptions.Singleline)))
   .Returns(@"
@@ -479,7 +479,7 @@ response=""0"" message=""ValidFormat"">
             deactivate.card = new giftCardCardType();
 
             var mock = new Mock<Communications>();
-            if (config["encrypteOltpPayload"] == "true")
+            if (config["encryptOltpPayload"] == "true")
             {
                 mock.Setup(Communications => Communications.HttpPost(It.IsRegex(".*<cnpOnlineRequest.*<encryptedPayload.*</encryptedPayload>.*", RegexOptions.Singleline)))
                 .Returns("<cnpOnlineResponse version='8.21' response='0' message='Valid Format' xmlns='http://www.vantivcnp.com/schema'><deactivateResponse><cnpTxnId>123</cnpTxnId></deactivateResponse></cnpOnlineResponse>");
@@ -504,7 +504,7 @@ response=""0"" message=""ValidFormat"">
             load.card = new giftCardCardType();
 
             var mock = new Mock<Communications>();
-            if (config["encrypteOltpPayload"] == "true")
+            if (config["encryptOltpPayload"] == "true")
             {
                 mock.Setup(Communications => Communications.HttpPost(It.IsRegex(".*<cnpOnlineRequest.*<encryptedPayload.*</encryptedPayload>.*", RegexOptions.Singleline)))
                 .Returns("<cnpOnlineResponse version='8.21' response='0' message='Valid Format' xmlns='http://www.vantivcnp.com/schema'><loadResponse><cnpTxnId>123</cnpTxnId></loadResponse></cnpOnlineResponse>");
@@ -529,7 +529,7 @@ response=""0"" message=""ValidFormat"">
             unload.card = new giftCardCardType();
 
             var mock = new Mock<Communications>();
-            if (config["encrypteOltpPayload"] == "true")
+            if (config["encryptOltpPayload"] == "true")
             {
                 mock.Setup(Communications => Communications.HttpPost(It.IsRegex(".*<cnpOnlineRequest.*<encryptedPayload.*</encryptedPayload>.*", RegexOptions.Singleline)))
                 .Returns("<cnpOnlineResponse version='8.21' response='0' message='Valid Format' xmlns='http://www.vantivcnp.com/schema'><unloadResponse><cnpTxnId>123</cnpTxnId></unloadResponse></cnpOnlineResponse>");
@@ -554,7 +554,7 @@ response=""0"" message=""ValidFormat"">
             balanceInquiry.card = new giftCardCardType();
 
             var mock = new Mock<Communications>();
-            if (config["encrypteOltpPayload"] == "true")
+            if (config["encryptOltpPayload"] == "true")
             {
                 mock.Setup(Communications => Communications.HttpPost(It.IsRegex(".*<cnpOnlineRequest.*<encryptedPayload.*</encryptedPayload>.*", RegexOptions.Singleline)))
                 .Returns("<cnpOnlineResponse version='8.21' response='0' message='Valid Format' xmlns='http://www.vantivcnp.com/schema'><balanceInquiryResponse><cnpTxnId>123</cnpTxnId></balanceInquiryResponse></cnpOnlineResponse>");
@@ -577,7 +577,7 @@ response=""0"" message=""ValidFormat"">
             createPlan.planCode = "theCode";
 
             var mock = new Mock<Communications>();
-            if (config["encrypteOltpPayload"] == "true")
+            if (config["encryptOltpPayload"] == "true")
             {
                 mock.Setup(Communications => Communications.HttpPost(It.IsRegex(".*<cnpOnlineRequest.*<encryptedPayload.*</encryptedPayload>.*", RegexOptions.Singleline)))
                 .Returns("<cnpOnlineResponse version='8.21' response='0' message='Valid Format' xmlns='http://www.vantivcnp.com/schema'><createPlanResponse><planCode>theCode</planCode></createPlanResponse></cnpOnlineResponse>");
@@ -600,7 +600,7 @@ response=""0"" message=""ValidFormat"">
             updatePlan.planCode = "theCode";
 
             var mock = new Mock<Communications>();
-            if (config["encrypteOltpPayload"] == "true")
+            if (config["encryptOltpPayload"] == "true")
             {
                 mock.Setup(Communications => Communications.HttpPost(It.IsRegex(".*<cnpOnlineRequest.*<encryptedPayload.*</encryptedPayload>.*", RegexOptions.Singleline)))
                 .Returns("<cnpOnlineResponse version='8.21' response='0' message='Valid Format' xmlns='http://www.vantivcnp.com/schema'><updatePlanResponse><planCode>theCode</planCode></updatePlanResponse></cnpOnlineResponse>");
@@ -631,7 +631,7 @@ response=""0"" message=""ValidFormat"">
             authorization.card = card;
 
             var mock = new Mock<Communications>();
-            if (config["encrypteOltpPayload"] == "true")
+            if (config["encryptOltpPayload"] == "true")
             {
                 mock.Setup(Communications => Communications.HttpPost(It.IsRegex(".*<cnpOnlineRequest.*<encryptedPayload.*</encryptedPayload>.*", RegexOptions.Singleline)))
                 .Returns("<cnpOnlineResponse version='8.10' response='1' message='Error validating xml data against the schema' xmlns='http://www.vantivcnp.com/schema'><authorizationResponse><cnpTxnId>123</cnpTxnId></authorizationResponse></cnpOnlineResponse>");
@@ -668,7 +668,7 @@ response=""0"" message=""ValidFormat"">
             authorization.card = card;
 
             var mock = new Mock<Communications>();
-            if (config["encrypteOltpPayload"] == "true")
+            if (config["encryptOltpPayload"] == "true")
             {
                 mock.Setup(Communications => Communications.HttpPost(It.IsRegex(".*<cnpOnlineRequest.*<encryptedPayload.*</encryptedPayload>.*", RegexOptions.Singleline)))
                 .Returns("no xml");
@@ -704,7 +704,7 @@ response=""0"" message=""ValidFormat"">
             authorization.card = card;
 
             var mock = new Mock<Communications>();
-            if (config["encrypteOltpPayload"] == "true")
+            if (config["encryptOltpPayload"] == "true")
             {
                 mock.Setup(Communications => Communications.HttpPost(It.IsRegex(".*<cnpOnlineRequest.*<encryptedPayload.*</encryptedPayload>.*", RegexOptions.Singleline)))
                 .Returns("<cnpOnlineResponse version='8.10' response='0' message='Valid Format' xmlns='http://www.vantivcnp.com/schema'><authorizationResponse reportGroup='Default Report Group'></authorizationResponse></cnpOnlineResponse>");

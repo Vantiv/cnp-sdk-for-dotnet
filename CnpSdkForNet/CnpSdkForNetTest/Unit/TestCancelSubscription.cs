@@ -27,7 +27,7 @@ namespace Cnp.Sdk.Test.Unit
             update.subscriptionId = 12345;
            
             var mock = new Mock<Communications>();
-            if (config["encrypteOltpPayload"] == "true")
+            if (config["encryptOltpPayload"] == "true")
             {
                 mock.Setup(Communications => Communications.HttpPost(It.IsRegex(".*<cnpOnlineRequest.*<encryptedPayload.*</encryptedPayload>.*", RegexOptions.Singleline)))
                 .Returns("<cnpOnlineResponse version='8.20' response='0' message='Valid Format' xmlns='http://www.vantivcnp.com/schema'><cancelSubscriptionResponse><subscriptionId>12345</subscriptionId></cancelSubscriptionResponse></cnpOnlineResponse>");
@@ -49,7 +49,7 @@ namespace Cnp.Sdk.Test.Unit
             update.subscriptionId = 12345;
 
             var mock = new Mock<Communications>();
-            if (config["encrypteOltpPayload"] == "true")
+            if (config["encryptOltpPayload"] == "true")
             {
                 mock.Setup(Communications => Communications.HttpPost(It.IsRegex(".*<cnpOnlineRequest.*<encryptedPayload.*</encryptedPayload>.*", RegexOptions.Singleline)))
                 .Returns("<cnpOnlineResponse version='8.20' response='0' message='Valid Format' xmlns='http://www.vantivcnp.com/schema'><cancelSubscriptionResponse><subscriptionId>12345</subscriptionId></cancelSubscriptionResponse></cnpOnlineResponse>");

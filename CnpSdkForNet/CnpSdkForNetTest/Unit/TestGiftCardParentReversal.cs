@@ -40,7 +40,7 @@ namespace Cnp.Sdk.Test.Unit
             reversal.originalSequenceNumber = "123456";
 
             var mock = new Mock<Communications>();
-            if (config["encrypteOltpPayload"] == "true")
+            if (config["encryptOltpPayload"] == "true")
             {
                 mock.Setup(Communications => Communications.HttpPost(It.IsRegex(".*<cnpOnlineRequest.*<encryptedPayload.*</encryptedPayload>.*", RegexOptions.Singleline)))
                     .Returns("<cnpOnlineResponse version='8.14' response='0' message='Valid Format' xmlns='http://www.vantivcnp.com/schema'><depositReversalResponse><cnpTxnId>123</cnpTxnId></depositReversalResponse></cnpOnlineResponse>");
@@ -75,7 +75,7 @@ namespace Cnp.Sdk.Test.Unit
             reversal.originalSequenceNumber = "123456";
 
             var mock = new Mock<Communications>();
-            if (config["encrypteOltpPayload"] == "true")
+            if (config["encryptOltpPayload"] == "true")
             {
                 mock.Setup(Communications => Communications.HttpPost(It.IsRegex(".*<cnpOnlineRequest.*<encryptedPayload.*</encryptedPayload>.*", RegexOptions.Singleline)))
                     .Returns("<cnpOnlineResponse version='8.14' response='0' message='Valid Format' xmlns='http://www.vantivcnp.com/schema'><refundReversalResponse><cnpTxnId>123</cnpTxnId><location>sandbox</location></refundReversalResponse></cnpOnlineResponse>");
@@ -112,7 +112,7 @@ namespace Cnp.Sdk.Test.Unit
             reversal.originalSystemTraceId = 123;
             reversal.originalSequenceNumber = "123456";
             var mock = new Mock<Communications>();
-            if (config["encrypteOltpPayload"] == "true")
+            if (config["encryptOltpPayload"] == "true")
             {
                 mock.Setup(Communications => Communications.HttpPost(It.IsRegex(".*<cnpOnlineRequest.*<encryptedPayload.*</encryptedPayload>.*", RegexOptions.Singleline)))
                     .Returns("<cnpOnlineResponse version='8.14' response='0' message='Valid Format' xmlns='http://www.vantivcnp.com/schema'><activateReversalResponse><cnpTxnId>123</cnpTxnId><location>sandbox</location></activateReversalResponse></cnpOnlineResponse>");
@@ -149,7 +149,7 @@ namespace Cnp.Sdk.Test.Unit
             reversal.originalSequenceNumber = "123456";
 
             var mock = new Mock<Communications>();
-            if (config["encrypteOltpPayload"] == "true")
+            if (config["encryptOltpPayload"] == "true")
             {
                 mock.Setup(Communications => Communications.HttpPost(It.IsRegex(".*<cnpOnlineRequest.*<encryptedPayload.*</encryptedPayload>.*", RegexOptions.Singleline)))
                     .Returns("<cnpOnlineResponse version='8.14' response='0' message='Valid Format' xmlns='http://www.vantivcnp.com/schema'><deactivateReversalResponse><cnpTxnId>123</cnpTxnId><location>sandbox</location></deactivateReversalResponse></cnpOnlineResponse>");
@@ -187,7 +187,7 @@ namespace Cnp.Sdk.Test.Unit
             reversal.originalSequenceNumber = "123456";
 
             var mock = new Mock<Communications>();
-            if (config["encrypteOltpPayload"] == "true")
+            if (config["encryptOltpPayload"] == "true")
             {
                 mock.Setup(Communications => Communications.HttpPost(It.IsRegex(".*<cnpOnlineRequest.*<encryptedPayload.*</encryptedPayload>.*", RegexOptions.Singleline)))
                     .Returns("<cnpOnlineResponse version='8.14' response='0' message='Valid Format' xmlns='http://www.vantivcnp.com/schema'><loadReversalResponse><cnpTxnId>123</cnpTxnId><location>sandbox</location></loadReversalResponse></cnpOnlineResponse>");
@@ -225,7 +225,7 @@ namespace Cnp.Sdk.Test.Unit
             reversal.originalSequenceNumber = "123456";
 
             var mock = new Mock<Communications>();
-            if (config["encrypteOltpPayload"] == "true")
+            if (config["encryptOltpPayload"] == "true")
             {
                 mock.Setup(Communications => Communications.HttpPost(It.IsRegex(".*<cnpOnlineRequest.*<encryptedPayload.*</encryptedPayload>.*", RegexOptions.Singleline)))
                     .Returns("<cnpOnlineResponse version='8.14' response='0' message='Valid Format' xmlns='http://www.vantivcnp.com/schema'><unloadReversalResponse><cnpTxnId>123</cnpTxnId><location>sandbox</location></unloadReversalResponse></cnpOnlineResponse>");

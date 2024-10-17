@@ -30,7 +30,7 @@ namespace Cnp.Sdk.Test.Unit
             register.accountNumber = "4100000000000001";
            
             var mock = new Mock<Communications>();
-            if (config["encrypteOltpPayload"] == "true")
+            if (config["encryptOltpPayload"] == "true")
             {
                 mock.Setup(Communications => Communications.HttpPost(It.IsRegex(".*<cnpOnlineRequest.*<encryptedPayload.*</encryptedPayload>.*", RegexOptions.Singleline)))
                 .Returns("<cnpOnlineResponse version='8.14' response='0' message='Valid Format' xmlns='http://www.vantivcnp.com/schema'><registerTokenResponse><cnpTxnId>4</cnpTxnId><response>801</response><message>Token Successfully Registered</message><responseTime>2012-10-10T10:17:03</responseTime><location>sandbox</location></registerTokenResponse></cnpOnlineResponse>");
@@ -57,7 +57,7 @@ namespace Cnp.Sdk.Test.Unit
             register.cardValidationNum = "123";
 
             var mock = new Mock<Communications>();
-            if (config["encrypteOltpPayload"] == "true")
+            if (config["encryptOltpPayload"] == "true")
             {
                 mock.Setup(Communications => Communications.HttpPost(It.IsRegex(".*<cnpOnlineRequest.*<encryptedPayload.*</encryptedPayload>.*", RegexOptions.Singleline)))
                 .Returns("<cnpOnlineResponse version='8.14' response='0' message='Valid Format' xmlns='http://www.vantivcnp.com/schema'><registerTokenResponse><cnpTxnId>4</cnpTxnId><response>801</response><message>Token Successfully Registered</message><responseTime>2012-10-10T10:17:03</responseTime><location>sandbox</location></registerTokenResponse></cnpOnlineResponse>");
@@ -90,7 +90,7 @@ namespace Cnp.Sdk.Test.Unit
             register.applepay = applepay;
 
             var mock = new Mock<Communications>();
-            if (config["encrypteOltpPayload"] == "true")
+            if (config["encryptOltpPayload"] == "true")
             {
                 mock.Setup(Communications => Communications.HttpPost(It.IsRegex(".*<cnpOnlineRequest.*<encryptedPayload.*</encryptedPayload>.*", RegexOptions.Singleline)))
                 .Returns("<cnpOnlineResponse version='8.14' response='0' message='Valid Format' xmlns='http://www.vantivcnp.com/schema'><registerTokenResponse><cnpTxnId>4</cnpTxnId><response>801</response><message>Token Successfully Registered</message><responseTime>2012-10-10T10:17:03</responseTime><location>sandbox</location></registerTokenResponse></cnpOnlineResponse>");

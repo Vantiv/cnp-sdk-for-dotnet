@@ -1227,7 +1227,7 @@ namespace Cnp.Sdk
             }, bnplInquiry, cancellationToken);
         }
 
-        public encryptionKeyResponse encryptionKey(EncryptionKeyRequest encryptionKey)
+        public encryptionKeyResponse EncryptionKey(EncryptionKeyRequest encryptionKey)
         {
 
             var cnpResponse = SendRequest(response => response, encryptionKey);
@@ -1235,7 +1235,7 @@ namespace Cnp.Sdk
             return encryptionKeyResponse;
         }
 
-        public Task<encryptionKeyResponse> encryptionKeyAsync(EncryptionKeyRequest encryptionKey, CancellationToken cancellationToken)
+        public Task<encryptionKeyResponse> EncryptionKeyAsync(EncryptionKeyRequest encryptionKey, CancellationToken cancellationToken)
         {
             return SendRequestAsync(response =>
             {
@@ -1260,10 +1260,10 @@ namespace Cnp.Sdk
             var xmlRequest = request.Serialize();
             var xmlResponse="";
            
-            if (_config["encrypteOltpPayload"] == "true")
+            if (_config["encryptOltpPayload"] == "true")
             {
 
-                String payloadTobeEncrypted = replaceWithEncryptedPayload(xmlRequest);
+                String payloadTobeEncrypted = ReplaceXMLTxnWithEncryptedPayload(xmlRequest);
 
                 xmlResponse = _communication.HttpPost(payloadTobeEncrypted);
             }
@@ -1384,7 +1384,7 @@ namespace Cnp.Sdk
             }
         }
 
-        private String processTxnToBeEncrypted(String requestTxn)
+        private String ProcessTxnToBeEncrypted(String requestTxn)
         {
             String path = _config["oltpEncryptionKeyPath"];
             String encryptedTxn;
@@ -1413,7 +1413,7 @@ namespace Cnp.Sdk
             }
         }
 
-        private String replaceWithEncryptedPayload(String xmlRequest)
+        private String ReplaceXMLTxnWithEncryptedPayload(String xmlRequest)
         {
             try
             {
@@ -1446,7 +1446,7 @@ namespace Cnp.Sdk
                     root.RemoveChild(secondChild);
                 }
                   
-                payload = processTxnToBeEncrypted(output);
+                payload = ProcessTxnToBeEncrypted(output);
                 XmlElement encryptedPayloadElement = doc.CreateElement("encryptedPayload");
                 // Create and append the encryptionKeySequence element
                 XmlElement encryptionKeySequenceElement = doc.CreateElement("encryptionKeySequence");
@@ -1586,8 +1586,8 @@ namespace Cnp.Sdk
         Task<BNPLCancelResponse> BNPLCancleAsync(BNPLCancelRequest bnplCancle, CancellationToken cancellationToken);
         BNPLInquiryResponse BNPLInquiry(BNPLInquiryRequest bnplInquiry);
         Task<BNPLInquiryResponse> BNPLInquiryAsync(BNPLInquiryRequest bnplInquiry, CancellationToken cancellationToken);
-        encryptionKeyResponse encryptionKey(EncryptionKeyRequest encryptionKey);
-        Task<encryptionKeyResponse> encryptionKeyAsync(EncryptionKeyRequest encryptionKey, CancellationToken cancellationToken);
+        encryptionKeyResponse EncryptionKey(EncryptionKeyRequest encryptionKey);
+        Task<encryptionKeyResponse> EncryptionKeyAsync(EncryptionKeyRequest encryptionKey, CancellationToken cancellationToken);
         event EventHandler HttpAction;
     }
 }

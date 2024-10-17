@@ -32,7 +32,7 @@ namespace Cnp.Sdk.Test.Unit
             };
 
             var mock = new Mock<Communications>();
-            if (config["encrypteOltpPayload"] == "true")
+            if (config["encryptOltpPayload"] == "true")
             {
                 mock.Setup(Communications => Communications.HttpPost(It.IsRegex(".*<cnpOnlineRequest.*<encryptedPayload.*</encryptedPayload>.*", RegexOptions.Singleline)))
                 .Returns("<cnpOnlineResponse version='12.37' response='0' message='Valid Format' xmlns='http://www.vantivcnp.com/schema'><BNPLInquiryResponse><cnpTxnId>348408968181194299</cnpTxnId><location>sandbox</location></BNPLInquiryResponse></cnpOnlineResponse>");

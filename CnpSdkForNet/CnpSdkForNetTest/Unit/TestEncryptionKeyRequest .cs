@@ -26,7 +26,7 @@ namespace Cnp.Sdk.Test.Unit
             var enc = new EncryptionKeyRequest();
             enc.encryptionKeyRequest = encryptionKeyRequestEnum.PREVIOUS;
             var mock = new Mock<Communications>();
-            if (config["encrypteOltpPayload"] == "true")
+            if (config["encryptOltpPayload"] == "true")
             {
                 mock.Setup(Communications => Communications.HttpPost(It.IsRegex(".*<encryptionKeyRequest>PREVIOUS</encryptionKeyRequest>.*", RegexOptions.Singleline)))
                  .Returns("<cnpOnlineResponse version='12.40' response='0' message='Valid Format' xmlns='http://www.vantivcnp.com/schema'><encryptionKeyResponse> <encryptionKeySequence>10000</encryptionKeySequence></encryptionKeyResponse></cnpOnlineResponse>");
@@ -39,7 +39,7 @@ namespace Cnp.Sdk.Test.Unit
             }
             var mockedCommunication = mock.Object;
             cnp.SetCommunication(mockedCommunication);
-            var encryptionKeyResponse = cnp.encryptionKey(enc);
+            var encryptionKeyResponse = cnp.EncryptionKey(enc);
 
             Assert.NotNull(encryptionKeyResponse);
             Assert.AreEqual(10000, encryptionKeyResponse.encryptionKeySequence);

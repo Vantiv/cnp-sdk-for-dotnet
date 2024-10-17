@@ -37,7 +37,7 @@ namespace Cnp.Sdk
             ["pgpPassphrase"] = Properties.Settings.Default.pgpPassphrase,
             ["neuterUserCredentials"] = Properties.Settings.Default.neuterUserCredentials,
             ["maxConnections"] = Properties.Settings.Default.maxConnections,
-            ["encrypteOltpPayload"] = Properties.Settings.Default.encrypteOltpPayload,
+            ["encryptOltpPayload"] = Properties.Settings.Default.encryptOltpPayload,
             ["oltpEncryptionKeySequence"] = Properties.Settings.Default.oltpEncryptionKeySequence,
             ["oltpEncryptionKeyPath"] = Properties.Settings.Default.oltpEncryptionKeyPath
         }) { }

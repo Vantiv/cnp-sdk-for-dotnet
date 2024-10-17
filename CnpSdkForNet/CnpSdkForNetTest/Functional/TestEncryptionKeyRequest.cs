@@ -26,7 +26,7 @@ namespace Cnp.Sdk.Test.Functional
           encryptionKeyRequest= encryptionKeyRequestEnum.PREVIOUS,
             };
           
-            var response = _cnp.encryptionKey(encrypt);
+            var response = _cnp.EncryptionKey(encrypt);
 
            
 

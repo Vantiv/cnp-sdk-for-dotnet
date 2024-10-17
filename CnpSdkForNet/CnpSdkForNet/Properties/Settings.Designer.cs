@@ -314,15 +314,15 @@ namespace Cnp.Sdk.Properties {
         [global::System.Configuration.UserScopedSettingAttribute()]
         [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
         [global::System.Configuration.DefaultSettingValueAttribute("")]
-        public string encrypteOltpPayload
+        public string encryptOltpPayload
         {
             get
             {
-                return ((string)(this["encrypteOltpPayload"]));
+                return ((string)(this["encryptOltpPayload"]));
             }
             set
             {
-                this["encrypteOltpPayload"] = value;
+                this["encryptOltpPayload"] = value;
             }
         }
         
