@@ -12,7 +12,7 @@ namespace Cnp.Sdk.Test.Functional
         public void setUpBeforeTest()
         {
             EnvironmentVariableTestFlags.RequirePreliveBatchTestsEnabled();
-            
+
             cnp = new cnpRequest();
         }
 
@@ -36,6 +36,7 @@ namespace Cnp.Sdk.Test.Functional
             };
             authorization.card = card;
             authorization.id = "id";
+            authorization.id = "id";
 
             cnpBatchRequest.addAuthorization(authorization);
 
@@ -48,7 +49,11 @@ namespace Cnp.Sdk.Test.Functional
             card2.type = methodOfPaymentTypeEnum.VI;
             card2.number = "4242424242424242";
             card2.expDate = "1210";
+            var cardholderauth = new fraudCheckType();
+            cardholderauth.customerIpAddress = "127.0.0.1";
+            cardholderauth.authenticationProtocolVersion = "9";
             authorization2.card = card2;
+            authorization2.cardholderAuthentication = cardholderauth;
             authorization2.id = "id";
 
             cnpBatchRequest.addAuthorization(authorization2);
@@ -90,7 +95,10 @@ namespace Cnp.Sdk.Test.Functional
             capture.amount = 106;
             capture.payPalNotes = "Notes";
             capture.id = "id";
-
+            var partialCap = new partialCapture();
+            partialCap.partialCaptureSequenceNumber = 5;
+            partialCap.partialCaptureTotalCount = 5;
+            capture.partialCapture = partialCap;
             cnpBatchRequest.addCapture(capture);
 
             var capture2 = new capture();
@@ -375,23 +383,41 @@ namespace Cnp.Sdk.Test.Functional
             updateCardValidationNumOnToken2.id = "id";
 
             cnpBatchRequest.addUpdateCardValidationNumOnToken(updateCardValidationNumOnToken2);
-            
-//            fastAccessFunding fastAccessFunding = new fastAccessFunding();
-//            fastAccessFunding.id = "A123456";
-//            fastAccessFunding.reportGroup = "FastPayment";
-//            fastAccessFunding.fundingSubmerchantId = "SomeSubMerchant";
-//            fastAccessFunding.submerchantName = "Some Merchant Inc.";
-//            fastAccessFunding.fundsTransferId = "123e4567e89b12d3";
-//            fastAccessFunding.amount = 3000;
-//            fastAccessFunding.token = new cardTokenType
-//            {
-//                cnpToken = "1111000101039449",
-//                expDate = "1112",
-//                cardValidationNum = "987",
-//                type = methodOfPaymentTypeEnum.VI,
-//            };
-//            cnpBatchRequest.addfastAccessFunding(fastAccessFunding);
-            
+
+            var subMerchant = new submerchantCredit();
+            subMerchant.id = "ThisIsID";
+            subMerchant.reportGroup = "Default Report Group";
+            subMerchant.rtp = true;
+            subMerchant.fundingSubmerchantId = "value for fundingSubmerchantId";
+            subMerchant.submerchantName = "temp1200";
+            subMerchant.fundsTransferId = "value for fundsTransferId";
+            subMerchant.amount = 1512;
+            var account_info = new echeckType();
+            account_info.accType = echeckAccountTypeEnum.Savings;
+            account_info.accNum = "1234";
+            account_info.routingNum = "12345678";
+            subMerchant.accountInfo = account_info;
+            subMerchant.customIdentifier = "127";
+
+            cnpBatchRequest.addSubmerchantCredit(subMerchant);
+
+
+            //            fastAccessFunding fastAccessFunding = new fastAccessFunding();
+            //            fastAccessFunding.id = "A123456";
+            //            fastAccessFunding.reportGroup = "FastPayment";
+            //            fastAccessFunding.fundingSubmerchantId = "SomeSubMerchant";
+            //            fastAccessFunding.submerchantName = "Some Merchant Inc.";
+            //            fastAccessFunding.fundsTransferId = "123e4567e89b12d3";
+            //            fastAccessFunding.amount = 3000;
+            //            fastAccessFunding.token = new cardTokenType
+            //            {
+            //                cnpToken = "1111000101039449",
+            //                expDate = "1112",
+            //                cardValidationNum = "987",
+            //                type = methodOfPaymentTypeEnum.VI,
+            //            };
+            //            cnpBatchRequest.addfastAccessFunding(fastAccessFunding);
+
             cnp.addBatch(cnpBatchRequest);
 
             var batchName = cnp.sendToCnp();
@@ -551,6 +577,15 @@ namespace Cnp.Sdk.Test.Functional
 
                     updateCardValidationNumOnTokenResponse = cnpBatchResponse.nextUpdateCardValidationNumOnTokenResponse();
                 }
+
+                var submenrchantCreditResponse = cnpBatchResponse.nextSubmerchantCreditResponse();
+                while (submenrchantCreditResponse != null)
+                {
+                    Assert.AreEqual("900", submenrchantCreditResponse.response);
+
+                    submenrchantCreditResponse = cnpBatchResponse.nextSubmerchantCreditResponse();
+                }
+
 
                 cnpBatchResponse = cnpResponse.nextBatchResponse();
             }

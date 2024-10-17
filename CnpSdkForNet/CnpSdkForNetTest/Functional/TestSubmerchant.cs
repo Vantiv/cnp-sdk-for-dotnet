@@ -23,6 +23,7 @@ namespace Cnp.Sdk.Test.Functional
                 // attributes.
                 id = "1",
                 reportGroup = "Default Report Group",
+                rtp = true,
                 // required child elements.
                 accountInfo = new echeckType()
                 {

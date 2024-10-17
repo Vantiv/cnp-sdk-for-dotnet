@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.IO;
 using System.Security;
+using static System.Net.WebRequestMethods;
 
 namespace Cnp.Sdk
 {
@@ -1678,6 +1679,13 @@ namespace Cnp.Sdk
             {
                 txn.reportGroup = config["reportGroup"];
             }
+        } 
+        private void fillInReportGroup(transactionTypeWithReportGroupAndRtp txn)
+        {
+            if (txn.reportGroup == null)
+            {
+                txn.reportGroup = config["reportGroup"];
+            }
         }
 
         private void fillInReportGroup(transactionTypeWithReportGroupAndPartial txn)
@@ -2112,7 +2120,7 @@ namespace Cnp.Sdk
         }
     }
 
-    public partial class submerchantCredit : transactionTypeWithReportGroup
+    public partial class submerchantCredit : transactionTypeWithReportGroupAndRtp
     {
 
         public string fundingSubmerchantId { get; set; }
@@ -2135,7 +2143,12 @@ namespace Cnp.Sdk
                 xml += "id=\"" + SecurityElement.Escape(id) + "\" ";
             if (customerId != null)
                 xml += "customerId=\"" + SecurityElement.Escape(customerId) + "\" ";
-            xml += "reportGroup=\"" + SecurityElement.Escape(reportGroup) + "\">";
+            xml += "reportGroup=\"" + SecurityElement.Escape(reportGroup) + "\" ";
+            if (rtpSet)
+            {
+                xml += " rtp=\"" + rtp.ToString().ToLower() + "\"";
+            }
+            xml += ">";
             if (fundingSubmerchantId != null)
                 xml += "\r\n<fundingSubmerchantId>" + SecurityElement.Escape(fundingSubmerchantId) + "</fundingSubmerchantId>";
             if (submerchantName != null)
@@ -2159,7 +2172,7 @@ namespace Cnp.Sdk
         }
     }
 
-    public partial class payFacCredit : transactionTypeWithReportGroup
+    public partial class payFacCredit : transactionTypeWithReportGroupAndRtp
     {
 
         public string fundingSubmerchantId { get; set; }
@@ -2176,7 +2189,12 @@ namespace Cnp.Sdk
                 xml += "id=\"" + SecurityElement.Escape(id) + "\" ";
             if (customerId != null)
                 xml += "customerId=\"" + SecurityElement.Escape(customerId) + "\" ";
-            xml += "reportGroup=\"" + SecurityElement.Escape(reportGroup) + "\">";
+            xml += "reportGroup=\"" + SecurityElement.Escape(reportGroup) + "\" ";
+            if (rtpSet)
+            {
+                xml += " rtp=\"" + rtp.ToString().ToLower() + "\"";
+            }
+            xml += ">";
             if (fundingSubmerchantId != null)
                 xml += "\r\n<fundingSubmerchantId>" + SecurityElement.Escape(fundingSubmerchantId) + "</fundingSubmerchantId>";
             if (fundsTransferId != null)
@@ -2190,7 +2208,7 @@ namespace Cnp.Sdk
         }
     }
 
-    public partial class reserveCredit : transactionTypeWithReportGroup
+    public partial class reserveCredit : transactionTypeWithReportGroupAndRtp
     {
 
         public string fundingSubmerchantId { get; set; }
@@ -2209,7 +2227,12 @@ namespace Cnp.Sdk
                 xml += "id=\"" + SecurityElement.Escape(id) + "\" ";
             if (customerId != null)
                 xml += "customerId=\"" + SecurityElement.Escape(customerId) + "\" ";
-            xml += "reportGroup=\"" + SecurityElement.Escape(reportGroup) + "\">";
+            xml += "reportGroup=\"" + SecurityElement.Escape(reportGroup) + "\" ";
+            if (rtpSet)
+            {
+                xml += " rtp=\"" + rtp.ToString().ToLower() + "\"";
+            }
+            xml += ">";
             if (fundingSubmerchantId != null)
                 xml += "\r\n<fundingSubmerchantId>" + SecurityElement.Escape(fundingSubmerchantId) + "</fundingSubmerchantId>";
             else if (fundingCustomerId != null)
@@ -2321,7 +2344,7 @@ namespace Cnp.Sdk
         }
     }
 
-    public partial class payoutOrgCredit : transactionTypeWithReportGroup
+    public partial class payoutOrgCredit : transactionTypeWithReportGroupAndRtp
     {
 
         public string fundingCustomerId { get; set; }
@@ -2338,7 +2361,12 @@ namespace Cnp.Sdk
                 xml += "id=\"" + SecurityElement.Escape(id) + "\" ";
             if (customerId != null)
                 xml += "customerId=\"" + SecurityElement.Escape(customerId) + "\" ";
-            xml += "reportGroup=\"" + SecurityElement.Escape(reportGroup) + "\">";
+            xml += "reportGroup=\"" + SecurityElement.Escape(reportGroup) + "\" ";
+            if (rtpSet)
+            {
+                xml += " rtp=\"" + rtp.ToString().ToLower() + "\"";
+            }
+            xml += ">";
             if (fundingCustomerId != null)
                 xml += "\r\n<fundingCustomerId>" + SecurityElement.Escape(fundingCustomerId) + "</fundingCustomerId>";
             if (fundsTransferId != null)

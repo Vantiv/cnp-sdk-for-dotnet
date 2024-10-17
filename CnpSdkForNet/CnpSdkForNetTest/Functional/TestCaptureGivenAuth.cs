@@ -308,7 +308,9 @@ namespace Cnp.Sdk.Test.Functional
                     receiverState = stateTypeEnum.AL,
                     receiverAccountNumber = "4141000",
 
-                }
+                },
+                typeOfDigitalCurrency = "asv",
+                conversionAffiliateId = "1",
             };
 
             var response = _cnp.CaptureGivenAuth(capturegivenauth);

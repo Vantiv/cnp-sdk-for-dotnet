@@ -631,7 +631,7 @@ merchantId=""01234"">
 
             Assert.AreEqual(1, batchRequest.getNumSubmerchantCredit());
             Assert.AreEqual(106L, batchRequest.getSubmerchantCreditAmount());
-            Assert.AreEqual("\r\n<submerchantCredit reportGroup=\"Default Report Group\">\r\n<fundingSubmerchantId>123456</fundingSubmerchantId>\r\n<submerchantName>merchant</submerchantName>\r\n<fundsTransferId>123467</fundsTransferId>\r\n<amount>106</amount>\r\n<accountInfo>\r\n<accType>Checking</accType>\r\n<accNum>12345657890</accNum>\r\n<routingNum>123456789</routingNum>\r\n<checkNum>123455</checkNum></accountInfo>\r\n<customIdentifier>abc123</customIdentifier>\r\n</submerchantCredit>",
+            Assert.AreEqual("\r\n<submerchantCredit reportGroup=\"Default Report Group\" >\r\n<fundingSubmerchantId>123456</fundingSubmerchantId>\r\n<submerchantName>merchant</submerchantName>\r\n<fundsTransferId>123467</fundsTransferId>\r\n<amount>106</amount>\r\n<accountInfo>\r\n<accType>Checking</accType>\r\n<accNum>12345657890</accNum>\r\n<routingNum>123456789</routingNum>\r\n<checkNum>123455</checkNum></accountInfo>\r\n<customIdentifier>abc123</customIdentifier>\r\n</submerchantCredit>",
                 submerchantCredit.Serialize());
 
 
@@ -651,7 +651,7 @@ merchantId=""01234"">
 
             Assert.AreEqual(1, batchRequest.getNumPayFacCredit());
             Assert.AreEqual(107L, batchRequest.getPayFacCreditAmount());
-            Assert.AreEqual("\r\n<payFacCredit reportGroup=\"Default Report Group\">\r\n<fundingSubmerchantId>123456</fundingSubmerchantId>\r\n<fundsTransferId>123467</fundsTransferId>\r\n<amount>107</amount>\r\n</payFacCredit>",
+            Assert.AreEqual("\r\n<payFacCredit reportGroup=\"Default Report Group\" >\r\n<fundingSubmerchantId>123456</fundingSubmerchantId>\r\n<fundsTransferId>123467</fundsTransferId>\r\n<amount>107</amount>\r\n</payFacCredit>",
                 payFacCredit.Serialize());
 
             mockCnpFile.Verify(cnpFile => cnpFile.createRandomFile(It.IsAny<string>(), It.IsAny<string>(), It.IsAny<string>(), mockCnpTime.Object));
@@ -670,8 +670,8 @@ merchantId=""01234"">
 
             Assert.AreEqual(1, batchRequest.getNumReserveCredit());
             Assert.AreEqual(107L, batchRequest.getReserveCreditAmount());
-            Assert.AreEqual("\r\n<reserveCredit reportGroup=\"Default Report Group\">\r\n<fundingSubmerchantId>123456</fundingSubmerchantId>\r\n<fundsTransferId>123467</fundsTransferId>\r\n<amount>107</amount>\r\n</reserveCredit>",
-                reserveCredit.Serialize());
+            Assert.AreEqual("\r\n<reserveCredit reportGroup=\"Default Report Group\" >\r\n<fundingSubmerchantId>123456</fundingSubmerchantId>\r\n<fundsTransferId>123467</fundsTransferId>\r\n<amount>107</amount>\r\n</reserveCredit>",
+                reserveCredit.Serialize()); 
 
             mockCnpFile.Verify(cnpFile => cnpFile.createRandomFile(It.IsAny<string>(), It.IsAny<string>(), It.IsAny<string>(), mockCnpTime.Object));
             mockCnpFile.Verify(cnpFile => cnpFile.AppendLineToFile(mockFilePath, reserveCredit.Serialize()));
@@ -967,7 +967,7 @@ merchantId=""01234"">
             Assert.AreEqual(1,batchRequest.getNumPayoutOrgCredit());
             Assert.AreEqual(107L,batchRequest.getPayoutOrgCreditAmount());
             Assert.AreEqual(
-                "\r\n<payoutOrgCredit reportGroup=\"Default Report Group\">\r\n<fundingCustomerId>123456</fundingCustomerId>\r\n<fundsTransferId>123467</fundsTransferId>\r\n<amount>107</amount>\r\n</payoutOrgCredit>",
+                "\r\n<payoutOrgCredit reportGroup=\"Default Report Group\" >\r\n<fundingCustomerId>123456</fundingCustomerId>\r\n<fundsTransferId>123467</fundsTransferId>\r\n<amount>107</amount>\r\n</payoutOrgCredit>",
                 payoutOrgCredit.Serialize());
 
             mockCnpFile.Verify(cnpFile => cnpFile.createRandomFile(It.IsAny<string>(), It.IsAny<string>(), It.IsAny<string>(), mockCnpTime.Object)); 

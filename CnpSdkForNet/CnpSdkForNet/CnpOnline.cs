@@ -6,6 +6,9 @@ using System.IO;
 using System.Threading;
 using System.Threading.Tasks;
 using System.Net;
+using System.Xml;
+using System.Xml.Xsl;
+
 
 namespace Cnp.Sdk
 {
@@ -84,6 +87,7 @@ namespace Cnp.Sdk
         {
             return SendRequestAsync(response =>
             {
+
                 var authResponse = response.authorizationResponse;
                 return authResponse;
             }, auth, cancellationToken);
@@ -91,12 +95,13 @@ namespace Cnp.Sdk
 
         private T SendRequest<T>(Func<cnpOnlineResponse, T> getResponse, transactionRequest transaction)
         {
+            cnpOnlineResponse response;
             var request = CreateRequest(transaction);
-            cnpOnlineResponse response = SendToCnp(request);
-
+            response = SendToCnp(request);
             return getResponse(response);
         }
 
+    
         private cnpOnlineRequest CreateRequest(transactionRequest transaction)
         {
             cnpOnlineRequest request = CreateCnpOnlineRequest();
@@ -108,6 +113,10 @@ namespace Cnp.Sdk
             else if (transaction is transactionTypeWithReportGroupAndPartial)
             {
                 FillInReportGroup((transactionTypeWithReportGroupAndPartial)transaction);
+            }
+            else if (transaction is transactionTypeWithReportGroupAndRtp)
+            {
+                FillInReportGroup((transactionTypeWithReportGroupAndRtp)transaction);
             }
             if (transaction is authorization)
             {
@@ -379,6 +388,10 @@ namespace Cnp.Sdk
             {
                 request.BNPLInquiryRequest = (BNPLInquiryRequest)transaction;
             }
+            else if (transaction is EncryptionKeyRequest)
+            {
+                request.encryptionKeyRequest = (EncryptionKeyRequest)transaction;
+            }
             else
             {
                 throw new NotImplementedException("Support for type: " + transaction.GetType().Name +
@@ -396,7 +409,7 @@ namespace Cnp.Sdk
 
         public authReversalResponse AuthReversal(authReversal reversal)
         {
-            
+
             var cnpResponse =  SendRequest(response => response, reversal);
             var reversalResponse = cnpResponse.authReversalResponse;
             return reversalResponse;
@@ -410,14 +423,14 @@ namespace Cnp.Sdk
                 return authReversalResponse;
             }, reversal, cancellationToken);
         }
-        
+
         public depositTransactionReversalResponse DepositTransactionReversal(depositTransactionReversal reversal)
-        {            
+        {
             var cnpResponse =  SendRequest(response => response, reversal);
             var reversalResponse = cnpResponse.depositTransactionReversalResponse;
             return reversalResponse;
         }
-        
+
         public Task<depositTransactionReversalResponse> DepositTransactionReversalAsync(depositTransactionReversal reversal, CancellationToken cancellationToken)
         {
             return SendRequestAsync(response =>
@@ -484,7 +497,7 @@ namespace Cnp.Sdk
 
         public Task<giftCardCaptureResponse> GiftCardCaptureAsync(giftCardCapture giftCardCapture, CancellationToken cancellationToken)
         {
-            
+
             return SendRequestAsync(response =>
             {
                 var giftCardCaptureResponse = response.giftCardCaptureResponse;
@@ -574,7 +587,7 @@ namespace Cnp.Sdk
 
         public Task<echeckSalesResponse> EcheckSaleAsync(echeckSale echeckSale, CancellationToken cancellationToken)
         {
-            
+
             return SendRequestAsync(response =>
             {
                 var echeckSalesResponse = response.echeckSalesResponse;
@@ -663,7 +676,7 @@ namespace Cnp.Sdk
         public Task<voidResponse> DoVoidAsync(voidTxn v, CancellationToken cancellationToken)
         {
             return SendRequestAsync(response =>
-            { 
+            {
                 var voidResponse = response.voidResponse;
                 return voidResponse;
             }, v, cancellationToken);
@@ -857,7 +870,7 @@ namespace Cnp.Sdk
             var fastAccessFundingResponse = cnpResponse.fastAccessFundingResponse;
             return fastAccessFundingResponse;
         }
-        
+
         public payFacCreditResponse PayFacCredit(payFacCredit payFacCredit)
         {
             var cnpResponse = SendRequest(response => response, payFacCredit);
@@ -1163,7 +1176,7 @@ namespace Cnp.Sdk
                 var BNPLCaptureResponse = response.BNPLCaptureResponse;
                 return BNPLCaptureResponse;
             }, bnplCapture, cancellationToken);
-        } 
+        }
         public BNPLRefundResponse BNPLRefund(BNPLRefundRequest bnplRefund)
         {
 
@@ -1214,6 +1227,22 @@ namespace Cnp.Sdk
             }, bnplInquiry, cancellationToken);
         }
 
+        public encryptionKeyResponse EncryptionKey(EncryptionKeyRequest encryptionKey)
+        {
+
+            var cnpResponse = SendRequest(response => response, encryptionKey);
+            var encryptionKeyResponse = cnpResponse.encryptionKeyResponse;
+            return encryptionKeyResponse;
+        }
+
+        public Task<encryptionKeyResponse> EncryptionKeyAsync(EncryptionKeyRequest encryptionKey, CancellationToken cancellationToken)
+        {
+            return SendRequestAsync(response =>
+            {
+                var encryptionKeyResponse = response.encryptionKeyResponse;
+                return encryptionKeyResponse;
+            }, encryptionKey, cancellationToken);
+        }
         private cnpOnlineRequest CreateCnpOnlineRequest()
         {
             var request = new cnpOnlineRequest();
@@ -1229,7 +1258,20 @@ namespace Cnp.Sdk
         private cnpOnlineResponse SendToCnp(cnpOnlineRequest request)
         {
             var xmlRequest = request.Serialize();
-            var xmlResponse = _communication.HttpPost(xmlRequest);
+            var xmlResponse="";
+           
+            if (_config["encryptOltpPayload"] == "true")
+            {
+
+                String payloadTobeEncrypted = ReplaceXMLTxnWithEncryptedPayload(xmlRequest);
+
+                xmlResponse = _communication.HttpPost(payloadTobeEncrypted);
+            }
+            else
+            {
+                xmlResponse = _communication.HttpPost(xmlRequest);
+            }
+          
             if (xmlResponse == null)
             {
                 throw new WebException("Could not retrieve response from server for given request");
@@ -1239,9 +1281,9 @@ namespace Cnp.Sdk
                 var cnpOnlineResponse = DeserializeObject(xmlResponse);
                 if (_config.ContainsKey("printxml") && Convert.ToBoolean(_config["printxml"]))
                 {
-                    
+
                     Console.WriteLine(cnpOnlineResponse.response);
-                    
+
                 }
                 if (!"0".Equals(cnpOnlineResponse.response))
                 {
@@ -1284,7 +1326,7 @@ namespace Cnp.Sdk
             string xmlResponse = await _communication.HttpPostAsync(xmlRequest, cancellationToken).ConfigureAwait(false);
             return DeserializeResponse(xmlResponse);
         }
-
+        
         private cnpOnlineResponse DeserializeResponse(string xmlResponse)
         {
             try
@@ -1326,6 +1368,13 @@ namespace Cnp.Sdk
                 txn.reportGroup = _config["reportGroup"];
             }
         }
+        private void FillInReportGroup(transactionTypeWithReportGroupAndRtp txn)
+        {
+            if (txn.reportGroup == null)
+            {
+                txn.reportGroup = _config["reportGroup"];
+            }
+        }
 
         private void FillInReportGroup(transactionTypeWithReportGroupAndPartial txn)
         {
@@ -1334,9 +1383,113 @@ namespace Cnp.Sdk
                 txn.reportGroup = _config["reportGroup"];
             }
         }
-    }
 
-    // CnpOnline interface for synchronous and asynchronous call.
+        private String ProcessTxnToBeEncrypted(String requestTxn)
+        {
+            String path = _config["oltpEncryptionKeyPath"];
+            String encryptedTxn;
+            String output = "";
+            if (path == null)
+            {
+                throw new CnpOnlineException("Problem in reading the Encryption Key path ...Provide the Encryption key path ");
+            }
+            else
+            {              
+                if (!File.Exists(path) || (File.GetAttributes(path) & FileAttributes.Directory) == FileAttributes.Directory)
+                {
+                    throw new CnpOnlineException("The provided path is not a valid file path or the file does not exist.");
+                }
+                try
+                {
+                    encryptedTxn = PgpHelper.EncryptString(requestTxn, path);
+                }
+                catch (IOException e)
+                {
+                    throw new CnpOnlineException("\"There was an exception while reading the key from Specified path" +
+                      "\n If the Path is correct check for keys correctness ", e);
+                }
+
+                return encryptedTxn;
+            }
+        }
+
+        private String ReplaceXMLTxnWithEncryptedPayload(String xmlRequest)
+        {
+            try
+            {
+
+                XmlDocument doc = new XmlDocument();
+                doc.LoadXml(xmlRequest);
+                XmlNode root = doc.DocumentElement;
+                String encryptionKeySequence;
+                String tobeEncryptedChild, payload;
+
+                XmlNode secondChild = root.ChildNodes.Item(1);
+
+                if (secondChild.Name == "encryptionKeyRequest")
+                {
+                    return xmlRequest;
+                }
+
+                // Transform the second element to a string
+                string output;
+                using (StringWriter writer = new StringWriter())
+                {
+                    using (XmlWriter xmlWriter = XmlWriter.Create(writer, new XmlWriterSettings { Indent = true, OmitXmlDeclaration = true }))
+                    {
+                    secondChild.WriteTo(xmlWriter);
+                    }
+                     output = writer.ToString().Trim();
+                }
+                if (secondChild != null)
+                {
+                    root.RemoveChild(secondChild);
+                }
+                  
+                payload = ProcessTxnToBeEncrypted(output);
+                XmlElement encryptedPayloadElement = doc.CreateElement("encryptedPayload");
+                // Create and append the encryptionKeySequence element
+                XmlElement encryptionKeySequenceElement = doc.CreateElement("encryptionKeySequence");
+                if (_config["oltpEncryptionKeySequence"] != null)
+                {
+                    encryptionKeySequence = _config["oltpEncryptionKeySequence"];
+                }
+                else
+                {
+                    throw new CnpOnlineException("Problem in reading the Encryption Key Sequence ...Provide the Encryption key Sequence ");
+
+                }
+                encryptionKeySequenceElement.InnerText = encryptionKeySequence;
+                encryptedPayloadElement.AppendChild(encryptionKeySequenceElement);
+
+                // Create and append the payload element
+                XmlElement payloadElement = doc.CreateElement("payload");
+                payloadElement.InnerText = payload;
+                encryptedPayloadElement.AppendChild(payloadElement);
+                root.AppendChild(encryptedPayloadElement);
+
+                using (StringWriter writer1 = new StringWriter())
+                {
+                    using (XmlWriter xmlWriter1 = XmlWriter.Create(writer1, new XmlWriterSettings { Indent = true, OmitXmlDeclaration = true }))
+                    {
+                        doc.WriteTo(xmlWriter1);
+                    }
+                     xmlRequest = writer1.ToString().Trim();
+                }
+
+                xmlRequest = xmlRequest.Replace("<encryptedPayload xmlns=\"\">", "<encryptedPayload>");
+                return xmlRequest;
+            }
+            catch (Exception e) when (e is XmlException || e is IOException || e is XsltException)
+            {
+                throw new Exception("Error processing XML request. Please reach out to SDK Support team.", e);
+            }
+        }
+    }
+    
+
+
+        // CnpOnline interface for synchronous and asynchronous call.
     public interface ICnpOnline
     {
         authorizationResponse Authorize(authorization auth);
@@ -1373,12 +1526,12 @@ namespace Cnp.Sdk
         Task<giftCardAuthReversalResponse> GiftCardAuthReversalAsync(giftCardAuthReversal giftCard, CancellationToken cancellationToken);
         giftCardCaptureResponse GiftCardCapture(giftCardCapture giftCardCapture);
         Task<giftCardCaptureResponse> GiftCardCaptureAsync(giftCardCapture giftCardCapture, CancellationToken cancellationToken);
-        
+
         payFacCreditResponse PayFacCredit(payFacCredit payFacCredit);
         Task<payFacCreditResponse> PayFacCreditAsync(payFacCredit payFacCredit, CancellationToken cancellationToken);
         payFacDebitResponse PayFacDebit(payFacDebit payFacDebit);
         Task<payFacDebitResponse> PayFacDebitAsync(payFacDebit payFacDebit, CancellationToken cancellationToken);
-        
+
         physicalCheckCreditResponse PhysicalCheckCredit(physicalCheckCredit physicalCheckCredit);
         Task<physicalCheckCreditResponse> PhysicalCheckCreditAsync(physicalCheckCredit physicalCheckCredit, CancellationToken cancellationToken);
         physicalCheckDebitResponse PhysicalCheckDebit(physicalCheckDebit physicalCheckDebit);
@@ -1388,18 +1541,18 @@ namespace Cnp.Sdk
         Task<payoutOrgCreditResponse> PayoutOrgCreditAsync(payoutOrgCredit payoutOrgCredit, CancellationToken cancellationToken);
         payoutOrgDebitResponse PayoutOrgDebit(payoutOrgDebit payoutOrgDebit);
         Task<payoutOrgDebitResponse> PayoutOrgDebitAsync(payoutOrgDebit payoutOrgDebit, CancellationToken cancellationToken);
-        
+
 
         reserveCreditResponse ReserveCredit(reserveCredit reserveCredit);
         Task<reserveCreditResponse> ReserveCreditAsync(reserveCredit reserveCredit, CancellationToken cancellationToken);
         reserveDebitResponse ReserveDebit(reserveDebit reserveDebit);
         Task<reserveDebitResponse> ReserveDebitAsync(reserveDebit reserveDebit, CancellationToken cancellationToken);
-        
+
         submerchantCreditResponse SubmerchantCredit(submerchantCredit submerchantCredit);
         Task<submerchantCreditResponse> SubmerchantCreditAsync(submerchantCredit submerchantCredit, CancellationToken cancellationToken);
         submerchantDebitResponse SubmerchantDebit(submerchantDebit submerchantDebit);
         Task<submerchantDebitResponse> SubmerchantDebitAsync(submerchantDebit submerchantDebit, CancellationToken cancellationToken);
-        
+
         vendorCreditResponse VendorCredit(vendorCredit vendorCredit);
         Task<vendorCreditResponse> VendorCreditAsync(vendorCredit vendorCredit, CancellationToken cancellationToken);
         vendorDebitResponse VendorDebit(vendorDebit vendorDebit);
@@ -1433,6 +1586,10 @@ namespace Cnp.Sdk
         Task<BNPLCancelResponse> BNPLCancleAsync(BNPLCancelRequest bnplCancle, CancellationToken cancellationToken);
         BNPLInquiryResponse BNPLInquiry(BNPLInquiryRequest bnplInquiry);
         Task<BNPLInquiryResponse> BNPLInquiryAsync(BNPLInquiryRequest bnplInquiry, CancellationToken cancellationToken);
+        encryptionKeyResponse EncryptionKey(EncryptionKeyRequest encryptionKey);
+        Task<encryptionKeyResponse> EncryptionKeyAsync(EncryptionKeyRequest encryptionKey, CancellationToken cancellationToken);
         event EventHandler HttpAction;
     }
 }
+
+

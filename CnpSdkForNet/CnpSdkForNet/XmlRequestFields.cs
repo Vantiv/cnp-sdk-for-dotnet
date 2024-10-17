@@ -35,6 +35,7 @@ namespace Cnp.Sdk
         public echeckSale echeckSale;
         public echeckVerification echeckVerification;
         public echeckVoid echeckVoid;
+        public EncryptionKeyRequest encryptionKeyRequest;
         public fastAccessFunding fastAccessFunding;
         public finicityUrlRequest finicityUrlRequest;
         public finicityAccountRequest finicityAccountRequest;
@@ -146,6 +147,7 @@ namespace Cnp.Sdk
             else if (BNPLRefundRequest != null) xml += BNPLRefundRequest.Serialize();
             else if (BNPLCancelRequest != null) xml += BNPLCancelRequest.Serialize();
             else if (BNPLInquiryRequest != null) xml += BNPLInquiryRequest.Serialize();
+            else if (encryptionKeyRequest != null) xml += encryptionKeyRequest.Serialize();
             xml += "\r\n</cnpOnlineRequest>";
 
             return xml;
@@ -586,6 +588,36 @@ namespace Cnp.Sdk
             }
         }
 
+        private string typeOfDigitalCurrencyField;
+        private bool typeOfDigitalCurrencySet;
+        public string typeOfDigitalCurrency
+        {
+            get
+            {
+                return typeOfDigitalCurrencyField;
+            }
+            set
+            {
+                typeOfDigitalCurrencyField = value;
+                typeOfDigitalCurrencySet = true;
+            }
+        }
+
+        private string conversionAffiliateIdField;
+        private bool conversionAffiliateIdSet;
+        public string conversionAffiliateId
+        {
+            get
+            {
+                return conversionAffiliateIdField;
+            }
+            set
+            {
+                conversionAffiliateIdField = value;
+                conversionAffiliateIdSet = true;
+            }
+        }
+
         public override string Serialize()
         {
             var xml = "\r\n<authorization";
@@ -815,6 +847,14 @@ namespace Cnp.Sdk
                 if (fraudCheckActionSet != null)
                 {
                     xml += "\r\n<fraudCheckAction>" + fraudCheckActionFeild + "</fraudCheckAction>";
+                }
+                if (typeOfDigitalCurrencySet)
+                {
+                    xml += "\r\n<typeOfDigitalCurrency>" + typeOfDigitalCurrencyField + "</typeOfDigitalCurrency>";
+                }
+                if (conversionAffiliateIdSet)
+                {
+                    xml += "\r\n<conversionAffiliateId>" + conversionAffiliateIdField + "</conversionAffiliateId>";
                 }
             }
 
@@ -1201,6 +1241,7 @@ namespace Cnp.Sdk
             get { return foreignRetailerIndicatorField; }
             set { foreignRetailerIndicatorField = value; foreignRetailerIndicatorSet = true; }
         }
+        public partialCapture partialCapture; //12.38
         //12.31 end
 
         public override string Serialize()
@@ -1238,6 +1279,10 @@ namespace Cnp.Sdk
             if (foreignRetailerIndicatorSet)//12.31
             {
                 xml += "\r\n<foreignRetailerIndicator>" + foreignRetailerIndicatorField + "</foreignRetailerIndicator>";
+            }
+            if (partialCapture != null)//12.38
+            {
+                xml += "\r\n<partialCapture>" + partialCapture.Serialize() + "\r\n</partialCapture>";
             }
             xml += "\r\n</capture>";
 
@@ -1378,6 +1423,36 @@ namespace Cnp.Sdk
         }
         //12.31 end
         public accountFundingTransactionData accountFundingTransactionData;
+        private string typeOfDigitalCurrencyField;
+        private bool typeOfDigitalCurrencySet;
+        public string typeOfDigitalCurrency
+        {
+            get
+            {
+                return typeOfDigitalCurrencyField;
+            }
+            set
+            {
+                typeOfDigitalCurrencyField = value;
+                typeOfDigitalCurrencySet = true;
+            }
+        }
+
+        private string conversionAffiliateIdField;
+        private bool conversionAffiliateIdSet;
+        public string conversionAffiliateId
+        {
+            get
+            {
+                return conversionAffiliateIdField;
+            }
+            set
+            {
+                conversionAffiliateIdField = value;
+                conversionAffiliateIdSet = true;
+            }
+        }
+
         public override string Serialize()
         {
             var xml = "\r\n<captureGivenAuth";
@@ -1502,7 +1577,14 @@ namespace Cnp.Sdk
             {
                 xml += "\r\n<accountFundingTransactionData>" + accountFundingTransactionData.Serialize() + "\r\n</accountFundingTransactionData>";
             }
-
+            if (typeOfDigitalCurrencySet)
+            {
+                xml += "\r\n<typeOfDigitalCurrency>" + typeOfDigitalCurrencyField + "</typeOfDigitalCurrency>";
+            }
+            if (conversionAffiliateIdSet)
+            {
+                xml += "\r\n<conversionAffiliateId>" + conversionAffiliateIdField + "</conversionAffiliateId>";
+            }
             xml += "\r\n</captureGivenAuth>";
             return xml;
         }
@@ -2113,10 +2195,10 @@ namespace Cnp.Sdk
             return xml;
         }
 
-    }
+        }
 
-    // Force Capture Transaction.
-    public partial class forceCapture : transactionTypeWithReportGroup
+        // Force Capture Transaction.
+        public partial class forceCapture : transactionTypeWithReportGroup
     {
         public string orderId;
         public long amount;
@@ -2316,7 +2398,7 @@ namespace Cnp.Sdk
         public string authenticationValue;
         public string authenticationTransactionId;
         public string customerIpAddress;
-        public string authenticationProtocolVersionType;
+        public string authenticationProtocolVersion;
         private bool authenticatedByMerchantField;
         private bool authenticatedByMerchantSet;
         private string tokenAuthenticationValue;
@@ -2333,7 +2415,7 @@ namespace Cnp.Sdk
             if (authenticationTransactionId != null) xml += "\r\n<authenticationTransactionId>" + SecurityElement.Escape(authenticationTransactionId) + "</authenticationTransactionId>";
             if (customerIpAddress != null) xml += "\r\n<customerIpAddress>" + SecurityElement.Escape(customerIpAddress) + "</customerIpAddress>";
             if (authenticatedByMerchantSet) xml += "\r\n<authenticatedByMerchant>" + authenticatedByMerchantField + "</authenticatedByMerchant>";
-            if (authenticationProtocolVersionType != null) xml += "\r\n<authenticationProtocolVersionType>" + authenticationProtocolVersionType + "</authenticationProtocolVersionType>";
+            if (authenticationProtocolVersion != null) xml += "\r\n<authenticationProtocolVersion>" + authenticationProtocolVersion + "</authenticationProtocolVersion>";
             if (tokenAuthenticationValue != null) xml += "\r\n<tokenAuthenticationValue>" + tokenAuthenticationValue + "</tokenAuthenticationValue";
             return xml;
         }
@@ -3034,6 +3116,37 @@ namespace Cnp.Sdk
             }
         }
 
+        private string typeOfDigitalCurrencyField;
+        private bool typeOfDigitalCurrencySet;
+        public string typeOfDigitalCurrency
+        {
+            get
+            {
+                return typeOfDigitalCurrencyField;
+            }
+            set
+            {
+                typeOfDigitalCurrencyField = value;
+                typeOfDigitalCurrencySet = true;
+            }
+        }
+
+        private string conversionAffiliateIdField;
+        private bool conversionAffiliateIdSet;
+        public string conversionAffiliateId
+        {
+            get
+            {
+                return conversionAffiliateIdField;
+            }
+            set
+            {
+                conversionAffiliateIdField = value;
+                conversionAffiliateIdSet = true;
+            }
+        }
+
+
         public override string Serialize()
         {
             var xml = "\r\n<sale";
@@ -3268,17 +3381,25 @@ namespace Cnp.Sdk
                 xml += "\r\n<fraudCheckAction>" + fraudCheckActionFeild + "</fraudCheckAction>";
             }
 
-            //end
-            //if (routingPreferenceSet)
-            //{
-            //    var routingPreferenceName = routingPreferenceField.ToString();
-            //    var attributes = 
-            //        (XmlEnumAttribute[])typeof(echeckAccountTypeEnum).GetMember(routingPreferenceField.ToString())[0].GetCustomAttributes(typeof(XmlEnumAttribute), false);
-            //    if (attributes.Length > 0) routingPreferenceName = attributes[0].Name;
-            //    xml += "\r\n<routingPreference>" + routingPreferenceName + "</routingPreference>";
-            //}
+            if (typeOfDigitalCurrencySet)
+            {
+                xml += "\r\n<typeOfDigitalCurrency>" + typeOfDigitalCurrencyField + "</typeOfDigitalCurrency>";
+            }
+            if (conversionAffiliateIdSet)
+            {
+                xml += "\r\n<conversionAffiliateId>" + conversionAffiliateIdField + "</conversionAffiliateId>";
+            }
+        //end
+        //if (routingPreferenceSet)
+        //{
+        //    var routingPreferenceName = routingPreferenceField.ToString();
+        //    var attributes = 
+        //        (XmlEnumAttribute[])typeof(echeckAccountTypeEnum).GetMember(routingPreferenceField.ToString())[0].GetCustomAttributes(typeof(XmlEnumAttribute), false);
+        //    if (attributes.Length > 0) routingPreferenceName = attributes[0].Name;
+        //    xml += "\r\n<routingPreference>" + routingPreferenceName + "</routingPreference>";
+        //}
 
-            xml += "\r\n</sale>";
+        xml += "\r\n</sale>";
             return xml;
         }
     }
@@ -3823,6 +3944,7 @@ namespace Cnp.Sdk
         //12.27
         FIFA,
         FIVC,
+        FIVD,
         FISC,
         FISD,
         FIPC,
@@ -4541,6 +4663,18 @@ namespace Cnp.Sdk
         {
             get { return partialField; }
             set { partialField = value; partialSet = true; }
+        }
+    }
+
+    public partial class transactionTypeWithReportGroupAndRtp : transactionType
+    {
+        public string reportGroup;
+        private bool rtpField;
+        protected bool rtpSet;
+        public bool rtp
+        {
+            get { return rtpField; }
+            set { rtpField = value; rtpSet = true; }
         }
     }
 
@@ -6759,6 +6893,34 @@ namespace Cnp.Sdk
         }
     }
 
+    //12.38
+    public partial class partialCapture
+    {
+       
+        private int partialCaptureSequenceNumberField;
+        private bool partialCaptureSequenceNumberSet;
+        public int partialCaptureSequenceNumber
+        {
+            get { return partialCaptureSequenceNumberField; }
+            set { partialCaptureSequenceNumberField = value; partialCaptureSequenceNumberSet = true; }
+        }
+
+        private int partialCaptureTotalCountField;
+        private bool partialCaptureTotalCountSet;
+        public int partialCaptureTotalCount
+        {
+            get { return partialCaptureTotalCountField; }
+            set { partialCaptureTotalCountField = value; partialCaptureTotalCountSet = true; }
+        }
+        public string Serialize()
+        {
+            var xml = "";
+            if (partialCaptureSequenceNumberSet) xml += "\r\n<partialCaptureSequenceNumber>" + partialCaptureSequenceNumberField + "</partialCaptureSequenceNumber>";
+            if (partialCaptureTotalCountSet) xml += "\r\n<partialCaptureTotalCount>" + partialCaptureTotalCountField + "</partialCaptureTotalCount>"; 
+            return xml;
+        }
+    }
+
     public enum periodUnit
     {
         /// <remarks/>
@@ -7554,6 +7716,34 @@ namespace Cnp.Sdk
                 xml += "\r\n<cnpTxnId>" + cnpTxnId + "</cnpTxnId>";
             }
             xml += "\r\n</BNPLInquiryRequest>";
+            return xml;
+        }
+    }
+
+    public partial class EncryptionKeyRequest : transactionRequest
+    {
+        private encryptionKeyRequestEnum encryptionKeyRequestField;
+        private bool encryptionKeyRequestSet;
+        public encryptionKeyRequestEnum encryptionKeyRequest
+        {
+            get
+            {
+                return encryptionKeyRequestField;
+            }
+            set
+            {
+                encryptionKeyRequestField = value;
+                encryptionKeyRequestSet = true;
+            }
+        }
+        public override string Serialize()
+        {
+            var xml = " ";
+       
+            if (encryptionKeyRequestSet)
+            {
+                xml += "\r<encryptionKeyRequest>" + encryptionKeyRequest + "</encryptionKeyRequest>";
+            }
             return xml;
         }
     }

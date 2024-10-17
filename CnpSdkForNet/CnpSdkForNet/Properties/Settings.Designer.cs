@@ -310,5 +310,51 @@ namespace Cnp.Sdk.Properties {
                 this["gnuPgDir"] = value;
             }
         }
+
+        [global::System.Configuration.UserScopedSettingAttribute()]
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.Configuration.DefaultSettingValueAttribute("")]
+        public string encryptOltpPayload
+        {
+            get
+            {
+                return ((string)(this["encryptOltpPayload"]));
+            }
+            set
+            {
+                this["encryptOltpPayload"] = value;
+            }
+        }
+        
+        [global::System.Configuration.UserScopedSettingAttribute()]
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.Configuration.DefaultSettingValueAttribute("")]
+        public string oltpEncryptionKeySequence
+        {
+            get
+            {
+                return ((string)(this["oltpEncryptionKeySequence"]));
+            }
+            set
+            {
+                this["oltpEncryptionKeySequence"] = value;
+            }
+        }
+        
+        [global::System.Configuration.UserScopedSettingAttribute()]
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.Configuration.DefaultSettingValueAttribute("")]
+        public string oltpEncryptionKeyPath
+        {
+            get
+            {
+                return ((string)(this["oltpEncryptionKeyPath"]));
+            }
+            set
+            {
+                this["oltpEncryptionKeyPath"] = value;
+            }
+        }
+
     }
 }

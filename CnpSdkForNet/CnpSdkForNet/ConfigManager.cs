@@ -36,7 +36,10 @@ namespace Cnp.Sdk
             ["vantivPublicKeyId"] = Properties.Settings.Default.vantivPublicKeyId,
             ["pgpPassphrase"] = Properties.Settings.Default.pgpPassphrase,
             ["neuterUserCredentials"] = Properties.Settings.Default.neuterUserCredentials,
-            ["maxConnections"] = Properties.Settings.Default.maxConnections
+            ["maxConnections"] = Properties.Settings.Default.maxConnections,
+            ["encryptOltpPayload"] = Properties.Settings.Default.encryptOltpPayload,
+            ["oltpEncryptionKeySequence"] = Properties.Settings.Default.oltpEncryptionKeySequence,
+            ["oltpEncryptionKeyPath"] = Properties.Settings.Default.oltpEncryptionKeyPath
         }) { }
 
         public ConfigManager(Dictionary<string, string> config)

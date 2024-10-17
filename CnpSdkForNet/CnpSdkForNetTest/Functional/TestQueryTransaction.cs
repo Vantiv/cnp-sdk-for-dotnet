@@ -68,7 +68,7 @@ namespace Cnp.Sdk.Test.Functional
                 id = "myId",
                 reportGroup = "myReportGroup",
                 origId = "Auth",
-                origActionType = actionTypeEnum.A,
+                origActionType = actionTypeEnum.FIVD,
                 origCnpTxnId = 54321
             };
 
@@ -96,7 +96,7 @@ namespace Cnp.Sdk.Test.Functional
                 id = "myId",
                 reportGroup = "myReportGroup",
                 origId = "Auth0",
-                origActionType = actionTypeEnum.A,
+                origActionType = actionTypeEnum.FIVD,
                 origCnpTxnId = 54321
             };
 
@@ -152,6 +152,6 @@ namespace Cnp.Sdk.Test.Functional
             Assert.AreEqual("Original transaction found", queryResponse.message);
             Assert.AreEqual("000", ((captureResponse)queryResponse.results_max10[0]).response);
 
-        }
+        }  
     }
 }
