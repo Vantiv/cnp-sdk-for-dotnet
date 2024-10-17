@@ -850,11 +850,11 @@ namespace Cnp.Sdk
                 }
                 if (typeOfDigitalCurrencySet)
                 {
-                    xml += "\r\n<typeOfDigitalCurrency>" + typeOfDigitalCurrency + "</typeOfDigitalCurrency>";
+                    xml += "\r\n<typeOfDigitalCurrency>" + typeOfDigitalCurrencyField + "</typeOfDigitalCurrency>";
                 }
                 if (conversionAffiliateIdSet)
                 {
-                    xml += "\r\n<conversionAffiliateId>" + conversionAffiliateId + "</conversionAffiliateId>";
+                    xml += "\r\n<conversionAffiliateId>" + conversionAffiliateIdField + "</conversionAffiliateId>";
                 }
             }
 
@@ -1579,11 +1579,11 @@ namespace Cnp.Sdk
             }
             if (typeOfDigitalCurrencySet)
             {
-                xml += "\r\n<typeOfDigitalCurrency>" + typeOfDigitalCurrency + "</typeOfDigitalCurrency>";
+                xml += "\r\n<typeOfDigitalCurrency>" + typeOfDigitalCurrencyField + "</typeOfDigitalCurrency>";
             }
             if (conversionAffiliateIdSet)
             {
-                xml += "\r\n<conversionAffiliateId>" + conversionAffiliateId + "</conversionAffiliateId>";
+                xml += "\r\n<conversionAffiliateId>" + conversionAffiliateIdField + "</conversionAffiliateId>";
             }
             xml += "\r\n</captureGivenAuth>";
             return xml;
@@ -3383,11 +3383,11 @@ namespace Cnp.Sdk
 
             if (typeOfDigitalCurrencySet)
             {
-                xml += "\r\n<typeOfDigitalCurrency>" + typeOfDigitalCurrency + "</typeOfDigitalCurrency>";
+                xml += "\r\n<typeOfDigitalCurrency>" + typeOfDigitalCurrencyField + "</typeOfDigitalCurrency>";
             }
             if (conversionAffiliateIdSet)
             {
-                xml += "\r\n<conversionAffiliateId>" + conversionAffiliateId + "</conversionAffiliateId>";
+                xml += "\r\n<conversionAffiliateId>" + conversionAffiliateIdField + "</conversionAffiliateId>";
             }
         //end
         //if (routingPreferenceSet)
@@ -6915,7 +6915,7 @@ namespace Cnp.Sdk
         public string Serialize()
         {
             var xml = "";
-            if (partialCaptureSequenceNumberSet) xml += "\r\n<partialCaptureSequenceNumber>" + partialCaptureTotalCountField + "</partialCaptureSequenceNumber>";
+            if (partialCaptureSequenceNumberSet) xml += "\r\n<partialCaptureSequenceNumber>" + partialCaptureSequenceNumberField + "</partialCaptureSequenceNumber>";
             if (partialCaptureTotalCountSet) xml += "\r\n<partialCaptureTotalCount>" + partialCaptureTotalCountField + "</partialCaptureTotalCount>"; 
             return xml;
         }
