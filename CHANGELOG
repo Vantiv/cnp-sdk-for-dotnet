@@ -1,5 +1,8 @@
 
 = Worldpay CNP CHANGELOG
+==Change Log for 12.40.1(November 08,2024)
+* Change: [cnpAPI v12.40.1] Changing Renci.SshNet library version from 2016.1.0 to 2020.0.2
+
 ==Change Log for 12.40(October 16,2024)
 * Change: [cnpAPI v12.40] In authorization,sale and captureGivenAuth request new elements added-> 'typeOfDigitalCurrency' and 'conversionAffiliateId'.
 * Change: [cnpAPI v12.40] In existing simple type transactionAmountType range added between minInclusive value -999999999999  and maxInclusive value 999999999999
