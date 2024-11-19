@@ -9,6 +9,6 @@ namespace Cnp.Sdk
     public class CnpVersion
     {
         public const String CurrentCNPXMLVersion = "12.40";
-        public const String CurrentCNPSDKVersion = "12.40.1";
+        public const String CurrentCNPSDKVersion = "12.40.2";
     }
 }

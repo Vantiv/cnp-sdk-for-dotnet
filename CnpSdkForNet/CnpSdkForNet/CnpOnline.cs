@@ -1259,13 +1259,11 @@ namespace Cnp.Sdk
         {
             var xmlRequest = request.Serialize();
             var xmlResponse="";
-           
-            if (_config["encryptOltpPayload"] == "true")
+            if (_config.ContainsKey("encryptOltpPayload") && Convert.ToBoolean(_config["encryptOltpPayload"]) && _config["encryptOltpPayload"] == "true")
             {
+                    String payloadTobeEncrypted = ReplaceXMLTxnWithEncryptedPayload(xmlRequest);
 
-                String payloadTobeEncrypted = ReplaceXMLTxnWithEncryptedPayload(xmlRequest);
-
-                xmlResponse = _communication.HttpPost(payloadTobeEncrypted);
+                    xmlResponse = _communication.HttpPost(payloadTobeEncrypted);              
             }
             else
             {
@@ -1450,8 +1448,8 @@ namespace Cnp.Sdk
                 XmlElement encryptedPayloadElement = doc.CreateElement("encryptedPayload");
                 // Create and append the encryptionKeySequence element
                 XmlElement encryptionKeySequenceElement = doc.CreateElement("encryptionKeySequence");
-                if (_config["oltpEncryptionKeySequence"] != null)
-                {
+                if (_config.ContainsKey("oltpEncryptionKeySequence") && _config["oltpEncryptionKeySequence"] != null)
+                    {
                     encryptionKeySequence = _config["oltpEncryptionKeySequence"];
                 }
                 else
