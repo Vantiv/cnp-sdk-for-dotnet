@@ -1,5 +1,10 @@
 
 = Worldpay CNP CHANGELOG
+
+==Change Log for 12.40.2(November 19,2024)
+* Change: [cnpAPI v12.40.2] Changed bydefault value of payloadTobeEncrypted as false.
+* Change: [cnpAPI v12.40.2] Removed unsafe access for payloadTobeEncrypted and oltpEncryptionKeySequence.
+
 ==Change Log for 12.40.1(November 08,2024)
 * Change: [cnpAPI v12.40.1] Changing Renci.SshNet library version from 2016.1.0 to 2020.0.2
 
