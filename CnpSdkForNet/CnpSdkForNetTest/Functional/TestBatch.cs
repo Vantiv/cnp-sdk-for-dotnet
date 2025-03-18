@@ -2522,6 +2522,193 @@ namespace Cnp.Sdk.Test.Functional
 
         } //12.33 End
 
+        // v12.41 New element identityBundle 
+        //v12.43 originalRetrievalReferenceNumber, v12.44 'ecommerceDataOnly' value in order source enum
+        [Test]
+        public void testBatchTxnv12_44()
+        {
+            var cnpBatchRequest = new batchRequest();
+            var card = new cardType();
+            card.type = methodOfPaymentTypeEnum.VI;
+            card.number = "4100000000000001";
+            card.expDate = "1210";
+
+            var identityBundle = new identityBundle
+            {
+                merchantId = "2222",
+                entityId = "3333",
+                entityReference = "3batchauthandcapture",
+                resourceId = "12",
+                resourceReference = "111111111111111",
+                commandId = "111",
+                commandReference = "12345",
+                orderReference = "123"
+            };
+
+            var authorization = new authorization
+            {
+                id = new Random().Next(100).ToString(),
+                reportGroup = "Planets",
+                orderId = "12344",
+                amount = 106,
+                orderSource = orderSourceType.ecommerceDataOnly,
+                crypto = false,
+                orderChannel = orderChannelEnum.PHONE,
+                fraudCheckStatus = "Not Approved",
+                card = card,
+                identityBundle = identityBundle,
+                originalRetrievalReferenceNumber = "123456"
+            };
+            cnpBatchRequest.addAuthorization(authorization);
+
+            var sale = new sale
+            {
+                amount = 106,
+                cnpTxnId = 123456,
+                orderId = "12344",
+                orderSource = orderSourceType.ecommerceDataOnly,
+                card = card,
+                identityBundle = identityBundle,
+                id = "id"
+            };
+            cnpBatchRequest.addSale(sale);
+
+            var capture = new capture
+            {
+                id = "1",
+                cnpTxnId = 123456000,
+                orderId = "defaultOrderId",
+                amount = 106,
+                partialCapture = new partialCapture
+                {
+                    partialCaptureSequenceNumber = 5,
+                    partialCaptureTotalCount = 5,
+                },
+                identityBundle = identityBundle,
+            };
+            cnpBatchRequest.addCapture(capture);
+
+            var credit = new credit
+            {
+                id = "10",
+                amount = 106,
+                orderId = "2111",
+                orderSource = orderSourceType.ecommerce,
+                card = card,
+                identityBundle = identityBundle
+            };
+            cnpBatchRequest.addCredit(credit);
+
+            var authReversal = new authReversal
+            {
+                cnpTxnId = 12345678000L,
+                amount = 106,
+                payPalNotes = "Notes",
+                id = "idAuthRev",
+                identityBundle = identityBundle
+            };
+            cnpBatchRequest.addAuthReversal(authReversal);
+
+            var depositTxnReversal = new depositTransactionReversal
+            {
+                id = "idDTR",
+                reportGroup = "Planets",
+                cnpTxnId = 12345678000L,
+                amount = 106,
+                identityBundle = identityBundle
+            };
+            cnpBatchRequest.addDepositTransactionReversal(depositTxnReversal);
+
+            var refundTxnReversal = new refundTransactionReversal
+            {
+                id = "idRTR",
+                reportGroup = "Planets",
+                cnpTxnId = 12345678000L,
+                amount = 106,
+                identityBundle = identityBundle
+            };
+            cnpBatchRequest.addRefundTransactionReversal(refundTxnReversal);
+
+            _cnp.addBatch(cnpBatchRequest);
+
+            var batchName = _cnp.sendToCnp();
+
+            _cnp.blockAndWaitForResponse(batchName, estimatedResponseTime(2 * 2, 10 * 2));
+
+            var cnpResponse = _cnp.receiveFromCnp(batchName);
+
+            Assert.NotNull(cnpResponse);
+            Assert.AreEqual("0", cnpResponse.response);
+            Assert.AreEqual("Valid Format", cnpResponse.message);
+
+            var cnpBatchResponse = cnpResponse.nextBatchResponse();
+
+            while (cnpBatchResponse != null)
+            {
+                var authResponse = cnpBatchResponse.nextAuthorizationResponse();
+                while (authResponse != null)
+                {
+                    Assert.AreEqual("000", authResponse.response);
+
+                    authResponse = cnpBatchResponse.nextAuthorizationResponse();
+                }
+                var saleResponse = cnpBatchResponse.nextSaleResponse();
+                while (saleResponse != null)
+                {
+                    Assert.AreEqual("000", saleResponse.response);
+
+                    saleResponse = cnpBatchResponse.nextSaleResponse();
+                }
+                var captureResponse = cnpBatchResponse.nextCaptureResponse();
+                while (captureResponse != null)
+                {
+                    Assert.AreEqual("000", captureResponse.response);
+
+                    captureResponse = cnpBatchResponse.nextCaptureResponse();
+                }
+
+                var creditResponse = cnpBatchResponse.nextCreditResponse();
+                while (creditResponse != null)
+                {
+                    Assert.AreEqual("000", creditResponse.response);
+
+                    creditResponse = cnpBatchResponse.nextCreditResponse();
+                }
+
+                var captureGivenAuthResponse = cnpBatchResponse.nextCaptureGivenAuthResponse();
+                while (captureGivenAuthResponse != null)
+                {
+                    Assert.AreEqual("000", captureGivenAuthResponse.response);
+
+                    captureGivenAuthResponse = cnpBatchResponse.nextCaptureGivenAuthResponse();
+                }
+                var authReversalResponse = cnpBatchResponse.nextAuthReversalResponse();
+                while (authReversalResponse != null)
+                {
+                    Assert.AreEqual("000", authReversalResponse.response);
+
+                    authReversalResponse = cnpBatchResponse.nextAuthReversalResponse();
+                }
+
+                var depositTxnReversalResponse = cnpBatchResponse.nextDepositTransactionReversalResponse();
+                while (depositTxnReversalResponse != null)
+                {
+                    Assert.AreEqual("000", depositTxnReversalResponse.response);
+
+                    depositTxnReversalResponse = cnpBatchResponse.nextDepositTransactionReversalResponse();
+                }
+
+                var reversalResponse = cnpBatchResponse.nextRefundTransactionReversalResponse();
+                while (reversalResponse != null)
+                {
+                    Assert.AreEqual("000", reversalResponse.response);
+
+                    reversalResponse = cnpBatchResponse.nextRefundTransactionReversalResponse();
+                }
+                cnpBatchResponse = cnpResponse.nextBatchResponse();
+            }
+        }
+
         private int estimatedResponseTime(int numAuthsAndSales, int numRest)
         {
             return (int)(5 * 60 * 1000 + 2.5 * 1000 + numAuthsAndSales * (1 / 5) * 1000 + numRest * (1 / 50) * 1000) * 5;

@@ -667,6 +667,21 @@ namespace Cnp.Sdk
             }
         }
 
+        public void addRealTimeIncrementalAuthorization(realtimeIncrementalAuthorization realTimeIncAuth)
+        {
+            if (numAccountUpdates == 0)
+            {
+                numAuthorization++;
+                sumOfAuthorization += realTimeIncAuth.amount;
+                fillInReportGroup(realTimeIncAuth);
+                tempBatchFilePath = saveElement(cnpFile, cnpTime, tempBatchFilePath, realTimeIncAuth);
+            }
+            else
+            {
+                throw new CnpOnlineException(accountUpdateErrorMessage);
+            }
+        }
+
         public void addCapture(capture capture)
         {
             if (numAccountUpdates == 0)

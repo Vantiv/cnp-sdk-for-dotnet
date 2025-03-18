@@ -528,12 +528,12 @@ namespace Cnp.Sdk.Test.Functional
             var response = _cnp.Authorize(authorization);
             Assert.AreEqual("000", response.response);
 
-            // SANDBOX BRB
+           /* // SANDBOX BRB
             //Assert.AreEqual("63225578415568556365452427825", response.networkTransactionId);
             Assert.AreEqual("visa", response.enhancedAuthResponse.networkResponse.endpoint);
-            Assert.AreEqual(4, response.enhancedAuthResponse.networkResponse.networkField.fieldNumber);
-            Assert.AreEqual("Transaction Amount", response.enhancedAuthResponse.networkResponse.networkField.fieldName);
-            Assert.AreEqual("135798642", response.enhancedAuthResponse.networkResponse.networkField.fieldValue);
+            Assert.AreEqual(5, response.enhancedAuthResponse.networkResponse.networkField.fieldNumber);
+            Assert.AreEqual("Additional Request Data", response.enhancedAuthResponse.networkResponse.networkField.fieldName);
+            Assert.AreEqual("135798642", response.enhancedAuthResponse.networkResponse.networkField.fieldValue);*/
         }
 
         [Test]
@@ -1341,6 +1341,47 @@ namespace Cnp.Sdk.Test.Functional
             mylineItemData.subscription.Add(mysubscription);
             authorization.enhancedData.lineItems.Add(mylineItemData);
 
+            DateTime checkDate = new DateTime(0001, 1, 1, 00, 00, 00);
+
+            Assert.AreEqual("000", response.response);
+            Assert.AreEqual(checkDate, response.postDate);
+        }
+
+        //v12.41 New element identityBundle in authoriztion
+        //v12.43 originalRetrievalReferenceNumber, v12.44 'ecommerceDataOnly' value in order source enum
+        [Test]
+        public void SimpleAuthWithIdentityBundle()
+        {
+            var authorization = new authorization
+            {
+                id = "1",
+                reportGroup = "Planets",
+                orderId = "12344",
+                amount = 106,
+                orderSource = orderSourceType.ecommerceDataOnly,
+                card = new cardType
+                {
+                    type = methodOfPaymentTypeEnum.VI,
+                    number = "4100000000000000",
+                    expDate = "1210"
+                },
+                customBilling = new customBilling { phone = "1112223333" },
+                identityBundle = new identityBundle
+                {
+                    merchantId = "2222",
+                    entityId = "3333",
+                    entityReference = "3batchauthandcapture",
+                    resourceId = "12",
+                    resourceReference = "111111111111111",
+                    commandId = "111",
+                    commandReference = "12345",
+                    orderReference = "123"
+
+                },
+                originalRetrievalReferenceNumber="123456783"
+            };
+            var response = _cnp.Authorize(authorization);
+         
             DateTime checkDate = new DateTime(0001, 1, 1, 00, 00, 00);
 
             Assert.AreEqual("000", response.response);

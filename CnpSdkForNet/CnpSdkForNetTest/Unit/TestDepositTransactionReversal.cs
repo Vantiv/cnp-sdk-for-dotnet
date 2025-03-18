@@ -215,5 +215,45 @@ namespace Cnp.Sdk.Test.Unit
             Assert.NotNull(response);
             Assert.AreEqual("sandbox", response.location);
         }
+
+        [Test]
+        public void TestTransactionReversalWithIdentityBundle()
+        {
+            depositTransactionReversal reversal = new depositTransactionReversal();
+            reversal.cnpTxnId = 3;
+            reversal.amount = 2;
+            var identityBundle = new identityBundle
+            {
+                merchantId = "2222",
+                entityId = "3333",
+                entityReference = "3batchauthandcapture",
+                resourceId = "12",
+                resourceReference = "111111111111111",
+                commandId = "111",
+                commandReference = "12345",
+                orderReference = "123"
+
+            };
+            reversal.identityBundle = identityBundle;
+            reversal.reportGroup = "Planets";
+
+            var mock = new Mock<Communications>();
+            if (config["encryptOltpPayload"] == "true")
+            {
+                mock.Setup(Communications => Communications.HttpPost(It.IsRegex(".*<cnpOnlineRequest.*<encryptedPayload.*</encryptedPayload>.*", RegexOptions.Singleline)))
+                .Returns("<cnpOnlineResponse version='12.44' response='0' message='Valid Format' xmlns='http://www.vantivcnp.com/schema'><depositTransactionReversalResponse><cnpTxnId>123</cnpTxnId><location>sandbox</location></depositTransactionReversalResponse></cnpOnlineResponse>");
+            }
+            else
+            {
+                mock.Setup(Communications => Communications.HttpPost(It.IsRegex(".*<amount>2</amount>\r\n<identityBundle>\r\n<merchantId>2222</merchantId>.*", RegexOptions.Singleline)))
+                .Returns("<cnpOnlineResponse version='12.44' response='0' message='Valid Format' xmlns='http://www.vantivcnp.com/schema'><depositTransactionReversalResponse><cnpTxnId>123</cnpTxnId><location>sandbox</location></depositTransactionReversalResponse></cnpOnlineResponse>");
+            }
+            Communications mockedCommunication = mock.Object;
+            cnp.SetCommunication(mockedCommunication);
+            var response = cnp.DepositTransactionReversal(reversal);
+
+            Assert.NotNull(response);
+            Assert.AreEqual("sandbox", response.location);
+        }
     }
 }

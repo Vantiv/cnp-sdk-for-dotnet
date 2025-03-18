@@ -173,6 +173,18 @@ namespace Cnp.Sdk.Test.Unit
                 accountFundingTransactionType = accountFundingTransactionTypeEnum.accountToAccount
             };
             authorization.fraudCheckAction = fraudCheckActionEnum.APPROVED_SKIP_FRAUD_CHECK;
+            authorization.identityBundle = new identityBundle()
+            {
+                merchantId = "2222",
+                entityId = "3333",
+                entityReference = "3batchauthandcapture",
+                resourceId = "12",
+                resourceReference = "111111111111111",
+                commandId = "111",
+                commandReference = "12345",
+                orderReference = "123"
+            };
+            authorization.originalRetrievalReferenceNumber = "123456";
 
             var mockCnpResponse = new Mock<cnpResponse>();
             var mockCnpXmlSerializer = new Mock<cnpXmlSerializer>();
@@ -227,6 +239,17 @@ namespace Cnp.Sdk.Test.Unit
             authreversal.cnpTxnId = 12345678000;
             authreversal.amount = 106;
             authreversal.payPalNotes = "Notes";
+            authreversal.identityBundle = new identityBundle()
+            {
+                merchantId = "2222",
+                entityId = "3333",
+                entityReference = "3batchauthandcapture",
+                resourceId = "12",
+                resourceReference = "111111111111111",
+                commandId = "111",
+                commandReference = "12345",
+                orderReference = "123"
+            };
 
             var mockCnpResponse = new Mock<cnpResponse>();
             var mockCnpXmlSerializer = new Mock<cnpXmlSerializer>();
@@ -283,6 +306,17 @@ namespace Cnp.Sdk.Test.Unit
             capture capture = new capture();
             capture.cnpTxnId = 12345678000;
             capture.amount = 106;
+            capture.identityBundle = new identityBundle()
+            {
+                merchantId = "2222",
+                entityId = "3333",
+                entityReference = "3batchauthandcapture",
+                resourceId = "12",
+                resourceReference = "111111111111111",
+                commandId = "111",
+                commandReference = "12345",
+                orderReference = "123"
+            };
 
             var mockCnpResponse = new Mock<cnpResponse>();
             var mockCnpXmlSerializer = new Mock<cnpXmlSerializer>();
@@ -429,7 +463,18 @@ namespace Cnp.Sdk.Test.Unit
                 receiverAccountNumber = "4141000",
                 accountFundingTransactionType = accountFundingTransactionTypeEnum.accountToAccount
             };
-        
+            credit.identityBundle = new identityBundle()
+            {
+                merchantId = "2222",
+                entityId = "3333",
+                entityReference = "3batchauthandcapture",
+                resourceId = "12",
+                resourceReference = "111111111111111",
+                commandId = "111",
+                commandReference = "12345",
+                orderReference = "123"
+            };
+
             var mockCnpResponse = new Mock<cnpResponse>();
             var mockCnpXmlSerializer = new Mock<cnpXmlSerializer>();
 
@@ -817,6 +862,17 @@ namespace Cnp.Sdk.Test.Unit
                 accountFundingTransactionType = accountFundingTransactionTypeEnum.accountToAccount
             };
             sale.fraudCheckAction = fraudCheckActionEnum.APPROVED_SKIP_FRAUD_CHECK;
+            sale.identityBundle = new identityBundle()
+            {
+                merchantId = "2222",
+                entityId = "3333",
+                entityReference = "3batchauthandcapture",
+                resourceId = "12",
+                resourceReference = "111111111111111",
+                commandId = "111",
+                commandReference = "12345",
+                orderReference = "123"
+            };
 
             var mockCnpResponse = new Mock<cnpResponse>();
             var mockCnpXmlSerializer = new Mock<cnpXmlSerializer>();

@@ -194,5 +194,33 @@ namespace Cnp.Sdk.Test.Functional
             Assert.AreEqual("Approved", response.message);
 
         }
+
+        //v12.41 New element identityBundle in DTR 
+        [Test]
+        public void TestTransactionReversalWithIdentityBundle()
+        {
+            var reversal = new depositTransactionReversal()
+            {
+                id = "1",
+                reportGroup = "Planets",
+                cnpTxnId = 12345678000L,
+                amount = 106,
+                customerId = "<'&\">",
+                identityBundle = new identityBundle
+                {
+                    merchantId = "2222",
+                    entityId = "3333",
+                    entityReference = "3batchauthandcapture",
+                    resourceId = "12",
+                    resourceReference = "111111111111111",
+                    commandId = "111",
+                    commandReference = "12345",
+                    orderReference = "123"
+                }
+            };
+
+            var response = _cnp.DepositTransactionReversal(reversal);
+            Assert.AreEqual("Approved", response.message);
+        }
     }
 }

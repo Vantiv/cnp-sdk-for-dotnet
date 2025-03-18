@@ -337,5 +337,31 @@ namespace Cnp.Sdk.Test.Functional
             var response = _cnp.Capture(capture);
             Assert.AreEqual("Approved", response.message);
         }
+
+        //v12.41 New element identityBundle in capture 
+        [Test]
+        public void SimpleCaptureWithIdentityBundle()
+        {
+            var capture = new capture
+            {
+                id = "1",
+                cnpTxnId = 123456000,
+                amount = 106,                
+                identityBundle = new identityBundle
+                {
+                    merchantId = "2222",
+                    entityId = "3333",
+                    entityReference = "3batchauthandcapture",
+                    resourceId = "12",
+                    resourceReference = "111111111111111",
+                    commandId = "111",
+                    commandReference = "12345",
+                    orderReference = "123"
+                }
+            };
+          
+            var response = _cnp.Capture(capture);
+            Assert.AreEqual("Approved", response.message);
+        }
     }
 }

@@ -303,5 +303,48 @@ namespace Cnp.Sdk.Test.Unit
             Assert.AreEqual("sandbox", response.location);
         }
 
+        [Test]
+        public void TestCaptureWithIdentityBundle()///12.41
+        {
+            capture capture = new capture();
+            capture.cnpTxnId = 3;
+            capture.amount = 2;
+            capture.payPalNotes = "note";
+            capture.pin = "1234";
+
+            var identityBundle = new identityBundle
+            {
+                merchantId = "2222",
+                entityId = "3333",
+                entityReference = "3batchauthandcapture",
+                resourceId = "12",
+                resourceReference = "111111111111111",
+                commandId = "111",
+                commandReference = "12345",
+                orderReference = "123"
+
+            };
+            capture.identityBundle = identityBundle;
+
+            capture.reportGroup = "Planets";
+
+            var mock = new Mock<Communications>();
+            if (config["encryptOltpPayload"] == "true")
+            {
+                mock.Setup(Communications => Communications.HttpPost(It.IsRegex(".*<cnpOnlineRequest.*<encryptedPayload.*</encryptedPayload>.*", RegexOptions.Singleline)))
+                .Returns("<cnpOnlineResponse version='12.44' response='0' message='Valid Format' xmlns='http://www.vantivcnp.com/schema'><captureResponse><cnpTxnId>123</cnpTxnId><location>sandbox</location></captureResponse></cnpOnlineResponse>");
+            }
+            else
+            {
+                mock.Setup(Communications => Communications.HttpPost(It.IsRegex(".*<cnpTxnId>3</cnpTxnId>\r\n<amount>2</amount>.*<payPalNotes>.*<pin>.*<identityBundle>\r\n<merchantId>.*", RegexOptions.Singleline)))
+                .Returns("<cnpOnlineResponse version='12.44' response='0' message='Valid Format' xmlns='http://www.vantivcnp.com/schema'><captureResponse><cnpTxnId>123</cnpTxnId><location>sandbox</location></captureResponse></cnpOnlineResponse>");
+            }
+            Communications mockedCommunication = mock.Object;
+            cnp.SetCommunication(mockedCommunication);
+            var response = cnp.Capture(capture);
+
+            Assert.NotNull(response);
+            Assert.AreEqual("sandbox", response.location);
+        }
     }
 }

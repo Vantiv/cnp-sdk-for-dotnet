@@ -75,6 +75,7 @@ namespace Cnp.Sdk
         public updateSubscription updateSubscription;
         public voidTxn voidTxn;
         public translateToLowValueTokenRequest translateToLowValueTokenRequest;
+        public realtimeIncrementalAuthorization realtimeIncrementalAuthorization;
 
         // Serialize the cnpOnlineRequest.
         // Convert the cnpOnlineRequest object to xml string.
@@ -148,6 +149,7 @@ namespace Cnp.Sdk
             else if (BNPLCancelRequest != null) xml += BNPLCancelRequest.Serialize();
             else if (BNPLInquiryRequest != null) xml += BNPLInquiryRequest.Serialize();
             else if (encryptionKeyRequest != null) xml += encryptionKeyRequest.Serialize();
+            else if (realtimeIncrementalAuthorization != null) xml += realtimeIncrementalAuthorization.Serialize();
             xml += "\r\n</cnpOnlineRequest>";
 
             return xml;
@@ -618,7 +620,9 @@ namespace Cnp.Sdk
             }
         }
 
-        public identityBundle identityBundle;
+        public identityBundle identityBundle;  //12.41
+        public string originalRetrievalReferenceNumber;  //12.42
+
         public override string Serialize()
         {
             var xml = "\r\n<authorization";
@@ -857,6 +861,14 @@ namespace Cnp.Sdk
                 {
                     xml += "\r\n<conversionAffiliateId>" + conversionAffiliateIdField + "</conversionAffiliateId>";
                 }
+                if (identityBundle != null) //12.41
+                {
+                    xml += "\r\n<identityBundle>" + identityBundle.Serialize() + "\r\n</identityBundle>"; 
+                }
+                if (originalRetrievalReferenceNumber != null) //12.42
+                {
+                    xml += "\r\n<originalRetrievalReferenceNumber>" + originalRetrievalReferenceNumber + "</originalRetrievalReferenceNumber>"; 
+                }
             }
 
             xml += "\r\n</authorization>";
@@ -885,6 +897,8 @@ namespace Cnp.Sdk
         public string payPalNotes;
         public string actionReason;
         public additionalCOFData additionalCOFData;//12.26
+        //12.41 identityBundle
+        public identityBundle identityBundle;
 
         public override string Serialize()
         {
@@ -912,6 +926,10 @@ namespace Cnp.Sdk
             if (additionalCOFData != null)///12.26
             {
                 xml += "\r\n<additionalCOFData>" + additionalCOFData.Serialize() + "\r\n</additionalCOFData>";
+            }
+            if (identityBundle != null)  //12.41
+            {
+                xml += "\r\n<identityBundle>" + identityBundle.Serialize() + "</identityBundle>";
             }
             xml += "\r\n</authReversal>";
             return xml;
@@ -980,6 +998,8 @@ namespace Cnp.Sdk
         }
 
         public passengerTransportData passengerTransportData;//12.26
+        //12.41 identityBundle
+        public identityBundle identityBundle;
 
         public override string Serialize()
         {
@@ -1028,6 +1048,10 @@ namespace Cnp.Sdk
             if (passengerTransportData != null)//12.26
             {
                 xml += "\r\n<passengerTransportData>" + passengerTransportData.Serialize() + "</passengerTransportData>";
+            }
+            if (identityBundle != null)  //12.41
+            {
+                xml += "\r\n<identityBundle>" + identityBundle.Serialize() + "</identityBundle>";
             }
             xml += "\r\n</depositTransactionReversal>";
             return xml;
@@ -1095,6 +1119,8 @@ namespace Cnp.Sdk
         }
 
         public passengerTransportData passengerTransportData;//12.26
+        //12.41 identityBundle
+        public identityBundle identityBundle;
 
         public override string Serialize()
         {
@@ -1143,6 +1169,10 @@ namespace Cnp.Sdk
             if (passengerTransportData != null)//12.26
             {
                 xml += "\r\n<passengerTransportData>" + passengerTransportData.Serialize() + "</passengerTransportData>";
+            }
+            if (identityBundle != null)  //12.41
+            {
+                xml += "\r\n<identityBundle>" + identityBundle.Serialize() + "</identityBundle>";
             }
             xml += "\r\n</refundTransactionReversal>";
             return xml;
@@ -1244,6 +1274,8 @@ namespace Cnp.Sdk
         }
         public partialCapture partialCapture; //12.38
         //12.31 end
+        //12.41 identityBundle
+        public identityBundle identityBundle;
 
         public override string Serialize()
         {
@@ -1284,6 +1316,10 @@ namespace Cnp.Sdk
             if (partialCapture != null)//12.38
             {
                 xml += "\r\n<partialCapture>" + partialCapture.Serialize() + "\r\n</partialCapture>";
+            }
+            if (identityBundle != null)  //12.41
+            {
+                xml += "\r\n<identityBundle>" + identityBundle.Serialize() + "</identityBundle>";
             }
             xml += "\r\n</capture>";
 
@@ -1736,6 +1772,8 @@ namespace Cnp.Sdk
         public string payPalNotes;
         public string actionReason;
         public accountFundingTransactionData accountFundingTransactionData;
+        //12.41 identityBundle
+        public identityBundle identityBundle;
         public override string Serialize()
         {
             var xml = "\r\n<credit";
@@ -1817,6 +1855,10 @@ namespace Cnp.Sdk
             if (accountFundingTransactionData != null)
             {
                 xml += "\r\n<accountFundingTransactionData>" + accountFundingTransactionData.Serialize() + "\r\n</accountFundingTransactionData>";
+            }
+            if (identityBundle != null)  //12.41
+            {
+                xml += "\r\n<identityBundle>" + identityBundle.Serialize() + "</identityBundle>";
             }
             xml += "\r\n</credit>";
             return xml;
@@ -3147,6 +3189,8 @@ namespace Cnp.Sdk
             }
         }
 
+        //12.41 identityBundle
+        public identityBundle identityBundle;
 
         public override string Serialize()
         {
@@ -3390,17 +3434,21 @@ namespace Cnp.Sdk
             {
                 xml += "\r\n<conversionAffiliateId>" + conversionAffiliateIdField + "</conversionAffiliateId>";
             }
-        //end
-        //if (routingPreferenceSet)
-        //{
-        //    var routingPreferenceName = routingPreferenceField.ToString();
-        //    var attributes = 
-        //        (XmlEnumAttribute[])typeof(echeckAccountTypeEnum).GetMember(routingPreferenceField.ToString())[0].GetCustomAttributes(typeof(XmlEnumAttribute), false);
-        //    if (attributes.Length > 0) routingPreferenceName = attributes[0].Name;
-        //    xml += "\r\n<routingPreference>" + routingPreferenceName + "</routingPreference>";
-        //}
+            if (identityBundle != null) //12.41
+            {
+                xml += "\r\n<identityBundle>" + identityBundle.Serialize() + "</identityBundle>";
+            }
+            //end
+            //if (routingPreferenceSet)
+            //{
+            //    var routingPreferenceName = routingPreferenceField.ToString();
+            //    var attributes = 
+            //        (XmlEnumAttribute[])typeof(echeckAccountTypeEnum).GetMember(routingPreferenceField.ToString())[0].GetCustomAttributes(typeof(XmlEnumAttribute), false);
+            //    if (attributes.Length > 0) routingPreferenceName = attributes[0].Name;
+            //    xml += "\r\n<routingPreference>" + routingPreferenceName + "</routingPreference>";
+            //}
 
-        xml += "\r\n</sale>";
+            xml += "\r\n</sale>";
             return xml;
         }
     }
@@ -5833,11 +5881,16 @@ namespace Cnp.Sdk
         public static readonly orderSourceType recurringtel = new orderSourceType("recurringtel");
         public static readonly orderSourceType echeckppd = new orderSourceType("echeckppd");
         public static readonly orderSourceType applepay = new orderSourceType("applepay");
-        public static readonly orderSourceType androidpay = new orderSourceType("androidpay");
-
+        public static readonly orderSourceType androidpay = new orderSourceType("androidpay"); 
+        public static readonly orderSourceType ecommerceDataOnly = new orderSourceType("ecommerceDataOnly");  //12.44
         private orderSourceType(string value) { this.value = value; }
         public string Serialize() { return value; }
         private string value;
+
+        //adding non parameterized constructor to make deserialize work  for ordersource-added in authorizationResponse and saleResponse.
+        public orderSourceType()
+        {
+        }
     }
 
     public partial class contact
@@ -7749,6 +7802,211 @@ namespace Cnp.Sdk
         }
     }
 
+    public partial class realtimeIncrementalAuthorization : transactionTypeWithReportGroup
+    {
+        private long cnpTxnIdField;
+        private bool cnpTxnIdSet;
+        public long cnpTxnId
+        {
+            get
+            {
+                return cnpTxnIdField;
+            }
+            set
+            {
+                cnpTxnIdField = value;
+                cnpTxnIdSet = true;
+            }
+        }
+        public string orderId;
+        public long amount;
+        public orderSourceType orderSource;
+        public contact billToAddress;
+        public contact shipToAddress;
+        public cardType card;
+        public cardTokenType token;
+        public applepayType applepay;
+        public cardPaypageType paypage;
+        public fraudCheckType cardholderAuthentication;
+        public customBilling customBilling;
+        private bool allowPartialAuthField;
+        private bool allowPartialAuthSet;
+        public bool allowPartialAuth
+        {
+            get
+            {
+                return allowPartialAuthField;
+            }
+            set
+            {
+                allowPartialAuthField = value;
+                allowPartialAuthSet = true;
+            }
+        }
+
+        public wallet wallet;
+        private string originalNetworkTransactionIdField;
+        private bool originalNetworkTransactionIdSet;
+        public string originalNetworkTransactionId
+        {
+            get
+            {
+                return originalNetworkTransactionIdField;
+            }
+            set
+            {
+                originalNetworkTransactionIdField = value;
+                originalNetworkTransactionIdSet = true;
+            }
+        }
+        public string merchantCategoryCode;
+        public string originalRetrievalReferenceNumber;
+        public long cumulativeAmountField;
+        public bool cumulativeAmountSet;
+        public long cumulativeAmount
+        {
+            get
+            {
+                return cumulativeAmountField;
+            }
+            set
+            {
+                cumulativeAmountField = value;
+                cumulativeAmountSet = true;
+            }
+        }
+
+        private long originalTransactionAmountField;
+        private bool originalTransactionAmountSet;
+        public long originalTransactionAmount
+        {
+            get
+            {
+                return originalTransactionAmountField;
+            }
+            set
+            {
+                originalTransactionAmountField = value;
+                originalTransactionAmountSet = true;
+            }
+        }
+
+        public override string Serialize()
+        {
+            var xml = "\r\n<realtimeIncrementalAuthorization";
+
+            xml += " id=\"" + SecurityElement.Escape(id) + "\"";
+            if (customerId != null)
+            {
+                xml += " customerId=\"" + SecurityElement.Escape(customerId) + "\"";
+            }
+            xml += " reportGroup=\"" + SecurityElement.Escape(reportGroup) + "\">";
+            if (cnpTxnIdSet)
+            {
+                xml += "\r\n<cnpTxnId>" + cnpTxnIdField + "</cnpTxnId>";
+            }
+            xml += "\r\n<orderId>" + SecurityElement.Escape(orderId) + "</orderId>";
+            xml += "\r\n<amount>" + amount + "</amount>";
+              
+            if (orderSource != null)
+            {
+                xml += "\r<orderSource>" + orderSource.Serialize() + "</orderSource>";
+            }
+            if (billToAddress != null)
+            {
+                xml += "\r\n<billToAddress>" + billToAddress.Serialize() + "\r\n</billToAddress>";
+            }
+            if (shipToAddress != null)
+            {
+                xml += "\r<shipToAddress>" + shipToAddress.Serialize() + "</shipToAddress>";
+            }
+            if (card != null)
+            {
+                xml += "\r\n<card>" + card.Serialize() + "\r\n</card>";
+            }
+            else if (token != null)
+            {
+                xml += "\r<token>" + token.Serialize() + "</token>";
+            }
+            else if (paypage != null)
+            {
+                xml += "\r<paypage>" + paypage.Serialize() + "</paypage>";
+            }
+            else if (applepay != null)
+            {
+                xml += "\r<applepay>" + applepay.Serialize() + "</applepay>";
+            }
+            if (cardholderAuthentication != null)
+            {
+                xml += "\r<cardholderAuthentication>" + cardholderAuthentication.Serialize() + "</cardholderAuthentication>";
+            }
+            if (customBilling != null)
+            {
+                xml += "\r<customBilling>" + customBilling.Serialize() + "</customBilling>";
+            }
+            if (allowPartialAuthSet)
+            {
+                xml += "\r\n<allowPartialAuth>" + allowPartialAuthField.ToString().ToLower() + "</allowPartialAuth>";
+            }
+            if (wallet != null)
+            {
+                xml += "\r\n<wallet>" + wallet.Serialize() + "\r\n</wallet>";
+            }
+            if (originalNetworkTransactionIdSet)
+            {
+                xml += "\r\n<originalNetworkTransactionId>" + originalNetworkTransactionId + "</originalNetworkTransactionId>";
+            }
+            if (!string.IsNullOrEmpty(merchantCategoryCode))
+            {
+                xml += "\r<merchantCategoryCode>" + merchantCategoryCode + "</merchantCategoryCode>";
+            }
+            if (!string.IsNullOrEmpty(originalRetrievalReferenceNumber))
+            {
+                xml += "\r\n<originalRetrievalReferenceNumber>" +originalRetrievalReferenceNumber + "</originalRetrievalReferenceNumber>";
+            }
+            if (cumulativeAmountSet)
+            {
+                xml += "\r\n<cumulativeAmount>" + cumulativeAmount + "</cumulativeAmount>";
+            }
+             if (originalTransactionAmountSet)
+            { 
+            xml += "\r\n<originalTransactionAmount>" + originalTransactionAmount + "</originalTransactionAmount>";
+            }
+            xml += "\r\n</realtimeIncrementalAuthorization>";
+            return xml;
+        }
+    }
+
+
+    //v12.41
+
+    public partial class identityBundle
+    {
+        public string merchantId;
+        public string entityId;
+        public string entityReference;
+        public string resourceId;
+        public string resourceReference;
+        public string commandId;
+        public string commandReference;
+        public string orderReference;
+
+        public string Serialize()
+        {
+            var xml = "";
+            xml += "\r\n<merchantId>" + merchantId + "</merchantId>";
+            xml += "\r\n<entityId>" + entityId + "</entityId>";
+            xml += "\r\n<entityReference>" + entityReference + "</entityReference>";
+            xml += "\r\n<resourceId>" + resourceId + "</resourceId>";
+            xml += "\r\n<resourceReference>" + resourceReference + "</resourceReference>";
+            xml += "\r\n<commandId>" + commandId + "</commandId>";
+            xml += "\r\n<commandReference>" + commandReference + "</commandReference>";
+            xml += "\r\n<orderReference>" + orderReference + "</orderReference>";
+
+            return xml;
+        }
+    }
+     
     public class XmlUtil
     {
         public static string toXsdDate(DateTime dateTime)
