@@ -618,6 +618,7 @@ namespace Cnp.Sdk
             }
         }
 
+        public identityBundle identityBundle;
         public override string Serialize()
         {
             var xml = "\r\n<authorization";
