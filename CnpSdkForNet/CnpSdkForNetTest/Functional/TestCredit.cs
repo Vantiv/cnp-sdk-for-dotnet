@@ -508,5 +508,39 @@ namespace Cnp.Sdk.Test.Functional
             var response = _cnp.Credit(creditObj);
             Assert.AreEqual("Approved", response.message);
         }
+
+        //v12.41 New element identityBundle in credit 
+        [Test]
+        public void SimpleCreditWithIdentityBundle()
+        {
+            var creditObj = new credit
+            {
+                id = "1",
+                reportGroup = "planets",
+                amount = 106,
+                orderId = "123OderId",
+                orderSource = orderSourceType.ecommerce,
+                card = new cardType
+                {
+                    type = methodOfPaymentTypeEnum.VI,
+                    number = "4100000<>0000001",
+                    expDate = "1210"
+                },
+                identityBundle = new identityBundle
+                {
+                    merchantId = "2222",
+                    entityId = "3333",
+                    entityReference = "3batchauthandcapture",
+                    resourceId = "12",
+                    resourceReference = "111111111111111",
+                    commandId = "111",
+                    commandReference = "12345",
+                    orderReference = "123"
+                }
+            };
+
+            var response = _cnp.Credit(creditObj);
+            Assert.AreEqual("Approved", response.message);
+        }
     }
 }

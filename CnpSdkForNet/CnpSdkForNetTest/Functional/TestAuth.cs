@@ -536,7 +536,7 @@ namespace Cnp.Sdk.Test.Functional
             Assert.AreEqual("135798642", response.enhancedAuthResponse.networkResponse.networkField.fieldValue);
         }
 
-        [Test]
+            [Test]
         public void SimpleAuthWithCardPin()
         {
             var authorization = new authorization
@@ -1341,6 +1341,47 @@ namespace Cnp.Sdk.Test.Functional
             mylineItemData.subscription.Add(mysubscription);
             authorization.enhancedData.lineItems.Add(mylineItemData);
 
+            DateTime checkDate = new DateTime(0001, 1, 1, 00, 00, 00);
+
+            Assert.AreEqual("000", response.response);
+            Assert.AreEqual(checkDate, response.postDate);
+        }
+
+        //v12.41 New element identityBundle in authoriztion
+        //v12.43 originalRetrievalReferenceNumber, v12.44 'ecommerceDataOnly' value in order source enum
+        [Test]
+        public void SimpleAuthWithIdentityBundle()
+        {
+            var authorization = new authorization
+            {
+                id = "1",
+                reportGroup = "Planets",
+                orderId = "12344",
+                amount = 106,
+                orderSource = orderSourceType.ecommerceDataOnly,
+                card = new cardType
+                {
+                    type = methodOfPaymentTypeEnum.VI,
+                    number = "4100000000000000",
+                    expDate = "1210"
+                },
+                customBilling = new customBilling { phone = "1112223333" },
+                identityBundle = new identityBundle
+                {
+                    merchantId = "2222",
+                    entityId = "3333",
+                    entityReference = "3batchauthandcapture",
+                    resourceId = "12",
+                    resourceReference = "111111111111111",
+                    commandId = "111",
+                    commandReference = "12345",
+                    orderReference = "123"
+
+                },
+                originalRetrievalReferenceNumber="123456783"
+            };
+            var response = _cnp.Authorize(authorization);
+         
             DateTime checkDate = new DateTime(0001, 1, 1, 00, 00, 00);
 
             Assert.AreEqual("000", response.response);

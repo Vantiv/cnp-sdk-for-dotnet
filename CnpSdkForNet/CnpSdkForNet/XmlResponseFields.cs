@@ -2187,6 +2187,10 @@ namespace Cnp.Sdk
         private string checkoutIdField;
         private string fundingTransactionReferenceNumberField;
 
+        //12.41 Two new elemnets-retrievalReferenceNumber and orderSouce
+        private string retrievalReferenceNumberField;
+        public orderSourceType orderSourceField;
+
         /// <remarks/>
         public long cnpTxnId
         {
@@ -2564,9 +2568,30 @@ namespace Cnp.Sdk
                 this.fundingTransactionReferenceNumberField = value;
             }
         }
-
+        public string retrievalReferenceNumber
+        {
+            get
+            {
+                return this.retrievalReferenceNumberField;
+            }
+            set
+            {
+                this.retrievalReferenceNumberField = value;
+            }
+        }
+        public orderSourceType orderSource
+        {
+            get
+            {
+                return this.orderSourceField;
+            }
+            set
+            {
+                this.orderSourceField = value;
+            }
+        }
     }
-    
+
     /// <remarks/>
     [System.CodeDom.Compiler.GeneratedCodeAttribute("xsd", "2.0.50727.42")]
     [System.SerializableAttribute()]
@@ -4371,7 +4396,9 @@ namespace Cnp.Sdk
         private string checkoutIdField; //12.24
 
         private string fundingTransactionReferenceNumberField; //12.39
-
+        //12.41 Two new elemnets-retrievalReferenceNumber and orderSouce
+        private string retrievalReferenceNumberField;
+        public orderSourceType orderSourceField;
 
         /// <remarks/>
         public long cnpTxnId
@@ -4831,6 +4858,28 @@ namespace Cnp.Sdk
             set
             {
                 this.fundingTransactionReferenceNumberField = value;
+            }
+        }
+        public string retrievalReferenceNumber
+        {
+            get
+            {
+                return this.retrievalReferenceNumberField;
+            }
+            set
+            {
+                this.retrievalReferenceNumberField = value;
+            }
+        }
+        public orderSourceType orderSource
+        {
+            get
+            {
+                return this.orderSourceField;
+            }
+            set
+            {
+                this.orderSourceField = value;
             }
         }
     }

@@ -10,7 +10,7 @@ namespace Cnp.Sdk.Test.Unit
     [TestFixture]
     class TestSale
     {
-        
+
         private CnpOnline cnp;
         Dictionary<String, String> config;
 
@@ -30,7 +30,7 @@ namespace Cnp.Sdk.Test.Unit
             sale.orderSource = orderSourceType.ecommerce;
             sale.reportGroup = "Planets";
             sale.fraudFilterOverride = false;
-           
+
             var mock = new Mock<Communications>();
             if (config["encryptOltpPayload"] == "true")
             {
@@ -130,7 +130,8 @@ namespace Cnp.Sdk.Test.Unit
         }
 
         [Test]
-        public void TestRecurringResponse_Full() {
+        public void TestRecurringResponse_Full()
+        {
             String xmlResponse = "<cnpOnlineResponse version='8.18' response='0' message='Valid Format' xmlns='http://www.vantivcnp.com/schema'><saleResponse><cnpTxnId>123</cnpTxnId><recurringResponse><subscriptionId>12</subscriptionId><responseCode>345</responseCode><responseMessage>Foo</responseMessage><recurringTxnId>678</recurringTxnId></recurringResponse></saleResponse></cnpOnlineResponse>";
             cnpOnlineResponse cnpOnlineResponse = CnpOnline.DeserializeObject(xmlResponse);
             saleResponse saleResponse = (saleResponse)cnpOnlineResponse.saleResponse;
@@ -153,7 +154,7 @@ namespace Cnp.Sdk.Test.Unit
             Assert.AreEqual(12, saleResponse.recurringResponse.subscriptionId);
             Assert.AreEqual("345", saleResponse.recurringResponse.responseCode);
             Assert.AreEqual("Foo", saleResponse.recurringResponse.responseMessage);
-            Assert.AreEqual(0,saleResponse.recurringResponse.recurringTxnId);
+            Assert.AreEqual(0, saleResponse.recurringResponse.recurringTxnId);
         }
 
         [Test]
@@ -458,7 +459,7 @@ namespace Cnp.Sdk.Test.Unit
             {
                 mock.Setup(Communications => Communications.HttpPost(It.IsRegex(".*<ideal>\r\n<preferredLanguage>US</preferredLanguage>\r\n</ideal>.*", RegexOptions.Singleline)))
                 .Returns("<cnpOnlineResponse version='8.14' response='0' message='Valid Format' xmlns='http://www.vantivcnp.com/schema'><saleResponse><cnpTxnId>123</cnpTxnId></saleResponse></cnpOnlineResponse>");
-            } 
+            }
             Communications mockedCommunication = mock.Object;
             cnp.SetCommunication(mockedCommunication);
             cnp.Sale(sale);
@@ -546,7 +547,7 @@ namespace Cnp.Sdk.Test.Unit
             cnp.SetCommunication(mockedCommunication);
             cnp.Sale(sale);
         }
-        
+
         [Test]
         public void TestSaleWithLocation()
         {
@@ -556,7 +557,7 @@ namespace Cnp.Sdk.Test.Unit
             sale.orderSource = orderSourceType.ecommerce;
             sale.reportGroup = "Planets";
             sale.fraudFilterOverride = false;
-           
+
             var mock = new Mock<Communications>();
             if (config["encryptOltpPayload"] == "true")
             {
@@ -571,7 +572,7 @@ namespace Cnp.Sdk.Test.Unit
             Communications mockedCommunication = mock.Object;
             cnp.SetCommunication(mockedCommunication);
             var response = cnp.Sale(sale);
-            
+
             Assert.NotNull(response);
             Assert.AreEqual("sandbox", response.location);
         }
@@ -1011,7 +1012,7 @@ namespace Cnp.Sdk.Test.Unit
             sale.fraudCheckStatus = "Not Approved";
             enhancedData enhancedData = new enhancedData();
             enhancedData.lineItems = new List<lineItemData>();
-            
+
             var mysubscription = new subscriptions();
             mysubscription.subscriptionId = "123";
             mysubscription.currentPeriod = 112;
@@ -1031,7 +1032,7 @@ namespace Cnp.Sdk.Test.Unit
             mylineItemData.shipmentId = "2543";
             mylineItemData.subscription.Add(mysubscription);
             enhancedData.lineItems.Add(mylineItemData);
-            sale.enhancedData=enhancedData;
+            sale.enhancedData = enhancedData;
             sale.foreignRetailerIndicator = foreignRetailerIndicatorEnum.F;
 
             var mock = new Mock<Communications>();
@@ -1046,6 +1047,52 @@ namespace Cnp.Sdk.Test.Unit
                  .Returns("<cnpOnlineResponse version='12.33' response='0' message='Valid Format' xmlns='http://www.vantivcnp.com/schema'><saleResponse><cnpTxnId>123</cnpTxnId><location>sandbox</location></saleResponse></cnpOnlineResponse>");
             }
             var mockedCommunication = mock.Object;
+            cnp.SetCommunication(mockedCommunication);
+            var response = cnp.Sale(sale);
+
+            Assert.NotNull(response);
+            Assert.AreEqual("sandbox", response.location);
+        }
+
+        //v12.41 New element identityBundle in sale request , v12.44 'ecommerceDataOnly' value in order source enum
+        [Test]
+        public void TestSaleWithIdentityBundle()
+        {
+            sale sale = new sale();
+            sale.orderId = "12344";
+            sale.amount = 2;
+            sale.orderSource = orderSourceType.ecommerceDataOnly;
+            sale.reportGroup = "Planets";
+            sale.fraudFilterOverride = false;
+
+            var identityBundle = new identityBundle
+            {
+                merchantId = "2222",
+                entityId = "3333",
+                entityReference = "3batchauthandcapture",
+                resourceId = "12",
+                resourceReference = "111111111111111",
+                commandId = "111",
+                commandReference = "12345",
+                orderReference = "123"
+
+            };
+            sale.identityBundle = identityBundle;
+            sale.reportGroup = "Planets";
+
+
+            var mock = new Mock<Communications>();
+            if (config["encryptOltpPayload"] == "true")
+            {
+                mock.Setup(Communications => Communications.HttpPost(It.IsRegex(".*<cnpOnlineRequest.*<encryptedPayload.*</encryptedPayload>.*", RegexOptions.Singleline)))
+                .Returns("<cnpOnlineResponse version='12.44' response='0' message='Valid Format' xmlns='http://www.vantivcnp.com/schema'><saleResponse><cnpTxnId>123</cnpTxnId><location>sandbox</location></saleResponse></cnpOnlineResponse>");
+            }
+            else
+            {
+                mock.Setup(Communications => Communications.HttpPost(It.IsRegex(".*<amount>2</amount>\r\n<orderSource>ecommerceDataOnly</orderSource>.*", RegexOptions.Singleline)))
+                .Returns("<cnpOnlineResponse version='12.44' response='0' message='Valid Format' xmlns='http://www.vantivcnp.com/schema'><saleResponse><cnpTxnId>123</cnpTxnId><location>sandbox</location></saleResponse></cnpOnlineResponse>");
+            }
+            Communications mockedCommunication = mock.Object;
             cnp.SetCommunication(mockedCommunication);
             var response = cnp.Sale(sale);
 

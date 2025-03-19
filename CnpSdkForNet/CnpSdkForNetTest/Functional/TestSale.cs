@@ -1023,5 +1023,39 @@ namespace Cnp.Sdk.Test.Functional
             var responseObj = _cnp.Sale(saleObj);
             StringAssert.AreEqualIgnoringCase("Approved", responseObj.message);
         }
+
+        //v12.41 New element identityBundle in sale, v12.44 'ecommerceDataOnly' value in order source enum 
+        [Test]
+        public void SimpleSaleWithidentityBundle()
+        {
+            var saleObj = new sale
+            {
+                amount = 106,
+                cnpTxnId = 123456,
+                id = "1",
+                orderId = "12344",
+                orderSource = orderSourceType.ecommerceDataOnly,
+                card = new cardType
+                {
+                    type = methodOfPaymentTypeEnum.VI,
+                    number = "4100000000000000",
+                    expDate = "1210"
+                },
+                identityBundle = new identityBundle
+                {
+                    merchantId = "2222",
+                    entityId = "3333",
+                    entityReference = "3batchauthandcapture",
+                    resourceId = "12",
+                    resourceReference = "111111111111111",
+                    commandId = "111",
+                    commandReference = "12345",
+                    orderReference = "123"
+                }
+            };
+
+            var responseObj = _cnp.Sale(saleObj);
+            StringAssert.AreEqualIgnoringCase("Approved", responseObj.message);
+        }
     }
 }

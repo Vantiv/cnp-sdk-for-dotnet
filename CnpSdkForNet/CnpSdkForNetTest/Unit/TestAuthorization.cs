@@ -1413,5 +1413,56 @@ namespace Cnp.Sdk.Test.Unit
             Assert.NotNull(authorizationResponse);
             Assert.AreEqual(123, authorizationResponse.cnpTxnId);
         }
+
+        //v12.41 New element identityBundle in authoriztion
+        //v12.43 originalRetrievalReferenceNumber, v12.44 'ecommerceDataOnly' value in order source enum
+        [Test]
+        public void AuthWithIdentityBundle()
+        {
+            var auth = new authorization();
+            auth.orderId = "12344";
+            auth.amount = 2;
+            auth.orderSource = orderSourceType.ecommerceDataOnly;
+            var card = new cardType();
+            card.type = methodOfPaymentTypeEnum.MC;
+            card.number = "414100000000000000";
+            card.expDate = "1210";
+            card.pin = "1234";
+            auth.card = card;
+
+            var identityBundle = new identityBundle
+            {
+                merchantId = "2222",
+                entityId = "3333",
+                entityReference = "3batchauthandcapture",
+                resourceId = "12",
+                resourceReference = "111111111111111",
+                commandId = "111",
+                commandReference = "12345",
+                orderReference = "123"
+            };
+            auth.identityBundle = identityBundle;
+            auth.originalRetrievalReferenceNumber = "123456783123456";
+
+            auth.reportGroup = "Planets";
+
+            var mock = new Mock<Communications>();
+            if (config["encryptOltpPayload"] == "true")
+            {
+                mock.Setup(Communications => Communications.HttpPost(It.IsRegex(".*<cnpOnlineRequest.*<encryptedPayload.*</encryptedPayload>.*", RegexOptions.Singleline)))
+                .Returns("<cnpOnlineResponse version=12.44' response='0' message='Valid Format' xmlns='http://www.vantivcnp.com/schema'><authorizationResponse><cnpTxnId>123</cnpTxnId></authorizationResponse></cnpOnlineResponse>");
+            }
+            else
+            {
+                mock.Setup(Communications => Communications.HttpPost(It.IsRegex(".*<amount>2</amount>\r\n<orderSource>ecommerceDataOnly</orderSource>.*", RegexOptions.Singleline)))
+                .Returns("<cnpOnlineResponse version='12.44' response='0' message='Valid Format' xmlns='http://www.vantivcnp.com/schema'><authorizationResponse><cnpTxnId>123</cnpTxnId></authorizationResponse></cnpOnlineResponse>");
+            }
+            var mockedCommunication = mock.Object;
+            cnp.SetCommunication(mockedCommunication);
+            var authorizationResponse = cnp.Authorize(auth);
+
+            Assert.NotNull(authorizationResponse);
+            Assert.AreEqual(123, authorizationResponse.cnpTxnId);
+        }
     }
 }

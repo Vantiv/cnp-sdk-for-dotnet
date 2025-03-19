@@ -138,5 +138,49 @@ namespace Cnp.Sdk.Test.Unit
             Assert.AreEqual("sandbox", response.location);
         }
 
+        //v12.41 New element identityBundle in authReversal
+        [Test]
+        public void TestAuthReversalWithIdentityBundle()
+        {
+            authReversal reversal = new authReversal();
+            reversal.cnpTxnId = 3;
+            reversal.amount = 2;
+            reversal.surchargeAmount = 1;
+            reversal.payPalNotes = "note";
+            
+            var identityBundle = new identityBundle
+            {
+                merchantId = "2222",
+                entityId = "3333",
+                entityReference = "3batchauthandcapture",
+                resourceId = "12",
+                resourceReference = "111111111111111",
+                commandId = "111",
+                commandReference = "12345",
+                orderReference = "123"
+
+            };
+            reversal.identityBundle = identityBundle;
+
+            reversal.reportGroup = "Planets";
+            var mock = new Mock<Communications>();
+            if (config["encryptOltpPayload"] == "true")
+            {
+                mock.Setup(Communications => Communications.HttpPost(It.IsRegex(".*<cnpOnlineRequest.*<encryptedPayload.*</encryptedPayload>.*", RegexOptions.Singleline)))
+                .Returns("<cnpOnlineResponse version='12.44' response='0' message='Valid Format' xmlns='http://www.vantivcnp.com/schema'><authReversalResponse><cnpTxnId>123</cnpTxnId><location>sandbox</location></authReversalResponse></cnpOnlineResponse>");
+            }
+            else
+            {
+                mock.Setup(Communications => Communications.HttpPost(It.IsRegex(".*<amount>2</amount>\r\n<surchargeAmount>1</surchargeAmount>\r\n<payPalNotes>note</payPalNotes>\r\n<identityBundle>.*", RegexOptions.Singleline)))
+                .Returns("<cnpOnlineResponse version='12.44' response='0' message='Valid Format' xmlns='http://www.vantivcnp.com/schema'><authReversalResponse><cnpTxnId>123</cnpTxnId><location>sandbox</location></authReversalResponse></cnpOnlineResponse>");
+            }
+            Communications mockedCommunication = mock.Object;
+            cnp.SetCommunication(mockedCommunication);
+            var response = cnp.AuthReversal(reversal);
+
+            Assert.NotNull(response);
+            Assert.AreEqual("sandbox", response.location);
+        }
+
     }
 }

@@ -93,6 +93,15 @@ namespace Cnp.Sdk
             }, auth, cancellationToken);
         }
 
+        public Task<authorizationResponse> realTimeIncAuthAsync(realtimeIncrementalAuthorization realTimeIncAuth, CancellationToken cancellationToken)
+        {
+            return SendRequestAsync(response =>
+            {
+                var authResponse = response.authorizationResponse;
+                return authResponse;
+            }, realTimeIncAuth, cancellationToken);
+        }
+
         private T SendRequest<T>(Func<cnpOnlineResponse, T> getResponse, transactionRequest transaction)
         {
             cnpOnlineResponse response;
@@ -392,6 +401,10 @@ namespace Cnp.Sdk
             {
                 request.encryptionKeyRequest = (EncryptionKeyRequest)transaction;
             }
+            else if (transaction is realtimeIncrementalAuthorization)
+            {
+                request.realtimeIncrementalAuthorization = (realtimeIncrementalAuthorization)transaction;
+            }
             else
             {
                 throw new NotImplementedException("Support for type: " + transaction.GetType().Name +
@@ -403,6 +416,13 @@ namespace Cnp.Sdk
         public authorizationResponse Authorize(authorization auth)
         {
             var cnpResponse =  SendRequest(response => response, auth);
+            var authResponse = cnpResponse.authorizationResponse;
+            return authResponse;
+        }
+
+        public authorizationResponse realtimeIncrementalAuth(realtimeIncrementalAuthorization RealTimeIncAuth)
+        {
+            var cnpResponse = SendRequest(response => response, RealTimeIncAuth);
             var authResponse = cnpResponse.authorizationResponse;
             return authResponse;
         }
@@ -1492,6 +1512,8 @@ namespace Cnp.Sdk
     {
         authorizationResponse Authorize(authorization auth);
         Task<authorizationResponse> AuthorizeAsync(authorization auth, CancellationToken cancellationToken);
+        authorizationResponse realtimeIncrementalAuth(realtimeIncrementalAuthorization realTimeInceAuth);
+        Task<authorizationResponse> realTimeIncAuthAsync(realtimeIncrementalAuthorization realTimeInceAuth, CancellationToken cancellationToken);
         authReversalResponse AuthReversal(authReversal reversal);
         Task<authReversalResponse> AuthReversalAsync(authReversal reversal, CancellationToken cancellationToken);
         captureResponse Capture(capture capture);

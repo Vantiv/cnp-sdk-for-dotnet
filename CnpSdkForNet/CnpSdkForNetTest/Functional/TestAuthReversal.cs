@@ -124,5 +124,34 @@ namespace Cnp.Sdk.Test.Functional
             var response = _cnp.AuthReversal(reversal);
             Assert.AreEqual("Approved", response.message);
         }
+
+        //v12.41 New element identityBundle in authReversal 
+        [Test]
+        public void SimpleAuthReversalWithIdentityBundle()
+        {
+            var reversal = new authReversal
+            {
+                id = "1",
+                reportGroup = "Planets",
+                cnpTxnId = 12345678000L,
+                amount = 106,
+                payPalNotes = "Notes",
+                 identityBundle = new identityBundle
+                 {
+                     merchantId = "2222",
+                     entityId = "3333",
+                     entityReference = "3batchauthandcapture",
+                     resourceId = "12",
+                     resourceReference = "111111111111111",
+                     commandId = "111",
+                     commandReference = "12345",
+                     orderReference = "123"
+
+                 }
+            };
+
+            var response = _cnp.AuthReversal(reversal);
+            Assert.AreEqual("Approved", response.message);
+        }
     }
 }
