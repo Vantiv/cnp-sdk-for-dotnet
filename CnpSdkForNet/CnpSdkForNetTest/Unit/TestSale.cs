@@ -1079,7 +1079,7 @@ namespace Cnp.Sdk.Test.Unit
             };
             sale.identityBundle = identityBundle;
             sale.reportGroup = "Planets";
-           
+
 
             var mock = new Mock<Communications>();
             if (config["encryptOltpPayload"] == "true")

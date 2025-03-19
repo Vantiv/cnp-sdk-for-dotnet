@@ -528,15 +528,15 @@ namespace Cnp.Sdk.Test.Functional
             var response = _cnp.Authorize(authorization);
             Assert.AreEqual("000", response.response);
 
-           /* // SANDBOX BRB
+            // SANDBOX BRB
             //Assert.AreEqual("63225578415568556365452427825", response.networkTransactionId);
             Assert.AreEqual("visa", response.enhancedAuthResponse.networkResponse.endpoint);
-            Assert.AreEqual(5, response.enhancedAuthResponse.networkResponse.networkField.fieldNumber);
-            Assert.AreEqual("Additional Request Data", response.enhancedAuthResponse.networkResponse.networkField.fieldName);
-            Assert.AreEqual("135798642", response.enhancedAuthResponse.networkResponse.networkField.fieldValue);*/
+            Assert.AreEqual(4, response.enhancedAuthResponse.networkResponse.networkField.fieldNumber);
+            Assert.AreEqual("Transaction Amount", response.enhancedAuthResponse.networkResponse.networkField.fieldName);
+            Assert.AreEqual("135798642", response.enhancedAuthResponse.networkResponse.networkField.fieldValue);
         }
 
-        [Test]
+            [Test]
         public void SimpleAuthWithCardPin()
         {
             var authorization = new authorization

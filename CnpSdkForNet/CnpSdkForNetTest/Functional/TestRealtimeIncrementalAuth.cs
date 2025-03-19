@@ -36,10 +36,10 @@ namespace Cnp.Sdk.Test.Functional
                     expDate = "1210"
                 },
                 customBilling = new customBilling { phone = "1112223333" },
-                originalNetworkTransactionId= "1234",
-                originalRetrievalReferenceNumber="12345",
-                 cumulativeAmount=500,
-                 originalTransactionAmount=480
+                originalNetworkTransactionId = "1234",
+                originalRetrievalReferenceNumber = "12345",
+                cumulativeAmount = 500,
+                originalTransactionAmount = 480
             };
             var response = _cnp.realtimeIncrementalAuth(realtimeIncAuth);
 
