@@ -420,6 +420,7 @@ namespace Cnp.Sdk.Test.Unit
             checkType.authenticationProtocolVersion = "PAP";
             auth.cardholderAuthentication = checkType;
             auth.cardholderAuthentication.customerIpAddress = "192.168.1.1";
+            auth.foreignRetailerIndicator = foreignRetailerIndicatorEnum.A;
             auth.accountFundingTransactionData = new accountFundingTransactionData()
             {
                 receiverFirstName = "abcc",
@@ -427,10 +428,10 @@ namespace Cnp.Sdk.Test.Unit
                 receiverCountry = countryTypeEnum.US,
                 receiverState = stateTypeEnum.AL,
                 receiverAccountNumberType = accountFundingTransactionAccountNumberTypeEnum.cardAccount,
-                receiverAccountNumber = "4141000",
+                receiverAccountNumberCnpToken = "4141000",
                 accountFundingTransactionType = accountFundingTransactionTypeEnum.accountToAccount
-                auth.typeOfDigitalCurrency = typeOfDigitalCurrencyEnum.Three
             };
+            auth.typeOfDigitalCurrency = typeOfDigitalCurrencyEnum.Three;
             auth.fraudCheckAction = fraudCheckActionEnum.APPROVED_SKIP_FRAUD_CHECK;
             var expectedResult = @"
 <authorization id="""" reportGroup="""">
@@ -446,13 +447,14 @@ namespace Cnp.Sdk.Test.Unit
 <customerIpAddress>192.168.1.1</customerIpAddress>
 <authenticationProtocolVersion>PAP</authenticationProtocolVersion>
 </cardholderAuthentication>
+<foreignRetailerIndicator>A</foreignRetailerIndicator>
 <accountFundingTransactionData>
 <receiverFirstName>abcc</receiverFirstName>
 <receiverLastName>cde</receiverLastName>
 <receiverState>AL</receiverState>
 <receiverCountry>US</receiverCountry>
 <receiverAccountNumberType>cardAccount</receiverAccountNumberType>
-<receiverAccountNumber>4141000</receiverAccountNumber>
+<receiverAccountNumberCnpToken>4141000</receiverAccountNumberCnpToken>
 <accountFundingTransactionType>accountToAccount</accountFundingTransactionType>
 </accountFundingTransactionData>
 <fraudCheckAction>APPROVED_SKIP_FRAUD_CHECK</fraudCheckAction>

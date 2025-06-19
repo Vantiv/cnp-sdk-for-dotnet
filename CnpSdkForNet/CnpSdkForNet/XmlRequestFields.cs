@@ -568,7 +568,22 @@ namespace Cnp.Sdk
                 authIndicatorSet = true;
             }
         }
-
+        //12.45 start
+        private foreignRetailerIndicatorEnum foreignRetailerIndicatorFeild;
+        private bool foreignRetailerIndicatorSet;
+        public foreignRetailerIndicatorEnum foreignRetailerIndicator
+        {
+            get
+            {
+                return foreignRetailerIndicatorFeild;
+            }
+            set
+            {
+                foreignRetailerIndicatorFeild = value;
+                foreignRetailerIndicatorSet = true;
+            }
+        }
+        //12.45 end
         //12.30 end
 
         public bool? skipRealtimeAU;
@@ -592,9 +607,9 @@ namespace Cnp.Sdk
             }
         }
 
-        private string typeOfDigitalCurrencyField;
+        private typeOfDigitalCurrencyEnum typeOfDigitalCurrencyField;
         private bool typeOfDigitalCurrencySet;
-        public string typeOfDigitalCurrency
+        public typeOfDigitalCurrencyEnum typeOfDigitalCurrency
         {
             get
             {
@@ -798,7 +813,13 @@ namespace Cnp.Sdk
                     xml += "\r\n<authIndicator>" + authIndicatorField + "</authIndicator>";
                 }
                 //end 
+                //12.45 start
 
+                if (foreignRetailerIndicatorSet)
+                {
+                    xml += "\r\n<foreignRetailerIndicator>" + foreignRetailerIndicatorFeild + "</foreignRetailerIndicator>";
+                }
+                //end 
                 if (merchantData != null)
                 {
                     xml += "\r\n<merchantData>" + merchantData.Serialize() + "\r\n</merchantData>";
@@ -858,7 +879,7 @@ namespace Cnp.Sdk
                 }
                 if (typeOfDigitalCurrencySet)
                 {
-                    xml += "\r\n<typeOfDigitalCurrency>" + typeOfDigitalCurrencyField + "</typeOfDigitalCurrency>";
+                    xml += "\r\n<typeOfDigitalCurrency>" + (int)typeOfDigitalCurrencyField + "</typeOfDigitalCurrency>";
                 }
                 if (conversionAffiliateIdSet)
                 {
@@ -1463,9 +1484,9 @@ namespace Cnp.Sdk
         }
         //12.31 end
         public accountFundingTransactionData accountFundingTransactionData;
-        private string typeOfDigitalCurrencyField;
+        private typeOfDigitalCurrencyEnum typeOfDigitalCurrencyField;
         private bool typeOfDigitalCurrencySet;
-        public string typeOfDigitalCurrency
+        public typeOfDigitalCurrencyEnum typeOfDigitalCurrency
         {
             get
             {
@@ -1619,7 +1640,7 @@ namespace Cnp.Sdk
             }
             if (typeOfDigitalCurrencySet)
             {
-                xml += "\r\n<typeOfDigitalCurrency>" + typeOfDigitalCurrencyField + "</typeOfDigitalCurrency>";
+                xml += "\r\n<typeOfDigitalCurrency>" + (int)typeOfDigitalCurrencyField + "</typeOfDigitalCurrency>";
             }
             if (conversionAffiliateIdSet)
             {
@@ -3162,9 +3183,9 @@ namespace Cnp.Sdk
             }
         }
 
-        private string typeOfDigitalCurrencyField;
+        private typeOfDigitalCurrencyEnum typeOfDigitalCurrencyField;
         private bool typeOfDigitalCurrencySet;
-        public string typeOfDigitalCurrency
+        public typeOfDigitalCurrencyEnum typeOfDigitalCurrency
         {
             get
             {
@@ -3433,7 +3454,7 @@ namespace Cnp.Sdk
 
             if (typeOfDigitalCurrencySet)
             {
-                xml += "\r\n<typeOfDigitalCurrency>" + typeOfDigitalCurrencyField + "</typeOfDigitalCurrency>";
+                xml += "\r\n<typeOfDigitalCurrency>" + (int)typeOfDigitalCurrencyField + "</typeOfDigitalCurrency>";
             }
             if (conversionAffiliateIdSet)
             {
@@ -4144,11 +4165,23 @@ namespace Cnp.Sdk
     }
     // 12.28, 12.29 and 12.30 end
 
-    //new 12.31 start
+    //new 12.45 start
     public enum foreignRetailerIndicatorEnum
     {
-        F
+        F,
+        A,
+        B
     }
+
+    public enum typeOfDigitalCurrencyEnum
+    {
+        One = 1,
+        Two=2,
+        Three=3,
+        Four=4,
+        Seven=7
+    }
+
     // 12.31 end
     #endregion
 
@@ -4195,6 +4228,7 @@ namespace Cnp.Sdk
         AFFIRM
     }
 
+ 
 
     #region Child elements.
     // The customerInfo element is the parent of several child elements use to define customer information.
@@ -7526,6 +7560,7 @@ namespace Cnp.Sdk
             }
         }
         public string receiverAccountNumber;
+        public string receiverAccountNumberCnpToken;
 
         public accountFundingTransactionTypeEnum accountFundingTransactionTypeFeild;
         public bool accountFundingTransactionTypeSet;
@@ -7560,6 +7595,7 @@ namespace Cnp.Sdk
                 xml += "\r\n<receiverAccountNumberType>" + receiverAccountNumberType + "</receiverAccountNumberType>";
             }
             if (receiverAccountNumber != null) xml += "\r\n<receiverAccountNumber>" + SecurityElement.Escape(receiverAccountNumber) + "</receiverAccountNumber>";
+            else if (receiverAccountNumberCnpToken != null) xml += "\r\n<receiverAccountNumberCnpToken>" + SecurityElement.Escape(receiverAccountNumberCnpToken) + "</receiverAccountNumberCnpToken>";
             if (accountFundingTransactionTypeSet)
             {
                 xml += "\r\n<accountFundingTransactionType>" + accountFundingTransactionType + "</accountFundingTransactionType>";
