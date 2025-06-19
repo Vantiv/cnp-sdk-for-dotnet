@@ -997,7 +997,7 @@ namespace Cnp.Sdk.Test.Functional
                     accountFundingTransactionType = accountFundingTransactionTypeEnum.accountToAccount
                 },
                 fraudCheckAction = fraudCheckActionEnum.APPROVED_SKIP_FRAUD_CHECK,
-                typeOfDigitalCurrency = "abd",
+                typeOfDigitalCurrency = typeOfDigitalCurrencyEnum.Three,
                 conversionAffiliateId = "1",
             };
             var mysubscription = new subscriptions();

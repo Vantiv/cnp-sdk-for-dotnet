@@ -420,6 +420,7 @@ namespace Cnp.Sdk.Test.Unit
             checkType.authenticationProtocolVersion = "PAP";
             auth.cardholderAuthentication = checkType;
             auth.cardholderAuthentication.customerIpAddress = "192.168.1.1";
+            auth.foreignRetailerIndicator = foreignRetailerIndicatorEnum.A;
             auth.accountFundingTransactionData = new accountFundingTransactionData()
             {
                 receiverFirstName = "abcc",
@@ -427,9 +428,10 @@ namespace Cnp.Sdk.Test.Unit
                 receiverCountry = countryTypeEnum.US,
                 receiverState = stateTypeEnum.AL,
                 receiverAccountNumberType = accountFundingTransactionAccountNumberTypeEnum.cardAccount,
-                receiverAccountNumber = "4141000",
+                receiverAccountNumberCnpToken = "4141000",
                 accountFundingTransactionType = accountFundingTransactionTypeEnum.accountToAccount
             };
+            auth.typeOfDigitalCurrency = typeOfDigitalCurrencyEnum.Three;
             auth.fraudCheckAction = fraudCheckActionEnum.APPROVED_SKIP_FRAUD_CHECK;
             var expectedResult = @"
 <authorization id="""" reportGroup="""">
@@ -445,13 +447,14 @@ namespace Cnp.Sdk.Test.Unit
 <customerIpAddress>192.168.1.1</customerIpAddress>
 <authenticationProtocolVersion>PAP</authenticationProtocolVersion>
 </cardholderAuthentication>
+<foreignRetailerIndicator>A</foreignRetailerIndicator>
 <accountFundingTransactionData>
 <receiverFirstName>abcc</receiverFirstName>
 <receiverLastName>cde</receiverLastName>
 <receiverState>AL</receiverState>
 <receiverCountry>US</receiverCountry>
 <receiverAccountNumberType>cardAccount</receiverAccountNumberType>
-<receiverAccountNumber>4141000</receiverAccountNumber>
+<receiverAccountNumberCnpToken>4141000</receiverAccountNumberCnpToken>
 <accountFundingTransactionType>accountToAccount</accountFundingTransactionType>
 </accountFundingTransactionData>
 <fraudCheckAction>APPROVED_SKIP_FRAUD_CHECK</fraudCheckAction>
@@ -1450,12 +1453,12 @@ namespace Cnp.Sdk.Test.Unit
             if (config["encryptOltpPayload"] == "true")
             {
                 mock.Setup(Communications => Communications.HttpPost(It.IsRegex(".*<cnpOnlineRequest.*<encryptedPayload.*</encryptedPayload>.*", RegexOptions.Singleline)))
-                .Returns("<cnpOnlineResponse version=12.44' response='0' message='Valid Format' xmlns='http://www.vantivcnp.com/schema'><authorizationResponse><cnpTxnId>123</cnpTxnId></authorizationResponse></cnpOnlineResponse>");
+                .Returns("<cnpOnlineResponse version=12.46' response='0' message='Valid Format' xmlns='http://www.vantivcnp.com/schema'><authorizationResponse><cnpTxnId>123</cnpTxnId></authorizationResponse></cnpOnlineResponse>");
             }
             else
             {
                 mock.Setup(Communications => Communications.HttpPost(It.IsRegex(".*<amount>2</amount>\r\n<orderSource>ecommerceDataOnly</orderSource>.*", RegexOptions.Singleline)))
-                .Returns("<cnpOnlineResponse version='12.44' response='0' message='Valid Format' xmlns='http://www.vantivcnp.com/schema'><authorizationResponse><cnpTxnId>123</cnpTxnId></authorizationResponse></cnpOnlineResponse>");
+                .Returns("<cnpOnlineResponse version='12.46' response='0' message='Valid Format' xmlns='http://www.vantivcnp.com/schema'><authorizationResponse><cnpTxnId>123</cnpTxnId></authorizationResponse></cnpOnlineResponse>");
             }
             var mockedCommunication = mock.Object;
             cnp.SetCommunication(mockedCommunication);

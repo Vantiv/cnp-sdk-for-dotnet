@@ -309,7 +309,7 @@ namespace Cnp.Sdk.Test.Functional
                     receiverAccountNumber = "4141000",
 
                 },
-                typeOfDigitalCurrency = "asv",
+                typeOfDigitalCurrency = typeOfDigitalCurrencyEnum.Four,
                 conversionAffiliateId = "1",
             };
 

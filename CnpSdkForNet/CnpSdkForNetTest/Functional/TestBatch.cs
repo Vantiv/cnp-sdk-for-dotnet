@@ -16,7 +16,7 @@ namespace Cnp.Sdk.Test.Functional
         [OneTimeSetUp]
         public void SetUp()
         {
-            EnvironmentVariableTestFlags.RequirePreliveBatchTestsEnabled();
+            /*EnvironmentVariableTestFlags.RequirePreliveBatchTestsEnabled();*/
             
             ConfigManager invalidConfigManager = new ConfigManager();
             _invalidConfig = invalidConfigManager.getConfig();
@@ -64,6 +64,7 @@ namespace Cnp.Sdk.Test.Functional
             };
             authorization.card = card;
             authorization.id = "id";
+            authorization.foreignRetailerIndicator = foreignRetailerIndicatorEnum.A;
             authorization.accountFundingTransactionData = new accountFundingTransactionData()
             {
                 receiverFirstName = "abcc",
@@ -99,7 +100,7 @@ namespace Cnp.Sdk.Test.Functional
             card2.expDate = "1210";
             authorization2.card = card2;
             authorization2.id = "id";
-            authorization2.typeOfDigitalCurrency = "type";
+            authorization2.typeOfDigitalCurrency = typeOfDigitalCurrencyEnum.One;
             authorization2.conversionAffiliateId = "conversion";
             cnpBatchRequest.addAuthorization(authorization2);
 
@@ -181,7 +182,7 @@ namespace Cnp.Sdk.Test.Functional
             capturegivenauth.orderSource = orderSourceType.ecommerce;
             capturegivenauth.card = card;
             capturegivenauth.id = "id";
-            capturegivenauth.typeOfDigitalCurrency = "type";
+            capturegivenauth.typeOfDigitalCurrency = typeOfDigitalCurrencyEnum.Three;
             capturegivenauth.conversionAffiliateId = "conversion";
             cnpBatchRequest.addCaptureGivenAuth(capturegivenauth);
 
@@ -395,7 +396,7 @@ namespace Cnp.Sdk.Test.Functional
             saleObj2.orderSource = orderSourceType.ecommerce;
             saleObj2.card = card2;
             saleObj2.id = "id";
-            saleObj2.typeOfDigitalCurrency = "Bcoin";
+            saleObj2.typeOfDigitalCurrency = typeOfDigitalCurrencyEnum.Four;
             saleObj2.conversionAffiliateId = "DC12345";
             cnpBatchRequest.addSale(saleObj2);
 
@@ -2018,7 +2019,7 @@ namespace Cnp.Sdk.Test.Functional
                 decisionPurpose = decisionPurposeEnum.INFORMATION_ONLY,
                 fraudSwitchIndicator = fraudSwitchIndicatorEnum.PRE,
                 customBilling = new customBilling { phone = "1112223333" },
-                authIndicator = authIndicatorEnum.Estimated
+                authIndicator = authIndicatorEnum.Estimated            
             };
 
             cnpBatchRequest.addAuthorization(authorization);
@@ -2290,6 +2291,7 @@ namespace Cnp.Sdk.Test.Functional
                     lineItems = new List<lineItemData>(),
                 },
                 customBilling = new customBilling { phone = "1112223333" },
+                foreignRetailerIndicator = foreignRetailerIndicatorEnum.A,
                 accountFundingTransactionData = new accountFundingTransactionData()
                 {
                     receiverFirstName = "abcc",

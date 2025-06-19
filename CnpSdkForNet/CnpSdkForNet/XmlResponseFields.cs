@@ -2191,6 +2191,10 @@ namespace Cnp.Sdk
         private string retrievalReferenceNumberField;
         public orderSourceType orderSourceField;
 
+        //12.46 two new elements added
+
+        private string credentialTypeField;
+        private string cardDetailsField;
         /// <remarks/>
         public long cnpTxnId
         {
@@ -2526,6 +2530,25 @@ namespace Cnp.Sdk
                 this.networkTransactionIdField = value;
             }
         }
+
+        public string credentialType
+        {
+            get
+            {
+                return this.credentialTypeField;
+            }
+            set
+            {
+                this.credentialTypeField = value;
+            }
+        }
+
+        public string cardDetails
+        {
+            get { return this.cardDetailsField; }
+            set { this.cardDetailsField = value; }
+        }
+
 
         //TODO: make deserializable
         public string location
@@ -4400,6 +4423,10 @@ namespace Cnp.Sdk
         private string retrievalReferenceNumberField;
         public orderSourceType orderSourceField;
 
+        private string credentialTypeField;
+        private string cardDetailsField;
+
+
         /// <remarks/>
         public long cnpTxnId
         {
@@ -4831,6 +4858,25 @@ namespace Cnp.Sdk
                 this.authMaxField = value;
             }
         }
+
+        public string credentialType
+        {
+            get
+            {
+                return this.credentialTypeField;
+            }
+            set
+            {
+                this.credentialTypeField = value;
+            }
+        }
+
+        public string cardDetails
+        {
+            get { return this.cardDetailsField; }
+            set { this.cardDetailsField = value; }
+        }
+
         public string paymentAccountReferenceNumber
         {
             get { return paymentAccountReferenceNumberField; }

@@ -1306,6 +1306,7 @@ namespace Cnp.Sdk.Test.Functional
                     lineItems = new List<lineItemData>(),
 
                 },
+                foreignRetailerIndicator = foreignRetailerIndicatorEnum.A,
                 accountFundingTransactionData = new accountFundingTransactionData()
                 {
                     receiverFirstName = "abcc",
@@ -1313,11 +1314,11 @@ namespace Cnp.Sdk.Test.Functional
                     receiverCountry = countryTypeEnum.US,
                     receiverState = stateTypeEnum.AL,
                     receiverAccountNumberType = accountFundingTransactionAccountNumberTypeEnum.cardAccount,
-                    receiverAccountNumber = "4141000",
+                    receiverAccountNumberCnpToken = "41410004576986707",
                     accountFundingTransactionType = accountFundingTransactionTypeEnum.accountToAccount
                 },
                 fraudCheckAction = fraudCheckActionEnum.APPROVED_SKIP_FRAUD_CHECK,
-                typeOfDigitalCurrency = "abc",
+                typeOfDigitalCurrency = typeOfDigitalCurrencyEnum.Three,
                 conversionAffiliateId = "123",
             };
             var response = _cnp.Authorize(authorization);
