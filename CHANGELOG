@@ -4,7 +4,7 @@
 
 
 ==Change Log for 12.46 (June 17,2025)
-* Change: [cnpAPI v12.46] In 'AuthorizationResponse' and 'SaleResponse' simple element 'credentialType' of tyape 'string' and 'cardDetails' of type 'ccAccountNumberType'.
+* Change: [cnpAPI v12.46] In 'AuthorizationResponse' and 'SaleResponse' simple element 'credentialType' of type 'string' and 'cardDetails' of type 'ccAccountNumberType'.
 * Change: [cnpAPI v12.46] In existing complex element 'accountFundingTransactionData' two simple elements 'receiverAccountNumber' of type 'string50Type' and 'receiverAccountNumberCnpToken' of type 'ccAccountNumberType' are added as choice.
 * Change: [cnpAPI v12.45] In existing enum 'foreignRetailerIndicatorEnum' new values 'A','B'.
 * Change: [cnpAPI v12.45] In existing authorization request new element 'foreignRetailerIndicator' of type 'foreignRetailerIndicatorEnum' is added.
