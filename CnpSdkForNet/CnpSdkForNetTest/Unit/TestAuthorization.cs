@@ -429,6 +429,7 @@ namespace Cnp.Sdk.Test.Unit
                 receiverAccountNumberType = accountFundingTransactionAccountNumberTypeEnum.cardAccount,
                 receiverAccountNumber = "4141000",
                 accountFundingTransactionType = accountFundingTransactionTypeEnum.accountToAccount
+                auth.typeOfDigitalCurrency = typeOfDigitalCurrencyEnum.Three
             };
             auth.fraudCheckAction = fraudCheckActionEnum.APPROVED_SKIP_FRAUD_CHECK;
             var expectedResult = @"
