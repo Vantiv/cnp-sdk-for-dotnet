@@ -984,6 +984,7 @@ namespace Cnp.Sdk.Test.Functional
                     deliveryType = enhancedDataDeliveryType.DIG,
                     taxExempt = false,
                     lineItems = new List<lineItemData>(),
+                    numberOfPayments = numberOfPaymentsEnum.Nine,
 
                 },
                 accountFundingTransactionData = new accountFundingTransactionData()
@@ -1012,6 +1013,7 @@ namespace Cnp.Sdk.Test.Functional
             mylineItemData.itemSequenceNumber = 1;
             mylineItemData.itemDescription = "Electronics";
             mylineItemData.productCode = "El01";
+            mylineItemData.lineItemDetailIndicator = lineItemDetailIndicatorEnum.One;
             mylineItemData.itemCategory = "Ele Appiances";
             mylineItemData.itemSubCategory = "home appliaces";
             mylineItemData.productId = "1001";

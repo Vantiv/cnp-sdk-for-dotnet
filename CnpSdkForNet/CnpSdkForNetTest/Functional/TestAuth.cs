@@ -1296,14 +1296,14 @@ namespace Cnp.Sdk.Test.Functional
                     expDate = "1210"
                 },
                 customBilling = new customBilling { phone = "1112223333" },
-                enhancedData = new enhancedData
+                   enhancedData = new enhancedData
                 {
                     customerReference = "000000008110801",
                     salesTax = 23,
                     deliveryType = enhancedDataDeliveryType.DIG,
                     taxExempt = false,
-                    detailTaxes = new List<detailTax>(),
                     lineItems = new List<lineItemData>(),
+                    numberOfPayments = numberOfPaymentsEnum.Empty,
 
                 },
                 foreignRetailerIndicator = foreignRetailerIndicatorEnum.A,
@@ -1321,11 +1321,12 @@ namespace Cnp.Sdk.Test.Functional
                 typeOfDigitalCurrency = typeOfDigitalCurrencyEnum.Three,
                 conversionAffiliateId = "123",
             };
-            var response = _cnp.Authorize(authorization);
+            
+
             var mysubscription = new subscriptions();
             mysubscription.subscriptionId = "123";
-            mysubscription.currentPeriod = 114;
-            mysubscription.periodUnit = periodUnit.YEAR;
+            mysubscription.currentPeriod = 112;
+            mysubscription.periodUnit = periodUnit.MONTH;
             mysubscription.numberOfPeriods = 123;
             mysubscription.regularItemPrice = 69;
             mysubscription.nextDeliveryDate = new DateTime(2017, 1, 1);
@@ -1333,15 +1334,17 @@ namespace Cnp.Sdk.Test.Functional
             var mylineItemData = new lineItemData();
             mylineItemData.itemSequenceNumber = 1;
             mylineItemData.itemDescription = "Electronics";
-            mylineItemData.productCode = "El03";
-            mylineItemData.itemCategory = "E Appiances";
-            mylineItemData.itemSubCategory = "appliaces";
-            mylineItemData.productId = "1023";
-            mylineItemData.productName = "dyer";
-            mylineItemData.shipmentId = "2124";
+            mylineItemData.productCode = "El01";
+            mylineItemData.lineItemDetailIndicator = lineItemDetailIndicatorEnum.One;
+            mylineItemData.itemCategory = "Ele Appiances";
+            mylineItemData.itemSubCategory = "home appliaces";
+            mylineItemData.productId = "1001";
+            mylineItemData.productName = "dryer";
+            mylineItemData.shipmentId = "2543";
             mylineItemData.subscription.Add(mysubscription);
             authorization.enhancedData.lineItems.Add(mylineItemData);
 
+            var response = _cnp.Authorize(authorization);
             DateTime checkDate = new DateTime(0001, 1, 1, 00, 00, 00);
 
             Assert.AreEqual("000", response.response);
