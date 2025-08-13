@@ -15,6 +15,7 @@ using System.Threading.Tasks;
 using Renci.SshNet;
 using Renci.SshNet.Sftp;
 using Renci.SshNet.Common;
+using System.Configuration;
 
 namespace Cnp.Sdk
 {
@@ -121,7 +122,7 @@ namespace Cnp.Sdk
         private void OnHttpAction(RequestType requestType, string xmlPayload)
         {
             if (HttpAction == null) return;
- 
+            
             NeuterXml(ref xmlPayload);
             NeuterUserCredentials(ref xmlPayload);
 
@@ -221,6 +222,17 @@ namespace Cnp.Sdk
             _config.TryGetValue("logFile", out var logFile);
             var printXml = _config.ContainsKey("printxml") && "true".Equals(_config["printxml"]);
 
+            string defaultEcomApi = "";
+            if (string.Equals(_config["sendEcomHeader"], "true", StringComparison.OrdinalIgnoreCase))
+            {
+                string ecomHeaderValue = _config.ContainsKey("ecomHeaderValue") ? _config["ecomHeaderValue"]?.Trim() : null;
+                _client.DefaultRequestHeaders.Add("X-Ecom-Api", !string.IsNullOrEmpty(ecomHeaderValue) ? ecomHeaderValue : defaultEcomApi);
+
+                /*HttpResponseMessage response = await _client.GetAsync(xmlRequest);*/
+                /*string responseBody = await response.Content.ReadAsStringAsync();*/
+
+            }
+
             // Log any data to the appropriate places, only if we need to
             if (printXml)
             {
@@ -238,7 +250,9 @@ namespace Cnp.Sdk
                 OnHttpAction(RequestType.Request, xmlRequest);
                 var xmlContent = new StringContent(xmlRequest, Encoding.UTF8, "application/xml");
                 var response = await _client.PostAsync(_config["url"], xmlContent, cancellationToken);
+              
                 var xmlResponse = await response.Content.ReadAsStringAsync();
+
                 OnHttpAction(RequestType.Response, xmlResponse);
 
                 if (printXml)

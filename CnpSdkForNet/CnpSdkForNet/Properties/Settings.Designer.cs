@@ -356,5 +356,35 @@ namespace Cnp.Sdk.Properties {
             }
         }
 
+        [global::System.Configuration.UserScopedSettingAttribute()]
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.Configuration.DefaultSettingValueAttribute("false")]
+        public string sendEcomHeader
+        {
+            get
+            {
+                return ((string)(this["sendEcomHeader"]));
+            }
+            set
+            {
+                this["sendEcomHeader"] = value;
+            }
+        }
+
+        [global::System.Configuration.UserScopedSettingAttribute()]
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.Configuration.DefaultSettingValueAttribute("")]
+        public string ecomHeaderValue
+        {
+            get
+            {
+                return ((string)(this["ecomHeaderValue"]));
+            }
+            set
+            {
+                this["ecomHeaderValue"] = value;
+            }
+        }
+
     }
 }
