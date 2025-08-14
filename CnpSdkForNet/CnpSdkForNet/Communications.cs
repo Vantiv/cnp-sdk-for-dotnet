@@ -32,6 +32,7 @@ namespace Cnp.Sdk
 
         public event EventHandler HttpAction;
 
+        private string ECOM_API = "";
         /// <summary>
         /// Client for communicating with the APIs through HTTP
         ///   _client is static so it will only be created once, as recommended in the documentation
@@ -222,16 +223,19 @@ namespace Cnp.Sdk
             _config.TryGetValue("logFile", out var logFile);
             var printXml = _config.ContainsKey("printxml") && "true".Equals(_config["printxml"]);
 
-            string defaultEcomApi = "";
-            if (string.Equals(_config["sendEcomHeader"], "true", StringComparison.OrdinalIgnoreCase))
+            
+            if (_config.ContainsKey("sendEcomHeader") && string.Equals(_config["sendEcomHeader"], "true", StringComparison.OrdinalIgnoreCase))
             {
                 string ecomHeaderValue = _config.ContainsKey("ecomHeaderValue") ? _config["ecomHeaderValue"]?.Trim() : null;
-                _client.DefaultRequestHeaders.Add("X-Ecom-Api", !string.IsNullOrEmpty(ecomHeaderValue) ? ecomHeaderValue : defaultEcomApi);
-
-                /*HttpResponseMessage response = await _client.GetAsync(xmlRequest);*/
-                /*string responseBody = await response.Content.ReadAsStringAsync();*/
+                if (_client.DefaultRequestHeaders.Contains("X-Ecom-Api"))
+                {
+                    _client.DefaultRequestHeaders.Remove("X-Ecom-Api");
+                } 
+                _client.DefaultRequestHeaders.Add("X-Ecom-Api", !string.IsNullOrEmpty(ecomHeaderValue) ? ecomHeaderValue : ECOM_API);
 
             }
+
+
 
             // Log any data to the appropriate places, only if we need to
             if (printXml)
