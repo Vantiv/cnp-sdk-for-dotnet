@@ -15,6 +15,7 @@ using System.Threading.Tasks;
 using Renci.SshNet;
 using Renci.SshNet.Sftp;
 using Renci.SshNet.Common;
+using System.Configuration;
 
 namespace Cnp.Sdk
 {
@@ -31,6 +32,7 @@ namespace Cnp.Sdk
 
         public event EventHandler HttpAction;
 
+        private string ECOM_API = "";
         /// <summary>
         /// Client for communicating with the APIs through HTTP
         ///   _client is static so it will only be created once, as recommended in the documentation
@@ -121,7 +123,7 @@ namespace Cnp.Sdk
         private void OnHttpAction(RequestType requestType, string xmlPayload)
         {
             if (HttpAction == null) return;
- 
+            
             NeuterXml(ref xmlPayload);
             NeuterUserCredentials(ref xmlPayload);
 
@@ -221,6 +223,20 @@ namespace Cnp.Sdk
             _config.TryGetValue("logFile", out var logFile);
             var printXml = _config.ContainsKey("printxml") && "true".Equals(_config["printxml"]);
 
+            
+            if (_config.ContainsKey("sendEcomHeader") && string.Equals(_config["sendEcomHeader"], "true", StringComparison.OrdinalIgnoreCase))
+            {
+                string ecomHeaderValue = _config.ContainsKey("ecomHeaderValue") ? _config["ecomHeaderValue"]?.Trim() : null;
+                if (_client.DefaultRequestHeaders.Contains("X-Ecom-Api"))
+                {
+                    _client.DefaultRequestHeaders.Remove("X-Ecom-Api");
+                } 
+                _client.DefaultRequestHeaders.Add("X-Ecom-Api", !string.IsNullOrEmpty(ecomHeaderValue) ? ecomHeaderValue : ECOM_API);
+
+            }
+
+
+
             // Log any data to the appropriate places, only if we need to
             if (printXml)
             {
@@ -238,7 +254,9 @@ namespace Cnp.Sdk
                 OnHttpAction(RequestType.Request, xmlRequest);
                 var xmlContent = new StringContent(xmlRequest, Encoding.UTF8, "application/xml");
                 var response = await _client.PostAsync(_config["url"], xmlContent, cancellationToken);
+              
                 var xmlResponse = await response.Content.ReadAsStringAsync();
+
                 OnHttpAction(RequestType.Response, xmlResponse);
 
                 if (printXml)

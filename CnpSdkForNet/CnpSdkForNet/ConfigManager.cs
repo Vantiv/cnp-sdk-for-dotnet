@@ -39,7 +39,9 @@ namespace Cnp.Sdk
             ["maxConnections"] = Properties.Settings.Default.maxConnections,
             ["encryptOltpPayload"] = Properties.Settings.Default.encryptOltpPayload,
             ["oltpEncryptionKeySequence"] = Properties.Settings.Default.oltpEncryptionKeySequence,
-            ["oltpEncryptionKeyPath"] = Properties.Settings.Default.oltpEncryptionKeyPath
+            ["oltpEncryptionKeyPath"] = Properties.Settings.Default.oltpEncryptionKeyPath,
+            ["sendEcomHeader"] = Properties.Settings.Default.sendEcomHeader,
+            ["ecomHeaderValue"] = Properties.Settings.Default.ecomHeaderValue,
         }) { }
 
         public ConfigManager(Dictionary<string, string> config)

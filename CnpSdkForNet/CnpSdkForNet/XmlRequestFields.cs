@@ -3,6 +3,8 @@ using System.Collections.Generic;
 using System.Text;
 using System.Security;
 using System.Xml.Serialization;
+using System.Runtime.Serialization;
+using System.Linq;
 
 namespace Cnp.Sdk
 {
@@ -873,7 +875,7 @@ namespace Cnp.Sdk
                 {
                     xml += "\r\n<accountFundingTransactionData>" + accountFundingTransactionData.Serialize() + "\r\n</accountFundingTransactionData>";
                 }
-                if (fraudCheckActionSet != null)
+                if (fraudCheckActionSet)
                 {
                     xml += "\r\n<fraudCheckAction>" + fraudCheckActionFeild + "</fraudCheckAction>";
                 }
@@ -4182,6 +4184,54 @@ namespace Cnp.Sdk
         Seven=7
     }
 
+    public enum lineItemDetailIndicatorEnum
+    {
+        Zero = 0,
+        One = 1,
+        Two = 2,
+        Three = 3,
+        Four = 4,
+        Five = 5
+    }
+
+
+    public enum numberOfPaymentsEnum
+    {
+        [EnumMember(Value = "1")]
+        One = 1,
+
+        [EnumMember(Value = "2")]
+        Two = 2,
+
+        [EnumMember(Value = "3")]
+        Three = 3,
+
+        [EnumMember(Value = "4")]
+        Four = 4,
+
+        [EnumMember(Value = "5")]
+        Five = 5,
+
+        [EnumMember(Value = "6")]
+        Six = 6,
+
+        [EnumMember(Value = "7")]
+        Seven = 7,
+
+        [EnumMember(Value = "8")]
+        Eight = 8,
+
+        [EnumMember(Value = "9")]
+        Nine = 9,
+
+        [EnumMember(Value = "+")]
+        Plus = 10,
+
+        [EnumMember(Value = "")]
+        Empty = 11
+    }
+
+
     // 12.31 end
     #endregion
 
@@ -4566,6 +4616,21 @@ namespace Cnp.Sdk
             detailTaxes = new List<detailTax>();
         }
 
+
+        private numberOfPaymentsEnum numberOfPaymentsField;
+        private bool numberOfPaymentsSet;
+
+        public numberOfPaymentsEnum numberOfPayments
+        {
+            get { return numberOfPaymentsField; }
+            set
+            {
+                numberOfPaymentsField = value;
+                numberOfPaymentsSet = true;
+            }
+        }
+
+
         public string Serialize()
         {
             var xml = "";
@@ -4593,6 +4658,19 @@ namespace Cnp.Sdk
             if (discountCode != null) xml += "\r\n<discountCode>" + SecurityElement.Escape(discountCode) + "</discountCode>";
             if (discountPercentSet) xml += "\r\n<discountPercent>" + discountPercentField + "</discountPercent>";
             if (fulfilmentMethodTypeSet) xml += "\r\n<fulfilmentMethodType>" + fulfilmentMethodTypeField + "</fulfilmentMethodType>";
+            if (numberOfPaymentsSet)
+            {
+                var enumValue = typeof(numberOfPaymentsEnum)
+                    .GetField(numberOfPaymentsField.ToString())
+                    .GetCustomAttributes(typeof(EnumMemberAttribute), false)
+                    .Cast<EnumMemberAttribute>()
+                    .FirstOrDefault()?.Value ?? numberOfPaymentsField.ToString();
+
+                xml += "\r\n<numberOfPayments>" + SecurityElement.Escape(enumValue) + "</numberOfPayments>";
+            }
+
+
+
             ///end
             return xml;
         }
@@ -4634,6 +4712,19 @@ namespace Cnp.Sdk
             get { return lineItemTotalWithTaxField; }
             set { lineItemTotalWithTaxField = value; lineItemTotalWithTaxSet = true; }
         }
+        private lineItemDetailIndicatorEnum lineItemDetailIndicatorField;
+        private bool lineItemDetailIndicatorSet;
+
+        public lineItemDetailIndicatorEnum lineItemDetailIndicator
+        {
+            get { return lineItemDetailIndicatorField; }
+            set
+            {
+                lineItemDetailIndicatorField = value;
+                lineItemDetailIndicatorSet = true;
+            }
+        }
+
         private long itemDiscountAmountField;
         private bool itemDiscountAmountSet;
         public long itemDiscountAmount
@@ -4671,6 +4762,7 @@ namespace Cnp.Sdk
             if (taxAmountSet) xml += "\r\n<taxAmount>" + taxAmountField + "</taxAmount>";
             if (lineItemTotalSet) xml += "\r\n<lineItemTotal>" + lineItemTotalField + "</lineItemTotal>";
             if (lineItemTotalWithTaxSet) xml += "\r\n<lineItemTotalWithTax>" + lineItemTotalWithTaxField + "</lineItemTotalWithTax>";
+            if (lineItemDetailIndicatorSet) xml += "\r\n<lineItemDetailIndicator>" + (int)lineItemDetailIndicatorField + "</lineItemDetailIndicator>";
             if (itemDiscountAmountSet) xml += "\r\n<itemDiscountAmount>" + itemDiscountAmountField + "</itemDiscountAmount>";
             if (commodityCode != null) xml += "\r\n<commodityCode>" + SecurityElement.Escape(commodityCode) + "</commodityCode>";
             if (unitCost != null) xml += "\r\n<unitCost>" + SecurityElement.Escape(unitCost) + "</unitCost>";

@@ -458,6 +458,7 @@ namespace Cnp.Sdk.Test.Unit
 <accountFundingTransactionType>accountToAccount</accountFundingTransactionType>
 </accountFundingTransactionData>
 <fraudCheckAction>APPROVED_SKIP_FRAUD_CHECK</fraudCheckAction>
+<typeOfDigitalCurrency>3</typeOfDigitalCurrency>
 </authorization>";
 
             Assert.AreEqual(Regex.Replace(expectedResult, @"\s+", string.Empty), Regex.Replace(auth.Serialize(), @"\s+", string.Empty));

@@ -17,7 +17,7 @@ namespace Cnp.Sdk.Test.Functional
         public void SetUp()
         {
             /*EnvironmentVariableTestFlags.RequirePreliveBatchTestsEnabled();*/
-            
+
             ConfigManager invalidConfigManager = new ConfigManager();
             _invalidConfig = invalidConfigManager.getConfig();
             _invalidConfig["username"] = "badUsername";
@@ -2418,6 +2418,7 @@ namespace Cnp.Sdk.Test.Functional
                     deliveryType = enhancedDataDeliveryType.DIG,
                     taxExempt = false,
                     lineItems = new List<lineItemData>(),
+                    numberOfPayments = numberOfPaymentsEnum.One,
 
                 },
                 accountFundingTransactionData = new accountFundingTransactionData()
@@ -2446,6 +2447,7 @@ namespace Cnp.Sdk.Test.Functional
             mylineItemData.itemSequenceNumber = 1;
             mylineItemData.itemDescription = "Ecomm";
             mylineItemData.productCode = "El11";
+            mylineItemData.lineItemDetailIndicator = lineItemDetailIndicatorEnum.One;
             mylineItemData.itemCategory = "Ele Appiances";
             mylineItemData.itemSubCategory = "home appliaces";
             mylineItemData.productId = "1111";
