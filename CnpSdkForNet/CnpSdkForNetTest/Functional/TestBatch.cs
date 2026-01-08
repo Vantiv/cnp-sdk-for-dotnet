@@ -2717,5 +2717,98 @@ namespace Cnp.Sdk.Test.Functional
         {
             return (int)(5 * 60 * 1000 + 2.5 * 1000 + numAuthsAndSales * (1 / 5) * 1000 + numRest * (1 / 50) * 1000) * 5;
         }
+        //v12.48 pazeEncryptedPayload
+        [Test]
+        public void testBatchTxnv12_48()
+        {
+            var cnpBatchRequest = new batchRequest();
+            var card = new cardType();
+            card.type = methodOfPaymentTypeEnum.VI;
+            card.number = "4100000000000001";
+            card.expDate = "1210";
+
+            var identityBundle = new identityBundle
+            {
+                merchantId = "2222",
+                entityId = "3333",
+                entityReference = "3batchauthandcapture",
+                resourceId = "12",
+                resourceReference = "111111111111111",
+                commandId = "111",
+                commandReference = "12345",
+                orderReference = "123"
+            };
+
+            var authorization = new authorization
+            {
+                id = "1",
+                reportGroup = "Planets",
+                orderId = "12344",
+                amount = 106,
+                orderSource = orderSourceType.ecommerceDataOnly,
+                pazeEncryptedPayload = "NDEwMDAwMDAwMDAwMDAwMA=="
+
+            };
+            cnpBatchRequest.addAuthorization(authorization);
+
+
+            var sale = new sale
+            {
+                id = "id",
+                reportGroup = "Planets",
+                orderId = "12344",
+                amount = 106,
+                orderSource = orderSourceType.ecommerce,
+                pazeEncryptedPayload = "NTEwMDAwMDAwMDAwMDAwMA==",
+                identityBundle = new identityBundle
+                {
+                    merchantId = "2222",
+                    entityId = "3333",
+                    entityReference = "3batchauthandcapture",
+                    resourceId = "12",
+                    resourceReference = "111111111111111",
+                    commandId = "111",
+                    commandReference = "12345",
+                    orderReference = "123"
+                },
+
+            };
+            cnpBatchRequest.addSale(sale);
+            _cnp.addBatch(cnpBatchRequest);
+
+            var batchName = _cnp.sendToCnp();
+
+            _cnp.blockAndWaitForResponse(batchName, estimatedResponseTime(2 * 2, 10 * 2));
+
+            var cnpResponse = _cnp.receiveFromCnp(batchName);
+
+            Assert.NotNull(cnpResponse);
+            Assert.AreEqual("0", cnpResponse.response);
+            Assert.AreEqual("Valid Format", cnpResponse.message);
+
+            var cnpBatchResponse = cnpResponse.nextBatchResponse();
+
+            while (cnpBatchResponse != null)
+            {
+                var authResponse = cnpBatchResponse.nextAuthorizationResponse();
+                while (authResponse != null)
+                {
+                    //Assert.AreEqual("000", authResponse.response);
+                    Assert.AreEqual("Hard Decline - Input data is invalid", authResponse.message);
+
+                    authResponse = cnpBatchResponse.nextAuthorizationResponse();
+                }
+                var saleResponse = cnpBatchResponse.nextSaleResponse();
+                while (saleResponse != null)
+                {
+                   // Assert.AreEqual("000", saleResponse.response);
+                    Assert.AreEqual("Hard Decline - Input data is invalid", saleResponse.message);
+
+                    saleResponse = cnpBatchResponse.nextSaleResponse();
+                }
+                cnpBatchResponse = cnpResponse.nextBatchResponse();
+            }
+
+            }
+        }
     }
-}

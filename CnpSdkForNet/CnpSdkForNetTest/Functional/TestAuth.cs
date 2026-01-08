@@ -1391,5 +1391,48 @@ namespace Cnp.Sdk.Test.Functional
             Assert.AreEqual("000", response.response);
             Assert.AreEqual(checkDate, response.postDate);
         }
+
+
+        //v12.48 New element PazeEncryptedPayload in authoriztion
+        [Test]
+        public void SimpleAuthWithPazeEncryptedPayload_Approve()
+        {
+            var authorization = new authorization
+            {
+                id = "1",
+                reportGroup = "Planets",
+                orderId = "12344",
+                amount = 106,
+                orderSource = orderSourceType.ecommerceDataOnly,
+                pazeEncryptedPayload = "NDEwMDAwMDAwMDAwMDAwMA=="
+            };
+            var response = _cnp.Authorize(authorization);
+
+            DateTime checkDate = new DateTime(0001, 1, 1, 00, 00, 00);
+
+            Assert.AreEqual("000", response.response);
+            Assert.AreEqual(checkDate, response.postDate);
+            Assert.AreEqual("Approved", response.message);
+        }
+
+        [Test]
+        public void SimpleAuthWithPazeEncryptedPayload_Decline()
+        {
+            var authorization = new authorization
+            {
+                id = "1",
+                reportGroup = "Planets",
+                orderId = "12344",
+                amount = 106,
+                orderSource = orderSourceType.ecommerceDataOnly,
+                pazeEncryptedPayload = "NDEwMDAwMDAwMDAwMDAwMQ=="
+            };
+            var response = _cnp.Authorize(authorization);
+
+            DateTime checkDate = new DateTime(0001, 1, 1, 00, 00, 00);
+                       
+            Assert.AreEqual(checkDate, response.postDate);
+            Assert.AreEqual("Generic Decline", response.message);
+        }
     }
 }
