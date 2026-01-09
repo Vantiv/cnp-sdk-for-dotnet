@@ -642,6 +642,21 @@ namespace Cnp.Sdk
         public identityBundle identityBundle;  //12.41
         public string originalRetrievalReferenceNumber;  //12.42
 
+        private string pazeEncryptedPayloadField;
+        private bool pazeEncryptedPayloadSet;
+        public string pazeEncryptedPayload
+        {
+            get
+            {
+                return pazeEncryptedPayloadField;
+            }
+            set
+            {
+                pazeEncryptedPayloadField = value;
+                pazeEncryptedPayloadSet = true;
+            }
+        }
+
         public override string Serialize()
         {
             var xml = "\r\n<authorization";
@@ -712,6 +727,10 @@ namespace Cnp.Sdk
                 else if (applepay != null)
                 {
                     xml += "\r\n<applepay>" + applepay.Serialize() + "\r\n</applepay>";
+                }
+                else if (pazeEncryptedPayloadSet)   //12.48
+                {
+                    xml += "\r\n<pazeEncryptedPayload>" + pazeEncryptedPayloadField + "</pazeEncryptedPayload>";
                 }
                 if (billMeLaterRequest != null)
                 {
@@ -894,7 +913,7 @@ namespace Cnp.Sdk
                 if (originalRetrievalReferenceNumber != null) //12.42
                 {
                     xml += "\r\n<originalRetrievalReferenceNumber>" + originalRetrievalReferenceNumber + "</originalRetrievalReferenceNumber>";
-                }
+                }               
             }
 
             xml += "\r\n</authorization>";
@@ -2470,7 +2489,7 @@ namespace Cnp.Sdk
         public string authenticationProtocolVersion;
         private bool authenticatedByMerchantField;
         private bool authenticatedByMerchantSet;
-        private string tokenAuthenticationValue;
+        public string tokenAuthenticationValue;
         public bool authenticatedByMerchant
         {
             get { return authenticatedByMerchantField; }
@@ -3218,6 +3237,22 @@ namespace Cnp.Sdk
         //12.41 identityBundle
         public identityBundle identityBundle;
 
+        //12.48 pazeEncryptedPayload
+        private string pazeEncryptedPayloadField;
+        private bool pazeEncryptedPayloadSet;
+        public string pazeEncryptedPayload
+        {
+            get
+            {
+                return pazeEncryptedPayloadField;
+            }
+            set
+            {
+                pazeEncryptedPayloadField = value;
+                pazeEncryptedPayloadSet = true;
+            }
+        }
+
         public override string Serialize()
         {
             var xml = "\r\n<sale";
@@ -3296,6 +3331,10 @@ namespace Cnp.Sdk
             else if (sofort != null)
             {
                 xml += "\r\n<sofort>" + sofort.Serialize() + "\r\n</sofort>";
+            }
+            else if (pazeEncryptedPayloadSet)
+            {
+                xml += "\r\n<pazeEncryptedPayload>" + pazeEncryptedPayloadField + "</pazeEncryptedPayload>";
             }
             if (billMeLaterRequest != null)
             {
@@ -3449,7 +3488,7 @@ namespace Cnp.Sdk
             {
                 xml += "\r\n<accountFundingTransactionData>" + accountFundingTransactionData.Serialize() + "\r\n</accountFundingTransactionData>";
             }
-            if (fraudCheckActionSet != null)
+            if (fraudCheckActionSet)
             {
                 xml += "\r\n<fraudCheckAction>" + fraudCheckActionFeild + "</fraudCheckAction>";
             }
@@ -3466,6 +3505,7 @@ namespace Cnp.Sdk
             {
                 xml += "\r\n<identityBundle>" + identityBundle.Serialize() + "</identityBundle>";
             }
+            
             //end
             //if (routingPreferenceSet)
             //{

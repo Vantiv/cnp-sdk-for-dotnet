@@ -2195,6 +2195,9 @@ namespace Cnp.Sdk
 
         private string credentialTypeField;
         private string cardDetailsField;
+
+        private tlid tlidField;
+
         /// <remarks/>
         public long cnpTxnId
         {
@@ -2613,6 +2616,17 @@ namespace Cnp.Sdk
                 this.orderSourceField = value;
             }
         }
+        public tlid tlid
+        {
+            get
+            {
+                return this.tlidField;
+            }
+            set
+            {
+                this.tlidField = value;
+            }
+        }
     }
 
     /// <remarks/>
@@ -2842,6 +2856,91 @@ namespace Cnp.Sdk
         originalTokenInfo,
     }
 
+    //12.48 
+    /// <remarks/>
+    [System.CodeDom.Compiler.GeneratedCodeAttribute("xsd", "2.0.50727.42")]
+    [System.SerializableAttribute()]
+    [System.Diagnostics.DebuggerStepThroughAttribute()]
+    [System.ComponentModel.DesignerCategoryAttribute("code")]
+    [System.Xml.Serialization.XmlTypeAttribute(AnonymousType = true, Namespace = "http://www.vantivcnp.com/schema")]
+    [System.Xml.Serialization.XmlRootAttribute(Namespace = "http://www.vantivcnp.com/schema", IsNullable = false)]
+    public partial class tlid
+    {
+      
+       private tlidValidationActionIndicatorTypeEnum? tlidValidationActionIndicatorField;
+
+        [System.Xml.Serialization.XmlIgnoreAttribute()]
+        private bool tlidValidationActionIndicatorFieldSpecified;
+
+        private string lifecycleTlidField;
+
+        private string economicTlidField;
+
+        private string tlidCustomerProvidedField;
+
+
+        /// <remarks/>
+        public string lifecycleTlid
+        {
+            get
+            {
+                return this.lifecycleTlidField;
+            }
+            set
+            {
+                this.lifecycleTlidField = value;
+            }
+        }
+        public string economicTlid
+        {
+            get
+            {
+                return this.economicTlidField;
+            }
+            set
+            {
+                this.economicTlidField = value;
+            }
+        }
+        public string tlidCustomerProvided
+        {
+            get
+            {
+                return this.tlidCustomerProvidedField;
+            }
+            set
+            {
+                this.tlidCustomerProvidedField = value;
+            }
+        }
+
+
+        /// <remarks/>
+        public tlidValidationActionIndicatorTypeEnum? tlidValidationActionIndicator
+        {
+            get
+            {
+                return this.tlidValidationActionIndicatorFieldSpecified ? this.tlidValidationActionIndicatorField : null;
+                //(!null)?return ((affluenceTypeEnum?)this).affluenceField:return null;
+            }
+            set
+            {
+                this.tlidValidationActionIndicatorField = value;
+            }
+        }
+    }
+
+    /// <remarks/>
+    [System.CodeDom.Compiler.GeneratedCodeAttribute("xsd", "2.0.50727.42")]
+    [System.SerializableAttribute()]
+    [System.Xml.Serialization.XmlTypeAttribute(Namespace = "http://www.vantivcnp.com/schema")]
+    public enum tlidValidationActionIndicatorTypeEnum
+    {
+        One = 1,
+        Two = 2,
+    }
+   
+   
     /// <remarks/>
     [System.CodeDom.Compiler.GeneratedCodeAttribute("xsd", "2.0.50727.42")]
     [System.SerializableAttribute()]
@@ -3194,6 +3293,8 @@ namespace Cnp.Sdk
 
         private string checkoutIdField;
 
+        private tlid tlidField;
+
         /// <remarks/>
         public long cnpTxnId
         {
@@ -3304,6 +3405,17 @@ namespace Cnp.Sdk
             set
             {
                 this.checkoutIdField = value;
+            }
+        }
+        public tlid tlid
+        {
+            get
+            {
+                return this.tlidField;
+            }
+            set
+            {
+                this.tlidField = value;
             }
         }
     }

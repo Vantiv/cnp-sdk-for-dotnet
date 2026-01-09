@@ -1059,5 +1059,66 @@ namespace Cnp.Sdk.Test.Functional
             var responseObj = _cnp.Sale(saleObj);
             StringAssert.AreEqualIgnoringCase("Approved", responseObj.message);
         }
+
+        //v12.48 New element pazeEncryptedPayload in sale
+        [Test]
+        public void SimpleSaleWithPazeEncryptedPayload()
+        {
+            var saleObj = new sale
+            {
+                id = "id",
+                reportGroup = "Planets",
+                orderId = "12344",
+                amount = 106,
+                orderSource = orderSourceType.ecommerce,
+                pazeEncryptedPayload = "NTEwMDAwMDAwMDAwMDAwMA==",
+                merchantCategoryCode = "0111",
+                identityBundle = new identityBundle
+                {
+                    merchantId = "2222",
+                    entityId = "3333",
+                    entityReference = "3batchauthandcapture",
+                    resourceId = "12",
+                    resourceReference = "111111111111111",
+                    commandId = "111",
+                    commandReference = "12345",
+                    orderReference = "123"
+                },
+               
+            };
+
+            var responseObj = _cnp.Sale(saleObj);
+            StringAssert.AreEqualIgnoringCase("Approved", responseObj.message);
+        }
+
+        //v12.48 New element pazeEncryptedPayload in sale
+        [Test]
+        public void SimpleSaleWithPazeEncryptedPayload_Decline()
+        {
+            var saleObj = new sale
+            {
+                id = "id",
+                reportGroup = "Planets",
+                orderId = "12344",
+                amount = 106,
+                orderSource = orderSourceType.ecommerce,
+                pazeEncryptedPayload = "NTEwMDAwMDAwMDAwMDAwMQ==",
+                identityBundle = new identityBundle
+                {
+                    merchantId = "2222",
+                    entityId = "3333",
+                    entityReference = "3batchauthandcapture",
+                    resourceId = "12",
+                    resourceReference = "111111111111111",
+                    commandId = "111",
+                    commandReference = "12345",
+                    orderReference = "123"
+                },
+
+            };
+
+            var responseObj = _cnp.Sale(saleObj);
+            StringAssert.AreEqualIgnoringCase("Generic Decline", responseObj.message);
+        }
     }
 }
