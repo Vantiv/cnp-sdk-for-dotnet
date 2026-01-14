@@ -216,7 +216,8 @@ namespace Cnp.Sdk
         /// </summary>
         /// <param name="xmlRequest">The XML to send to the API</param>
         /// <param name="cancellationToken"></param>
-        /// <returns>The XML response on success, null otherwise</returns>
+        /// <returns>The XML response from the API</returns>
+        /// <exception cref="CnpOnlineException">Thrown when an error occurs during HTTP communication</exception>
         public async Task<string> HttpPostAsync(string xmlRequest, CancellationToken cancellationToken)
         {
             // First, read values from the config that we need that relate to logging
@@ -254,7 +255,7 @@ namespace Cnp.Sdk
                 OnHttpAction(RequestType.Request, xmlRequest);
                 var xmlContent = new StringContent(xmlRequest, Encoding.UTF8, "application/xml");
                 var response = await _client.PostAsync(_config["url"], xmlContent, cancellationToken);
-              
+
                 var xmlResponse = await response.Content.ReadAsStringAsync();
 
                 OnHttpAction(RequestType.Response, xmlResponse);
@@ -270,9 +271,17 @@ namespace Cnp.Sdk
 
                 return xmlResponse;
             }
-            catch (Exception)
+            catch (TaskCanceledException e)
             {
-                return null;
+                throw new CnpOnlineException("Request was cancelled or timed out", e);
+            }
+            catch (HttpRequestException e)
+            {
+                throw new CnpOnlineException("Error occurred while sending HTTP request to Cnp API", e);
+            }
+            catch (Exception e)
+            {
+                throw new CnpOnlineException("Unexpected error occurred during HTTP communication", e);
             }
         }
 
