@@ -928,7 +928,9 @@ namespace Cnp.Sdk
                 if (originalRetrievalReferenceNumber != null) //12.42
                 {
                     xml += "\r\n<originalRetrievalReferenceNumber>" + originalRetrievalReferenceNumber + "</originalRetrievalReferenceNumber>";
-                }               
+                }
+                if (preferredCustomerSet) xml += "\r\n<preferredCustomer>" + preferredCustomer.ToString().ToLower() + "</preferredCustomer>";
+
             }
 
             xml += "\r\n</authorization>";
@@ -3537,7 +3539,9 @@ namespace Cnp.Sdk
             {
                 xml += "\r\n<identityBundle>" + identityBundle.Serialize() + "</identityBundle>";
             }
-            
+            if (preferredCustomerSet) xml += "\r\n<preferredCustomer>" + preferredCustomer.ToString().ToLower() + "</preferredCustomer>";
+
+
             //end
             //if (routingPreferenceSet)
             //{

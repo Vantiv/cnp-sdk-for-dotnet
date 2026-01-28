@@ -2223,7 +2223,7 @@ namespace Cnp.Sdk
         }
     }
 
-    public partial class reserveCredit : transactionTypeWithReportGroupAndRtp
+    public partial class reserveCredit : transactionTypeWithReportGroup
     {
 
         public string fundingSubmerchantId { get; set; }
@@ -2243,10 +2243,7 @@ namespace Cnp.Sdk
             if (customerId != null)
                 xml += "customerId=\"" + SecurityElement.Escape(customerId) + "\" ";
             xml += "reportGroup=\"" + SecurityElement.Escape(reportGroup) + "\" ";
-            if (rtpSet)
-            {
-                xml += " rtp=\"" + rtp.ToString().ToLower() + "\"";
-            }
+
             xml += ">";
             if (fundingSubmerchantId != null)
                 xml += "\r\n<fundingSubmerchantId>" + SecurityElement.Escape(fundingSubmerchantId) + "</fundingSubmerchantId>";
