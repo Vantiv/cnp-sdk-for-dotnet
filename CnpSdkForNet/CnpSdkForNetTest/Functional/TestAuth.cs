@@ -1425,12 +1425,35 @@ namespace Cnp.Sdk.Test.Functional
                 orderId = "12344",
                 amount = 106,
                 orderSource = orderSourceType.ecommerceDataOnly,
-                pazeEncryptedPayload = "NDEwMDAwMDAwMDAwMDAwMQ=="
+                pazeEncryptedPayload = "NDEwMDAwMDAwMDAwMDAwMQ==",
             };
+
             var response = _cnp.Authorize(authorization);
 
             DateTime checkDate = new DateTime(0001, 1, 1, 00, 00, 00);
                        
+            Assert.AreEqual(checkDate, response.postDate);
+            Assert.AreEqual("Generic Decline", response.message);
+        }
+
+        [Test]
+        public void SimpleAuthWithPreferredCustomer()
+        {
+            var authorization = new authorization
+            {
+                id = "1",
+                reportGroup = "Planets",
+                orderId = "12344",
+                amount = 106,
+                orderSource = orderSourceType.ecommerceDataOnly,
+                pazeEncryptedPayload = "NDEwMDAwMDAwMDAwMDAwMQ==",
+                preferredCustomer = false
+            };
+
+            var response = _cnp.Authorize(authorization);
+
+            DateTime checkDate = new DateTime(0001, 1, 1, 00, 00, 00);
+
             Assert.AreEqual(checkDate, response.postDate);
             Assert.AreEqual("Generic Decline", response.message);
         }

@@ -1447,6 +1447,7 @@ namespace Cnp.Sdk.Test.Unit
             };
             auth.identityBundle = identityBundle;
             auth.originalRetrievalReferenceNumber = "123456783123456";
+            auth.preferredCustomer = false;
 
             auth.reportGroup = "Planets";
 

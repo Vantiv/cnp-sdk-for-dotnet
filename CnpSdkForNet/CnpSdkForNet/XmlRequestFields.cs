@@ -657,6 +657,21 @@ namespace Cnp.Sdk
             }
         }
 
+        private bool preferredCustomerField;
+        private bool preferredCustomerSet;
+        public bool preferredCustomer
+        {
+            get
+            {
+                return preferredCustomerField;
+            }
+            set
+            {
+                preferredCustomerField = value;
+                preferredCustomerSet = true;
+            }
+        }
+
         public override string Serialize()
         {
             var xml = "\r\n<authorization";
@@ -3252,6 +3267,23 @@ namespace Cnp.Sdk
                 pazeEncryptedPayloadSet = true;
             }
         }
+
+        private bool preferredCustomerField;
+        private bool preferredCustomerSet;
+        public bool preferredCustomer
+        {
+            get
+            {
+                return preferredCustomerField;
+            }
+            set
+            {
+                preferredCustomerField = value;
+                preferredCustomerSet = true;
+            }
+        }
+
+
 
         public override string Serialize()
         {
