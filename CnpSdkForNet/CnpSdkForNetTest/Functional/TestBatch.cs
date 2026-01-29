@@ -16,7 +16,7 @@ namespace Cnp.Sdk.Test.Functional
         [OneTimeSetUp]
         public void SetUp()
         {
-            /*EnvironmentVariableTestFlags.RequirePreliveBatchTestsEnabled();*/
+         /*EnvironmentVariableTestFlags.RequirePreliveBatchTestsEnabled();*/
 
             ConfigManager invalidConfigManager = new ConfigManager();
             _invalidConfig = invalidConfigManager.getConfig();
@@ -2561,7 +2561,8 @@ namespace Cnp.Sdk.Test.Functional
                 fraudCheckStatus = "Not Approved",
                 card = card,
                 identityBundle = identityBundle,
-                originalRetrievalReferenceNumber = "123456"
+                originalRetrievalReferenceNumber = "123456",
+                preferredCustomer=true
             };
             cnpBatchRequest.addAuthorization(authorization);
 
@@ -2573,7 +2574,8 @@ namespace Cnp.Sdk.Test.Functional
                 orderSource = orderSourceType.ecommerceDataOnly,
                 card = card,
                 identityBundle = identityBundle,
-                id = "id"
+                id = "id",
+                preferredCustomer=false
             };
             cnpBatchRequest.addSale(sale);
 
@@ -2771,6 +2773,7 @@ namespace Cnp.Sdk.Test.Functional
                     commandReference = "12345",
                     orderReference = "123"
                 },
+
 
             };
             cnpBatchRequest.addSale(sale);

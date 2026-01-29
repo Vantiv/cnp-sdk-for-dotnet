@@ -2521,7 +2521,7 @@ namespace Cnp.Sdk
             if (customerIpAddress != null) xml += "\r\n<customerIpAddress>" + SecurityElement.Escape(customerIpAddress) + "</customerIpAddress>";
             if (authenticatedByMerchantSet) xml += "\r\n<authenticatedByMerchant>" + authenticatedByMerchantField + "</authenticatedByMerchant>";
             if (authenticationProtocolVersion != null) xml += "\r\n<authenticationProtocolVersion>" + authenticationProtocolVersion + "</authenticationProtocolVersion>";
-            if (tokenAuthenticationValue != null) xml += "\r\n<tokenAuthenticationValue>" + tokenAuthenticationValue + "</tokenAuthenticationValue";
+            if (tokenAuthenticationValue != null) xml += "\r\n<tokenAuthenticationValue>" + tokenAuthenticationValue + "</tokenAuthenticationValue>";
             return xml;
         }
     }
