@@ -1,6 +1,13 @@
 
 = Worldpay CNP CHANGELOG
 
+==Change Log for 12.49 (February 03,2026)
+* Change: [cnpAPI v12.49] Adds new request boolean field preferredCustomer to authorization and sale requests.
+* Change: [cnpAPI v12.49] Adds new response boolean field preferredCustomerDecision to Authorization and sale responses.
+* Change: [cnpAPI v12.49] Adds a new complex element tlid in the sale response.
+* Change: [cnpAPI v12.49] Extends enum tlidValidationActionIndicatorType with a new value "3".
+* Change: [cnpAPI v12.49] Changes the reserveCredit request base type from transactionTypeWithReportGroupAndRtp to transactionTypeWithReportGroup.
+
 ==Change Log for 12.48 (December 23,2025)
 * Change: [cnpAPI v12.48] New element pazeEncryptedPayload added to both Auth and Sale transaction requests.
 * Change: [cnpAPI v12.48] New complex element TLID added in authResponse and authReversalResponse.
