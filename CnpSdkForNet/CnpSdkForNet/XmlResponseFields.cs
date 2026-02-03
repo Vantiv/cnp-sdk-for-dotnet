@@ -2197,6 +2197,8 @@ namespace Cnp.Sdk
         private string cardDetailsField;
 
         private tlid tlidField;
+        private bool preferredCustomerDecisionField;
+
 
         /// <remarks/>
         public long cnpTxnId
@@ -2627,6 +2629,19 @@ namespace Cnp.Sdk
                 this.tlidField = value;
             }
         }
+
+        public bool preferredCustomerDecision
+        {
+            get
+            {
+                return preferredCustomerDecisionField;
+            }
+            set
+            {
+                this.preferredCustomerDecisionField = value;
+               
+            }
+        }
     }
 
     /// <remarks/>
@@ -2938,6 +2953,7 @@ namespace Cnp.Sdk
     {
         One = 1,
         Two = 2,
+        Three = 3,
     }
    
    
@@ -4537,6 +4553,8 @@ namespace Cnp.Sdk
 
         private string credentialTypeField;
         private string cardDetailsField;
+        private bool preferredCustomerDecisionField;
+        private tlid tlidField;
 
 
         /// <remarks/>
@@ -5038,6 +5056,30 @@ namespace Cnp.Sdk
             set
             {
                 this.orderSourceField = value;
+            }
+        }
+
+        public bool preferredCustomerDecision
+        {
+            get
+            {
+                return preferredCustomerDecisionField;
+            }
+            set
+            {
+                this.preferredCustomerDecisionField = value;
+
+            }
+        }
+        public tlid tlid
+        {
+            get
+            {
+                return this.tlidField;
+            }
+            set
+            {
+                this.tlidField = value;
             }
         }
     }

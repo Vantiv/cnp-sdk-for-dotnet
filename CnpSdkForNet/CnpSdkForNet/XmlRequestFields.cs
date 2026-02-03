@@ -657,6 +657,21 @@ namespace Cnp.Sdk
             }
         }
 
+        private bool preferredCustomerField;
+        private bool preferredCustomerSet;
+        public bool preferredCustomer
+        {
+            get
+            {
+                return preferredCustomerField;
+            }
+            set
+            {
+                preferredCustomerField = value;
+                preferredCustomerSet = true;
+            }
+        }
+
         public override string Serialize()
         {
             var xml = "\r\n<authorization";
@@ -913,7 +928,9 @@ namespace Cnp.Sdk
                 if (originalRetrievalReferenceNumber != null) //12.42
                 {
                     xml += "\r\n<originalRetrievalReferenceNumber>" + originalRetrievalReferenceNumber + "</originalRetrievalReferenceNumber>";
-                }               
+                }
+                if (preferredCustomerSet) xml += "\r\n<preferredCustomer>" + preferredCustomer.ToString().ToLower() + "</preferredCustomer>";
+
             }
 
             xml += "\r\n</authorization>";
@@ -2504,7 +2521,7 @@ namespace Cnp.Sdk
             if (customerIpAddress != null) xml += "\r\n<customerIpAddress>" + SecurityElement.Escape(customerIpAddress) + "</customerIpAddress>";
             if (authenticatedByMerchantSet) xml += "\r\n<authenticatedByMerchant>" + authenticatedByMerchantField + "</authenticatedByMerchant>";
             if (authenticationProtocolVersion != null) xml += "\r\n<authenticationProtocolVersion>" + authenticationProtocolVersion + "</authenticationProtocolVersion>";
-            if (tokenAuthenticationValue != null) xml += "\r\n<tokenAuthenticationValue>" + tokenAuthenticationValue + "</tokenAuthenticationValue";
+            if (tokenAuthenticationValue != null) xml += "\r\n<tokenAuthenticationValue>" + tokenAuthenticationValue + "</tokenAuthenticationValue>";
             return xml;
         }
     }
@@ -3253,6 +3270,23 @@ namespace Cnp.Sdk
             }
         }
 
+        private bool preferredCustomerField;
+        private bool preferredCustomerSet;
+        public bool preferredCustomer
+        {
+            get
+            {
+                return preferredCustomerField;
+            }
+            set
+            {
+                preferredCustomerField = value;
+                preferredCustomerSet = true;
+            }
+        }
+
+
+
         public override string Serialize()
         {
             var xml = "\r\n<sale";
@@ -3505,7 +3539,9 @@ namespace Cnp.Sdk
             {
                 xml += "\r\n<identityBundle>" + identityBundle.Serialize() + "</identityBundle>";
             }
-            
+            if (preferredCustomerSet) xml += "\r\n<preferredCustomer>" + preferredCustomer.ToString().ToLower() + "</preferredCustomer>";
+
+
             //end
             //if (routingPreferenceSet)
             //{

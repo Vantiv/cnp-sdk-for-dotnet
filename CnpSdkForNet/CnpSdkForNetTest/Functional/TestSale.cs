@@ -1114,6 +1114,7 @@ namespace Cnp.Sdk.Test.Functional
                     commandReference = "12345",
                     orderReference = "123"
                 },
+                preferredCustomer = true
 
             };
 

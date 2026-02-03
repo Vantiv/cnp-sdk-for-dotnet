@@ -1078,6 +1078,7 @@ namespace Cnp.Sdk.Test.Unit
 
             };
             sale.identityBundle = identityBundle;
+            sale.preferredCustomer = true;
             sale.reportGroup = "Planets";
 
 
